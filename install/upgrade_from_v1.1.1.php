@@ -193,7 +193,7 @@ function e2_create_table_conges_mail( $DEBUG=FALSE)
 				`mail_subject` TEXT NULL ,
 				`mail_body` TEXT NULL ,
 				UNIQUE KEY `mail_nom` (`mail_nom`)
-				) TYPE = MYISAM ;" ;
+				) ;" ;
 	
 	if($DEBUG==FALSE)
 		$result_create = $sql->query($sql_create);
@@ -308,7 +308,7 @@ function e7_create_table_conges_groupe_grd_resp( $DEBUG=FALSE)
 	$sql_create="CREATE TABLE `conges_groupe_grd_resp` (
   				`ggr_gid` int(11) NOT NULL default '0',
   				`ggr_login` varchar(16) binary NOT NULL default ''
-				) TYPE=MyISAM;" ;
+				);" ;
 	
 	if($DEBUG==FALSE)
 		$result_create = $sql->query($sql_create);

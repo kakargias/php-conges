@@ -18,4 +18,4 @@ CREATE TABLE `conges_echange_rtt` (
   `e_presence` enum('N','J','M','A') NOT NULL default 'N',
   `e_comment` varchar(255) default NULL,
   PRIMARY KEY  (`e_login`,`e_date_jour`)
-) ENGINE=MyISAM;
+);

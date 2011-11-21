@@ -104,7 +104,7 @@ function test_create_table( $DEBUG=FALSE)
 				`test1` varchar(100) BINARY NOT NULL default '',
 				`test2` varchar(100) BINARY NOT NULL default '',
  				 PRIMARY KEY  (`test1`)
-				) TYPE=MyISAM;" ;
+				);" ;
 	$result_create = $sql->query($sql_create);
 	return ($result_create);
 }

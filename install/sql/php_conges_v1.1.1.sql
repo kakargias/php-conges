@@ -51,7 +51,7 @@ CREATE TABLE `conges_artt` (
   `a_date_debut_grille` date NOT NULL default '0000-00-00',
   `a_date_fin_grille` date NOT NULL default '9999-12-31',
   PRIMARY KEY  (`a_login`,`a_date_fin_grille`)
-) ENGINE=MyISAM;
+);
 
 #
 # Contenu de la table `conges_artt`
@@ -73,7 +73,7 @@ CREATE TABLE `conges_echange_rtt` (
   `e_presence` enum('N','J','M','A') NOT NULL default 'N',
   `e_comment` varchar(255) default NULL,
   PRIMARY KEY  (`e_login`,`e_date_jour`)
-) ENGINE=MyISAM;
+);
 
 #
 # Contenu de la table `conges_echange_rtt`
@@ -94,7 +94,7 @@ CREATE TABLE `conges_edition_papier` (
   `ep_solde_rtt` decimal(4,2) NOT NULL default '0.00',
   `ep_num_for_user` int(5) unsigned NOT NULL default '1',
   PRIMARY KEY  (`ep_id`)
-) ENGINE=MyISAM;
+);
 
 #
 # Contenu de la table `conges_edition_papier`
@@ -111,7 +111,7 @@ CREATE TABLE `conges_groupe` (
   `g_groupename` varchar(50) NOT NULL default '',
   `g_comment` varchar(250) default NULL,
   PRIMARY KEY  (`g_gid`)
-) ENGINE=MyISAM;
+);
 
 #
 # Contenu de la table `conges_groupe`
@@ -127,7 +127,7 @@ CREATE TABLE `conges_groupe` (
 CREATE TABLE `conges_groupe_resp` (
   `gr_gid` int(11) NOT NULL default '0',
   `gr_login` varchar(16) binary NOT NULL default ''
-) ENGINE=MyISAM;
+);
 
 #
 # Contenu de la table `conges_groupe_resp`
@@ -142,7 +142,7 @@ CREATE TABLE `conges_groupe_resp` (
 CREATE TABLE `conges_groupe_users` (
   `gu_gid` int(11) NOT NULL default '0',
   `gu_login` varchar(16) binary NOT NULL default ''
-) ENGINE=MyISAM;
+);
 
 #
 # Contenu de la table `conges_groupe_users`
@@ -157,7 +157,7 @@ CREATE TABLE `conges_groupe_users` (
 CREATE TABLE `conges_jours_feries` (
   `jf_date` date NOT NULL default '0000-00-00',
   PRIMARY KEY  (`jf_date`)
-) ENGINE=MyISAM;
+);
 
 #
 # Contenu de la table `conges_jours_feries`
@@ -183,7 +183,7 @@ CREATE TABLE `conges_periode` (
   `p_motif_refus` varchar(110) default NULL,
   `p_num` int(5) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (`p_num`)
-) ENGINE=MyISAM;
+);
 
 #
 # Contenu de la table `conges_periode`
@@ -208,7 +208,7 @@ CREATE TABLE `conges_users` (
   `u_email` varchar(100) default NULL,
   PRIMARY KEY  (`u_login`),
   KEY `u_login` (`u_login`)
-) ENGINE=MyISAM;
+);
 
 #
 # Contenu de la table `conges_users`
@@ -230,7 +230,7 @@ CREATE TABLE IF NOT EXISTS `conges_config` (
   `conf_type` varchar(200) NOT NULL default 'texte',
   `conf_commentaire` text NOT NULL,
   PRIMARY KEY  (`conf_nom`)
-) ENGINE=MyISAM;
+);
 
 #
 # Contenu de la table `conges_config`
@@ -303,7 +303,7 @@ CREATE TABLE `conges_type_absence` (
   `ta_libelle` varchar(20) NOT NULL default '',
   `ta_short_libelle` char(3) NOT NULL default '',
   PRIMARY KEY  (`ta_id`)
-) ENGINE=MyISAM;
+);
 
 #
 # Contenu de la table `conges_type_absence`
@@ -327,7 +327,7 @@ CREATE TABLE `conges_solde_user` (
   `su_abs_id` int(2) unsigned NOT NULL default '0',
   `su_nb_an` decimal(4,2) NOT NULL default '0.00',
   `su_solde` decimal(4,2) NOT NULL default '0.00'
-) ENGINE=MyISAM;
+);
 
 #
 # Contenu de la table `conges_solde_user`

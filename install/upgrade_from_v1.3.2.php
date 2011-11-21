@@ -119,7 +119,7 @@ function e2_create_table_jours_fermeture( $DEBUG=FALSE)
 				`jf_id` INT( 5 ) NOT NULL ,
 				`jf_gid` INT( 11 ) NOT NULL DEFAULT '0',
 				`jf_date` DATE NOT NULL
-				) TYPE=MyISAM DEFAULT CHARSET=latin1 ";
+				) DEFAULT CHARSET=latin1 ";
 	if($DEBUG==FALSE)
 		$result_create = $sql->query($sql_create);
 	else

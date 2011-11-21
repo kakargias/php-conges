@@ -543,7 +543,7 @@ function get_table_structure($table, $DEBUG=FALSE)
 	if($list_key!="")
 		$chaine_create=$chaine_create.",    ".$list_key;
 
-	$chaine_create=$chaine_create." ) TYPE=MyISAM DEFAULT CHARSET=latin1;\n#\n";
+	$chaine_create=$chaine_create." ) DEFAULT CHARSET=latin1;\n#\n";
 
 	return($chaine_drop.$chaine_create);
 

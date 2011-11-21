@@ -158,7 +158,7 @@ function e3_create_table_conges_historique_ajout( $DEBUG=FALSE)
 					`ha_nb_jours` int(4) NOT NULL,
 					`ha_commentaire` VARCHAR(200) NOT NULL,
 					 PRIMARY KEY (`ha_login`, `ha_date`, `ha_abs_id` )
-					) TYPE=MyISAM DEFAULT CHARSET=latin1 ";
+					) DEFAULT CHARSET=latin1 ";
 	if($DEBUG==FALSE)
 		$result_create = $sql->query($sql_create);
 	else
@@ -182,7 +182,7 @@ function e4_create_table_conges_logs( $DEBUG=FALSE)
 				   `log_comment` TEXT NULL, 
 				   `log_date` TIMESTAMP NOT NULL, 
 				   PRIMARY KEY  (`log_id`)
-					) TYPE=MyISAM DEFAULT CHARSET=latin1 ";
+					) DEFAULT CHARSET=latin1 ";
 	if($DEBUG==FALSE)
 		$result_create_logs = $sql->query($sql_create_logs);
 	else

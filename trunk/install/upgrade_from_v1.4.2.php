@@ -100,7 +100,7 @@ function e1_create_table_conges_appli( $DEBUG=FALSE)
   					`appli_variable` varchar(100) binary NOT NULL default '',
   					`appli_valeur` varchar(200) binary NOT NULL default '',
   					PRIMARY KEY  (`appli_variable`)
-					) TYPE=MyISAM DEFAULT CHARSET=latin1; ";
+					) DEFAULT CHARSET=latin1; ";
 	if($DEBUG==FALSE)
 		$result_create = $sql->query($sql_create);
 	else

@@ -19,7 +19,7 @@ PRIMARY KEY ( `g_groupename` )
 CREATE TABLE `conges_groupe_resp` (
   `gr_groupename` varchar(50) NOT NULL default '',
   `gr_login` varchar(16) NOT NULL default ''
-) ENGINE=MyISAM;
+);
 
 # --------------------------------------------------------
 

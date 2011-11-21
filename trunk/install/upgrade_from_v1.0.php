@@ -166,7 +166,7 @@ function e2_create_table_conges_config( $DEBUG=FALSE)
   				`conf_type` VARCHAR(200) NOT NULL default 'texte' ,
   				`conf_commentaire` text NOT NULL default '',
  				 PRIMARY KEY  (`conf_nom`)
-				) TYPE=MyISAM;" ;
+				);" ;
 	if($DEBUG==FALSE)
 		$result_create = $sql->query($sql_create);
 	else
@@ -362,7 +362,7 @@ function e5_create_table_conges_type_absence( $DEBUG=FALSE)
 				  `ta_libelle` varchar(20) NOT NULL default '',
 				  `ta_short_libelle` char(3) NOT NULL default '',
 				  PRIMARY KEY  (`ta_id`)
-				) TYPE=MyISAM;" ;
+				);" ;
 	$result_create = $sql->query($sql_create);
 }
 
@@ -506,7 +506,7 @@ function e8_create_table_conges_solde_user( $DEBUG=FALSE)
 				  `su_abs_id` int(2) unsigned NOT NULL default '0',
 				  `su_nb_an` decimal(4,2) NOT NULL default '0.00',
 				  `su_solde` decimal(4,2) NOT NULL default '0.00'
-				) TYPE=MyISAM;" ;
+				);" ;
 	if($DEBUG==FALSE)
 		$result_create = $sql->query($sql_create);
 	else
@@ -599,7 +599,7 @@ function e11_create_table_conges_solde_edition( $DEBUG=FALSE)
 		`se_id_edition` INT( 11 ) NOT NULL ,
 		`se_id_absence` INT( 2 ) NOT NULL ,
 		`se_solde` DECIMAL( 4, 2 ) NOT NULL
-		) TYPE=MyISAM;" ;
+		);" ;
 	if($DEBUG==FALSE)
 		$result_create = $sql->query($sql_create);
 	else

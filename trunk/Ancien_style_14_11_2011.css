@@ -1,0 +1,91 @@
+/* Content */
+#content, #header, #bottom {
+	width: 1400px;
+	margin : auto;
+}
+
+#header{
+	margin-top: -20px
+}
+
+/* TODO CHACOUX */
+#header_menu div{
+	margin: 5px;
+	width: 170px;
+}
+
+#header_menu img{
+	margin-right: 5px;
+}
+
+#header_menu a:hover{
+	color: #C11A22;
+}
+#header_menu a{
+	font-weight:bold;
+	color:#000000;
+	font-variant:small-caps;
+	font-size:14px;
+}
+
+#bottom{
+	margin-top: 30px
+}
+
+#content-top {
+	background:transparent url(img/top.png) no-repeat 0 0;
+	padding-top : 20px;
+	margin-top : 70px;
+	margin-bottom: 0px;
+}
+#content-menu {
+	background:transparent url(img/middle.png) repeat-y 0 0;
+	padding : 20px;
+	padding-top : 1px;
+	margin : 0px;
+}
+#content-center {
+	margin-top:10px;
+	min-height:560px;
+}
+#content-bottom {
+	background:transparent url(img/bottom.png) no-repeat 0 0;
+	height:2px;
+	text-align : center;
+	padding-top : 20px;
+	margin-top : 0px;
+	margin-bottom: 20px;
+}
+
+#footer-top {
+	background:transparent url(img/top.png) no-repeat 0 0;
+	padding-top : 20px;
+	margin-top : 10px;
+	margin-bottom: 0px;
+}
+#footer-center {
+	background:transparent url(img/middle.png) repeat-y 0 0;
+	padding-top : 1px;
+	margin : 0px;
+}
+#footer-bottom {
+	background:transparent url(img/bottom.png) no-repeat 0 0;
+	height:2px;
+	text-align : center;
+	padding-top : 20px;
+	margin-top : 0px;
+	margin-bottom: 10px;
+}
+
+.ui-corner-all, .ui-corner-top, .ui-corner-left, .ui-corner-tl { -moz-border-radius-topleft: 4px; -webkit-border-top-left-radius: 4px; -khtml-border-top-left-radius: 4px; border-top-left-radius: 4px; }
+.ui-corner-all, .ui-corner-top, .ui-corner-right, .ui-corner-tr { -moz-border-radius-topright: 4px; -webkit-border-top-right-radius: 4px; -khtml-border-top-right-radius: 4px; border-top-right-radius: 4px; }
+.ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl { -moz-border-radius-bottomleft: 4px; -webkit-border-bottom-left-radius: 4px; -khtml-border-bottom-left-radius: 4px; border-bottom-left-radius: 4px; }
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br { -moz-border-radius-bottomright: 4px; -webkit-border-bottom-right-radius: 4px; -khtml-border-bottom-right-radius: 4px; border-bottom-right-radius: 4px; }
+
+
+
+.ui-corner-all-8, .ui-corner-top-8, .ui-corner-left-8, .ui-corner-tl-8 { -moz-border-radius-topleft: 8px; -webkit-border-top-left-radius: 8px; -khtml-border-top-left-radius: 8px; border-top-left-radius: 8px; }
+.ui-corner-all-8, .ui-corner-top-8, .ui-corner-right-8, .ui-corner-tr-8 { -moz-border-radius-topright: 8px; -webkit-border-top-right-radius: 8px; -khtml-border-top-right-radius: 8px; border-top-right-radius: 8px; }
+.ui-corner-all-8, .ui-corner-bottom-8, .ui-corner-left-8, .ui-corner-bl-8 { -moz-border-radius-bottomleft: 8px; -webkit-border-bottom-left-radius: 8px; -khtml-border-bottom-left-radius: 8px; border-bottom-left-radius: 8px; }
+.ui-corner-all-8, .ui-corner-bottom-8, .ui-corner-right-8, .ui-corner-br-8 { -moz-border-radius-bottomright: 8px; -webkit-border-bottom-right-radius: 8px; -khtml-border-bottom-right-radius: 8px; border-bottom-right-radius: 8px; }
+

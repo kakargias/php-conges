@@ -1,0 +1,86 @@
+***************************************
+****         php_conges            ****
+***************************************
+
+
+  TODO :
+****************
+
+
+
+- passer avec un systeme de session PHP (plus propre et qui permettrait de stocker des variables durant tt une session 
+	(globale à ttes les pages et à ttes les fonctions))
+- mettre les variables de config et les var d'environnement ($session, $php_self, etc...) dans un tableau global ..
+(ou dans une session PHP)
+
+
+PHPMailer : 
+------------
+- passer de la version de PHPMailer de 1.72 à 1.73
+- introduire dans le fichier de config le chemin pour la librairie PHPMailer (pour aller le chercher ailleurs s'il est déja installé qq 
+	part sur le serveur)
+- possibilité de choisir entre PHPMailer et WAMailer si déja utilisé sur le serveur (--> réécrire la fonction de mail en testant quelle 
+	librairie est utilisée (verif dans le fichier de conf ou verif de l'existantce d'un fichier))
+
+
+-----------------------------------------------------------------------------------------------
+
+- ajouter la gestion des jours pour enfant malade (ce ne sont pas des congès, mais le nb auquel chaque user a droit est fixé et comptabilisé !)
+
+- mettre un bouton qui affiche la date courante pour que on puisse y revenir par un clic lorsqu'on 
+navigue dans le calendrier (genre de l'année 2008 un clic affiche le mois en cours).
+- ajouter les congés scolaires dans le calendrier des congés. (??)
+
+- module d'impression:  pouvoir imprimer une feuille (par exemple un ordre de mission) pour les absences n'etant ni des 
+congés ni des rtt. Pour les formations/missions/autres on pourrait mettre en place une feuille imprimable type en reprenant 
+les differentes infos entrées : date de début, date de fin, motif, commentaires 
+
+- prévoir une édition papier pour les absences autres que les conges/RTT
+
+
+- config.php : faire la config dans la database plutot q'un fichier texte ... cela permettrait de faire des pages php de 
+config de l'appli avec des tests intégrés (pour l'envoi de mail ou l'authentification, etc ....)
+
+
+- Echanges jours rtt : 
+   - faire apparaitre les 1/2 journées d'absence et de présence sur le calendrier de saisie.
+   - gérer les echanges par demi journées, pas par date (pour les échanges de 2 demi jour le même jour)
+
+- possibilité pour le responsable de modifier un congés qu'il a saisi (si c'est le responsable qui saisi les congés).
+
+- gestion des congès par heure ....(????)
+
+- faire des logs des actions des users et des responsables ...(peut être possibilité d'annuler une action ...)
+
+- afficher la progression des soldes de congés et de rtt dans l'historique des congés/rtt (dans user_index.php et 
+  resp_traite_user.php)
+  (il faut donc ajouter un champs à la table periode ... et voir comment l'annulation d'un congés perturbe l'ensemble ...)
+  (peut être est il + interessant d'ajouter une table et de faire un historique des actions ....)
+  
+- versions autres database (postgresql)...
+
+- balises "pragma nocache" et "expire" dans entetes des pages
+- gérer les fermetures du services (calcul des jours décomptés pour chaque user (en fonction de la quotité))
+
+- calendrier  : prévoir un bouton "vue réduite" (sur 1/2 mois)
+
+- option dans config pour indiquer si l'admin peut changer le mot de passe d'un user (config_admin_ch_passwd)
+
+- rattachement d'un user à plusieurs responsables ...
+
+- gestion des congés maternité, gestion des longues maladie -> pour cela ... 
+prévoir un état d'absence sans poser/prendre de congés
+
+- losqu'une période de congés(ou de formation) est annulée par un
+responsable ... il serait interessant de mettre en place un champ
+commentaire pour que le responsable puisse en laisser un à l'utilisateur !
+
+- il serait également interessant de pouvoir consulter, sans pour cela
+s'identifier, le planning des congés ... par exemple à partir d'un portail
+intranet pour donner une vue globale à tous les utilisateurs !
+
+- affecter une lettre à un type de plage horaire par salarié pour au lieu d'afficher un trait (-).
+  Imaginons à la création de salarié il y ait 10 codes au choix après ce serait juste de l'affichage.  
+  Et afficher lors des absences un code absence au lieu de (abs) du style (cp)congés payés (rc)repos compensateur (rtt),
+  (mal)maladie (dep) deplacement prof ou formation.
+

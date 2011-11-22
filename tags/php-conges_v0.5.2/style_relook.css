@@ -1,0 +1,254 @@
+/* #################################### */
+/* ######       general          ###### */
+/* #################################### */
+body {background-color: #FFFFFF;}
+
+img {border: 0;}
+
+
+
+/* #################################### */
+/* ######    page de login       ###### */
+/* #################################### */
+
+body.login {background-color: #FFFFFF;}
+
+/* style pour les cellules de page de login pour entrer dans l'appli */
+fieldset.boxlogin{
+	border: 3px solid #5B8BAB;
+	padding-bottom:10px;
+}
+
+legend.boxlogin {
+	color : #005FA9;
+	font-family:"Trebuchet MS",Verdana,Geneva,Arial,Helvetica,sans-serif;
+	font-size: 16px;
+	font-weight: 700;
+	background-color: transparent;
+}
+
+table.ident {
+	background-color: transparent;
+	border: black 0px outset;
+}
+
+td.login {
+	color: #005FA9;
+	font-family:"Trebuchet MS",Verdana,Geneva,Arial,Helvetica,sans-serif;
+	font-size: 12px;
+	background-color: transparent;
+}
+
+
+/* #################################### */
+/* ######      formulaire        ###### */
+/* #################################### */
+
+form {font-size: 10px; margin:0; margin-bottom:8px; padding:0;}
+
+input {
+	background-color:#FFFFFF;
+	font-size: 12px;
+	color: #005FA9;
+	font-family: "Arial";
+	border: 2px solid #FFCC66;
+}
+
+select {
+	font-size: 10px;
+	color: #000099;
+	font-family: "verdana";
+}
+
+/* #################################### */
+/* ######        Titres          ###### */
+/* #################################### */
+
+h1{
+	font: 16px verdana; 
+	font-weight:bold; 
+	text-decoration:none; 
+	color:#005FA9; 
+}
+h2{
+	font: 14px verdana; 
+	font-weight:bold; 
+	color:#005FA9;
+}
+h3{
+	font: 12px verdana; 
+	font-weight:bold; 
+	text-decoration: underline; 
+	color:#005FA9;
+}
+h4{
+	font: 10px verdana; 
+	font-weight:bold; 
+	text-decoration: none; 
+	color:#000000;
+}
+
+/* #################################### */
+/* ###### Ancres et Hyperliens   ###### */
+/* #################################### */
+
+a.bouton:hover
+{
+	color:#926034;
+}
+.bouton-alerte{
+	text-align: center;
+	text-decoration: underline;
+	font-weight: none;
+	font-size: 9pt;
+	border: 2;
+	padding:0px;
+	position: static;
+	left: 2;
+	top: 2;
+	color:#FF0000;
+}
+.bouton-onglet{
+	text-align: center;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 11pt;
+	border: 2;
+	padding:0px;
+	position: static;
+	left: 2;
+	top: 2;
+	color:#5154ad;
+	#background-color:#ffffff;
+}
+.bouton-current-onglet{
+	text-align: center;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 11pt;
+	border: 2;
+	padding:0px;
+	position: static;
+	left: 2;
+	top: 2;
+	color:#5154ad;
+}
+a.bouton-titre:hover
+{
+	color:#926034;
+}
+.bouton-titre{
+	text-align: center;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 20pt;
+	border: 2;
+	padding:0px;
+	position: static;
+	left: 2;
+	top: 2;
+	color:#126832;
+}
+
+/* #################################### */
+/* ######        Tableau         ###### */
+/* #################################### */
+/* border = 3arguments : size color type (type= solid, double, dotted, outset, inset, groove, ...) */
+
+table.tablo{ 
+	background-color:#F5F5F5;
+	border: 3px #5B8BAB solid; 
+	border-spacing: 1px ;      
+}
+
+/* style pour letableau du calendrier */
+table.tablo-cal{
+	background-color:;
+	border: 1px #FFFFFF outset; 
+	border-spacing: 1px ;      
+}
+
+/*style pour les lignes de calendrier (:hover)*/
+tr.cal-ligne-user:hover{
+	background-color: #ffddcc;
+	color: red;
+}
+
+td.essai{
+	background-image: url(img/sand.jpg) ;
+}
+
+td{
+	font: 10px verdana; 
+	text-decoration:none; 
+	border: 0px #5B8BAB solid; 
+	border-bottom: 0px #5B8BAB solid; 
+}
+
+/* style pour les cellules de historiques */
+td.histo{
+	border-bottom: 1px #5B8BAB solid; 
+}
+
+/* style pour les cellules des calendriers de saisie */
+td.cal-saisie{
+	border: 1px #000000 inset; 
+}
+
+/* style pour les premieres cellules du calendriers de saisie (a gauche, qui contiennent les infos du user) */
+td.cal-user{
+	border: 1px #000000 inset; 
+}
+
+/* style pour les cellules du calendriers */
+td.cal-day{
+	border: 1px #000000 inset; 
+}
+
+/* style pour les cellules de la légende du calendriers */
+td.cal-legende{
+	border: 1px #000000 inset; 
+}
+
+td.big{
+	font: 10px verdana; 
+	font-weight:bold; 
+}
+
+/* style pour les cellules titre des tableaux */
+td.titre{
+	background-color:#E1EAEF;
+	color: #666666;
+	font-weight: bold;
+	font-family: Verdana, Arial; 
+	font-size: 11px;
+	}
+	 
+td.onglet{ 
+	text-align: center;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 11pt;
+	border: 2;
+	padding:0px;
+	position: static;
+	left: 2;
+	top: 2;
+	color:#5154ad;
+	background-color:#ffffff;
+	} 
+	
+td.current-onglet{ 
+	text-align: center;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 11pt;
+	border: 2;
+	padding:0px;
+	position: static;
+	left: 2;
+	top: 2;
+	color:#58b984; 
+	#background-color:#ffffff;
+	} 
+

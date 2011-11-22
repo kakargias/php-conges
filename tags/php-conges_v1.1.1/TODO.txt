@@ -1,0 +1,111 @@
+***************************************
+****         php_conges            ****
+***************************************
+
+
+  TODO :
+****************
+
+
+
+***************************************
+Prochaine Version :
+---------------------
+- multi bases
+	introduction de PEAR-DB pour prise en charge multi base
+
+***************************************
+***************************************
+Version Suivantes :
+---------------------
+- gestion des 'skin"  ???
+
+- fonctionnalité de double validation des conges
+
+- Ajout de la date (et heure) d'une demande des congés et date ( et heure) du traitement dans la base (et possiblilité d'affichage dans  les tableaux des congés ).
+
+***************************************
+***************************************
+ en vrac :
+---------------------
+
+- non affichage dans le calendrier des conges les jours de week end.
+
+- Dans une page de modification de  demande de congés , avoir le même calendrier de saisie que  pour demander une nouvelle absence.
+
+- Possibilité d'exporter le calendrier dans un fichier texte  (ou auformat pdf, ou au format ical ........... )
+
+- ajouter au resp une page de remise à zero des soldes des users (individuellement ou en groupe, ou tous )
+
+- configure.php :
+		mettre un lien vers l'appli en haut de la page de config ... (et un retour à la page principale d'install)
+		ajout d'un boton "enregistrer chagements"" a coté (au dessus ) du bouton "fermer" (tt en bas) (et dans config_type_absence.php)
+		
+
+- délégation de signature (validation des congés par une autre personne que le responsable dans le cas d'absence) .
+
+- faire une page d'aide pour le module d'admin !!!
+
+- faire une page de test : teste l'installation de php_conges ... (options de config php, test de la présence des fichiers à 
+  inclure (phpmailer, fpdf, ...) et résumé des options de config choisies )
+  
+- mettre le sujet et le texte des mails dans la database ! (sortir de config.php !!!)
+  
+- vérif si le navigateur accepte le javascript et les cookies DANS LE CAS d'une config sans authentification ....
+ 
+- fonctionnement des sessions sans cookies (si non acceptés par le navigateur) !
+
+Mails :  ajouter dans la conf une adresse mail pour envoyer les mails en cc (ceux utilisateurs ou ceux responsable)
+	et dans la table groupe pour pouvoir faire un cc différent pour chaque groupe
+
+PHPMailer : 
+- passer de la version de PHPMailer de 1.72 à dernière version
+- introduire dans le fichier de config le chemin pour la librairie PHPMailer (pour aller le chercher ailleurs s'il est déja installé qq 
+	part sur le serveur)
+- possibilité de choisir entre PHPMailer et WAMailer si déja utilisé sur le serveur (--> réécrire la fonction de mail en testant quelle 
+	librairie est utilisée (verif dans le fichier de conf ou verif de l'existantce d'un fichier))
+
+
+- ajouter une liste déroulante dans le calendrier d'un responsable de plusieurs groupes lui permettant d'afficher le calendrier d'un seul
+ groupe ou de toutes les personnes dont il est responsable ....
+
+- modif d'une demande : pouvoir passer une demande de conges en demande de rtt (ou inverse)(si rtt comme conges)
+
+- mettre un bouton qui affiche la date courante pour que on puisse y revenir par un clic lorsqu'on 
+  navigue dans le calendrier (genre de l'année 2008 un clic affiche le mois en cours).
+  
+- ajouter les congés scolaires dans le calendrier des congés. (??)
+
+- module d'impression:  pouvoir imprimer une feuille (par exemple un ordre de mission) pour les absences n'etant ni des 
+  congés ni des rtt. Pour les formations/missions/autres on pourrait mettre en place une feuille imprimable type en reprenant 
+  les differentes infos entrées : date de début, date de fin, motif, commentaires 
+
+- prévoir une édition papier pour les absences autres que les conges/RTT
+
+- Rajouter dans la base de données un champs 'niveau hiérarchique' pour chaque user, et faire en sorte que les affichages 
+  des listes et calendriers se fassent dans l'ordre hiérarchique puis alphabétique. Ajouter un paramètre pour laisser le choix 
+  d'utiliser ou pas cette option.
+
+- Echanges jours rtt : 
+   - faire apparaitre les 1/2 journées d'absence et de présence sur le calendrier de saisie.
+   - gérer les echanges par demi journées, pas par date (pour les échanges de 2 demi jour le même jour)
+
+- possibilité pour le responsable de modifier un congés qu'il a saisi (si c'est le responsable qui saisi les congés).
+
+- faire des logs des actions des users et des responsables ...(peut être possibilité d'annuler une action ...)
+
+- afficher la progression des soldes de congés et de rtt dans l'historique des congés/rtt (dans user_index.php et 
+  resp_traite_user.php)
+  (il faut donc ajouter un champs à la table periode ... et voir comment l'annulation d'un congés perturbe l'ensemble ...)
+  (peut être est il + interessant d'ajouter une table et de faire un historique des actions ....)
+  
+- balises "pragma nocache" et "expire" dans entetes des pages
+- gérer les fermetures du services (calcul des jours décomptés pour chaque user (en fonction de la quotité))
+
+- calendrier  : prévoir un bouton "vue réduite" (sur 1/2 mois)
+
+- rattachement d'un user à plusieurs responsables ...
+
+- possibilité de consulter, sans pour cela s'identifier, le planning des congés ... 
+  par exemple à partir d'un portail intranet pour donner une vue globale à tous les utilisateurs !
+

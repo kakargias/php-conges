@@ -1,0 +1,231 @@
+/* #################################### */
+/* ######       general          ###### */
+/* #################################### */
+body {background-color: #b0c2f7;}
+
+img {border: 0;}
+
+
+
+/* #################################### */
+/* ######    page de login       ###### */
+/* #################################### */
+
+body.login {background-color: #FFFFFF;}
+
+/* style pour les cellules de page de login pour entrer dans l'appli */
+fieldset.boxlogin{
+	border: 3px solid #5B8BAB;
+	padding-bottom:10px;
+}
+
+legend.boxlogin {
+	color: #005FA9;
+	font-family:"Trebuchet MS",Verdana,Geneva,Arial,Helvetica,sans-serif;
+	font-size: 16px;
+	font-weight: 700;
+	background-color: transparent;
+}
+
+table.ident {
+	background-color: #dcdcdc;
+	border: black 2px outset;
+}
+
+td.login {
+	color: #005FA9;
+	font-family:"Trebuchet MS",Verdana,Geneva,Arial,Helvetica,sans-serif;
+	font-size: 12px;
+	background-color: transparent;
+}
+
+
+/* #################################### */
+/* ######      formulaire        ###### */
+/* #################################### */
+
+
+/* #################################### */
+/* ######        Titres          ###### */
+/* #################################### */
+
+h1{
+	font: 18pt arial, helvetica, sans-serif; 
+	font-weight:bold; 
+	text-decoration:none; 
+	color:#5154ad; 
+}
+h2{
+	font: 13pt arial, helvetica, sans-serif; 
+	font-weight:bold; 
+	color:#5154ad;
+}
+h3{
+	font: 10pt arial, helvetica, sans-serif; 
+	font-weight:bold; 
+	text-decoration: underline; 
+	color:#5154ad;
+}
+h4{
+	font: 9pt arial, helvetica, sans-serif; 
+	font-weight:bold; 
+	text-decoration: none; 
+	color:#5154ad;
+}
+
+/* #################################### */
+/* ###### Ancres et Hyperliens   ###### */
+/* #################################### */
+
+a.bouton:hover
+{
+	color:#926034;
+}
+.bouton-alerte{
+	text-align: center;
+	text-decoration: underline;
+	font-weight: none;
+	font-size: 9pt;
+	border: 2;
+	padding:0px;
+	position: static;
+	left: 2;
+	top: 2;
+	color:#FF0000;
+}
+.bouton-onglet{
+	text-align: center;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 11pt;
+	border: 2;
+	padding:0px;
+	position: static;
+	left: 2;
+	top: 2;
+	color:#5154ad;
+	#background-color:#ffffff;
+}
+.bouton-current-onglet{
+	text-align: center;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 11pt;
+	border: 2;
+	padding:0px;
+	position: static;
+	left: 2;
+	top: 2;
+	color:#5154ad;
+}
+a.bouton-titre:hover
+{
+	color:#926034;
+}
+.bouton-titre{
+	text-align: center;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 20pt;
+	border: 2;
+	padding:0px;
+	position: static;
+	left: 2;
+	top: 2;
+	color:#126832;
+}
+
+/* #################################### */
+/* ######        Tableau         ###### */
+/* #################################### */
+/* border = 3arguments : size color type (type= solid, double, dotted, outset, inset, groove, ...) */
+
+table.tablo{
+	background-color: ;
+	border: 2px #000000 outset;
+	border-spacing: 1px ;
+}
+
+/* style pour le tableau du calendrier */
+table.tablo-cal{
+	background-color: ;
+	border: 2px #000000 outset;
+	border-spacing: 0px ;
+}
+
+td{
+	font: 8pt arial, helvetica, sans-serif; 
+	text-decoration:none; 
+	border: 0px #000000 solid; 
+}
+
+/* style pour les cellules de historiques */
+td.histo{
+	border: 1px black inset; 
+}
+
+/* style pour les cellules des calendriers de saisie */
+td.cal-saisie{
+	border-bottom: 1px #5B8BAB solid; 
+	border-right: 1px #5B8BAB solid; 
+}
+
+/* style pour les premieres cellules du calendriers de saisie (a gauche, qui contiennent les infos du user) */
+td.cal-user{
+	border-bottom: 1px #5B8BAB solid; 
+	height: 20px ; 
+}
+
+/* style pour les cellules du calendriers */
+td.cal-day{
+	border-bottom: 1px #5B8BAB solid; 
+	border-right: 1px #5B8BAB solid; 
+	height: 20px ; 
+}
+
+/* style pour les cellules de la légende du calendriers */
+td.cal-legende{
+	border-bottom: 1px #5B8BAB solid; 
+}
+
+td.big{
+	font: 9pt arial, helvetica, sans-serif; 
+	font-weight:bold; 
+}
+
+/* style pour les cellules titre des tableaux */
+td.titre{ 
+	font-weight:bold; 
+	border: 1px black inset;
+} 
+	
+td.onglet{ 
+	text-align: center;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 11pt;
+	border: 2;
+	padding:0px;
+	position: static;
+	left: 2;
+	top: 2;
+	color:#5154ad;
+	background-color:#ffffff;
+	border: 1px black inset;
+} 
+	
+td.current-onglet{ 
+	text-align: center;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 11pt;
+	border: 2;
+	padding:0px;
+	position: static;
+	left: 2;
+	top: 2;
+	color:#58b984; 
+	border: 1px black inset;
+} 
+
+

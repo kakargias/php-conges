@@ -1,0 +1,42 @@
+***************************************
+****         php_conges            ****
+***************************************
+
+
+TEST :
+----------
+- tests sous serveurs Windows.
+- tests sous diverses versions de serveurs (apache, php, mysql)....
+- tests avec différentes config de php pour déterminer la config exacte requise.
+
+
+TODO :
+----------
+
+
+##########
+   BUG : 
+##########
+
+- versions autres database (postgresql)...
+- mode administrateur : 
+	changer l'intitulé
+- doc d'install avec fichiers create-database-and-user.sql db-conges.sql et essai.sql (jeu d'essai d'utilisateurs)
+- balises "pragma nocache" et "expire" dans entetes des pages
+- faire un ajout de congés pour tous (avec calcul prorata en fonction de la quotité)
+- gerer les fermetures du services (calcul des jours décomptés pour chaque user (en fonction de la quotité))
+- faire un bouton de deconnexion !
+- prevoir une option dans la config pour indiquer si le samedi est travaillé ou pas (et prévoir les modif sur les calendrier, la gestion de artt, etc...)
+- user_main.php : pouvoir trier l'état des conges du + récent au + ancien
+
+- calendrier  : prévoir un bouton "vue réduite" (sur 1/2 mois)
+- option dans config pour indiquer si l'admin peut changer le mot de passe d'un user (config_admin_ch_passwd)
+
+- possibilité de surligner la ligne d'un user dans le calendrier ( lien sur le nom du user : appel de la meme 
+  page avec une var colored_user=login_du_user --> on change la bgcolor blanche en bgcolor bleu pale ....)
+  
+- ratachement d'un user à plusieurs responsables ...
+
+
+
+.

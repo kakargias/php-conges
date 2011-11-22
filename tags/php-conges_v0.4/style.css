@@ -1,0 +1,99 @@
+<!--
+h1{
+	font: 18pt arial, helvetica, sans-serif; 
+	font-weight:bold; 
+	text-decoration:none; 
+	color:#5154ad; 
+}
+h2{
+	font: 13pt arial, helvetica, sans-serif; 
+	font-weight:bold; 
+	color:#5154ad;
+}
+h3{
+	font: 10pt arial, helvetica, sans-serif; 
+	font-weight:bold; 
+	text-decoration: underline; 
+	color:#5154ad;
+}
+h4{
+	font: 9pt arial, helvetica, sans-serif; 
+	font-weight:bold; 
+	text-decoration: none; 
+	color:#5154ad;
+}
+a.bouton:hover
+{
+	color:#926034;
+}
+.bouton-alerte{
+	text-align: center;
+	text-decoration: underline;
+	font-weight: none;
+	font-size: 9pt;
+	border: 2;
+	padding:0px;
+	position: static;
+	left: 2;
+	top: 2;
+	color:#FF0000;
+}
+.bouton-marron{
+	text-align: center;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 11pt;
+	border: 2;
+	padding:0px;
+	position: static;
+	left: 2;
+	top: 2;
+	color:#926034;
+}
+a.bouton-titre:hover
+{
+	color:#926034;
+}
+.bouton-titre{
+	text-align: center;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 20pt;
+	border: 2;
+	padding:0px;
+	position: static;
+	left: 2;
+	top: 2;
+	color:#126832;
+}
+td{
+	font: 8pt arial, helvetica, sans-serif; 
+	text-decoration:none; 
+}
+td.big{
+	font: 9pt arial, helvetica, sans-serif; 
+	font-weight:bold; 
+}
+td.titre{ 
+	font-weight:bold; 
+	} 
+td.vert2{ 
+	font: 11pt arial, helvetica, sans-serif; 
+	font-weight:bold; 
+	text-decoration:none; 
+	color:#126832; 
+	} 
+td.marron1{ 
+	font: 11pt arial, helvetica, sans-serif; 
+	font-weight:bolder; 
+	text-decoration:none; 
+	color:#926034; 
+	} 
+td.noir1{ 
+	font: 11pt arial, helvetica, sans-serif; 
+	font-weight:bolder; 
+	text-decoration:none; 
+	color:#000000; 
+	} 
+
+-->

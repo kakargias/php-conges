@@ -1,0 +1,121 @@
+***************************************
+****         php_conges            ****
+***************************************
+
+SOMMAIRE :
+----------
+-> première installation.
+-> tests.
+-> mises à jour.
+
+
+----------------------------------------------------------------------------------------
+
+
+-> PREMIERE INSTALLATION : 
+---------------------------
+	1: télécharger php_conges
+	----------------------------
+	http://www.univ-montp2.fr/~ced/php_conges/
+
+
+	2: décompression de l'archive :
+	--------------------------------
+	décompresser l'archive .tar.gz ou .zip
+	gunzip php_conges.version.tar.gz
+	tar xvf php_conges.version.tar
+	ou
+	unzip php_conges.version.tar
+
+
+	3: installation des fichiers :
+	------------------------------
+	copier le contenu de l'archive dans l'arborescence de votre site web.
+
+
+	4: configuration de PHP :
+	-------------------------
+	- PHP doit être avoir l'option "track_vars" positionnée à "enable". (directive de compilation de php ou option de configuration dans php.ini)
+
+
+	5: installation de la database :
+	-------------------------------- 
+	Un script SQL de création de tables (php_conges.sql) est fourni avec php_conges dans le répertoire "docs". 
+	Il suffit de l'éxécuter sous mysql en ligne de commande ou à travers phpMyAdmin.
+	(Votre administrateur MySql doit créer, dans les tables Mysql, un utilisateur qui aura les droits sur la database db_conges)
+
+
+	6: configuration de PHP_Conges :
+	----------------------------------
+	éditer le fichier "config.php" et positionner les options de configuration comme désiré.
+	Renseignez en priorité les variables relatives à votre connexion MySQL (serveur, user, password, database)
+
+
+	7: utilisation :
+	----------------
+	PHP_Conges est désormais prêt à fonctionner, il suffit de saisir dans votre navigateur l'URL :
+	http://monsiteweb.mondomaine.org/mon_chemin/php_conges/
+	Utilisateur par défaut = "admin" / mot de passe = "responsable"
+	Responsable virtuel = "conges" / mot de passe = "conges"
+
+	Cependant, pour pouvoir utiliser votre application, les utilisateurs doivent être saisis dans la database.
+	Pour cela il faut se connecter à PHP_conges en tant que responsable , puis ouvrir la section "mode administrateur".
+	Une nouvelle fenêtre s'ouvre alors, dans laquelle vous pouvez saisir vos responsables et vos utilisateurs.
+	Penser à supprimer l'utilisateur par défaut (admin) ou a changer son mot de passe !!!
+	(Ne pas supprimer le responsable virtuel, mais changer son mot de passe !!!)
+
+	
+-> TESTS :
+------------
+	Si vous désirez tester php_conges avant de l'utiliser, un jeu de test (docs/jeutest.sql) est livré avec php_conges.
+	Il contient un jeu d'utilisateurs et de responsables déja utilisés.
+	(les mot de passe des utilisateurs sont égaux à leurs login respectifs) 
+	(les responsables dans le jeu de test sont "marie" et "paolo")
+
+
+
+-> MISE A JOUR (d'une version à l'autre) :
+--------------------------------------------
+	1: télécharger php_conges
+	----------------------------
+	http://www.univ-montp2.fr/~ced/php_conges/
+
+
+	2: décompression de l'archive :
+	--------------------------------
+	décompresser l'archive .tar.gz ou .zip
+	gunzip php_conges.version.tar.gz
+	tar xvf php_conges.version.tar
+	ou
+	unzip php_conges.version.tar
+
+
+	3: installation des fichiers
+	-----------------------------
+	copier le contenu de l'archive dans l'arborescence de votre site web.
+
+
+	4: mise à jour de la database :
+	------------------------------- 
+	Les scripts SQL de migration d'une version à l'autre (migration_vxx_to_vyy.sql) sont fournis dans le répertoire "docs".
+	Il suffit de les éxécuter sous mysql en ligne de commande ou à travers phpMyAdmin.
+	(Les scripts de migration doivent être passés séquentiellement dans l'ordre !)
+	
+	ATTENTION : cette étape est IMPERATIVE dès qu'un script de migration SQL vers la nouvelle version est fourni. 
+	Si ce script n'est pas appliqué sur la base, l'application ne fonctionnera pas correctement !
+
+
+	5: configuration de PHP_Conges :
+	----------------------------------
+	A faire à chaque mise à jour, car des options de paramètrage sont ajoutées régulièrement, et, si celles ci ne sont pas 
+	renseignées, l'application ne fonctionnera pas correctement.
+	Editer le fichier "config.php" et positionner les options de configuration comme désiré.
+	Renseignez en priorité les variables relatives à votre connexion MySQL (serveur, user, password, database)
+
+
+
+
+
+
+
+

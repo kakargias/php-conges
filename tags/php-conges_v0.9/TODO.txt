@@ -1,0 +1,67 @@
+***************************************
+****         php_conges            ****
+***************************************
+
+
+TODO :
+---------
+  
+- config.php : faire la config dans la database plutot q'un fichier texte ... cela permettrait de faire des pages php de config 
+  de l'appli avec des tests intégrés (pour l'envoi de mail ou l'authentification, etc ....)
+
+- envoi de mails : 
+	> Utilisateur supprime une demande -> mail au Responsable "congés supprimés"  (???)
+	> Responsable valide les congés -> mail à l'Utilisateur "congés validés"
+	> Responsable annule des congés validée -> mail à l'Utilisateur "congés annulés" 
+	Ca se résume en 1 fonction d'alerte (et pas de mode util ou mode resp), et
+	dans le fichier de config :
+	$config_mail_alerte_resp = TRUE (or FALSE);
+	$config_mail_alerte_user = TRUE (or FALSE);
+	avec le contenu (de chaque mail) défini dans le fichier de config...
+	(cf Didier Chabaud qui l'a déjà mis en place)
+
+
+- fonctionnalité de sauvegarde / restauration de la database ....
+
+- Echanges jours rtt : 
+   - faire apparaitre les 1/2 journées d'absence et de présence sur le calendrier de saisie.
+   - gérer les echanges par demi journées, pas par date (pour les échanges de 2 demi jour le même jour)
+
+- possibilité pour le responsable de modifier un congés qu'il a saisi (si c'est le responsable qui saisi les congés).
+
+- gestion des congès par heure ....(????)
+
+- faire des logs des actions des users et des responsables ...(peut être possibilité d'annuler une action ...)
+
+- afficher la progression des soldes de congés et de rtt dans l'historique des congés/rtt (dans user_index.php et 
+  resp_traite_user.php)
+  (il faut donc ajouter un champs à la table periode ... et voir comment l'annulation d'un congés perturbe l'ensemble ...)
+  (peut être est il + interessant d'ajouter une table et de faire un historique des actions ....)
+  
+- versions autres database (postgresql)...
+
+- balises "pragma nocache" et "expire" dans entetes des pages
+- gérer les fermetures du services (calcul des jours décomptés pour chaque user (en fonction de la quotité))
+
+- calendrier  : prévoir un bouton "vue réduite" (sur 1/2 mois)
+
+- option dans config pour indiquer si l'admin peut changer le mot de passe d'un user (config_admin_ch_passwd)
+
+- rattachement d'un user à plusieurs responsables ...
+
+- gestion des congés maternité, gestion des longues maladie -> pour cela ... 
+prévoir un état d'absence sans poser/prendre de congés
+
+- losqu'une période de congés(ou de formation) est annulée par un
+responsable ... il serait interessant de mettre en place un champ
+commentaire pour que le responsable puisse en laisser un à l'utilisateur !
+
+- il serait également interessant de pouvoir consulter, sans pour cela
+s'identifier, le planning des congés ... par exemple à partir d'un portail
+intranet pour donner une vue globale à tous les utilisateurs !
+
+- affecter une lettre à un type de plage horaire par salarié pour au lieu d'afficher un trait (-).
+  Imaginons à la création de salarié il y ait 10 codes au choix après ce serait juste de l'affichage.  
+  Et afficher lors des absences un code absence au lieu de (abs) du style (cp)congés payés (rc)repos compensateur (rtt),
+  (mal)maladie (dep) deplacement prof ou formation.
+

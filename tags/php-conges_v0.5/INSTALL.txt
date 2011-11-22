@@ -1,0 +1,69 @@
+***************************************
+****         php_conges            ****
+***************************************
+
+
+INSTALL :
+----------
+
+1: télécharger php_conges
+----------------------------
+http://www.univ-montp2.fr/~ced/php_conges/
+
+
+2: décompression de l'archive :
+--------------------------------
+décompresser l'archive .tar.gz
+gunzip php_conges.version.tar.gz
+tar xvf php_conges.version.tar
+
+
+3: installation des fichiers
+-----------------------------
+copier le contenu de l'archive dans l'arborescence de votre site web.
+
+
+4: configuration de PHP
+-------------------------
+PHP doit être avoir l'option "track_vars" positionnée à "enable". (directive de compilation de php ou option de configuration dans php.ini)
+
+
+5: installation de la database :
+---------------------------------- 
+Un script SQL de création de tables (docs/php_conges.sql) est fourni avec php_conges. 
+Il suffit de l'éxécuter sous mysql en ligne de commande ou à travers phpMyAdmin.
+
+Passage V0.4 à V0.5 : utilisez le script SQL "migration_v0.4_to_v0.5.sql" pour mettre à jour la structure de vos tables mysql.
+
+
+6: configuration de PHP_Conges :
+----------------------------------
+éditer le fichier "config.php" et positionner les options de configuration comme désiré.
+Renseignez en priorité les variables relatives à votre connexion MySQL (serveur, user, password, database)
+
+
+7: utilisation :
+---------------------
+PHP_Conges est désormais prêt à fonctionner, il suffit de saisir dans votre navigateur l'URL :
+http://monsiteweb.mondomaine.org/mon_chemin/php_conges/
+Utilisateur par défaut = "admin" / mot de passe = "responsable"
+Responsable virtuel = "conges" / mot de passe = "conges"
+
+Cependant, pour pouvoir utiliser votre application, les utilisateurs doivent être saisis dans la database.
+Pour cela il faut se connecter à PHP_conges en tant que responsable , puis ouvrir la section "mode administrateur".
+Une nouvelle fenêtre s'ouvre alors, dans laquelle vous pouvez saisir vos responsables et vos utilisateurs.
+Penser à supprimer l'utilisateur par défaut (admin) ou a changer son mot de passe !!!
+(Ne pas supprimer le responsable virtuel, mais changer son mot de passe !!!)
+
+
+TESTS :
+---------
+Si vous désirez tester php_conges avant de l'utiliser, un jeu de test (docs/jeutest.sql) est livré avec php_conges.
+Il contient un jeu d'utilisateurs et de responsables déja utilisés.
+(les mot de passe des utilisateurs sont égaux à leurs login respectifs) 
+(les responsables dans le jeu de test sont "marie" et "paolo")
+
+
+
+
+.

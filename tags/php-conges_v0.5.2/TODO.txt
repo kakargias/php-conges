@@ -1,0 +1,76 @@
+***************************************
+****         php_conges            ****
+***************************************
+
+
+TEST :
+----------
+- tests sous serveurs Windows.
+- tests sous diverses versions de serveurs (apache, php, mysql)....
+- tests avec différentes config de php pour déterminer la config exacte requise.
+
+
+TODO :
+----------
+
+- possibilité de surligner la ligne d'un user dans le calendrier ( lien sur le nom du user : appel de la même 
+  page avec une var colored_user=login_du_user --> on change la bgcolor blanche en bgcolor bleu pale ....)
+  
+- saisie de 1/2 jounée de congés (et affichage de 1/2 jounée de congés dans le calendrier)
+    
+- correction d'un bug dans admin_modif_user.php : quand on veut modifier le loin d'un user, on perd ses 
+  rtt/temps-partiel et ses periodes de congés !!!
+  
+- correction bug dans les sessions : une session expire alors qu'on tavaille (pas de remise à jour de la session à chaque page)
+
+- faire une doc utilisateur !
+
+- faire de logs ds actions de usre ste des responssables ...(peut être possibilité d'annuler une action ...)
+
+- pb dans resp_traite_user.php : le responsable peut annuler une "absence autre" (formation, mission, etc...) mais le cas 
+  n'est pas traité dans la fonction annule_conges()
+
+- envoi de mail pour confirmer une demande de conges ou le traitement de cette demande ...
+
+- génération un PDF (avec FPDF : http://www.fpdf.org/ ) reprenant la feuille de congé virtuelle pour en
+avoir une trace papier à archiver dans le dossier du personnel concerné (pdf demande de congés ou pdf conges pris)
+
+- Echanges jours rtt : 
+   - faire apparaitre les 1/2 journées d'absence et de présence sur le calendrier de saisie.
+   - bug : qd on saisie & échange sur 1 date qu'on a déjà échangé ......
+
+- afficher la progression des soldes de congés et de rtt dans l'hitorique des congés/rtt (dans user_index.php et resp_traite_user.php)
+  (il faut donc ajouter un champs à la table periode ... et voir comment l'annulation d'un congés perturbe l'ensemble ...)
+  (peut être est il + interessant d'ajouter une table et de faire un historique des actions ....)
+  
+- versions autres database (postgresql)...
+
+- balises "pragma nocache" et "expire" dans entetes des pages
+- faire un ajout de congés pour tous (avec calcul prorata en fonction de la quotité)
+- gérer les fermetures du services (calcul des jours décomptés pour chaque user (en fonction de la quotité))
+- prévoir une option dans la config pour indiquer si le samedi est travaillé ou pas (et prévoir les modif sur les calendrier, la 
+  gestion de artt, etc...)
+- user_main.php : pouvoir trier l'état des congés du + récent au + ancien
+
+- calendrier  : prévoir un bouton "vue réduite" (sur 1/2 mois)
+
+- option dans config pour indiquer si l'admin peut changer le mot de passe d'un user (config_admin_ch_passwd)
+
+- rattachement d'un user à plusieurs responsables ...
+
+- les mois en français
+
+- gestion des congés maternité, gestion des longues maladie -> pour cela ... 
+prévoir un état d'absence sans poser/prendre de congés
+
+- possibilité dans resp_ajout_conges_all d'ajouter un nb de congés pour tous en une seule saisie (avec bouton pour indiquer
+ si la quotité du user doit être appliquée dessus ou non).
+
+- losqu'une période de congés(ou de formation) est annulée par un
+responsable ... il serait interessant de mettre en place un champ
+commentaire pour que le responsable puisse en laisser un à l'utilisateur !
+
+- il serait également interessant de pouvoir consulter, sans pour cela
+s'identifier, le planning des congés ... par exemple à partir d'un portail
+intranet pour donner une vue globale à tous les utilisateurs !
+

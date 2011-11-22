@@ -1,0 +1,57 @@
+***************************************
+****         php_conges            ****
+***************************************
+
+
+TEST :
+----------
+- tests sous serveurs Windows.
+- tests sous diverses versions de serveurs (apache, php, mysql)....
+- tests avec différentes config de php pour déterminer la config exacte requise.
+
+
+TODO :
+----------
+
+- faire une doc utilisateur !
+
+- versions autres database (postgresql)...
+- mode administrateur : 
+	changer l'intitulé
+- doc d'install avec fichiers create-database-and-user.sql db-conges.sql et essai.sql (jeu d'essai d'utilisateurs)
+- balises "pragma nocache" et "expire" dans entetes des pages
+- faire un ajout de congés pour tous (avec calcul prorata en fonction de la quotité)
+- gérer les fermetures du services (calcul des jours décomptés pour chaque user (en fonction de la quotité))
+- faire un bouton de déconnexion !
+- prévoir une option dans la config pour indiquer si le samedi est travaillé ou pas (et prévoir les modif sur les calendrier, la gestion de artt, etc...)
+- user_main.php : pouvoir trier l'état des congés du + récent au + ancien
+
+- calendrier  : prévoir un bouton "vue réduite" (sur 1/2 mois)
+
+- option dans config pour indiquer si l'admin peut changer le mot de passe d'un user (config_admin_ch_passwd)
+
+- possibilité de surligner la ligne d'un user dans le calendrier ( lien sur le nom du user : appel de la même 
+  page avec une var colored_user=login_du_user --> on change la bgcolor blanche en bgcolor bleu pale ....)
+  
+- rattachement d'un user à plusieurs responsables ...
+
+- exploitation de l'appli avec REGISTER_GLOBAL à OFF
+
+- travailler avec "allow_call_time_pass_reference" dans le fichier INI à false
+
+- une navigation par onglet pour l'utilisateur ... en détachant chaque rubrique pour une meilleure lisibilité 
+-> sur page d'accueil, bilan des congés de l'utilisateur + Etat des demandes en cours  diverses infos 
+(notamment venant des admins),  puis onglet nouvelles demandes, puis onglet "état des congés"
+
+- les mois en français
+
+- bouton de déconnexion pour utilisateur / administrateur
+
+- pour les RTT : possibilité de poser un jour de RTT comme un jour de congés ... en choisissant congés ou rtt
+
+- gestion des congés maternité, gestion des longues maladie -> pour cela ... 
+prévoir un état d'absence sans poser/prendre de congés
+
+- possibilité dans resp_ajout_conges_all d'ajouter un nb de congés pour tous en une seule saisie (avec bouton pour indiquer
+ si la quotité du user doit être appliquée dessus ou non).
+.

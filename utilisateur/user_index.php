@@ -940,6 +940,7 @@ function affichage_historique_conges($tri_date, $year_affichage, $onglet,  $DEBU
 					$text_lang_a_afficher="divers_traitement_$sql_p_etat" ; // p_etat='ok' OR  p_etat='refus' OR  p_etat='annul' .....
 					echo schars($_SESSION['lang'][$text_lang_a_afficher]).' : '.schars($sql_p_date_traitement).'</td>'."\n" ;
 				}
+			
 				echo "</tr>\n";
 		}
 		echo "</table>\n\n";

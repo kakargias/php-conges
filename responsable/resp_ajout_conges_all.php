@@ -1,16 +1,16 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des CongÃ©s
+PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
 Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les 
-termes de la Licence Publique GÃ©nÃ©rale GNU publiÃ©e par la Free Software Foundation.
-Ce programme est distribuÃ© car potentiellement utile, mais SANS AUCUNE GARANTIE, 
+termes de la Licence Publique Générale GNU publiée par la Free Software Foundation.
+Ce programme est distribué car potentiellement utile, mais SANS AUCUNE GARANTIE, 
 ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation 
-dans un but spÃ©cifique. Reportez-vous Ã  la Licence Publique GÃ©nÃ©rale GNU pour plus de dÃ©tails.
-Vous devez avoir reÃ§u une copie de la Licence Publique GÃ©nÃ©rale GNU en mÃªme temps 
-que ce programme ; si ce n'est pas le cas, Ã©crivez Ã  la Free Software Foundation, 
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, Ã‰tats-Unis.
+dans un but spécifique. Reportez-vous à la Licence Publique Générale GNU pour plus de détails.
+Vous devez avoir reçu une copie de la Licence Publique Générale GNU en même temps 
+que ce programme ; si ce n'est pas le cas, écrivez à la Free Software Foundation, 
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, États-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation; either 
@@ -23,540 +23,513 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
+//session_start();
+include("../config.php") ;
+include("../fonctions_conges.php") ;
+include("../INCLUDE.PHP/fonction.php");
+include("../INCLUDE.PHP/session.php");
+if($config_verif_droits==TRUE){ include("../INCLUDE.PHP/verif_droits.php");}
+?>
 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+
+<head>
+<?php
+	/*** initialisation des variables ***/
+	$ajout_conges="";
+	$ajout_global="";
+	$ajout_groupe="";
+	/************************************/
+	
+	echo "<link href=\"../$config_stylesheet_file\" rel=\"stylesheet\" type=\"text/css\">\n";
+	echo "</head>\n";
+	
+	echo "<body text=#000000 bgcolor=#FFFFFF link=#000080 vlink=#800080 alink=#FF0000 background=\"$URL_ACCUEIL_CONGES/$config_bgimage\">\n";
+	echo "<CENTER>\n";
+	/*************************************/
+	// recup des parametres reçus :
+	// SERVER
+	$PHP_SELF=$_SERVER['PHP_SELF'];
+	// GET
+//	if(isset($_GET['p_num'])) { $p_num=$_GET['p_num']; }
+	// POST
+	if(isset($_POST['ajout_conges'])) { $ajout_conges=$_POST['ajout_conges']; }
+	if(isset($_POST['tab_champ_saisie_conges'])) { $tab_champ_saisie_conges=$_POST['tab_champ_saisie_conges']; }
+	if(isset($_POST['tab_champ_saisie_rtt'])) { $tab_champ_saisie_rtt=$_POST['tab_champ_saisie_rtt']; }
+	if(isset($_POST['ajout_global'])) { $ajout_global=$_POST['ajout_global']; }
+	if(isset($_POST['ajout_groupe'])) { $ajout_groupe=$_POST['ajout_groupe']; }
+	if(isset($_POST['choix_groupe'])) { $choix_groupe=$_POST['choix_groupe']; }
+	if(isset($_POST['new_nb_conges_all'])) { $new_nb_conges_all=$_POST['new_nb_conges_all']; }
+	if(isset($_POST['new_nb_rtt_all']))    { $new_nb_rtt_all=$_POST['new_nb_rtt_all']; }
+	if(isset($_POST['calcul_new_conges_proportionnel'])) { $calcul_new_conges_proportionnel=$_POST['calcul_new_conges_proportionnel']; }
+	if(isset($_POST['calcul_new_rtt_proportionnel']))    { $calcul_new_rtt_proportionnel=$_POST['calcul_new_rtt_proportionnel']; }
+	
+	/*************************************/
+	
+	// titre
+	printf("<H2>Ajout de congès :</H2>\n\n");
+	//connexion mysql
+	$link = connexion_mysql() ;
+	
+	if($ajout_conges=="TRUE") {
+		ajout_conges();
+	}
+	elseif($ajout_global=="TRUE") {
+		ajout_global($new_nb_conges_all, $new_nb_rtt_all, $calcul_new_conges_proportionnel, $calcul_new_rtt_proportionnel);
+	}
+	elseif($ajout_groupe=="TRUE") {
+		ajout_global_groupe($choix_groupe, $new_nb_conges_all, $new_nb_rtt_all, $calcul_new_conges_proportionnel, $calcul_new_rtt_proportionnel);
+	}
+	else
+	{
+		saisie();
+	}
+	
+	mysql_close($link);
+
+	
+		
 /************************************************************************/
 /*** FONCTIONS ***/
 
-function saisie_ajout( $tab_type_conges,  $DEBUG)
-{
-//$DEBUG==TRUE;
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-	$session=session_id() ;
-
-	// recup du tableau des types de conges (seulement les congesexceptionnels )
-	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
-	{
-	  $tab_type_conges_exceptionnels = recup_tableau_types_conges_exceptionnels();
-	  if($DEBUG==TRUE) { echo "tab_type_conges_exceptionnels = "; print_r($tab_type_conges_exceptionnels); echo "<br><br>\n";}
-	}
+function saisie() {
+	global $PHP_SELF, $link;
+	global $session, $session_username ;
+	global $config_responsable_virtuel, $config_rtt_comme_conges, $config_gestion_groupes ;
+	
+	printf(" <form action=\"$PHP_SELF?session=$session\" method=\"POST\"> \n");
+	
+	// Récupération des informations
+		$sql1 = "SELECT u_login, u_nom, u_prenom, u_nb_jours_an, u_solde_jours, u_nb_rtt_an, u_solde_rtt, u_quotite FROM conges_users WHERE ";
+	if($config_responsable_virtuel==TRUE)
+		$sql1 = $sql1." u_login != 'conges' ";
 	else
-	  $tab_type_conges_exceptionnels = array();
-	
-	// recup de la liste de TOUS les users dont $resp_login est responsable 
-	// (prend en compte le resp direct, les groupes, le resp virtuel, etc ...)
-	// renvoit une liste de login entre quotes et sÃ©parÃ©s par des virgules
-	$tab_all_users_du_resp=recup_infos_all_users_du_resp($_SESSION['userlogin']);
-	$tab_all_users_du_grand_resp=recup_infos_all_users_du_grand_resp($_SESSION['userlogin']);
-	if($DEBUG==TRUE) { echo "tab_all_users_du_resp =<br>\n"; print_r($tab_all_users_du_resp); echo "<br>\n"; }
-	if($DEBUG==TRUE) { echo "tab_all_users_du_grand_resp =<br>\n"; print_r($tab_all_users_du_grand_resp); echo "<br>\n"; }
-	
-	if( (count($tab_all_users_du_resp)!=0) || (count($tab_all_users_du_grand_resp)!=0) )
 	{
-		/************************************************************/
-		/* SAISIE GLOBALE pour tous les utilisateurs du responsable */
-		affichage_saisie_globale_pour_tous($tab_type_conges,  $DEBUG);
-		echo "<br>\n";
-		
-		/***********************************************************************/
-		/* SAISIE GROUPE pour tous les utilisateurs d'un groupe du responsable */
-		if( $_SESSION['config']['gestion_groupes']==TRUE )
+		$sql1 = $sql1." u_resp_login = '$session_username' ";
+		if($config_gestion_groupes==TRUE)
 		{
-			affichage_saisie_globale_groupe($tab_type_conges,  $DEBUG);
+			$list_users_group=get_list_users_des_groupes_du_resp($session_username);
+			if($list_users_group!="")  //si la liste n'est pas vide ( serait le cas si n'est responsable d'aucun groupe)
+				$sql1=$sql1." OR u_login IN ($list_users_group) ";
 		}
-		echo "<br>\n";
-		
-		/************************************************************/
-		/* SAISIE USER PAR USER pour tous les utilisateurs du responsable */
-		affichage_saisie_user_par_user($tab_type_conges, $tab_type_conges_exceptionnels, $tab_all_users_du_resp, $tab_all_users_du_grand_resp,  $DEBUG);
-		echo "<br>\n";
-		
 	}
-	else
-	 echo $_SESSION['lang']['resp_etat_aucun_user']."<br>\n";
-	
-	/* APPEL D'UNE AUTRE PAGE */
-	echo " <form action=\"resp_index.php?session=$session\" method=\"POST\"> \n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_retour']."\">\n";
-	echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-	echo " </form> \n";
-
-}
+	$sql1 = $sql1." ORDER BY u_nom ";
+		
+	$ReqLog1 = mysql_query( $sql1, $link) or die("ERREUR : mysql_query : ".$sql." --> ".mysql_error());
 
 
-function affichage_saisie_user_par_user($tab_type_conges, $tab_type_conges_exceptionnels, $tab_all_users_du_resp, $tab_all_users_du_grand_resp,  $DEBUG=FALSE)
-{
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-	$session=session_id() ;
-	
-	/************************************************************/
-	/* SAISIE USER PAR USER pour tous les utilisateurs du responsable */
-	
-	echo " <form action=\"$PHP_SELF?session=$session&onglet=ajout_conges\" method=\"POST\"> \n";
-	
-	// RÃ©cupÃ©ration des informations
-	// RÃ©cup dans un tableau de tableau des informations de tous les users dont $_SESSION['userlogin'] est responsable
-	//$tab_all_users_du_resp=recup_infos_all_users_du_resp($_SESSION['userlogin']);
-	//$tab_all_users_du_grand_resp=recup_infos_all_users_du_grand_resp($_SESSION['userlogin']);
-	
-	if( (count($tab_all_users_du_resp)!=0) || (count($tab_all_users_du_grand_resp)!=0) )
+	// AFFICHAGE TABLEAU
+	//printf("<table cellpadding=\"2\" cellspacing=\"3\" border=\"2\" width=\"80%%\">\n");
+	printf("<table cellpadding=\"2\" class=\"tablo\" width=\"700\">\n");
+	printf("<tr align=\"center\"><td class=\"titre\">nom</td><td class=\"titre\">prenom</td><td class=\"titre\">Quotité</td><td class=\"titre\">Congés <i>(solde)</i></td><td class=\"titre\">NB jours de congés a ajouter</td>");
+	if($config_rtt_comme_conges==1)
+		printf("<td class=\"titre\">RTT <i>(solde)</i></td><td class=\"titre\">NB jours de RTT a ajouter</td>");
+	printf("</tr>\n");
+	$cpt_lignes=0 ;
+	$tab_champ_saisie_conges=array();
+	while ($resultat1 = mysql_fetch_array($ReqLog1))
 	{
-		// AFFICHAGE TITRES TABLEAU
-		echo "<table cellpadding=\"2\" class=\"tablo\" width=\"700\">\n";
-		echo "<tr align=\"center\">\n";
-		echo "<td class=\"titre\">".$_SESSION['lang']['divers_nom_maj_1']."</td>\n";
-		echo "<td class=\"titre\">".$_SESSION['lang']['divers_prenom_maj_1']."</td>\n";
-		echo "<td class=\"titre\">".$_SESSION['lang']['divers_quotite_maj_1']."</td>\n";
-		foreach($tab_type_conges as $id_conges => $libelle)
-		{
-			echo "<td class=\"titre\">$libelle<br><i>(".$_SESSION['lang']['divers_solde'].")</i></td>\n";
-			echo "<td class=\"titre\">$libelle<br>".$_SESSION['lang']['resp_ajout_conges_nb_jours_ajout']."</td>\n" ;
-		}
-		if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
-		{
-			foreach($tab_type_conges_exceptionnels as $id_conges => $libelle)
-			{
-				echo "<td class=\"titre\">$libelle<br><i>(".$_SESSION['lang']['divers_solde'].")</i></td>\n";
-				echo "<td class=\"titre\">$libelle<br>".$_SESSION['lang']['resp_ajout_conges_nb_jours_ajout']."</td>\n" ;
-			}
-		}
-		echo "<td class=\"titre\">".$_SESSION['lang']['divers_comment_maj_1']."<br></td>\n" ;
-		echo"</tr>\n";
-		
-		// AFFICHAGE LIGNES TABLEAU
-		$cpt_lignes=0 ;
-		$tab_champ_saisie_conges=array();
-		
-		// affichage des users dont on est responsable :
-		foreach($tab_all_users_du_resp as $current_login => $tab_current_user)
-		{		
-			echo "<tr align=\"center\">\n";
-			//tableau de tableaux les nb et soldes de conges d'un user (indicÃ© par id de conges)
-			$tab_conges=$tab_current_user['conges']; 
+		$sql_login=$resultat1["u_login"];
+		$sql_nom=$resultat1["u_nom"];
+		$sql_prenom=$resultat1["u_prenom"];
+		$sql_quotite=$resultat1["u_quotite"];
+		$sql_nb_j_an=affiche_decimal($resultat1["u_nb_jours_an"]);
+		$sql_solde_j=affiche_decimal($resultat1["u_solde_jours"]);
+		$sql_nb_rtt_an=affiche_decimal($resultat1["u_nb_rtt_an"]);
+		$sql_solde_rtt=affiche_decimal($resultat1["u_solde_rtt"]);
 	
-			/** sur la ligne ,   **/
-			echo "<td class=\"titre\">".$tab_current_user['nom']."</td>\n";
-			echo "<td class=\"titre\">".$tab_current_user['prenom']."</td>\n";
-			echo "<td class=\"histo\">".$tab_current_user['quotite']."%</td>\n";
-	
-			foreach($tab_type_conges as $id_conges => $libelle)
-			{
-				/** le champ de saisie est <input type="text" name="tab_champ_saisie[valeur de u_login][id_du_type_de_conges]" value="[valeur du nb de jours ajoutÃ© saisi]"> */
-				$champ_saisie_conges="<input type=\"text\" name=\"tab_champ_saisie[$current_login][$id_conges]\" size=\"6\" maxlength=\"6\" value=\"0\">";
-				echo "<td class=\"histo\">".$tab_conges[$libelle]['nb_an']." <i>(".$tab_conges[$libelle]['solde'].")</i></td>\n";
-				echo "<td align=\"center\" class=\"histo\">$champ_saisie_conges</td>\n" ;
-			}
-			if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
-			{
-				foreach($tab_type_conges_exceptionnels as $id_conges => $libelle)
-				{
-					/** le champ de saisie est <input type="text" name="tab_champ_saisie[valeur de u_login][id_du_type_de_conges]" value="[valeur du nb de jours ajoutÃ© saisi]"> */
-					$champ_saisie_conges="<input type=\"text\" name=\"tab_champ_saisie[$current_login][$id_conges]\" size=\"6\" maxlength=\"6\" value=\"0\">";
-					echo "<td class=\"histo\"><i>(".$tab_conges[$libelle]['solde'].")</i></td>\n";
-					echo "<td align=\"center\" class=\"histo\">$champ_saisie_conges</td>\n" ;
-				}
-			}
-			echo "<td align=\"center\" class=\"histo\"><input type=\"text\" name=\"tab_commentaire_saisie[$current_login]\" size=\"30\" maxlength=\"200\" value=\"\"></td>\n";
-			echo "</tr>\n";
-			$cpt_lignes++ ;
-		}
-		
-		// affichage des users dont on est grand responsable :
-		if( ($_SESSION['config']['double_validation_conges']==TRUE) && ($_SESSION['config']['grand_resp_ajout_conges']==TRUE) )
-		{
-			$nb_colspan=50;
-			echo "<tr align=\"center\"><td class=\"histo\" colspan=\"$nb_colspan\"><i>".$_SESSION['lang']['resp_etat_users_titre_double_valid']."</i></td></tr>\n";
+		/** sur la ligne ,   **/
+		/** le champ de saisie est <input type="text" name="tab_champ_saisie_conges[valeur de u_login]" value="[valeur du nb de jours ajouté saisi]"> */
+		$champ_saisie_conges="<input type=\"text\" name=\"tab_champ_saisie_conges[$sql_login]\" size=\"6\" maxlength=\"6\" value=\"0\">";
+		if($config_rtt_comme_conges==1)
+			$champ_saisie_rtt="<input type=\"text\" name=\"tab_champ_saisie_rtt[$sql_login]\" size=\"6\" maxlength=\"6\" value=\"0\">";
 
-			foreach($tab_all_users_du_grand_resp as $current_login => $tab_current_user)
-			{		
-				echo "<tr align=\"center\">\n";
-				//tableau de tableaux les nb et soldes de conges d'un user (indicÃ© par id de conges)
-				$tab_conges=$tab_current_user['conges']; 
-		
-				/** sur la ligne ,   **/
-				echo "<td class=\"titre\">".$tab_current_user['nom']."</td>\n";
-				echo "<td class=\"titre\">".$tab_current_user['prenom']."</td>\n";
-				echo "<td class=\"histo\">".$tab_current_user['quotite']."%</td>\n";
-		
-				foreach($tab_type_conges as $id_conges => $libelle)
-				{
-					/** le champ de saisie est <input type="text" name="tab_champ_saisie[valeur de u_login][id_du_type_de_conges]" value="[valeur du nb de jours ajoutÃ© saisi]"> */
-					$champ_saisie_conges="<input type=\"text\" name=\"tab_champ_saisie[$current_login][$id_conges]\" size=\"6\" maxlength=\"6\" value=\"0\">";
-					echo "<td class=\"histo\">".$tab_conges[$libelle]['nb_an']." <i>(".$tab_conges[$libelle]['solde'].")</i></td>\n";
-					echo "<td align=\"center\" class=\"histo\">$champ_saisie_conges</td>\n" ;
-				}
-				if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
-				{
-					foreach($tab_type_conges_exceptionnels as $id_conges => $libelle)
-					{
-						/** le champ de saisie est <input type="text" name="tab_champ_saisie[valeur de u_login][id_du_type_de_conges]" value="[valeur du nb de jours ajoutÃ© saisi]"> */
-						$champ_saisie_conges="<input type=\"text\" name=\"tab_champ_saisie[$current_login][$id_conges]\" size=\"6\" maxlength=\"6\" value=\"0\">";
-						echo "<td class=\"histo\"><i>(".$tab_conges[$libelle]['solde'].")</i></td>\n";
-						echo "<td align=\"center\" class=\"histo\">$champ_saisie_conges</td>\n" ;
-					}
-				}
-				echo "<td align=\"center\" class=\"histo\"><input type=\"text\" name=\"tab_commentaire_saisie[$current_login]\" size=\"30\" maxlength=\"200\" value=\"\"></td>\n";
-				echo "</tr>\n";
-				$cpt_lignes++ ;
-			}
-		}
-		
-		echo "</table>\n\n";
-	
-		echo "<input type=\"hidden\" name=\"ajout_conges\" value=\"TRUE\">\n";
-		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">\n";
-		echo " </form> \n";
+		if($config_rtt_comme_conges==1)
+			echo "<td class=\"titre\">$sql_nom</td><td class=\"titre\">$sql_prenom</td><td class=\"histo\">$sql_quotite%</td>
+				<td class=\"histo\">$sql_nb_j_an <i>($sql_solde_j)</i></td><td align=\"center\" class=\"histo\">$champ_saisie_conges</td>
+				<td class=\"histo\">$sql_nb_rtt_an <i>($sql_solde_rtt)</i></td><td align=\"center\" class=\"histo\">$champ_saisie_rtt</td>\n" ; 
+		else
+			echo "<td class=\"titre\">$sql_nom</td><td class=\"titre\">$sql_prenom</td><td class=\"histo\">$sql_quotite%</td>
+				<td class=\"histo\">$sql_nb_j_an <i>($sql_solde_j)</i></td><td align=\"center\" class=\"histo\">$champ_saisie_conges</td>\n" ; 
+		printf("</tr>\n");
+		$cpt_lignes++ ;
 	}
-}
+	printf("</table>\n\n");
 
+	echo "<input type=\"hidden\" name=\"ajout_conges\" value=\"TRUE\">\n";
+	printf("<input type=\"submit\" value=\"Valider les saisies\">\n");
+	printf(" </form> \n");
 
-function affichage_saisie_globale_pour_tous($tab_type_conges,  $DEBUG=FALSE)
-{
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-	$session=session_id() ;
-	
 	/************************************************************/
 	/* SAISIE GLOBALE pour tous les utilisateurs du responsable */
-	
-	echo "<form action=\"$PHP_SELF?session=$session&onglet=ajout_conges\" method=\"POST\"> \n";
+	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\"> \n";
 	echo "<table>\n";
 	echo "<tr><td align=\"center\">\n";
 	echo "	<fieldset class=\"cal_saisie\">\n";
-	echo "	<legend class=\"boxlogin\">".$_SESSION['lang']['resp_ajout_conges_ajout_all']."</legend>\n";
+	echo "	<legend class=\"boxlogin\">Ajout global pour Tous :</legend>\n";
 	echo "	<table>\n";
-	foreach($tab_type_conges as $id_conges => $libelle)
+	echo "	<tr>\n";
+	echo "		<td class=\"big\">Nombre de jours de CONGES à ajouter à tous : </td>\n";
+	echo "		<td><input type=\"text\" name=\"new_nb_conges_all\" size=\"6\" maxlength=\"6\" value=\"0\"></td>\n";
+	echo "		<td> ( Calcul proportionnel à la quotité de chaque personne : </td>\n";
+	echo "		<td>OUI <input type=\"checkbox\" name=\"calcul_new_conges_proportionnel\" value=\"TRUE\" checked> )</td>\n";
+	echo "	<tr>\n";
+	if($config_rtt_comme_conges==1)
 	{
-		echo "	<tr>\n";
-		echo "		<td class=\"big\">".$_SESSION['lang']['resp_ajout_conges_nb_jours_all_1']." <font color=\"red\" size=\"+1\">$libelle</font> ".$_SESSION['lang']['resp_ajout_conges_nb_jours_all_2']." </td>\n";
-		echo "		<td><input type=\"text\" name=\"tab_new_nb_conges_all[$id_conges]\" size=\"6\" maxlength=\"6\" value=\"0\"></td>\n";
-		echo "		<td> ( ".$_SESSION['lang']['resp_ajout_conges_calcul_prop']." </td>\n";
-		echo "		<td>".$_SESSION['lang']['resp_ajout_conges_oui']." <input type=\"checkbox\" name=\"tab_calcul_proportionnel[$id_conges]\" value=\"TRUE\" checked> )</td>\n";
-		echo "		<td>".$_SESSION['lang']['divers_comment_maj_1']." : <input type=\"text\" name=\"tab_new_comment_all[$id_conges]\" size=\"30\" maxlength=\"200\" value=\"\"></td>\n";
+		echo "	</tr>\n";
+		echo "		<td class=\"big\">Nombre de jours de RTT à ajouter à tous : </td>\n";
+		echo "		<td><input type=\"text\" name=\"new_nb_rtt_all\" size=\"6\" maxlength=\"6\" value=\"0\"></td>\n";
+		echo "		<td> ( Calcul proportionnel à la quotité de chaque personne : </td>\n";
+		echo "		<td>OUI <input type=\"checkbox\" name=\"calcul_new_rtt_proportionnel\" value=\"TRUE\" checked> )</td>\n";
 		echo "	</tr>\n";
 	}
-	// texte sur l'arrondi du calcul proportionnel
-	echo "	<tr>\n";
+	echo "	</tr>\n";
 	echo "		<td class=\"big\">&nbsp;</td>\n";
 	echo "		<td>&nbsp;</td>\n";
-	echo "		<td colspan=\"2\"> (".$_SESSION['lang']['resp_ajout_conges_calcul_prop_arondi']." !) </td>\n";
-	echo "		<td>&nbsp;</td>\n";
+	echo "		<td colspan=\"2\"> (le calcul proportionnel est arrondi au 1/2 le plus proche !) </td>\n";
 	echo "	</tr>\n";
-	// bouton valider
 	echo "	<tr>\n";
-	echo "		<td colspan=\"5\" align=\"center\"><input type=\"submit\" value=\"".$_SESSION['lang']['form_valid_global']."\"></td>\n";
+	echo "		<td colspan=\"4\" align=\"center\"><input type=\"submit\" value=\"Valider la saisie globale\"></td>\n";
 	echo "	</tr>\n";
 	echo "	</table>\n";
 	echo "	</fieldset>\n";
 	echo "</td></tr>\n";
 	echo "</table>\n";
 	echo "<input type=\"hidden\" name=\"ajout_global\" value=\"TRUE\">\n";
-	echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
 	echo "</form> \n";
-}
-
-
-function affichage_saisie_globale_groupe($tab_type_conges,  $DEBUG=FALSE)
-{
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-	$session=session_id() ;
+	
+	echo "<br>\n";
 	
 	/***********************************************************************/
 	/* SAISIE GROUPE pour tous les utilisateurs d'un groupe du responsable */
-
-	// on Ã©tabli la liste complÃ¨te des groupes dont on est le resp (ou le grd resp)
-	$list_group_resp=get_list_groupes_du_resp($_SESSION['userlogin']);
-	if( ($_SESSION['config']['double_validation_conges']==TRUE) && ($_SESSION['config']['grand_resp_ajout_conges']==TRUE) )
-		$list_group_grd_resp=get_list_groupes_du_grand_resp($_SESSION['userlogin'],  $DEBUG);
-	else
-		$list_group_grd_resp="";
-		
-	$list_group="";
-	if($list_group_resp!="")
+	if( $config_gestion_groupes==TRUE )
 	{
-		$list_group = $list_group_resp;
-		if($list_group_grd_resp!="")
-			$list_group = $list_group.",".$list_group_grd_resp;
-	}
-	else
-	{
-		if($list_group_grd_resp!="")
-			$list_group = $list_group_grd_resp;
-	}
-	
-		
-	if($list_group!="") //si la liste n'est pas vide ( serait le cas si n'est responsable d'aucun groupe)
-	{
-		echo "<form action=\"$PHP_SELF?session=$session&onglet=ajout_conges\" method=\"POST\"> \n";
-		echo "<table>\n";
-		echo "<tr><td align=\"center\">\n";
-		echo "	<fieldset class=\"cal_saisie\">\n";
-		echo "	<legend class=\"boxlogin\">".$_SESSION['lang']['resp_ajout_conges_ajout_groupe']."</legend>\n";
-		echo "	<table>\n";
-		echo "	<tr>\n";
-		echo "		<td class=\"big\">".$_SESSION['lang']['resp_ajout_conges_choix_groupe']." : </td>\n";
-			// crÃ©ation du select pour le choix du groupe
-			$text_choix_group="<select name=\"choix_groupe\" >";
-			$sql_group = "SELECT g_gid, g_groupename FROM conges_groupe WHERE g_gid IN ($list_group) ORDER BY g_groupename "  ;
-			$ReqLog_group = requete_mysql($sql_group,  "saisie", $DEBUG) ;
-				
-			while ($resultat_group = $ReqLog_group->fetch_array()) 
-			{
-				$current_group_id=$resultat_group["g_gid"];
-				$current_group_name=$resultat_group["g_groupename"];
-				$text_choix_group=$text_choix_group."<option value=\"$current_group_id\" >$current_group_name</option>";
-			}
-			$text_choix_group=$text_choix_group."</select>" ;
-
-		echo "		<td colspan=\"3\">$text_choix_group</td>\n";
-		echo "	</tr>\n";
-		foreach($tab_type_conges as $id_conges => $libelle)
+		$list_group=get_list_groupes_du_resp($session_username);
+		if($list_group!="")  //si la liste n'est pas vide ( serait le cas si n'est responsable d'aucun groupe)
 		{
+			echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\"> \n";
+			echo "<table>\n";
+			echo "<tr><td align=\"center\">\n";
+			echo "	<fieldset class=\"cal_saisie\">\n";
+			echo "	<legend class=\"boxlogin\">Ajout par Groupe : (ajout à tous les membres d'un groupe)</legend>\n";
+			echo "	<table>\n";
 			echo "	<tr>\n";
-			echo "		<td class=\"big\">".$_SESSION['lang']['resp_ajout_conges_nb_jours_groupe_1']." <font color=\"red\" size=\"+1\">$libelle</font> ".$_SESSION['lang']['resp_ajout_conges_nb_jours_groupe_2']." </td>\n";
-			echo "		<td><input type=\"text\" name=\"tab_new_nb_conges_all[$id_conges]\" size=\"6\" maxlength=\"6\" value=\"0\"></td>\n";
-			echo "		<td> ( ".$_SESSION['lang']['resp_ajout_conges_calcul_prop']." </td>\n";
-			echo "		<td>".$_SESSION['lang']['resp_ajout_conges_oui']." <input type=\"checkbox\" name=\"tab_calcul_proportionnel[$id_conges]\" value=\"TRUE\" checked> )</td>\n";
-			echo "		<td>".$_SESSION['lang']['divers_comment_maj_1']." : <input type=\"text\" name=\"tab_new_comment_all[$id_conges]\" size=\"30\" maxlength=\"200\" value=\"\"></td>\n";
+			echo "		<td class=\"big\">choix du groupe : </td>\n";
+				// création du select pour le choix du groupe
+				$text_choix_group="<select name=\"choix_groupe\" >";
+//				$sql_group = "SELECT g_gid, g_groupename FROM conges_groupe, conges_groupe_resp WHERE g_gid=gr_gid AND gr_login='$session_username' ORDER BY g_groupename "  ;
+				$sql_group = "SELECT g_gid, g_groupename FROM conges_groupe WHERE g_gid IN ($list_group) ORDER BY g_groupename "  ;
+				$ReqLog_group = mysql_query($sql_group, $link) or die("ERREUR : mysql_query : $sql_group :\n".mysql_error());
+				while ($resultat_group = mysql_fetch_array($ReqLog_group)) {
+					$current_group_id=$resultat_group["g_gid"];
+					$current_group_name=$resultat_group["g_groupename"];
+					$text_choix_group=$text_choix_group."<option value=\"$current_group_id\" >$current_group_name</option>";
+				}
+				$text_choix_group=$text_choix_group."</select>" ;
+
+			echo "		<td colspan=\"3\">$text_choix_group</td>\n";
+			echo "	<tr>\n";
+			echo "	<tr>\n";
+			echo "		<td class=\"big\">Nombre de jours de CONGES à ajouter au groupe : </td>\n";
+			echo "		<td><input type=\"text\" name=\"new_nb_conges_all\" size=\"6\" maxlength=\"6\" value=\"0\"></td>\n";
+			echo "		<td> ( Calcul proportionnel à la quotité de chaque personne : </td>\n";
+			echo "		<td>OUI <input type=\"checkbox\" name=\"calcul_new_conges_proportionnel\" value=\"TRUE\" checked> )</td>\n";
+			echo "	<tr>\n";
+			if($config_rtt_comme_conges==1)
+			{
+				echo "	</tr>\n";
+				echo "		<td class=\"big\">Nombre de jours de RTT à ajouter au groupe : </td>\n";
+				echo "		<td><input type=\"text\" name=\"new_nb_rtt_all\" size=\"6\" maxlength=\"6\" value=\"0\"></td>\n";
+				echo "		<td> ( Calcul proportionnel à la quotité de chaque personne : </td>\n";
+				echo "		<td>OUI <input type=\"checkbox\" name=\"calcul_new_rtt_proportionnel\" value=\"TRUE\" checked> )</td>\n";
+				echo "	</tr>\n";
+			}
 			echo "	</tr>\n";
+			echo "		<td class=\"big\">&nbsp;</td>\n";
+			echo "		<td>&nbsp;</td>\n";
+			echo "		<td colspan=\"2\"> (le calcul proportionnel est arrondi au 1/2 le plus proche !) </td>\n";
+			echo "	</tr>\n";
+			echo "	<tr>\n";
+			echo "		<td colspan=\"4\" align=\"center\"><input type=\"submit\" value=\"Valider la saisie pour le Groupe\"></td>\n";
+			echo "	</tr>\n";
+			echo "	</table>\n";
+			echo "	</fieldset>\n";
+			echo "</td></tr>\n";
+			echo "</table>\n";
+			echo "<input type=\"hidden\" name=\"ajout_groupe\" value=\"TRUE\">\n";
+			echo "</form> \n";
 		}
-		echo "	<tr>\n";
-		echo "		<td class=\"big\">&nbsp;</td>\n";
-		echo "		<td>&nbsp;</td>\n";
-		echo "		<td colspan=\"2\"> (".$_SESSION['lang']['resp_ajout_conges_calcul_prop_arondi']." !) </td>\n";
-		echo "		<td>&nbsp;</td>\n";
-		echo "	</tr>\n";
-		echo "	<tr>\n";
-		echo "		<td colspan=\"5\" align=\"center\"><input type=\"submit\" value=\"".$_SESSION['lang']['form_valid_groupe']."\"></td>\n";
-		echo "	</tr>\n";
-		echo "	</table>\n";
-		echo "	</fieldset>\n";
-		echo "</td></tr>\n";
-		echo "</table>\n";
-		echo "<input type=\"hidden\" name=\"ajout_groupe\" value=\"TRUE\">\n";
-		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-		echo "</form> \n";
 	}
+	
+	echo "<br>\n";
+	
+	/* APPEL D'UNE AUTRE PAGE */
+	echo " <form action=\"resp_main.php?session=$session\" method=\"POST\"> \n";
+	echo "<input type=\"submit\" value=\"Retour Page Principale\">\n";
+	echo " </form> \n";
+
 }
 
-/*********************************************************************************************/
+function ajout_conges() {
+	global $PHP_SELF, $link;
+	global $config_rtt_comme_conges;
+	global $session, $session_username, $tab_champ_saisie_conges, $tab_champ_saisie_rtt ;
 
-
-function ajout_conges($tab_champ_saisie, $tab_commentaire_saisie,  $DEBUG=FALSE) 
-{
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-	$session=session_id(); 
-
-	foreach($tab_champ_saisie as $user_name => $tab_conges)   // tab_champ_saisie[$current_login][$id_conges]=valeur du nb de jours ajoutÃ© saisi
+	while($elem_tableau = each($tab_champ_saisie_conges))
 	{
-	  foreach($tab_conges as $id_conges => $user_nb_jours_ajout)
-	  {
-	    $valid=verif_saisie_decimal($user_nb_jours_ajout, $DEBUG);   //verif la bonne saisie du nombre dÃ©cimal
-	    if($valid==TRUE)
-	    {
-	      $user_nb_jours_ajout_float =(float) $user_nb_jours_ajout ;
-	      if($DEBUG==TRUE) {echo "$user_name --- $id_conges --- $user_nb_jours_ajout_float<br>\n";}
+		$user_nb_jours_ajout = $elem_tableau['value'] ;
+		$valid=verif_saisie_decimal($user_nb_jours_ajout);   //verif la bonne saisie du nombre décimal
+		$user_nb_jours_ajout_float =(float) $user_nb_jours_ajout ;
+		$user_name=$elem_tableau['key'];
+		//echo($user_name."---".$user_nb_jours_ajout_float."<br>");
 
-	      if($user_nb_jours_ajout_float!=0)
-	      {
+		if($user_nb_jours_ajout_float!=0)
+		{
 			/* Modification de la table conges_users */
-			$sql1 = "UPDATE conges_solde_user SET su_solde = su_solde+$user_nb_jours_ajout_float WHERE su_login='$user_name' AND su_abs_id = $id_conges " ;
+			$sql1 = "UPDATE conges_users SET u_solde_jours=u_solde_jours+$user_nb_jours_ajout_float WHERE u_login='$user_name' " ;
 			/* On valide l'UPDATE dans la table ! */
-			$ReqLog1 = requete_mysql($sql1,  "ajout_conges", $DEBUG) ;
-			
-/*			// Enregistrement du commentaire relatif Ã  l'ajout de jours de congÃ©s 
-			$comment = $tab_commentaire_saisie[$user_name];
-			$sql1 = "INSERT INTO conges_historique_ajout (ha_login, ha_date, ha_abs_id, ha_nb_jours, ha_commentaire)
-					  VALUES ('$user_name', NOW(), $id_conges, $user_nb_jours_ajout_float , '$comment')";
-			$ReqLog1 = requete_mysql($sql1,  "ajout_historique_conges", $DEBUG) ;
-*/	
+			$ReqLog1 = mysql_query($sql1, $link) or die("ERREUR : mysql_query : $sql1 :\n".mysql_error());
+
 			// on insert l'ajout de conges dans la table periode
-			$commentaire = $_SESSION['lang']['resp_ajout_conges_comment_periode_user'];
-			insert_ajout_dans_periode($DEBUG, $user_name, $user_nb_jours_ajout_float, $id_conges, $commentaire);
-	      }
-	    }
-	  }
+			$commentaire="ajout jour";
+			insert_ajout_dans_periode($user_name, $user_nb_jours_ajout_float, "conges", $commentaire, $link);
+		}
 	}
 
-	if($DEBUG==TRUE)
+	if($config_rtt_comme_conges==TRUE)
 	{
-		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
-		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_ok']."\">\n";
-		echo "</form>\n" ;
+		while($elem_tableau_rtt = each($tab_champ_saisie_rtt))
+		{
+			$user_nb_jours_ajout = $elem_tableau_rtt['value'] ;
+			$valid=verif_saisie_decimal($user_nb_jours_ajout);   //verif la bonne saisie du nombre décimal
+			$user_nb_jours_ajout_float =(float) $user_nb_jours_ajout ;
+			$user_name=$elem_tableau_rtt['key'];
+			//echo($user_name."---".$user_nb_jours_ajout_float."<br>");
+			
+			if($user_nb_jours_ajout_float!=0)
+			{
+				/* Modification de la table conges_users */
+				$sql2 = "UPDATE conges_users SET u_solde_rtt=u_solde_rtt+$user_nb_jours_ajout_float WHERE u_login='$user_name' " ;
+				/* On valide l'UPDATE dans la table ! */
+				$ReqLog2 = mysql_query($sql2, $link) or die("ERREUR : mysql_query : $sql2 :\n".mysql_error());
+
+				// on insert l'ajout de conges dans la table periode
+				$commentaire="ajout rtt";
+				insert_ajout_dans_periode($user_name, $user_nb_jours_ajout_float, "conges", $commentaire, $link);
+			}
+		}
 	}
-	else
-	{
-		echo " ".$_SESSION['lang']['form_modif_ok']." <br><br> \n";
-		/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
-		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=$PHP_SELF?session=$session\">";
-	}
+	
+	
+	
+	printf(" Changements pris en compte avec succes !<br><br> \n");
+	/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
+	echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=resp_main.php?session=$session\">";
 
 }
 
 
-function ajout_global($tab_new_nb_conges_all, $tab_calcul_proportionnel, $tab_new_comment_all,  $DEBUG=FALSE)
+function ajout_global($new_nb_conges_all, $new_nb_rtt_all, $calcul_new_conges_proportionnel, $calcul_new_rtt_proportionnel)
 {
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-	$session=session_id() ;
+	global $PHP_SELF, $link;
+	global $config_rtt_comme_conges, $config_responsable_virtuel, $config_gestion_groupes;
+	global $session, $session_username ;
 	
-	// $tab_new_nb_conges_all[$id_conges]= nb_jours
-	// $tab_calcul_proportionnel[$id_conges]= TRUE / FALSE
+	if(!isset($new_nb_conges_all))
+		$new_nb_conges_all=0;
+	if(!isset($new_nb_rtt_all))
+		$new_nb_rtt_all=0;
 	
-	// recup de la liste de TOUS les users dont $resp_login est responsable 
-	// (prend en compte le resp direct, les groupes, le resp virtuel, etc ...)
-	// renvoit une liste de login entre quotes et sÃ©parÃ©s par des virgules
-	$list_users_du_resp = get_list_all_users_du_resp($_SESSION['userlogin'],  $DEBUG);
-	if($DEBUG==TRUE) { echo "list_all_users_du_resp = $list_users_du_resp<br>\n";}
-	
-	if($DEBUG==TRUE) { echo "tab_new_nb_conges_all = <br>"; print_r($tab_new_nb_conges_all); echo "<br>\n" ;}
-	if($DEBUG==TRUE) { echo "tab_calcul_proportionnel = <br>"; print_r($tab_calcul_proportionnel); echo "<br>\n" ;}
-
-	foreach($tab_new_nb_conges_all as $id_conges => $nb_jours)
+	if( ($new_nb_conges_all!=0)||($new_nb_rtt_all!=0) ) // s'il sont tous les 2 à 0, ont ne fait rien
 	{
-		if($nb_jours!=0)
+		$req_update = "UPDATE conges_users ";
+		if($calcul_new_conges_proportionnel!=TRUE)
+			$req_update = $req_update."SET u_solde_jours=u_solde_jours+$new_nb_conges_all ";
+		else
+			// pour arrondir au 1/2 le + proche on  fait x 2, on arrondit, puis on divise par 2 
+			$req_update = $req_update."SET u_solde_jours=u_solde_jours+( (ROUND(($new_nb_conges_all*(u_quotite/100))*2))/2 ) ";
+
+		if($calcul_new_rtt_proportionnel!=TRUE) 
+			$req_update = $req_update.", u_solde_rtt=u_solde_rtt+$new_nb_rtt_all ";
+		else
+			// pour arrondir au 1/2 le + proche on  fait x 2, on arrondit, puis on divise par 2 
+			$req_update = $req_update.", u_solde_rtt=u_solde_rtt+( (ROUND(($new_nb_rtt_all*(u_quotite/100))*2))/2 ) ";
+
+		// si resp virtuel, on update tout le monde, sinon, seulement ceux dont on est responsables
+		if($config_responsable_virtuel==FALSE)
 		{
-			$comment = $tab_new_comment_all[$id_conges];
-			
-			$sql1="SELECT u_login, u_quotite FROM conges_users WHERE u_login IN ($list_users_du_resp) ORDER BY u_login ";
-			$ReqLog1 = requete_mysql($sql1,  "ajout_global", $DEBUG);
-				
-			while($resultat1 = $ReqLog1->fetch_array()) 
+			$req_update = $req_update." WHERE  u_resp_login='$session_username' " ;
+			if($config_gestion_groupes == TRUE)
 			{
-				$current_login  =$resultat1["u_login"];
-				$current_quotite=$resultat1["u_quotite"];
-				
-				if( (!isset($tab_calcul_proportionnel[$id_conges])) || ($tab_calcul_proportionnel[$id_conges]!=TRUE) )
-					$nb_conges=$nb_jours;
-				else
-					// pour arrondir au 1/2 le + proche on  fait x 2, on arrondit, puis on divise par 2 
-					$nb_conges = (ROUND(($nb_jours*($current_quotite/100))*2))/2  ;
+				$list_users_group=get_list_users_des_groupes_du_resp($session_username);
+				if($list_users_group!="")
+					$req_update=$req_update." OR u_login IN ($list_users_group)  ";
+			}
+		}	
 
+		//echo "$req_update<br>\n";
+		/* On valide l'UPDATE dans la table ! */
+		$ReqLog1 = mysql_query($req_update, $link) or die("ERREUR : mysql_query : ".$req_update." --> ".mysql_error());
 
-				// 1 : update de la table conges_solde_user
-				$req_update = "UPDATE conges_solde_user SET su_solde = su_solde+$nb_conges
-						WHERE  su_login = '$current_login' AND su_abs_id = $id_conges   ";
-				$ReqLog_update = requete_mysql($req_update,  "ajout_global", $DEBUG);
+		// on insert l'ajout de conges GLOBAL (pour tous les users) dans la table periode
+		$commentaire="ajout pour tous les personnels";
+		insert_ajout_global_dans_periode($new_nb_conges_all, $new_nb_rtt_all, $commentaire, $calcul_new_conges_proportionnel, $calcul_new_rtt_proportionnel,$link);
+	}
+	
+	printf(" Changements pris en compte avec succes !<br><br> \n");
+	/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
+	echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=resp_main.php?session=$session\">";
+}
+
+function ajout_global_groupe($choix_groupe, $new_nb_conges_all, $new_nb_rtt_all, $calcul_new_conges_proportionnel, $calcul_new_rtt_proportionnel)
+{
+	global $PHP_SELF, $link;
+	global $config_rtt_comme_conges, $config_responsable_virtuel,$config_rtt_comme_conges ;
+	global $session, $session_username ;
+	
+	if(!isset($new_nb_conges_all))
+		$new_nb_conges_all=0;
+	if(!isset($new_nb_rtt_all))
+		$new_nb_rtt_all=0;
 		
-				// 2 : on insert l'ajout de conges GLOBAL (pour tous les users) dans la table periode
-				$commentaire = $_SESSION['lang']['resp_ajout_conges_comment_periode_all'];
-				// ajout conges
-				insert_ajout_dans_periode($DEBUG, $current_login, $nb_conges, $id_conges, $commentaire);
-				
-/*				// 3 : Enregistrement du commentaire relatif Ã  l'ajout de jours de congÃ©s 
-				$comment = $tab_new_comment_all[$id_conges];
-				$sql_comment = "INSERT INTO conges_historique_ajout (ha_login, ha_date, ha_abs_id, ha_nb_jours, ha_commentaire)
-						  VALUES ('$current_login', NOW(), $id_conges, $nb_conges , '$comment')";
-				$ReqLog_comment = requete_mysql($sql_comment,  "ajout_historique_conges", $DEBUG) ;
-*/
-			}
-
-			if( (!isset($tab_calcul_proportionnel[$id_conges])) || ($tab_calcul_proportionnel[$id_conges]!=TRUE) )
-				$comment_log = "ajout conges global ($nb_jours jour(s)) ($comment) (calcul proportionnel : No)";
-			else
-				$comment_log = "ajout conges global ($nb_jours jour(s)) ($comment) (calcul proportionnel : Yes)";
-			log_action(0, "ajout", "tous", $comment_log,  $DEBUG);
-		}
-	}
-	
-	if($DEBUG==TRUE)
+	if( ($new_nb_conges_all!=0)||($new_nb_rtt_all!=0) ) // s'il sont tous les 2 à 0, ont ne fait rien
 	{
-		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
-		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_ok']."\">\n";
-		echo "</form>\n" ;
-	}
-	else
-	{
-		echo " ".$_SESSION['lang']['form_modif_ok']." <br><br> \n";
-		/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
-		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=resp_index.php?session=$session\">";
-	}
-}
-
-function ajout_global_groupe($choix_groupe, $tab_new_nb_conges_all, $tab_calcul_proportionnel, $tab_new_comment_all,  $DEBUG=FALSE)
-{
-	// $tab_new_nb_conges_all[$id_conges]= nb_jours
-	// $tab_calcul_proportionnel[$id_conges]= TRUE / FALSE
+		// recup du nom du groupe
+		$req_name="SELECT g_groupename FROM conges_groupe WHERE g_gid=$choix_groupe ";
+		$ReqLog_name = mysql_query($req_name, $link) or die("ERREUR : ajout_global_groupe() : $req_name :\n".mysql_error());
+		$resultat_name = mysql_fetch_array($ReqLog_name);
+			$groupename=$resultat_name["g_groupename"];
 	
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-	$session=session_id() ;
-	
-	// recup de la liste des users d'un groupe donnÃ© 
-	$list_users = get_list_users_du_groupe($choix_groupe,  $DEBUG);
-	
-	foreach($tab_new_nb_conges_all as $id_conges => $nb_jours)
-	{
-		if($nb_jours!=0)
+		// recup des users du groupe et pour chacun : on update
+		$req_g="SELECT gu_login, u_quotite FROM conges_groupe_users, conges_users 
+				WHERE gu_gid='$choix_groupe' 
+				AND gu_login=u_login ";
+		$ReqLog_g = mysql_query($req_g, $link) or die("ERREUR : ajout_global_groupe() : $req_g :\n".mysql_error());
+		while ($resultat_g = mysql_fetch_array($ReqLog_g)) 
 		{
-			$comment = $tab_new_comment_all[$id_conges];
+			$current_login=$resultat_g["gu_login"];
+			$current_qutite=$resultat_g["u_quotite"];
 
-			$sql1="SELECT u_login, u_quotite FROM conges_users WHERE u_login IN ($list_users) ORDER BY u_login ";
-			$ReqLog1 = requete_mysql($sql1,  "ajout_global_groupe", $DEBUG);
-				
-			while ($resultat1 = $ReqLog1->fetch_array()) 
+			$req_update = "UPDATE conges_users ";
+			if($calcul_new_conges_proportionnel!=TRUE)
+				$req_update = $req_update."SET u_solde_jours=u_solde_jours+$new_nb_conges_all ";
+			else
+				// pour arrondir au 1/2 le + proche on  fait x 2, on arrondit, puis on divise par 2 
+				$req_update = $req_update."SET u_solde_jours=u_solde_jours+( (ROUND(($new_nb_conges_all*(u_quotite/100))*2))/2 ) ";
+
+			if($calcul_new_rtt_proportionnel!=TRUE) 
+				$req_update = $req_update.", u_solde_rtt=u_solde_rtt+$new_nb_rtt_all ";
+			else
+				// pour arrondir au 1/2 le + proche on  fait x 2, on arrondit, puis on divise par 2 
+				$req_update = $req_update.", u_solde_rtt=u_solde_rtt+( (ROUND(($new_nb_rtt_all*(u_quotite/100))*2))/2 ) ";
+
+			// si resp virtuel, on update tout le monde, sinon, seulement ceux dont on est responsables
+			if($config_responsable_virtuel==FALSE) 
+				$req_update = $req_update." WHERE u_login='$current_login' " ;
+
+			//echo "$req_update<br>\n";
+			/* On valide l'UPDATE dans la table ! */
+			$ReqLog1 = mysql_query($req_update, $link) or die("ERREUR : ajout_global_groupe() : $req_update :\n".mysql_error());
+		
+		
+			// on insert l'ajout de conges dans la table periode
+			$commentaire="ajout pour le groupe $groupename";
+			// ajout conges
+			if($new_nb_conges_all!=0)
 			{
-				$current_login  =$resultat1["u_login"];
-				$current_quotite=$resultat1["u_quotite"];
-				
-				if( (!isset($tab_calcul_proportionnel[$id_conges])) || ($tab_calcul_proportionnel[$id_conges]!=TRUE) )
-					$nb_conges=$nb_jours;
+				if($calcul_new_conges_proportionnel!=TRUE)
+					$nb_conges=$new_nb_conges_all;
 				else
 					// pour arrondir au 1/2 le + proche on  fait x 2, on arrondit, puis on divise par 2 
-					$nb_conges = (ROUND(($nb_jours*($current_quotite/100))*2))/2  ;
-				
-				// 1 : on update conges_solde_user
-				$req_update = "UPDATE conges_solde_user SET su_solde = su_solde+$nb_conges
-						WHERE  su_login = '$current_login' AND su_abs_id = $id_conges   ";
-				$ReqLog_update = requete_mysql($req_update,  "ajout_global_groupe", $DEBUG);
-				
-				// 2 : on insert l'ajout de conges dans la table periode
-				// recup du nom du groupe
-				$groupename= get_group_name_from_id($choix_groupe,  $DEBUG);
-				$commentaire = $_SESSION['lang']['resp_ajout_conges_comment_periode_groupe']." $groupename";
-			
-				// ajout conges
-				insert_ajout_dans_periode($DEBUG, $current_login, $nb_conges, $id_conges, $commentaire);
-				
-/*				// 3 : Enregistrement du commentaire relatif Ã  l'ajout de jours de congÃ©s 
-				$sql_comment = "INSERT INTO conges_historique_ajout (ha_login, ha_date, ha_abs_id, ha_nb_jours, ha_commentaire)
-						  VALUES ('$current_login', NOW(), $id_conges, $nb_conges , '$comment')";
-				$ReqLog_comment = requete_mysql($sql_comment,  "ajout_historique_conges", $DEBUG) ;
-*/
+					$nb_conges = (ROUND(($new_nb_conges_all*($current_qutite/100))*2))/2  ;
+				insert_ajout_dans_periode($current_login, $nb_conges, "conges", $commentaire, $link);
 			}
 
-			$group_name = get_group_name_from_id($choix_groupe,  $DEBUG);
-			if( (!isset($tab_calcul_proportionnel[$id_conges])) || ($tab_calcul_proportionnel[$id_conges]!=TRUE) )
-				$comment_log = "ajout conges pour groupe $group_name ($nb_jours jour(s)) ($comment) (calcul proportionnel : No)";
-			else
-				$comment_log = "ajout conges pour groupe $group_name ($nb_jours jour(s)) ($comment) (calcul proportionnel : Yes)";
-			log_action(0, "ajout", "groupe", $comment_log,  $DEBUG);
+			if( ($config_rtt_comme_conges==TRUE) && ($new_nb_rtt_all!=0) )
+			{
+				// ajout rtt
+				if($calcul_new_rtt_proportionnel!=TRUE)
+					$nb_rtt=$new_nb_rtt_all;
+				else
+					// pour arrondir au 1/2 le + proche on  fait x 2, on arrondit, puis on divise par 2 
+					$nb_rtt = (ROUND(($new_nb_rtt_all*($current_qutite/100))*2))/2  ;
+				insert_ajout_dans_periode($current_login, $nb_rtt, "rtt", $commentaire, $link);
+			}
 		}
 	}
 
-	if($DEBUG==TRUE)
-	{
-		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
-		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_ok']."\">\n";
-		echo "</form>\n" ;
-	}
-	else
-	{
-		echo " ".$_SESSION['lang']['form_modif_ok']." <br><br> \n";
-		/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
-		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=resp_index.php?session=$session\">";
-	}
+	printf(" Changements pris en compte avec succes !<br><br> \n");
+	/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
+	echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=resp_main.php?session=$session\">";
 }
 
 
 
 // on insert l'ajout de conges dans la table periode
-function insert_ajout_dans_periode($DEBUG, $login, $nb_jours, $id_type_abs, $commentaire)
+function insert_ajout_dans_periode($login, $nb_jours, $type, $commentaire, $mysql_link)
 {
 	$date_today=date("Y-m-d");
 	
-	$result=insert_dans_periode($login, $date_today, "am", $date_today, "am", $nb_jours, $commentaire, $id_type_abs, "ajout", 0,  $DEBUG);
+	$result=insert_dans_periode($login, $date_today, "am", $date_today, "am", $nb_jours, $commentaire, $type, "ajout", $mysql_link);
+}
+
+// on insert l'ajout de conges GLOBAL (pour tous les users) dans la table periode
+function insert_ajout_global_dans_periode($nb_jours_conges, $nb_jours_rtt, $commentaire, $calcul_conges_proportionnel, $calcul_rtt_proportionnel, $mysql_link)
+{
+	global $config_rtt_comme_conges, $config_responsable_virtuel, $config_gestion_groupes;
+	global $session, $session_username ;
+	
+	$date_today=date("Y-m-d");
+		
+	// recup des login de tous les user pour qui on doit faire un insert dan sla table periode
+	$req_select="SELECT u_login, u_quotite FROM conges_users";
+	// si resp virtuel, on select tout le monde, sinon, seulement ceux dont on est responsables
+	if($config_responsable_virtuel==FALSE)
+	{
+		$req_select = $req_select." WHERE  u_resp_login='$session_username' " ;
+		if($config_gestion_groupes == TRUE)
+		{
+			$list_users_group=get_list_users_des_groupes_du_resp($session_username);
+			if($list_users_group!="")
+				$req_select=$req_select." OR u_login IN ($list_users_group)  ";
+		}
+	}
+	
+	$ReqLog2 = mysql_query($req_select, $mysql_link) or die("ERREUR : insert_ajout_global_dans_periode() : $req_select :\n".mysql_error());
+	
+	while ($resultat = mysql_fetch_array($ReqLog2)) 
+	{
+		$login=$resultat["u_login"];
+		$quotite=$resultat["u_quotite"];
+		
+		// ajout conges
+		if($nb_jours_conges!=0)
+		{
+			if($calcul_conges_proportionnel!=TRUE)
+				$nb_conges=$nb_jours_conges;
+			else
+				// pour arrondir au 1/2 le + proche on  fait x 2, on arrondit, puis on divise par 2 
+				$nb_conges = (ROUND(($nb_jours_conges*($quotite/100))*2))/2  ;
+			insert_ajout_dans_periode($login, $nb_conges, "conges", $commentaire, $mysql_link);
+		}
+		
+		// ajout rtt
+		if( ($config_rtt_comme_conges==TRUE) && ($nb_jours_rtt!=0) )
+		{
+			if($calcul_rtt_proportionnel!=TRUE)
+				$nb_rtt=$nb_jours_rtt;
+			else
+				// pour arrondir au 1/2 le + proche on  fait x 2, on arrondit, puis on divise par 2 
+				$nb_rtt = (ROUND(($nb_jours_rtt*($quotite/100))*2))/2  ;
+			insert_ajout_dans_periode($login, $nb_rtt, "rtt", $commentaire, $mysql_link);
+		}
+	}
+
 }
 
 ?>
+
+</CENTER>
+</body>
+</html>

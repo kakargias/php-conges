@@ -96,15 +96,16 @@ function get_installed_version( $DEBUG=FALSE)
 // renvoit TRUE ou FALSE
 function test_create_table( $DEBUG=FALSE)
 {
+	$sql=SQL::singleton();
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 
 	/*********************************************/
 	// creation de la table `conges_test`
-	$sql_create="CREATE TABLE `conges_test` (
+	$sql_create="CREATE TABLE IF NOT EXISTS `conges_test` (
 				`test1` varchar(100) BINARY NOT NULL default '',
 				`test2` varchar(100) BINARY NOT NULL default '',
  				 PRIMARY KEY  (`test1`)
-				);" ;
+				) ;" ;
 	$result_create = $sql->query($sql_create);
 	return ($result_create);
 }
@@ -128,6 +129,7 @@ function test_alter_table( $DEBUG=FALSE)
 // renvoit TRUE ou FALSE
 function test_drop_table( $DEBUG=FALSE)
 {
+	$sql=SQL::singleton();
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 
 	/*********************************************/

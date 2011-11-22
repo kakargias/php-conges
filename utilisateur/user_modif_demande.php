@@ -31,6 +31,7 @@ $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session']
 include("../fonctions_conges.php") ;
 include("../INCLUDE.PHP/fonction.php");
 include("../INCLUDE.PHP/session.php");
+include("../fonctions_calcul.php");
 
 
 echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
@@ -58,8 +59,28 @@ echo "<head>\n";
 	$new_demi_jour_deb = getpost_variable("new_demi_jour_deb");
 	$new_fin           = getpost_variable("new_fin");
 	$new_demi_jour_fin = getpost_variable("new_demi_jour_fin");
-	$new_nb_jours      = getpost_variable("new_nb_jours");
 	$new_comment       = getpost_variable("new_comment");
+	if ($_SESSION['config']['disable_saise_champ_nb_jours_pris']==TRUE)
+	{
+		$new_debut2 = explode('-', $new_debut);
+		$new_debut2 = array_reverse($new_debut2);
+		$new_debut2 = implode('-', $new_debut2);
+		
+		$new_fin2 = explode('-', $new_fin);
+		$new_fin2 = array_reverse($new_fin2);
+		$new_fin2 = implode('-', $new_fin2);
+		
+		$new_nb_jours = compter($_SESSION['userlogin'], $new_debut2,  $new_fin2, $new_demi_jour_deb, $new_demi_jour_fin, $comm,  $DEBUG, $p_num_to_update);
+		
+		echo 'toto', $new_nb_jours;
+		echo $comm;
+		echo $_SESSION['userlogin'];
+		// if ($new_nb_jours <= 0 )
+			// $new_nb_jours      = getpost_variable("new_nb_jours");
+	}
+	else
+		$new_nb_jours      = getpost_variable("new_nb_jours");
+		
 	/*************************************/
 
 	// TITRE
@@ -155,7 +176,12 @@ function confirmer($p_num, $onglet, $DEBUG=FALSE)
 			$radio_fin_am="<input type=\"radio\" name=\"new_demi_jour_fin\" value=\"am\">".$_SESSION['lang']['form_am'];
 			$radio_fin_pm="<input type=\"radio\" name=\"new_demi_jour_fin\" value=\"pm\" checked>".$_SESSION['lang']['form_pm'];
 		}
-		$text_nb_jours="<input type=\"text\" name=\"new_nb_jours\" size=\"5\" maxlength=\"30\" value=\"$sql_nb_jours\">" ;
+		if($_SESSION['config']['disable_saise_champ_nb_jours_pris']==TRUE)
+			$text_nb_jours="<input type=\"text\" name=\"new_nb_jours\" size=\"5\" maxlength=\"30\" value=\"$sql_nb_jours\" style=\"background-color: #D4D4D4; \" readonly=\"readonly\">" ;
+		else
+			$text_nb_jours="<input type=\"text\" name=\"new_nb_jours\" size=\"5\" maxlength=\"30\" value=\"$sql_nb_jours\">" ;
+		
+		
 		$text_commentaire="<input type=\"text\" name=\"new_comment\" size=\"15\" maxlength=\"30\" value=\"$sql_commentaire\">" ;
 	}
 	echo "</tr>\n";

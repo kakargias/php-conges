@@ -316,6 +316,7 @@ function modifier(&$tab_new_values, $session, $id_to_update, $DEBUG=FALSE)
 
 function commit_modif(&$tab_new_values, $session, $id_to_update, $DEBUG=FALSE)
 {
+	$sql=SQL::singleton();
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 
 	if($session=="")

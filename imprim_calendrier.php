@@ -1,36 +1,35 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des CongÃ©s
+PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
-Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les
-termes de la Licence Publique GÃ©nÃ©rale GNU publiÃ©e par la Free Software Foundation.
-Ce programme est distribuÃ© car potentiellement utile, mais SANS AUCUNE GARANTIE,
-ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation
-dans un but spÃ©cifique. Reportez-vous Ã  la Licence Publique GÃ©nÃ©rale GNU pour plus de dÃ©tails.
-Vous devez avoir reÃ§u une copie de la Licence Publique GÃ©nÃ©rale GNU en mÃªme temps
-que ce programme ; si ce n'est pas le cas, Ã©crivez Ã  la Free Software Foundation,
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, Ã‰tats-Unis.
+Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les 
+termes de la Licence Publique Générale GNU publiée par la Free Software Foundation.
+Ce programme est distribué car potentiellement utile, mais SANS AUCUNE GARANTIE, 
+ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation 
+dans un but spécifique. Reportez-vous à la Licence Publique Générale GNU pour plus de détails.
+Vous devez avoir reçu une copie de la Licence Publique Générale GNU en même temps 
+que ce programme ; si ce n'est pas le cas, écrivez à la Free Software Foundation, 
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, États-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
-of the GNU General Public License as published by the Free Software Foundation; either
+of the GNU General Public License as published by the Free Software Foundation; either 
 version 2 of the License, or any later version.
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
 See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-define('_PHP_CONGES', 1);
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
-
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
 
 include("fonctions_conges.php") ;
 include("INCLUDE.PHP/fonction.php");
 include("INCLUDE.PHP/session.php");
+$verif_droits_file="INCLUDE.PHP/verif_droits.php";
+if( ($_SESSION['config']['verif_droits']==TRUE) && (file_exists($verif_droits_file)) ){ include($verif_droits_file);}
 
 $DEBUG=FALSE;
 //$DEBUG=TRUE
@@ -41,7 +40,7 @@ $DEBUG=FALSE;
 	/************************************/
 
 	/*************************************/
-	// recup des parametres reÃ§us :
+	// recup des parametres reçus :
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET	/ POST
@@ -50,7 +49,7 @@ $DEBUG=FALSE;
 	$new_year = getpost_variable("new_year", date("Y")) ;
 	/*************************************/
 
-
+	
 	form_saisie($action, $new_mois, $new_year, $DEBUG);
 
 
@@ -61,23 +60,20 @@ function form_saisie($action, $new_mois, $new_year, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
-
+	include("fonctions_javascript.php") ;
+	
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 	echo "<html>\n";
 	echo "<head>\n";
-	
 
-	
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
+	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">\n";
 	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 	echo "<title>PHP_CONGES : </title>\n";
-	include("fonctions_javascript.php") ;
 	echo "</head>\n";
 	echo "<body>\n";
-
+	
 	if($action=="imprim")
 		ouvre_calendrier($new_mois, $new_year, $DEBUG);
-
 	
 	echo "<center>\n";
 	echo "<h3>".$_SESSION['lang']['imprim_calendrier_titre']."</h3>\n";
@@ -115,7 +111,7 @@ function form_saisie($action, $new_mois, $new_year, $DEBUG=FALSE)
 	echo "</tr>\n";
 	echo "</table>\n";
 	echo "</form>\n";
-
+	
 	echo "</center>\n";
 	echo "</body>\n";
 	echo "</html>\n";
@@ -125,9 +121,9 @@ function form_saisie($action, $new_mois, $new_year, $DEBUG=FALSE)
 function ouvre_calendrier($mois, $year, $DEBUG=FALSE)
 {
 	$session=session_id();
-
+	
 	echo "<script language=\"javascript\">\n";
-	echo "OpenPopUp('calendrier.php?session=$session&printable=1&mois=$mois&year=$year','calendrier',1000,600);\n";
+	echo "OpenPopUp('calendrier.php?session=$session&printable=1&mois=$mois&year=$year','calendrier',850,600);\n";
 	echo "</script>\n";
 }
 ?>

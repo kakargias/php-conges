@@ -28,9 +28,9 @@ $mail->Mailer   = "smtp";
 @MYSQL_CONNECT("localhost","root","password");
 @mysql_select_db("my_company");
 $query  = "SELECT full_name, email, photo FROM employee WHERE id=$id";
-$result = @$sql->query($query);
+$result = @MYSQL_QUERY($query);
 
-while ($row = $result->fetch_array())
+while ($row = mysql_fetch_array ($result))
 {
     // HTML body
     $body  = "Hello &lt;font size=\"4\"&gt;" . $row["full_name"] . "&lt;/font&gt;, &lt;p&gt;";

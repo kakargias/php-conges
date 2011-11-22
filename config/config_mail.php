@@ -1,30 +1,27 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des CongÃ©s
+PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
-Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les
-termes de la Licence Publique GÃ©nÃ©rale GNU publiÃ©e par la Free Software Foundation.
-Ce programme est distribuÃ© car potentiellement utile, mais SANS AUCUNE GARANTIE,
-ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation
-dans un but spÃ©cifique. Reportez-vous Ã  la Licence Publique GÃ©nÃ©rale GNU pour plus de dÃ©tails.
-Vous devez avoir reÃ§u une copie de la Licence Publique GÃ©nÃ©rale GNU en mÃªme temps
-que ce programme ; si ce n'est pas le cas, Ã©crivez Ã  la Free Software Foundation,
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, Ã‰tats-Unis.
+Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les 
+termes de la Licence Publique Générale GNU publiée par la Free Software Foundation.
+Ce programme est distribué car potentiellement utile, mais SANS AUCUNE GARANTIE, 
+ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation 
+dans un but spécifique. Reportez-vous à la Licence Publique Générale GNU pour plus de détails.
+Vous devez avoir reçu une copie de la Licence Publique Générale GNU en même temps 
+que ce programme ; si ce n'est pas le cas, écrivez à la Free Software Foundation, 
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, États-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
-of the GNU General Public License as published by the Free Software Foundation; either
+of the GNU General Public License as published by the Free Software Foundation; either 
 version 2 of the License, or any later version.
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
 See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
-
-define('_PHP_CONGES', 1);
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : "") ) ;
 
@@ -35,19 +32,32 @@ if(!isset($_SESSION['config']))
 	$_SESSION['config']=init_config_tab();      // on initialise le tableau des variables de config
 include("../INCLUDE.PHP/session.php");
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : "") ) ;
+	
 
+$verif_droits_file="INCLUDE.PHP/verif_droits.php";
+if( ($_SESSION['config']['verif_droits']==TRUE) && (file_exists($verif_droits_file)) ){ include($verif_droits_file);}
 
 //$DEBUG = TRUE ;
 $DEBUG = FALSE ;
 
-// verif des droits du user Ã  afficher la page
+// verif des droits du user à afficher la page
 verif_droits_user($session, "is_admin", $DEBUG);
 
 
+/*
+if( (!isset($_SESSION['lang'])) || ($_SESSION['lang']=="") )
+{
+	//recup de la langue
+	$lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST['lang'] : "") ) ;
+	$tab_lang_file = glob("lang/lang_".$lang."_*.php");  
+	if($DEBUG==TRUE) { echo "lang = $lang # fichier de langue = ".$tab_lang_file[0]."<br>\n"; }
+	include($tab_lang_file[0]) ;
+}
+*/
 
 	/*** initialisation des variables ***/
 	/*************************************/
-	// recup des parametres reÃ§us :
+	// recup des parametres reçus :
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET / POST
@@ -55,34 +65,36 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	$tab_new_values = getpost_variable("tab_new_values");
 
 	/*************************************/
-
+	
 	if($DEBUG)
 	{
 		print_r($tab_new_values); echo "<br>\n";
 		echo "$action<br>\n";
 	}
 
-
-	// affichage dÃ©but page
+	//connexion mysql
+	$mysql_link = connexion_mysql() ;
+	
+	// affichage début page
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 	echo "<html>\n";
 	echo "<head>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
+	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
 	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 	echo "<TITLE> CONGES : Configuration </TITLE>\n";
 	echo "</head>\n";
-
+	
 	echo "<body text=\"#000000\" bgcolor=".$_SESSION['config']['bgcolor']." link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\">\n";
 	echo "<center>";
-
+	
 	/*********************************/
 	/*********************************/
 
 	if($action=="modif")
-		commit_modif($tab_new_values, $session, $DEBUG);
-
-	affichage($tab_new_values, $session, $DEBUG);
-
+		commit_modif($tab_new_values, $mysql_link, $session, $DEBUG);
+		
+	affichage($tab_new_values, $mysql_link, $session, $DEBUG);
+	
 	/*********************************/
 	/*********************************/
 
@@ -91,17 +103,19 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	echo "</body>";
 	echo "</html>";
 
+	mysql_close($mysql_link);
 
 
-
+	
+	
 /**************************************************************************************/
 /**********  FONCTIONS  ***************************************************************/
 
 
-function affichage($tab_new_values, $session, $DEBUG=FALSE)
+function affichage($tab_new_values, $mysql_link, $session, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
-
+    
 	if($session=="")
 		$URL = "$PHP_SELF";
 	else
@@ -117,23 +131,22 @@ function affichage($tab_new_values, $session, $DEBUG=FALSE)
 	affiche_bouton_retour($session);
 
 	// affichage de la liste des type d'absence existants
-
-	//requÃªte qui rÃ©cupÃ¨re les informations de la table conges_type_absence
+	
+	//requête qui récupère les informations de la table conges_type_absence
 	$sql1 = "SELECT * FROM conges_mail ";
-	$ReqLog1 = requete_mysql($sql1, "affichage", $DEBUG);
-
+	$ReqLog1 = requete_mysql($sql1, $mysql_link, "affichage", $DEBUG);
+	
 	echo "    <form action=\"$URL\" method=\"POST\"> \n";
-	while ($data = $ReqLog1->fetch_array())
+	while ($data = mysql_fetch_array($ReqLog1)) 
 	{
-	 	$mail_nom = stripslashes($data['mail_nom']);
-		$mail_subject = stripslashes($data['mail_subject']);
-		$mail_body = stripslashes($data['mail_body']);
+	 	$mail_nom = $data['mail_nom'];
+		$mail_subject = $data['mail_subject'];
+		$mail_body = $data['mail_body'];
 
 		$legend =$mail_nom ;
-		// echo $mail_nom ;
 		$key = $mail_nom."_comment";
 		$comment = $_SESSION['lang'][$key] ;
-
+		
 		echo "<br>\n";
 		echo "<table>\n";
 		echo "<tr><td>\n";
@@ -141,7 +154,7 @@ function affichage($tab_new_values, $session, $DEBUG=FALSE)
 		echo "    <legend class=\"boxlogin\">$legend</legend>\n";
 		echo "    <i>$comment</i><br><br>\n";
 		echo "    <table cellpadding=\"2\" class=\"tablo-config\" >\n";
-		echo "    <tr>\n";
+		echo "    <tr>\n"; 
 		echo "    	<td class=\"config\" valign=\"top\"><b>".$_SESSION['lang']['config_mail_subject']."</b></td>\n";
 		echo "    	<td class=\"config\"><input type=\"text\" size=\"80\" name=\"tab_new_values[$mail_nom][subject]\" value=\"$mail_subject\"></td>\n";
 		echo "    </tr>\n";
@@ -156,51 +169,47 @@ function affichage($tab_new_values, $session, $DEBUG=FALSE)
 		echo "    		".$_SESSION['lang']['mail_remplace_sender_name_comment']."<br>\n";
 		echo "    		".$_SESSION['lang']['mail_remplace_destination_name_comment']."<br>\n";
 		echo "    		".$_SESSION['lang']['mail_remplace_nb_jours']."<br>\n";
-		echo "    		".$_SESSION['lang']['mail_remplace_date_debut']."<br>\n";
-		echo "    		".$_SESSION['lang']['mail_remplace_date_fin']."<br>\n";
-		echo "    		".$_SESSION['lang']['mail_remplace_commentaire']."<br>\n";
-		echo "    		".$_SESSION['lang']['mail_remplace_type_absence']."<br>\n";
 		echo "    		".$_SESSION['lang']['mail_remplace_retour_ligne_comment']."</i>\n";
 		echo "    	</td>\n";
 		echo "    </tr>\n";
-
+		
 		echo "    </table>\n";
-		echo "</td></tr>\n";
+		echo "</td></tr>\n";	
 		echo "</table>\n";
 	}
-
+	
 	echo "    <input type=\"hidden\" name=\"action\" value=\"modif\">\n";
 	echo "    <input type=\"submit\"  value=\"".$_SESSION['lang']['form_save_modif']."\"><br>\n";
 	echo "    </form>\n";
-
-	// Bouton de retour : diffÃ©rent suivant si on vient des pages d'install ou de l'appli
+  
+	// Bouton de retour : différent suivant si on vient des pages d'install ou de l'appli
 	echo "<br><br>\n";
 	affiche_bouton_retour($session);
-
+	
 }
 
-function commit_modif($tab_new_values, $session, $DEBUG=FALSE)
+function commit_modif($tab_new_values, $mysql_link, $session, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
-
+    
 	if($session=="")
 		$URL = "$PHP_SELF";
 	else
 		$URL = "$PHP_SELF?session=$session";
 
-
+			
 	// update de la table
 	foreach($tab_new_values as $nom_mail => $tab_mail)
 	{
 		$subject = addslashes($tab_mail['subject']);
 		$body = addslashes($tab_mail['body']) ;
-		$req_update='UPDATE conges_mail SET mail_subject=\''.$subject.'\', mail_body=\''.$body.'\' WHERE mail_nom=\''.$sql->escape($nom_mail).'\' ';
-		$result1 = requete_mysql($req_update,"commit_modif", $DEBUG);
+		$req_update="UPDATE conges_mail SET mail_subject='$subject', mail_body='$body' WHERE mail_nom='$nom_mail' ";
+		$result1 = requete_mysql($req_update, $mysql_link, "commit_modif", $DEBUG);
 	}
 	echo "<span class = \"messages\">".$_SESSION['lang']['form_modif_ok']."</span><br>";
 
-	$comment_log = "configuration des mails d\'alerte";
-	log_action(0, "", "", $comment_log, $DEBUG);
+	$comment_log = "configuration des mails d'alerte";
+	log_action(0, "", "", $comment_log, $mysql_link, $DEBUG);
 
 	if($DEBUG==TRUE)
 		echo "<a href=\"$URL\" method=\"POST\">".$_SESSION['lang']['form_retour']."</a><br>\n" ;

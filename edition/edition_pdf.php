@@ -1,16 +1,16 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des CongÃ©s
+PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
 Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les
-termes de la Licence Publique GÃ©nÃ©rale GNU publiÃ©e par la Free Software Foundation.
-Ce programme est distribuÃ© car potentiellement utile, mais SANS AUCUNE GARANTIE,
+termes de la Licence Publique Générale GNU publiée par la Free Software Foundation.
+Ce programme est distribué car potentiellement utile, mais SANS AUCUNE GARANTIE,
 ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation
-dans un but spÃ©cifique. Reportez-vous Ã  la Licence Publique GÃ©nÃ©rale GNU pour plus de dÃ©tails.
-Vous devez avoir reÃ§u une copie de la Licence Publique GÃ©nÃ©rale GNU en mÃªme temps
-que ce programme ; si ce n'est pas le cas, Ã©crivez Ã  la Free Software Foundation,
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, Ã‰tats-Unis.
+dans un but spécifique. Reportez-vous à la Licence Publique Générale GNU pour plus de détails.
+Vous devez avoir reçu une copie de la Licence Publique Générale GNU en même temps
+que ce programme ; si ce n'est pas le cas, écrivez à la Free Software Foundation,
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, États-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation; either
@@ -23,9 +23,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-define('_PHP_CONGES', 1);
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
-
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
 
 include("fonctions_edition.php") ;
@@ -37,10 +34,8 @@ include("../INCLUDE.PHP/session.php");
 $DEBUG = FALSE ;
 	
 
-
-
 	/*************************************/
-	// recup des parametres reÃ§us :
+	// recup des parametres reçus :
 	// GET / POST
 	$user_login = getpost_variable("user_login") ;
 	$edit_id = getpost_variable("edit_id", 0) ;
@@ -48,14 +43,20 @@ $DEBUG = FALSE ;
 
 	/************************************/
 
-
-	if($edit_id==0)   // si c'est une nouvelle Ã©dition, on insert dans la base avant d'Ã©diter et on renvoit l'id de l'Ã©dition
-		$edit_id=enregistrement_edition($user_login, $DEBUG);
 	
-	edition_pdf($user_login, $edit_id, $DEBUG);
+	//connexion mysql
+	$mysql_link = connexion_mysql();
+
+	if($edit_id==0)   // si c'est une nouvelle édition, on insert dans la base avant d'éditer et on renvoit l'id de l'édition
+		$edit_id=enregistrement_edition($user_login, $mysql_link, $DEBUG);
+	
+	edition_pdf($user_login, $edit_id, $mysql_link, $DEBUG);
 
 	$comment_log = "edition PDF (num_edition = $edit_id) ($user_login) ";
-	log_action(0, "", $user_login, $comment_log,  $DEBUG);
+	log_action(0, "", $user_login, $comment_log, $mysql_link, $DEBUG);
+	
+	mysql_close($mysql_link);
+
 	
 	
 	
@@ -63,22 +64,20 @@ $DEBUG = FALSE ;
 /********  FONCTIONS      ******/
 /**************************************************************************************/
 
-function edition_pdf($login, $edit_id,  $DEBUG=FALSE)
+function edition_pdf($login, $edit_id, $mysql_link, $DEBUG=FALSE)
 {
-	//$fpdf_filename = $_SESSION['config']['php_conges_fpdf_include_path']."/fpdf/fpdf.php";
-	$fpdf_filename = '../INCLUDE.EXTERNAL/tcpdf/tcpdf.php';
-	// verif si la librairie fpdf est prÃ©sente 
+	$fpdf_filename = $_SESSION['config']['php_conges_fpdf_include_path']."/fpdf/fpdf.php";
+	// verif si la librairie fpdf est présente 
 	if (!is_readable($fpdf_filename))
 	{
 		echo $_SESSION['lang']['fpdf_not_valid']."<br> !";
 	}
 	else
 	{
-		 //require_once($fpdf_filename);
-		 //define('FPDF_FONTPATH','font/');
-		include '../INCLUDE.EXTERNAL/tcpdf/tcpdf.php';
+		require_once($fpdf_filename);
+		define('FPDF_FONTPATH','font/');
 		
-		class PDF extends TCPDF
+		class PDF extends FPDF
 		{
 			function Header()
 			{
@@ -103,20 +102,20 @@ function edition_pdf($login, $edit_id,  $DEBUG=FALSE)
 		} 
 		
 		// recup du tableau des types de conges (seulement les conges)
-		$tab_type_cong=recup_tableau_types_conges();
+		$tab_type_cong=recup_tableau_types_conges($mysql_link);
 		// recup du tableau des types de conges exceptionnels (seulement les conges exceptionnels)
 		if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
-			 $tab_type_conges_exceptionnels=recup_tableau_types_conges_exceptionnels( $DEBUG);
+			 $tab_type_conges_exceptionnels=recup_tableau_types_conges_exceptionnels($mysql_link, $DEBUG);
 		else
 			$tab_type_conges_exceptionnels=array();
 		// recup du tableau de tous les types de conges
-		$tab_type_all_cong=recup_tableau_tout_types_abs( $DEBUG);
+		$tab_type_all_cong=recup_tableau_tout_types_abs($mysql_link, $DEBUG);
 	
 		// recup infos du user
-		$tab_info_user=recup_info_user_pour_edition($login);
+		$tab_info_user=recup_info_user_pour_edition($login, $mysql_link);
 	
-		// recup infos de l'Ã©dition
-		$tab_info_edition=recup_info_edition($edit_id);
+		// recup infos de l'édition
+		$tab_info_edition=recup_info_edition($edit_id, $mysql_link);
 	
 		
 		/**************************************/
@@ -125,7 +124,7 @@ function edition_pdf($login, $edit_id,  $DEBUG=FALSE)
 		header('content-type: application/pdf');
 		//header('content-Disposition: attachement; filename="downloaded.pdf"');    // pour IE
 		
-		$pdf=new PDF( 'P', 'mm', 'A4', true, "UTF-8");
+		$pdf=new PDF();
 		//$pdf->Open();
 		$pdf->AddPage();
 			
@@ -150,10 +149,10 @@ function edition_pdf($login, $edit_id,  $DEBUG=FALSE)
 		/****************************/
 		/* tableau Bilan des Conges */
 		/****************************/
-		// affichage en pdf du tableau rÃ©capitulatif des solde de congÃ©s d'un user
-		affiche_pdf_tableau_bilan_conges_user_edtion($pdf, $tab_info_user, $tab_info_edition, $tab_type_cong, $tab_type_conges_exceptionnels,  $DEBUG) ;
+		// affichage en pdf du tableau récapitulatif des solde de congés d'un user
+		affiche_pdf_tableau_bilan_conges_user_edtion($pdf, $tab_info_user, $tab_info_edition, $tab_type_cong, $tab_type_conges_exceptionnels, $mysql_link, $DEBUG) ;
 	
-		// affichage de la quotitÃ©
+		// affichage de la quotité
 		$pdf->SetFont('Times', 'B', 13);				
 		$quotite=$tab_info_user['quotite'];
 		$pdf->Cell(0, 5, $_SESSION['lang']['divers_quotite']."  :  $quotite % ",0,1,'C');
@@ -170,21 +169,19 @@ function edition_pdf($login, $edit_id,  $DEBUG=FALSE)
 	
 			$pdf->SetFont('Times', 'B', 10);
 
-			//test d'une ligne Ã  120 caractÃ¨res
+			//test d'une ligne à 120 caractères
 			//$ligne120="123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
 			//$pdf->Cell(0, 5, $ligne120 ,0,1,'C');
 			
-			$sql = SQL::singleton();
-			
-			// RÃ©cupÃ©ration des informations
+			// Récupération des informations
 			// on ne recup QUE les periodes de l'edition choisie
 			$sql2 = "SELECT p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_nb_jours, p_commentaire, p_type, p_etat, p_date_demande, p_date_traitement ";
 			$sql2=$sql2."FROM conges_periode ";
 			$sql2=$sql2."WHERE p_edition_id = $edit_id ";
 			$sql2=$sql2."ORDER BY p_date_deb ASC ";
-			$ReqLog2 = $sql->query($sql2) or die("ERREUR : query : ".$sql2." --> ".$sql->error);
+			$ReqLog2 = mysql_query($sql2, $mysql_link) or die("ERREUR : mysql_query : ".$sql2." --> ".mysql_error());
 	
-			$count2=$ReqLog2->num_rows;
+			$count2=mysql_num_rows($ReqLog2);
 			if($count2==0)
 			{
 				$pdf->Cell(0, 5, $_SESSION['lang']['editions_aucun_conges']." ...",0,1,'C');
@@ -199,8 +196,8 @@ function edition_pdf($login, $edit_id,  $DEBUG=FALSE)
 				/*************************************/
 				/* affichage anciens soldes          */
 				/*************************************/
-				// affichage en pdf des anciens soldes de congÃ©s d'un user
-				affiche_pdf_ancien_solde($pdf, $login, $edit_id, $tab_type_cong, $tab_type_conges_exceptionnels, $decalage,  $DEBUG) ;
+				// affichage en pdf des anciens soldes de congés d'un user
+				affiche_pdf_ancien_solde($pdf, $login, $edit_id, $tab_type_cong, $tab_type_conges_exceptionnels, $decalage, $mysql_link, $DEBUG) ;
 	
 				$pdf->Ln(2);
 	
@@ -220,8 +217,8 @@ function edition_pdf($login, $edit_id,  $DEBUG=FALSE)
 				/*************************************/
 				/* affichage nouveaux soldes         */
 				/*************************************/
-				// affichage en pdf des nouveaux soldes de congÃ©s d'un user
-				affiche_pdf_nouveau_solde($pdf, $login, $tab_info_edition, $tab_type_cong, $tab_type_conges_exceptionnels, $decalage,  $DEBUG) ;
+				// affichage en pdf des nouveaux soldes de congés d'un user
+				affiche_pdf_nouveau_solde($pdf, $login, $tab_info_edition, $tab_type_cong, $tab_type_conges_exceptionnels, $decalage, $mysql_link, $DEBUG) ;
 	
 			}
 		
@@ -259,10 +256,10 @@ function edition_pdf($login, $edit_id,  $DEBUG=FALSE)
 
 
 
-// affichage en pdf du tableau rÃ©capitulatif des solde de congÃ©s d'un user
-function affiche_pdf_tableau_bilan_conges_user_edtion(&$pdf, $tab_info_user, $tab_info_edition, $tab_type_cong, $tab_type_conges_exceptionnels,  $DEBUG=FALSE)
+// affichage en pdf du tableau récapitulatif des solde de congés d'un user
+function affiche_pdf_tableau_bilan_conges_user_edtion(&$pdf, $tab_info_user, $tab_info_edition, $tab_type_cong, $tab_type_conges_exceptionnels, $mysql_link, $DEBUG=FALSE)
 {
-	// calcul du dÃ©calage pour centrer ( = (21cm - (marges x 2) - (sommes des cell dÃ©finies en dessous) )/2  ) (marges=10mm)
+	// calcul du décalage pour centrer ( = (21cm - (marges x 2) - (sommes des cell définies en dessous) )/2  ) (marges=10mm)
 	$decalage = 55 ;
 
 	// affichage :
@@ -287,66 +284,66 @@ function affiche_pdf_tableau_bilan_conges_user_edtion(&$pdf, $tab_info_user, $ta
 		$pdf->Cell(20, 5, $tab_info_user['conges'][$libelle]['nb_an'], 1, 0, 'C');
 		$pdf->Cell(20, 5, $tab_info_edition['conges'][$id_abs], 1, 1, 'C', 1);
 	}
-	// passage Ã  la ligne
+	// passage à la ligne
 	$pdf->Ln();
 
 }
 
 
-// affichage en pdf des anciens soldes de congÃ©s d'un user
-function affiche_pdf_ancien_solde(&$pdf, $login, $edit_id, $tab_type_cong, $tab_type_conges_exceptionnels, $decalage,  $DEBUG=FALSE)
+// affichage en pdf des anciens soldes de congés d'un user
+function affiche_pdf_ancien_solde(&$pdf, $login, $edit_id, $tab_type_cong, $tab_type_conges_exceptionnels, $decalage, $mysql_link, $DEBUG=FALSE)
 {
-//	$pdf->SetFont('Times', 'B', 10);
+//	$pdf->SetFont('Arial', 'B', 10);
 
-	$edition_precedente_id=get_id_edition_precedente_user($login, $edit_id,  $DEBUG);
+	$edition_precedente_id=get_id_edition_precedente_user($login, $edit_id, $mysql_link, $DEBUG);
 	if($edition_precedente_id==0)
 	{
 		$pdf->Cell($decalage); 
-		$pdf->SetFont('Times', '', 10);
+		$pdf->SetFont('Arial', '', 10);
 		$pdf->Cell(50, 5, $_SESSION['lang']['editions_soldes_precedents_inconnus']." !...",0,1);
 	}
 	else
 	{
-		$tab_edition_precedente=recup_info_edition($edition_precedente_id,  $DEBUG);
+		$tab_edition_precedente=recup_info_edition($edition_precedente_id, $mysql_link, $DEBUG);
 			
 		foreach($tab_type_cong as $id_abs => $libelle)
 		{
 			$pdf->Cell($decalage); 
-			$pdf->SetFont('Times', '', 10);
+			$pdf->SetFont('Arial', '', 10);
 			$pdf->Cell(26, 5, $_SESSION['lang']['editions_solde_precedent']." ",0,0);
-			$pdf->SetFont('Times', 'B', 10);
+			$pdf->SetFont('Arial', 'B', 10);
 			$pdf->Cell(10, 5, $libelle." : ".$tab_edition_precedente['conges'][$id_abs], 0, 1);
 		}
 		foreach($tab_type_conges_exceptionnels as $id_abs => $libelle)
 		{
 			$pdf->Cell($decalage); 
-			$pdf->SetFont('Times', '', 10);
+			$pdf->SetFont('Arial', '', 10);
 			$pdf->Cell(26, 5, $_SESSION['lang']['editions_solde_precedent']." ",0,0);
-			$pdf->SetFont('Times', 'B', 10);
+			$pdf->SetFont('Arial', 'B', 10);
 			$pdf->Cell(10, 5, $libelle." : ".$tab_edition_precedente['conges'][$id_abs], 0, 1);
 		}
 	}
 }
 
 
-// affichage en pdf des nouveaux soldes de congÃ©s d'un user
-function affiche_pdf_nouveau_solde(&$pdf, $login, $tab_info_edition, $tab_type_cong, $tab_type_conges_exceptionnels, $decalage,  $DEBUG=FALSE)
+// affichage en pdf des nouveaux soldes de congés d'un user
+function affiche_pdf_nouveau_solde(&$pdf, $login, $tab_info_edition, $tab_type_cong, $tab_type_conges_exceptionnels, $decalage, $mysql_link, $DEBUG=FALSE)
 {
 
 	foreach($tab_type_cong as $id_abs => $libelle)
 	{
 		$pdf->Cell($decalage); 
-		$pdf->SetFont('Times', '', 10);
+		$pdf->SetFont('Arial', '', 10);
 		$pdf->Cell(24, 5, $_SESSION['lang']['editions_nouveau_solde']." ",0,0);
-		$pdf->SetFont('Times', 'B', 10);
+		$pdf->SetFont('Arial', 'B', 10);
 		$pdf->Cell(40, 5, $libelle." : ".$tab_info_edition['conges'][$id_abs], 0, 1);
 	}
 	foreach($tab_type_conges_exceptionnels as $id_abs => $libelle)
 	{
 		$pdf->Cell($decalage); 
-		$pdf->SetFont('Times', '', 10);
+		$pdf->SetFont('Arial', '', 10);
 		$pdf->Cell(24, 5, $_SESSION['lang']['editions_nouveau_solde']." ",0,0);
-		$pdf->SetFont('Times', 'B', 10);
+		$pdf->SetFont('Arial', 'B', 10);
 		$pdf->Cell(40, 5, $libelle." : ".$tab_info_edition['conges'][$id_abs], 0, 1);
 	}
 }
@@ -380,7 +377,7 @@ function affiche_tableau_conges_avec_date_traitement(&$pdf, $ReqLog2, $decalage,
 	$pdf->Cell($size_cell_fin, 5, $_SESSION['lang']['divers_fin_maj_1'], 1, 0, 'C', 1);
 	$pdf->Cell($size_cell_comment, 5, $_SESSION['lang']['divers_comment_maj_1'], 1, 1, 'C', 1);
 				
-	while ($resultat2 = $ReqLog2->fetch_array()) 
+	while ($resultat2 = mysql_fetch_array($ReqLog2)) 
 	{
 		$sql_p_date_deb = eng_date_to_fr($resultat2["p_date_deb"]);
 		$sql_p_demi_jour_deb = $resultat2["p_demi_jour_deb"];
@@ -473,7 +470,7 @@ function affiche_tableau_conges_normal(&$pdf, $ReqLog2, $decalage, $tab_type_all
 	$pdf->Cell($size_cell_fin, 5, $_SESSION['lang']['divers_fin_maj_1'], 1, 0, 'C', 1);
 	$pdf->Cell($size_cell_comment, 5, $_SESSION['lang']['divers_comment_maj_1'], 1, 1, 'C', 1);
 				
-	while ($resultat2 = $ReqLog2->fetch_array()) 
+	while ($resultat2 = mysql_fetch_array($ReqLog2)) 
 	{
 		$sql_p_date_deb = eng_date_to_fr($resultat2["p_date_deb"]);
 		$sql_p_demi_jour_deb = $resultat2["p_demi_jour_deb"];

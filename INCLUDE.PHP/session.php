@@ -1,16 +1,16 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des CongÃ©s
+PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
 Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les 
-termes de la Licence Publique GÃ©nÃ©rale GNU publiÃ©e par la Free Software Foundation.
-Ce programme est distribuÃ© car potentiellement utile, mais SANS AUCUNE GARANTIE, 
+termes de la Licence Publique Générale GNU publiée par la Free Software Foundation.
+Ce programme est distribué car potentiellement utile, mais SANS AUCUNE GARANTIE, 
 ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation 
-dans un but spÃ©cifique. Reportez-vous Ã  la Licence Publique GÃ©nÃ©rale GNU pour plus de dÃ©tails.
-Vous devez avoir reÃ§u une copie de la Licence Publique GÃ©nÃ©rale GNU en mÃªme temps 
-que ce programme ; si ce n'est pas le cas, Ã©crivez Ã  la Free Software Foundation, 
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, Ã‰tats-Unis.
+dans un but spécifique. Reportez-vous à la Licence Publique Générale GNU pour plus de détails.
+Vous devez avoir reçu une copie de la Licence Publique Générale GNU en même temps 
+que ce programme ; si ce n'est pas le cas, écrivez à la Free Software Foundation, 
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, États-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation; either 
@@ -24,36 +24,27 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
 
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-include_once __DIR__ .'/sql.class.php';
 
 //
 // MAIN
--
 //
 
 /*** initialisation des variables ***/
+$session="";
 $session_username="";
 $session_password="";
 /************************************/
 
 //
-// recup du num  de session (mais on ne sais pas s'il est passÃ© en GET ou POST
-$session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : "") ) ;
+// recup du num  de session (mais on ne sais pas s'il est passé en GET ou POST
+if(isset($_GET['session'])) { $session=$_GET['session']; }
+if ($session == "")
+	if(isset($_POST['session'])) { $session=$_POST['session']; }
 
-$DEBUG=FALSE;
-//$DEBUG=TRUE;
-
-if($DEBUG==TRUE) { print_r($_SESSION); echo "<br><br>\n"; }
-
-
-
-
-if ($session != "") //  UNE SESSION EXISTE
-{
-	if($DEBUG==TRUE) { echo "session = $session<br><br>\n"; }
 	
+if ($session != "")
+{
 	if(session_is_valid($session) == TRUE)
 	{
 		session_update($session);
@@ -64,27 +55,23 @@ if ($session != "") //  UNE SESSION EXISTE
 		$session="";
 		$session_username="";
 		$session_password="";
-		$_SESSION['config']=init_config_tab();  // on recrÃ©e le tableau de config pour l'url du lien
-		
+		$_SESSION['config']=init_config_tab();  // on recrée le tableau de config pour l'url du lien
+
 		echo "<center>\n";
-		echo $_SESSION['lang']['session_pas_session_ouverte']."<br>\n";
-		echo $_SESSION['lang']['divers_veuillez']." <a href='".$_SESSION['config']['URL_ACCUEIL_CONGES']."/index.php' target='_top'> ".$_SESSION['lang']['divers_vous_authentifier']."</a>\n";
+		echo "Pas de session ouverte<br>\n";
+		echo "Veuillez <a href='".$_SESSION['config']['URL_ACCUEIL_CONGES']."/index.php' target='_top'> vous authentifier</a>\n";
 		echo "</center>\n";
 
 		exit;
 	}
 }
-else    //  PAS DE SESSION   ($session == "")
+else    //  $session == ""
 {
-	if($DEBUG==TRUE) { echo "session = chaine VIDE!<br><br>\n"; }
-
 	if(isset($_POST['session_username'])) { $session_username=$_POST['session_username']; }
 	if(isset($_POST['session_password'])) { $session_password=$_POST['session_password']; }
 
 	if ( ($_SESSION['config']['how_to_connect_user'] == "CAS") && ($session_username != "admin") )
 	{
-		if($DEBUG==TRUE) { echo "autentification CAS !<br><br>\n"; }
-		
 		$usernameCAS = authentification_passwd_conges_CAS();
 		if($usernameCAS != "")
 		{
@@ -93,28 +80,20 @@ else    //  PAS DE SESSION   ($session == "")
 			
 			// on initialise la nouvelle session
 			session_create($usernameCAS);
-
-			// on log la connexion du user 
-
-				$comment_log = "Connexion de $session_username";
-				log_action(0, "", $usernameCAS, $comment_log, $DEBUG);
+			
 		}
-		else //dans ce cas l'utilisateur n'a pas encore Ã©tÃ© enregistrÃ© dans la base de donnÃ©es db_conges
+		else //dans ce cas l'utilisateur n'a pas encore été enregistré dans la base de données db_conges
 		{
 		   echo "<center>\n";
-			echo $_SESSION['lang']['session_pas_de_compte_dans_dbconges']."<br>\n";
-			echo $_SESSION['lang']['session_contactez_admin']."\n";
+		   echo "Il n'existe pas de compte correspondant à votre login dans la base de données de PHP_CONGES<br>\n";
+		   echo "Contactez l'administrateur de php_conges";
 		   echo "</center>\n";
-           $URL_ACCUEIL_CONGES=$_SESSION['config']['URL_ACCUEIL_CONGES'];
-           deconnexion_CAS($URL_ACCUEIL_CONGES);
-           exit;
 		}
 	}
 	else
 	{
 		if (($session_username == "") || ($session_password == "")) // si login et passwd non saisis
 		{
-			//  SAISIE LOGIN / PASSWORD :
 			session_saisie_user_password("", "", ""); // appel du formulaire d'intentification (login/password)
 			exit;
 		}
@@ -122,13 +101,11 @@ else    //  PAS DE SESSION   ($session == "")
 		{
 			//  AUTHENTIFICATION :
 
-			// le user doit etre authentifiÃ© dans la table conges (login + passwd) ou dans le ldap.
+			// le user doit etre authentifié dans la table conges (login + passwd) ou dans le ldap.
 			// si on a trouve personne qui correspond au couple user/password
 
 			if ( ($_SESSION['config']['how_to_connect_user'] == "ldap") && ($session_username != "admin") )
 			{
-				if($DEBUG==TRUE) { echo "autentification LDAP !<br><br>\n"; }
-
 				if(session_id()!="")
 					session_destroy();
 					
@@ -139,34 +116,18 @@ else    //  PAS DE SESSION   ($session == "")
 					$session_password="";
 
 					$erreur="login_passwd_incorrect";
-					// appel du formulaire d'intentification (login/password)
-					session_saisie_user_password($erreur, $session_username, $session_password);
+					session_saisie_user_password($erreur, $session_username, $session_password); // appel du formulaire d'intentification (login/password)
 					exit;
 				}
 
 				if ((authentification_ldap_conges($session_username,$session_password) == $session_username) && ($session_username != ""))
 				{
-					if (valid_ldap_user($session_username)==TRUE) // LDAP ok, on vÃ©rifie ici que le compte existe dans la base de donnÃ©es des congÃ©s.
+					if (valid_ldap_user($session_username)==TRUE) // LDAP ok, on vérifie ici que le compte existe dans la base de données des congés.
 					{
 						// on initialise la nouvelle session
 						session_create($session_username);
-
-						// on log la connexion du user 
-						if(!isset($session))
-						{
-								
-							$comment_log = "Connexion de $session_username";
-							log_action(0, "", $session_username, $comment_log,  $DEBUG);
-							
-							
-						}
-						else
-						{
-							$comment_log = "Connexion de $session_username";
-							log_action(0, "", $session_username, $comment_log,  $DEBUG);
-						}
 					}
-					else//dans ce cas l'utilisateur n'a pas encore Ã©tÃ© enregistrÃ© dans la base de donnÃ©es db_conges
+					else//dans ce cas l'utilisateur n'a pas encore été enregistré dans la base de données db_conges
 					{
 						$erreur="login_non_connu";
 						session_saisie_user_password($erreur, $session_username,$session_password); // appel du formulaire d'intentification (login/password)
@@ -174,10 +135,8 @@ else    //  PAS DE SESSION   ($session == "")
 					}
 				}
 			} // fin du if test avec ldap
-			elseif ( ($_SESSION['config']['how_to_connect_user'] == "dbconges") || ($session_username == "admin") )
+			elseif ($_SESSION['config']['how_to_connect_user'] == "dbconges")
 			{
-				if($DEBUG==TRUE) { echo "autentification DBCONGES !<br><br>\n"; }
-
 				if(session_id()!="")
 					session_destroy();
 					
@@ -196,27 +155,14 @@ else    //  PAS DE SESSION   ($session == "")
 				{
 					// on initialise la nouvelle session
 					session_create($session_username);
-					
-					// on log la connexion du user 
-					if(!isset($session))
-					{
-						//connexion mysql
-							
-						$comment_log = "Connexion de $session_username";
-						log_action(0, "", $session_username, $comment_log, $DEBUG);
-						
-					}
-					else
-					{
-						$comment_log = "Connexion de $session_username";
-						log_action(0, "", $session_username, $comment_log,  $DEBUG);
-					}
 				}
 			}
 		}
 	}
    
 }
+
+
 
 
 

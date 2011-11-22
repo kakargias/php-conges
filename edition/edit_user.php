@@ -1,16 +1,16 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des CongÃ©s
+PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
 Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les
-termes de la Licence Publique GÃ©nÃ©rale GNU publiÃ©e par la Free Software Foundation.
-Ce programme est distribuÃ© car potentiellement utile, mais SANS AUCUNE GARANTIE,
+termes de la Licence Publique Générale GNU publiée par la Free Software Foundation.
+Ce programme est distribué car potentiellement utile, mais SANS AUCUNE GARANTIE,
 ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation
-dans un but spÃ©cifique. Reportez-vous Ã  la Licence Publique GÃ©nÃ©rale GNU pour plus de dÃ©tails.
-Vous devez avoir reÃ§u une copie de la Licence Publique GÃ©nÃ©rale GNU en mÃªme temps
-que ce programme ; si ce n'est pas le cas, Ã©crivez Ã  la Free Software Foundation,
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, Ã‰tats-Unis.
+dans un but spécifique. Reportez-vous à la Licence Publique Générale GNU pour plus de détails.
+Vous devez avoir reçu une copie de la Licence Publique Générale GNU en même temps
+que ce programme ; si ce n'est pas le cas, écrivez à la Free Software Foundation,
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, États-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation; either
@@ -23,74 +23,76 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-define('_PHP_CONGES', 1);
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
-
-$session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
-
+//session_start();
+include("../config.php") ;
 include("../fonctions_conges.php") ;
 include("../INCLUDE.PHP/fonction.php");
 include("../INCLUDE.PHP/session.php");
+if($config_verif_droits==TRUE){ include("../INCLUDE.PHP/verif_droits.php");}
+if($config_where_to_find_user_email=="ldap"){ include("../config_ldap.php");}
+?>
 
-include("fonctions_edition.php") ;
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
 
-//$DEBUG = TRUE ;
-$DEBUG = FALSE ;
-
+<head>
+<?php
 
 	/*************************************/
-	// recup des parametres reÃ§us :
+	// recup des parametres reçus :
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
-	// GET / POST
-	$user_login = getpost_variable("user_login") ;
+	// GET
+	if(isset($_GET['user_login'])) { $user_login=$_GET['user_login']; }
+	// POST
 	/*************************************/
 
 	/************************************/
 
-
-echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
-echo "<html>\n";
-echo "<head>\n";
-echo "<TITLE> ".$_SESSION['lang']['editions_titre']." : $user_login</TITLE>\n";
-echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-echo "</head>\n";
+	echo "<TITLE> Editions Conges : $user_login</TITLE>\n";
+	echo "<link href=\"../$config_stylesheet_file\" rel=\"stylesheet\" type=\"text/css\">\n";
+	echo "</head>\n";
 
 	//connexion mysql
-
-	$bgimage=$_SESSION['config']['URL_ACCUEIL_CONGES']."/".$_SESSION['config']['bgimage'];
-	echo "<body text=\"#000000\" bgcolor=".$_SESSION['config']['bgcolor']." link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\" background=\"$bgimage\">\n";
+	$link = connexion_mysql();
+	
+	echo "<body text=\"#000000\" bgcolor=$config_bgcolor link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\" background=\"$URL_ACCUEIL_CONGES/$config_bgimage\">\n";
 
 	echo "<CENTER>\n";
 
-	affichage($user_login, $DEBUG);
+	affichage($user_login);
 
 	echo "</CENTER>\n";
 
+	mysql_close($link);
 
-echo "</body>\n";
-echo "</html>\n";
+?>
+</body>
+</html>
 
 
-
+<?php
 /**************************************************************************************/
 /********  FONCTIONS      ******/
 /**************************************************************************************/
 
-function affichage($login,  $DEBUG=FALSE)
+function affichage($login)
 {
-	$sql=SQL::singleton();
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-	$session=session_id();
+	global $PHP_SELF;
+	global $session, $session_username ;
+	global $config_rtt_comme_conges ;
+	global $link;
 
 
-	$sql1 = 'SELECT u_nom, u_prenom, u_quotite FROM conges_users where u_login = \''.$sql->escape($login).'\'';
-	$ReqLog1 = requete_mysql($sql1,  "affichage", $DEBUG);
-
-	while ($resultat1 = $ReqLog1 -> fetch_array()) {
+	$sql1 = "SELECT u_nom, u_prenom, u_nb_jours_an, u_solde_jours, u_nb_rtt_an, u_solde_rtt, u_quotite FROM conges_users where u_login = '$login' ";
+	$ReqLog1 = mysql_query($sql1, $link) or die("ERREUR : edit_user.php : ".mysql_error());
+	while ($resultat1 = mysql_fetch_array($ReqLog1)) {
 		$sql_nom=$resultat1["u_nom"];
 		$sql_prenom=$resultat1["u_prenom"];
+		$sql_nb_jours_an=affiche_decimal($resultat1["u_nb_jours_an"]);
+		$sql_solde_jours=affiche_decimal($resultat1["u_solde_jours"]);
+		$sql_nb_rtt_an=affiche_decimal($resultat1["u_nb_rtt_an"]);
+		$sql_solde_rtt=affiche_decimal($resultat1["u_solde_rtt"]);
 		$sql_quotite=$resultat1["u_quotite"];
 	}
 
@@ -100,65 +102,69 @@ function affichage($login,  $DEBUG=FALSE)
 	/********************/
 	/* Bilan des Conges */
 	/********************/
-	// affichage du tableau rÃ©capitulatif des solde de congÃ©s d'un user
-	affiche_tableau_bilan_conges_user($login,  $DEBUG);
-	echo "<br><br><br>\n";
+	if($config_rtt_comme_conges==TRUE)
+		$taille_tableau_bilan=500;
+	else
+		$taille_tableau_bilan=300;
+	
+	printf("<table cellpadding=\"2\" width=\"$taille_tableau_bilan\" class=\"tablo\">\n");
+	printf("<tr align=\"center\"><td class=\"titre\">quotité</td><td class=\"titre\">NB CONGES / AN</td><td class=\"titre\">SOLDE CONGES</td>");
+	if($config_rtt_comme_conges==TRUE)
+		printf("<td class=\"titre\">NB RTT / AN</td><td class=\"titre\">SOLDE RTT</td>");
+	printf("</tr>\n");
+	printf("<tr align=\"center\">\n");
+	echo "<td>$sql_quotite%</td><td><b>$sql_nb_jours_an</b></td><td bgcolor=\"#FF9191\"><b>$sql_solde_jours</b></td>\n";
+	if($config_rtt_comme_conges==TRUE)
+		echo "<td><b>$sql_nb_rtt_an</b></td><td bgcolor=\"#FF9191\"><b>$sql_solde_rtt</b></td></tr>\n";
+	printf("</tr>\n");
+	printf("</table>\n");
+	printf("<br><br><br>\n");
 
-	affiche_nouvelle_edition($login,  $DEBUG);
 
-	affiche_anciennes_editions($login,  $DEBUG);
+	affiche_nouvelle_edition($login, $link);
+	
+	affiche_anciennes_editions($login, $link);
 
 }
 
 
-function affiche_nouvelle_edition($login,  $DEBUG=FALSE)
+function affiche_nouvelle_edition($login, $link)
 {
-	$session=session_id();
 
 	echo "<CENTER>\n" ;
 
 	/*************************************/
 	/* Historique des Conges et demandes */
 	/*************************************/
-	// RÃ©cupÃ©ration des informations
-	// recup de ttes les periodes de type conges du user, sauf les demandes, qui ne sont pas dejÃ  sur une Ã©dition papier
-	$sql2 = "SELECT p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_nb_jours, p_commentaire, p_type, p_etat, p_date_demande, p_date_traitement, ta_libelle ";
-	$sql2=$sql2."FROM conges_periode as a, conges_type_absence as b ";
-	$sql2=$sql2."WHERE (p_etat!='demande' AND p_etat!='valid') ";
+	// Récupération des informations
+	$sql2 = "SELECT p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_nb_jours, p_commentaire, p_type, p_etat ";
+	$sql2=$sql2."FROM conges_periode WHERE p_login = '$login' ";
+	$sql2=$sql2."AND (p_type='conges' OR  p_type='rtt') ";
+	$sql2=$sql2."AND (p_etat='ok' OR  p_etat='annulé' OR  p_etat='refusé' OR  p_etat='ajout') ";
 	$sql2=$sql2."AND p_edition_id IS NULL ";
-	$sql2=$sql2."AND (p_login = '$login') ";
-	$sql2=$sql2."AND (a.p_type=b.ta_id AND  ( (b.ta_type='conges') OR (b.ta_type='conges_exceptionnels') ) )";
 	$sql2=$sql2."ORDER BY p_date_deb ASC ";
-	$ReqLog2 = requete_mysql($sql2,  "affiche_nouvelle_edition", $DEBUG);
+	$ReqLog2 = mysql_query($sql2, $link) or die("ERREUR : mysql_query : ".$sql2." --> ".mysql_error());
 
-	echo "<h3>".$_SESSION['lang']['editions_last_edition']." :</h3>\n";
+	printf("<h3>Prochaine Edition :</h3>\n");
 
-	$count2=$ReqLog2 -> num_rows;
+	$count2=mysql_num_rows($ReqLog2);
 	if($count2==0)
 	{
-		echo "<b>".$_SESSION['lang']['editions_aucun_conges']."</b><br>\n";
+		echo "<b>Aucun congés à éditer pour cet utilisateur ...</b><br>\n";
 	}
 	else
 	{
 		// AFFICHAGE TABLEAU
-		if($_SESSION['config']['affiche_date_traitement']==TRUE)
-			echo "<table cellpadding=\"2\" class=\"tablo\" width=\"850\">\n";
-		else
-			echo "<table cellpadding=\"2\" class=\"tablo\" width=\"750\">\n";
+		printf("<table cellpadding=\"2\" class=\"tablo\" width=\"750\">\n");
 		echo "<tr align=\"center\">\n";
-		echo " <td class=\"titre\">".$_SESSION['lang']['divers_type_maj_1']."</td>\n";
-		echo " <td class=\"titre\">".$_SESSION['lang']['divers_etat_maj_1']."</td>\n";
-		echo " <td class=\"titre\">".$_SESSION['lang']['divers_nb_jours_maj_1']."</td>\n";
-		echo " <td class=\"titre\">".$_SESSION['lang']['divers_debut_maj_1']."</td>\n";
-		echo " <td class=\"titre\">".$_SESSION['lang']['divers_fin_maj_1']."</td>\n";
-		echo " <td class=\"titre\">".$_SESSION['lang']['divers_comment_maj_1']."</td>\n";
-		if($_SESSION['config']['affiche_date_traitement']==TRUE)
-		{
-			echo "<td class=\"titre\">".$_SESSION['lang']['divers_date_traitement']."</td>\n" ;
-		}
+		echo " <td class=\"titre\">type</td>\n";
+		echo " <td class=\"titre\">Etat</td>\n";
+		echo " <td class=\"titre\">nb Jours</td>\n";
+		echo " <td class=\"titre\">Debut</td>\n";
+		echo " <td class=\"titre\">Fin</td>\n";
+		echo " <td class=\"titre\">Commentaire</td>\n";
 		echo "</tr>\n";
-
-		while ($resultat2 = $ReqLog2->fetch_array()) {
+		while ($resultat2 = mysql_fetch_array($ReqLog2)) {
 				$sql_p_date_deb = eng_date_to_fr($resultat2["p_date_deb"]);
 				$sql_p_demi_jour_deb = $resultat2["p_demi_jour_deb"];
 				if($sql_p_demi_jour_deb=="am") $demi_j_deb="mat";  else $demi_j_deb="aprm";
@@ -167,21 +173,12 @@ function affiche_nouvelle_edition($login,  $DEBUG=FALSE)
 				if($sql_p_demi_jour_fin=="am") $demi_j_fin="mat";  else $demi_j_fin="aprm";
 				$sql_p_nb_jours = $resultat2["p_nb_jours"];
 				$sql_p_commentaire = $resultat2["p_commentaire"];
-				$sql_p_type = $resultat2["ta_libelle"];
+				$sql_p_type = $resultat2["p_type"];
 				$sql_p_etat = $resultat2["p_etat"];
-				$sql_p_date_demande = $resultat2["p_date_demande"];
-				$sql_p_date_traitement = $resultat2["p_date_traitement"];
 
 				echo "<tr align=\"center\">\n";
 				echo "<td class=\"histo\">$sql_p_type</td>\n" ;
-				echo "<td class=\"histo\">";
-				if($sql_p_etat=="refus")
-					echo $_SESSION['lang']['divers_refuse'] ;
-				elseif($sql_p_etat=="annul")
-					echo $_SESSION['lang']['divers_annule'] ;
-				else
-					echo "$sql_p_etat";
-				echo "</td>\n" ;
+				echo "<td class=\"histo\">$sql_p_etat</td>\n" ;
 				if($sql_p_etat=="ok")
 					echo "<td class=\"histo-big\"> -$sql_p_nb_jours</td>";
 				elseif($sql_p_etat=="ajout")
@@ -191,112 +188,85 @@ function affiche_nouvelle_edition($login,  $DEBUG=FALSE)
 				echo "<td class=\"histo\">$sql_p_date_deb _ $demi_j_deb</td>";
 				echo "<td class=\"histo\">$sql_p_date_fin _ $demi_j_fin</td>";
 				echo "<td class=\"histo\">$sql_p_commentaire</td>";
-				if($_SESSION['config']['affiche_date_traitement']==TRUE)
-				{
-					if($sql_p_date_demande == NULL)
-					 echo "<td class=\"histo-left\">".$_SESSION['lang']['divers_traitement']." : $sql_p_date_traitement</td>\n" ;
-					else 
-						echo "<td class=\"histo-left\">".$_SESSION['lang']['divers_demande']." : $sql_p_date_demande<br>".$_SESSION['lang']['divers_traitement']." : $sql_p_date_traitement</td>\n" ;	
-				}
 				echo "</tr>\n";
 		}
 		echo "</table>\n";
-		echo "<br>\n";
-
+	
 		/******************/
 		/* bouton editer  */
 		/******************/
-		echo "<table cellpadding=\"2\" width=\"400\">\n";
-		echo "<tr align=\"center\">\n";
-		echo " <td width=\"200\">\n";
-			echo "<a href=\"edition_papier.php?session=$session&user_login=$login&edit_id=0\">\n";
-			echo "<img src=\"../img/fileprint_2.png\" width=\"22\" height=\"22\" border=\"0\" title=\"".$_SESSION['lang']['editions_lance_edition']."\" alt=\"".$_SESSION['lang']['editions_lance_edition']."\">\n";
-			echo "<b> ".$_SESSION['lang']['editions_lance_edition']." </b>\n";
-			echo "</a>\n";
-		echo "</td>\n";
-		echo " <td width=\"200\">\n";
-			echo "<a href=\"edition_pdf.php?session=$session&user_login=$login&edit_id=0\">\n";
-			echo "<img src=\"../img/pdf_22x22_2.png\" width=\"22\" height=\"22\" border=\"0\" title=\"".$_SESSION['lang']['editions_pdf_edition']."\" alt=\"".$_SESSION['lang']['editions_pdf_edition']."\">\n";
-			echo "<b> ".$_SESSION['lang']['editions_pdf_edition']." </b>\n";
-			echo "</a>\n";
-		echo "</td>\n";
-		echo "</tr>\n";
-		echo "</table>\n";
-
+		printf("<form action=\"edition.php?session=$session\" method=\"POST\">\n" ) ;
+		printf("<input type=\"hidden\" name=\"user_login\" value=\"$login\">\n");
+		printf("<input type=\"hidden\" name=\"edit_id\" value=\"0\">\n");
+		printf("<input type=\"submit\" value=\"Lancer l'édition\">\n");
+		printf("</form>\n" ) ;
 	}
 	echo "<br>\n";
-
+	
 	echo "</CENTER>\n";
 	echo "<hr align=\"center\" size=\"2\" width=\"90%\">\n";
 }
 
 
-function affiche_anciennes_editions($login,  $DEBUG=FALSE)
+function affiche_anciennes_editions($login, $link)
 {
-	$session=session_id();
-
+	global $config_rtt_comme_conges;
+	global $session;
+	
 	echo "<CENTER>\n" ;
 
-	// recup du tableau des types de conges (seulement les conges)
-	$tab_type_cong=recup_tableau_types_conges();
-
 	/*************************************/
-	/* Historique des Ã©ditions           */
+	/* Historique des éditions           */
 	/*************************************/
-	// RÃ©cupÃ©ration des informations des editions du user
-	$tab_editions_user = recup_editions_user($login,  $DEBUG);
-	if($DEBUG==TRUE) {echo "tab_editions_user<br>\n"; print_r($tab_editions_user); echo "<br>\n"; }
+	// Récupération des informations
+	$sql2 = "SELECT ep_id, ep_date, ep_solde_jours, ep_solde_rtt, ep_num_for_user ";
+	$sql2=$sql2."FROM conges_edition_papier WHERE ep_login = '$login' ";
+	$sql2=$sql2."ORDER BY ep_num_for_user DESC ";
+	$ReqLog2 = mysql_query($sql2, $link) or die("ERREUR : mysql_query : ".$sql2." --> ".mysql_error());
 
-	echo "<h3>".$_SESSION['lang']['editions_hitorique_edit']." :</h3>\n";
+	printf("<h3>Historique des éditions :</h3>\n");
 
-	if(count($tab_editions_user)==0)
+	$count2=mysql_num_rows($ReqLog2);
+	if($count2==0)
 	{
-		echo "<b>".$_SESSION['lang']['editions_aucun_hitorique']."</b><br>\n";
+		echo "<b>Aucune édition enregistrée pour cet utilisateur ...</b><br>\n";
 	}
 	else
 	{
 		// AFFICHAGE TABLEAU
 		printf("<table cellpadding=\"2\" class=\"tablo\" width=\"750\">\n");
 		echo "<tr align=\"center\">\n";
-		echo " <td class=\"titre\">".$_SESSION['lang']['editions_numero']."</td>\n";
-		echo " <td class=\"titre\">".$_SESSION['lang']['editions_date']."</td>\n";
-		foreach($tab_type_cong as $id_abs => $libelle)
-		{
-			echo " <td class=\"titre\">".$_SESSION['lang']['divers_solde_maj_1']." $libelle</td>\n";
-		}
-
-		echo " <td class=\"titre\"></td>\n";
+		echo " <td class=\"titre\">Numero</td>\n";
+		echo " <td class=\"titre\">Date</td>\n";
+		echo " <td class=\"titre\">Solde conges</td>\n";
+		if($config_rtt_comme_conges==TRUE)
+			echo " <td class=\"titre\">Solde rtt</td>\n";
 		echo " <td class=\"titre\"></td>\n";
 		echo "</tr>\n";
-
-		foreach($tab_editions_user as $id_edition => $tab_ed)
+		
+		while ($resultat2 = mysql_fetch_array($ReqLog2)) 
 		{
-			//$text_edit_a_nouveau="<a href=\"edition_papier.php?session=$session&user_login=$login&edit_id=$sql_id\">Editer Ã  nouveau</a>" ;
-			$text_edit_a_nouveau="<a href=\"edition_papier.php?session=$session&user_login=$login&edit_id=$id_edition\">" .
-					"<img src=\"../img/fileprint_16x16_2.png\" width=\"16\" height=\"16\" border=\"0\" title=\"".$_SESSION['lang']['editions_edit_again']."\" alt=\"".$_SESSION['lang']['editions_edit_again']."\">" .
-					" ".$_SESSION['lang']['editions_edit_again'] .
-					"</a>\n";
-			$text_edit_pdf_a_nouveau="<a href=\"edition_pdf.php?session=$session&user_login=$login&edit_id=$id_edition\">" .
-					"<img src=\"../img/pdf_16x16_2.png\" width=\"16\" height=\"16\" border=\"0\" title=\"".$_SESSION['lang']['editions_edit_again_pdf']."\" alt=\"".$_SESSION['lang']['editions_edit_again_pdf']."\">" .
-					" ".$_SESSION['lang']['editions_edit_again_pdf'] .
-					"</a>\n";
+			$sql_id = $resultat2["ep_id"];
+			$sql_date = eng_date_to_fr($resultat2["ep_date"]);
+			$sql_solde_jours = $resultat2["ep_solde_jours"];
+			$sql_solde_rtt = $resultat2["ep_solde_rtt"];
+			$sql_num_for_user = $resultat2["ep_num_for_user"];
+			
+			$text_edit_a_nouveau="<a href=\"edition.php?session=$session&user_login=$login&edit_id=$sql_id\">Editer à nouveau</a>" ;
 
 			echo "<tr align=\"center\">\n";
-			echo "<td class=\"histo\">".$tab_ed['num_for_user']."</td>\n" ;
-			echo "<td class=\"histo-big\">".$tab_ed['date']."</td>";
-			foreach($tab_type_cong as $id_abs => $libelle)
-			{
-				echo "<td class=\"histo\">".$tab_ed['conges'][$id_abs]."</td>";
-			}
-
+			echo "<td class=\"histo\">$sql_num_for_user</td>\n" ;
+			echo "<td class=\"histo-big\">$sql_date</td>";
+			echo "<td class=\"histo\">$sql_solde_jours</td>";
+			if($config_rtt_comme_conges==TRUE)
+				echo "<td class=\"histo\">$sql_solde_rtt</td>";
 			echo "<td class=\"histo\">$text_edit_a_nouveau</td>";
-			echo "<td class=\"histo\">$text_edit_pdf_a_nouveau</td>";
 			echo "</tr>\n";
 		}
 		echo "</table>\n";
 	}
 	echo "<br>\n";
-
+		
 	echo "</CENTER>\n";
 	echo "<hr align=\"center\" size=\"2\" width=\"90%\">\n";
 }

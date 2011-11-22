@@ -1,186 +1,159 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des CongÃ©s
+PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
-Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les
-termes de la Licence Publique GÃ©nÃ©rale GNU publiÃ©e par la Free Software Foundation.
-Ce programme est distribuÃ© car potentiellement utile, mais SANS AUCUNE GARANTIE,
-ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation
-dans un but spÃ©cifique. Reportez-vous Ã  la Licence Publique GÃ©nÃ©rale GNU pour plus de dÃ©tails.
-Vous devez avoir reÃ§u une copie de la Licence Publique GÃ©nÃ©rale GNU en mÃªme temps
-que ce programme ; si ce n'est pas le cas, Ã©crivez Ã  la Free Software Foundation,
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, Ã‰tats-Unis.
+Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les 
+termes de la Licence Publique Générale GNU publiée par la Free Software Foundation.
+Ce programme est distribué car potentiellement utile, mais SANS AUCUNE GARANTIE, 
+ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation 
+dans un but spécifique. Reportez-vous à la Licence Publique Générale GNU pour plus de détails.
+Vous devez avoir reçu une copie de la Licence Publique Générale GNU en même temps 
+que ce programme ; si ce n'est pas le cas, écrivez à la Free Software Foundation, 
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, États-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
-of the GNU General Public License as published by the Free Software Foundation; either
+of the GNU General Public License as published by the Free Software Foundation; either 
 version 2 of the License, or any later version.
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
 See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-define('_PHP_CONGES', 1);
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
-
-$session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
-
+//session_start();
+include("../config.php") ;
 include("../fonctions_conges.php") ;
 include("../INCLUDE.PHP/fonction.php");
 include("../INCLUDE.PHP/session.php");
+if($config_verif_droits==TRUE){ include("../INCLUDE.PHP/verif_droits.php");}
+?>
 
-$DEBUG=FALSE;
-//$DEBUG=TRUE;
-
-
-if($DEBUG==TRUE) { echo "_SESSION = <br>\n"; print_r($_SESSION); echo "<br>\n"; }
-if($DEBUG==TRUE) { echo "_GET = <br>\n"; print_r($_GET); echo "<br>\n"; }
-if($DEBUG==TRUE) { echo "_POST = <br>\n"; print_r($_POST); echo "<br>\n"; }
-
-echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
-echo "<html>\n";
-echo "<head>\n";
-
-echo "<TITLE> PHP_CONGES : ".$_SESSION['lang']['user']." ".$_SESSION['userlogin']."</TITLE>\n";
-echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-echo "<link href=\"../style.css\" rel=\"stylesheet\" type=\"text/css\" />";
-echo "</head>\n";
-$info="user";
-include("../menu.php");
-
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+<head>
+<?php 
+	echo "<TITLE> CONGES : Utilisateur $session_username</TITLE>\n"; 
+	echo "<link href=\"../$config_stylesheet_file\" rel=\"stylesheet\" type=\"text/css\">\n";
+	echo "</head>\n";
+	
+	echo "<body text=\"#000000\" bgcolor=$config_bgcolor link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\" background=\"$URL_ACCUEIL_CONGES/$config_bgimage\">\n";
+	echo "<CENTER>\n";
 
 	/*************************************/
-	// recup des parametres reÃ§us :
+	// recup des parametres reçus :
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
-	// GET / POST
-	$p_num           = getpost_variable("p_num");
-	$onglet          = getpost_variable("onglet");
-	$p_num_to_delete = getpost_variable("p_num_to_delete");
+	// GET
+	if(isset($_GET['p_num'])) { $p_num=$_GET['p_num']; }
+	if(isset($_GET['onglet'])) { $onglet=$_GET['onglet']; }
+	// POST
+	if(isset($_POST['p_num_to_delete'])) { $p_num_to_delete=$_POST['p_num_to_delete']; }
+	if(!isset($onglet))
+		if(isset($_POST['onglet'])) { $onglet=$_POST['onglet']; }
 	/*************************************/
-	if($DEBUG==TRUE) { echo "p_num = $p_num<br>\np_num_to_delete = $p_num_to_delete<br>\n"; }
-
+	
 	// TITRE
-	echo "<H1>".$_SESSION['lang']['user_suppr_demande_titre']."</H1>\n\n";
-	echo "<br> \n";
+	printf("<H1>Suppression demande de conges .</H1>\n\n");
+	printf("<br> \n");
 
-	if($p_num!="")
-	{
-		confirmer($p_num, $onglet, $DEBUG);
+	if(isset($p_num)) {
+		confirmer($p_num);
 	}
-	else
-	{
-		if($p_num_to_delete!="")
-		{
-			suppression($p_num_to_delete, $onglet, $DEBUG);
+	else {
+		if(isset($p_num_to_delete)) {
+			suppression($p_num_to_delete);
 		}
-		else
-		{
+		else {
 			// renvoit sur la page principale .
 			header("Location: user_index.php");
 		}
 	}
-
-
-	include '../bottom.php';
 	
-/************************************************************************************************/
-/*** fonctions    ***/
-/************************************************************************************************/
-
-function confirmer($p_num, $onglet, $DEBUG=FALSE)
-{
-	$sql=SQL::singleton();
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-	$session=session_id() ;
-
-
-	// RÃ©cupÃ©ration des informations
-	$sql1 = 'SELECT p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_nb_jours, p_commentaire, p_type, p_num FROM conges_periode WHERE p_num = \''.$sql->escape($p_num).'\'';
+	
+function confirmer($p_num) {
+	global $PHP_SELF;
+	global $session, $session_username ;
+	global $onglet;
+	
+	//connexion mysql
+	$link = connexion_mysql() ;
+	
+	// Récupération des informations
+	$sql1 = "SELECT p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_nb_jours, p_commentaire, p_type, p_num FROM conges_periode WHERE p_num = ".$p_num  ;
 	//printf("sql1 = %s<br>\n", $sql1);
-	$ReqLog1 = requete_mysql($sql1, "confirmer", $DEBUG) ;
-
+	
 	// AFFICHAGE TABLEAU
-	echo "<form action=\"$PHP_SELF\" method=\"POST\">\n"  ;
-	echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
-	echo "<tr align=\"center\">\n";
-	echo "<td class=\"titre\">".$_SESSION['lang']['divers_debut_maj_1']."</td>\n";
-	echo "<td class=\"titre\">".$_SESSION['lang']['divers_fin_maj_1']."</td>\n";
-	echo "<td class=\"titre\">".$_SESSION['lang']['divers_nb_jours_maj_1']."</td>\n";
-	echo "<td class=\"titre\">".$_SESSION['lang']['divers_comment_maj_1']."</td>\n";
-	echo "<td class=\"titre\">".$_SESSION['lang']['divers_type_maj_1']."</td>\n";
-	echo "</tr>\n";
-	echo "<tr align=\"center\">\n";
-	while ($resultat1 = $ReqLog1->fetch_array())
+	printf("<form action=\"$PHP_SELF\" method=\"POST\">\n" ) ;
+	printf("<table cellpadding=\"2\" class=\"tablo\" width=\"80%%\">\n");
+	printf("<tr align=\"center\"><td class=\"titre\">Debut</td><td class=\"titre\">Fin</td><td class=\"titre\">nb Jours Pris</td><td class=\"titre\">Commentaire</td><td class=\"titre\">Type</td></tr>\n");
+	$ReqLog1 = mysql_query($sql1, $link) or die("ERREUR : mysql_query : ".$sql1." --> ".mysql_error());
+	printf("<tr align=\"center\">\n");
+	while ($resultat1 = mysql_fetch_array($ReqLog1)) 
 	{
 		$sql_date_deb=eng_date_to_fr($resultat1["p_date_deb"]);
 		$sql_demi_jour_deb = $resultat1["p_demi_jour_deb"];
-		if($sql_demi_jour_deb=="am")
-			$demi_j_deb=$_SESSION['lang']['divers_am_short'];
-		else
-			$demi_j_deb=$_SESSION['lang']['divers_pm_short'];
+		if($sql_demi_jour_deb=="am") $demi_j_deb="mat";  else $demi_j_deb="aprm";
 		$sql_date_fin=eng_date_to_fr($resultat1["p_date_fin"]);
 		$sql_demi_jour_fin = $resultat1["p_demi_jour_fin"];
-		if($sql_demi_jour_fin=="am")
-			$demi_j_fin=$_SESSION['lang']['divers_am_short'];
-		else
-			$demi_j_fin=$_SESSION['lang']['divers_pm_short'];
+		if($sql_demi_jour_fin=="am") $demi_j_fin="mat";  else $demi_j_fin="aprm";
 		$sql_nb_jours=affiche_decimal($resultat1["p_nb_jours"]);
-		//$sql_type=$resultat1["p_type"];
-		$sql_type=get_libelle_abs($resultat1["p_type"], $DEBUG);
+		$sql_type=$resultat1["p_type"];
 		$sql_comment=$resultat1["p_commentaire"];
-
-		if($DEBUG==TRUE) { echo "$sql_date_deb _ $demi_j_deb : $sql_date_fin _ $demi_j_fin : $sql_nb_jours : $sql_comment : $sql_type<br>\n"; }
 
 		echo "<td class=\"histo\">$sql_date_deb _ $demi_j_deb</td>\n";
 		echo "<td class=\"histo\">$sql_date_fin _ $demi_j_fin</td>\n";
 		echo "<td class=\"histo\">$sql_nb_jours</td>\n";
-		echo "<td class=\"histo\">$sql_comment</td>\n";
-		echo "<td class=\"histo\">$sql_type</td>\n";
+		echo "<td class=\"histo\">$sql_comment</td>\n"; 
+		echo "<td class=\"histo\">$sql_type</td>\n"; 
 	}
-	echo "</tr>\n";
-	echo "</table><br>\n\n";
-	echo "<input type=\"hidden\" name=\"p_num_to_delete\" value=\"$p_num\">\n";
-	echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-	echo "<input type=\"hidden\" name=\"onglet\" value=\"$onglet\">\n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_supprim']."\">\n";
-	echo "</form>\n" ;
-
-	echo "<form action=\"user_index.php?session=$session&onglet=$onglet\" method=\"POST\">\n" ;
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_cancel']."\">\n";
-	echo "</form>\n" ;
+	printf("</tr>\n");
+	printf("</table><br>\n\n");
+	printf("<input type=\"hidden\" name=\"p_num_to_delete\" value=\"$p_num\">\n");
+	printf("<input type=\"hidden\" name=\"session\" value=\"$session\">\n");
+	printf("<input type=\"hidden\" name=\"onglet\" value=\"$onglet\">\n");
+	printf("<input type=\"submit\" value=\"Supprimer\">\n");
+	printf("</form>\n" ) ;
+	
+	printf("<form action=\"user_index.php?session=$session&onglet=$onglet\" method=\"POST\">\n" ) ;
+	printf("<input type=\"submit\" value=\"Cancel\">\n");
+	printf("</form>\n" ) ;
+	
+	mysql_close($link);
 
 }
 
-function suppression($p_num_to_delete, $onglet, $DEBUG=FALSE)
-{
-	$sql=SQL::singleton();
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-	$session=session_id() ;
+function suppression($p_num_to_delete) {
+	global $PHP_SELF;
+	global $session, $session_username ;
+	global $onglet;
+	
+	//connexion mysql
+	$link = connexion_mysql() ;
 
+	$sql_delete = "DELETE FROM conges_periode WHERE p_num = ".$p_num_to_delete ;
 
-	//$sql_delete = "DELETE FROM conges_periode WHERE p_num = $p_num_to_delete AND p_etat='demande' AND p_login='".$_SESSION['userlogin']."' ;" ;
-	$sql_delete = 'DELETE FROM conges_periode WHERE p_num = '.$sql->escape($p_num_to_delete).';';
-
-	$result_delete = requete_mysql($sql_delete, "suppression", $DEBUG);
-
-	$comment_log = "suppression de demande num $p_num_to_delete";
-	log_action($p_num_to_delete, "", $_SESSION['userlogin'], $comment_log, $DEBUG);
+	$result_delete = mysql_query($sql_delete, $link) or die("ERREUR : mysql_query : ".$sql1." --> ".mysql_error());
 
 	if($result_delete==TRUE)
-		echo $_SESSION['lang']['form_modif_ok']."<br><br> \n";
+		printf(" Changements pris en compte avec succes !<br><br> \n");
 	else
-		echo $_SESSION['lang']['form_modif_not_ok']."<br><br> \n";
+		printf(" ERREUR ! Changements NON pris en compte !<br><br> \n");
 
 	/* APPEL D'UNE AUTRE PAGE */
-	echo " <form action=\"user_index.php?session=$session&onglet=$onglet\" method=\"POST\"> \n";
-	echo "	<input type=\"submit\" value=\"".$_SESSION['lang']['form_retour']."\">\n";
-	echo " </form> \n";
+	printf(" <form action=\"user_index.php?session=$session&onglet=$onglet\" method=\"POST\"> \n");
+	printf("<input type=\"submit\" value=\"Retour\">\n");
+	printf(" </form> \n");
+	
+	mysql_close($link);
 
 }
 
 ?>
+<hr align="center" size="2" width="90%">
+
+</CENTER>
+</body>
+</html>

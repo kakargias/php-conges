@@ -6,164 +6,88 @@
   TODO :
 ****************
 
-***************************************
+
+- passer avec un systeme de session PHP (plus propre et qui permettrait de stocker des variables durant tt une session 
+	(globale à ttes les pages et à ttes les fonctions))
+- mettre les variables de config et les var d'environnement ($session, $php_self, etc...) dans un tableau global ..(ou dans une session PHP)
 
 
-***************************************
-Prochaine(s) Version(s)   :
-----------------------------------
-
-- possibilité que le responsable puisse saisir des congés pour un utilisateur même si l'utilisateur y est déjà autorisé.
-    Cette possibilité est d'ailleurs offerte pour les absences pour "mission, formations, etc..."
-    
-- upgrade de phpCAS dès que celui ci n'utilisera plus la fonction ereg() 
-
-- quand admin ajoute un user : pouvoir choisir comme resp "lui même" ... avec un controle ensuite si is_resp ='Y' ....
-       (ou en javascript : si "is_resp" est coché : proposer "lui même" dans la liste des responsables)
-
-- choix d'utiliser ou non php-ids (et du coup remettre ub seuil entre 15 et 25)
-
-- interdire les soldes négatifs mais SEULEMENT pour certain congés (choisi dans la config des types de conges)
-
-- limiter le solde négatif autorisé (par congés)
-
-- petit bug :
-    lors de la saisie d'un nouveau user, si un champs est éroné (ex: le mail est vide) , un clic sur recommencer renvoit 
-    à la page de saisie du user avec les champs préremplis SAUF le tableau des rtt !!! 
-    il faut récupérer aussi le tableau des rtt.
-
-- possiblité pour le resp d'éditer un recapitulatif des soldes de conges de tous ses users à la date d'aujourd'hui
-
-- possibilité d'indiquer dans le mail de validation de congés le nombre de CP et RTT restant à l'utilisateur...
-
-- definir dans l'appli un nouveau profil pour la création et gestion des utilisateurs.
-    En effet, la personne qui accompli cette tache (dans une grande structure) ne doit pas avoir accès aux options de 
-    configurations générales.
-    prévoir donc des users, responsables, admin(création et gestion des users/groupes) et superadmin(config de l'appli)
-
-- ajouter les reliquats dans les éditions papier
-
-- rajouter l'information " solde initial " ou "reliquat année précédente " dans la fiche d'une personne
-    (pour info et explication d'un solde supérieur au nb congés / an)
-    (pas simple car implique une notion de date de début et de fin d'"année" qui n'existe pas dans php_conges )
-
-- calendrier sans authentification :
-    supprimer les détails d'affichage (type de congés et d'abscences) 
-    voir le fichier "Gestion - Calendrier sans authentification et sans détail.doc" envoyé par MaRRocK !  (ou cf mail du 16/04/2008 et 18/05/2008)
-
-- avoir, pour les "absences autres", le même mécanisme de demande utilisateur / validation par le responsable que l'on a déjà pour les "congés" !
----> ou plutot : ajouter une nouveau type de "conges" : "absences_a_valider"  : pour pouvoir avoir de absences traitées comme des conges (demande/validation)
-                          sauf qu'elles n'ont ni nb/an ni solde !!! (donc pas d'ajout, pas de modif du nb ou solde dans l'admin , etc ....)
-      + la possibilité de "désactiver" un type de conges/absence existant (qu'on ne peut pas supprimer car des periode de ce type existe )
-      --> pour ceux qui demande une validation pour les absences : pour l'existant, il suffit de désactiver une abcense, et de la recréer de type "absences_a_valider" !!!
-
-- répéter la ligne des entêtes du tableau en haut de chaque page d'une édition papier ou pdf ....
-
-- faire apparaitre les fermetures et les conges pris sur les calendriers de saisie de nouveau congés.
+PHPMailer : 
+------------
+- passer de la version de PHPMailer de 1.72 à 1.73
+- introduire dans le fichier de config le chemin pour la librairie PHPMailer (pour aller le chercher ailleurs s'il est déja installé qq 
+	part sur le serveur)
+- possibilité de choisir entre PHPMailer et WAMailer si déja utilisé sur le serveur (--> réécrire la fonction de mail en testant quelle 
+	librairie est utilisée (verif dans le fichier de conf ou verif de l'existantce d'un fichier))
 
 
+---------------------------------------------------------------------------------
+pb de date en francais :
+-------------------------
+*Il sera plus elegant de tester la présence des locales sur le système hote une seule fois et de renseigner une constante 
+contenant la valeur adequate*
+Voir la procédure à suivre pour installer des locales sous linux:
+http://www.linux-france.org/article/sys/inslocal.html
 
-***************************************
-***************************************
- en vrac :
----------------------
 
-- ajouter qq part le nombre de jour de congés pris par mois . .... les DRH et autres personnes qui éditent des bulletins de salaires ont besoin de cette information.....
+-----------------------------------------------------------------------------------------------
 
-- triple validation !!(??)
+- ajouter la gestion des jours pour enfant malade (ce ne sont pas des congès, mais le nb auquel chaque user a droit est fixé et comptabilisé !)
 
-- le logiciel envoie un mail au responsable lorsqu'on pose une "absence" .. alors qu'il n'y a pas de validation à faire !
-  (et surtout, il n'est pas mentionné que c'est pour une absence !! donc le resp va dans php_conges, ne voit pas de demande et pense que c'est un bug !)
-   mettre une option de config d'envoi de mail lors du dépot d'une absence (true ou false)
-
-- dans l'install : faire une page de configuration assistée de l'appli : serie de question reponses pour les param les + importants de l'appli
-
-- possibilité de gérer les nb de jours, etc .. par groupe, dans le module d'administration (peu importe que l'admin soit du groupe ou resp du groupe !)
-
-- ajouter une option de config pour n'autoriser la saisie de demandes de conges QUE dans les X mois qui suivent la date d'aujourd'hui.... ça a été mis en place pour les
-  dates passées :le faire pour les dates futures ... à condition de rajouter une option de config de l'appli qui donnera la durée limite ...
-
-- possibilité d'afficher le solde réel au jour d'aujourd'hui, et le solde "projeté" des conges. (celui calculé et inscrit dans la base (qui tient compte des congés futurs)).
-
--  crée un module pour exporter sous forme de tableau excel (fichier CSV) les congés validés pour un période donnée.
-(génération d'un fichier CVS avec le nom et prénom, la date de début, la date de fin et le nombre de jour pris)
-
-- edition du calendrier en pdf ...
-
-- faite un mode TEST pour l'installeur ou une page de test qui teste tout (mail, connexion db, connexion ldap, connexion cas, test pdf, etc ....) avec
- un "error_reporting(E_ALL);" pour afficher les erreurs php !
-
-- dans la page responsable , faire une page "forcer des conges" où l'on puisse imposer des conges à un user, un groupe, ou tous.
-  (sur le même modèle que l'ajout de conges )
-
-- ajouter un flag "consultation_only" pour certains resp, qui interdit toute action au resp (il ne peut que voir les états des demandes et des conges de ses users)
-
-- gestion de skins ...
-- il serait intéressant que php_conges utilise un moteur de template (style smarty) histoire de pouvoir modifier plus aisément le look&feel de l'application.
-
-- dans mode responsable : possibilité d'avoir un affichage des users groupés par groupe !
-    (meme chose dans traite_demandes_all )
-
-- dans le fonction alerte_mail de fonctions_conges.php : instancier la langue de php_mailer comme celle de
-  php_conges (pas en francais systématiquement !)
-
-- Dans une page de modification de demande de congés , avoir le même calendrier de saisie que pour demander une nouvelle absence.
-
-- délégation de signature (validation des congés par une autre personne que le responsable dans le cas d'absence) .
-
-- faire une page d'aide pour le module d'admin !!!
-
-- faire une page de test : teste l'installation de php_conges ... (options de config php, test de la présence des fichiers à
-  inclure (phpmailer, fpdf, ...) et résumé des options de config choisies )
-
-- vérif si le navigateur accepte le javascript et les cookies DANS LE CAS d'une config sans authentification ....
-
-- fonctionnement des sessions sans cookies (si non acceptés par le navigateur) !
-
-Mails :  ajouter dans la conf une adresse mail pour envoyer les mails en cc (ceux utilisateurs ou ceux responsable)
-    et dans la table groupe pour pouvoir faire un cc différent pour chaque groupe
-
-- possibilité de choisir entre PHPMailer et WAMailer si déja utilisé sur le serveur (--> réécrire la fonction de mail en testant quelle
-    librairie est utilisée (verif dans le fichier de conf ou verif de l'existantce d'un fichier))
-
-- modif d'une demande : pouvoir passer une demande de conges en demande de rtt (ou inverse)(si rtt comme conges)
-
-- mettre un bouton qui affiche la date courante pour que on puisse y revenir par un clic lorsqu'on
-  navigue dans le calendrier (genre de l'année 2008 un clic affiche le mois en cours).
-
+- mettre un bouton qui affiche la date courante pour que on puisse y revenir par un clic lorsqu'on 
+navigue dans le calendrier (genre de l'année 2008 un clic affiche le mois en cours).
 - ajouter les congés scolaires dans le calendrier des congés. (??)
+
+- module d'impression:  pouvoir imprimer une feuille (par exemple un ordre de mission) pour les absences n'etant ni des 
+congés ni des rtt. Pour les formations/missions/autres on pourrait mettre en place une feuille imprimable type en reprenant 
+les differentes infos entrées : date de début, date de fin, motif, commentaires 
 
 - prévoir une édition papier pour les absences autres que les conges/RTT
 
-- Rajouter dans la base de données un champs 'niveau hiérarchique' pour chaque user, et faire en sorte que les affichages
-  des listes et calendriers se fassent dans l'ordre hiérarchique puis alphabétique. Ajouter un paramètre pour laisser le choix
-  d'utiliser ou pas cette option.
 
-- Echanges jours rtt :
+- config.php : faire la config dans la database plutot q'un fichier texte ... cela permettrait de faire des pages php de 
+config de l'appli avec des tests intégrés (pour l'envoi de mail ou l'authentification, etc ....)
+
+
+- Echanges jours rtt : 
    - faire apparaitre les 1/2 journées d'absence et de présence sur le calendrier de saisie.
    - gérer les echanges par demi journées, pas par date (pour les échanges de 2 demi jour le même jour)
 
 - possibilité pour le responsable de modifier un congés qu'il a saisi (si c'est le responsable qui saisi les congés).
 
+- gestion des congès par heure ....(????)
+
 - faire des logs des actions des users et des responsables ...(peut être possibilité d'annuler une action ...)
 
-- afficher la progression des soldes de congés et de rtt dans l'historique des congés/rtt (dans user_index.php et
+- afficher la progression des soldes de congés et de rtt dans l'historique des congés/rtt (dans user_index.php et 
   resp_traite_user.php)
   (il faut donc ajouter un champs à la table periode ... et voir comment l'annulation d'un congés perturbe l'ensemble ...)
   (peut être est il + interessant d'ajouter une table et de faire un historique des actions ....)
+  
+- versions autres database (postgresql)...
 
 - balises "pragma nocache" et "expire" dans entetes des pages
 - gérer les fermetures du services (calcul des jours décomptés pour chaque user (en fonction de la quotité))
 
 - calendrier  : prévoir un bouton "vue réduite" (sur 1/2 mois)
 
+- option dans config pour indiquer si l'admin peut changer le mot de passe d'un user (config_admin_ch_passwd)
+
 - rattachement d'un user à plusieurs responsables ...
 
-- possibilité de consulter, sans pour cela s'identifier, le planning des congés ...
-  par exemple à partir d'un portail intranet pour donner une vue globale à tous les utilisateurs !
+- gestion des congés maternité, gestion des longues maladie -> pour cela ... 
+prévoir un état d'absence sans poser/prendre de congés
 
-- possibilité (activable ou non ) de décompte des conges en heure et non en jour....
-  les personnels ne font pas les mêmes horaires tout les jours ! Bien sûr, la saisie des congès ou des demandes reste la même (en jour ou en demi jour) mais c?est un nombre
-  d?heure qui est décompté au final.  -> dans le module admin : formulaire de saisie pour chaque utilisateur de ses heures pour les différents jours de la semaine ...
+- losqu'une période de congés(ou de formation) est annulée par un
+responsable ... il serait interessant de mettre en place un champ
+commentaire pour que le responsable puisse en laisser un à l'utilisateur !
 
-- gestion des 'skin"
+- il serait également interessant de pouvoir consulter, sans pour cela
+s'identifier, le planning des congés ... par exemple à partir d'un portail
+intranet pour donner une vue globale à tous les utilisateurs !
+
+- affecter une lettre à un type de plage horaire par salarié pour au lieu d'afficher un trait (-).
+  Imaginons à la création de salarié il y ait 10 codes au choix après ce serait juste de l'affichage.  
+  Et afficher lors des absences un code absence au lieu de (abs) du style (cp)congés payés (rc)repos compensateur (rtt),
+  (mal)maladie (dep) deplacement prof ou formation.
+

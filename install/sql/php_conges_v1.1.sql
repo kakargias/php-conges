@@ -51,7 +51,7 @@ CREATE TABLE `conges_artt` (
   `a_date_debut_grille` date NOT NULL default '0000-00-00',
   `a_date_fin_grille` date NOT NULL default '9999-12-31',
   PRIMARY KEY  (`a_login`,`a_date_fin_grille`)
-);
+) TYPE=MyISAM;
 
 #
 # Contenu de la table `conges_artt`
@@ -73,7 +73,7 @@ CREATE TABLE `conges_echange_rtt` (
   `e_presence` enum('N','J','M','A') NOT NULL default 'N',
   `e_comment` varchar(255) default NULL,
   PRIMARY KEY  (`e_login`,`e_date_jour`)
-);
+) TYPE=MyISAM;
 
 #
 # Contenu de la table `conges_echange_rtt`
@@ -94,7 +94,7 @@ CREATE TABLE `conges_edition_papier` (
   `ep_solde_rtt` decimal(4,2) NOT NULL default '0.00',
   `ep_num_for_user` int(5) unsigned NOT NULL default '1',
   PRIMARY KEY  (`ep_id`)
-);
+) TYPE=MyISAM;
 
 #
 # Contenu de la table `conges_edition_papier`
@@ -111,7 +111,7 @@ CREATE TABLE `conges_groupe` (
   `g_groupename` varchar(50) NOT NULL default '',
   `g_comment` varchar(250) default NULL,
   PRIMARY KEY  (`g_gid`)
-);
+) TYPE=MyISAM;
 
 #
 # Contenu de la table `conges_groupe`
@@ -127,7 +127,7 @@ CREATE TABLE `conges_groupe` (
 CREATE TABLE `conges_groupe_resp` (
   `gr_gid` int(11) NOT NULL default '0',
   `gr_login` varchar(16) binary NOT NULL default ''
-);
+) TYPE=MyISAM;
 
 #
 # Contenu de la table `conges_groupe_resp`
@@ -142,7 +142,7 @@ CREATE TABLE `conges_groupe_resp` (
 CREATE TABLE `conges_groupe_users` (
   `gu_gid` int(11) NOT NULL default '0',
   `gu_login` varchar(16) binary NOT NULL default ''
-);
+) TYPE=MyISAM;
 
 #
 # Contenu de la table `conges_groupe_users`
@@ -157,7 +157,7 @@ CREATE TABLE `conges_groupe_users` (
 CREATE TABLE `conges_jours_feries` (
   `jf_date` date NOT NULL default '0000-00-00',
   PRIMARY KEY  (`jf_date`)
-);
+) TYPE=MyISAM;
 
 #
 # Contenu de la table `conges_jours_feries`
@@ -183,7 +183,7 @@ CREATE TABLE `conges_periode` (
   `p_motif_refus` varchar(110) default NULL,
   `p_num` int(5) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (`p_num`)
-);
+) TYPE=MyISAM;
 
 #
 # Contenu de la table `conges_periode`
@@ -208,7 +208,7 @@ CREATE TABLE `conges_users` (
   `u_email` varchar(100) default NULL,
   PRIMARY KEY  (`u_login`),
   KEY `u_login` (`u_login`)
-);
+) TYPE=MyISAM;
 
 #
 # Contenu de la table `conges_users`
@@ -230,7 +230,7 @@ CREATE TABLE IF NOT EXISTS `conges_config` (
   `conf_type` varchar(200) NOT NULL default 'texte',
   `conf_commentaire` text NOT NULL,
   PRIMARY KEY  (`conf_nom`)
-);
+) TYPE=MyISAM;
 
 #
 # Contenu de la table `conges_config`
@@ -270,7 +270,7 @@ INSERT INTO `conges_config` VALUES ('dimanche_travail', 'FALSE', '09_jours ouvra
 INSERT INTO `conges_config` VALUES ('gestion_groupes', 'FALSE', '10_Gestion par groupes', 'boolean', '//  GESTION DES GROUPES D\'UTILISATEURS<br>\n//--------------------------------------<br>\n// on définit ici si l\'on veut pouvoir gèrer les utilisateurs par groupe ou pas.<br>\n// si à TRUE : les groupes d\'utilisateurs sont gèrés dans l\'application ....<br>\n// si à FALSE : les groupes d\'utilisateurs ne sont PAS gèrés dans l\'application .... (FALSE est la valeur par defaut)');
 INSERT INTO `conges_config` VALUES ('affiche_groupe_in_calendrier', 'FALSE', '10_Gestion par groupes', 'boolean', '//  AFFICHAGE DU CALENDRIER : tous les utilisateurs ou les utilisateurs d\'un groupe seulement<br>\n//--------------------------------------------------------------------------------------------<br>\n// si à FALSE : tous les personnes apparaissent sur le calendrier des congès (FALSE est la valeur par defaut)<br>\n// si à TRUE : seuls les personnes du même  groupe que l\'utilisateur apparaissent sur le calendrier des congés');
 INSERT INTO `conges_config` VALUES ('editions_papier', 'TRUE', '11_Editions papier', 'boolean', '//  EDITIONS PAPIER<br>\n//--------------------------------------<br>\n// on définit ici si le responsable peut générer des états papier des congés d\'un user.<br>\n// si à TRUE : les éditions papier sont disponibles ....(TRUE est la valeur par defaut)<br>\n// si à FALSE : les éditions papier ne sont pas disponibles dans l\'application ....');
-INSERT INTO `conges_config` VALUES ('texte_haut_edition_papier', '- Adex_conges : édition des congés -', '11_Editions papier', 'texte', '//  Texte en haut des EDITIONS PAPIER<br>\n//--------------------------------------<br>\n// on définit ici le texte événtuel qui figurera en haut de page des états papier des congés d\'un user.');
+INSERT INTO `conges_config` VALUES ('texte_haut_edition_papier', '- php_conges : édition des congés -', '11_Editions papier', 'texte', '//  Texte en haut des EDITIONS PAPIER<br>\n//--------------------------------------<br>\n// on définit ici le texte événtuel qui figurera en haut de page des états papier des congés d\'un user.');
 INSERT INTO `conges_config` VALUES ('texte_bas_edition_papier', '- édité par php_conges -', '11_Editions papier', 'texte', '//  Texte au bas des EDITIONS PAPIER<br>\n//--------------------------------------<br>\n// on définit ici le texte événtuel qui figurera en bas de page des états papier des congés d\'un user.');
 #INSERT INTO `conges_config` VALUES ('rtt_comme_conges', 'TRUE', '12_Fonctionnement de l\'Etablissement', 'boolean', '//  GESTION DES RTT COMME DES CONGES (épargne temps)<br>\n//---------------------------------------------------------------------------------------<br>\n// on gére les rtt comme des congés (demande, validation par le responsable , etc ...)<br>\n// si à FALSE : pas de gestion jours rtt comme des jours de congés<br>\n// si à TRUE : gestion jours rtt comme des jours de congés (TRUE est la valeur par defaut)');
 INSERT INTO `conges_config` VALUES ('user_echange_rtt', 'FALSE', '12_Fonctionnement de l\'Etablissement', 'boolean', '//  ECHANGE RTT OU TEMPS PARTIEL AUTORISé POUR LES UTILISATEURS<br>\n//---------------------------------------------------------------------------------------<br>\n// on autorise ou non l\'utilisateur à inverser ponctuellement une jour travaillé et un jour d\'absence (de rtt ou temps partiel)<br>\n// si à FALSE : pas d\'échange autorisé pour l\'utilisateur (FALSE est la valeur par defaut)<br>\n// si à TRUE : échange autorisé pour l\'utilisateur');
@@ -301,7 +301,7 @@ CREATE TABLE `conges_type_absence` (
   `ta_libelle` varchar(20) NOT NULL default '',
   `ta_short_libelle` char(3) NOT NULL default '',
   PRIMARY KEY  (`ta_id`)
-);
+) TYPE=MyISAM;
 
 #
 # Contenu de la table `conges_type_absence`
@@ -325,7 +325,7 @@ CREATE TABLE `conges_solde_user` (
   `su_abs_id` int(2) unsigned NOT NULL default '0',
   `su_nb_an` decimal(4,2) NOT NULL default '0.00',
   `su_solde` decimal(4,2) NOT NULL default '0.00'
-);
+) TYPE=MyISAM;
 
 #
 # Contenu de la table `conges_solde_user`

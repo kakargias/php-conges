@@ -1,16 +1,16 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des Cong√©s
+PHP_CONGES : Gestion Interactive des CongÈs
 Copyright (C) 2005 (cedric chauvineau)
 
 Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les 
-termes de la Licence Publique G√©n√©rale GNU publi√©e par la Free Software Foundation.
-Ce programme est distribu√© car potentiellement utile, mais SANS AUCUNE GARANTIE, 
+termes de la Licence Publique GÈnÈrale GNU publiÈe par la Free Software Foundation.
+Ce programme est distribuÈ car potentiellement utile, mais SANS AUCUNE GARANTIE, 
 ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation 
-dans un but sp√©cifique. Reportez-vous √† la Licence Publique G√©n√©rale GNU pour plus de d√©tails.
-Vous devez avoir re√ßu une copie de la Licence Publique G√©n√©rale GNU en m√™me temps 
-que ce programme ; si ce n'est pas le cas, √©crivez √† la Free Software Foundation, 
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, √âtats-Unis.
+dans un but spÈcifique. Reportez-vous ‡ la Licence Publique GÈnÈrale GNU pour plus de dÈtails.
+Vous devez avoir reÁu une copie de la Licence Publique GÈnÈrale GNU en mÍme temps 
+que ce programme ; si ce n'est pas le cas, Ècrivez ‡ la Free Software Foundation, 
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, …tats-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation; either 
@@ -23,8 +23,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-define('_PHP_CONGES', 1);
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
+//appel de PHP-IDS que si version de php > 5.1.2
+if(phpversion() > "5.1.2") { include("../controle_ids.php") ;}
 
 /*******************************************************************/
 // SCRIPT DE MIGRATION DE LA VERSION 1.2.1 vers 1.3.0
@@ -41,9 +41,9 @@ $DEBUG=FALSE;
 $version = (isset($_GET['version']) ? $_GET['version'] : (isset($_POST['version']) ? $_POST['version'] : "")) ;
 $lang = (isset($_GET['lang']) ? $_GET['lang'] : (isset($_POST['lang']) ? $_POST['lang'] : "")) ;
 
-	// r√©sum√© des √©tapes :
-	// 1 : mise √† jour de la table conges_type_absence
-	// 2 : Ajout de param√®tres dans  conges_config
+	// rÈsumÈ des Ètapes :
+	// 1 : mise ‡ jour de la table conges_type_absence
+	// 2 : Ajout de paramËtres dans  conges_config
 	// 3 : creation de la table conges_historique_ajout
 	// 4 : Creation de la table conges_logs
 	
@@ -51,31 +51,34 @@ $lang = (isset($_GET['lang']) ? $_GET['lang'] : (isset($_POST['lang']) ? $_POST[
 	
 	if($DEBUG==FALSE)
 	{
-		// on lance les etape (fonctions) s√©quentiellement 
-		e1_maj_table_conges_type_absence( $DEBUG);
-		e2_insert_into_conges_config( $DEBUG);
-		e3_create_table_conges_historique_ajout( $DEBUG);
-		e4_create_table_conges_logs( $DEBUG);
+		$mysql_link = mysql_connexion($mysql_serveur, $mysql_user, $mysql_pass, $mysql_database);
+		// on lance les etape (fonctions) sÈquentiellement 
+		e1_maj_table_conges_type_absence($mysql_link, $DEBUG);
+		e2_insert_into_conges_config($mysql_link, $DEBUG);
+		e3_create_table_conges_historique_ajout($mysql_link, $DEBUG);
+		e4_create_table_conges_logs($mysql_link, $DEBUG);
 		
-		
-		// on renvoit √† la page mise_a_jour.php (l√† d'ou on vient)
+		mysql_close($mysql_link);
+		// on renvoit ‡ la page mise_a_jour.php (l‡ d'ou on vient)
 		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=mise_a_jour.php?etape=4&version=$version&lang=$lang\">";
 	}
 	else
 	{
-		// on lance les etape (fonctions) s√©quentiellement :
-		// avec un arret √† la fin de chaque √©tape  
+		$mysql_link = mysql_connexion($mysql_serveur, $mysql_user, $mysql_pass, $mysql_database);
+		
+		// on lance les etape (fonctions) sÈquentiellement :
+		// avec un arret ‡ la fin de chaque Ètape  
 		
 		$sub_etape=( (isset($_GET['sub_etape'])) ? $_GET['sub_etape'] : ( (isset($_POST['sub_etape'])) ? $_POST['sub_etape'] : 0 ) ) ;
 
 		if($sub_etape==0) { echo "<a href=\"$PHP_SELF?sub_etape=1&version=$version&lang=$lang\">start upgrade_from_v1.2.1</a><br>\n"; }		
-		if($sub_etape==1) { e1_maj_table_conges_type_absence( $DEBUG); echo "<a href=\"$PHP_SELF?sub_etape=2&version=$version&lang=$lang\">sub_etape 1  OK</a><br>\n"; }
-		if($sub_etape==2) { e2_insert_into_conges_config( $DEBUG); echo "<a href=\"$PHP_SELF?sub_etape=3&version=$version&lang=$lang\">sub_etape 2  OK</a><br>\n"; }
-		if($sub_etape==3) { e3_create_table_conges_historique_ajout( $DEBUG); echo "<a href=\"$PHP_SELF?sub_etape=4&version=$version&lang=$lang\">sub_etape 3  OK</a><br>\n"; }
-		if($sub_etape==4) { e4_create_table_conges_logs( $DEBUG); echo "<a href=\"$PHP_SELF?sub_etape=5&version=$version&lang=$lang\">sub_etape 4  OK</a><br>\n"; }
+		if($sub_etape==1) { e1_maj_table_conges_type_absence($mysql_link, $DEBUG); echo "<a href=\"$PHP_SELF?sub_etape=2&version=$version&lang=$lang\">sub_etape 1  OK</a><br>\n"; }
+		if($sub_etape==2) { e2_insert_into_conges_config($mysql_link, $DEBUG); echo "<a href=\"$PHP_SELF?sub_etape=3&version=$version&lang=$lang\">sub_etape 2  OK</a><br>\n"; }
+		if($sub_etape==3) { e3_create_table_conges_historique_ajout($mysql_link, $DEBUG); echo "<a href=\"$PHP_SELF?sub_etape=4&version=$version&lang=$lang\">sub_etape 3  OK</a><br>\n"; }
+		if($sub_etape==4) { e4_create_table_conges_logs($mysql_link, $DEBUG); echo "<a href=\"$PHP_SELF?sub_etape=5&version=$version&lang=$lang\">sub_etape 4  OK</a><br>\n"; }
 		
-		
-		// on renvoit √† la page mise_a_jour.php (l√† d'ou on vient)
+		mysql_close($mysql_link);
+		// on renvoit ‡ la page mise_a_jour.php (l‡ d'ou on vient)
 		if($sub_etape==5) { echo "<a href=\"mise_a_jour.php?etape=4&version=$version&lang=$lang\">upgrade_from_v1.2.1  OK</a><br>\n"; }
 	}
 
@@ -88,59 +91,59 @@ $lang = (isset($_GET['lang']) ? $_GET['lang'] : (isset($_POST['lang']) ? $_POST[
 
 
 /*****************************************************************/
-/***   ETAPE 1 : mise √† jour de la table conges_type_absence   ***/
+/***   ETAPE 1 : mise ‡ jour de la table conges_type_absence   ***/
 /*****************************************************************/
-function e1_maj_table_conges_type_absence( $DEBUG=FALSE)
+function e1_maj_table_conges_type_absence($mysql_link, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	
 	# on permet l'ajout d'un type "absences"
 	$sql_alter_1=" ALTER TABLE `conges_type_absence` CHANGE `ta_type` `ta_type` enum ('conges', 'conges_exceptionnels', 'absence', 'absences') ";
 	if($DEBUG==FALSE)
-		$result_alter_1 = $sql->query($sql_alter_1);
+		$result_alter_1 = mysql_query($sql_alter_1, $mysql_link);
 	else
-		$result_update = $sql->query($sql_alter_1) or die("erreur : e1_maj_table_conges_type_absence<br>\n".$sql->error) ;
+		$result_update = mysql_query($sql_alter_1, $mysql_link) or die("erreur : e1_maj_table_conges_type_absence<br>\n".mysql_error($mysql_link)) ;
 
 	# on modifie le type "absence" en "absences"
 	$sql_update=" UPDATE `conges_type_absence` SET `ta_type` = 'absences' where `ta_type` = 'absence'";
 	if($DEBUG==FALSE)
-		$result_update = $sql->query($sql_update);
+		$result_update = mysql_query($sql_update, $mysql_link);
 	else
-		$result_update = $sql->query($sql_update) or die("erreur : e1_maj_table_conges_type_absence<br>\n".$sql->error) ;
+		$result_update = mysql_query($sql_update, $mysql_link) or die("erreur : e1_maj_table_conges_type_absence<br>\n".mysql_error($mysql_link)) ;
 
-	# on supprime la possibilit√© d'avoir un type "absence"
+	# on supprime la possibilitÈ d'avoir un type "absence"
 	$sql_alter_2=" ALTER TABLE `conges_type_absence` CHANGE `ta_type` `ta_type` enum ('conges', 'conges_exceptionnels', 'absences')";
 	if($DEBUG==FALSE)
-		$result_alter_2 = $sql->query($sql_alter_2);
+		$result_alter_2 = mysql_query($sql_alter_2, $mysql_link);
 	else
-		$result_alter_2 = $sql->query($sql_alter_2) or die("erreur : e1_maj_table_conges_type_absence<br>\n".$sql->error) ;		
+		$result_alter_2 = mysql_query($sql_alter_2, $mysql_link) or die("erreur : e1_maj_table_conges_type_absence<br>\n".mysql_error($mysql_link)) ;		
 
 }
 
 
 /*************************************************************/
-/***   ETAPE 2 : Ajout de param√®tres dans  conges_config   ***/
+/***   ETAPE 2 : Ajout de paramËtres dans  conges_config   ***/
 /*************************************************************/
-function e2_insert_into_conges_config( $DEBUG=FALSE)
+function e2_insert_into_conges_config($mysql_link, $DEBUG=FALSE)
 {
 
 	$sql_insert="INSERT INTO `conges_config` VALUES ('gestion_conges_exceptionnels', 'FALSE', '12_Fonctionnement de l\'Etablissement', 'boolean', 'config_comment_gestion_conges_exceptionnels')";
 	if($DEBUG==FALSE)
-		$result_insert = $sql->query($sql_insert);
+		$result_insert = mysql_query($sql_insert, $mysql_link);
 	else
-		$result_insert = $sql->query($sql_insert) or die("erreur : e2_insert_into_conges_config<br>\n".$sql->error) ;
+		$result_insert = mysql_query($sql_insert, $mysql_link) or die("erreur : e2_insert_into_conges_config<br>\n".mysql_error($mysql_link)) ;
 	
 	$sql_insert_2="INSERT INTO `conges_config` VALUES ('grand_resp_ajout_conges', 'FALSE', '12_Fonctionnement de l\'Etablissement', 'boolean', 'config_comment_grand_resp_ajout_conges')";
 	if($DEBUG==FALSE)
-		$result_insert_2 = $sql->query($sql_insert_2);
+		$result_insert_2 = mysql_query($sql_insert_2, $mysql_link);
 	else
-		$result_insert_2 = $sql->query($sql_insert_2) or die("erreur : e2_insert_into_conges_config<br>\n".$sql->error) ;
+		$result_insert_2 = mysql_query($sql_insert_2, $mysql_link) or die("erreur : e2_insert_into_conges_config<br>\n".mysql_error($mysql_link)) ;
 	
 	$sql_insert_3="INSERT INTO `conges_config` VALUES ('interdit_saisie_periode_date_passee', 'FALSE', '13_Divers', 'boolean', 'config_comment_interdit_saisie_periode_date_passee')";
 	if($DEBUG==FALSE)
-		$result_insert_3 = $sql->query($sql_insert_3);
+		$result_insert_3 = mysql_query($sql_insert_3, $mysql_link);
 	else
-		$result_insert_3 = $sql->query($sql_insert_3) or die("erreur : e2_insert_into_conges_config<br>\n".$sql->error) ;
+		$result_insert_3 = mysql_query($sql_insert_3, $mysql_link) or die("erreur : e2_insert_into_conges_config<br>\n".mysql_error($mysql_link)) ;
 	
 }
 
@@ -148,7 +151,7 @@ function e2_insert_into_conges_config( $DEBUG=FALSE)
 /******************************************************************/
 /***   ETAPE 3 : Creation de la table conges_historique_ajout   ***/
 /******************************************************************/
-function e3_create_table_conges_historique_ajout( $DEBUG=FALSE)
+function e3_create_table_conges_historique_ajout($mysql_link, $DEBUG=FALSE)
 {
 
 	$sql_create="CREATE TABLE `conges_historique_ajout`(
@@ -158,11 +161,11 @@ function e3_create_table_conges_historique_ajout( $DEBUG=FALSE)
 					`ha_nb_jours` int(4) NOT NULL,
 					`ha_commentaire` VARCHAR(200) NOT NULL,
 					 PRIMARY KEY (`ha_login`, `ha_date`, `ha_abs_id` )
-					) DEFAULT CHARSET=latin1 ";
+					) TYPE=MyISAM DEFAULT CHARSET=latin1 ";
 	if($DEBUG==FALSE)
-		$result_create = $sql->query($sql_create);
+		$result_create = mysql_query($sql_create, $mysql_link);
 	else
-		$result_create = $sql->query($sql_create) or die("erreur : e3_create_table_conges_historique_ajout<br>\n".$sql->error) ;
+		$result_create = mysql_query($sql_create, $mysql_link) or die("erreur : e3_create_table_conges_historique_ajout<br>\n".mysql_error($mysql_link)) ;
 	
 }
 
@@ -170,7 +173,7 @@ function e3_create_table_conges_historique_ajout( $DEBUG=FALSE)
 /******************************************************************/
 /***   ETAPE 4 : Creation de la table conges_logs   ***/
 /******************************************************************/
-function e4_create_table_conges_logs( $DEBUG=FALSE)
+function e4_create_table_conges_logs($mysql_link, $DEBUG=FALSE)
 {
 
 	$sql_create_logs="CREATE TABLE `conges_logs` (
@@ -182,11 +185,11 @@ function e4_create_table_conges_logs( $DEBUG=FALSE)
 				   `log_comment` TEXT NULL, 
 				   `log_date` TIMESTAMP NOT NULL, 
 				   PRIMARY KEY  (`log_id`)
-					) DEFAULT CHARSET=latin1 ";
+					) TYPE=MyISAM DEFAULT CHARSET=latin1 ";
 	if($DEBUG==FALSE)
-		$result_create_logs = $sql->query($sql_create_logs);
+		$result_create_logs = mysql_query($sql_create_logs, $mysql_link);
 	else
-		$result_create_logs = $sql->query($sql_create_logs) or die("erreur : e4_create_table_conges_logs<br>\n".$sql->error) ;
+		$result_create_logs = mysql_query($sql_create_logs, $mysql_link) or die("erreur : e4_create_table_conges_logs<br>\n".mysql_error($mysql_link)) ;
 	
 }
 					

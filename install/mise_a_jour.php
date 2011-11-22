@@ -1,16 +1,16 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des Cong√©s
+PHP_CONGES : Gestion Interactive des CongÈs
 Copyright (C) 2005 (cedric chauvineau)
 
 Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les
-termes de la Licence Publique G√©n√©rale GNU publi√©e par la Free Software Foundation.
-Ce programme est distribu√© car potentiellement utile, mais SANS AUCUNE GARANTIE,
+termes de la Licence Publique GÈnÈrale GNU publiÈe par la Free Software Foundation.
+Ce programme est distribuÈ car potentiellement utile, mais SANS AUCUNE GARANTIE,
 ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation
-dans un but sp√©cifique. Reportez-vous √† la Licence Publique G√©n√©rale GNU pour plus de d√©tails.
-Vous devez avoir re√ßu une copie de la Licence Publique G√©n√©rale GNU en m√™me temps
-que ce programme ; si ce n'est pas le cas, √©crivez √† la Free Software Foundation,
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, √âtats-Unis.
+dans un but spÈcifique. Reportez-vous ‡ la Licence Publique GÈnÈrale GNU pour plus de dÈtails.
+Vous devez avoir reÁu une copie de la Licence Publique GÈnÈrale GNU en mÍme temps
+que ce programme ; si ce n'est pas le cas, Ècrivez ‡ la Free Software Foundation,
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, …tats-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation; either
@@ -23,8 +23,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-define('_PHP_CONGES', 1);
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
+//appel de PHP-IDS que si version de php > 5.1.2
+if(phpversion() > "5.1.2") { include("../controle_ids.php") ;}
 
 include("../fonctions_conges.php") ;
 include("../INCLUDE.PHP/fonction.php");
@@ -55,7 +55,7 @@ if($DEBUG==TRUE) { echo "SESSION = <br>\n"; print_r($_SESSION); echo "<br><br>\n
 
 	if($DEBUG==TRUE) { echo "action = $action :: version = $version :: etape = $etape<br>\n";}
 
-	if($version == 0)  // la version √† mettre √† jour dans le formulaire de index.php n'a pas √©t√© choisie : renvoit sur le formulaire
+	if($version == 0)  // la version ‡ mettre ‡ jour dans le formulaire de index.php n'a pas ÈtÈ choisie : renvoit sur le formulaire
 	{
 		if($DEBUG==FALSE)
 			echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=index.php?lang=$lang\">";
@@ -66,7 +66,7 @@ if($DEBUG==TRUE) { echo "SESSION = <br>\n"; print_r($_SESSION); echo "<br><br>\n
 
 	echo "<html>\n<head>\n";
 	echo "<TITLE> PHP_CONGES : ".$_SESSION['lang']['install_maj_titre_1']." : </TITLE>\n</head>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
+	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
 	echo "<link href=\"../style_basic.css\" rel=\"stylesheet\" type=\"text/css\">\n";
 	echo "</head>\n";
 
@@ -90,8 +90,8 @@ if($DEBUG==TRUE) { echo "SESSION = <br>\n"; print_r($_SESSION); echo "<br><br>\n
 /*   FONCTIONS   */
 
 
-// lance les differente maj depuis la $installed_version jusqu'√† la version actuelle
-// la $installed_version est pr√©alablement d√©termin√©e par get_installed_version() ou renseign√©e par l'utilisateur
+// lance les differente maj depuis la $installed_version jusqu'‡ la version actuelle
+// la $installed_version est prÈalablement dÈterminÈe par get_installed_version() ou renseignÈe par l'utilisateur
 function lance_maj($lang, $installed_version, $config_php_conges_version, $etape, $DEBUG=FALSE)
 {
 	if($DEBUG==TRUE) { echo " lang = $lang  ##  etape = $etape ## version = $installed_version<br>\n";}
@@ -99,6 +99,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	include("../dbconnect.php") ;
 
+	$mysql_link = mysql_connexion($mysql_serveur, $mysql_user, $mysql_pass, $mysql_database);
 
 	//*** ETAPE 0
 	if($etape==0)
@@ -120,7 +121,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 	elseif($etape==1)
 	{
 		//verif si create / alter table possible !!!
-		if(test_create_table( $DEBUG) == FALSE)
+		if(test_create_table($mysql_link, $DEBUG) == FALSE)
 		{
 			echo "<font color=\"red\"><b>CREATE TABLE</b> ".$_SESSION['lang']['install_impossible_sur_db']." <b>$mysql_database</b> (".$_SESSION['lang']['install_verif_droits_mysql']." <b>$mysql_user</b>)...</font><br> \n";
 			echo "<br>puis ...<br>\n";
@@ -130,7 +131,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 			echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_redo']."\">\n";
 			echo "</form>\n";
 		}
-		elseif(test_alter_table( $DEBUG) == FALSE)
+		elseif(test_alter_table($mysql_link, $DEBUG) == FALSE)
 		{
 			echo "<font color=\"red\"><b>ALTER TABLE</b> ".$_SESSION['lang']['install_impossible_sur_db']." <b>$mysql_database</b> (".$_SESSION['lang']['install_verif_droits_mysql']." <b>$mysql_user</b>)...</font><br> \n";
 			echo "<br>puis ...<br>\n";
@@ -140,7 +141,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 			echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_redo']."\">\n";
 			echo "</form>\n";
 		}
-		elseif(test_drop_table( $DEBUG) == FALSE)
+		elseif(test_drop_table($mysql_link, $DEBUG) == FALSE)
 		{
 			echo "<font color=\"red\"><b>DROP TABLE</b> ".$_SESSION['lang']['install_impossible_sur_db']." <b>$mysql_database</b> (".$_SESSION['lang']['install_verif_droits_mysql']." <b>$mysql_user</b>)...</font><br> \n";
 			echo "<br>puis ...<br>\n";
@@ -161,10 +162,10 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 	//*** ETAPE 2
 	elseif($etape==2)
 	{
-		// si on part d'une version <= v1.0 : on travaille sinon, on passe √† l'√©tape 3
+		// si on part d'une version <= v1.0 : on travaille sinon, on passe ‡ l'Ètape 3
 		if( (substr($installed_version, 0, 1)=="0") || ($installed_version=="1.0") )
 		{
-			//verif si la copie de l'ancien fichier de config est pr√©sent et lisible (install/config_old.php)
+			//verif si la copie de l'ancien fichier de config est prÈsent et lisible (install/config_old.php)
 			if(test_old_config_file($DEBUG) == FALSE)
 			{
 				echo "<font color=\"red\">\n";
@@ -200,7 +201,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 	//*** ETAPE 3
 	elseif($etape==3)
 	{
-		// ATTENTION on ne passe cette √©tape que si on est en version inferieure √† 1.0 ! (donc en v0.xxx) (sinon on passe √† l'√©tape 4)
+		// ATTENTION on ne passe cette Ètape que si on est en version inferieure ‡ 1.0 ! (donc en v0.xxx) (sinon on passe ‡ l'Ètape 4)
 		if(substr($installed_version, 0, 1)!="0")
 		{
 			if($DEBUG==FALSE)
@@ -210,13 +211,13 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 		}
 		else
 		{
-			//on lance l'execution de fichier sql de migration l'un apr√®s l'autre jusqu a la version 0.10.1 ..
+			//on lance l'execution de fichier sql de migration l'un aprËs l'autre jusqu a la version 0.10.1 ..
 			$db_version=explode(".", $installed_version);
 			$db_sub_version = (int) $db_version[1];
 
 			for($i=$db_sub_version ; $i <= 10 ; $i++)
 			{
-				if($i==10) // si on en est √† v0.10 on passe en v1.0
+				if($i==10) // si on en est ‡ v0.10 on passe en v1.0
 					$sql_file = "sql/upgrade_v0.10_to_v1.0.sql";
 				else
 				{
@@ -225,7 +226,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 				}
 				if($DEBUG==TRUE)
 					echo "sql_file = $sql_file<br>\n";
-				execute_sql_file($sql_file,  $DEBUG);
+				execute_sql_file($sql_file, $mysql_link, $DEBUG);
 			}
 			if($DEBUG==FALSE)
 				echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$PHP_SELF?etape=4&version=1.0&lang=$lang\">";
@@ -237,16 +238,16 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 	//*** ETAPE 4
 	elseif($etape==4)
 	{
-		// on est au moins √† la version 1.0 ....
+		// on est au moins ‡ la version 1.0 ....
 		// ensuite tout se fait en php (plus de script de migration sql)
 
-		// on determine la version la + √©lev√©e entre $installed_version et 1.0  , et on part de celle l√† !
+		// on determine la version la + ÈlevÈe entre $installed_version et 1.0  , et on part de celle l‡ !
 		if(substr($installed_version, 0, 1)=="0")
 			$start_version="1.0";
 		else
 			$start_version=$installed_version ;
 
-		//on lance l'execution (include) des scripts d'upgrade l'un apr√®s l'autre jusqu a la version voulue ($config_php_conges_version) ..
+		//on lance l'execution (include) des scripts d'upgrade l'un aprËs l'autre jusqu a la version voulue ($config_php_conges_version) ..
 		if($start_version=="1.0")
 		{
 			$file_upgrade="upgrade_from_v1.0.php";
@@ -310,19 +311,12 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 			// execute le script php d'upgrade de la version1.4.0 (vers la suivante (1.4.1))
 			echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$file_upgrade?version=$new_installed_version&lang=$lang\">";
 		}
-		elseif(($start_version=="1.4.1")||($start_version=="1.4.2"))
-		{
-			$file_upgrade="upgrade_from_v1.4.2.php";
-			$new_installed_version="1.5.0";
-			// execute le script php d'upgrade de la version1.4.2 (vers la suivante (1.5.0))
-			echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$file_upgrade?version=$new_installed_version&lang=$lang\">";
-		}
 		else
 		{
 			if($DEBUG==FALSE)
 				echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$PHP_SELF?etape=5&version=1.4.1&lang=$lang\">";
 			else
-				echo "<a href=\"$PHP_SELF?etape=5&version=1.5.0&lang=$lang\">".$_SESSION['lang']['install_etape']." 4  OK</a><br>\n";
+				echo "<a href=\"$PHP_SELF?etape=5&version=1.4.1&lang=$lang\">".$_SESSION['lang']['install_etape']." 4  OK</a><br>\n";
 		}
 
 	}
@@ -330,7 +324,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 	elseif($etape==5)
 	{
 		// FIN
-		// test si fichiers config.php ou config_old.php existent encore (si oui : demande de les √©ffacer !
+		// test si fichiers config.php ou config_old.php existent encore (si oui : demande de les Èffacer !
 		if( (test_config_file($DEBUG)==TRUE) || (test_old_config_file($DEBUG)==TRUE) )
 		{
 			if(test_config_file($DEBUG)==TRUE)
@@ -345,15 +339,15 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 		}
 		else
 		{
-			// mise √† jour de la "installed_version" et de la langue dans la table conges_config
+			// mise ‡ jour de la "installed_version" et de la langue dans la table conges_config
 			$sql_update_version="UPDATE conges_config SET conf_valeur = '$config_php_conges_version' WHERE conf_nom='installed_version' ";
-			$result_update_version = $sql->query($sql_update_version) or die ($sql->error);
+			$result_update_version = mysql_query($sql_update_version, $mysql_link) or die (mysql_error());
 
 			$sql_update_lang="UPDATE conges_config SET conf_valeur = '$lang' WHERE conf_nom='lang' ";
-			$result_update_lang = $sql->query($sql_update_lang) or die ($sql->error);
+			$result_update_lang = mysql_query($sql_update_lang, $mysql_link) or die (mysql_error());
 
 			$comment_log = "Mise a jour de php_conges (version $installed_version --> version $config_php_conges_version) ";
-			log_action(0, "", "", $comment_log,  $DEBUG);
+			log_action(0, "", "", $comment_log, $mysql_link, $DEBUG);
 
 			// on propose la page de config ....
 			echo "<br><br><h2>".$_SESSION['lang']['install_ok']." !</h2><br>\n";
@@ -366,7 +360,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 		// rien, on ne devrait jammais arriver dans ce else !!!
 	}
 
-	
+	mysql_close($mysql_link);
 }
 
 

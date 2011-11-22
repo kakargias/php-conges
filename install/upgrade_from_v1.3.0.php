@@ -1,16 +1,16 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des Cong√©s
+PHP_CONGES : Gestion Interactive des CongÈs
 Copyright (C) 2005 (cedric chauvineau)
 
 Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les 
-termes de la Licence Publique G√©n√©rale GNU publi√©e par la Free Software Foundation.
-Ce programme est distribu√© car potentiellement utile, mais SANS AUCUNE GARANTIE, 
+termes de la Licence Publique GÈnÈrale GNU publiÈe par la Free Software Foundation.
+Ce programme est distribuÈ car potentiellement utile, mais SANS AUCUNE GARANTIE, 
 ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation 
-dans un but sp√©cifique. Reportez-vous √† la Licence Publique G√©n√©rale GNU pour plus de d√©tails.
-Vous devez avoir re√ßu une copie de la Licence Publique G√©n√©rale GNU en m√™me temps 
-que ce programme ; si ce n'est pas le cas, √©crivez √† la Free Software Foundation, 
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, √âtats-Unis.
+dans un but spÈcifique. Reportez-vous ‡ la Licence Publique GÈnÈrale GNU pour plus de dÈtails.
+Vous devez avoir reÁu une copie de la Licence Publique GÈnÈrale GNU en mÍme temps 
+que ce programme ; si ce n'est pas le cas, Ècrivez ‡ la Free Software Foundation, 
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, …tats-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation; either 
@@ -23,11 +23,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-define('_PHP_CONGES', 1);
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 /*******************************************************************/
-// SCRIPT DE MIGRATION DE LA VERSION 1.3.0 vers 1.3.1
+// SCRIPT DE MIGRATION DE LA VERSION 1.2.1 vers 1.3.0
 /*******************************************************************/
 include("../fonctions_conges.php") ;
 include("../INCLUDE.PHP/fonction.php");
@@ -41,36 +39,39 @@ $DEBUG=FALSE;
 $version = (isset($_GET['version']) ? $_GET['version'] : (isset($_POST['version']) ? $_POST['version'] : "")) ;
 $lang = (isset($_GET['lang']) ? $_GET['lang'] : (isset($_POST['lang']) ? $_POST['lang'] : "")) ;
 
-	// r√©sum√© des √©tapes :
-	// 1 : mise √† jour du champ login dans les tables (respect de la casse)
+	// rÈsumÈ des Ètapes :
+	// 1 : mise ‡ jour du champ login dans les tables (respect de la casse)
 	
 	include("../dbconnect.php") ;
 	
 	if($DEBUG==FALSE)
 	{
-		// on lance les etapes (fonctions) s√©quentiellement 
-		e1_alter_login_dans_tables( $DEBUG);
-		e2_alter_table_conges_solde_user( $DEBUG);
-		e3_insert_into_conges_config( $DEBUG);
+		$mysql_link = mysql_connexion($mysql_serveur, $mysql_user, $mysql_pass, $mysql_database);
+		// on lance les etapes (fonctions) sÈquentiellement 
+		e1_alter_login_dans_tables($mysql_link, $DEBUG);
+		e2_alter_table_conges_solde_user($mysql_link, $DEBUG);
+		e3_insert_into_conges_config($mysql_link, $DEBUG);
 		
-		
-		// on renvoit √† la page mise_a_jour.php (l√† d'ou on vient)
+		mysql_close($mysql_link);
+		// on renvoit ‡ la page mise_a_jour.php (l‡ d'ou on vient)
 		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=mise_a_jour.php?etape=4&version=$version&lang=$lang\">";
 	}
 	else
 	{
-		// on lance les etape (fonctions) s√©quentiellement :
-		// avec un arret √† la fin de chaque √©tape  
+		$mysql_link = mysql_connexion($mysql_serveur, $mysql_user, $mysql_pass, $mysql_database);
+		
+		// on lance les etape (fonctions) sÈquentiellement :
+		// avec un arret ‡ la fin de chaque Ètape  
 		
 		$sub_etape=( (isset($_GET['sub_etape'])) ? $_GET['sub_etape'] : ( (isset($_POST['sub_etape'])) ? $_POST['sub_etape'] : 0 ) ) ;
 
 		if($sub_etape==0) { echo "<a href=\"$PHP_SELF?sub_etape=1&version=$version&lang=$lang\">start upgrade_from_v1.3.0</a><br>\n"; }		
-		if($sub_etape==1) { e1_alter_login_dans_tables( $DEBUG); echo "<a href=\"$PHP_SELF?sub_etape=2&version=$version&lang=$lang\">sub_etape 1  OK</a><br>\n"; }
-		if($sub_etape==2) { e2_alter_table_conges_solde_user( $DEBUG); echo "<a href=\"$PHP_SELF?sub_etape=3&version=$version&lang=$lang\">sub_etape 2  OK</a><br>\n"; }
-		if($sub_etape==3) { e3_insert_into_conges_config( $DEBUG); echo "<a href=\"$PHP_SELF?sub_etape=4&version=$version&lang=$lang\">sub_etape 3  OK</a><br>\n"; }
+		if($sub_etape==1) { e1_alter_login_dans_tables($mysql_link, $DEBUG); echo "<a href=\"$PHP_SELF?sub_etape=2&version=$version&lang=$lang\">sub_etape 1  OK</a><br>\n"; }
+		if($sub_etape==2) { e2_alter_table_conges_solde_user($mysql_link, $DEBUG); echo "<a href=\"$PHP_SELF?sub_etape=3&version=$version&lang=$lang\">sub_etape 2  OK</a><br>\n"; }
+		if($sub_etape==3) { e3_insert_into_conges_config($mysql_link, $DEBUG); echo "<a href=\"$PHP_SELF?sub_etape=4&version=$version&lang=$lang\">sub_etape 3  OK</a><br>\n"; }
 		
-		
-		// on renvoit √† la page mise_a_jour.php (l√† d'ou on vient)
+		mysql_close($mysql_link);
+		// on renvoit ‡ la page mise_a_jour.php (l‡ d'ou on vient)
 		if($sub_etape==4) { echo "<a href=\"mise_a_jour.php?etape=4&version=$version&lang=$lang\">upgrade_from_v1.3.0  OK</a><br>\n"; }
 	}
 
@@ -83,47 +84,83 @@ $lang = (isset($_GET['lang']) ? $_GET['lang'] : (isset($_POST['lang']) ? $_POST[
 
 
 /*****************************************************************/
-/***   ETAPE 1 : mise √† jour du champ login dans les tables (respect de la casse)   ***/
+/***   ETAPE 1 : mise ‡ jour du champ login dans les tables (respect de la casse)   ***/
 /*****************************************************************/
-function e1_alter_login_dans_tables( $DEBUG=FALSE)
+function e1_alter_login_dans_tables($mysql_link, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	
 	$sql_alter_1=" ALTER TABLE `conges_users` CHANGE `u_login` `u_login` VARCHAR( 16 ) CHARACTER SET binary NOT NULL ";
-	$result_alter_1 = $sql->query($sql_alter_1) or die("erreur : e1_alter_login_dans_tables<br>\n".$sql->error) ;
+	if($DEBUG==FALSE)
+		$result_alter_1 = mysql_query($sql_alter_1, $mysql_link);
+	else
+		$result_alter_1 = mysql_query($sql_alter_1, $mysql_link) or die("erreur : e1_alter_login_dans_tables<br>\n".mysql_error($mysql_link)) ;
 
 	$sql_alter_2=" ALTER TABLE `conges_artt` CHANGE `a_login` `a_login` VARCHAR( 16 ) CHARACTER SET binary NOT NULL ";
-	$result_alter_2 = $sql->query($sql_alter_2) or die("erreur : e1_alter_login_dans_tables<br>\n".$sql->error) ;
+	if($DEBUG==FALSE)
+		$result_alter_2 = mysql_query($sql_alter_2, $mysql_link);
+	else
+		$result_alter_2 = mysql_query($sql_alter_2, $mysql_link) or die("erreur : e1_alter_login_dans_tables<br>\n".mysql_error($mysql_link)) ;
 
 	$sql_alter_3=" ALTER TABLE `conges_echange_rtt` CHANGE `e_login` `e_login` VARCHAR( 16 ) CHARACTER SET binary NOT NULL ";
-	$result_alter_3 = $sql->query($sql_alter_3) or die("erreur : e1_alter_login_dans_tables<br>\n".$sql->error) ;
+	if($DEBUG==FALSE)
+		$result_alter_3 = mysql_query($sql_alter_3, $mysql_link);
+	else
+		$result_alter_3 = mysql_query($sql_alter_3, $mysql_link) or die("erreur : e1_alter_login_dans_tables<br>\n".mysql_error($mysql_link)) ;
 
 	$sql_alter_4=" ALTER TABLE `conges_edition_papier` CHANGE `ep_login` `ep_login` VARCHAR( 16 ) CHARACTER SET binary NOT NULL ";
-	$result_alter_4 = $sql->query($sql_alter_4) or die("erreur : e1_alter_login_dans_tables<br>\n".$sql->error) ;
+	if($DEBUG==FALSE)
+		$result_alter_4 = mysql_query($sql_alter_4, $mysql_link);
+	else
+		$result_alter_4 = mysql_query($sql_alter_4, $mysql_link) or die("erreur : e1_alter_login_dans_tables<br>\n".mysql_error($mysql_link)) ;
 
 	$sql_alter_5=" ALTER TABLE `conges_groupe_grd_resp` CHANGE `ggr_login` `ggr_login` VARCHAR( 16 ) CHARACTER SET binary NOT NULL ";
-	$result_alter_5 = $sql->query($sql_alter_5) or die("erreur : e1_alter_login_dans_tables<br>\n".$sql->error) ;
+	if($DEBUG==FALSE)
+		$result_alter_5 = mysql_query($sql_alter_5, $mysql_link);
+	else
+		$result_alter_5 = mysql_query($sql_alter_5, $mysql_link) or die("erreur : e1_alter_login_dans_tables<br>\n".mysql_error($mysql_link)) ;
 
 	$sql_alter_6=" ALTER TABLE `conges_groupe_resp` CHANGE `gr_login` `gr_login` VARCHAR( 16 ) CHARACTER SET binary NOT NULL ";
-	$result_alter_6 = $sql->query($sql_alter_6) or die("erreur : e1_alter_login_dans_tables<br>\n".$sql->error) ;
+	if($DEBUG==FALSE)
+		$result_alter_6 = mysql_query($sql_alter_6, $mysql_link);
+	else
+		$result_alter_6 = mysql_query($sql_alter_6, $mysql_link) or die("erreur : e1_alter_login_dans_tables<br>\n".mysql_error($mysql_link)) ;
 
 	$sql_alter_7=" ALTER TABLE `conges_groupe_users` CHANGE `gu_login` `gu_login` VARCHAR( 16 ) CHARACTER SET binary NOT NULL ";
-	$result_alter_7 = $sql->query($sql_alter_7) or die("erreur : e1_alter_login_dans_tables<br>\n".$sql->error) ;
+	if($DEBUG==FALSE)
+		$result_alter_7 = mysql_query($sql_alter_7, $mysql_link);
+	else
+		$result_alter_7 = mysql_query($sql_alter_7, $mysql_link) or die("erreur : e1_alter_login_dans_tables<br>\n".mysql_error($mysql_link)) ;
 
 	$sql_alter_8=" ALTER TABLE `conges_historique_ajout` CHANGE `ha_login` `ha_login` VARCHAR( 16 ) CHARACTER SET binary NOT NULL ";
-	$result_alter_8 = $sql->query($sql_alter_8) or die("erreur : e1_alter_login_dans_tables<br>\n".$sql->error) ;
+	if($DEBUG==FALSE)
+		$result_alter_8 = mysql_query($sql_alter_8, $mysql_link);
+	else
+		$result_alter_8 = mysql_query($sql_alter_8, $mysql_link) or die("erreur : e1_alter_login_dans_tables<br>\n".mysql_error($mysql_link)) ;
 
 	$sql_alter_9=" ALTER TABLE `conges_logs` CHANGE `log_user_login_par` `log_user_login_par` VARCHAR( 16 ) CHARACTER SET binary NOT NULL ";
-	$result_alter_9 = $sql->query($sql_alter_9) or die("erreur : e1_alter_login_dans_tables<br>\n".$sql->error) ;
+	if($DEBUG==FALSE)
+		$result_alter_9 = mysql_query($sql_alter_9, $mysql_link);
+	else
+		$result_alter_9 = mysql_query($sql_alter_9, $mysql_link) or die("erreur : e1_alter_login_dans_tables<br>\n".mysql_error($mysql_link)) ;
 
 	$sql_alter_10=" ALTER TABLE `conges_logs` CHANGE `log_user_login_pour` `log_user_login_pour` VARCHAR( 16 ) CHARACTER SET binary NOT NULL ";
-	$result_alter_10 = $sql->query($sql_alter_10) or die("erreur : e1_alter_login_dans_tables<br>\n".$sql->error) ;
+	if($DEBUG==FALSE)
+		$result_alter_10 = mysql_query($sql_alter_10, $mysql_link);
+	else
+		$result_alter_10 = mysql_query($sql_alter_10, $mysql_link) or die("erreur : e1_alter_login_dans_tables<br>\n".mysql_error($mysql_link)) ;
 
 	$sql_alter_11=" ALTER TABLE `conges_periode` CHANGE `p_login` `p_login` VARCHAR( 16 ) CHARACTER SET binary NOT NULL ";
-	$result_alter_11 = $sql->query($sql_alter_11) or die("erreur : e1_alter_login_dans_tables<br>\n".$sql->error) ;
+	if($DEBUG==FALSE)
+		$result_alter_11 = mysql_query($sql_alter_11, $mysql_link);
+	else
+		$result_alter_11 = mysql_query($sql_alter_11, $mysql_link) or die("erreur : e1_alter_login_dans_tables<br>\n".mysql_error($mysql_link)) ;
 
 	$sql_alter_12=" ALTER TABLE `conges_solde_user` CHANGE `su_login` `su_login` VARCHAR( 16 ) CHARACTER SET binary NOT NULL ";
-	$result_alter_12 = $sql->query($sql_alter_12) or die("erreur : e1_alter_login_dans_tables<br>\n".$sql->error) ;
+	if($DEBUG==FALSE)
+		$result_alter_12 = mysql_query($sql_alter_12, $mysql_link);
+	else
+		$result_alter_12 = mysql_query($sql_alter_12, $mysql_link) or die("erreur : e1_alter_login_dans_tables<br>\n".mysql_error($mysql_link)) ;
 
 }
 
@@ -131,24 +168,30 @@ function e1_alter_login_dans_tables( $DEBUG=FALSE)
 /************************************************************************************/
 /***   ETAPE 2 : ajout d'un index sur 2 colonnes dans la table conges_sold_user   ***/
 /************************************************************************************/
-function e2_alter_table_conges_solde_user( $DEBUG=FALSE)
+function e2_alter_table_conges_solde_user($mysql_link, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	
 	$sql_alter_1="  ALTER TABLE `conges_solde_user` ADD PRIMARY KEY ( `su_login` , `su_abs_id` ) ";
-	$result_alter_1 = $sql->query($sql_alter_1) or die("erreur : e2_alter_table_conges_solde_user<br>\n".$sql->error) ;
+	if($DEBUG==FALSE)
+		$result_alter_1 = mysql_query($sql_alter_1, $mysql_link);
+	else
+		$result_alter_1 = mysql_query($sql_alter_1, $mysql_link) or die("erreur : e2_alter_table_conges_solde_user<br>\n".mysql_error($mysql_link)) ;
 
 }
 
 
 /*************************************************************/
-/***   ETAPE 3 : Ajout de param√®tres dans  conges_config   ***/
+/***   ETAPE 3 : Ajout de paramËtres dans  conges_config   ***/
 /*************************************************************/
-function e3_insert_into_conges_config( $DEBUG=FALSE)
+function e3_insert_into_conges_config($mysql_link, $DEBUG=FALSE)
 {
 
 	$sql_insert="INSERT INTO `conges_config` VALUES ('interdit_modif_demande', 'FALSE', '13_Divers', 'boolean', 'config_comment_interdit_modif_demande')";
-	$result_insert = $sql->query($sql_insert) or die("erreur : e3_insert_into_conges_config<br>\n".$sql->error) ;
+	if($DEBUG==FALSE)
+		$result_insert = mysql_query($sql_insert, $mysql_link);
+	else
+		$result_insert = mysql_query($sql_insert, $mysql_link) or die("erreur : e3_insert_into_conges_config<br>\n".mysql_error($mysql_link)) ;
 	
 
 }

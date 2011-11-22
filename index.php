@@ -1,16 +1,16 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des CongÃ©s
+PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
 Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les 
-termes de la Licence Publique GÃ©nÃ©rale GNU publiÃ©e par la Free Software Foundation.
-Ce programme est distribuÃ© car potentiellement utile, mais SANS AUCUNE GARANTIE, 
+termes de la Licence Publique Générale GNU publiée par la Free Software Foundation.
+Ce programme est distribué car potentiellement utile, mais SANS AUCUNE GARANTIE, 
 ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation 
-dans un but spÃ©cifique. Reportez-vous Ã  la Licence Publique GÃ©nÃ©rale GNU pour plus de dÃ©tails.
-Vous devez avoir reÃ§u une copie de la Licence Publique GÃ©nÃ©rale GNU en mÃªme temps 
-que ce programme ; si ce n'est pas le cas, Ã©crivez Ã  la Free Software Foundation, 
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, Ã‰tats-Unis.
+dans un but spécifique. Reportez-vous à la Licence Publique Générale GNU pour plus de détails.
+Vous devez avoir reçu une copie de la Licence Publique Générale GNU en même temps 
+que ce programme ; si ce n'est pas le cas, écrivez à la Free Software Foundation, 
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, États-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation; either 
@@ -23,10 +23,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-define('_PHP_CONGES', 1);
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-// test si dbconnect.php est prÃ©sent !
+// test si dbconnect.php est présent !
 if (!is_readable("dbconnect.php"))
 {
 	echo "connexion a la database impossible, consultez le fichier INSTALL.txt !<br>\n"; 
@@ -48,6 +46,7 @@ include("INCLUDE.PHP/fonction.php");
 //print_r($_SESSION); echo "<br><br>\n";echo "session= $session<br><br>\n";
 
 // connexion database :
+$mysql_link=connexion_mysql();
 
 if($_SESSION['config']['auth']==FALSE)    // si pas d'autentification (cf config de php_conges)
 {
@@ -75,17 +74,16 @@ else
 
 if(isset($_SESSION['userlogin']))
 {
-	$sql=SQL :: singleton();
 	$request= "SELECT u_nom, u_passwd, u_prenom, u_is_resp FROM conges_users where u_login = '".$_SESSION['userlogin']."' " ;
-	$rs = $sql->query($request ) or die("Erreur : index.php : ".$sql->error());
-	if($rs ->num_rows <= 0)
+	$rs = mysql_query($request , $mysql_link) or die("Erreur : index.php : ".mysql_error());
+	if(mysql_num_rows($rs) <= 0)
 	{
 		header("Location: index.php");
 	}
 	else
 	{
 		$session=session_id();
-		$row = $rs->fetch_array();
+		$row = mysql_fetch_array($rs);
 
 		$NOM=$row["u_nom"];
 		$PRENOM=$row["u_prenom"];

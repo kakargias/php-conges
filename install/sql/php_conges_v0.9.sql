@@ -51,7 +51,7 @@ CREATE TABLE `conges_artt` (
   `a_date_debut_grille` date NOT NULL default '0000-00-00',
   `a_date_fin_grille` date NOT NULL default '9999-12-31',
   PRIMARY KEY  (`a_login`,`a_date_fin_grille`)
-);
+) TYPE=MyISAM;
 
 #
 # Contenu de la table `conges_artt`
@@ -73,7 +73,7 @@ CREATE TABLE `conges_echange_rtt` (
   `e_presence` enum('N','J','M','A') NOT NULL default 'N',
   `e_comment` varchar(255) default NULL,
   PRIMARY KEY  (`e_login`,`e_date_jour`)
-);
+) TYPE=MyISAM;
 
 #
 # Contenu de la table `conges_echange_rtt`
@@ -94,7 +94,7 @@ CREATE TABLE `conges_edition_papier` (
   `ep_solde_rtt` decimal(4,2) NOT NULL default '0.00',
   `ep_num_for_user` int(5) unsigned NOT NULL default '1',
   PRIMARY KEY  (`ep_id`)
-);
+) TYPE=MyISAM;
 
 #
 # Contenu de la table `conges_edition_papier`
@@ -112,7 +112,7 @@ CREATE TABLE `conges_groupe` (
   `g_groupename` varchar(50) NOT NULL default '',
   `g_comment` varchar(250) default NULL,
   PRIMARY KEY  (`g_gid`)
-);
+) TYPE=MyISAM;
 
 #
 # Contenu de la table `conges_groupe`
@@ -127,7 +127,7 @@ CREATE TABLE `conges_groupe` (
 CREATE TABLE `conges_groupe_resp` (
   `gr_gid` int(11) NOT NULL default '0',
   `gr_login` varchar(16) NOT NULL default ''
-);
+) TYPE=MyISAM;
 
 #
 # Contenu de la table `conges_groupe_resp`
@@ -142,7 +142,7 @@ CREATE TABLE `conges_groupe_resp` (
 CREATE TABLE `conges_groupe_users` (
   `gu_gid` int(11) NOT NULL default '0',
   `gu_login` varchar(16) NOT NULL default ''
-);
+) TYPE=MyISAM;
 
 #
 # Contenu de la table `conges_groupe_users`
@@ -167,7 +167,7 @@ CREATE TABLE `conges_periode` (
   `p_edition_id` int(11) default NULL,
   `p_num` int(5) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (`p_num`)
-) PACK_KEYS=0;
+) TYPE=MyISAM PACK_KEYS=0;
 
 #
 # Contenu de la table `conges_periode`
@@ -195,7 +195,7 @@ CREATE TABLE `conges_users` (
   `u_email` varchar(100) default NULL,
   PRIMARY KEY  (`u_login`),
   KEY `u_login` (`u_login`)
-);
+) TYPE=MyISAM;
 
 #
 # Contenu de la table `conges_users`
@@ -218,7 +218,7 @@ CREATE TABLE `session_appli_conges` (
   PRIMARY KEY  (`session`),
   KEY `user` (`user`),
   KEY `session` (`session`)
-);
+) TYPE=MyISAM;
 
 #
 # Contenu de la table `session_appli_conges`

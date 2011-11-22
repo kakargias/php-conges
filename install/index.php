@@ -1,37 +1,36 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des CongÃ©s
+PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
-Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les
-termes de la Licence Publique GÃ©nÃ©rale GNU publiÃ©e par la Free Software Foundation.
-Ce programme est distribuÃ© car potentiellement utile, mais SANS AUCUNE GARANTIE,
-ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation
-dans un but spÃ©cifique. Reportez-vous Ã  la Licence Publique GÃ©nÃ©rale GNU pour plus de dÃ©tails.
-Vous devez avoir reÃ§u une copie de la Licence Publique GÃ©nÃ©rale GNU en mÃªme temps
-que ce programme ; si ce n'est pas le cas, Ã©crivez Ã  la Free Software Foundation,
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, Ã‰tats-Unis.
+Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les 
+termes de la Licence Publique Générale GNU publiée par la Free Software Foundation.
+Ce programme est distribué car potentiellement utile, mais SANS AUCUNE GARANTIE, 
+ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation 
+dans un but spécifique. Reportez-vous à la Licence Publique Générale GNU pour plus de détails.
+Vous devez avoir reçu une copie de la Licence Publique Générale GNU en même temps 
+que ce programme ; si ce n'est pas le cas, écrivez à la Free Software Foundation, 
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, États-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
-of the GNU General Public License as published by the Free Software Foundation; either
+of the GNU General Public License as published by the Free Software Foundation; either 
 version 2 of the License, or any later version.
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
 See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-define('_PHP_CONGES', 1);
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
-
 //include("../fonctions_conges.php") ;
 //include("../INCLUDE.PHP/fonction.php");
 
+include("../fonctions_javascript.php") ;
+
 include("fonctions_install.php") ;
 include("../fonctions_conges.php") ;
-
+	
 $PHP_SELF=$_SERVER['PHP_SELF'];
 
 $DEBUG=FALSE;
@@ -39,13 +38,13 @@ $DEBUG=FALSE;
 
 $session=session_id();
 
-// verif des droits du user Ã  afficher la page
+// verif des droits du user à afficher la page
 //verif_droits_user($session, "is_admin", $DEBUG);
 
 //recup de la langue
 $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST['lang'] : "") ) ;
 
-
+	
 	if($lang=="")
 	{
 		affiche_entete();
@@ -55,8 +54,8 @@ $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST[
 		echo "Choisissez votre langue :<br> \n";
 		echo "Choose your language :<br>\n";
 			echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n";
-			// affichage de la liste des langues supportÃ©es ...
-			// on lit le contenu du rÃ©pertoire lang et on parse les nom de ficher (ex lang_fr_francais.php)
+			// affichage de la liste des langues supportées ...
+			// on lit le contenu du répertoire lang et on parse les nom de ficher (ex lang_fr_francais.php)
 			affiche_select_from_lang_directory();
 
 			echo "<br>\n";
@@ -69,10 +68,10 @@ $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST[
 	{
 		$_SESSION['langue']=$lang;      // sert ensuite pour mettre la langue dans la table config
 		inculde_lang_file($lang, $DEBUG);
-//		$tab_lang_file = glob("lang/lang_".$lang."_*.php");
+//		$tab_lang_file = glob("lang/lang_".$lang."_*.php");  
 //		include($tab_lang_file[0]) ;
 //		include($lang_file) ;
-
+		
 		affiche_entete();
 		echo "<body>\n";
 		echo "<center>\n";
@@ -88,7 +87,7 @@ $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST[
 		inculde_lang_file($lang, $DEBUG);
 		include '../dbconnect.php';
 		include '../version.php';
-
+		
 		if(test_database($DEBUG)!=TRUE)
 		{
 			affiche_entete();
@@ -105,18 +104,20 @@ $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST[
 		}
 		else
 		{
-			$installed_version = get_installed_version( $DEBUG);
+			$mysql_link = mysql_connexion($mysql_serveur, $mysql_user, $mysql_pass, $mysql_database);
+
+			$installed_version = get_installed_version($mysql_link, $DEBUG);
 
 			if($installed_version==0)   // num de version inconnu
 			{
-				install($lang,  $DEBUG);
+				install($lang, $mysql_link, $DEBUG);
 			}
 			else
 			{
-				// on compare la version dÃ©clarÃ©e dans la database avec la version dÃ©clarÃ©e dans le fichier de config
+				// on compare la version déclarée dans la database avec la version déclarée dans le fichier de config
 				if($installed_version != $config_php_conges_version)
 				{
-					// on attaque une mise a jour Ã  partir de la version installÃ©e
+					// on attaque une mise a jour à partir de la version installée
 					echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=mise_a_jour.php?version=$installed_version&lang=$lang\">";
 				}
 				else
@@ -126,30 +127,30 @@ $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST[
 				}
 			}
 
-			
+			mysql_close($mysql_link);
 		}
 	}
-
+			
 
 
 /*****************************************************************************/
 /*   FONCTIONS   */
 
-// cette fonction verif si une version Ã  dÃ©ja Ã©tÃ© installÃ©e ou non....
-// elle lance une creation/initialisation de la base
-// ou une migration des version antÃ©rieures ....
-function install($lang,  $DEBUG=FALSE)
+// cette fonction verif si une version à déja été installée ou non....
+// elle lance une creation/initialisation de la base 
+// ou une migration des version antérieures ....
+function install($lang, $mysql_link, $DEBUG=FALSE)
 {
-	// soit, c'est une install complÃ¨te , soit c'est une mise Ã  jour d'une version non dÃ©terminÃ©e
-
+	// soit, c'est une install complète , soit c'est une mise à jour d'une version non déterminée
+	
 	echo "<html>\n<head>\n";
 	echo "<TITLE> PHP_CONGES : Installation : </TITLE>\n</head>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
+	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";	
 	echo "<link href=\"../style_basic.css\" rel=\"stylesheet\" type=\"text/css\">\n";
 	echo "</head>\n";
-
+				
 	echo "<body text=\"#000000\" bgcolor=\"#597c98\" link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\" >\n";
-
+			
 	// affichage du titre
 	echo "<center>\n";
 	echo "<br><H1><img src=\"../img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"".$_SESSION['lang']['install_install_phpconges']."\" alt=\"".$_SESSION['lang']['install_install_phpconges']."\"> ".$_SESSION['lang']['install_index_titre']."</H1>\n";
@@ -198,7 +199,7 @@ function install($lang,  $DEBUG=FALSE)
 	echo "</table>\n";
 
 	echo "<center>\n";
-
+				
 	echo "</body>\n</html>\n";
 }
 
@@ -207,9 +208,8 @@ function affiche_entete()
 {
 	echo "<html>\n";
 	echo "<head>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
+	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";	
 //	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-include("../fonctions_javascript.php") ;
 	echo "</head>\n";
 }
 

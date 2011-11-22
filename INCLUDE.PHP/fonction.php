@@ -1,16 +1,16 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des CongÃ©s
+PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
 Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les 
-termes de la Licence Publique GÃ©nÃ©rale GNU publiÃ©e par la Free Software Foundation.
-Ce programme est distribuÃ© car potentiellement utile, mais SANS AUCUNE GARANTIE, 
+termes de la Licence Publique Générale GNU publiée par la Free Software Foundation.
+Ce programme est distribué car potentiellement utile, mais SANS AUCUNE GARANTIE, 
 ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation 
-dans un but spÃ©cifique. Reportez-vous Ã  la Licence Publique GÃ©nÃ©rale GNU pour plus de dÃ©tails.
-Vous devez avoir reÃ§u une copie de la Licence Publique GÃ©nÃ©rale GNU en mÃªme temps 
-que ce programme ; si ce n'est pas le cas, Ã©crivez Ã  la Free Software Foundation, 
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, Ã‰tats-Unis.
+dans un but spécifique. Reportez-vous à la Licence Publique Générale GNU pour plus de détails.
+Vous devez avoir reçu une copie de la Licence Publique Générale GNU en même temps 
+que ce programme ; si ce n'est pas le cas, écrivez à la Free Software Foundation, 
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, États-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation; either 
@@ -24,14 +24,79 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
 
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
+/*===============================================================================*/
+/*===============================================================================*/
 
-include_once  __DIR__ .'/sql.class.php';
+// connexion MySQL + selection de la database sur le serveur
+//function  connexion_mysql()
 
+// AFFICHAGE de la requete SQL   si debug == TRUE
+// EXECUTION de la requete SQL   si debug != TRUE
+//function requete_mysql($requete,$mysql_link,$fonction_name,$debug="FALSE")
+
+// indique (TRUE / FALSE) si une session est valide (par / au temps de connexion)
+//function session_is_valid($session)
+
+// cree la session et renvoie son identifiant
+//function session_create($username)
+
+// mise a jour d'une session
+//function session_update($session)
+
+// destruction d'une session
+//function session_delete($session)
+
+// destruction des sessions inactives (c.a.d. dont le temps de connexion est dépassé)
+//function delete_expired_session()
+
+// formulaire de saisie du user/password
+//function session_saisie_user_password($erreur)
+
+// autentifie un user dans le base mysql avec son login et son passwd conges :
+// - renvoie $username si authentification OK
+// - renvoie ""        si authentification FAIL
+//function autentification_passwd_conges($username,$password)
+
+// supprime les accents d'une chaine de caracteres
+//function supprime_accent($string)
+
+// genère le mot de passe MySQL à partir du mot de passe en clair
+//function make_mysql_password($password)
+
+// authentification du login/passwd sur un serveur LDAP
+// - renvoie $username si authentification OK
+// - renvoie ""        si authentification FAIL
+//function authentification_ldap_conges($username,$password)
+
+// Authentifie l'utilisateur auprès du serveur CAS, puis auprès de la base de donnée.
+// Si le login qui a permis d'authentifier l'utilisateur auprès du serveur
+//	CAS existe en tant que login d'une entrée de la table conges_user, alors 
+//	l'authentification est réussie et passwCAS renvoi le nom de l'utilisateur, "" sinon.
+// - renvoie $username si authentification OK
+// - renvoie ""        si authentification FAIL
+//function authentification_passwd_conges_CAS()
+
+/*===============================================================================*/
+/*===============================================================================*/
+
+//
+// connexion MySQL + selection de la database sur le serveur
+//
 function  connexion_mysql()
 {
-	debug_print_backtrace();
-	die('A remplacer');
+   $mysql_link = MYSQL_CONNECT($_SESSION['config']['mysql_serveur'],$_SESSION['config']['mysql_user'],$_SESSION['config']['mysql_pass']);
+   if (! $mysql_link)
+   {
+      die("connexion_mysql() : ".$_SESSION['lang']['mysql_srv_connect_failed']."<br>\n".mysql_error());
+   }
+
+   $dbselect   = mysql_select_db($_SESSION['config']['mysql_database'],$mysql_link);
+   if (! $dbselect)
+   {
+      die("connexion_mysql() : ".$_SESSION['lang']['mysql_db_connect_failed']."<br>\n".mysql_error());
+   }
+
+   return $mysql_link;
 }
 
 
@@ -39,38 +104,39 @@ function  connexion_mysql()
 // AFFICHAGE de la requete SQL   si debug == TRUE
 // EXECUTION de la requete SQL   si debug != TRUE
 //
-function requete_mysql($requete,$fonction_name,$debug=FALSE)
+function    requete_mysql($requete,$mysql_link,$fonction_name,$debug=FALSE)
 {
    //
    // PARAMETRES :
    //  - $requete          : requete SQL a executer
-   //  - $fonction_name    : nom de la fonction qui a appele "requete_mysql"  <==> BLABLA Ã  afficher
+   //  - $mysql_link       : handler MySQL
+   //  - $fonction_name    : nom de la fonction qui a appele "requete_mysql"  <==> BLABLA à afficher
    //  - $debug            : si == TRUE, afficher requete SINON executer requete
    //
-	$sql=SQL :: singleton();
 
-	if ($debug != TRUE)
-	{
-		$res = $sql->query($requete)   or die($fonction_name.'() : Erreur :<br>'."\n" . $sql->error . "'<br>\n sur '$requete' <BR>");
-	}
-	else
-	{
+   if ($debug != TRUE)
+   {
+      $res = mysql_query($requete,$mysql_link)   or die("$fonction_name() : Erreur :<br>\n'" . mysql_error($mysql_link) . "'<br>\n sur '$requete' <BR>");
+   }
+   else
+   {
       echo "DEBUG : $fonction_name() : requete='$requete'<BR>\n";
-		if(preg_match('/^.*SELECT.+FROM.+$/i' , $requete))
-		{
-			$res = $sql->query($requete)   or die($fonction_name.'() : Erreur :<br>'."\n" . $sql->error . "'<br>\n sur '$requete' <BR>");
-			echo "requete executÃ©e ...<BR>\n";
-		}
-		elseif(preg_match('/^.*DESCRIBE.*$/i' , $requete))      {
-			$res = $sql->query($requete)   or die($fonction_name.'() : Erreur :<br>'."\n" . $sql->error . "'<br>\n sur '$requete' <BR>");
-			echo "requete non executÃ©e ...<BR>\n";
-		}
-		else
-		{
-			echo "requete non reconnue ; non executÃ©e ...<BR>\n";
-			$res = TRUE;
-		}
-	}
+      if(eregi("^.*SELECT.+FROM.+$", $requete))
+      {
+         $res = mysql_query($requete,$mysql_link)   or die("$fonction_name() : Erreur :<br>\n'" . mysql_error($mysql_link) . "'<br>\n sur '$requete' <BR>");
+      	 echo "requete executée ...<BR>\n";
+      }
+      elseif(eregi("^.*DESCRIBE.*$",$requete))
+      {
+         $res = mysql_query($requete,$mysql_link)   or die("$fonction_name() : Erreur :<br>\n'" . mysql_error($mysql_link) . "'<br>\n sur '$requete' <BR>");
+      	 echo "requete non executée ...<BR>\n";
+      }
+      else
+      {
+      	 echo "requete non reconnue ; non executée ...<BR>\n";
+         $res = TRUE;
+      }
+   }
 
    return   $res;
 }
@@ -80,7 +146,7 @@ function requete_mysql($requete,$fonction_name,$debug=FALSE)
 //
 function session_is_valid($session)
 {
-   // ATTENTION:  on fixe l'id de session comme nom de session pour que , sur un meme pc, on puisse se loguer sous 2 users Ã  la fois
+   // ATTENTION:  on fixe l'id de session comme nom de session pour que , sur un meme pc, on puisse se loguer sous 2 users à la fois
    if (session_id() == "")
    {
       session_name($session);
@@ -101,10 +167,7 @@ function session_is_valid($session)
 	return $is_valid;
 }
 
-function schars( $htmlspec )
-{
-	return htmlspecialchars( $htmlspec );
-}
+
 
 //
 // cree la session et renvoie son identifiant
@@ -179,7 +242,6 @@ function session_saisie_user_password($erreur, $session_username, $session_passw
 	$config_lien_img_login          =$_SESSION['config']['lien_img_login'];
 	$config_img_login               =$_SESSION['config']['img_login'];
 	$config_texte_img_login         =$_SESSION['config']['texte_img_login'];
-	$config_texte_page_login        =$_SESSION['config']['texte_page_login'];
 //	$config_php_conges_version      =$_SESSION['config']['php_conges_version'];
 	$config_php_conges_version      =$_SESSION['config']['installed_version'];
 	$config_url_site_web_php_conges =$_SESSION['config']['url_site_web_php_conges'];
@@ -193,7 +255,7 @@ function session_saisie_user_password($erreur, $session_username, $session_passw
 
 
 	echo "<html>\n<head>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";	
+	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";	
 	echo "<link href=\"".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 	echo "<TITLE> PHP_CONGES : </TITLE>\n";
 	// test que le navigateur accepte les cookies et le javascript
@@ -228,13 +290,6 @@ function session_saisie_user_password($erreur, $session_username, $session_passw
 			echo "<a href=\"$config_lien_img_login\" target=\"_parent\">";
 			echo "<img src=\"$config_img_login\" alt=\"$config_texte_img_login\" title=\"$config_texte_img_login\"/>";
 			echo "</a>";
-			if($config_texte_page_login != "")
-			{
-				echo "<br><br>\n";
-				echo "</td></tr>\n";
-				echo "<tr><td align=\"center\">\n";
-					echo "$config_texte_page_login";
-			}
 			echo "<br><br><br>\n";
 		echo "</td></tr>\n";
 	}
@@ -247,11 +302,11 @@ function session_saisie_user_password($erreur, $session_username, $session_passw
 		echo "<TABLE class=\"ident\">\n";
 		echo "<TR>\n";
 		echo "	<TD class=\"login\">".$_SESSION['lang']['divers_login_maj_1']." :</TD>\n";
-		echo "	<TD><INPUT TYPE='text'     NAME='session_username' SIZE=32 maxlength=99  VALUE='$session_username'></TD>\n";
+		echo "	<TD><INPUT TYPE='text'     NAME='session_username' SIZE=32  VALUE='$session_username'></TD>\n";
 		echo "</TR>\n";
 		echo "<TR>\n";
 		echo "	<TD class=\"login\">".$_SESSION['lang']['password']." :</TD>\n";
-		echo "	<TD><INPUT TYPE='password' NAME='session_password' SIZE=32 maxlength=32 VALUE='$session_password'></TD>\n";
+		echo "	<TD><INPUT TYPE='password' NAME='session_password' SIZE=32  VALUE='$session_password'></TD>\n";
 		echo "</TR>\n";
 		echo "</TABLE>\n";
 		echo "</fieldset>\n";
@@ -305,17 +360,16 @@ function session_saisie_user_password($erreur, $session_username, $session_passw
 function autentification_passwd_conges($username,$password)
 {
 	// connexion MySQL + selection de la database sur le serveur
-	$sql = SQL::singleton();
-	
-	
+	$mysql_link=connexion_mysql();
+
 	$username_password_ok="";
 	
 	$password_md5=md5($password);
 //	$req_conges="SELECT u_passwd   FROM conges_users   WHERE u_login='$username' AND u_passwd='$password_md5' " ;
 	// on conserve le double mode d'autentificatio (nouveau cryptage (md5) ou ancien cryptage (mysql))
-	$req_conges='SELECT u_passwd   FROM conges_users   WHERE u_login=\''. $sql->real_escape_string( $username ) .'\' AND ( u_passwd=\''. $sql->real_escape_string( $password_md5) .'\' OR u_passwd=PASSWORD(\''.$password.'\') ) ' ;
-	$res_conges = $sql->query($req_conges) or die("autentification_passwd_conges() : Erreur ".$sql->error );
-	$num_row_conges = $res_conges->num_rows;
+	$req_conges="SELECT u_passwd   FROM conges_users   WHERE u_login='$username' AND ( u_passwd='$password_md5' OR u_passwd=PASSWORD('$password') ) " ;
+	$res_conges = mysql_query($req_conges,$mysql_link) or die("autentification_passwd_conges() : Erreur ".mysql_error());
+	$num_row_conges = mysql_num_rows($res_conges);
 	if ($num_row_conges !=0)
 	{
 		$username_password_ok=$username;
@@ -332,26 +386,28 @@ function autentification_passwd_conges($username,$password)
 function supprime_accent($string)
 {
    $string_noaccent = $string;
-   $string_noaccent = strtr($string_noaccent, "Ã¡Ã Ã¢Ã¤Ã£Ã©Ã¨ÃªÃ«Ã­Ã¬Ã®Ã¯Ã³Ã²Ã´Ã¶ÃµÃºÃ¹Ã»Ã¼Ã½Ã¿Ã§Ã±", "aaaaaeeeeiiiiooooouuuuyycn");
-   $string_noaccent = strtr($string_noaccent, "ÃÃ€Ã‚Ã„ÃƒÃ‰ÃˆÃŠÃ‹ÃÃŒÃŽÃÃ“Ã’Ã”Ã–Ã•ÃšÃ™Ã›ÃœÃYÃ‡Ã‘", "AAAAAEEEEIIIIOOOOOUUUUYYCN");
+   $string_noaccent = strtr($string_noaccent, "áàâäãéèêëíìîïóòôöõúùûüýÿçñ", "aaaaaeeeeiiiiooooouuuuyycn");
+   $string_noaccent = strtr($string_noaccent, "ÁÀÂÄÃÉÈÊËÍÌÎÏÓÒÔÖÕÚÙÛÜÝYÇÑ", "AAAAAEEEEIIIIOOOOOUUUUYYCN");
 
    return $string_noaccent;
 }
 
 
 //
-// genÃ¨re le mot de passe MySQL Ã  partir du mot de passe en clair
+// genère le mot de passe MySQL à partir du mot de passe en clair
 //
 function make_mysql_password($password)
 {
+   // connexion MySQL + selection de la database sur le serveur
+   $mysql_link=connexion_mysql();
 
 
    $mysqlpassword="";
 
    $req_password = "SELECT OLD_PASSWORD('$password'),PASSWORD('$password')";
-   $res_password = $sql->query($req_password) or die("make_mysql_password() : Erreur ".$sql->error);
+   $res_password = mysql_query($req_password,$mysql_link) or die("make_mysql_password() : Erreur ".mysql_error());
 
-   if ($row_password = $res_password->fetch_array())  /* si un enregistrement deja dans la table unix */
+   if ($row_password = mysql_fetch_array($res_password))  /* si un enregistrement deja dans la table unix */
    {
       $mysql_old_password=$row_password["OLD_PASSWORD('$password')"];
       $mysql_new_password=$row_password["PASSWORD('$password')"];
@@ -377,8 +433,7 @@ function authentification_ldap_conges($username,$password)
    
    $a = new authLDAP();
    //$a->DEBUG = 1;
-   //$a->bind($username,$password);
-   $a->bind($username,stripslashes($password)); 
+   $a->bind($username,$password);
    if ($a->is_authentificated())
    {
  	$username_password_ok=$username;
@@ -388,17 +443,17 @@ function authentification_ldap_conges($username,$password)
 }
 
 
-// Authentifie l'utilisateur auprÃ¨s du serveur CAS, puis auprÃ¨s de la base de donnÃ©e.
-// Si le login qui a permis d'authentifier l'utilisateur auprÃ¨s du serveur
-//	CAS existe en tant que login d'une entrÃ©e de la table conges_user, alors 
-//	l'authentification est rÃ©ussie et passwCAS renvoi le nom de l'utilisateur, "" sinon.
+// Authentifie l'utilisateur auprès du serveur CAS, puis auprès de la base de donnée.
+// Si le login qui a permis d'authentifier l'utilisateur auprès du serveur
+//	CAS existe en tant que login d'une entrée de la table conges_user, alors 
+//	l'authentification est réussie et passwCAS renvoi le nom de l'utilisateur, "" sinon.
 // - renvoie $username si authentification OK
 // - renvoie ""        si authentification FAIL
 function authentification_passwd_conges_CAS()
 {
 	// import de la librairie CAS
 	include_once($_SESSION['config']['php_conges_cas_include_path']."/CAS/CAS.php");
-	// import des paramÃ¨tres du serveur CAS
+	// import des paramètres du serveur CAS
 	
 	$config_CAS_host       =$_SESSION['config']['CAS_host'];
 	$config_CAS_portNumber =$_SESSION['config']['CAS_portNumber'];
@@ -427,45 +482,21 @@ function authentification_passwd_conges_CAS()
 	// authentificationCAS (redirection vers la page d'authentification de CAS)
 	phpCAS::forceAuthentication();
 
-	//L'utilisateur a Ã©tÃ© correctement identifiÃ©		
+	//L'utilisateur a été correctement identifié		
 
 	$usernameCAS = phpCAS::getUser();
 	session_create($usernameCAS);
+	$mysql_link =connexion_mysql();
 	
 	//ON VERIFIE ICI QUE L'UTILISATEUR EST DEJA ENREGISTRE SOUS DBCONGES
-	$req_conges = 'SELECT u_login FROM conges_users WHERE u_login=\''.$sql->escape($usernameCAS);
-	$res_conges = $sql->query($req_conges) or die("authentification_passwd_conges_CAS() : Erreur :<br>\n$req_conges<br>\n".$sql->error);
-	$num_row_conges = $res_conges->num_rows;
+	$req_conges = "SELECT u_login FROM conges_users WHERE u_login='$usernameCAS'";
+	$res_conges = mysql_query($req_conges,$mysql_link) or die("authentification_passwd_conges_CAS() : Erreur :<br>\n$req_conges<br>\n".mysql_error());
+	$num_row_conges = mysql_num_rows($res_conges);
 	if($num_row_conges !=0)
 		$username_password_ok = $usernameCAS;
 	
 	return $username_password_ok;
 }
-
-
-function deconnexion_CAS($url="")
-{
-    // import de la librairie CAS
-    include_once($_SESSION['config']['php_conges_cas_include_path']."/CAS/CAS.php");
-    // import des parametres du serveur CAS
-    
-    $config_CAS_host       =$_SESSION['config']['CAS_host'];
-    $config_CAS_portNumber =$_SESSION['config']['CAS_portNumber'];
-    $config_CAS_URI        =$_SESSION['config']['CAS_URI'];
-    
-    global $connexionCAS;
-           
-    // initialisation phpCAS
-    if($connexionCAS!="active")
-    {
-        $CASCnx = phpCAS::client(CAS_VERSION_2_0,$config_CAS_host,$config_CAS_portNumber,$config_CAS_URI);
-        $connexionCAS = "active";
-
-    }
-
-    phpCAS::logout($url);
-}
-
 
 
 ?>

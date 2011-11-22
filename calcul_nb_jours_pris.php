@@ -1,42 +1,42 @@
+<script language="javascript">
+function envoi(valeur)
+{window.opener.document.forms[0].new_nb_jours.value=valeur}
+</Script>
+
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des CongÃ©s
+PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
-Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les
-termes de la Licence Publique GÃ©nÃ©rale GNU publiÃ©e par la Free Software Foundation.
-Ce programme est distribuÃ© car potentiellement utile, mais SANS AUCUNE GARANTIE,
-ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation
-dans un but spÃ©cifique. Reportez-vous Ã  la Licence Publique GÃ©nÃ©rale GNU pour plus de dÃ©tails.
-Vous devez avoir reÃ§u une copie de la Licence Publique GÃ©nÃ©rale GNU en mÃªme temps
-que ce programme ; si ce n'est pas le cas, Ã©crivez Ã  la Free Software Foundation,
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, Ã‰tats-Unis.
+Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les 
+termes de la Licence Publique Générale GNU publiée par la Free Software Foundation.
+Ce programme est distribué car potentiellement utile, mais SANS AUCUNE GARANTIE, 
+ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation 
+dans un but spécifique. Reportez-vous à la Licence Publique Générale GNU pour plus de détails.
+Vous devez avoir reçu une copie de la Licence Publique Générale GNU en même temps 
+que ce programme ; si ce n'est pas le cas, écrivez à la Free Software Foundation, 
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, États-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
-of the GNU General Public License as published by the Free Software Foundation; either
+of the GNU General Public License as published by the Free Software Foundation; either 
 version 2 of the License, or any later version.
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
 See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-define('_PHP_CONGES', 1);
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
-
-
-$session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
+session_start();
+if(isset($_GET['session'])) { $session=$_GET['session']; }
+if(isset($_POST['session'])) { $session=$_POST['session']; }
 
 include("fonctions_conges.php") ;
 include("INCLUDE.PHP/fonction.php");
-include("INCLUDE.PHP/session.php");
-include("fonctions_calcul.php");
 
-
-$DEBUG=FALSE;
-//$DEBUG=TRUE;
+	// DEBUG
+	//print_r($_GET); echo "<br>\n";
 
 
 	/*** initialisation des variables ***/
@@ -47,27 +47,21 @@ $DEBUG=FALSE;
 	/************************************/
 
 	/*************************************/
-	// recup des parametres reÃ§us :
+	// recup des parametres reçus :
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
-	// GET	/ POST
-	$user       = getpost_variable("user") ;
-	$date_debut = getpost_variable("date_debut") ;
-	$date_fin   = getpost_variable("date_fin") ;
-	$opt_debut  = getpost_variable("opt_debut") ;
-	$opt_fin    = getpost_variable("opt_fin") ;
+	// GET
+	if(isset($_GET['user'])) { $user=$_GET['user']; }
+	if(isset($_GET['date_debut'])) { $date_debut=$_GET['date_debut']; } else {$date_debut=0;}
+	if(isset($_GET['date_fin'])) { $date_fin=$_GET['date_fin']; } else {$date_fin=0;}
+	if(isset($_GET['opt_debut'])) { $opt_debut=$_GET['opt_debut']; }
+	if(isset($_GET['opt_fin'])) { $opt_fin=$_GET['opt_fin']; }
+	// POST
 	/*************************************/
 
-// ATTENTION ne pas mettre cet appel avant les include car plantage sous windows !!!
-?>
-<script language="javascript">
-function envoi(valeur)
-{window.opener.document.forms[0].new_nb_jours.value=valeur}
-</Script>
-<?php
-
+	
 	if( ($user!="") && ($date_debut!="") && ($date_fin!="") && ($opt_debut!="") && ($opt_fin!="") )
-		affichage($user, $date_debut, $date_fin, $opt_debut, $opt_fin, $DEBUG);
+		affichage($user, $date_debut, $date_fin, $opt_debut, $opt_fin);
 	else
 		/* APPEL D'UNE AUTRE PAGE immediat */
 		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=user_index.php?session=$session&onglet=nouvelle_absence\">";
@@ -78,22 +72,16 @@ function envoi(valeur)
 
 /**********  FONCTIONS  ****************************************/
 
-function affichage($user, $date_debut, $date_fin, $opt_debut, $opt_fin, $DEBUG=FALSE)
+function affichage($user, $date_debut, $date_fin, $opt_debut, $opt_fin)
 {
-	if($DEBUG==TRUE) { echo "user = $user, date_debut = $date_debut, date_fin = $date_fin, opt_debut = $opt_debut, opt_fin = $opt_fin<br>\n";}
-
 	$PHP_SELF=$_SERVER['PHP_SELF'];
-	$session=session_id();
-
-	$comment="&nbsp;" ;
-
-
+	
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 	echo "<html>\n";
 	echo "<head>\n";
 
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-	echo "<link href=\"".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">\n";
+	echo "<link href=\"style_basic.css\" rel=\"stylesheet\" type=\"text/css\">\n";
 	echo "<title>PHP_CONGES : </title>\n";
 	echo "</head>\n";
 	echo "<body>\n";
@@ -104,34 +92,27 @@ function affichage($user, $date_debut, $date_fin, $opt_debut, $opt_fin, $DEBUG=F
 	echo "<table>\n";
 	echo "<tr>\n";
 	// calcul :
-	$nb_jours=compter($user, $date_debut, $date_fin, $opt_debut, $opt_fin, $comment, $DEBUG);
-	echo "<td align=\"center\"><h2>".$_SESSION['lang']['calcul_nb_jours_nb_jours']." <b>$nb_jours</b></h2></td>\n";
+	$nb_jours=compter($user, $date_debut, $date_fin, $opt_debut, $opt_fin);
+	echo "<td align=\"center\"><h2>Nombre de jours à prendre : <b>$nb_jours</b></h2></td>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
-	echo "<td align=\"center\"><i><font color=\"red\">$comment<font/></i></td>\n";
-	echo "</tr>\n";
-	echo "<tr>\n";
-	echo "<td align=\"center\"><i>".$_SESSION['lang']['calcul_nb_jours_reportez']." \"".$_SESSION['lang']['saisie_conges_nb_jours']."\" ".$_SESSION['lang']['calcul_nb_jours_form'].".</i></td>\n";
-	echo "</tr>\n";
-	echo "<tr>\n";
-	echo "<td align=\"center\">&nbsp;</td>\n";
+	echo "<td align=\"center\"><i>reportez ce nombre dans la case \"NB_Jours_Pris\" du formulaire.</i></td>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
 	echo "<td align=\"center\">\n";
-	echo "	<input type=\"button\" value=\"".$_SESSION['lang']['form_close_window']."\" onClick=\"javascript:window.close();\">\n";
+	echo "	&nbsp;\n";
+	echo "</td>\n";
+	echo "</tr>\n";
+	echo "<tr>\n";
+	echo "<td align=\"center\">\n";
+	echo "	<input type=\"button\" value=\"Fermer\" onClick=\"javascript:window.close();\">\n";
 	echo "</td>\n";
 	echo "</tr>\n";
 	echo "</table>\n";
 	echo "</form>\n";
-
-
-	if($_SESSION['config']['rempli_auto_champ_nb_jours_pris']==TRUE)
-	{
-		if( ($comment=="&nbsp;") && ($DEBUG==FALSE) )
-			echo "<script>envoi($nb_jours); window.close()</script>";
-		else
-			echo "<script>envoi($nb_jours)</script>";
-	}
+	
+	if( ($_SESSION['config']['rempli_auto_champ_nb_jours_pris']==TRUE) && ($nb_jours!=0) )
+		echo "<script>envoi($nb_jours)</script>";
 
 	echo "</center>\n";
 	echo "</body>\n";
@@ -139,5 +120,101 @@ function affichage($user, $date_debut, $date_fin, $opt_debut, $opt_fin, $DEBUG=F
 
 }
 
+
+// calcule le nb de jours de conges à prendre pour un user entre 2 dates
+// retourne le nb de jours  (opt_debut et opt_fin ont les valeurs "am" ou "pm"
+function compter($user, $date_debut, $date_fin, $opt_debut, $opt_fin)
+{	
+	if( ($date_debut!=0) && ($date_fin!=0) )
+	{
+		$nb_jours=0;
+
+		//connexion mysql
+		$mysql_link = connexion_mysql() ;
+
+		// on initialise le tableau global des jours fériés s'il ne l'est pas déjà :
+		if(!isset($_SESSION["tab_j_feries"]))
+		{
+			init_tab_jours_feries($mysql_link);
+			//print_r($_SESSION["tab_j_feries"]);   // verif DEBUG
+		}
+
+		$current_day=$date_debut;
+		$date_limite=jour_suivant($date_fin);
+
+		// on va avancer jour par jour et voir s'il est travaillé, férié, rtt, etc ...
+		while($current_day!=$date_limite)
+		{
+			$pieces = explode("-", $current_day);  // date de la forme yyyy-mm-jj
+			$y=$pieces[0]; 
+			$m=$pieces[1]; 
+			$j=$pieces[2]; 
+			$timestamp_du_jour=mktime (0,0,0,$m,$j,$y);
+
+			// on regarde si le jour est travaillé ou pas
+			$j_name=date("D", $timestamp_du_jour);
+			if( (($j_name=="Sat")&&($_SESSION['config']['samedi_travail']==FALSE)) 
+				|| (($j_name=="Sun")&&($_SESSION['config']['dimanche_travail']==FALSE)))
+			{
+				// on ne compte pas ce jour
+			}
+			else
+			{
+				if(est_chome($timestamp_du_jour)==TRUE)
+				{
+					// on ne compte pas ce jour
+				}
+				else
+				{
+					// verif des rtt ou temp partiel (dans la table rtt)
+					$val_matin="N";
+					$val_aprem="N";
+					recup_infos_artt_du_jour($user, $timestamp_du_jour, $val_matin, $val_aprem, $mysql_link);
+
+					// si on est le premier jour et que les conges commencent à midi
+					if( ($current_day==$date_debut) && ($opt_debut=="pm") ) 
+					{
+						//on ne traite pas le matin
+					}
+					else
+					{
+						if($val_matin!="Y")  // pas de rtt le matin
+							$nb_jours=$nb_jours+0.5;
+					}
+
+					// si on est le dernier jour et que les conges finissent à midi
+					if( ($current_day==$date_fin) && ($opt_fin=="am") )
+					{
+						//on ne traite pas l'apres midi
+					}
+					else
+					{
+						if($val_aprem!="Y") // pas de rtt l'après midi
+							$nb_jours=$nb_jours+0.5;
+					}
+
+				}
+			}
+			$current_day=jour_suivant($current_day);
+		}
+
+		mysql_close($mysql_link);
+		return $nb_jours; 
+	}
+	else
+		return 0; 
+}
+
+// renvoit le jour suivant de la date paséée en paramètre sous la forme yyyy-mm-jj
+function jour_suivant($date)
+{
+	$pieces = explode("-", $date);  // date de la forme yyyy-mm-jj
+	$y=$pieces[0]; 
+	$m=$pieces[1]; 
+	$j=$pieces[2]; 
+
+	$lendemain = date("Y-m-d", mktime(0, 0, 0, $m , $j+1, $y) );
+	return $lendemain;
+}
 
 ?>

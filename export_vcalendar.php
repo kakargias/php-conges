@@ -1,16 +1,16 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des CongÃ©s
+PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
 Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les
-termes de la Licence Publique GÃ©nÃ©rale GNU publiÃ©e par la Free Software Foundation.
-Ce programme est distribuÃ© car potentiellement utile, mais SANS AUCUNE GARANTIE,
+termes de la Licence Publique Générale GNU publiée par la Free Software Foundation.
+Ce programme est distribué car potentiellement utile, mais SANS AUCUNE GARANTIE,
 ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation
-dans un but spÃ©cifique. Reportez-vous Ã  la Licence Publique GÃ©nÃ©rale GNU pour plus de dÃ©tails.
-Vous devez avoir reÃ§u une copie de la Licence Publique GÃ©nÃ©rale GNU en mÃªme temps
-que ce programme ; si ce n'est pas le cas, Ã©crivez Ã  la Free Software Foundation,
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, Ã‰tats-Unis.
+dans un but spécifique. Reportez-vous à la Licence Publique Générale GNU pour plus de détails.
+Vous devez avoir reçu une copie de la Licence Publique Générale GNU en même temps
+que ce programme ; si ce n'est pas le cas, écrivez à la Free Software Foundation,
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, États-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation; either
@@ -22,9 +22,6 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
-
-define('_PHP_CONGES', 1);
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
 
@@ -41,7 +38,7 @@ $DEBUG=FALSE;
 	/************************************/
 
 	/*************************************/
-	// recup des parametres reÃ§us :
+	// recup des parametres reçus :
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET	/ POST
@@ -54,19 +51,24 @@ $DEBUG=FALSE;
 
 
 	//connexion mysql
+	$mysql_link = connexion_mysql() ;
 
 	if($action=="export")
 	{
 		if($choix_format=="ical")
-			export_ical($user_login, $date_debut, $date_fin,  $DEBUG);
+			export_ical($user_login, $date_debut, $date_fin, $mysql_link, $DEBUG);
 		else
-			export_vcal($user_login, $date_debut, $date_fin,  $DEBUG);
+			export_vcal($user_login, $date_debut, $date_fin, $mysql_link, $DEBUG);
 
 		$comment_log = "export ical/vcal ($date_debut -> $date_fin) ";
-		log_action(0, "", $user_login, $comment_log,  $DEBUG);
+		log_action(0, "", $user_login, $comment_log, $mysql_link, $DEBUG);
 	}
 	else
 		form_saisie($user_login, $date_debut, $date_fin, $DEBUG);
+
+
+	mysql_close($mysql_link);
+
 
 
 
@@ -77,6 +79,7 @@ function form_saisie($user, $date_debut, $date_fin, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
+	include("fonctions_javascript.php") ;
 
 	$date_today=date("d-m-Y");
 	if($date_debut=="")
@@ -87,9 +90,8 @@ function form_saisie($user, $date_debut, $date_fin, $DEBUG=FALSE)
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 	echo "<html>\n";
 	echo "<head>\n";
-	include("fonctions_javascript.php") ;
 
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
+	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">\n";
 	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 	echo "<title>PHP_CONGES : </title>\n";
 	echo "</head>\n";
@@ -150,8 +152,8 @@ function form_saisie($user, $date_debut, $date_fin, $DEBUG=FALSE)
 }
 
 
-// export des pÃ©riodes des conges et d'absences comprise entre les 2 dates , dans un fichier texte au format ICAL
-function export_ical($user_login, $date_debut, $date_fin,  $DEBUG=FALSE)
+// export des périodes des conges et d'absences comprise entre les 2 dates , dans un fichier texte au format ICAL
+function export_ical($user_login, $date_debut, $date_fin, $mysql_link, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
@@ -169,9 +171,9 @@ function export_ical($user_login, $date_debut, $date_fin,  $DEBUG=FALSE)
 		// initialisation de variables communes a ttes les periodes
 
 		// recup des infos du user
-		$tab_infos_user=recup_infos_du_user($_SESSION['userlogin'], "",  $DEBUG);
+		$tab_infos_user=recup_infos_du_user($_SESSION['userlogin'], "", $mysql_link, $DEBUG);
 
-		$tab_types_abs=recup_tableau_tout_types_abs( $DEBUG) ;
+		$tab_types_abs=recup_tableau_tout_types_abs($mysql_link, $DEBUG) ;
 
 		if(function_exists("date_default_timezone_get"))   // car date_default_timezone_get() n'existe que depuis PHP 5.1
 			$DTSTAMP=date("Ymd").date_default_timezone_get();
@@ -189,15 +191,15 @@ function export_ical($user_login, $date_debut, $date_fin,  $DEBUG=FALSE)
 				"PRODID:-//php_conges ".$_SESSION['config']['installed_version']."\r\n" .
 				"VERSION:2.0\r\n\r\n";
 
-		// SELECT des periodes Ã  exporter .....
-		// on prend toutes les periodes de conges qui chevauchent la periode donnÃ©e par les dates demandÃ©es
+		// SELECT des periodes à exporter .....
+		// on prend toutes les periodes de conges qui chevauchent la periode donnée par les dates demandées
 		$sql_periodes="SELECT p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_commentaire, p_type  " .
-				'FROM conges_periode WHERE p_login=\''.$sql->escape($_SESSION['userlogin']).'\' AND p_etat=\'ok\' AND ((p_date_deb>=\''.$sql->escape($good_date_debut).'\' AND  p_date_deb<=\''.$sql->escape($good_date_fin).'\') OR (p_date_fin>=\''.$sql->escape($good_date_debut).'\' AND p_date_fin<=\''.$sql->escape($good_date_fin).'\'))';
-		$res_periodes = requete_mysql($sql_periodes,  "export_ical", $DEBUG);
+				"FROM conges_periode WHERE p_login='".$_SESSION['userlogin']."' AND p_etat='ok' AND ((p_date_deb>='$good_date_debut' AND  p_date_deb<='$good_date_fin') OR (p_date_fin>='$good_date_debut' AND p_date_fin<='$good_date_fin'))";
+		$res_periodes = requete_mysql($sql_periodes, $mysql_link, "export_ical", $DEBUG);
 
-		if($num_periodes=$res_periodes->num_rows!=0)
+		if($num_periodes=mysql_num_rows($res_periodes)!=0)
 		{
-			while ($result_periodes = $res_periodes->fetch_array())
+			while ($result_periodes = mysql_fetch_array($res_periodes))
 			{
 				$sql_date_debut=$result_periodes['p_date_deb'];
 				$sql_demi_jour_deb=$result_periodes['p_demi_jour_deb'];
@@ -205,11 +207,11 @@ function export_ical($user_login, $date_debut, $date_fin,  $DEBUG=FALSE)
 				$sql_demi_jour_fin=$result_periodes['p_demi_jour_fin'];
 				$sql_type=$result_periodes['p_type'];
 
-				// PB : les fichiers ical et vcal doivent Ãªtre encodÃ©s en UTF-8, or php ne gÃ¨re pas l'utf-8
-				// on remplace donc les caractÃ¨res spÃ©ciaux de la chaine de caractÃ¨res
+				// PB : les fichiers ical et vcal doivent être encodés en UTF-8, or php ne gère pas l'utf-8
+				// on remplace donc les caractères spéciaux de la chaine de caractères
 				$sql_comment=remplace_accents($result_periodes['p_commentaire']);
 
-				// mÃªme problÃ¨me
+				// même problème
 				$type_abs=remplace_accents($tab_types_abs[$sql_type]['libelle']) ;
 
 				$tab_date_deb=explode("-", $sql_date_debut);
@@ -249,8 +251,8 @@ function export_ical($user_login, $date_debut, $date_fin,  $DEBUG=FALSE)
 }
 
 
-// export des pÃ©riodes des conges et d'absences comprise entre les 2 dates , dans un fichier texte au format VCAL
-function export_vcal($user_login, $date_debut, $date_fin,  $DEBUG=FALSE)
+// export des périodes des conges et d'absences comprise entre les 2 dates , dans un fichier texte au format VCAL
+function export_vcal($user_login, $date_debut, $date_fin, $mysql_link, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
@@ -268,9 +270,9 @@ function export_vcal($user_login, $date_debut, $date_fin,  $DEBUG=FALSE)
 		// initialisation de variables communes a ttes les periodes
 
 		// recup des infos du user
-		$tab_infos_user=recup_infos_du_user($_SESSION['userlogin'], "",  $DEBUG);
+		$tab_infos_user=recup_infos_du_user($_SESSION['userlogin'], "", $mysql_link, $DEBUG);
 
-		$tab_types_abs=recup_tableau_tout_types_abs( $DEBUG) ;
+		$tab_types_abs=recup_tableau_tout_types_abs($mysql_link, $DEBUG) ;
 
 		if(function_exists("date_default_timezone_get"))   // car date_default_timezone_get() n'existe que depuis PHP 5.1
 			$DTSTAMP=date("Ymd").date_default_timezone_get();
@@ -288,15 +290,15 @@ function export_vcal($user_login, $date_debut, $date_fin,  $DEBUG=FALSE)
 				"PRODID:-//php_conges ".$_SESSION['config']['installed_version']."\r\n" .
 				"VERSION:1.0\r\n\r\n";
 
-		// SELECT des periodes Ã  exporter .....
-		// on prend toutes les periodes de conges qui chevauchent la periode donnÃ©e par les dates demandÃ©es
+		// SELECT des periodes à exporter .....
+		// on prend toutes les periodes de conges qui chevauchent la periode donnée par les dates demandées
 		$sql_periodes="SELECT p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_commentaire, p_type  " .
-				'FROM conges_periode WHERE p_login=\''.$sql->escape($_SESSION['userlogin']).'\' AND p_etat=\'ok\' AND (p_date_deb>=\''.$sql->escape($good_date_debut).'\' AND  p_date_deb<=\''.$sql->escape($good_date_fin).'\') OR (p_date_fin>=\''.$sql->escape($good_date_debut).'\' AND p_date_fin<=\''.$sql->escape($good_date_fin).'\')';
-		$res_periodes = requete_mysql($sql_periodes,  "export_ical", $DEBUG);
+				"FROM conges_periode WHERE p_login='".$_SESSION['userlogin']."' AND p_etat='ok' AND (p_date_deb>='$good_date_debut' AND  p_date_deb<='$good_date_fin') OR (p_date_fin>='$good_date_debut' AND p_date_fin<='$good_date_fin')";
+		$res_periodes = requete_mysql($sql_periodes, $mysql_link, "export_ical", $DEBUG);
 
-		if($num_periodes=$res_periodes->num_rows!=0)
+		if($num_periodes=mysql_num_rows($res_periodes)!=0)
 		{
-			while ($result_periodes = $res_periodes->fetch_array())
+			while ($result_periodes = mysql_fetch_array($res_periodes))
 			{
 				$sql_date_debut=$result_periodes['p_date_deb'];
 				$sql_demi_jour_deb=$result_periodes['p_demi_jour_deb'];
@@ -304,11 +306,11 @@ function export_vcal($user_login, $date_debut, $date_fin,  $DEBUG=FALSE)
 				$sql_demi_jour_fin=$result_periodes['p_demi_jour_fin'];
 				$sql_type=$result_periodes['p_type'];
 
-				// PB : les fichiers ical et vcal doivent Ãªtre encodÃ©s en UTF-8, or php ne gÃ¨re pas l'utf-8
-				// on remplace donc les caractÃ¨res spÃ©ciaux de la chaine de caractÃ¨res
+				// PB : les fichiers ical et vcal doivent être encodés en UTF-8, or php ne gère pas l'utf-8
+				// on remplace donc les caractères spéciaux de la chaine de caractères
 				$sql_comment=remplace_accents($result_periodes['p_commentaire']);
 
-				// mÃªme problÃ¨me
+				// même problème
 				$type_abs=remplace_accents($tab_types_abs[$sql_type]['libelle']) ;
 
 				$tab_date_deb=explode("-", $sql_date_debut);
@@ -363,10 +365,10 @@ function inverse_date($date, $DEBUG=FALSE)
 }
 
 
-// remplace le caractere accentuÃ© ou transformÃ©, par le caractere normal !
+// remplace le caractere accentué ou transformé, par le caractere normal !
 function remplace_accents($str)
 {
-	$accent        = array("Ã ", "Ã¢", "Ã¤", "Ã©", "Ã¨", "Ãª", "Ã«", "Ã®", "Ã¯", "Ã´", "Ã¶", "Ã¹", "Ã»", "Ã¼", "Ã§");
+	$accent        = array("à", "â", "ä", "é", "è", "ê", "ë", "î", "ï", "ô", "ö", "ù", "û", "ü", "ç");
 	$sans_accent   = array("a", "a", "a", "e", "e", "e", "e", "i", "i", "o", "o", "u", "u", "u", "c");
 	return str_replace($accent, $sans_accent, $str) ;
 

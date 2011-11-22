@@ -1,16 +1,16 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des Cong√©s
+PHP_CONGES : Gestion Interactive des CongÈs
 Copyright (C) 2005 (cedric chauvineau)
 
 Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les
-termes de la Licence Publique G√©n√©rale GNU publi√©e par la Free Software Foundation.
-Ce programme est distribu√© car potentiellement utile, mais SANS AUCUNE GARANTIE,
+termes de la Licence Publique GÈnÈrale GNU publiÈe par la Free Software Foundation.
+Ce programme est distribuÈ car potentiellement utile, mais SANS AUCUNE GARANTIE,
 ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation
-dans un but sp√©cifique. Reportez-vous √† la Licence Publique G√©n√©rale GNU pour plus de d√©tails.
-Vous devez avoir re√ßu une copie de la Licence Publique G√©n√©rale GNU en m√™me temps
-que ce programme ; si ce n'est pas le cas, √©crivez √† la Free Software Foundation,
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, √âtats-Unis.
+dans un but spÈcifique. Reportez-vous ‡ la Licence Publique GÈnÈrale GNU pour plus de dÈtails.
+Vous devez avoir reÁu une copie de la Licence Publique GÈnÈrale GNU en mÍme temps
+que ce programme ; si ce n'est pas le cas, Ècrivez ‡ la Free Software Foundation,
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, …tats-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation; either
@@ -22,9 +22,6 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
-
-define('_PHP_CONGES', 1);
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
 
@@ -38,13 +35,13 @@ include("../fonctions_calcul.php");
 $DEBUG=FALSE;
 //$DEBUG=TRUE ;
 
-// verif des droits du user √† afficher la page
+// verif des droits du user ‡ afficher la page
 verif_droits_user($session, "is_admin", $DEBUG);
 
 
 	/*** initialisation des variables ***/
 	/*************************************/
-	// recup des parametres re√ßus :
+	// recup des parametres reÁus :
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET / POST
@@ -52,10 +49,10 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	$year						= getpost_variable("year", 0);
 	$groupe_id					= getpost_variable("groupe_id");
 	$id_type_conges				= getpost_variable("id_type_conges");
-//	$new_date_debut				= getpost_variable("new_date_debut", date("d/m/Y")); // valeur par d√©daut = aujourd'hui
-//	$new_date_fin  				= getpost_variable("new_date_fin", date("d/m/Y"));   // valeur par d√©daut = aujourd'hui
-	$new_date_debut				= getpost_variable("new_date_debut"); // valeur par d√©daut = aujourd'hui
-	$new_date_fin  				= getpost_variable("new_date_fin");   // valeur par d√©daut = aujourd'hui
+//	$new_date_debut				= getpost_variable("new_date_debut", date("d/m/Y")); // valeur par dÈdaut = aujourd'hui
+//	$new_date_fin  				= getpost_variable("new_date_fin", date("d/m/Y"));   // valeur par dÈdaut = aujourd'hui
+	$new_date_debut				= getpost_variable("new_date_debut"); // valeur par dÈdaut = aujourd'hui
+	$new_date_fin  				= getpost_variable("new_date_fin");   // valeur par dÈdaut = aujourd'hui
 	$fermeture_id  				= getpost_variable("fermeture_id", 0);
 	$fermeture_date_debut		= getpost_variable("fermeture_date_debut");
 	$fermeture_date_fin			= getpost_variable("fermeture_date_fin");
@@ -82,8 +79,9 @@ verif_droits_user($session, "is_admin", $DEBUG);
 
 
 	//connexion mysql
+	$mysql_link = connexion_mysql() ;
 
-	// initialisation de l'action √† effectuer
+	// initialisation de l'action ‡ effectuer
 	if($choix_action=="")
 	{
 		// si pas de gestion par groupe
@@ -114,32 +112,32 @@ verif_droits_user($session, "is_admin", $DEBUG);
 
 	if($DEBUG==TRUE) { echo "timestamp_date_debut = $timestamp_date_debut // timestamp_date_fin = $timestamp_date_fin // timestamp_today = $timestamp_today<br>\n"; }
 
-	// on verifie si les jours f√©ri√©s de l'annee de la periode saisie sont enregistr√©s : sinon BUG au calcul des soldes des users !
-	if( (verif_jours_feries_saisis($date_debut_yyyy_mm_dd, $DEBUG)==FALSE)
-	    && (verif_jours_feries_saisis($date_fin_yyyy_mm_dd, $DEBUG)==FALSE) )
-		$code_erreur=1 ;  // code erreur : jour feri√©s non saisis
+	// on verifie si les jours fÈriÈs de l'annee de la periode saisie sont enregistrÈs : sinon BUG au calcul des soldes des users !
+	if( (verif_jours_feries_saisis($date_debut_yyyy_mm_dd, $mysql_link, $DEBUG)==FALSE)
+	    && (verif_jours_feries_saisis($date_fin_yyyy_mm_dd, $mysql_link, $DEBUG)==FALSE) )
+		$code_erreur=1 ;  // code erreur : jour feriÈs non saisis
 
 	if($choix_action=="commit_new_fermeture")
 	{
 		// on verifie que $new_date_debut est anterieure a $new_date_fin
 		if($timestamp_date_debut > $timestamp_date_fin)
 			$code_erreur=2 ;  // code erreur : $new_date_debut est posterieure a $new_date_fin
-		// on verifie que ce ne sont pas des dates pass√©es
+		// on verifie que ce ne sont pas des dates passÈes
 		elseif($timestamp_date_debut < $timestamp_today)
-			$code_erreur=3 ;  // code erreur : saisie de date pass√©e
+			$code_erreur=3 ;  // code erreur : saisie de date passÈe
 
 		// on ne verifie QUE si date_debut ou date_fin sont !=  d'aujourd'hui
-		// (car aujourd'hui est la valeur par d√©daut des dates, et on ne peut saisir aujourd'hui puisque c'est ferm√© !)
+		// (car aujourd'hui est la valeur par dÈdaut des dates, et on ne peut saisir aujourd'hui puisque c'est fermÈ !)
 		elseif( ($timestamp_date_debut==$timestamp_today) || ($timestamp_date_fin==$timestamp_today) )
 		{
 			$code_erreur=4 ;  // code erreur : saisie de aujourd'hui
 		}
 		else
 		// on verifie si la periode saisie ne chevauche pas une :
-		// fabrication et initialisation du tableau des demi-jours de la date_debut √† la date_fin
+		// fabrication et initialisation du tableau des demi-jours de la date_debut ‡ la date_fin
 		{
 			$tab_periode_calcul = make_tab_demi_jours_periode($date_debut_yyyy_mm_dd, $date_fin_yyyy_mm_dd, "am", "pm", $DEBUG);
-			if(verif_periode_chevauche_periode_groupe($date_debut_yyyy_mm_dd, $date_fin_yyyy_mm_dd, $tab_periode_calcul, $groupe_id, $DEBUG) == TRUE)
+			if(verif_periode_chevauche_periode_groupe($date_debut_yyyy_mm_dd, $date_fin_yyyy_mm_dd, $tab_periode_calcul, $groupe_id, $mysql_link, $DEBUG) == TRUE)
 				$code_erreur=5 ;  // code erreur : fermeture chevauche une periode deja saisie
 		}
 	}
@@ -153,7 +151,7 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 	echo "<html>\n";
 	echo "<head>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
+	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">\n";
 	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 	echo "<title>PHP_CONGES :</title>\n";
 	echo "</head>\n";
@@ -164,22 +162,23 @@ verif_droits_user($session, "is_admin", $DEBUG);
 
 
 	if($choix_action=="saisie_groupe")
-         	saisie_groupe_fermeture($DEBUG);
+         	saisie_groupe_fermeture($mysql_link, $DEBUG);
 	elseif($choix_action=="saisie_dates")
 	{
 			include("../fonctions_javascript_calendrier.php");
 			affiche_javascript_et_css_des_calendriers();
-			if($groupe_id=="")     // choix du groupe n'a pas √©t√© fait ($_SESSION['config']['fermeture_par_groupe']==FALSE)
+			if($groupe_id=="")     // choix du groupe n'a pas ÈtÈ fait ($_SESSION['config']['fermeture_par_groupe']==FALSE)
 				$groupe_id=0;
-	        saisie_dates_fermeture($year, $groupe_id, $new_date_debut, $new_date_fin, $code_erreur, $DEBUG);
+	        saisie_dates_fermeture($year, $groupe_id, $new_date_debut, $new_date_fin, $code_erreur, $mysql_link, $DEBUG);
 	}
 	elseif($choix_action=="commit_new_fermeture")
-	        commit_new_fermeture($new_date_debut, $new_date_fin, $groupe_id, $id_type_conges, $DEBUG);
+	        commit_new_fermeture($new_date_debut, $new_date_fin, $groupe_id, $id_type_conges, $mysql_link, $DEBUG);
 	elseif($choix_action=="annul_fermeture")
 	        confirm_annul_fermeture($fermeture_id, $fermeture_date_debut, $fermeture_date_fin, $DEBUG);
 	elseif($choix_action=="commit_annul_fermeture")
-	        commit_annul_fermeture($fermeture_id, $groupe_id, $DEBUG);
+	        commit_annul_fermeture($fermeture_id, $groupe_id, $mysql_link, $DEBUG);
 
+	mysql_close($mysql_link);
 
 	echo "</center>\n";
 	echo "</body>\n";
@@ -191,7 +190,7 @@ verif_droits_user($session, "is_admin", $DEBUG);
 /***************************************************************/
 /**********  FONCTIONS  ****************************************/
 
-function saisie_groupe_fermeture( $DEBUG=FALSE)
+function saisie_groupe_fermeture($mysql_link, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
@@ -236,7 +235,7 @@ function saisie_groupe_fermeture( $DEBUG=FALSE)
 		/********************/
 		/* Choix Groupe     */
 		/********************/
-		// R√©cuperation des informations :
+		// RÈcuperation des informations :
 		$sql_gr = "SELECT g_gid, g_groupename, g_comment FROM conges_groupe ORDER BY g_groupename"  ;
 
 		// AFFICHAGE TABLEAU
@@ -252,9 +251,9 @@ function saisie_groupe_fermeture( $DEBUG=FALSE)
 
 			echo "<tr align=\"center\">\n";
 			echo "<td valign=\"top\">\n";
-			$ReqLog_gr = requete_mysql($sql_gr,  "saisie_groupe_fermeture", $DEBUG);
+			$ReqLog_gr = requete_mysql($sql_gr, $mysql_link, "saisie_groupe_fermeture", $DEBUG);
 			echo "<select name=\"groupe_id\">";
-			while ($resultat_gr = $ReqLog_gr->fetch_array())
+			while ($resultat_gr = mysql_fetch_array($ReqLog_gr))
 			{
 				$sql_gid=$resultat_gr["g_gid"] ;
 				$sql_group=$resultat_gr["g_groupename"] ;
@@ -286,7 +285,7 @@ function saisie_groupe_fermeture( $DEBUG=FALSE)
 }
 
 
-function saisie_dates_fermeture($year, $groupe_id, $new_date_debut, $new_date_fin, $code_erreur,  $DEBUG=FALSE)
+function saisie_dates_fermeture($year, $groupe_id, $new_date_debut, $new_date_fin, $code_erreur, $mysql_link, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
@@ -301,18 +300,18 @@ function saisie_dates_fermeture($year, $groupe_id, $new_date_debut, $new_date_fi
 //	$year=$tab_date_debut[2];
 
 
-	// on construit le tableau de l'ann√©e consid√©r√©e
+	// on construit le tableau de l'annÈe considÈrÈe
 	$tab_year=array();
-	get_tableau_jour_fermeture($year, $tab_year,  $groupe_id,  $DEBUG);
+	get_tableau_jour_fermeture($year, $tab_year,  $groupe_id, $mysql_link, $DEBUG);
 	if($DEBUG==TRUE) { echo "tab_year = "; print_r($tab_year); echo "<br>\n"; }
 
 
 	/************************************************/
 	// GESTION DES ERREURS DE SAISIE :
 	//
-	// $code_erreur=1 ;  // code erreur : jour feri√©s non saisis
+	// $code_erreur=1 ;  // code erreur : jour feriÈs non saisis
 	// $code_erreur=2 ;  // code erreur : $new_date_debut est posterieure a $new_date_fin
-	// $code_erreur=3 ;  // code erreur : saisie de date pass√©e
+	// $code_erreur=3 ;  // code erreur : saisie de date passÈe
 	// $code_erreur=4 ;  // code erreur : saisie de aujourd'hui
 	// $code_erreur=5 ;  // code erreur : fermeture chevauche une periode deja saisie
 
@@ -320,18 +319,18 @@ function saisie_dates_fermeture($year, $groupe_id, $new_date_debut, $new_date_fi
 //	if($timestamp_date_debut > $timestamp_date_fin)
 	if($code_erreur==2)
 		echo "<br><center><h3><font color=\"red\">".$_SESSION['lang']['admin_jours_fermeture_dates_incompatibles'].".</font></h3></center><br><br>\n";
-	// on verifie que ce ne sont pas des dates pass√©es
+	// on verifie que ce ne sont pas des dates passÈes
 //	if($timestamp_date_debut < $timestamp_today)
 	if($code_erreur==3)
 		echo "<br><center><h3><font color=\"red\">".$_SESSION['lang']['admin_jours_fermeture_date_passee_error'].".</font></h3></center><br><br>\n";
-	// on verifie si les jours f√©ri√©s de l'annee de la periode saisie sont enregistr√©s : sinon BUG au calcul des soldes des users !
-//	if( (verif_jours_feries_saisis($date_debut_yyyy_mm_dd,  $DEBUG)==FALSE)
-//	    && (verif_jours_feries_saisis($date_fin_yyyy_mm_dd,  $DEBUG)==FALSE) )
+	// on verifie si les jours fÈriÈs de l'annee de la periode saisie sont enregistrÈs : sinon BUG au calcul des soldes des users !
+//	if( (verif_jours_feries_saisis($date_debut_yyyy_mm_dd, $mysql_link, $DEBUG)==FALSE)
+//	    && (verif_jours_feries_saisis($date_fin_yyyy_mm_dd, $mysql_link, $DEBUG)==FALSE) )
 	if($code_erreur==1)
 		echo "<br><center><h3><font color=\"red\">".$_SESSION['lang']['admin_jours_fermeture_annee_non_saisie'].".</font></h3></center><br><br>\n";
 
 	// on verifie si la periode saisie ne chevauche pas une :
-	// fabrication et initialisation du tableau des demi-jours de la date_debut √† la date_fin
+	// fabrication et initialisation du tableau des demi-jours de la date_debut ‡ la date_fin
 //	if( ($timestamp_date_debut!=$timestamp_today) || ($timestamp_date_fin!=$timestamp_today) )  // on ne verifie QUE si date_debut ou date_finc sont !=  d'aujourd'hui
 ////	{
 ////		echo "<br><center><h3><font color=\"red\">".$_SESSION['lang']['admin_jours_fermeture_fermeture_aujourd_hui'].".</font></h3></center><br><br>\n";
@@ -341,7 +340,7 @@ function saisie_dates_fermeture($year, $groupe_id, $new_date_debut, $new_date_fi
 ////	else
 //	{
 //		$tab_periode_calcul = make_tab_demi_jours_periode($date_debut_yyyy_mm_dd, $date_fin_yyyy_mm_dd, "am", "pm", $DEBUG);
-//		if(verif_periode_chevauche_periode_groupe($date_debut_yyyy_mm_dd, $date_fin_yyyy_mm_dd, $tab_periode_calcul, $groupe_id,  $DEBUG) == TRUE)
+//		if(verif_periode_chevauche_periode_groupe($date_debut_yyyy_mm_dd, $date_fin_yyyy_mm_dd, $tab_periode_calcul, $groupe_id, $mysql_link, $DEBUG) == TRUE)
 	if($code_erreur==5)
 			echo "<br><center><h3><font color=\"red\">".$_SESSION['lang']['admin_jours_fermeture_chevauche_periode'].".</font></h3></center><br><br>\n";
 //	}
@@ -355,7 +354,7 @@ function saisie_dates_fermeture($year, $groupe_id, $new_date_debut, $new_date_fi
 	// cellulle de gauche : bouton annee precedente
 	echo "<td align=\"left\">\n";
 		$annee_precedente=$year-1;
-		echo '<a href="'.schars($PHP_SELF).'?session='.schars($session).'&year='.schars($annee_precedente).'&groupe_id='.schars($groupe_id).'"> << '.schars($_SESSION['lang']['admin_jours_chomes_annee_precedente']).'</a>'."\n";
+		echo "<a href=\"$PHP_SELF?session=$session&year=$annee_precedente&groupe_id=$groupe_id\"> << ".$_SESSION['lang']['admin_jours_chomes_annee_precedente']."</a>\n";
 	echo "</td>\n";
 	// cellulle centrale : saisie d'une fermeture
 	echo "<td width=\"450\">\n";
@@ -386,7 +385,7 @@ function saisie_dates_fermeture($year, $groupe_id, $new_date_debut, $new_date_fi
 		echo "<fieldset class=\"cal_saisie\">\n";
 			// tableau contenant les mois
 			echo "<table cellpadding=\"2\" cellspacing=\"2\" border=\"0\">\n";
-			// ligne des boutons de d√©filement
+			// ligne des boutons de dÈfilement
 			echo "<tr align=\"center\">\n";
 				echo "<td>\n";
 				echo $_SESSION['lang']['divers_date_fin']." : <input type=\"text\" name=\"new date_fin\" class=\"calendrier DatePicker_trigger\" value=\"$new_date_fin\"  />\n" ;
@@ -403,9 +402,9 @@ function saisie_dates_fermeture($year, $groupe_id, $new_date_debut, $new_date_fi
 	echo "<br>\n";
 	// Affichage d'un SELECT de formulaire pour choix d'un type d'absence
 	echo $_SESSION['lang']['admin_jours_fermeture_affect_type_conges'];
-	affiche_select_conges_id( $DEBUG);
+	affiche_select_conges_id($mysql_link, $DEBUG);
+	echo "<br><br>\n";
 
-	
 	/************************************************/
 	//table contenant les boutons
 	echo "<table cellpadding=\"2\" cellspacing=\"3\" border=\"0\" >\n";
@@ -432,12 +431,14 @@ function saisie_dates_fermeture($year, $groupe_id, $new_date_debut, $new_date_fi
 	echo "</tr>\n";
 	echo "</table>\n";
 
-	
+	echo "<br><br>\n";
+
+
 	/************************************************/
 	// HISTORIQUE DES FERMETURES
 
 	$tab_periodes_fermeture = array();
-	get_tableau_periodes_fermeture($tab_periodes_fermeture, $groupe_id,  $DEBUG);
+	get_tableau_periodes_fermeture($tab_periodes_fermeture, $groupe_id, $mysql_link, $DEBUG);
 	if(count($tab_periodes_fermeture)!=0)
 	{
 		echo "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n";
@@ -524,7 +525,7 @@ function affiche_calendrier_fermeture($year, $tab_year, $DEBUG=FALSE)
 				echo "<td>\n"; // novembre
 					affiche_calendrier_fermeture_mois($year, "11", $tab_year);
 				echo "</td>\n";
-				echo "<td>\n"; // d√©cembre
+				echo "<td>\n"; // dÈcembre
 					affiche_calendrier_fermeture_mois($year, "12", $tab_year);
 				echo "</td>\n";
 			echo "</tr>\n";
@@ -567,7 +568,7 @@ function  affiche_calendrier_fermeture_mois($year, $mois, $tab_year, $DEBUG=FALS
 			$bgcolor=$_SESSION['config']['semaine_bgcolor'];
 		echo "<td bgcolor=$bgcolor class=\"cal-saisie2\">-</td>";
 	}
-	// affichage des cellules du 1 du mois √† la fin de la ligne ...
+	// affichage des cellules du 1 du mois ‡ la fin de la ligne ...
 	for($i=$first_jour_mois_rang; $i<8; $i++)
 	{
 		$j=$i-$first_jour_mois_rang+1 ;
@@ -685,7 +686,7 @@ function  affiche_calendrier_fermeture_mois($year, $mois, $tab_year, $DEBUG=FALS
 
 
 
-function commit_new_fermeture($new_date_debut, $new_date_fin, $groupe_id, $id_type_conges,  $DEBUG=FALSE)
+function commit_new_fermeture($new_date_debut, $new_date_fin, $groupe_id, $id_type_conges, $mysql_link, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
@@ -700,22 +701,22 @@ function commit_new_fermeture($new_date_debut, $new_date_fin, $groupe_id, $id_ty
 
 
 	/*****************************/
-	// on construit le tableau des users affect√©s par les fermetures saisies :
+	// on construit le tableau des users affectÈs par les fermetures saisies :
 	if($groupe_id==0)  // fermeture pour tous !
-		$list_users = get_list_all_users( $DEBUG);
+		$list_users = get_list_all_users($mysql_link, $DEBUG);
 	else
-		$list_users = get_list_users_du_groupe($groupe_id,  $DEBUG);
+		$list_users = get_list_users_du_groupe($groupe_id, $mysql_link, $DEBUG);
 
 	$tab_users = explode(",", $list_users);
 	if($DEBUG==TRUE) { echo "tab_users =<br>\n"; print_r($tab_users) ; echo "<br>\n"; }
 
 //******************************
 // !!!!
-	// type d'absence √† modifier ....
+	// type d'absence ‡ modifier ....
 //	$id_type_conges = 1 ; //"cp" : conges payes
 
 	//calcul de l'ID de de la fermeture (en fait l'ID de la saisie de fermeture)
-	$new_fermeture_id=get_last_fermeture_id( $DEBUG) + 1;
+	$new_fermeture_id=get_last_fermeture_id($mysql_link, $DEBUG) + 1;
 
 	/***********************************************/
 	/** enregistrement des jours de fermetures   **/
@@ -726,7 +727,7 @@ function commit_new_fermeture($new_date_debut, $new_date_fin, $groupe_id, $id_ty
 	}
 	if($DEBUG==TRUE) { echo "tab_fermeture =<br>\n"; print_r($tab_fermeture) ; echo "<br>\n"; }
 	// on insere les nouvelles dates saisies dans conges_jours_fermeture
-	$result=insert_year_fermeture($new_fermeture_id, $tab_fermeture, $groupe_id,  $DEBUG);
+	$result=insert_year_fermeture($new_fermeture_id, $tab_fermeture, $groupe_id, $mysql_link, $DEBUG);
 
 	$opt_debut='am';
 	$opt_fin='pm';
@@ -736,40 +737,40 @@ function commit_new_fermeture($new_date_debut, $new_date_fin, $groupe_id, $id_ty
 	foreach($tab_users as $current_login)
 	{
 	    $current_login = trim($current_login);
-		// on enleve les quotes qui ont √©t√© ajout√©es lors de la creation de la liste
+		// on enleve les quotes qui ont ÈtÈ ajoutÈes lors de la creation de la liste
 		$current_login = trim($current_login, "\'");
 
-		// on compte le nb de jour √† enlever au user (par periode et au total)
-		// on ne met √† jour la table conges_periode
+		// on compte le nb de jour ‡ enlever au user (par periode et au total)
+		// on ne met ‡ jour la table conges_periode
 		$nb_jours = 0;
 		$comment="" ;
 
-		$nb_jours = compter($current_login, $date_debut, $date_fin, $opt_debut, $opt_fin, $comment,  $DEBUG);
+		$nb_jours = compter($current_login, $date_debut, $date_fin, $opt_debut, $opt_fin, $comment, $mysql_link, $DEBUG);
 		if ($DEBUG) echo "<br>user_login : " . $current_login . " nbjours : " . $nb_jours . "<br>\n";
 
-		// on ne met √† jour la table conges_periode .
+		// on ne met ‡ jour la table conges_periode .
 		$commentaire = $_SESSION['lang']['divers_fermeture'];
 		$etat = "ok" ;
-		$num_periode = insert_dans_periode($current_login, $date_debut, $opt_debut, $date_fin, $opt_fin, $nb_jours, $commentaire, $id_type_conges, $etat, $new_fermeture_id, $DEBUG) ;
+		$num_periode = insert_dans_periode($current_login, $date_debut, $opt_debut, $date_fin, $opt_fin, $nb_jours, $commentaire, $id_type_conges, $etat, $new_fermeture_id, $mysql_link, $DEBUG) ;
 
-		// mise √† jour du solde de jours de conges pour l'utilisateur $current_login
+		// mise ‡ jour du solde de jours de conges pour l'utilisateur $current_login
 		if ($nb_jours != 0)
 		{
-			//soustrait_solde_user($current_login, $nb_jours, $id_type_conges,  $DEBUG);
-			soustrait_solde_et_reliquat_user($current_login, $nb_jours, $id_type_conges, $date_debut, $opt_debut, $date_fin, $opt_fin,  $DEBUG);
+//		        $sql = "UPDATE conges_solde_user SET su_solde = su_solde - $nb_jours WHERE su_login='$current_login' AND su_abs_id = ( SELECT ta_id FROM conges_type_absence WHERE ta_short_libelle='cp') " ;
+		        $sql = "UPDATE conges_solde_user SET su_solde = su_solde - $nb_jours WHERE su_login='$current_login' AND su_abs_id = $id_type_conges " ;
+		        if ($DEBUG) echo "<br>$sql<br>$mysql_link<br>";
+		        $ReqLog = requete_mysql($sql, $mysql_link, "commit_saisie_fermeture", $DEBUG);
 		}
 	}
 
-	// on recharge les jours ferm√©s dans les variables de session
-	init_tab_jours_fermeture($_SESSION['userlogin'],  $DEBUG);
-	
+
 	if($result==TRUE)
 		echo "<br>".$_SESSION['lang']['form_modif_ok'].".<br><br>\n";
 	else
 		echo "<br>".$_SESSION['lang']['form_modif_not_ok']." !<br><br>\n";
 
 	$comment_log = "saisie des jours de fermeture de $date_debut a $date_fin" ;
-	log_action(0, "", "", $comment_log,  $DEBUG);
+	log_action(0, "", "", $comment_log, $mysql_link, $DEBUG);
 
 	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n";
 	echo "<table>\n";
@@ -808,7 +809,7 @@ function confirm_annul_fermeture($fermeture_id, $fermeture_date_debut, $fermetur
 	echo "</tr>\n";
 	echo "<tr>\n";
 	echo "<td width=\"100\" align=\"center\">\n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_continuer']."\">\n";
+	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_confirmer_maj_1']."\">\n";
 	echo "</form>\n";
 	echo "</td>\n";
 
@@ -823,9 +824,8 @@ function confirm_annul_fermeture($fermeture_id, $fermeture_date_debut, $fermetur
 
 }
 
-function commit_annul_fermeture($fermeture_id, $groupe_id,  $DEBUG=FALSE)
+function commit_annul_fermeture($fermeture_id, $groupe_id, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
@@ -833,11 +833,11 @@ function commit_annul_fermeture($fermeture_id, $groupe_id,  $DEBUG=FALSE)
 
 
 	/*****************************/
-	// on construit le tableau des users affect√©s par les fermetures saisies :
+	// on construit le tableau des users affectÈs par les fermetures saisies :
 	if($groupe_id==0)  // fermeture pour tous !
-		$list_users = get_list_all_users( $DEBUG);
+		$list_users = get_list_all_users($mysql_link, $DEBUG);
 	else
-		$list_users = get_list_users_du_groupe($groupe_id,  $DEBUG);
+		$list_users = get_list_users_du_groupe($groupe_id, $mysql_link, $DEBUG);
 
 	$tab_users = explode(",", $list_users);
 	if($DEBUG==TRUE) { echo "tab_users =<br>\n"; print_r($tab_users) ; echo "<br>\n"; }
@@ -845,35 +845,36 @@ function commit_annul_fermeture($fermeture_id, $groupe_id,  $DEBUG=FALSE)
 	/***********************************************/
 	/** suppression des jours de fermetures   **/
 	// on suprimme les dates de cette fermeture dans conges_jours_fermeture
-	$result=delete_year_fermeture($fermeture_id,  $DEBUG);
+	$result=delete_year_fermeture($fermeture_id, $mysql_link, $DEBUG);
 
 
 	// on va traiter user par user pour annuler sa periode de conges correspondant et lui re-crediter son solde
 	foreach($tab_users as $current_login)
 	{
 	    $current_login = trim($current_login);
-		// on enleve les quotes qui ont √©t√© ajout√©es lors de la creation de la liste
+		// on enleve les quotes qui ont ÈtÈ ajoutÈes lors de la creation de la liste
 		$current_login = trim($current_login, "\'");
 
-		// on recup√®re les infos de la periode ....
-		$sql_credit='SELECT p_num, p_nb_jours, p_type FROM conges_periode WHERE p_login=\''.$sql->escape($current_login).'\' AND p_fermeture_id=\''.$sql->escape($fermeture_id);
-		$result_credit = requete_mysql($sql_credit,  "commit_annul_fermeture", $DEBUG);
-		$row_credit = $result_credit->fetch_array();
+		// on recupËre les infos de la periode ....
+		$sql_credit="SELECT p_num, p_nb_jours, p_type FROM conges_periode WHERE p_login='$current_login' AND p_fermeture_id='$fermeture_id' ";
+		$result_credit = requete_mysql($sql_credit, $mysql_link, "commit_annul_fermeture", $DEBUG);
+		$row_credit = mysql_fetch_array($result_credit);
 		$sql_num_periode=$row_credit['p_num'];
 		$sql_nb_jours_a_crediter=$row_credit['p_nb_jours'];
 		$sql_type_abs=$row_credit['p_type'];
 
 
-		// on ne met √† jour la table conges_periode .
+		// on ne met ‡ jour la table conges_periode .
 		$etat = "annul" ;
-	 	$sql = 'UPDATE conges_periode SET p_etat = \''.$sql->escape($etat).'\' WHERE p_num='.$sql->escape($sql_num_periode) ;
-	    $ReqLog = requete_mysql($sql,  "commit_annul_fermeture", $DEBUG);
+	 	$sql = "UPDATE conges_periode SET p_etat = '$etat' WHERE p_num=$sql_num_periode " ;
+	    $ReqLog = requete_mysql($sql, $mysql_link, "commit_annul_fermeture", $DEBUG);
 
-		// mise √† jour du solde de jours de conges pour l'utilisateur $current_login
+		// mise ‡ jour du solde de jours de conges pour l'utilisateur $current_login
 		if ($sql_nb_jours_a_crediter != 0)
 		{
-		        $sql = 'UPDATE conges_solde_user SET su_solde = su_solde + '.$sql->escape($sql_nb_jours_a_crediter).' WHERE su_login=\''.$sql->escape($current_login).'\' AND su_abs_id = '.$sql->escape($sql_type_abs) ;
-		        $ReqLog = requete_mysql($sql,  "commit_annul_fermeture", $DEBUG);
+		        $sql = "UPDATE conges_solde_user SET su_solde = su_solde + $sql_nb_jours_a_crediter WHERE su_login='$current_login' AND su_abs_id = $sql_type_abs " ;
+		        if ($DEBUG) echo "<br>$sql<br>$mysql_link<br>";
+		        $ReqLog = requete_mysql($sql, $mysql_link, "commit_annul_fermeture", $DEBUG);
 		}
 	}
 
@@ -887,7 +888,7 @@ function commit_annul_fermeture($fermeture_id, $groupe_id,  $DEBUG=FALSE)
 		$comment_log = "annulation fermeture $fermeture_id (pour tous) " ;
 	else
 		$comment_log = "annulation fermeture $fermeture_id (pour le groupe $groupe_id)" ;
-	log_action(0, "", "", $comment_log,  $DEBUG);
+	log_action(0, "", "", $comment_log, $mysql_link, $DEBUG);
 
 	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n";
 	echo "<table>\n";
@@ -901,28 +902,27 @@ function commit_annul_fermeture($fermeture_id, $groupe_id,  $DEBUG=FALSE)
 }
 
 
-function insert_year_fermeture($fermeture_id, $tab_j_ferme, $groupe_id,  $DEBUG=FALSE)
+function insert_year_fermeture($fermeture_id, $tab_j_ferme, $groupe_id, $mysql_link, $DEBUG=FALSE)
 {
 	$sql_insert="";
 	foreach($tab_j_ferme as $jf_date )
 	{
 		$sql_insert="INSERT INTO conges_jours_fermeture (jf_id, jf_gid, jf_date) VALUES ($fermeture_id, $groupe_id, '$jf_date') ;";
-		$result_insert = requete_mysql($sql_insert,  "insert_year_fermeture", $DEBUG);
+		$result_insert = requete_mysql($sql_insert, $mysql_link, "insert_year_fermeture", $DEBUG);
 	}
 	return TRUE;
 }
 
-function delete_year_fermeture($fermeture_id,  $DEBUG=FALSE)
+function delete_year_fermeture($fermeture_id, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
 	$sql_delete="DELETE FROM conges_jours_fermeture WHERE jf_id = '$fermeture_id' ;";
-	$result = requete_mysql($sql_delete,  "delete_year_fermeture", $DEBUG);
+	$result = requete_mysql($sql_delete, $mysql_link, "delete_year_fermeture", $DEBUG);
 	return TRUE;
 }
 
 
-// retourne un tableau des jours fermes de l'ann√©e dans un tables pass√© par r√©f√©rence
-function get_tableau_jour_fermeture($year, &$tab_year,  $groupe_id,  $DEBUG=FALSE)
+// retourne un tableau des jours fermes de l'annÈe dans un tables passÈ par rÈfÈrence
+function get_tableau_jour_fermeture($year, &$tab_year,  $groupe_id, $mysql_link, $DEBUG=FALSE)
 {
 	$sql_select = " SELECT jf_date FROM conges_jours_fermeture WHERE DATE_FORMAT(jf_date, '%Y-%m-%d') LIKE '$year%'  ";
 	// on recup les fermeture du groupe + les fermetures de tous !
@@ -930,16 +930,16 @@ function get_tableau_jour_fermeture($year, &$tab_year,  $groupe_id,  $DEBUG=FALS
 		$sql_select = $sql_select."AND jf_gid = 0";
 	else
 		$sql_select = $sql_select."AND  (jf_gid = $groupe_id OR jf_gid =0 ) ";
-	$res_select = requete_mysql($sql_select,  "get_tableau_jour_fermeture", $DEBUG);
-//	$res_select = $sql->query($sql_select);
+	$res_select = requete_mysql($sql_select, $mysql_link, "get_tableau_jour_fermeture", $DEBUG);
+//	$res_select = mysql_query($sql_select, $mysql_link);
 //	attention ne fonctionne pas avec requete_mysql
-//	$res_select = requete_mysql($sql_select,  "get_tableau_jour_feries", $DEBUG);
+//	$res_select = requete_mysql($sql_select, $mysql_link, "get_tableau_jour_feries", $DEBUG);
 
-	$num_select =$res_select -> num_rows;
+	$num_select = mysql_num_rows($res_select);
 
 	if($num_select!=0)
 	{
-	        while($result_select = $res_select->fetch_array())
+	        while($result_select = mysql_fetch_array($res_select))
 		{
 		        $tab_year[]=$result_select["jf_date"];
 		}
@@ -947,19 +947,19 @@ function get_tableau_jour_fermeture($year, &$tab_year,  $groupe_id,  $DEBUG=FALS
 }
 
 
-// retourne un tableau des periodes de fermeture (pour un groupe donn√© (gid=0 pour tout le monde))
-function get_tableau_periodes_fermeture(&$tab_periodes_fermeture, $groupe_id,  $DEBUG=FALSE)
+// retourne un tableau des periodes de fermeture (pour un groupe donnÈ (gid=0 pour tout le monde))
+function get_tableau_periodes_fermeture(&$tab_periodes_fermeture, $groupe_id, $mysql_link, $DEBUG=FALSE)
 {
    $req_1="SELECT DISTINCT conges_periode.p_date_deb, conges_periode.p_date_fin, conges_periode.p_fermeture_id FROM conges_periode, conges_jours_fermeture " .
    		" WHERE conges_periode.p_fermeture_id = conges_jours_fermeture.jf_id AND conges_periode.p_etat='ok' AND conges_jours_fermeture.jf_gid = '$groupe_id' " .
   		" ORDER BY conges_periode.p_date_deb DESC ";
-   $res_1 = requete_mysql($req_1,  "get_tableau_periodes_fermeture", $DEBUG);
+   $res_1 = requete_mysql($req_1, $mysql_link, "get_tableau_periodes_fermeture", $DEBUG);
 
-	$num_select = $res_1 -> num_rows;
+	$num_select = mysql_num_rows($res_1);
 
 	if($num_select!=0)
 	{
-	    while($result_select = $res_1->fetch_array())
+	    while($result_select = mysql_fetch_array($res_1))
 		{
 			$tab_periode=array();
 			$tab_periode['date_deb']=$result_select["p_date_deb"];
@@ -973,11 +973,11 @@ function get_tableau_periodes_fermeture(&$tab_periodes_fermeture, $groupe_id,  $
 
 
 // recup l'id de la derniere fermeture (le max)
-function get_last_fermeture_id( $DEBUG=FALSE)
+function get_last_fermeture_id($mysql_link, $DEBUG=FALSE)
 {
    $req_1="SELECT MAX(jf_id) FROM conges_jours_fermeture ";
-   $res_1 = requete_mysql($req_1,  "get_last_fermeture_id", $DEBUG);
-   $row_1 = $res_1->fetch_array();
+   $res_1 = requete_mysql($req_1, $mysql_link, "get_last_fermeture_id", $DEBUG);
+   $row_1 = mysql_fetch_row($res_1);
    if(!$row_1)
       return 0;     // si la table est vide, on renvoit 0
    else
@@ -987,10 +987,10 @@ function get_last_fermeture_id( $DEBUG=FALSE)
 
 
 // Affichage d'un SELECT de formulaire pour choix d'un type d'absence
-function affiche_select_conges_id( $DEBUG=FALSE)
+function affiche_select_conges_id($mysql_link, $DEBUG=FALSE)
 {
-	$tab_conges=recup_tableau_types_conges( $DEBUG);
-	$tab_conges_except=recup_tableau_types_conges_exceptionnels( $DEBUG);
+	$tab_conges=recup_tableau_types_conges($mysql_link, $DEBUG);
+	$tab_conges_except=recup_tableau_types_conges_exceptionnels($mysql_link, $DEBUG);
 	
 	echo "<select name=id_type_conges>\n";
 

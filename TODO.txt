@@ -6,46 +6,24 @@
   TODO :
 ****************
 
-***************************************
-
 
 ***************************************
 Prochaine(s) Version(s)   :
-----------------------------------
+---------------------
 
-- possibilité que le responsable puisse saisir des congés pour un utilisateur même si l'utilisateur y est déjà autorisé.
-    Cette possibilité est d'ailleurs offerte pour les absences pour "mission, formations, etc..."
-    
-- upgrade de phpCAS dès que celui ci n'utilisera plus la fonction ereg() 
-
-- quand admin ajoute un user : pouvoir choisir comme resp "lui même" ... avec un controle ensuite si is_resp ='Y' ....
-       (ou en javascript : si "is_resp" est coché : proposer "lui même" dans la liste des responsables)
-
-- choix d'utiliser ou non php-ids (et du coup remettre ub seuil entre 15 et 25)
-
-- interdire les soldes négatifs mais SEULEMENT pour certain congés (choisi dans la config des types de conges)
-
-- limiter le solde négatif autorisé (par congés)
-
-- petit bug :
-    lors de la saisie d'un nouveau user, si un champs est éroné (ex: le mail est vide) , un clic sur recommencer renvoit 
-    à la page de saisie du user avec les champs préremplis SAUF le tableau des rtt !!! 
-    il faut récupérer aussi le tableau des rtt.
-
-- possiblité pour le resp d'éditer un recapitulatif des soldes de conges de tous ses users à la date d'aujourd'hui
-
-- possibilité d'indiquer dans le mail de validation de congés le nombre de CP et RTT restant à l'utilisateur...
-
-- definir dans l'appli un nouveau profil pour la création et gestion des utilisateurs.
-    En effet, la personne qui accompli cette tache (dans une grande structure) ne doit pas avoir accès aux options de 
-    configurations générales.
-    prévoir donc des users, responsables, admin(création et gestion des users/groupes) et superadmin(config de l'appli)
-
-- ajouter les reliquats dans les éditions papier
+- ajouter au resp une page de remise à zero des  soldes des users (cloture/debut d'exercice) (individuellement ou en groupe, ou tous )
+  ( attention : si ajout d'un utilisateur à quotité 100% en Décembre (avec 25 CP/AN) en juin, aura-t-il son solde de CP à 12,5 Jours)
+  (attention :  certains établissement gèrent les reliquats d'une année sur l'autre, d'autres remettent tous les compteurs à 0 !!! il faut prévoir cette option !)
 
 - rajouter l'information " solde initial " ou "reliquat année précédente " dans la fiche d'une personne
-    (pour info et explication d'un solde supérieur au nb congés / an)
+	(pour info et explication d'un solde supérieur au nb congés / an)
     (pas simple car implique une notion de date de début et de fin d'"année" qui n'existe pas dans php_conges )
+
+- modif pour verif solde toujours positif : (cf envoie de Damien)
+
+- fonctionnalité de demande par l'utilisateur de crédit de congés exceptionnels (et validation par le resp) (cf envoie de Vincent)
+
+- supprimer la table "conges_historique_ajout"  qui ne sert à rien !
 
 - calendrier sans authentification :
     supprimer les détails d'affichage (type de congés et d'abscences) 
@@ -59,6 +37,8 @@ Prochaine(s) Version(s)   :
 
 - répéter la ligne des entêtes du tableau en haut de chaque page d'une édition papier ou pdf ....
 
+- problème sur les textes des boutons dans le module de sauvegarde de la base (possibilité de "demarrer la sauvegarde" et "valider"...)
+
 - faire apparaitre les fermetures et les conges pris sur les calendriers de saisie de nouveau congés.
 
 
@@ -68,9 +48,16 @@ Prochaine(s) Version(s)   :
  en vrac :
 ---------------------
 
+- historique de congés :
+   possibilité de purger, au moins en affichage, l'historique des congés d'une personne (par exemple affichage uniquement des congés de l'année courante)
+   (car affichage devinet trop lourd !! trop long !!) (ou inverser l'ordre de l'historique (dernier en tête de liste) )
+   --> restriction de l' affichage à l'année courante liste déroulante des années passées si possible !
+
 - ajouter qq part le nombre de jour de congés pris par mois . .... les DRH et autres personnes qui éditent des bulletins de salaires ont besoin de cette information.....
 
-- triple validation !!(??)
+- ajouter dans la config de la page d'authentification, un texte SOUS l'image
+
+- triple validation !!
 
 - le logiciel envoie un mail au responsable lorsqu'on pose une "absence" .. alors qu'il n'y a pas de validation à faire !
   (et surtout, il n'est pas mentionné que c'est pour une absence !! donc le resp va dans php_conges, ne voit pas de demande et pense que c'est un bug !)
@@ -93,7 +80,7 @@ Prochaine(s) Version(s)   :
 - faite un mode TEST pour l'installeur ou une page de test qui teste tout (mail, connexion db, connexion ldap, connexion cas, test pdf, etc ....) avec
  un "error_reporting(E_ALL);" pour afficher les erreurs php !
 
-- dans la page responsable , faire une page "forcer des conges" où l'on puisse imposer des conges à un user, un groupe, ou tous.
+- dans la page responsable , faire une page "forcer des conges" où l'on puisse imposer des conges à un user, un groupe, ou tous (pour fermeture par exemple, etc ..)
   (sur le même modèle que l'ajout de conges )
 
 - ajouter un flag "consultation_only" pour certains resp, qui interdit toute action au resp (il ne peut que voir les états des demandes et des conges de ses users)
@@ -102,7 +89,7 @@ Prochaine(s) Version(s)   :
 - il serait intéressant que php_conges utilise un moteur de template (style smarty) histoire de pouvoir modifier plus aisément le look&feel de l'application.
 
 - dans mode responsable : possibilité d'avoir un affichage des users groupés par groupe !
-    (meme chose dans traite_demandes_all )
+	(meme chose dans traite_demandes_all )
 
 - dans le fonction alerte_mail de fonctions_conges.php : instancier la langue de php_mailer comme celle de
   php_conges (pas en francais systématiquement !)
@@ -121,10 +108,10 @@ Prochaine(s) Version(s)   :
 - fonctionnement des sessions sans cookies (si non acceptés par le navigateur) !
 
 Mails :  ajouter dans la conf une adresse mail pour envoyer les mails en cc (ceux utilisateurs ou ceux responsable)
-    et dans la table groupe pour pouvoir faire un cc différent pour chaque groupe
+	et dans la table groupe pour pouvoir faire un cc différent pour chaque groupe
 
 - possibilité de choisir entre PHPMailer et WAMailer si déja utilisé sur le serveur (--> réécrire la fonction de mail en testant quelle
-    librairie est utilisée (verif dans le fichier de conf ou verif de l'existantce d'un fichier))
+	librairie est utilisée (verif dans le fichier de conf ou verif de l'existantce d'un fichier))
 
 - modif d'une demande : pouvoir passer une demande de conges en demande de rtt (ou inverse)(si rtt comme conges)
 

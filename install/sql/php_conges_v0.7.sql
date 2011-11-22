@@ -51,7 +51,7 @@ CREATE TABLE `conges_artt` (
   `a_date_debut_grille` date NOT NULL default '0000-00-00',
   `a_date_fin_grille` date NOT NULL default '9999-12-31',
   PRIMARY KEY  (`a_login`,`a_date_fin_grille`)
-);
+) TYPE=MyISAM;
  
 #
 # Contenu de la table `conges_artt`
@@ -72,7 +72,7 @@ CREATE TABLE `conges_echange_rtt` (
   `e_presence` enum('N','J','M','A') NOT NULL default 'N',
   `e_comment` varchar(255) default NULL,
   PRIMARY KEY  (`e_login`,`e_date_jour`)
-);
+) TYPE=MyISAM;
 
 # --------------------------------------------------------
 
@@ -91,7 +91,7 @@ CREATE TABLE `conges_periode` (
   `p_etat` enum('pris','demande','refusé','annulé','formation','mission','autre','absence-annulée','rtt_annulée','rtt_prise','rtt_refusée','demande-rtt') NOT NULL default 'demande',
   `p_num` int(5) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (`p_num`)
-);
+) TYPE=MyISAM;
 
 # --------------------------------------------------------
 
@@ -114,7 +114,7 @@ CREATE TABLE `conges_users` (
   `u_email` varchar(100) default NULL,
   PRIMARY KEY  (`u_login`),
   KEY `u_login` (`u_login`)
-);
+) TYPE=MyISAM;
 
 #
 # Contenu de la table `conges_users`
@@ -137,5 +137,5 @@ CREATE TABLE `session_appli_conges` (
   PRIMARY KEY  (`session`),
   KEY `user` (`user`),
   KEY `session` (`session`)
-);
+) TYPE=MyISAM;
     

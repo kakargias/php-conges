@@ -37,8 +37,7 @@ SOMMAIRE :
 
 	3: installation des fichiers :
 	------------------------------
-	- copier le contenu de l'archive dans l'arborescence de votre site web.
-	- ATTENTION : le répertoire "tmp" de PHP_IDS (INCLUDE.EXTERNAL/phpids-0.5.3/lib/IDS/tmp) doit être accessible en écriture ! ("writable") !!!
+	copier le contenu de l'archive dans l'arborescence de votre site web.
 
 
 	4: configuration de PHP :
@@ -235,8 +234,8 @@ SOMMAIRE :
 
 	3: installation des fichiers
 	-----------------------------
-	copier le contenu de l'archive dans l'arborescence de votre site web (à la place de votre ancienne version).
-	- ATTENTION : le répertoire "tmp" de PHP_IDS (INCLUDE.EXTERNAL/phpids-0.5.3/lib/IDS/tmp) doit être accessible en écriture ! ("writable") !!!
+	copier le contenu de l'archive dans l'arborescence de votre site web (à la place de votre 
+	ancienne version).
 
 
 	4: mise à jour de la database et configuration de PHP_Conges :

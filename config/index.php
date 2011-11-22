@@ -1,16 +1,16 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des CongÃ©s
+PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
 Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les 
-termes de la Licence Publique GÃ©nÃ©rale GNU publiÃ©e par la Free Software Foundation.
-Ce programme est distribuÃ© car potentiellement utile, mais SANS AUCUNE GARANTIE, 
+termes de la Licence Publique Générale GNU publiée par la Free Software Foundation.
+Ce programme est distribué car potentiellement utile, mais SANS AUCUNE GARANTIE, 
 ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation 
-dans un but spÃ©cifique. Reportez-vous Ã  la Licence Publique GÃ©nÃ©rale GNU pour plus de dÃ©tails.
-Vous devez avoir reÃ§u une copie de la Licence Publique GÃ©nÃ©rale GNU en mÃªme temps 
-que ce programme ; si ce n'est pas le cas, Ã©crivez Ã  la Free Software Foundation, 
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, Ã‰tats-Unis.
+dans un but spécifique. Reportez-vous à la Licence Publique Générale GNU pour plus de détails.
+Vous devez avoir reçu une copie de la Licence Publique Générale GNU en même temps 
+que ce programme ; si ce n'est pas le cas, écrivez à la Free Software Foundation, 
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, États-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation; either 
@@ -23,9 +23,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-define('_PHP_CONGES', 1);
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
-
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
 
 include("../fonctions_conges.php") ;
@@ -33,6 +30,7 @@ include("../INCLUDE.PHP/fonction.php");
 
 $_SESSION['config']=init_config_tab();      // on initialise le tableau des variables de config
 include("../INCLUDE.PHP/session.php");
+include("../fonctions_javascript.php") ;
 
 //include("fonctions_install.php") ;
 	
@@ -43,7 +41,7 @@ $DEBUG=FALSE;
 
 $session=session_id();
 
-// verif des droits du user Ã  afficher la page
+// verif des droits du user à afficher la page
 verif_droits_user($session, "is_admin", $DEBUG);
 
 $_SESSION['from_config']=TRUE;  // initialise ce flag pour changer le bouton de retour des popup
@@ -61,9 +59,8 @@ function propose_config( $DEBUG=FALSE)
 	
 	echo "<html>\n<head>\n";
 	echo "<TITLE> PHP_CONGES : Installation : </TITLE>\n</head>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";	
+	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";	
 	echo "<link href=\"../style_basic.css\" rel=\"stylesheet\" type=\"text/css\">\n";
-include("../fonctions_javascript.php") ;
 	echo "</head>\n";
 				
 	echo "<body text=\"#000000\" bgcolor=\"#597c98\" link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\" >\n";

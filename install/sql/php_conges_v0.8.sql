@@ -51,7 +51,7 @@ CREATE TABLE `conges_artt` (
   `a_date_debut_grille` date NOT NULL default '0000-00-00',
   `a_date_fin_grille` date NOT NULL default '9999-12-31',
   PRIMARY KEY  (`a_login`,`a_date_fin_grille`)
-);
+) TYPE=MyISAM;
 
 #
 # Contenu de la table `conges_artt`
@@ -72,7 +72,7 @@ CREATE TABLE `conges_echange_rtt` (
   `e_presence` enum('N','J','M','A') NOT NULL default 'N',
   `e_comment` varchar(255) default NULL,
   PRIMARY KEY  (`e_login`,`e_date_jour`)
-);
+) TYPE=MyISAM;
 
 # --------------------------------------------------------
 
@@ -84,7 +84,7 @@ CREATE TABLE `conges_groupe` (
   `g_groupename` varchar(50) NOT NULL default '',
   `g_comment` varchar(250) default NULL,
   PRIMARY KEY  (`g_groupename`)
-);
+) TYPE=MyISAM;
 
 # --------------------------------------------------------
 
@@ -95,7 +95,7 @@ CREATE TABLE `conges_groupe` (
 CREATE TABLE `conges_groupe_resp` (
   `gr_groupename` varchar(50) NOT NULL default '',
   `gr_login` varchar(16) NOT NULL default ''
-);
+) TYPE=MyISAM;
 
 # --------------------------------------------------------
 
@@ -106,7 +106,7 @@ CREATE TABLE `conges_groupe_resp` (
 CREATE TABLE `conges_groupe_users` (
   `gu_groupename` varchar(50) NOT NULL default '',
   `gu_login` varchar(16) NOT NULL default ''
-);
+) TYPE=MyISAM;
 
 # --------------------------------------------------------
 
@@ -125,7 +125,7 @@ CREATE TABLE `conges_periode` (
   `p_etat` enum('pris','demande','refusé','annulé','formation','mission','autre','absence-annulée','rtt_annulée','rtt_prise','rtt_refusée','demande_rtt') NOT NULL default 'demande',
   `p_num` int(5) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (`p_num`)
-) PACK_KEYS=0;
+) TYPE=MyISAM PACK_KEYS=0;
 
 # --------------------------------------------------------
 
@@ -148,7 +148,7 @@ CREATE TABLE `conges_users` (
   `u_email` varchar(100) default NULL,
   PRIMARY KEY  (`u_login`),
   KEY `u_login` (`u_login`)
-);
+) TYPE=MyISAM;
 
 INSERT INTO `conges_users` (`u_login`, `u_nom`, `u_prenom`, `u_nb_jours_an`, `u_solde_jours`, `u_nb_rtt_an`, `u_solde_rtt`, `u_is_resp`, `u_resp_login`, `u_passwd`, `u_quotite`, `u_email`) VALUES ('admin', 'php_conges', 'admin', '0.00', '0.00', '0.00', '0.00', 'Y', 'admin', '636d61cf9094a62a81836f3737d9c0da', 100, NULL);
 INSERT INTO `conges_users` (`u_login`, `u_nom`, `u_prenom`, `u_nb_jours_an`, `u_solde_jours`, `u_nb_rtt_an`, `u_solde_rtt`, `u_is_resp`, `u_resp_login`, `u_passwd`, `u_quotite`, `u_email`) VALUES ('conges', 'conges', 'responsable-virtuel', '0.00', '0.00', '0.00', '0.00', 'Y', NULL, '3cdb69ff35635d9a3f6eccb6a5e269e6', 100, NULL);
@@ -167,4 +167,4 @@ CREATE TABLE `session_appli_conges` (
   PRIMARY KEY  (`session`),
   KEY `user` (`user`),
   KEY `session` (`session`)
-);
+) TYPE=MyISAM;

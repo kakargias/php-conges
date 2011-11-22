@@ -1,30 +1,27 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des Cong√©s
+PHP_CONGES : Gestion Interactive des CongÈs
 Copyright (C) 2005 (cedric chauvineau)
 
-Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les
-termes de la Licence Publique G√©n√©rale GNU publi√©e par la Free Software Foundation.
-Ce programme est distribu√© car potentiellement utile, mais SANS AUCUNE GARANTIE,
-ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation
-dans un but sp√©cifique. Reportez-vous √† la Licence Publique G√©n√©rale GNU pour plus de d√©tails.
-Vous devez avoir re√ßu une copie de la Licence Publique G√©n√©rale GNU en m√™me temps
-que ce programme ; si ce n'est pas le cas, √©crivez √† la Free Software Foundation,
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, √âtats-Unis.
+Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les 
+termes de la Licence Publique GÈnÈrale GNU publiÈe par la Free Software Foundation.
+Ce programme est distribuÈ car potentiellement utile, mais SANS AUCUNE GARANTIE, 
+ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation 
+dans un but spÈcifique. Reportez-vous ‡ la Licence Publique GÈnÈrale GNU pour plus de dÈtails.
+Vous devez avoir reÁu une copie de la Licence Publique GÈnÈrale GNU en mÍme temps 
+que ce programme ; si ce n'est pas le cas, Ècrivez ‡ la Free Software Foundation, 
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, …tats-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
-of the GNU General Public License as published by the Free Software Foundation; either
+of the GNU General Public License as published by the Free Software Foundation; either 
 version 2 of the License, or any later version.
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
 See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
-
-define('_PHP_CONGES', 1);
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : "") ) ;
 
@@ -35,24 +32,38 @@ if(!isset($_SESSION['config']))
 	$_SESSION['config']=init_config_tab();      // on initialise le tableau des variables de config
 include("../INCLUDE.PHP/session.php");
 //include("fonctions_install.php") ;
+	
+
+$verif_droits_file="INCLUDE.PHP/verif_droits.php";
+if( ($_SESSION['config']['verif_droits']==TRUE) && (file_exists($verif_droits_file)) ){ include($verif_droits_file);}
 
 
 $DEBUG = FALSE ;
 //$DEBUG = TRUE ;
 
-// verif des droits du user √† afficher la page
+// verif des droits du user ‡ afficher la page
 verif_droits_user($session, "is_admin", $DEBUG);
 
-if($DEBUG==TRUE) { echo "SESSION = "; print_r($_SESSION); echo "<br>\n";}
+/*
+if( (!isset($_SESSION['lang'])) || ($_SESSION['lang']=="") )
+{
+	//recup de la langue
+	$lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST['lang'] : "") ) ;
+	$tab_lang_file = glob("lang/lang_".$lang."_*.php");  
+	if($DEBUG==TRUE) { echo "lang = $lang # fichier de langue = ".$tab_lang_file[0]."<br>\n"; }
+	include($tab_lang_file[0]) ;
+}
+*/
+if($DEBUG==TRUE) { echo "SESSION = "; print_r($_SESSION); echo "<br>\n"; }
 
-
+	
 	/*** initialisation des variables ***/
 	$action="";
 	$tab_new_values=array();
 	/************************************/
 
 	/*************************************/
-	// recup des parametres re√ßus :
+	// recup des parametres reÁus :
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET
@@ -62,33 +73,38 @@ if($DEBUG==TRUE) { echo "SESSION = "; print_r($_SESSION); echo "<br>\n";}
 	if(isset($_POST['tab_new_values'])) { $tab_new_values=$_POST['tab_new_values']; }
 
 	/*************************************/
-
+	
 	if($DEBUG==TRUE) { echo "tab_new_values = "; print_r($tab_new_values); echo "<br>\n"; }
 
-
+	//connexion mysql
+	$mysql_link = connexion_mysql() ;
+	
 	if($action=="commit")
-		commit_saisie($tab_new_values, $session, $DEBUG);
+		commit_saisie($tab_new_values, $mysql_link, $session, $DEBUG);
 	else
-		affichage($session, $DEBUG);
+		affichage($mysql_link, $session, $DEBUG);
+	
+	mysql_close($mysql_link);
 
 
+	
 /**************************************************************************************/
 /**********  FONCTIONS  ***************************************************************/
 
 
-function affichage($session, $DEBUG=FALSE)
+function affichage($mysql_link, $session, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
-
+    
 	// Affichage du panneau principal
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 	echo "<html>\n";
 	echo "<head>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
+	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
 	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 	echo "<TITLE> CONGES : Configuration </TITLE>\n";
 	echo "</head>\n";
-
+	
 	//$bgimage=$_SESSION['config']['URL_ACCUEIL_CONGES']."/".$_SESSION['config']['bgimage'];
 	//echo "<body text=\"#000000\" bgcolor=".$_SESSION['config']['bgcolor']." link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\" background=\"$bgimage\">\n";
 	echo "<body text=\"#000000\" bgcolor=".$_SESSION['config']['bgcolor']." link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\" >\n";
@@ -101,21 +117,21 @@ function affichage($session, $DEBUG=FALSE)
 
 	affiche_bouton_retour($session);
 
-
+	
 	// affichage de la liste des variables
-
+	
 	if($session=="")
 		echo "<form action=\"$PHP_SELF\" method=\"POST\"> \n";
 	else
 		echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\"> \n";
 	echo "<input type=\"hidden\" name=\"action\" value=\"commit\">\n";
-
-	//requ√™te qui r√©cup√®re les informations de config
+	
+	//requÍte qui rÈcupËre les informations de config
 	$sql1 = "SELECT * FROM conges_config ORDER BY conf_groupe ASC";
-	$ReqLog1 = requete_mysql($sql1, "affichage", $DEBUG);
-
+	$ReqLog1 = requete_mysql($sql1, $mysql_link, "affichage", $DEBUG);
+	
 	$old_groupe="";
-	while ($data =$ReqLog1->fetch_array())
+	while ($data = mysql_fetch_array($ReqLog1)) 
 	{
 		$conf_nom = $data['conf_nom'];
 		$conf_valeur = $data['conf_valeur'];
@@ -123,7 +139,7 @@ function affichage($session, $DEBUG=FALSE)
 		$conf_type = $data['conf_type'];
 		$conf_commentaire = $data['conf_commentaire'];
 
-		// changement de groupe de variables
+		// changement de groupe de variables 
 		if($old_groupe != $conf_groupe)
 		{
 			if($old_groupe!="")
@@ -141,22 +157,26 @@ function affichage($session, $DEBUG=FALSE)
 			echo "    <legend class=\"boxlogin\">".$_SESSION['lang'][$conf_groupe]."</legend>\n";
 			$old_groupe = $conf_groupe ;
 		}
-
-		// si on est sur le parametre "lang" on liste les fichiers de langue du r√©pertoire install/lang
+		
+		// si on est sur le parametre "lang" on liste les fichiers de langue du rÈpertoire install/lang
 		if($conf_nom=="lang")
 		{
 			echo "Choisissez votre langue :<br> \n";
 			echo "Choose your language :<br>\n";
-			// affichage de la liste des langues support√©es ...
-			// on lit le contenu du r√©pertoire lang et on parse les nom de ficher (ex lang_fr_francais.php)
+			// affichage de la liste des langues supportÈes ...
+			// on lit le contenu du rÈpertoire lang et on parse les nom de ficher (ex lang_fr_francais.php)
 			affiche_select_from_lang_directory("tab_new_values[$conf_nom]");
 		}
-		else
+		elseif( ($conf_nom=="rtt_comme_conges") || ($conf_type=="hidden") )
 		{
-			// affichage commentaire
+			// on ne l'affiche pas !!!!
+		}
+		else
+		{		
+			// affichage commentaire 
 			echo "<br><i>".$_SESSION['lang'][$conf_commentaire]."</i><br>\n";
-
-			// affichage saisie variable
+			
+			// affichage saisie variable 
 			if($conf_nom=="installed_version")
 			{
 				echo "<b>$conf_nom&nbsp;&nbsp;=&nbsp;&nbsp;$conf_valeur</b><br>";
@@ -198,77 +218,45 @@ function affichage($session, $DEBUG=FALSE)
 	echo "</td></tr>\n";
 	echo "</table>\n";
 	echo "</form>\n";
-
+  
 	echo "<br><br>\n";
 	affiche_bouton_retour($session);
 	echo "<br><br>\n";
 
-
+	
 	echo "</body>";
 	echo "</html>";
 }
 
 
-function commit_saisie(&$tab_new_values, $session, $DEBUG=FALSE)
+function commit_saisie(&$tab_new_values, $mysql_link, $session, $DEBUG=FALSE)
 {
-$sql=SQL::singleton();
-//$DEBUG=TRUE;
 	$PHP_SELF=$_SERVER['PHP_SELF'];
-
-	$timeout=2 ;  // temps d'attente pour rafraichir l'√©cran apr√®s l'update !
-
-	if($DEBUG==TRUE) { echo "SESSION = "; print_r($_SESSION); echo "<br>\n"; }
+    
+	// verif si des champs sont vides 
+	if ( isset($nom) && isset($new_valeur) && empty($new_valeur) )
+	{
+		echo "<span class = \"messages\">Erreur, champs non remplis !</span><br>";
+		if($session=="")
+			echo "<META HTTP-EQUIV=REFRESH CONTENT=\"1; URL=$PHP_SELF\">";
+		else
+			echo "<META HTTP-EQUIV=REFRESH CONTENT=\"1; URL=$PHP_SELF?session=$session\">";
+	}
 
 	foreach($tab_new_values as $key => $value )
 	{
-		// CONTROLE gestion_conges_exceptionnels
-		// si d√©sactivation les conges exceptionnels, on verif s'il y a des conges exceptionnels enregistres ! si oui : changement impossible !
-		if(($key=="gestion_conges_exceptionnels") && ($value=="FALSE") )
-		{
-			$sql_abs="SELECT ta_id, ta_libelle FROM conges_type_absence WHERE ta_type='conges_exceptionnels' ";
-			$ReqLog_abs = requete_mysql($sql_abs, "commit_saisie", $DEBUG);
-
-			if($ReqLog_abs->num_rows !=0)
-			{
-				echo "<b>".$_SESSION['lang']['config_abs_desactive_cong_excep_impossible']."</b><br>\n";
-				$value = "TRUE" ;
-				$timeout=5 ;
-			}
-		}
-		
-		// CONTROLE jour_mois_limite_reliquats
-		// si modif de jour_mois_limite_reliquats, on verifie le format ( 0 ou jj-mm) , sinon : changement impossible !
-		if( ($key=="jour_mois_limite_reliquats") && ($value!= "0") )
-		{
-			$t=explode("-", $value);
-			if(checkdate($t[1], $t[0], date("Y"))==FALSE)
-			{		
-				echo "<b>".$_SESSION['lang']['config_jour_mois_limite_reliquats_modif_impossible']."</b><br>\n";
-				$sql_date="SELECT conf_valeur FROM conges_config WHERE conf_nom='jour_mois_limite_reliquats' ";
-				$ReqLog_date = requete_mysql($sql_date, "commit_saisie", $DEBUG);
-				$data = $ReqLog_date->fetch_row();
-				$value = $data[0] ;
-				$timeout=5 ;
-			}
-		}
-		
-		// Mise √† jour
-		$sql2 = 'UPDATE conges_config SET conf_valeur = \''.$value.'\' WHERE conf_nom =\''.$sql->escape($key).'\' ';
-		$ReqLog2 = requete_mysql($sql2, "commit_saisie", $DEBUG);
+		$sql2 = "UPDATE conges_config SET conf_valeur = '$value' WHERE conf_nom = '$key'";
+		$ReqLog2 = requete_mysql($sql2, $mysql_link, "commit_saisie", $DEBUG);
 	}
-
+	
 	$_SESSION['config']=init_config_tab();      // on re-initialise le tableau des variables de config
-
-	// enregistrement dans les logs
-	$comment_log = "nouvelle configuration de php_conges ";
-	log_action(0, "", "", $comment_log, $DEBUG);
-
+	
 	echo "<span class = \"messages\">".$_SESSION['lang']['form_modif_ok']."</span><br>";
 	if($session=="")
-		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"$timeout; URL=$PHP_SELF?\">";
+		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=$PHP_SELF?\">";
 	else
-		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"$timeout; URL=$PHP_SELF?session=$session\">";
-
+		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=$PHP_SELF?session=$session\">";
+    
 
 }
 

@@ -1,16 +1,16 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des CongÃ©s
+PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
 Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les 
-termes de la Licence Publique GÃ©nÃ©rale GNU publiÃ©e par la Free Software Foundation.
-Ce programme est distribuÃ© car potentiellement utile, mais SANS AUCUNE GARANTIE, 
+termes de la Licence Publique Générale GNU publiée par la Free Software Foundation.
+Ce programme est distribué car potentiellement utile, mais SANS AUCUNE GARANTIE, 
 ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation 
-dans un but spÃ©cifique. Reportez-vous Ã  la Licence Publique GÃ©nÃ©rale GNU pour plus de dÃ©tails.
-Vous devez avoir reÃ§u une copie de la Licence Publique GÃ©nÃ©rale GNU en mÃªme temps 
-que ce programme ; si ce n'est pas le cas, Ã©crivez Ã  la Free Software Foundation, 
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, Ã‰tats-Unis.
+dans un but spécifique. Reportez-vous à la Licence Publique Générale GNU pour plus de détails.
+Vous devez avoir reçu une copie de la Licence Publique Générale GNU en même temps 
+que ce programme ; si ce n'est pas le cas, écrivez à la Free Software Foundation, 
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, États-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation; either 
@@ -23,40 +23,148 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
+$session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
+
+include("../fonctions_conges.php") ;
+include("../INCLUDE.PHP/fonction.php");
+include("../INCLUDE.PHP/session.php");
+include("../fonctions_javascript.php");
+
+$verif_droits_file="../INCLUDE.PHP/verif_droits.php";
+if( ($_SESSION['config']['verif_droits']==TRUE) && (file_exists($verif_droits_file)) ){ include($verif_droits_file);}
+
+$DEBUG = FALSE ;
+//$DEBUG = TRUE ;
+
+// verif des droits du user à afficher la page
+verif_droits_user($session, "is_resp", $DEBUG);
+
+
+echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
+echo "<html>\n";
+echo "<head>\n";
+echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
+echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+echo "</head>\n";
+	
+	$bgimage=$_SESSION['config']['URL_ACCUEIL_CONGES']."/".$_SESSION['config']['bgimage'];
+	echo "<body text=\"#000000\" bgcolor=".$_SESSION['config']['bgcolor']." link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\" background=\"$bgimage\">\n";
+	echo "<CENTER>\n";
+
+	/*** initialisation des variables ***/
+	/*************************************/
+	// recup des parametres reçus :
+	// SERVER
+	$PHP_SELF=$_SERVER['PHP_SELF'];
+	// GET / POST
+	$user_login   = getpost_variable("user_login") ;
+	$year_calendrier_saisie_debut = getpost_variable("year_calendrier_saisie_debut", 0) ;
+	$mois_calendrier_saisie_debut = getpost_variable("mois_calendrier_saisie_debut", 0) ;
+	$year_calendrier_saisie_fin = getpost_variable("year_calendrier_saisie_fin", 0) ;
+	$mois_calendrier_saisie_fin = getpost_variable("mois_calendrier_saisie_fin", 0) ;
+	$tri_date = getpost_variable("tri_date", "ascendant") ;
+	$tab_checkbox_annule = getpost_variable("tab_checkbox_annule") ;
+	$tab_radio_traite_demande = getpost_variable("tab_radio_traite_demande") ;
+	$tab_text_refus = getpost_variable("tab_text_refus") ;
+	$tab_text_annul = getpost_variable("tab_text_annul") ;
+	$new_demande_conges = getpost_variable("new_demande_conges", 0) ;
+	$new_debut = getpost_variable("new_debut") ;
+	$new_demi_jour_deb = getpost_variable("new_demi_jour_deb") ;
+	$new_fin = getpost_variable("new_fin") ;
+	$new_demi_jour_fin = getpost_variable("new_demi_jour_fin") ;
+	$new_nb_jours = getpost_variable("new_nb_jours") ;
+	$new_comment = getpost_variable("new_comment") ;
+	$new_type = getpost_variable("new_type") ;
+	/*************************************/
+	
+	//echo "<br>$user_login";   /* envoyé par le formulaire précédent */
+
+	//connexion mysql
+	$mysql_link = connexion_mysql() ;
+	
+	// si une annulation de conges a été selectionée :
+	if($tab_checkbox_annule!="") 
+	{
+		annule_conges($user_login, $tab_checkbox_annule, $tab_text_annul, $mysql_link, $DEBUG);
+	}
+	// si le traitement des demandes a été selectionée :
+	elseif($tab_radio_traite_demande!="") 
+	{
+		traite_demandes($user_login, $tab_radio_traite_demande, $tab_text_refus, $mysql_link, $DEBUG);
+	}
+	// si un nouveau conges ou absence a été saisi pour un user :
+	elseif($new_demande_conges==1) 
+	{
+		new_conges($user_login, $new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin, $new_nb_jours, $new_comment, $new_type, $mysql_link, $DEBUG);
+	}
+	else 
+	{
+		affichage($user_login, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $tri_date, $mysql_link, $DEBUG);
+	}
+	
+	mysql_close($mysql_link);
+	
+	
+echo "</CENTER>\n";
+echo "</body>\n";
+echo "</html>\n";
+	
+	
 	
 /*************************************/
 /***   FONCTIONS   ***/
 /*************************************/
 
-function affichage($user_login,  $year_affichage, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $tri_date,  $DEBUG)
+function affichage($user_login, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $tri_date, $mysql_link, $DEBUG)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF']; ;
 	$session=session_id();
 
-	// on initialise le tableau global des jours fÃ©riÃ©s s'il ne l'est pas dÃ©jÃ  :
+	// on initialise le tableau global des jours fériés s'il ne l'est pas déjà :
 	if(!isset($_SESSION["tab_j_feries"]))
 	{
-		init_tab_jours_feries();
+		init_tab_jours_feries($mysql_link);
 		//print_r($GLOBALS["tab_j_feries"]);   // verif DEBUG
 	}
 	
 	/********************/
-	/* RÃ©cupÃ©ration des informations sur le user : */
+	/* affichage "deconnexion" et "actualiser page": */
 	/********************/
-	$list_group_dbl_valid_du_resp = get_list_groupes_double_valid_du_resp($_SESSION['userlogin'],  $DEBUG);
+	echo "</center>\n";
+	echo "<table><tr>\n";
+	if(($_SESSION['config']['auth']==TRUE)&&($_SESSION['config']['verif_droits']!=TRUE))
+	{
+		echo "<td valign=\"middle\">\n";
+		bouton_deconnexion();
+		echo "</td>\n";
+		echo "<td valign=\"middle\">\n";
+		echo "<img src=\"../img/shim.gif\" width=\"20\" height=\"22\" border=\"0\">\n";
+		echo "</td>\n";
+	}
+	/* // on affiche pas ce bouton car bug (pas de passage du user en param)
+	echo "<td valign=\"middle\">\n";
+	bouton_actualiser("", $DEBUG);
+	echo "</td>\n";
+	*/
+	echo "</tr></table>\n";
+	echo "<center>\n";
+	
+	/********************/
+	/* Récupération des informations sur le user : */
+	/********************/
+	$list_group_dbl_valid_du_resp = get_list_groupes_double_valid_du_resp($_SESSION['userlogin'], $mysql_link, $DEBUG);
 	$tab_user=array();
-	$tab_user = recup_infos_du_user($user_login, $list_group_dbl_valid_du_resp,  $DEBUG);
+	$tab_user = recup_infos_du_user($user_login, $list_group_dbl_valid_du_resp, $mysql_link, $DEBUG);
 	if($DEBUG==TRUE) { echo"tab_user =<br>\n"; print_r($tab_user); echo "<br>\n"; }
 	
-	$list_all_users_du_resp=get_list_all_users_du_resp($_SESSION['userlogin'],  $DEBUG);
+	$list_all_users_du_resp=get_list_all_users_du_resp($_SESSION['userlogin'], $mysql_link, $DEBUG);
 	if($DEBUG==TRUE) { echo"list_all_users_du_resp = $list_all_users_du_resp<br>\n"; }
 
 	// recup des grd resp du user
 	$tab_grd_resp=array();
 	if($_SESSION['config']['double_validation_conges']==TRUE) 
 	{
-		get_tab_grd_resp_du_user($user_login, $tab_grd_resp,  $DEBUG);
+		get_tab_grd_resp_du_user($user_login, $tab_grd_resp, $mysql_link, $DEBUG);
 		if($DEBUG==TRUE) { echo"tab_grd_resp =<br>\n"; print_r($tab_grd_resp); echo "<br>\n"; }
 	}	
 	
@@ -70,18 +178,18 @@ function affichage($user_login,  $year_affichage, $year_calendrier_saisie_debut,
 	/* Bilan des Conges */
 	/********************/
 	// AFFICHAGE TABLEAU
-	// affichage du tableau rÃ©capitulatif des solde de congÃ©s d'un user
-	affiche_tableau_bilan_conges_user($user_login);
+	// affichage du tableau récapitulatif des solde de congés d'un user
+	affiche_tableau_bilan_conges_user($user_login, $mysql_link);
 	echo "<br><br>\n";
 
 	/*************************/
 	/* SAISIE NOUVEAU CONGES */
 	/*************************/
-	// dans le cas ou les users ne peuvent pas saisir de demande, le responsable saisi les congÃ¨s :
+	// dans le cas ou les users ne peuvent pas saisir de demande, le responsable saisi les congès :
 	if(($_SESSION['config']['user_saisie_demande']==FALSE)||($_SESSION['config']['resp_saisie_mission']==TRUE)) 
 	{
 	
-		// si les mois et annÃ©e ne sont pas renseignÃ©s, on prend ceux du jour
+		// si les mois et année ne sont pas renseignés, on prend ceux du jour
 		if($year_calendrier_saisie_debut==0)
 			$year_calendrier_saisie_debut=date("Y");
 		if($mois_calendrier_saisie_debut==0)
@@ -95,8 +203,7 @@ function affichage($user_login,  $year_affichage, $year_calendrier_saisie_debut,
 		echo "<H3>".$_SESSION['lang']['resp_traite_user_new_conges']."</H3>\n\n";
 		
 		//affiche le formulaire de saisie d'une nouvelle demande de conges ou d'un  nouveau conges
-		$onglet = "resp_traite_user";
-		saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $onglet);
+		saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, "", $mysql_link);
 
 		echo "<hr align=\"center\" size=\"2\" width=\"90%\"> \n";
 	}
@@ -111,8 +218,8 @@ function affichage($user_login,  $year_affichage, $year_calendrier_saisie_debut,
 		{
 			echo "<h3>".$_SESSION['lang']['resp_traite_user_etat_demandes']."</h3>\n";
 	
-			//affiche l'Ã©tat des demande du user (avec le formulaire pour le responsable)
-			affiche_etat_demande_user_for_resp($user_login, $tab_user, $tab_grd_resp,  $DEBUG);
+			//affiche l'état des demande du user (avec le formulaire pour le responsable)
+			affiche_etat_demande_user_for_resp($user_login, $tab_user, $tab_grd_resp, $mysql_link, $DEBUG);
 	
 			echo "<hr align=\"center\" size=\"2\" width=\"90%\"> \n";
 		}
@@ -130,8 +237,8 @@ function affichage($user_login,  $year_affichage, $year_calendrier_saisie_debut,
 		{
 			echo "<h3>".$_SESSION['lang']['resp_traite_user_etat_demandes_2_valid']."</h3>\n";
 	
-			//affiche l'Ã©tat des demande en attente de 2ieme valid du user (avec le formulaire pour le responsable)
-			affiche_etat_demande_2_valid_user_for_resp($user_login,  $DEBUG);
+			//affiche l'état des demande en attente de 2ieme valid du user (avec le formulaire pour le responsable)
+			affiche_etat_demande_2_valid_user_for_resp($user_login, $mysql_link, $DEBUG);
 	
 			echo "<hr align=\"center\" size=\"2\" width=\"90%\"> \n";
 		}
@@ -142,14 +249,28 @@ function affichage($user_login,  $year_affichage, $year_calendrier_saisie_debut,
 	/*******************/
 	echo "<h3>".$_SESSION['lang']['resp_traite_user_etat_conges']."</h3>\n";
 	
-	//affiche l'Ã©tat des conges du user (avec le formulaire pour le responsable)
-	affiche_etat_conges_user_for_resp($user_login,  $year_affichage, $tri_date,  $DEBUG);
+	//affiche l'état des conges du user (avec le formulaire pour le responsable)
+	affiche_etat_conges_user_for_resp($user_login, $tri_date, $mysql_link, $DEBUG);
 	
-	//echo "<hr align=\"center\" size=\"2\" width=\"90%\"> \n";
+	echo "<hr align=\"center\" size=\"2\" width=\"90%\"> \n";
 	
 	
+	/********************/
+	/*  affichage "deconnexion" et "actualiser page":   */
+	/********************/
+	echo "</center>\n";
+	echo "<table><tr>\n";
+	if(($_SESSION['config']['auth']==TRUE)&&($_SESSION['config']['verif_droits']!=TRUE))
+	{
+		echo "<td valign=\"middle\">\n";
+		bouton_deconnexion($DEBUG);
+		echo "</td>\n";
+		echo "<td valign=\"middle\">\n";
+		echo "<img src=\"../img/shim.gif\" width=\"20\" height=\"22\" border=\"0\">\n";
+		echo "</td>\n";
+	}
 	echo "<td valign=\"middle\">\n";
-	//bouton_actualiser("", $DEBUG);
+	bouton_actualiser("", $DEBUG);
 	echo "</td></tr></table>\n";
 	echo "<center>\n";
 
@@ -157,20 +278,20 @@ function affichage($user_login,  $year_affichage, $year_calendrier_saisie_debut,
 
 
 
-//affiche l'Ã©tat des demande du user (avec le formulaire pour le responsable)
-function affiche_etat_demande_user_for_resp($user_login, $tab_user, $tab_grd_resp,  $DEBUG=FALSE)
+//affiche l'état des demande du user (avec le formulaire pour le responsable)
+function affiche_etat_demande_user_for_resp($user_login, $tab_user, $tab_grd_resp, $mysql_link, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF']; ;
 	$session=session_id() ;
 
-	// RÃ©cupÃ©ration des informations
+	// Récupération des informations
 	$sql2 = "SELECT p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_nb_jours, p_commentaire, p_type, p_date_demande, p_date_traitement, p_num " .
 			"FROM conges_periode " .
 			"WHERE p_login = '$user_login' AND p_etat ='demande' ".
 			"ORDER BY p_date_deb";
-	$ReqLog2 = requete_mysql($sql2,  "affichage", $DEBUG);
+	$ReqLog2 = requete_mysql($sql2, $mysql_link, "affichage", $DEBUG);
 		
-	$count2=$ReqLog2->num_rows;
+	$count2=mysql_num_rows($ReqLog2);
 	if($count2==0)
 	{
 		echo "<b>".$_SESSION['lang']['resp_traite_user_aucune_demande']."</b><br><br>\n";		
@@ -178,10 +299,10 @@ function affiche_etat_demande_user_for_resp($user_login, $tab_user, $tab_grd_res
 	else
 	{
 		// recup dans un tableau des types de conges
-		$tab_type_all_abs = recup_tableau_tout_types_abs();
+		$tab_type_conges = recup_tableau_types_conges($mysql_link);
 
 		// AFFICHAGE TABLEAU
-		echo " <form action=\"$PHP_SELF?session=$session&onglet=resp_traite_user\" method=\"POST\"> \n";
+		echo " <form action=\"$PHP_SELF?session=$session\" method=\"POST\"> \n";
 		//echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 		echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 		echo "<tr align=\"center\">\n";
@@ -200,17 +321,15 @@ function affiche_etat_demande_user_for_resp($user_login, $tab_user, $tab_grd_res
 		echo "</tr>\n";
 		
 		$tab_checkbox=array();
-		while ($resultat2 = $ReqLog2->fetch_array()) 
+		while ($resultat2 = mysql_fetch_array($ReqLog2)) 
 		{
-			$sql_date_deb = $resultat2["p_date_deb"];
-			$sql_date_deb_fr = eng_date_to_fr($resultat2["p_date_deb"]) ;
+			$sql_date_deb=eng_date_to_fr($resultat2["p_date_deb"]) ;
 			$sql_demi_jour_deb=$resultat2["p_demi_jour_deb"] ;
 			if($sql_demi_jour_deb=="am") 
 				$demi_j_deb = $_SESSION['lang']['divers_am_short'];
 			else
 				$demi_j_deb = $_SESSION['lang']['divers_pm_short'];
-			$sql_date_fin = $resultat2["p_date_fin"];
-			$sql_date_fin_fr = eng_date_to_fr($resultat2["p_date_fin"]) ;
+			$sql_date_fin=eng_date_to_fr($resultat2["p_date_fin"]) ;
 			$sql_demi_jour_fin=$resultat2["p_demi_jour_fin"] ;
 			if($sql_demi_jour_fin=="am")
 				$demi_j_fin = $_SESSION['lang']['divers_am_short'];
@@ -223,45 +342,35 @@ function affiche_etat_demande_user_for_resp($user_login, $tab_user, $tab_grd_res
 			$sql_date_traitement = $resultat2["p_date_traitement"];
 			$sql_num=$resultat2["p_num"] ;
 			
-			// on construit la chaine qui servira de valeur Ã  passer dans les boutons-radio
-			$chaine_bouton_radio = "$user_login--$sql_nb_jours--$sql_type--$sql_date_deb--$sql_demi_jour_deb--$sql_date_fin--$sql_demi_jour_fin";
-			
 			// si le user fait l'objet d'une double validation on a pas le meme resultat sur le bouton !
 			if($tab_user['double_valid'] == "Y")
 			{
 				/*******************************/
 				/* verif si le resp est grand_responsable pour ce user*/
 				if(in_array($_SESSION['userlogin'], $tab_grd_resp)==TRUE) // si resp_login est dans le tableau
-					$boutonradio1="<input type=\"radio\" name=\"tab_radio_traite_demande[$sql_num]\" value=\"$chaine_bouton_radio--VALID\">";
+					$boutonradio1="<input type=\"radio\" name=\"tab_radio_traite_demande[$sql_num]\" value=\"$user_login--$sql_nb_jours--$sql_type--VALID\">";
 				else
-					$boutonradio1="<input type=\"radio\" name=\"tab_radio_traite_demande[$sql_num]\" value=\"$chaine_bouton_radio--ACCEPTE\">";				
+					$boutonradio1="<input type=\"radio\" name=\"tab_radio_traite_demande[$sql_num]\" value=\"$user_login--$sql_nb_jours--$sql_type--ACCEPTE\">";				
 			}
 			else
-				$boutonradio1="<input type=\"radio\" name=\"tab_radio_traite_demande[$sql_num]\" value=\"$chaine_bouton_radio--ACCEPTE\">";
+				$boutonradio1="<input type=\"radio\" name=\"tab_radio_traite_demande[$sql_num]\" value=\"$user_login--$sql_nb_jours--$sql_type--ACCEPTE\">";
+			//$boutonradio1 = "<input type=\"radio\" name=\"tab_radio_traite_demande[$sql_num]\" value=\"$user_login--$sql_nb_jours--$sql_type--ACCEPTE\">";
 
-			$boutonradio2 = "<input type=\"radio\" name=\"tab_radio_traite_demande[$sql_num]\" value=\"$chaine_bouton_radio--REFUSE\">";
-			
+			$boutonradio2 = "<input type=\"radio\" name=\"tab_radio_traite_demande[$sql_num]\" value=\"$user_login--$sql_nb_jours--$sql_type--REFUSE\">";
 			$text_refus  = "<input type=\"text\" name=\"tab_text_refus[$sql_num]\" size=\"20\" max=\"100\">";
-			
 			echo "<tr align=\"center\">\n";
-			echo "<td class=\"histo\">$sql_date_deb_fr _ $demi_j_deb</td>\n";
-			echo "<td class=\"histo\">$sql_date_fin_fr _ $demi_j_fin</td>\n";
+			echo "<td class=\"histo\">$sql_date_deb _ $demi_j_deb</td>\n";
+			echo "<td class=\"histo\">$sql_date_fin _ $demi_j_fin</td>\n";
 			echo "<td class=\"histo\">$sql_nb_jours</td>\n";
 			echo "<td class=\"histo\">$sql_commentaire</td>\n";
-			echo "<td class=\"histo\">".$tab_type_all_abs[$sql_type]['libelle']."</td>\n";			
+			echo "<td class=\"histo\">".$tab_type_conges[$sql_type]."</td>\n";
 			echo "<td class=\"histo\">$boutonradio1</td>\n";
 			echo "<td class=\"histo\">$boutonradio2</td>\n";
 			echo "<td class=\"histo\">$text_refus</td>\n";
-			echo "<td class=\"histo\">$sql_date_demande</td>\n";
-		
 			if($_SESSION['config']['affiche_date_traitement']==TRUE)
 			{
-				if($sql_p_date_demande == NULL)
-					echo "<td class=\"histo-left\">".$_SESSION['lang']['divers_demande']." : $sql_date_demande<br>".$_SESSION['lang']['divers_traitement']." : $sql_date_traitement</td>\n" ;
-				else
-					echo "<td class=\"histo-left\">".$_SESSION['lang']['divers_demande']." : $sql_date_demande<br>".$_SESSION['lang']['divers_traitement']." : pas traitÃ©</td>\n" ;
+				echo "<td class=\"histo-left\">".$_SESSION['lang']['divers_demande']." : $sql_date_demande<br>".$_SESSION['lang']['divers_traitement']." : $sql_date_traitement</td>\n" ;
 			}
-				
 			echo "</tr>\n";
 		}
 		echo "</table>\n\n";
@@ -274,19 +383,19 @@ function affiche_etat_demande_user_for_resp($user_login, $tab_user, $tab_grd_res
 
 
 
-//affiche l'Ã©tat des demande en attente de 2ieme validation du user (avec le formulaire pour le responsable)
-function affiche_etat_demande_2_valid_user_for_resp($user_login,  $DEBUG=FALSE)
+//affiche l'état des demande en attente de 2ieme validation du user (avec le formulaire pour le responsable)
+function affiche_etat_demande_2_valid_user_for_resp($user_login, $mysql_link, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF']; ;
 	$session=session_id() ;
 
-		// RÃ©cupÃ©ration des informations
+		// Récupération des informations
 		$sql2 = "SELECT p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_nb_jours, p_commentaire, p_type, p_date_demande, p_date_traitement, p_num " .
 				"FROM conges_periode " .
 				"WHERE p_login = '$user_login' AND p_etat ='valid' ORDER BY p_date_deb";
-		$ReqLog2 = requete_mysql($sql2,  "affichage", $DEBUG);
+		$ReqLog2 = requete_mysql($sql2, $mysql_link, "affichage", $DEBUG);
 			
-		$count2=$ReqLog2->num_rows;
+		$count2=mysql_num_rows($ReqLog2);
 		if($count2==0)
 		{
 			echo "<b>".$_SESSION['lang']['resp_traite_user_aucune_demande']."</b><br><br>\n";		
@@ -294,10 +403,10 @@ function affiche_etat_demande_2_valid_user_for_resp($user_login,  $DEBUG=FALSE)
 		else
 		{
 			// recup dans un tableau des types de conges
-			$tab_type_all_abs = recup_tableau_tout_types_abs();
+			$tab_type_conges = recup_tableau_types_conges($mysql_link);
 	
 			// AFFICHAGE TABLEAU
-			echo " <form action=\"$PHP_SELF?session=$session&onglet=resp_traite_user\" method=\"POST\"> \n";
+			echo " <form action=\"$PHP_SELF?session=$session\" method=\"POST\"> \n";
 			//echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 			echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 			echo "<tr align=\"center\">\n";
@@ -316,17 +425,15 @@ function affiche_etat_demande_2_valid_user_for_resp($user_login,  $DEBUG=FALSE)
 			echo "</tr>\n";
 			
 			$tab_checkbox=array();
-			while ($resultat2 = $ReqLog2->fetch_array()) 
+			while ($resultat2 = mysql_fetch_array($ReqLog2)) 
 			{
-				$sql_date_deb = $resultat2["p_date_deb"];
-				$sql_date_deb_fr = eng_date_to_fr($resultat2["p_date_deb"]) ;
+				$sql_date_deb=eng_date_to_fr($resultat2["p_date_deb"]) ;
 				$sql_demi_jour_deb=$resultat2["p_demi_jour_deb"] ;
 				if($sql_demi_jour_deb=="am") 
 					$demi_j_deb = $_SESSION['lang']['divers_am_short'];
 				else
 					$demi_j_deb = $_SESSION['lang']['divers_pm_short'];
-				$sql_date_fin = $resultat2["p_date_fin"];
-				$sql_date_fin_fr = eng_date_to_fr($resultat2["p_date_fin"]) ;
+				$sql_date_fin=eng_date_to_fr($resultat2["p_date_fin"]) ;
 				$sql_demi_jour_fin=$resultat2["p_demi_jour_fin"] ;
 				if($sql_demi_jour_fin=="am")
 					$demi_j_fin = $_SESSION['lang']['divers_am_short'];
@@ -339,20 +446,15 @@ function affiche_etat_demande_2_valid_user_for_resp($user_login,  $DEBUG=FALSE)
 				$sql_date_traitement = $resultat2["p_date_traitement"];
 				$sql_num=$resultat2["p_num"] ;
 				
-				// on construit la chaine qui servira de valeur Ã  passer dans les boutons-radio
-				$chaine_bouton_radio = "$user_login--$sql_nb_jours--$sql_type--$sql_date_deb--$sql_demi_jour_deb--$sql_date_fin--$sql_demi_jour_fin";
-				
-				
-				$casecocher1 = "<input type=\"radio\" name=\"tab_radio_traite_demande[$sql_num]\" value=\"$chaine_bouton_radio--ACCEPTE\">";
-				$casecocher2 = "<input type=\"radio\" name=\"tab_radio_traite_demande[$sql_num]\" value=\"$chaine_bouton_radio--REFUSE\">";
+				$casecocher1 = "<input type=\"radio\" name=\"tab_radio_traite_demande[$sql_num]\" value=\"$user_login--$sql_nb_jours--$sql_type--ACCEPTE\">";
+				$casecocher2 = "<input type=\"radio\" name=\"tab_radio_traite_demande[$sql_num]\" value=\"$user_login--$sql_nb_jours--$sql_type--REFUSE\">";
 				$text_refus  = "<input type=\"text\" name=\"tab_text_refus[$sql_num]\" size=\"20\" max=\"100\">";
-				
 				echo "<tr align=\"center\">\n";
-				echo "<td class=\"histo\">$sql_date_deb_fr _ $demi_j_deb</td>\n";
-				echo "<td class=\"histo\">$sql_date_fin_fr _ $demi_j_fin</td>\n";
+				echo "<td class=\"histo\">$sql_date_deb _ $demi_j_deb</td>\n";
+				echo "<td class=\"histo\">$sql_date_fin _ $demi_j_fin</td>\n";
 				echo "<td class=\"histo\">$sql_nb_jours</td>\n";
 				echo "<td class=\"histo\">$sql_commentaire</td>\n";
-				echo "<td class=\"histo\">".$tab_type_all_abs[$sql_type]['libelle']."</td>\n";			
+				echo "<td class=\"histo\">".$tab_type_conges[$sql_type]."</td>\n";
 				echo "<td class=\"histo\">$casecocher1</td>\n";
 				echo "<td class=\"histo\">$casecocher2</td>\n";
 				echo "<td class=\"histo\">$text_refus</td>\n";
@@ -373,37 +475,22 @@ function affiche_etat_demande_2_valid_user_for_resp($user_login,  $DEBUG=FALSE)
 
 
 
-//affiche l'Ã©tat des conges du user (avec le formulaire pour le responsable)
-function affiche_etat_conges_user_for_resp($user_login, $year_affichage, $tri_date,  $DEBUG=FALSE)
+//affiche l'état des conges du user (avec le formulaire pour le responsable)
+function affiche_etat_conges_user_for_resp($user_login, $tri_date, $mysql_link, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF']; ;
 	$session=session_id() ;
 	
-	// affichage de l'annÃ©e et des boutons de dÃ©filement
-	$year_affichage_prec = $year_affichage-1 ;
-	$year_affichage_suiv = $year_affichage+1 ;
-	
-	echo "<b>";
-	echo "<a href=\"$PHP_SELF?session=$session&onglet=resp_traite_user&user_login=$user_login&year_affichage=$year_affichage_prec\"><<</a>";
-	echo "&nbsp&nbsp&nbsp  $year_affichage &nbsp&nbsp&nbsp";
-	echo "<a href=\"$PHP_SELF?session=$session&onglet=resp_traite_user&user_login=$user_login&year_affichage=$year_affichage_suiv\">>></a>";
-	echo "</b><br><br>\n";
-
-
-	// RÃ©cupÃ©ration des informations de speriodes de conges/absences
-	$sql3 = "SELECT p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_nb_jours, p_commentaire, p_type, p_etat, p_motif_refus, p_date_demande, p_date_traitement, p_num FROM conges_periode " .
-			"WHERE p_login = '$user_login' " .
-			"AND p_etat !='demande' " .
-			"AND p_etat !='valid' " .
-			"AND (p_date_deb LIKE '$year_affichage%' OR p_date_fin LIKE '$year_affichage%') ";
+	// Récupération des informations de speriodes de conges/absences
+	$sql3 = "SELECT p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_nb_jours, p_commentaire, p_type, p_etat, p_motif_refus, p_date_demande, p_date_traitement, p_num FROM conges_periode WHERE p_login = '$user_login' AND p_etat !='demande' AND p_etat !='valid' ";
 	if($tri_date=="descendant")
 		$sql3=$sql3." ORDER BY p_date_deb DESC ";
 	else
 		$sql3=$sql3." ORDER BY p_date_deb ASC ";
+		
+	$ReqLog3 = requete_mysql($sql3, $mysql_link, "affiche_etat_conges_user_for_resp", $DEBUG);
 
-	$ReqLog3 = requete_mysql($sql3,  "affiche_etat_conges_user_for_resp", $DEBUG);
-
-	$count3=$ReqLog3->num_rows;
+	$count3=mysql_num_rows($ReqLog3);
 	if($count3==0)
 	{
 		echo "<b>".$_SESSION['lang']['resp_traite_user_aucun_conges']."</b><br><br>\n";		
@@ -411,10 +498,10 @@ function affiche_etat_conges_user_for_resp($user_login, $year_affichage, $tri_da
 	else
 	{
 		// recup dans un tableau de tableau les infos des types de conges et absences
-		$tab_types_abs = recup_tableau_tout_types_abs( $DEBUG) ;
+		$tab_types_abs = recup_tableau_tout_types_abs($mysql_link, $DEBUG) ;
 		
 		// AFFICHAGE TABLEAU
-		echo "<form action=\"$PHP_SELF?session=$session&onglet=resp_traite_user\" method=\"POST\"> \n";
+		echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\"> \n";
 		//echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 		echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 		echo "<tr align=\"center\">\n";
@@ -436,7 +523,7 @@ function affiche_etat_conges_user_for_resp($user_login, $year_affichage, $tri_da
 		}
 		echo "</tr>\n";
 		$tab_checkbox=array();
-		while ($resultat3 = $ReqLog3->fetch_array()) 
+		while ($resultat3 = mysql_fetch_array($ReqLog3)) 
 		{
 				$sql_login=$resultat3["p_login"] ;
 				$sql_date_deb=eng_date_to_fr($resultat3["p_date_deb"]) ;
@@ -477,10 +564,6 @@ function affiche_etat_conges_user_for_resp($user_login, $year_affichage, $tri_da
 						//$text_annul="<i>motif de l'annulation : $sql_motif_refus</i>";
 						$text_annul="<i>".$_SESSION['lang']['resp_traite_user_motif']." : $sql_motif_refus</i>";
 					}
-					elseif($sql_etat=="ajout")
-					{
-						$text_annul="&nbsp;";
-					}
 				}
 				else
 				{
@@ -520,13 +603,13 @@ function affiche_etat_conges_user_for_resp($user_login, $year_affichage, $tri_da
 
 
 
-function annule_conges($user_login, $tab_checkbox_annule, $tab_text_annul,  $DEBUG=FALSE) 
+function annule_conges($user_login, $tab_checkbox_annule, $tab_text_annul, $mysql_link, $DEBUG=FALSE) 
 {
 	$PHP_SELF=$_SERVER['PHP_SELF']; ;
 	$session=session_id() ;
 	
 	// recup dans un tableau de tableau les infos des types de conges et absences
-	$tab_tout_type_abs = recup_tableau_tout_types_abs( $DEBUG);
+	$tab_tout_type_abs = recup_tableau_tout_types_abs($mysql_link, $DEBUG);
 	
 	while($elem_tableau = each($tab_checkbox_annule))
 	{
@@ -538,37 +621,33 @@ function annule_conges($user_login, $tab_checkbox_annule, $tab_text_annul,  $DEB
 		$numero_int=(int) $numero;
 		$user_type_abs_id=$champs[2];
 		
-		$motif_annul=addslashes($tab_text_annul[$numero_int]);
+		$motif_annul=$tab_text_annul[$numero_int];
 		
 		if($DEBUG==TRUE) { echo "<br><br>conges numero :$numero ---> login : $user_login --- nb de jours : $user_nb_jours_pris_float --- type : $user_type_abs_id ---> ANNULER <br>"; }
 
 		/* UPDATE table "conges_periode" */
-		$sql1 = 'UPDATE conges_periode SET p_etat=\"annul\", p_motif_refus=\''.$motif_annul.'\', p_date_traitement=NOW() WHERE p_num=\''.$sql->escape($numero_int).'\' ';
-		$ReqLog1 = requete_mysql($sql1,  "annule_conges", $DEBUG);
+		$sql1 = "UPDATE conges_periode SET p_etat=\"annul\", p_motif_refus='$motif_annul', p_date_traitement=NOW() WHERE p_num=$numero_int" ;
+		$ReqLog1 = requete_mysql($sql1, $mysql_link, "annule_conges", $DEBUG);
 
-		// Log de l'action
-		log_action($numero_int,"annul", $user_login, "annulation conges $numero ($user_login) ($user_nb_jours_pris jours)",  $DEBUG);
-			
 		/* UPDATE table "conges_solde_user" (jours restants) */
-		// on re-crÃ©dite les jours seulement pour des conges pris (pas pour les absences)
+		// on re-crédite les jours seulement pour des conges pris (pas pour les absences)
 		// donc seulement si le type de l'absence qu'on annule est un "conges"
 		if($tab_tout_type_abs[$user_type_abs_id]['type']=="conges")
 		{
-			$sql2 = 'UPDATE conges_solde_user SET su_solde = su_solde+$user_nb_jours_pris_float WHERE su_login=\''.$sql->escape($user_login).'\' AND su_abs_id=\''.$sql->escape($user_type_abs_id).'\' ';
+			$sql2 = "UPDATE conges_solde_user SET su_solde = su_solde+$user_nb_jours_pris_float WHERE su_login='$user_login' AND su_abs_id=$user_type_abs_id " ;
 			//echo($sql2."<br>");
-			$ReqLog2 = requete_mysql($sql2,  "annule_conges", $DEBUG);
+			$ReqLog2 = requete_mysql($sql2, $mysql_link, "annule_conges", $DEBUG);
 		}
 		
-		//envoi d'un mail d'alerte au user (si demandÃ© dans config de php_conges)
+		//envoi d'un mail d'alerte au user (si demandé dans config de php_conges)
 		if($_SESSION['config']['mail_annul_conges_alerte_user']==TRUE)
-			alerte_mail($_SESSION['userlogin'], $user_login, $numero_int, "annul_conges",  $DEBUG);
+			alerte_mail($_SESSION['userlogin'], $user_login, $user_nb_jours_pris, "annul_conges", $mysql_link, $DEBUG);
 	}
 
 	if($DEBUG==TRUE)
 	{
 		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
 		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-		echo "<input type=\"hidden\" name=\"onglet\" value=\"resp_traite_user\">\n";
 		echo "<input type=\"hidden\" name=\"user_login\" value=\"$user_login\">\n";
 		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_ok']."\">\n";
 		echo "</form>\n" ;
@@ -584,13 +663,13 @@ function annule_conges($user_login, $tab_checkbox_annule, $tab_text_annul,  $DEB
 
 
 
-function traite_demandes($user_login, $tab_radio_traite_demande, $tab_text_refus,  $DEBUG=FALSE) 
+function traite_demandes($user_login, $tab_radio_traite_demande, $tab_text_refus, $mysql_link, $DEBUG=FALSE) 
 {
 	$PHP_SELF=$_SERVER['PHP_SELF']; ;
 	$session=session_id();
 
 	// recup dans un tableau de tableau les infos des types de conges et absences
-	$tab_tout_type_abs = recup_tableau_tout_types_abs( $DEBUG);
+	$tab_tout_type_abs = recup_tableau_tout_types_abs($mysql_link, $DEBUG);
 	
 	while($elem_tableau = each($tab_radio_traite_demande))
 	{
@@ -599,67 +678,50 @@ function traite_demandes($user_login, $tab_radio_traite_demande, $tab_text_refus
 		$user_nb_jours_pris=$champs[1];
 		$user_nb_jours_pris_float=(float) $user_nb_jours_pris ;
 		$value_type_abs_id=$champs[2];
-		$date_deb=$champs[3];
-		$demi_jour_deb=$champs[4];
-		$date_fin=$champs[5];
-		$demi_jour_fin=$champs[6];
-		$reponse=$champs[7];
-//		$value_traite=$champs[3];
-
+		$value_traite=$champs[3];
 		$numero=$elem_tableau['key'];
 		$numero_int=(int) $numero;
 		if($DEBUG==TRUE) { echo "<br><br>conges numero :$numero --- User_login : $user_login --- nb de jours : $user_nb_jours_pris --->$value_traite<br>" ; }
 
-		if($reponse == "ACCEPTE") // acceptation definitive d'un conges
+		if($value_traite == "ACCEPTE") 
 		{
 			/* UPDATE table "conges_periode" */
-			$sql1 = 'UPDATE conges_periode SET p_etat=\"ok\", p_date_traitement=NOW() WHERE p_num=\''.$sql->escape($numero_int).'\' ';
-			$ReqLog1 = requete_mysql($sql1,  "traite_demandes", $DEBUG);
+			$sql1 = "UPDATE conges_periode SET p_etat=\"ok\", p_date_traitement=NOW() WHERE p_num=$numero_int" ;
+			$ReqLog1 = requete_mysql($sql1, $mysql_link, "traite_demandes", $DEBUG);
 
-			// Log de l'action
-			log_action($numero_int,"ok", $user_login, "traite demande $numero ($user_login) ($user_nb_jours_pris jours) : $value_traite",  $DEBUG);
-			
 			/* UPDATE table "conges_solde_user" (jours restants) */
 			// on retranche les jours seulement pour des conges pris (pas pour les absences)
 			// donc seulement si le type de l'absence qu'on annule est un "conges"
-			if($DEBUG==TRUE) { echo "type_abs = ".$tab_tout_type_abs[$value_type_abs_id]['type']."<br>\n" ; }
-			if(($tab_tout_type_abs[$value_type_abs_id]['type']=="conges")||($tab_tout_type_abs[$value_type_abs_id]['type']=="conges_exceptionnels"))
-			{
-//				soustrait_solde_user($user_login, $user_nb_jours_pris_float, $value_type_abs_id,  $DEBUG);
-				soustrait_solde_et_reliquat_user($user_login, $user_nb_jours_pris_float, $value_type_abs_id, $date_deb, $demi_jour_deb, $date_fin, $demi_jour_fin,  $DEBUG);
-			}
+			if($tab_tout_type_abs[$value_type_abs_id]['type']=="conges")
+				$sql2 = "UPDATE conges_solde_user SET su_solde = su_solde-$user_nb_jours_pris_float WHERE su_login='$user_login' AND su_abs_id=$value_type_abs_id " ;
+			//echo($sql2."<br>");
+			$ReqLog2 = requete_mysql($sql2, $mysql_link, "traite_demandes", $DEBUG);
 			
-			//envoi d'un mail d'alerte au user (si demandÃ© dans config de php_conges)
+			//envoi d'un mail d'alerte au user (si demandé dans config de php_conges)
 			if($_SESSION['config']['mail_valid_conges_alerte_user']==TRUE)
-				alerte_mail($_SESSION['userlogin'], $user_login, $numero_int, "accept_conges",  $DEBUG);
+				alerte_mail($_SESSION['userlogin'], $user_login, $user_nb_jours_pris, "accept_conges", $mysql_link, $DEBUG);
 		}
-		elseif($reponse == "VALID") // premiÃ¨re validation dans le cas d'une double validation  
+		elseif($value_traite == "VALID") 
 		{
 			/* UPDATE table "conges_periode" */
-			$sql1 = 'UPDATE conges_periode SET p_etat=\"valid\", p_date_traitement=NOW() WHERE p_num=\''.$sql->escape($numero_int).'\'';
-			$ReqLog1 = requete_mysql($sql1,  "traite_demandes", $DEBUG);
+			$sql1 = "UPDATE conges_periode SET p_etat=\"valid\", p_date_traitement=NOW() WHERE p_num=$numero_int" ;
+			$ReqLog1 = requete_mysql($sql1, $mysql_link, "traite_demandes", $DEBUG);
 
-			// Log de l'action
-			log_action($numero_int,"valid", $user_login, "traite demande $numero ($user_login) ($user_nb_jours_pris jours) : $value_traite",  $DEBUG);
-			
-			//envoi d'un mail d'alerte au user (si demandÃ© dans config de php_conges)
+			//envoi d'un mail d'alerte au user (si demandé dans config de php_conges)
 			if($_SESSION['config']['mail_valid_conges_alerte_user']==TRUE)
-				alerte_mail($_SESSION['userlogin'], $user_login, $numero_int, "valid_conges",  $DEBUG);
+				alerte_mail($_SESSION['userlogin'], $user_login, $user_nb_jours_pris, "valid_conges", $mysql_link, $DEBUG);
 		}
-		elseif($reponse == "REFUSE") // refus d'un conges
+		elseif($value_traite == "REFUSE") 
 		{
 			// recup di motif de refus
-			$motif_refus=addslashes($tab_text_refus[$numero_int]);
+			$motif_refus=$tab_text_refus[$numero_int];
 			//$sql3 = "UPDATE conges_periode SET p_etat=\"refus\" WHERE p_num=$numero_int" ;
-			$sql3 = 'UPDATE conges_periode SET p_etat=\"refus\", p_motif_refus=\''.$motif_refus.'\', p_date_traitement=NOW() WHERE p_num=\''.$sql->escape($numero_int).'\'';
-			$ReqLog3 = requete_mysql($sql3,  "traite_demandes", $DEBUG);
+			$sql3 = "UPDATE conges_periode SET p_etat=\"refus\", p_motif_refus='$motif_refus', p_date_traitement=NOW() WHERE p_num=$numero_int" ;
+			$ReqLog3 = requete_mysql($sql3, $mysql_link, "traite_demandes", $DEBUG);
 		
-			// Log de l'action
-			log_action($numero_int,"refus", $user_login, "traite demande $numero ($user_login) ($user_nb_jours_pris jours) : $value_traite",  $DEBUG);
-			
-			//envoi d'un mail d'alerte au user (si demandÃ© dans config de php_conges)
+			//envoi d'un mail d'alerte au user (si demandé dans config de php_conges)
 			if($_SESSION['config']['mail_refus_conges_alerte_user']==TRUE)
-				alerte_mail($_SESSION['userlogin'], $user_login, $numero_int, "refus_conges",  $DEBUG);
+				alerte_mail($_SESSION['userlogin'], $user_login, $user_nb_jours_pris, "refus_conges", $mysql_link, $DEBUG);
 		}
 	}
 
@@ -667,7 +729,6 @@ function traite_demandes($user_login, $tab_radio_traite_demande, $tab_text_refus
 	{
 		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
 		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-		echo "<input type=\"hidden\" name=\"onglet\" value=\"resp_traite_user\">\n";
 		echo "<input type=\"hidden\" name=\"user_login\" value=\"$user_login\">\n";
 		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_ok']."\">\n";
 		echo "</form>\n" ;
@@ -681,26 +742,26 @@ function traite_demandes($user_login, $tab_radio_traite_demande, $tab_text_refus
 
 }
 
-function new_conges($user_login, $new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin, $new_nb_jours, $new_comment, $new_type_id,  $DEBUG=FALSE)
+function new_conges($user_login, $new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin, $new_nb_jours, $new_comment, $new_type_id, $mysql_link, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 	
-	// verif validitÃ© des valeurs saisies
+	// verif validité des valeurs saisies
 	$valid=verif_saisie_new_demande($new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin, $new_nb_jours, $new_comment);
 	
 	if($valid==TRUE)
 	{
-		echo "$user_login---$new_debut _ $new_demi_jour_deb---$new_fin _ $new_demi_jour_fin---$new_nb_jours---$new_comment---$new_type_id<br>\n";
+		echo "$user_login---$new_debut _ $new_demi_jour_deb---$new_fin _ $new_demi_jour_fin---$new_nb_jours---$new_comment---$new_type<br>\n";
 
 		// recup dans un tableau de tableau les infos des types de conges et absences
-		$tab_tout_type_abs = recup_tableau_tout_types_abs( $DEBUG);
+		$tab_tout_type_abs = recup_tableau_tout_types_abs($mysql_link, $DEBUG);
 	
 		/**********************************/
 		/* insert dans conges_periode     */
 		/**********************************/
 		$new_etat="ok";
-		$result=insert_dans_periode($user_login, $new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin, $new_nb_jours, $new_comment, $new_type_id, $new_etat, 0, $DEBUG);
+		$result=insert_dans_periode($user_login, $new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin, $new_nb_jours, $new_comment, $new_type_id, $new_etat, $mysql_link);
 		
 		/************************************************/
 		/* UPDATE table "conges_solde_user" (jours restants) */
@@ -709,12 +770,11 @@ function new_conges($user_login, $new_debut, $new_demi_jour_deb, $new_fin, $new_
 		if($tab_tout_type_abs[$new_type_id]['type']=="conges")
 		{
 			$user_nb_jours_pris_float=(float) $new_nb_jours ;
-//			soustrait_solde_user($user_login, $user_nb_jours_pris_float, $new_type_id,  $DEBUG);
-			soustrait_solde_et_reliquat_user($user_login, $user_nb_jours_pris_float, $new_type_id, $new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin ,  $DEBUG);
+			$sql2 = "UPDATE conges_solde_user SET su_solde = su_solde-$user_nb_jours_pris_float WHERE su_login='$user_login' AND su_abs_id=$new_type_id " ;
+			//echo($sql2."<br>");
+			$ReqLog2 = requete_mysql($sql2, $mysql_link, "new_conges", $DEBUG);
 		}
 		
-		$comment_log = "saisie conges par le responsable pour $user_login ($new_nb_jours jour(s)) type_conges = $new_type_id ( de $new_debut $new_demi_jour_deb a $new_fin $new_demi_jour_fin) ($new_comment)";
-		log_action(0, "", $user_login, $comment_log,  $DEBUG);
 
 		if($result==TRUE)
 			echo $_SESSION['lang']['form_modif_ok']."<br><br> \n";
@@ -727,8 +787,8 @@ function new_conges($user_login, $new_debut, $new_demi_jour_deb, $new_fin, $new_
 	}
 
 	/* APPEL D'UNE AUTRE PAGE */
-	echo "<form action=\"$PHP_SELF?session=$session&onglet=resp_traite_user&user_login=$user_login\" method=\"POST\"> \n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_retour']."\">\n";
+	echo "<form action=\"$PHP_SELF?session=$session&user_login=$user_login\" method=\"POST\"> \n";
+	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_modif_retour']."\">\n";
 	echo "</form> \n";
 	
 }

@@ -37,8 +37,7 @@ SOMMAIRE :
 
 	3: installation des fichiers :
 	------------------------------
-	- copier le contenu de l'archive dans l'arborescence de votre site web.
-	- ATTENTION : le répertoire "tmp" de PHP_IDS (INCLUDE.EXTERNAL/phpids-0.5.3/lib/IDS/tmp) doit être accessible en écriture ! ("writable") !!!
+	copier le contenu de l'archive dans l'arborescence de votre site web.
 
 
 	4: configuration de PHP :
@@ -147,13 +146,6 @@ SOMMAIRE :
 	ci ne doivent être accessibles qu'à certainnes personnes habilitées.
 
 
-	Remarque : utilisation avec Easy_php :
-	---------------------------------------------------------------------
-	sous easy_php il faut éditer le php.ini et décommenter la ligne
-        extension=php_ldap.dll
-    ... sinon pb avec l'authentification et la recup des users LDAP !
-
-
 ----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------
 
@@ -235,8 +227,8 @@ SOMMAIRE :
 
 	3: installation des fichiers
 	-----------------------------
-	copier le contenu de l'archive dans l'arborescence de votre site web (à la place de votre ancienne version).
-	- ATTENTION : le répertoire "tmp" de PHP_IDS (INCLUDE.EXTERNAL/phpids-0.5.3/lib/IDS/tmp) doit être accessible en écriture ! ("writable") !!!
+	copier le contenu de l'archive dans l'arborescence de votre site web (à la place de votre 
+	ancienne version).
 
 
 	4: mise à jour de la database et configuration de PHP_Conges :

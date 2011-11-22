@@ -256,10 +256,10 @@ function affiche_etat_demande_user_for_resp($user_login, $tab_user, $tab_grd_res
 		
 			if($_SESSION['config']['affiche_date_traitement']==TRUE)
 			{
-				if($sql_p_date_demande == NULL)
-					echo "<td class=\"histo-left\">".$_SESSION['lang']['divers_demande']." : $sql_date_demande<br>".$_SESSION['lang']['divers_traitement']." : $sql_date_traitement</td>\n" ;
-				else
+				if(empty($sql_date_traitement))
 					echo "<td class=\"histo-left\">".$_SESSION['lang']['divers_demande']." : $sql_date_demande<br>".$_SESSION['lang']['divers_traitement']." : pas traité</td>\n" ;
+				else
+					echo "<td class=\"histo-left\">".$_SESSION['lang']['divers_demande']." : $sql_date_demande<br>".$_SESSION['lang']['divers_traitement']." : $sql_date_traitement</td>\n" ;
 			}
 				
 			echo "</tr>\n";
@@ -357,8 +357,11 @@ function affiche_etat_demande_2_valid_user_for_resp($user_login,  $DEBUG=FALSE)
 				echo "<td class=\"histo\">$casecocher2</td>\n";
 				echo "<td class=\"histo\">$text_refus</td>\n";
 				if($_SESSION['config']['affiche_date_traitement']==TRUE)
-				{
-					echo "<td class=\"histo-left\">".$_SESSION['lang']['divers_demande']." : $sql_date_demande<br>".$_SESSION['lang']['divers_traitement']." : $sql_date_traitement</td>\n" ;
+				{					
+					if(empty($sql_date_traitement))
+						echo "<td class=\"histo-left\">".$_SESSION['lang']['divers_demande']." : $sql_date_demande<br>".$_SESSION['lang']['divers_traitement']." : pas traité</td>\n" ;
+					else
+						echo "<td class=\"histo-left\">".$_SESSION['lang']['divers_demande']." : $sql_date_demande<br>".$_SESSION['lang']['divers_traitement']." : $sql_date_traitement</td>\n" ;
 				}
 				echo "</tr>\n";
 			}
@@ -506,7 +509,10 @@ function affiche_etat_conges_user_for_resp($user_login, $year_affichage, $tri_da
 					echo "<td class=\"histo\">$text_annul</td>\n";
 					if($_SESSION['config']['affiche_date_traitement']==TRUE)
 					{
-						echo "<td class=\"histo-left\">".$_SESSION['lang']['divers_demande']." : $sql_p_date_demande<br>".$_SESSION['lang']['divers_traitement']." : $sql_p_date_traitement</td>\n" ;
+						if(empty($sql_p_date_traitement))
+							echo "<td class=\"histo-left\">".$_SESSION['lang']['divers_demande']." : $sql_p_date_demande<br>".$_SESSION['lang']['divers_traitement']." : pas traité</td>\n" ;
+						else
+							echo "<td class=\"histo-left\">".$_SESSION['lang']['divers_demande']." : $sql_p_date_demande<br>".$_SESSION['lang']['divers_traitement']." : $sql_p_date_traitement</td>\n" ;
 					}
 					echo "</tr>\n";
 			}

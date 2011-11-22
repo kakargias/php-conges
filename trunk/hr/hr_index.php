@@ -81,7 +81,9 @@ verif_droits_user($session, "is_hr", $DEBUG);
     $new_demi_jour_fin = getpost_variable("new_demi_jour_fin") ;
 	if($_SESSION['config']['disable_saise_champ_nb_jours_pris']==TRUE)  // zone de texte en readonly et grisée
 	{ 
-		$new_nb_jours = compter($user_login, $new_debut,  $new_fin, $new_demi_jour_deb, $new_demi_jour_fin, $comment,  $DEBUG);
+		$new_nb_jours = compter($user_login, $new_debut,  $new_fin, $new_demi_jour_deb, $new_demi_jour_fin, $comment,  $DEBUG);	$new_nb_jours = compter($_SESSION['userlogin'], $new_debut,  $new_fin, $new_demi_jour_deb, $new_demi_jour_fin, $comm,  $DEBUG);
+		if ($new_nb_jours <= 0 )
+			$new_nb_jours      = getpost_variable("new_nb_jours");
 	}
 	else
     { 

@@ -1243,7 +1243,7 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 				// recup du tableau des types d'absence
 				$tab_type_absence=recup_tableau_types_absence( $DEBUG);
 				// recup d tableau des types de conges exceptionnels
-				// $tab_type_conges_exceptionnels=recup_tableau_types_conges_exceptionnels( $DEBUG);
+				$tab_type_conges_exceptionnels=recup_tableau_types_conges_exceptionnels( $DEBUG);
 
 				echo '<td align="left" valign="top">';
 				// si le user a droit de saisir une demande de conges ET si on est PAS dans une fenetre de responsable
@@ -1285,13 +1285,13 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 					echo '<br>';
 					// congés exceptionnels
 					echo '<b><i><u>'.$_SESSION['lang']['divers_conges_exceptionnels'].' :</u></i></b><br>';
-					// foreach($tab_type_conges_exceptionnels as $id => $libelle)
-					// {
-						// if($id==1)
-							// echo '<input type="radio" name="new_type" value="'.$id.'" checked> '.$libelle.'<br>';
-						// else
-							// echo '<input type="radio" name="new_type" value="'.$id.'"> '.$libelle.'<br>';
-					// }
+					 foreach($tab_type_conges_exceptionnels as $id => $libelle)
+					{
+						 if($id==1)
+							 echo '<input type="radio" name="new_type" value="'.$id.'" checked> '.$libelle.'<br>';
+						 else
+							 echo '<input type="radio" name="new_type" value="'.$id.'"> '.$libelle.'<br>';
+					 }
 				}
 
 				echo '</td>';
@@ -3856,7 +3856,7 @@ function log_action($num_periode, $etat_periode, $login_pour, $comment, $DEBUG=F
 function inculde_lang_file($lang, $DEBUG=FALSE)
 {
 	if($DEBUG==TRUE) { echo "fonction inculde_lang_file() : lang : $file<br> \n";}
-
+	$lang="fr"; //Parametre de la langue selectionnée
 	// test si on est dans "install"
 	if(is_dir("lang"))  // test si on est dans "install"
 		$dir= "lang/";
@@ -3876,7 +3876,7 @@ function inculde_lang_file($lang, $DEBUG=FALSE)
 	    }
     }
     if($DEBUG==TRUE) { echo "lang_file : $lang_file<br> \n";}
-    include($lang_file);
+	include($lang_file);
 }
 
 

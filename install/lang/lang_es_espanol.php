@@ -1,16 +1,16 @@
 <?php
 /************************************************************************************************
-PHP_CONGES : Gestion Interactive des Cong?
+PHP_CONGES : Gestion Interactive des Cong�s
 Copyright (C) 2005 (cedric chauvineau)
 
 Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les
-termes de la Licence Publique G??ale GNU publi? par la Free Software Foundation.
-Ce programme est distribu?car potentiellement utile, mais SANS AUCUNE GARANTIE,
+termes de la Licence Publique G�n�rale GNU publi�e par la Free Software Foundation.
+Ce programme est distribu� car potentiellement utile, mais SANS AUCUNE GARANTIE,
 ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation
-dans un but sp?ifique. Reportez-vous ?la Licence Publique G??ale GNU pour plus de d?ails.
-Vous devez avoir re? une copie de la Licence Publique G??ale GNU en m?e temps
-que ce programme ; si ce n'est pas le cas, ?rivez ?la Free Software Foundation,
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, ?ats-Unis.
+dans un but sp�cifique. Reportez-vous � la Licence Publique G�n�rale GNU pour plus de d�tails.
+Vous devez avoir re�u une copie de la Licence Publique G�n�rale GNU en m�me temps
+que ce programme ; si ce n'est pas le cas, �crivez � la Free Software Foundation,
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, �tats-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation; either
@@ -22,8 +22,6 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
-
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 // Fichier de Langue FR (FRANCAIS )
 $LANG=array();
@@ -83,7 +81,7 @@ $LANG['dimanche_1c']	= "D";
 
 /***********************/
 // BOUTONS COMMUNS
-$LANG['button_deconnect']	= "Desconexion";
+$LANG['button_deconnect']	= "Deconexion";
 $LANG['button_refresh']		= "Actualizar la Pagina";
 $LANG['button_editions']	= "Edicion Papel";
 $LANG['button_admin_mode']	= "Modo Administrador";
@@ -97,12 +95,12 @@ $LANG['form_ok']			= "OK";
 $LANG['form_submit']		= "Validar";
 $LANG['form_cancel']		= "Abandonar";
 $LANG['form_retour']		= "Volver";
-$LANG['form_ajout']			= "A?adir";
+$LANG['form_ajout']			= "A�adir";
 $LANG['form_supprim']		= "Suprimir";
 $LANG['form_modif']			= "Modificar";
 $LANG['form_annul']			= "Anular";
 $LANG['form_redo']			= "Volver a empezar";
-$LANG['form_am']			= "mañana";
+$LANG['form_am']			= "ma�ana";
 $LANG['form_pm']			= "tarde";
 $LANG['form_day']			= "jornada completa";
 $LANG['form_close_window']	= "Cerrar esta ventana";
@@ -120,9 +118,9 @@ $LANG['form_continuer']		= "Continuar";
 /***********************/
 // DIVERS
 $LANG['divers_quotite']			= "porcentaje";
-$LANG['divers_quotite_maj_1']		= "Porcentaje";
-$LANG['divers_annee']			= "año";
-$LANG['divers_annee_maj']		= "AÑO";
+$LANG['divers_quotite_maj_1']	= "Porcentaje";
+$LANG['divers_an']				= "a�o";
+$LANG['divers_an_maj']			= "A�O";
 $LANG['divers_solde']			= "saldo";
 $LANG['divers_solde_maj']		= "SALDO";
 $LANG['divers_solde_maj_1']		= "Saldo";
@@ -134,8 +132,8 @@ $LANG['divers_type']			= "tipo";
 $LANG['divers_type_maj_1']		= "Tipo";
 $LANG['divers_comment_maj_1']	= "Comentario";
 $LANG['divers_etat_maj_1']		= "Situacion";
-$LANG['divers_nb_jours_pris_maj_1']	= "n° de dias cogidos";
-$LANG['divers_nb_jours_maj_1']	= "n? Dias";
+$LANG['divers_nb_jours_pris_maj_1']	= "n� de dias cogidos";
+$LANG['divers_nb_jours_maj_1']	= "n� Dias";
 $LANG['divers_inconnu']			= "desconocido";
 $LANG['divers_motif_refus']		= "motivo de la negativa";
 $LANG['divers_motif_annul']		= "motivo de la anulacion";
@@ -219,7 +217,7 @@ $LANG['resp_menu_titre']					= "MODO RESPONSABLE :";
 $LANG['resp_menu_button_retour_main']		= "Retorno pagina Principal";
 $LANG['resp_menu_button_traite_demande']	= "Tratar todas las Solicitudes";
 $LANG['resp_menu_button_affiche_user']		= "seleccionar persona";
-$LANG['resp_menu_button_ajout_jours']		= "A?adir Dias Vacaciones";
+$LANG['resp_menu_button_ajout_jours']		= "A�adir Dias Vacaciones";
 $LANG['resp_menu_button_mode_user']			= "Modo Usuario";
 $LANG['resp_menu_button_mode_admin']		= "Mode Administrador";
 
@@ -229,25 +227,25 @@ $LANG['resp_etat_users_imprim']		= "Edicion Papel";
 //page traite toutes les demandes
 $LANG['resp_traite_demandes_titre']				= "Tratamiento de solicitudes de vacaciones :";
 $LANG['resp_traite_demandes_aucune_demande']	= "Ninguna solicitud de vacaciones en curso en la base de datos...";
-$LANG['resp_traite_demandes_nb_jours']			= "n° Dias<br>Tomados";
+$LANG['resp_traite_demandes_nb_jours']			= "n� Dias<br>Tomados";
 $LANG['resp_traite_demandes_attente']			= "Espera";
 $LANG['resp_traite_demandes_motif_refus']		= "Motivo<br>del rechazo";
 //page ajout conges
-$LANG['resp_ajout_conges_titre']				= "Añadir vacaciones :";
-$LANG['resp_ajout_conges_nb_jours_ajout']		= "N° dias a a?adir";
+$LANG['resp_ajout_conges_titre']				= "A�adir vacaciones :";
+$LANG['resp_ajout_conges_nb_jours_ajout']		= "N� dias a a�adir";
 $LANG['resp_ajout_conges_ajout_all']			= "Adicion global para Todos :";
 $LANG['resp_ajout_conges_nb_jours_all_1']		= "Numero de dias de";
-$LANG['resp_ajout_conges_nb_jours_all_2']		= "A añadir a todos :";
+$LANG['resp_ajout_conges_nb_jours_all_2']		= "A a�adir a todos :";
 $LANG['resp_ajout_conges_calcul_prop']			= "Calculo proporcional al porcentaje de cada persona :";
 $LANG['resp_ajout_conges_oui']					= "SI";
 $LANG['resp_ajout_conges_calcul_prop_arondi']	= "el calculo proporcional es redondeado a 1/2 mas cercano";
 $LANG['resp_ajout_conges_ajout_groupe']			= "Adicion por Grupo : (adicion a todos los miembros de un grupo)";
 $LANG['resp_ajout_conges_choix_groupe']			= "eleccion del grupo";
 $LANG['resp_ajout_conges_nb_jours_groupe_1']	= "Numero de dias de";
-$LANG['resp_ajout_conges_nb_jours_groupe_2']	= "a añadir al grupo :";
-$LANG['resp_ajout_conges_comment_periode_user']	= "añadir dia";
-$LANG['resp_ajout_conges_comment_periode_all']	= "añadir para todas las personas";
-$LANG['resp_ajout_conges_comment_periode_groupe']	= "añadir para el grupo";
+$LANG['resp_ajout_conges_nb_jours_groupe_2']	= "a a�adir al grupo :";
+$LANG['resp_ajout_conges_comment_periode_user']	= "a�adir dia";
+$LANG['resp_ajout_conges_comment_periode_all']	= "a�adir para todas las personas";
+$LANG['resp_ajout_conges_comment_periode_groupe']	= "a�adir para el grupo";
 //page traite user
 $LANG['resp_traite_user_titre']				= "Tratamiento de :";
 $LANG['resp_traite_user_new_conges']		= "Nuevas Vacaciones/Ausencias :";
@@ -281,7 +279,7 @@ $LANG['admin_button_save_db_1']			= "Copia seguridad/Restauracion Base de Datos"
 $LANG['admin_button_save_db_2']			= "Copia seguridad/Restauracion Base de Datos";
 //
 $LANG['admin_onglet_gestion_user']		= "Gestion de los  Usuarios";
-$LANG['admin_onglet_add_user']			= "Añadir un Usuario";
+$LANG['admin_onglet_add_user']			= "A�adir un Usuario";
 $LANG['admin_onglet_gestion_groupe']	= "Gestion de los Grupos";
 $LANG['admin_onglet_groupe_user']		= "Gestion Grupos <-> Usuarios";
 $LANG['admin_onglet_user_groupe']		= "Gestion Usuarios <-> Grupos";
@@ -307,7 +305,7 @@ $LANG['admin_new_users_is_resp']		= "es_responsable";
 $LANG['admin_new_users_is_admin']		= "es_administrador";
 $LANG['admin_new_users_see_all']		= "ver_todos";
 $LANG['admin_new_users_password']		= "password";
-$LANG['admin_new_users_nb_par_an']		= "n° / año";
+$LANG['admin_new_users_nb_par_an']		= "n� / a�o";
 // page ajout utilisateur
 $LANG['admin_groupes_groupe']			= "Grupo";
 $LANG['admin_groupes_libelle']			= "Llamado";
@@ -330,7 +328,7 @@ $LANG['admin_chg_passwd_titre']		= "Modificacion Password usuario";
 $LANG['admin_suppr_user_titre']		= "Supresion Usuario";
 // page admin_modif_user
 $LANG['admin_modif_user_titre']		= "Modificacion usuario";
-$LANG['admin_modif_nb_jours_an']	= "n° dias / año";
+$LANG['admin_modif_nb_jours_an']	= "n� dias / a�o";
 // grille saisie temps partiel et RTT
 $LANG['admin_temps_partiel_titre']			= "entrada de los dias de ausencia por ARTT o tiempo parcial";
 $LANG['admin_temps_partiel_sem_impaires']	= "semanas Impares";
@@ -360,8 +358,8 @@ $LANG['admin_sauve_db_bad_file']		= "Archivo indicado inexistente";
 $LANG['admin_sauve_db_restaure_ok']		= "Restauracion efectuada";
 // page admin_jours_chomes
 $LANG['admin_jours_chomes_titre']				= "Entrada de los dias no trabajados";
-$LANG['admin_jours_chomes_annee_precedente']	= "año precedente";
-$LANG['admin_jours_chomes_annee_suivante']		= "año siguiente";
+$LANG['admin_jours_chomes_annee_precedente']	= "a�o precedente";
+$LANG['admin_jours_chomes_annee_suivante']		= "a�o siguiente";
 $LANG['admin_jours_chomes_confirm']				= "Confirmar esta Entrada";
 
 
@@ -388,14 +386,14 @@ $LANG['editions_nouveau_solde']		= "nuevo saldo";
 $LANG['editions_signature_1']		= "Firma del titular";
 $LANG['editions_signature_2']		= "Firma del responsable";
 $LANG['editions_cachet_etab']		= "y sello del establecimiento";
-$LANG['editions_jours_an']			= "dias / año";
+$LANG['editions_jours_an']			= "dias / a�o";
 
 
 
 /***********************/
 // SAISIE CONGES
 $LANG['saisie_conges_compter_jours']		= "Contar los dias";
-$LANG['saisie_conges_nb_jours']				= "N° Dias Tomados";
+$LANG['saisie_conges_nb_jours']				= "N� Dias Tomados";
 
 
 
@@ -467,8 +465,8 @@ $LANG['config_abs_comment_conges']		= "Los tipos de ausencias listados aqui son 
 $LANG['config_abs_comment_absences']	= "Los tipos de ausencias listados aqui no estan descontados (son ausencias autorizadas)." ;
 $LANG['config_abs_libelle']				= "titular";
 $LANG['config_abs_libelle_short']		= "titular corto";
-$LANG['config_abs_add_type_abs']			= "añadir un tipo de ausencia :";
-$LANG['config_abs_add_type_abs_comment']	= "Entrar el tipo de ausencia que Ud. quiere a?adir :";
+$LANG['config_abs_add_type_abs']			= "a�adir un tipo de ausencia :";
+$LANG['config_abs_add_type_abs_comment']	= "Entrar el tipo de ausencia que Ud. quiere a�adir :";
 $LANG['config_abs_saisie_not_ok']			= "entrada incorrecta :";
 $LANG['config_abs_bad_caracteres']			= "los caracteres siguientes estan prohibidos:";
 $LANG['config_abs_champs_vides']			= "los campos estan vacios !";
@@ -482,7 +480,7 @@ $LANG['config_abs_confirm_suppr_of']		= "Por favor confirmar la supresion de";
 // CONFIGURACION PHP_CONGES
 $LANG['config_appli_titre_1']		= "Configuracion de la Aplicacion PHP_VACACIONES";
 $LANG['config_appli_titre_2']		= "Configuracion de php_vacaciones";
-//groupes de param?tres
+//groupes de param�tres
 $LANG['00_php_conges']				= "00 php_vacaciones";
 $LANG['01_Serveur Web']				= "01 Servidor Web";
 $LANG["02_PAGE D'AUTENTIFICATION"]	= "02 PAGINA DE AUTENTIFICACION";
@@ -497,7 +495,7 @@ $LANG['10_Gestion par groupes']		= "10 Gestion por grupos";
 $LANG['11_Editions papier']			= "11 Ediciones papel";
 $LANG["12_Fonctionnement de l'Etablissement"]	= " 12 Funcionamiento del Establecimiento";
 $LANG['13_Divers']					= "13 Varios";
-$LANG['14_Pr?sentation']			= "14 Presentacion";
+$LANG['14_Pr�sentation']			= "14 Presentacion";
 $LANG['15_Modules Externes']		= "15 Modulos Externos";
 // parametres de config
 $LANG['config_comment_installed_version']	= "numero de version instalada";
@@ -530,7 +528,7 @@ $LANG['config_comment_mail_valid_conges_alerte_user']	= "// ENVIO DE MAIL AL USU
 $LANG['config_comment_mail_refus_conges_alerte_user']	= "// ENVIO DE MAIL AL USUARIO POR EL RECHAZO DE UNA SOLICITUD DE VACACIONES :<br>\n//----------------------------------------------------------------<br>\n// si FALSE : el usuario no recibe el mail cuando el responsable rechaza una de sus solicitudes de vacaciones (FALSE es el valor por defecto)<br>\n// si TRUE : el usuario recibe un mail de advertencia cada vez que el responsable rechaza una de sus solicitudes de vacaciones <br>\n// (ATENCION : usted puede personalizar el titulo y el texto del mail de alerta mas abajo dentro de este fichero)";
 $LANG['config_comment_mail_annul_conges_alerte_user']	= "// ENVIO DE MAIL AL USUARIO POR LA ANULACION POR EL RESP DE UNAS VACACIONES YA ACEPTADAS :<br>\n//---------------------------------------------------------------------------------<br>\n// si FALSE : el usuario no recibe el mail cuando el responsable le anula unas vacaciones (FALSE es el valor por defecto)<br>\n// si TRUE : el usuario recibe un mail de advertencia cada vez que el responsable anula unas de sus vacaciones<br>\n// (ATENCION : usted puede personalizar el titulo y el texto del mail de alerta mas abajo dentro de este fichero)";
 $LANG['config_comment_serveur_smtp']					= "//  SERVIDOR SMTP A UTILIZAR<br>\n//---------------------------------------<br>\n// direccion ip  o  nombre del servidor smpt a utilizar para enviar los mails<br>\n// Si usted no domina el servidor SMTP o si, a la utilizacion, usted tiene un error a la connexion al servidor, deje esta variable vacia (\"\")";
-$LANG['config_comment_where_to_find_user_email']		= "//  DONDE ENCONTRAR LAS DIRECCIONES MAILS DE LOS USUARIOS<br>\n//-------------------------------------------------<br>\n// varias posibilidades para encontrar las direcciones mails de los usuarios :<br>\n// si ? \"dbconges\" : el mail de los user se encuentra dentro de la tabla users de la database db_vacaciones<br>\n// si ? \"ldap\"     : el mail de los user se encuentra dentro de un anuario LDAP que vamos a interrogar (cf fichero config_ldap.php)<br>\n// ATENCION : todo otro valor que \"dbconges\" o \"ldap\" comportara une ?rreur !!!";
+$LANG['config_comment_where_to_find_user_email']		= "//  DONDE ENCONTRAR LAS DIRECCIONES MAILS DE LOS USUARIOS<br>\n//-------------------------------------------------<br>\n// varias posibilidades para encontrar las direcciones mails de los usuarios :<br>\n// si � \"dbconges\" : el mail de los user se encuentra dentro de la tabla users de la database db_vacaciones<br>\n// si � \"ldap\"     : el mail de los user se encuentra dentro de un anuario LDAP que vamos a interrogar (cf fichero config_ldap.php)<br>\n// ATENCION : todo otro valor que \"dbconges\" o \"ldap\" comportara une �rreur !!!";
 $LANG['config_comment_samedi_travail']		= "//  GESTION DE LOS SABADOS COMO TRABAJADOS O NO<br>\n//--------------------------------------------------------------------------------------<br>\n// definimos aqui si los sabados pueden ser trabajados o no.<br>\n// si TRUE :  el dia se considera como trabajado....<br>\n// si FALSE : el dia se considera como no trabajado (weeekend).... (FALSE es el valor por defecto)";
 $LANG['config_comment_dimanche_travail']	= "//  GESTION DE LOS DOMINGOS COMO TRABAJADOS O NO<br>\n//--------------------------------------------------------------------------------------<br>\n// definimos aqui si los domingos pueden ser trabajados o no.<br>\n// si TRUE : el dia se considera como trabajado ....<br>\n// si FALSE : el dia se considera como no trabajado (weeekend).... (FALSE es el valor por defecto)";
 $LANG['config_comment_gestion_groupes']		= "//  GESTION DE LOS GRUPOS DE USUARIOS<br>\n//--------------------------------------<br>\n// definimos aqui si queremos gestionar a los usuarios por grupos o no.<br>\n// si TRUE : los grupos de usuarios son gestionados dentro de la aplicacion ....<br>\n// si FALSE : los grupos de usuarios no son gestionados dentro de la aplicacion .... (FALSE es el valor por defecto)";
@@ -539,9 +537,10 @@ $LANG['config_comment_editions_papier']				= "//  EDICION PAPEL<br>\n//---------
 $LANG['config_comment_texte_haut_edition_papier']	= "//  Cabecera de las IMPRESIONES<br>\n//--------------------------------------<br>\n// definimos aqui el texto eventual que figurara en lo alto de la pagina de las impresiones de las vacaciones de un user.";
 $LANG['config_comment_texte_bas_edition_papier']	= "//  Pie de pagina de las IMPRESIONES<br>\n//--------------------------------------<br>\n// definimos aqui el texto eventual que figurara en el pie de pagina de las impresiones de las vacaciones de un user.";
 $LANG['config_comment_user_echange_rtt']			= "//  CAMBIO RTT O TIEMPO PARCIAL AUTORIZADO PARA LOS USUARIOS<br>\n//---------------------------------------------------------------------------------------<br>\n// autorizamos o no al usuario a invertir puntualmente un dia trabajado y un dia de ausencia (de rtt o tiempo parcial)<br>\n// si FALSE : cambio no autorizado para el usuario (FALSE es el valor por defecto)<br>\n// si TRUE : cambio autorizado para el usuario";
-$LANG['config_comment_affiche_bouton_calcul_nb_jours_pris']	= "//  BOTON DE CALCULO DEL N? DE DIAS TOMADOS<br>\n//--------------------------------------------------------------------------------------<br>\n// si FALSE : no aparece el boton de calculo del n? de dias tomados cuando se efectua una nueva entrada de ausencia<br>\n// si TRUE : aparece el boton de calculod del n? de dias tomados cuando se efectua una nueva entrada de ausencia (TRUE es el valor por defecto)<br>\n// ATENCION : si es TRUE : los dias no trabajados deben ser registrados (ver el modulo de administracion)";
-$LANG['config_comment_rempli_auto_champ_nb_jours_pris']		= "//  RELLENO AUTOMATICO DEL CAMPO EN EL MOMENTO DE LA SOLICITUD DEL CALCULO DEL N? DE DIAS TOMADOS<br>\n//--------------------------------------------------------------------------------------<br>\n// si FALSE : la solicitud al boton de calculo del n? de dias tomados no rellena automaticamente el campo del formulario (entrada a mano)<br>\n// si TRUE : la solicitud al boton de calculo del n? de dias tomados rellena automaticamente el campo del formulario (TRUE es el valor por defecto)";
+$LANG['config_comment_affiche_bouton_calcul_nb_jours_pris']	= "//  BOTON DE CALCULO DEL N� DE DIAS TOMADOS<br>\n//--------------------------------------------------------------------------------------<br>\n// si FALSE : no aparece el boton de calculo del n� de dias tomados cuando se efectua una nueva entrada de ausencia<br>\n// si TRUE : aparece el boton de calculod del n� de dias tomados cuando se efectua una nueva entrada de ausencia (TRUE es el valor por defecto)<br>\n// ATENCION : si es TRUE : los dias no trabajados deben ser registrados (ver el modulo de administracion)";
+$LANG['config_comment_rempli_auto_champ_nb_jours_pris']		= "//  RELLENO AUTOMATICO DEL CAMPO EN EL MOMENTO DE LA SOLICITUD DEL CALCULO DEL N� DE DIAS TOMADOS<br>\n//--------------------------------------------------------------------------------------<br>\n// si FALSE : la solicitud al boton de calculo del n� de dias tomados no rellena automaticamente el campo del formulario (entrada a mano)<br>\n// si TRUE : la solicitud al boton de calculo del n� de dias tomados rellena automaticamente el campo del formulario (TRUE es el valor por defecto)";
 $LANG['config_comment_duree_session']	= "// Duracion maxima de incatividad de una sesion antes de la expiracion (en segundos)";
+$LANG['config_comment_verif_droits']	= "// Verificacion de los Derechos de acceso :<br>\n//------------------------------------<br>\n// poner a TRUE Para gestionar los derechos de acceso a las  paginas (es a FALSE por defecto)<br>\n/* parametro propio a ciertos tipos de instalacion solamente !!!...... */";
 $LANG['config_comment_stylesheet_file']	= "// HOJA DE ESTILO<br>\n//--------------------------<br>\n// nombre del fichero de la hoja de estilo a utilizar (con camino relativo desde la raiz de php_vacaciones)";
 $LANG['config_comment_bgcolor']			= "// color de fondo de las paginas";
 $LANG['config_comment_bgimage']			= "// imagen de fondo de las paginas (NO de / al inicio !!)";
@@ -598,286 +597,13 @@ $LANG['install_maj_and']				= "y";
 $LANG['install_maj_verif_droit_fichier']	= "verificar los derechos de lectura sobre este fichero.";
 
 
-
 /***********************/
 /***********************/
 /***********************/
-// NEW : V1.2
-$LANG['divers_date_traitement']	= "fecha-hora demanda/tratamiento";
-$LANG['divers_demande']		= "demanda";
-$LANG['divers_traitement']	= "tratamiento";
-$LANG['divers_mois']		= "mes";
-$LANG['divers_annee']		= "añ";
-
-$LANG['phpmailer_not_valid']	= "ERROR MAIL : El fichero class.phpmailer.php no puede ser leido o no se encuentra. El mail de alerta no podra ser enviado !";
-$LANG['fpdf_not_valid']		= "ERROR : El fichero fpdf.php no puede ser leido o no se encuentra. El documento PDF no puede ser generado !";
-
-$LANG['install_remove_fichier']	= "es de aqui en adelante inutil... Por favor suprimalo !";
-$LANG['install_config_mail']	= "configurar los mails enviados por php_conges";
-
-/***********************/
-// EXPORT ICAL / VCAL
-$LANG['button_export_1']			= "Exportar ical / vcal";
-$LANG['button_export_2']			= "Exportar los eventos al formato ical / vcal";
-$LANG['config_comment_disable_saise_champ_nb_jours_pris']	= "//  PROHIBIDO TECLEAR EN EL CAMPO TEXTO DEL N° DE DIAS TOMADOS<br>\n//--------------------------------------------------------------------------------------<br>\n// si - FALSE : el campo texto del n° de dias tomados es activo (coger la mano posible)(FALSE es el valor por defecto)<br>\n// si \ TRUE : le champ texte du nb de jours pris et inactif (saisi  la main impossible)";
-$LANG['calcul_nb_jours_commentaire']			= "atencion: este periodo se superpone con otras vacaciones !";
-$LANG['calcul_nb_jours_commentaire_impossible']	= "CALCULO IMPOSIBLE : este periodo se superpone con una solicitud de vacaciones en curso !";
-$LANG['config_comment_export_ical_vcal']	= "//  EXPORTAR DESDE VACACIONES AL FORMATO ICS OU VCS<br>\n//----------------------------------------------------------------------<br>\n// si O FALSE : los usuarios no pueden exportar sus vacaciones/ausencias al formato ics o vcs.<br>\n// si  TRUE : los usuarios pueden exportar sus vacaciones/ausencias al formato ics ou vcs (para importar en la agenda electronica o al programa de planning). (TRUE es el valor por defecto)";
-$LANG['export_cal_titre']		= "Exportar al formato ical / vcal";
-$LANG['export_cal_from_date']	= "de";
-$LANG['export_cal_to_date']		= "hasta";
-$LANG['export_cal_saisir_debut']	= "seleccion de la fecha de inicio";
-$LANG['export_cal_saisir_fin']		= "seleccion de la fecha de fin";
-$LANG['export_cal_format']		= "opcion del formato";
-
-/***************************/
-// CONFIG
-/*
-$LANG['config_comment_semaine_bgcolor']			= "color de fondo de los dias de la semana en el calendario";
-$LANG['config_comment_week_end_bgcolor']		= "color de fondo de los dias del fin de semana en el calendario";
-$LANG['config_comment_temps_partiel_bgcolor']	= "color de fondo de los dias de tiempo parcial o de la rtt en el calendario";
-$LANG['config_comment_conges_bgcolor']			= "color de fondo de los dias de vacaciones en el calendario (vacaciones aceptadas por el responsable)";
-$LANG['config_comment_demande_conges_bgcolor']	= "color de fondo de los dias de vacaciones solicitadas en el calendario (no aceptadas aun por el responsable)";
-$LANG['config_comment_absence_autre_bgcolor']	= "color de fondo de los dias de ausencia por mision, etc ... en el calendario";
-*/
-/***************************/
-// MAIL DE PHP_CONGES
-$LANG['mail_new_demande_comment']			= "mensaje de alerta al responsable en caso de nueva demanda de vacaciones.";
-$LANG['mail_valid_conges_comment']			= "mensaje de alerta al usuario en caso de validation d'une demande de congs ou de saisie d'un nouveau conges par le responsable";
-$LANG['mail_refus_conges_comment']			= "mensaje de alerta al usuario en caso de rechazo de una demanda de vacaciones por el responsable";
-$LANG['mail_annul_conges_comment']			= "mensaje de alerta al usuario en caso de anulacion de vacaciones por el responsable";
-$LANG['mail_prem_valid_conges_comment']		= "mensaje de alerta al usuario en caso de primera validacion de una demanda de vacaciones por el responsable (si utilizamos la doble validacion).";
-
-$LANG['mail_remplace_url_accueil_comment']		= "__URL_ACCUEIL_CONGES__ sera automaticamente remplazada por un link hacia vuestra aplicacion php_conges.";
-$LANG['mail_remplace_sender_name_comment']		= "__SENDER_NAME__ sera automaticamente remplazada por le nom et prxnom de l'expediteur.";
-$LANG['mail_remplace_destination_name_comment']	= "__DESTINATION_NAME__ sera automaticamente remplazada por el apellido y el nombre del (de los) destinatario(s).";
-$LANG['mail_remplace_retour_ligne_comment']		= "__RETOUR_LIGNE__ sera automaticamente remplazada por pase - la linea.";
-
-/***********************/
-// CONFIG MAILS
-$LANG['config_mail_titre']		= "Configuracion de los mails enviados por PHP_CONGES";
-$LANG['config_mail_alerte_config']	= "Esta pagina solo sirve si  el envio de mail por php_conges es valido (ver configuracion de la aplicaion).";
-$LANG['config_mail_subject']	= "sujeto del mail";
-$LANG['config_mail_body']		= "texto del mail";
-
-$LANG['admin_button_config_mail_1']		= "Configuracion de los mails enviados por php_conges";
-$LANG['admin_button_config_mail_2']		= "Config Mails";
-$LANG['config_comment_affiche_bouton_config_mail_pour_admin']	= "// ACCESO A LA CONFIG DE LOS MAILS DE LA APPLI PARA LOS ADMINISTRADORES<br>\n//---------------------------------------------------------------------<br>\n// si  FALSE : el boton de acceso de configuracion de mails enviados por php_conges no aparece sobre la pagina administrador (FALSE es el valor por defecto)<br>\n// si ] TRUE : el boton de acceso a la configuracion de los mails enviados por php_vacaciones aparece sobre la pagina administrador";
-$LANG['config_comment_mail_prem_valid_conges_alerte_user']	= "// ENVIO DE MAIL AL USUARIO Y GRAN REPONSABLE DESPUES LA PRIMERA VALIDACION DE UNA DEMANDA (caso de una doble validacion de demanda) :<br>\n//----------------------------------------------------------------<br>\n// si  FALSE : el usuario y el gran responsable no reciben el mail cuando el responsable valida una demanda (primera validacion). (FALSE es el valor por defecto)<br>\n// si es TRUE : el usuario y el gran responsable reciben un mail de alerta cuando el responsable valida una demanda (primera validacion).<br>\n";
-$LANG['config_comment_affiche_date_traitement']	= "// PRESENTACION DE LOS DATOS Y HORA DE TRATAMIENTO EN LOS HISTORICOS DE LAS VACACIONES<br>\n//---------------------------------------------------------------------<br>\n// si  FALSE : los datos y horas de demanda de vacaciones o de validacion de demanda no seran presentados en los tableros (FALSE es el valor por defecto)<br>\n// si  TRUE : los datos y horas de demanda de vacaciones o de validacion de demanda seran presentados en los tableros y ditions (attention, cela augmente consid rablement la largeur de la page affiche).";
-
-/***********************/
-// DOUBLE VALIDATION
-$LANG['config_comment_double_validation_conges']	= "//  DOBLE VALIDACION DE LAS DEMANDAS DE VACACIONES<br>\n//----------------------------------------------------------------------<br>\n// si   FALSE : la demanda de vacaciones de un usuario es aceptada o no por el responsble (une sola validacion)(FALSE es el valor por defecto).<br>\n// si  TRUE : la demanda de vacaciones de un usuario debe ser validada por un responsable, luego aceptada por el responsable del responsable (doble validacion).<br>\nATENCION, este parametro no es valido QUE en el caso de una gestion por grupos de usuarios !)";
-$LANG['admin_groupes_double_valid']		= "doble validacion";
-$LANG['admin_gestion_groupe_grand_resp_responsables']	= "Grandes Responsables del Grupo";
-$LANG['divers_grand_responsable_maj_1']	= "Gran_Responsable";
-$LANG['resp_traite_demandes_titre_tableau_1']	= "Demandas o validar";
-$LANG['resp_traite_demandes_titre_tableau_2']	= "Demandas en segunda validacion";
-$LANG['resp_traite_user_etat_demandes_2_valid']		= "Estado de las demandas en segunda validacion :";
-$LANG['resp_etat_users_titre_double_valid']		= "Usuarios con doble validacion de las demandas";
-$LANG['resp_etat_aucun_user']	= "Ningun usuario para este responsable !!!";
-
-/***********************/
-// IMPRIM CALENDRIER
-$LANG['button_imprim_calendar']	= "imprimir un calendario";
-$LANG['imprim_calendrier_titre']	= "escoger el mes a imprimir";
-
-
-
-/***********************/
-/***********************/
-/***********************/
-// NEW : V1.2.1
-
-//$LANG['install_test_mail']	= "tester l'envoi de mails de php_conges";
-
-//$LANG['session_pas_session_ouverte']	= "Pas de session ouverte." ;
-
-//$LANG['divers_acces_page_interdit']	= "ACCES A CETTE PAGE INTERDIT !!" ;
-//$LANG['divers_user_disconnected']	= "Vous avez été déconnecté de l'application !" ;
-//$LANG['divers_veuillez']			= "Veuillez" ;
-//$LANG['divers_vous_authentifier']	= "vous authentifier" ;
-
-/***************************/
-// CONFIGURATION PHP_CONGES
-//$LANG['14_Presentation']			= "14 Présentation";
-//$LANG['config_comment_affiche_soldes_calendrier']	= "//  AFFICHAGE DES SOLDES UTILISATEURS DANS LE CALENDRIER : <br>\n//--------------------------------------------------------------------------------------------<br>\n// si à FALSE : les soldes de congés des utilisateurs n'apparaissent pas sur le calendrier des congés<br>\n// si à TRUE : les soldes de congés des utilisateurs apparaissent sur le calendrier des congés (TRUE est la valeur par defaut)";
-//$LANG['mail_remplace_nb_jours']			= "__NB_OF_DAY__ sera automatiquement remplacé par le nombre des jours de l'absence concernée.";
-
-
-
-/***********************/
-/***********************/
-/***********************/
-// NEW : V1.3.0
-
-/***********************/
-//$LANG['divers_traitement_ok']		= "accepté";
-//$LANG['divers_traitement_refus']	= "refusé";
-//$LANG['divers_traitement_annul']	= "annulé";
-
-// GESTION CONGES EXCEPTIONNELS
-//$LANG['config_comment_gestion_conges_exceptionnels']    = "//  CONGES EXCEPTIONNELS<br>\n//----------------------------------------------------------------------<br>\n// congés avec un  nombre de jours annuel toujours à 0<br>\n// si à FALSE : les congés de type 'congés exceptionnels' ne sont pas gérés.(FALSE est la valeur par defaut)<br>\n// si à TRUE : il est possible de définir des congés de type 'conges exceptionnels' pour les utilisateurs (congés sans solde annuel).";
-//$LANG['config_abs_comment_conges_exceptionnels']		= "Les types de conges listés ici n'ont pas de taux annuel." ;
-//$LANG['config_abs_desactive_cong_excep_impossible']		= "IMPOSSIBLE de désactiver les congés exceptionnels! (aucun congés exceptionnel ne doit être enregistré pour effectuer cette opération.)";
-
-//$LANG['divers_conges_exceptionnels']		= "congés exceptionnels";
-//$LANG['divers_conges_exceptionnels_maj_1']	= "Congés Exceptionnels";
-//$LANG['divers_semaine']	= "semaine";
-
-// CONFIG
-//$LANG['config_comment_grand_resp_ajout_conges']    = "//  AJOUT DE CONGES PAR LE GRAND RESPONSABLE<br>\n//----------------------------------------------------------------------<br>\n// ne fonctionne QUE si la double validation est activée !<br>\n// si à FALSE : un responsable ne peut ajouter de congés qu'à ses utilisateur direct (dont il est 'responsable').(FALSE est la valeur par defaut)<br>\n// si à TRUE : un responsable peut ajouter de congés aux utilisateur dont il est 'responsable' ET 'grand responsable' !";
-//$LANG['config_comment_interdit_saisie_periode_date_passee']    = "//  INTERDIRE LES SAISIES DE CONGES POUR LES DATES PASSEES<br>\n//----------------------------------------------------------------------<br>\n//si à FALSE : il est possible de saisir une demande de congés pour une date passée.(FALSE est la valeur par defaut)<br>\n// si à TRUE : il est interdit (et impossible) de saisir une demande de congés pour une date passée. ";
-
-
-
-/***********************/
-/***********************/
-/***********************/
-// NEW : V1.3.1
-
-/***********************/
-//$LANG['calcul_nb_jours_commentaire_bad_date']	= "attention: date de fin antérieure à date de début !";
-//$LANG['calcul_impossible']						= "attention: Calcul Impossible !";
-//$LANG['jours_feries_non_saisis']				= "les jours fériés ne sont pas enregistrés pour l'année voulue.";
-//$LANG['contacter_admin']						= "Contactez votre administrateur.";
-
-// CONFIG
-//$LANG['config_comment_interdit_modif_demande']    = "//  INTERDIRE LA MODIFICATION D'UNE DEMANDE DE CONGES PAR UN UTILISATEUR<br>\n//----------------------------------------------------------------------<br>\n//si à FALSE : l'utilisateur peut modifier une demande de congés existante.(FALSE est la valeur par defaut)<br>\n// si à TRUE : il est interdit (et impossible) pour l'utilisateur de modifier une demande de congés existante. ";
-
-
-
-
-
-/***********************/
-/***********************/
-/***********************/
-// NEW : V1.3.2
-
-/***********************/
-//$LANG['calendrier_afficher_groupe']	= "groupe à afficher";
-//$LANG['divers_groupe']				= "groupe";
-//$LANG['config_logs']					= "voir les logs";
-//$LANG['config_logs_titre_1']			= "Gestion des logs de PHP_CONGES";
-//$LANG['config_logs_titre_2']			= "Gestion des logs";
-//$LANG['voir_les_logs_par']				= "pour voir les actions d'un seul user : cliquez sur son login en gras.";
-//$LANG['voir_tous_les_logs']				= "Pour voir tous les logs";
-//$LANG['divers_cliquez_ici']				= "cliquez ici";
-//$LANG['form_delete_logs']			= "Vider les Logs";
-//$LANG['confirm_vider_logs']			= "Vouler vous vraiment éffacer tous les LOGS de PHP_CONGES ??";
-//$LANG['no_logs_in_db']				= "Pas de Logs dans la DataBase !";
-
-//$LANG['divers_date_maj_1']		= "Date";
-//$LANG['divers_fait_par_maj_1']	= "Fait par";
-//$LANG['divers_pour_maj_1']		= "Pour";
-
-// ajout d'un user
-//$LANG['admin_gestion_groupe_users_group_of_new_user']		= "Groupes auxquels le user appartient";
-
-// CONFIG
-//$LANG['config_comment_calendrier_select_all_groups']    = "//  AFFICHAGE DU CALENDRIER : Selection du groupe : choix entre tous les groupes ou non<br>\n//--------------------------------------------------------------------------------------------<br>\n// si la gestion des groupes est active, on définit ici si le choix du groupe à afficher dans le calendrier inclus tous les groupes ou pas.<br>\n// si à FALSE : seuls les groupes de l'utilisateur (ou dont il est responsable) apparaissent dans la sélection sur le calendrier des congés (FALSE est la valeur par defaut)<br>\n// si à TRUE : tous les groupes apparaissent dans la sélection sur le calendrier des congés";
-//$LANG['config_comment_consult_calendrier_sans_auth']    = "//  AFFICHAGE DU CALENDRIER SANS AUTHENTIFICATION<br>\n//--------------------------------------------------------------------------------------------<br>\n// si à FALSE : Il n'est pas possible d'afficher le calendrier des congés sans être connecté à PHP_CONGES. (FALSE est la valeur par defaut)<br>\n// si à TRUE : Possibilité de consulter le calendrier des congés sans se connecter à PHP_CONGES (via un lien sur la page d'accueil, ou avec l'URL directe).";
-//$LANG['config_comment_resp_ajoute_conges']				= "//  AJOUT DE CONGES PAR LE RESPONSABLE<br>\n//--------------------------------------------------------------------------------------------<br>\n// si à FALSE : Le responsable ne peut pas ajouter de congés à ses utilisateurs.<br>\n// si à TRUE : Le responsable peut ajouter de congés à ses utilisateurs. (FALSE est la valeur par defaut)";
-
-
-// CONFIGURATION MAILS
-//$LANG['mail_remplace_date_debut']			= "__DATE_DEBUT__ sera automatiquement remplacé par la date de début de l'absence concernée.";
-//$LANG['mail_remplace_date_fin']				= "__DATE_FIN__   sera automatiquement remplacé par la date de fin   de l'absence concernée.";
-
-
-
-
-
-/***********************/
-/***********************/
-/***********************/
-// NEW : V1.4.0
-
-/***********************/
-// CONFIGURATION MAILS
-//$LANG['mail_remplace_commentaire']	= "__COMMENT__    sera automatiquement remplacé par le commentaire   de l'absence concernée.";
-//$LANG['mail_remplace_type_absence']	= "__TYPE_ABSENCE__   sera automatiquement remplacé par le libellé   de l'absence concernée.";
-
-// PARTIE ADMINISTRATEUR
-//$LANG['admin_button_jours_fermeture_1']       = "saisie des jours de fermeture";
-//$LANG['admin_button_jours_fermeture_2']       = "saisie des jours de fermeture";
-// page admin_jours_fermeture
-//$LANG['admin_jours_fermeture_titre']            = "Saisie des jours de fermeture";
-//$LANG['admin_jours_fermeture_fermeture_pour_tous']	= "Fermeture pour tous";
-//$LANG['admin_jours_fermeture_fermeture_par_groupe']	= "Fermeture par groupe";
-//$LANG['admin_jours_fermeture_new_fermeture']	= "Nouvelle Fermeture";
-//$LANG['admin_jours_fermeture_enregistrees']		= "Fermetures Enregistrées";
-//$LANG['admin_jours_fermeture_dates_incompatibles']		= "dates saisies incompatibles !!! veuillez recommencer";
-//$LANG['admin_jours_fermeture_date_passee_error']		= "dates passées impossibles !!! veuillez recommencer";
-//$LANG['admin_jours_fermeture_annee_non_saisie']			= "les jours feriés de ces années ne sont pas saisie !!! veuillez recommencer ou saisir les jours fériés pour ces années";
-//$LANG['admin_jours_fermeture_chevauche_periode']		= "Erreur: la fermeture saisie chevauche une autre fermeture ou un congé pris par un utilisateur concerné !!! veuillez recommencer";
-//$LANG['admin_jours_fermeture_fermeture_aujourd_hui']	= "Erreur: la fermeture saisie débute ou finie aujourd'hui, ce qui est interdit !!! veuillez recommencer";
-//$LANG['admin_jours_fermeture_affect_type_conges']		= "à quel type de conges affecter cette fermeture : ";
-//$LANG['admin_annuler_fermeture']           		= "Annuler cette Fermeture";
-//$LANG['admin_annul_fermeture_confirm']          = "Veuillez confirmer cette Annulation";
-//$LANG['config_comment_fermeture_par_groupe']	= "//  GESTION DES FERMETURES PAR GROUPE : Fermetures d'établissement / de service par groupe ou non<br>\n//--------------------------------------------------------------------------------------------<br>\n// si la gestion des groupes est active, on définit ici si les fermetures d'établissement sont différentes suivant les groupes d'utilisateurs ou pas.<br>\n// si à FALSE : les fermetures s'appliquent à tous les parsonnels (la fermeture leur est débitée en congés) (FALSE est la valeur par defaut)<br>\n// si à TRUE : les fermetures d'établissement / de service sont gérées par groupe et peuvent être différentes d'un groupe à l'autre.";
-//$LANG['divers_fermeture']		= "fermeture";
-//$LANG['divers_fermeture_du']	= "fermeture du";
-//$LANG['divers_du']				= "du";
-//$LANG['divers_au']				= "au";
-//$LANG['divers_date_debut']		= "date de début";
-//$LANG['divers_date_fin']		= "date de fin";
-//$LANG['divers_confirmer_maj_1']		= "Confirmer";
-// CONFIG
-//$LANG['config_comment_affiche_demandes_dans_calendrier']	= "//  AFFICHAGE DES DEMANDES DE CONGES DES UTILISATEURS DANS LE CALENDRIER : <br>\n//--------------------------------------------------------------------------------------------<br>\n// si à FALSE : les demandes de congés de tous les utilisateurs n'apparaissent pas sur le calendrier des congés. (seules les demandes de l'utilisateur connecté apparaissent) (FALSE est la valeur par defaut)<br>\n// si à TRUE : les demandes de congés de tous les utilisateurs apparaissent sur le calendrier des congés.";
-//$LANG['config_comment_calcul_auto_jours_feries_france']		= "//  SAISIE DES JOURS FERIES DE L'ANNEE : <br>\n//--------------------------------------------------------------------------------------------<br>\n// si à FALSE : la saisie des jours fériés de l'année par l'administrateur se fait à la main. (FALSE est la valeur par defaut)<br>\n// si à TRUE : lors de la saisie des jours fériés de l'année par l'administrateur, les jours fériés (de France) sont automatiquement renseignés (iln'y a plus qu'à vérifier et valider).";
-//$LANG['config_comment_gestion_cas_absence_responsable']		= "//  PRISE EN COMPTE DES ABSENCES DU RESPONSABLE : <br>\n//--------------------------------------------------------------------------------------------<br>\n// si à FALSE : en cas d'absence de leur responsable, les demandes des utilisateurs attendent le retour de celui ci. (FALSE est la valeur par defaut)<br>\n// si à TRUE : en cas d'absence de leur responsable, les demandes des utilisateurs sont transmises au responsable du responsable qui peut alors les traiter.";
-// DIVERS
-//$LANG['divers_normal_maj_1']		= "Normal";
-
-
-
-/***********************/
-/***********************/
-/***********************/
-// NEW : V1.4.1
-
-/***********************/
-// CONFIG
-//$LANG['config_comment_texte_page_login']		= "// TEXTE DE LA PAGE D'ACCUEIL<br>\n//------------------<br>\n// texte qui apparaitra sous l'image sur la page de login (peut être vide)";
-//$LANG['config_comment_solde_toujours_positif']	= "//  SOLDES TOUJOURS POSITIFS : <br>\n//--------------------------------------------------------------------------------------------<br>\n// si à FALSE : le solde d'un congé peut être négatif. (FALSE est la valeur par defaut)<br>\n// si à TRUE : le solde d'un congé ne peut pas être négatif (un utilisateur ne peut poser un congé si son solde devient négatif).";
-// VERIF SOLDE POSITIF
-//$LANG['verif_solde_erreur_part_1']	= "Attention le nombre de jours d'absence demandés";
-//$LANG['verif_solde_erreur_part_2']	= "est supérieur à votre solde (somme du solde";
-//$LANG['verif_solde_erreur_part_3']	= "et des congés à valider";
-
-
-/***********************/
-/***********************/
-/***********************/
-// NEW : V1.5.0
-
-/***********************/
-// ADMIN
-//$LANG['admin_groupes_nb_users']        = "nb membres";
-//$LANG['resp_cloture_exercice_titre']   = "cloture/début d'exercice";
-//$LANG['divers_cloturer_maj_1']         = "Cloturer";
-//$LANG['divers_reliquat']        	   = "reliquat";
-//$LANG['button_cloture']  		       = "Changement Exercice";
-//$LANG['resp_cloture_exercice_all']     = "Cloture d'exercice globale pour Tous";
-//$LANG['resp_cloture_exercice_groupe']  = "Cloture d'exercice globale par groupe";
-//$LANG['resp_cloture_exercice_users']   = "Cloture d'exercice par personne";
-//$LANG['resp_cloture_exercice_for_all_text_confirmer']     = "Confirmez la cloture de l'exercice en cours et le début de l'exercice suivant pour tous les utilisateurs dont vous êtes responsable ?";
-//$LANG['resp_cloture_exercice_for_groupe_text_confirmer']  = "Confirmez la cloture de l'exercice en cours et le début de l'exercice suivant pour tous les utilisateurs du groupe séléctionné ?";
-//$LANG['form_valid_cloture_global']     = "Valider la cloture globale";
-//$LANG['form_valid_cloture_group']      = "Valider la cloture pour le groupe";
-//$LANG['resp_cloture_exercice_commentaire']	= "cloture exercice";
-// CONFIG
-//$LANG['config_comment_autorise_reliquats_exercice']	= "// RELIQUATS AUTORISES D'UN EXERCICE SUR L'AUTRE : <br>\n//--------------------------------------------------------------------------------------------<br>\n// si à FALSE : le solde d'un congé ne peut pas être reporté comme reliquat sur l'exercice suivant.<br>\n// si à TRUE : le solde d'un congé peut être reporté comme reliquat sur l'exercice suivant.. (TRUE est la valeur par defaut)";
-//$LANG['config_comment_nb_maxi_jours_reliquats']		= "// NOMBRE MAX DE JOURS DE RELIQUATS AUTORISES D'UN EXERCICE SUR L'AUTRE : <br>\n//--------------------------------------------------------------------------------------------<br>\n// Nombre maximum de jours qui peut être reporté comme reliquat sur l'exercice suivant (les jours au dela du maxi sont perdus). Mettre à 0 (zero) si pas de limite. (0 est la valeur par defaut)";
-//$LANG['config_comment_jour_mois_limite_reliquats']	= "// DATE LIMITE D'UTILISATION DES RELIQUATS : <br>\n//------------------<br>\n// (si les reliquats sont autorisés) : date maximum dans l'année pour utiliser ses reliquats de congés de l'exercice précédent (au dela, ils sont perdus) (date au format JJ-MM) (égal à 0 si pas de date limite)";
-//$LANG['config_jour_mois_limite_reliquats_modif_impossible']	= "IMPOSSIBLE de modifier la date limite des reliquats ! (format invalide !)";
-//
-//$LANG['lang']['session_pas_de_compte_dans_db']   = "Il n'existe pas de compte correspondant à votre login dans la base de données de PHP_CONGES<br>\n";
-//$LANG['lang']['session_contactez_admin']   = "Contactez l'administrateur de php_conges";
-
-
+// NEW : V1.1.2
+$LANG['button_export_1']			= "button_export_1";   //"Exporter ical / vcal";
+$LANG['button_export_2']			= "button_export_2";   //"Exporter les �venements au format ical / vcal";
+$LANG['config_comment_disable_saise_champ_nb_jours_pris']	= "config_comment_disable_saise_champ_nb_jours_pris";   //"//  SAISIE INTERDITE DANS LE CHAMP TEXTE DU NB DE JOURS PRIS<br>\n//--------------------------------------------------------------------------------------<br>\n// si � FALSE : le champ texte du nb de jours pris est actif (saisi � la main possible)(FALSE est la valeur par defaut)<br>\n// si � TRUE : le champ texte du nb de jours pris et inactif (saisi � la main impossible)";
 
 
 // FIN DES VARIABLES A RENSEIGNER :

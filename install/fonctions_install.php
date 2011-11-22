@@ -1,16 +1,16 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des CongÃ©s
+PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
 Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les 
-termes de la Licence Publique GÃ©nÃ©rale GNU publiÃ©e par la Free Software Foundation.
-Ce programme est distribuÃ© car potentiellement utile, mais SANS AUCUNE GARANTIE, 
+termes de la Licence Publique Générale GNU publiée par la Free Software Foundation.
+Ce programme est distribué car potentiellement utile, mais SANS AUCUNE GARANTIE, 
 ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation 
-dans un but spÃ©cifique. Reportez-vous Ã  la Licence Publique GÃ©nÃ©rale GNU pour plus de dÃ©tails.
-Vous devez avoir reÃ§u une copie de la Licence Publique GÃ©nÃ©rale GNU en mÃªme temps 
-que ce programme ; si ce n'est pas le cas, Ã©crivez Ã  la Free Software Foundation, 
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, Ã‰tats-Unis.
+dans un but spécifique. Reportez-vous à la Licence Publique Générale GNU pour plus de détails.
+Vous devez avoir reçu une copie de la Licence Publique Générale GNU en même temps 
+que ce programme ; si ce n'est pas le cas, écrivez à la Free Software Foundation, 
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, États-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation; either 
@@ -23,15 +23,18 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
-
 // teste le fichier config.php 
 //renvoit TRUE si ok, et FALSE sinon
 function test_config_file($DEBUG=FALSE)
 {
 	// verif si le fichier "config.php" existe et est lisible ....
 	$filename = '../config.php';
-	return is_readable($filename);
+	if (!is_readable($filename)) 
+	{
+		return FALSE;
+	} 
+	else
+		return TRUE;
 }
 
 
@@ -41,7 +44,12 @@ function test_dbconnect_file($DEBUG=FALSE)
 {
 	// verif si le fichier "dbconnect.php" existe et est lisible ....
 	$filename = '../dbconnect.php';
-	return (is_readable($filename)) ;
+	if (!is_readable($filename)) 
+	{
+		return FALSE;
+	} 
+	else
+		return TRUE;
 }
 
 
@@ -51,35 +59,65 @@ function test_old_config_file($DEBUG=FALSE)
 {
 	// verif si le fichier "config_old.php" existe et est lisible ....
 	$filename = 'config_old.php';
-	return (is_readable($filename)) ;
+	if (!is_readable($filename)) 
+	{
+		return FALSE;
+	} 
+	else
+		return TRUE;
 }
 
 
-// teste l'existance et la conexion Ã  la database
+// teste l'existance et la conexion à la database
 //renvoit TRUE si ok, et FALSE sinon
 function test_database($DEBUG=FALSE)
 {
-	include_once( __DIR__ . '/../INCLUDE.PHP/sql.class.php');
 	
-	if( empty($mysql_serveur) || empty($mysql_user) || empty($mysql_pass) || empty($mysql_database)  )
-		return false;
-	
-	$sql = SQL::singleton();
-	return ($sql->connect_errno == 0 );
+	include("../dbconnect.php") ;
+
+	if( isset($mysql_serveur) && ($mysql_serveur!="") && isset($mysql_user) && ($mysql_user!="") 
+			&& isset($mysql_pass) && ($mysql_pass!="") && isset($mysql_database) && ($mysql_database!="") )
+	{
+		$mysql_link = MYSQL_CONNECT($mysql_serveur,$mysql_user,$mysql_pass);
+		if (! $mysql_link)
+			return FALSE;
+		else
+		{		
+			$dbselect   = mysql_select_db($mysql_database, $mysql_link);
+			if (! $dbselect)
+				return FALSE;
+			else
+			{
+				mysql_close($mysql_link);
+				return TRUE ;
+			}
+		}
+	}
+	else
+		return FALSE;
 }
 
 
+function mysql_connexion($mysql_serveur, $mysql_user, $mysql_pass, $mysql_database)
+{
+	$mysql_link = MYSQL_CONNECT($mysql_serveur, $mysql_user, $mysql_pass) or die("erreur : mysql_connexion<br>\n".mysql_error());
+		
+	$dbselect   = mysql_select_db($mysql_database, $mysql_link) or die("erreur : mysql_connexion<br>\n".mysql_error());
 
-// renvoit le num de la version installÃ©e ou 0 s'il est inaccessible (non renseignÃ© ou table non prÃ©sente) 
-function get_installed_version( $DEBUG=FALSE)
+	return $mysql_link;
+}
+
+
+// renvoit le num de la version installée ou 0 s'il est inaccessible (non renseigné ou table non présente) 
+function get_installed_version($mysql_link, $DEBUG=FALSE)
 {
 	$installed_version=0;
 	
 	$sql="SELECT conf_valeur FROM conges_config WHERE conf_nom='installed_version' ";
-	if($reglog= $sql->query($sql))
+	if($reglog= mysql_query($sql, $mysql_link))
 	{
 		// la table existe !
-		if($result=$reglog->fetch_array())
+		if($result=mysql_fetch_array($reglog))
 		{
 			if($DEBUG==TRUE) { echo "result = <br>\n"; print_r($result); echo "<br>\n"; }
 			$installed_version = $result['conf_valeur'];
@@ -94,7 +132,7 @@ function get_installed_version( $DEBUG=FALSE)
 
 // teste la creation de table (verif si le user a les droits suffisants ou pas)
 // renvoit TRUE ou FALSE
-function test_create_table( $DEBUG=FALSE)
+function test_create_table($mysql_link, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 
@@ -104,39 +142,99 @@ function test_create_table( $DEBUG=FALSE)
 				`test1` varchar(100) BINARY NOT NULL default '',
 				`test2` varchar(100) BINARY NOT NULL default '',
  				 PRIMARY KEY  (`test1`)
-				);" ;
-	$result_create = $sql->query($sql_create);
-	return ($result_create);
+				) TYPE=MyISAM;" ;
+	$result_create = mysql_query($sql_create, $mysql_link);
+	if(!$result_create)
+		return FALSE;
+	else
+		return TRUE;	
 }
 
 
 // teste "alter table" (verif si le user a les droits suffisants ou pas)
 // renvoit TRUE ou FALSE
-function test_alter_table( $DEBUG=FALSE)
+function test_alter_table($mysql_link, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 
 	/*********************************************/
 	// alter de la table `conges_test`
 	$sql_alter="ALTER TABLE `conges_test` CHANGE `test2` `test2` varchar(150) ;" ;
-	$result_alter = $sql->query($sql_alter) or die($sql->error);
-	return ($result_alter);
+	$result_alter = mysql_query($sql_alter, $mysql_link) or die(mysql_error());
+	if(!$result_alter)
+		return FALSE;
+	else
+		return TRUE;	
 }
 
 
 // teste la suppression de table (verif si le user a les droits suffisants ou pas)
 // renvoit TRUE ou FALSE
-function test_drop_table( $DEBUG=FALSE)
+function test_drop_table($mysql_link, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 
 	/*********************************************/
 	// suppression de la table `conges_test`
 	$sql_drop="DROP TABLE `conges_test` ;" ;
-	$result_drop = $sql->query($sql_drop);
-	return $result_drop;
+	$result_drop = mysql_query($sql_drop, $mysql_link);
+	if(!$result_drop)
+		return FALSE;
+	else
+		return TRUE;	
 }
 
 
+// verif si la valeur de "rtt_comme_conges" est TRUE dans la config ou non
+/// renvoit TRUE si TRUE et FALSE si FALSE
+function is_rtt_comme_conges($mysql_link)
+{
+	$sql="SELECT conf_valeur FROM conges_config WHERE conf_nom = 'rtt_comme_conges' ";
+	$ReqLog = mysql_query($sql, $mysql_link) or die("ERREUR : is_rtt_comme_conges : <br>\n".$sql." --> ".mysql_error());
+	if ($resultat = mysql_fetch_array($ReqLog))
+		if($resultat['conf_valeur']=="TRUE")
+			return TRUE;
+	
+	return FALSE;
+}
+
+
+// on lit le contenu du répertoire lang et on parse les nom de ficher (ex lang_fr_francais.php)
+function affiche_select_from_lang_directory($select_name="lang")
+{
+	$lang_dir = "lang/";
+	
+	$php_vers= (int) substr(phpversion(), 0, 1); // recup version de php
+	if($php_vers>=5)
+	{
+		$tab_files = scandir($lang_dir);
+	}
+	else
+	{
+		$dh  = opendir($lang_dir);
+		while (false !== ($filename = readdir($dh))) 
+		{
+		    $tab_files[] = $filename;
+		}
+		sort($tab_files);
+	}
+	
+	echo "<select name=$select_name>\n";
+	
+//	if($DEBUG==TRUE) { print_r($tab_files); echo "<br>\n"; }
+	foreach($tab_files as $file)
+	{
+		if(eregi("^lang_.+_.+.php$", $file))
+		{
+			$chaine_1=explode(".", $file);
+			$chaine_2=explode("_", $chaine_1[0]);
+			if($chaine_2[1]=="fr")
+				echo "<option value=\"".$chaine_2[1]."\" selected >".$chaine_2[1]." / ".$chaine_2[2]."</option>\n";
+			else
+				echo "<option value=\"".$chaine_2[1]."\">".$chaine_2[1]." / ".$chaine_2[2]."</option>\n";
+		}
+	}
+	echo "</select>\n";
+}
 
 ?>

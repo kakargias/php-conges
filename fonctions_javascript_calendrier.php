@@ -1,16 +1,16 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des CongÃ©s
+PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
 Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les
-termes de la Licence Publique GÃ©nÃ©rale GNU publiÃ©e par la Free Software Foundation.
-Ce programme est distribuÃ© car potentiellement utile, mais SANS AUCUNE GARANTIE,
+termes de la Licence Publique Générale GNU publiée par la Free Software Foundation.
+Ce programme est distribué car potentiellement utile, mais SANS AUCUNE GARANTIE,
 ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation
-dans un but spÃ©cifique. Reportez-vous Ã  la Licence Publique GÃ©nÃ©rale GNU pour plus de dÃ©tails.
-Vous devez avoir reÃ§u une copie de la Licence Publique GÃ©nÃ©rale GNU en mÃªme temps
-que ce programme ; si ce n'est pas le cas, Ã©crivez Ã  la Free Software Foundation,
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, Ã‰tats-Unis.
+dans un but spécifique. Reportez-vous à la Licence Publique Générale GNU pour plus de détails.
+Vous devez avoir reçu une copie de la Licence Publique Générale GNU en même temps
+que ce programme ; si ce n'est pas le cas, écrivez à la Free Software Foundation,
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, États-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation; either
@@ -23,7 +23,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
+include("controle_ids.php") ;
 
 function affiche_javascript_et_css_des_calendriers()
 {
@@ -36,7 +36,7 @@ var newFrame = null;
 var TimerRunning = false;
 // ## PARAMETRE D'AFFICHAGE du CALENDRIER ## //
 //si enLigne est a true , le calendrier s'affiche sur une seule ligne,
-//sinon il prend la taille spÃ©cifiÃ© par dÃ©faut;
+//sinon il prend la taille spécifié par défaut;
 
 var largeur = "150";
 var separateur = "/";
@@ -49,20 +49,20 @@ var calendrierSortie = '';
 var today = '';
 //Mois actuel
 var current_month = '';
-//AnnÃ©e actuelle
+//Année actuelle
 var current_year = '' ;
 //Jours actuel
 var current_day = '';
-//Nombres de jours depuis le dÃ©but de la semaine
+//Nombres de jours depuis le début de la semaine
 var current_day_since_start_week = '';
 //On initialise le nom des mois et le nom des jours en VF :)
 var month_name = new Array('Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre');
 var day_name = new Array('L','M','M','J','V','S','D');
-//permet de rÃ©cupÃ¨rer l'input sur lequel on a clickÃ© et de le remplir avec la date formatÃ©e
+//permet de récupèrer l'input sur lequel on a clické et de le remplir avec la date formatée
 var myObjectClick = null;
-//Classe qui sera dÃ©tectÃ© pour afficher le calendrier
+//Classe qui sera détecté pour afficher le calendrier
 var classMove = "calendrier";
-//Variable permettant de savoir si on doit garder en mÃ©moire le champs input clickÃ©
+//Variable permettant de savoir si on doit garder en mémoire le champs input clické
 var lastInput = null;
 //Div du calendrier
 var div_calendar = "";
@@ -77,7 +77,7 @@ function $(element){
 
 //Permet de faire glisser une div de la gauche vers la droite
 function slideUp(bigMenu,smallMenu){
-	//Si le timer n'est pas finit on dÃ©truit l'ancienne div
+	//Si le timer n'est pas finit on détruit l'ancienne div
 	if(parseInt($(bigMenu).style.left) < 0){
 		$(bigMenu).style.left = parseInt($(bigMenu).style.left) + 10 + "px";
 		$(smallMenu).style.left  =parseInt($(smallMenu).style.left) + 10 + "px";
@@ -107,7 +107,7 @@ function slideDown(bigMenu,smallMenu){
 	}
 }
 
-//CrÃ©ation d'une nouvelle div contenant les jours du calendrier
+//Création d'une nouvelle div contenant les jours du calendrier
 function CreateDivTempo(From){
 	if(!TimerRunning){
 	var DateTemp = new Date();
@@ -144,12 +144,12 @@ function CreateDivTempo(From){
 }
 
 //########################## FIN DES FONCTION LISTENER ########################## //
-/*Ajout du listener pour dÃ©tecter le click sur l'Ã©lÃ©ment et afficher le calendrier
+/*Ajout du listener pour détecter le click sur l'élément et afficher le calendrier
 uniquement sur les textbox de class css date */
 
 //Fonction permettant d'initialiser les listeners
 function init_evenement(){
-	//On commence par affecter une fonction Ã  chaque Ã©vÃ¨nement de la souris
+	//On commence par affecter une fonction à chaque évènement de la souris
 	if(window.attachEvent){
 		document.onmousedown = start;
 		document.onmouseup = drop;
@@ -159,18 +159,18 @@ function init_evenement(){
 		document.addEventListener("mouseup",drop, false);
 	}
 }
-//Fonction permettant de rÃ©cupÃ¨rer l'objet sur lequel on a clickÃ©, et l'on rÃ©cupÃ¨re sa classe
+//Fonction permettant de récupèrer l'objet sur lequel on a clické, et l'on récupère sa classe
 function start(e){
-	//On initialise l'Ã©vÃ¨nement s'il n'a aps Ã©tÃ© crÃ©Ã© ( sous ie )
+	//On initialise l'évènement s'il n'a aps été créé ( sous ie )
 	if(!e){
 		e = window.event;
 	}
-	//DÃ©tection de l'Ã©lÃ©ment sur lequel on a clickÃ©
+	//Détection de l'élément sur lequel on a clické
 	var monElement = null;
 	monElement = (e.target)? e.target:e.srcElement;
 	if(monElement != null && monElement)
 	{
-		//On appel la fonction permettant de rÃ©cupÃ¨rer la classe de l'objet et assigner les variables
+		//On appel la fonction permettant de récupèrer la classe de l'objet et assigner les variables
 		getClassDrag(monElement);
 
 		if(myObjectClick){
@@ -182,7 +182,7 @@ function start(e){
 function drop(){
 		 myObjectClick = null;
 }
-//########################## Fonction permettant de rÃ©cupÃ¨rer la liste des classes d'un objet ##########################//
+//########################## Fonction permettant de récupèrer la liste des classes d'un objet ##########################//
 function getClassDrag(myObject){
 	with(myObject){
 		var x = className;
@@ -239,34 +239,34 @@ function createFrame(){
 }
 
 //######################## FONCTIONS PROPRE AU CALENDRIER ########################## //
-//Fonction permettant de passer a l'annee prÃ©cÃ©dente
+//Fonction permettant de passer a l'annee précédente
 function annee_precedente(){
 
-	//On rÃ©cupÃ¨re l'annee actuelle puis on vÃ©rifit que l'on est pas en l'an 1 :-)
+	//On récupère l'annee actuelle puis on vérifit que l'on est pas en l'an 1 :-)
 	if(current_year == 1){
 		current_year = current_year;
 	}
 	else{
 		current_year = current_year - 1 ;
 	}
-	//et on appel la fonction de gÃ©nÃ©ration de calendrier
+	//et on appel la fonction de génération de calendrier
 	CreateDivTempo('left');
 	//calendrier(	current_year , current_month, current_day);
 }
 
-//Fonction permettant de passer Ã  l'annee suivante
+//Fonction permettant de passer à l'annee suivante
 function annee_suivante(){
-	//Pas de limite pour l'ajout d'annÃ©e
+	//Pas de limite pour l'ajout d'année
 	current_year = current_year +1 ;
-	//et on appel la fonction de gÃ©nÃ©ration de calendrier
+	//et on appel la fonction de génération de calendrier
 	//calendrier(	current_year , current_month, current_day);
 	CreateDivTempo('right');
 }
 
-//Fonction permettant de passer au mois prÃ©cÃ©dent
+//Fonction permettant de passer au mois précédent
 function mois_precedent(){
 
-	//On rÃ©cupÃ¨re le mois actuel puis on vÃ©rifit que l'on est pas en janvier sinon on enlÃ¨ve une annÃ©e
+	//On récupère le mois actuel puis on vérifit que l'on est pas en janvier sinon on enlève une année
 	if(current_month == 0){
 		current_month = 11;
 		current_year = current_year - 1;
@@ -274,14 +274,14 @@ function mois_precedent(){
 	else{
 		current_month = current_month - 1 ;
 	}
-	//et on appel la fonction de gÃ©nÃ©ration de calendrier
+	//et on appel la fonction de génération de calendrier
 	CreateDivTempo('left');
 	//calendrier(	current_year , current_month, current_day);
 }
 
 //Fonction permettant de passer au mois suivant
 function mois_suivant(){
-	//On rÃ©cupÃ¨re le mois actuel puis on vÃ©rifit que l'on est pas en janvier sinon on ajoute une annÃ©e
+	//On récupère le mois actuel puis on vérifit que l'on est pas en janvier sinon on ajoute une année
 	if(current_month == 11){
 		current_month = 0;
 		current_year = current_year  + 1;
@@ -289,22 +289,22 @@ function mois_suivant(){
 	else{
 		current_month = current_month + 1;
 	}
-	//et on appel la fonction de gÃ©nÃ©ration de calendrier
+	//et on appel la fonction de génération de calendrier
 	//calendrier(	current_year , current_month, current_day);
 	CreateDivTempo('right');
 }
 
-//Fonction principale qui gÃ©nÃ¨re le calendrier
-//Elle prend en paramÃ¨tre, l'annÃ©e , le mois , et le jour
-//Si l'annÃ©e et le mois ne sont pas renseignÃ©s , la date courante est affectÃ© par dÃ©faut
+//Fonction principale qui génère le calendrier
+//Elle prend en paramètre, l'année , le mois , et le jour
+//Si l'année et le mois ne sont pas renseignés , la date courante est affecté par défaut
 function calendrier(year, month, day){
- 	//Aujourd'hui si month et year ne sont pas renseignÃ©s
+ 	//Aujourd'hui si month et year ne sont pas renseignés
 	if(month == null || year == null){
 		today = new Date();
 	}
 	else{
 		//month = month - 1;
-		//CrÃ©ation d'une date en fonction de celle passÃ©e en paramÃ¨tre
+		//Création d'une date en fonction de celle passée en paramètre
 		today = new Date(year, month , day);
 	}
 
@@ -312,7 +312,7 @@ function calendrier(year, month, day){
 	//Mois actuel
 	current_month = today.getMonth()
 
-	//AnnÃ©e actuelle
+	//Année actuelle
 	current_year = today.getFullYear();
 
 	//Jours actuel
@@ -320,25 +320,25 @@ function calendrier(year, month, day){
 
 
 	//######################## ENTETE ########################//
-	//Ligne permettant de changer l'annÃ©e et de mois
+	//Ligne permettant de changer l'année et de mois
 	var month_bef = "<a href=\"javascript:mois_precedent()\" style=\"position:absolute;left:30px;z-index:200;\" > < </a>";
 	var month_next = "<a href=\"javascript:mois_suivant()\" style=\"position:absolute;right:30px;z-index:200;\"> > </a>";
 	var year_next = "<a href=\"javascript:annee_suivante()\" style=\"position:absolute;right:5px;z-index:200;\" >&nbsp;&nbsp; > > </a>";
 	var year_bef = "<a href=\"javascript:annee_precedente()\" style=\"position:absolute;left:5px;z-index:200;\"  > < < &nbsp;&nbsp;</a>";
 	calendrierSortie = "<p class=\"titleMonth\" style=\"position:relative;z-index:200;\"> <a href=\"javascript:alimenterChamps('')\" style=\"float:left;margin-left:3px;color:#cccccc;font-size:10px;z-index:200;\"> Effacer la date </a><a href=\"javascript:masquerCalendrier()\" style=\"float:right;margin-right:3px;color:red;font-weight:bold;font-size:12px;z-index:200;\">X</a>&nbsp;</p>";
-	//On affiche le mois et l'annÃ©e en titre
+	//On affiche le mois et l'année en titre
 	calendrierSortie += "<p class=\"titleMonth\" style=\"float:left;position:relative;z-index:200;\">" + year_next + year_bef+  month_bef + "<span id=\"curentDateString\">" + month_name[current_month]+ " "+ current_year +"</span>"+ month_next+"</p><div id=\"Contenant_Calendar\">";
 	//######################## FIN ENTETE ########################//
 
-	//Si aucun calendrier n'a encore Ã©tÃ© crÃ©e :
+	//Si aucun calendrier n'a encore été crée :
 	if(!document.getElementById("calendrier")){
-		//On crÃ©e une div dynamiquement, en absolute, positionnÃ© sous le champs input
+		//On crée une div dynamiquement, en absolute, positionné sous le champs input
 		div_calendar = document.createElement("div");
 
 		//On lui attribut un id
 		div_calendar.setAttribute("id","calendrier");
 
-		//On dÃ©finit les propriÃ©tÃ©s de cette div ( id et classe )
+		//On définit les propriétés de cette div ( id et classe )
 		div_calendar.className = "calendar";
 
 		//Pour ajouter la div dans le document
@@ -351,10 +351,10 @@ function calendrier(year, month, day){
 			div_calendar = document.getElementById("calendrier");
 	}
 
-	//On insÃ¨rer dans la div, le contenu du calendrier gÃ©nÃ©rÃ©
-	//On assigne la taille du calendrier de faÃ§on dynamique ( on ajoute 10 px pour combler un bug sous ie )
+	//On insèrer dans la div, le contenu du calendrier généré
+	//On assigne la taille du calendrier de façon dynamique ( on ajoute 10 px pour combler un bug sous ie )
 	var width_calendar = largeur+"px";
- 	//Ajout des Ã©lÃ©ments dans le calendrier
+ 	//Ajout des éléments dans le calendrier
 	calendrierSortie = calendrierSortie + "</div><div class=\"separator\"></div>";
 	div_calendar.innerHTML = calendrierSortie;
 	div_calendar.style.width = width_calendar;
@@ -365,13 +365,13 @@ function calendrier(year, month, day){
 
 function CreateDayCalandar(){
 
-	// On rÃ©cupÃ¨re le premier jour de la semaine du mois
+	// On récupère le premier jour de la semaine du mois
 	var dateTemp = new Date(current_year, current_month,1);
 
-	//test pour vÃ©rifier quel jour Ã©tait le prmier du mois
+	//test pour vérifier quel jour était le prmier du mois
 	current_day_since_start_week = (( dateTemp.getDay()== 0 ) ? 6 : dateTemp.getDay() - 1);
 
-	//variable permettant de vÃ©rifier si l'on est dÃ©ja rentrÃ© dans la condition pour Ã©viter une boucle infinit
+	//variable permettant de vérifier si l'on est déja rentré dans la condition pour éviter une boucle infinit
 	var verifJour = false;
 
 	//On initialise le nombre de jour par mois
@@ -381,14 +381,14 @@ function CreateDayCalandar(){
 
 	var x = 0
 
-	//On initialise la ligne qui comportera tous les noms des jours depuis le dÃ©but du mois
+	//On initialise la ligne qui comportera tous les noms des jours depuis le début du mois
 	var list_day = '';
 	var day_calendar = '';
 	//On remplit le calendrier avec le nombre de jour, en remplissant les premiers jours par des champs vides
 	for(var nbjours = 0 ; nbjours < (day_number[current_month] + current_day_since_start_week) ; nbjours++){
 
-		// On boucle tous les 7 jours pour crÃ©er la ligne qui comportera le nom des jours en fonction des<br />
-		// paramÃ¨tres d'affichage
+		// On boucle tous les 7 jours pour créer la ligne qui comportera le nom des jours en fonction des<br />
+		// paramètres d'affichage
 		if(verifJour == false){
 			for(x = 0 ; x < 7 ; x++){
 				if(x == 6){
@@ -401,7 +401,7 @@ function CreateDayCalandar(){
 			verifJour = true;
 		}
 		//et enfin on ajoute les dates au calendrier
-		//Pour gÃ¨rer les jours "vide" et Ã©viter de faire une boucle on vÃ©rifit que le nombre de jours corespond bien au
+		//Pour gèrer les jours "vide" et éviter de faire une boucle on vérifit que le nombre de jours corespond bien au
 		//nombre de jour du mois
 		if(nbjours < day_number[current_month]){
 			if(current_day == (nbjours+1)){
@@ -413,21 +413,21 @@ function CreateDayCalandar(){
 		}
 	}
 
-	//On ajoute les jours "vide" du dÃ©but du mois
+	//On ajoute les jours "vide" du début du mois
 	for(i  = 0 ; i < current_day_since_start_week ; i ++){
 		day_calendar = "<span>&nbsp;</span>" + day_calendar;
 	}
-	//On met Ã©galement a jour le mois et l'annÃ©e
+	//On met également a jour le mois et l'année
 	$('curentDateString').innerHTML = month_name[current_month]+ " "+ current_year;
 	return (list_day  + day_calendar);
 }
 
 function initialiserCalendrier(objetClick){
-		//on affecte la variable dÃ©finissant sur quel input on a clickÃ©
+		//on affecte la variable définissant sur quel input on a clické
 		myObjectClick = objetClick;
 
 		if(myObjectClick.disabled != true){
-		    //On vÃ©rifit que le champs n'est pas dÃ©ja remplit, sinon on va se positionner sur la date du champs
+		    //On vérifit que le champs n'est pas déja remplit, sinon on va se positionner sur la date du champs
 		    if(myObjectClick.value != ''){
 			    //On utilise la chaine de separateur
 					var reg=new RegExp("/", "g");
@@ -436,12 +436,12 @@ function initialiserCalendrier(objetClick){
 					calendrier(	tableau[2] , tableau[1] - 1 , tableau[0]);
 		    }
 		    else{
-			    //on crÃ©er le calendrier
+			    //on créer le calendrier
 			    calendrier(objetClick);
 
 
 		    }
-		    //puis on le positionne par rapport a l'objet sur lequel on a clickÃ©
+		    //puis on le positionne par rapport a l'objet sur lequel on a clické
 		    //positionCalendar(objetClick);
 		    positionCalendar(objetClick);
 			fadePic();
@@ -451,7 +451,7 @@ function initialiserCalendrier(objetClick){
 
 }
 
- //Fonction permettant de trouver la position de l'Ã©lÃ©ment ( input ) pour pouvoir positioner le calendrier
+ //Fonction permettant de trouver la position de l'élément ( input ) pour pouvoir positioner le calendrier
 function ds_getleft(el) {
 	var tmp = el.offsetLeft;
 	el = el.offsetParent

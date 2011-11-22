@@ -1,16 +1,16 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des CongÃ©s
+PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
 Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les
-termes de la Licence Publique GÃ©nÃ©rale GNU publiÃ©e par la Free Software Foundation.
-Ce programme est distribuÃ© car potentiellement utile, mais SANS AUCUNE GARANTIE,
+termes de la Licence Publique Générale GNU publiée par la Free Software Foundation.
+Ce programme est distribué car potentiellement utile, mais SANS AUCUNE GARANTIE,
 ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation
-dans un but spÃ©cifique. Reportez-vous Ã  la Licence Publique GÃ©nÃ©rale GNU pour plus de dÃ©tails.
-Vous devez avoir reÃ§u une copie de la Licence Publique GÃ©nÃ©rale GNU en mÃªme temps
-que ce programme ; si ce n'est pas le cas, Ã©crivez Ã  la Free Software Foundation,
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, Ã‰tats-Unis.
+dans un but spécifique. Reportez-vous à la Licence Publique Générale GNU pour plus de détails.
+Vous devez avoir reçu une copie de la Licence Publique Générale GNU en même temps
+que ce programme ; si ce n'est pas le cas, écrivez à la Free Software Foundation,
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, États-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation; either
@@ -23,10 +23,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-
-define('_PHP_CONGES', 1);
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
-
+include("../controle_ids.php") ;
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
 
 include("../fonctions_conges.php") ;
@@ -37,11 +34,11 @@ include("../INCLUDE.PHP/session.php");
 $DEBUG = FALSE ;
 //$DEBUG = TRUE ;
 
-// verif des droits du user Ã  afficher la page
+// verif des droits du user à afficher la page
 verif_droits_user($session, "is_admin", $DEBUG);
 
 	/*************************************/
-	// recup des parametres reÃ§us :
+	// recup des parametres reçus :
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET
@@ -58,7 +55,7 @@ echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 echo "<html>\n";
 echo "<head>\n";
 echo "<TITLE> ".$_SESSION['config']['titre_admin_index']." </TITLE>\n";
-echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
+echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
 echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 echo "</head>\n";
 
@@ -68,22 +65,27 @@ echo "</head>\n";
 	echo "<CENTER>\n";
 
 
+	//connexion mysql
+	$mysql_link = connexion_mysql() ;
+
 	if($u_login!="")
 	{
 		echo "<H1>".$_SESSION['lang']['admin_chg_passwd_titre']." : $u_login .</H1>\n\n";
-		modifier($u_login, $DEBUG);
+		modifier($u_login, $mysql_link, $DEBUG);
 	}
 	else
 	{
 		if($u_login_to_update!="") {
 			echo "<H1>".$_SESSION['lang']['admin_chg_passwd_titre']." : $u_login_to_update .</H1>\n\n";
-			commit_update($u_login_to_update, $new_pwd1, $new_pwd2, $DEBUG);
+			commit_update($u_login_to_update, $new_pwd1, $new_pwd2, $mysql_link, $DEBUG);
 		}
 		else {
 			// renvoit sur la page principale .
 			header("Location: admin_index.php?session=$session&onglet=admin-users");
 		}
 	}
+
+	mysql_close($mysql_link);
 
 echo "<hr align=\"center\" size=\"2\" width=\"95%\">\n";
 
@@ -96,9 +98,8 @@ echo "</html>\n";
 /*  FONCTIONS   */
 /*********************************************************************************/
 
-function modifier($u_login, $DEBUG=FALSE)
+function modifier($u_login, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
@@ -118,12 +119,12 @@ function modifier($u_login, $DEBUG=FALSE)
 
 	echo "<tr align=\"center\">\n";
 
-	// RÃ©cupÃ©ration des informations
+	// Récupération des informations
 //	$sql1 = "SELECT u_login, u_nom, u_prenom, u_nb_jours_an, u_solde_jours, u_is_resp, u_resp_login, u_passwd FROM conges_users WHERE u_login = '$u_login' " ;
-	$sql1 = 'SELECT u_login, u_nom, u_prenom FROM conges_users WHERE u_login = \''.$sql->escape($u_login).'\'';
-	$ReqLog1 = requete_mysql($sql1, "modifier", $DEBUG);
+	$sql1 = "SELECT u_login, u_nom, u_prenom FROM conges_users WHERE u_login = '$u_login' " ;
+	$ReqLog1 = requete_mysql($sql1, $mysql_link, "modifier", $DEBUG);
 
-	while ($resultat1 = $ReqLog1->fetch_array()) {
+	while ($resultat1 = mysql_fetch_array($ReqLog1)) {
 			$text_pwd1="<input type=\"password\" name=\"new_pwd1\" size=\"10\" maxlength=\"30\" value=\"\">" ;
 			$text_pwd2="<input type=\"password\" name=\"new_pwd2\" size=\"10\" maxlength=\"30\" value=\"\">" ;
 			echo  "<td class=\"histo\">".$resultat1["u_login"]."</td><td class=\"histo\">".$resultat1["u_nom"]."</td><td class=\"histo\">".$resultat1["u_prenom"]."</td><td class=\"histo\">$text_pwd1</td><td class=\"histo\">$text_pwd2</td>\n";
@@ -139,9 +140,8 @@ function modifier($u_login, $DEBUG=FALSE)
 
 }
 
-function commit_update($u_login_to_update, $new_pwd1, $new_pwd2, $DEBUG=FALSE)
+function commit_update($u_login_to_update, $new_pwd1, $new_pwd2, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
@@ -149,8 +149,8 @@ function commit_update($u_login_to_update, $new_pwd1, $new_pwd2, $DEBUG=FALSE)
 	{
 
 		$passwd_md5=md5($new_pwd1);
-		$sql1 = 'UPDATE conges_users  SET u_passwd=\''.$passwd_md5.'\' WHERE u_login=\''.$sql->escape($u_login_to_update).'\'' ;
-		$result = requete_mysql($sql1, 'commit_update', $DEBUG);
+		$sql1 = "UPDATE conges_users  SET u_passwd='$passwd_md5' WHERE u_login='$u_login_to_update'" ;
+		$result = requete_mysql($sql1, $mysql_link, "commit_update", $DEBUG);
 
 		if($result==TRUE)
 			echo $_SESSION['lang']['form_modif_ok']." !<br><br> \n";
@@ -158,7 +158,7 @@ function commit_update($u_login_to_update, $new_pwd1, $new_pwd2, $DEBUG=FALSE)
 			echo $_SESSION['lang']['form_modif_not_ok']." !<br><br> \n";
 
 		$comment_log = "admin_change_password_user : pour $u_login_to_update" ;
-		log_action(0, "", $u_login_to_update, $comment_log, $DEBUG);
+		log_action(0, "", $u_login_to_update, $comment_log, $mysql_link, $DEBUG);
 
 		if($DEBUG==TRUE)
 		{

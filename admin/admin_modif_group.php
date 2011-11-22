@@ -1,16 +1,16 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des CongÃ©s
+PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
 Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les
-termes de la Licence Publique GÃ©nÃ©rale GNU publiÃ©e par la Free Software Foundation.
-Ce programme est distribuÃ© car potentiellement utile, mais SANS AUCUNE GARANTIE,
+termes de la Licence Publique Générale GNU publiée par la Free Software Foundation.
+Ce programme est distribué car potentiellement utile, mais SANS AUCUNE GARANTIE,
 ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation
-dans un but spÃ©cifique. Reportez-vous Ã  la Licence Publique GÃ©nÃ©rale GNU pour plus de dÃ©tails.
-Vous devez avoir reÃ§u une copie de la Licence Publique GÃ©nÃ©rale GNU en mÃªme temps
-que ce programme ; si ce n'est pas le cas, Ã©crivez Ã  la Free Software Foundation,
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, Ã‰tats-Unis.
+dans un but spécifique. Reportez-vous à la Licence Publique Générale GNU pour plus de détails.
+Vous devez avoir reçu une copie de la Licence Publique Générale GNU en même temps
+que ce programme ; si ce n'est pas le cas, écrivez à la Free Software Foundation,
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, États-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation; either
@@ -23,9 +23,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-define('_PHP_CONGES', 1);
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
-
+include("../controle_ids.php") ;
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
 
 include("../fonctions_conges.php") ;
@@ -36,14 +34,14 @@ include("../INCLUDE.PHP/session.php");
 $DEBUG=FALSE;
 //$DEBUG=TRUE ;
 
-// verif des droits du user Ã  afficher la page
+// verif des droits du user à afficher la page
 verif_droits_user($session, "is_admin", $DEBUG);
 
 
 echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 echo "<html>\n";
 echo "<head>\n";
-echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
+echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
 echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 echo "<TITLE> ".$_SESSION['config']['titre_admin_index']." </TITLE>\n";
 echo "</head>\n";
@@ -53,7 +51,7 @@ echo "</head>\n";
 	echo "<CENTER>\n";
 
 	/*************************************/
-	// recup des parametres reÃ§us :
+	// recup des parametres reçus :
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET // POST
@@ -68,13 +66,16 @@ echo "</head>\n";
 	echo "<H1>".$_SESSION['lang']['admin_modif_groupe_titre']."</H1>\n\n";
 
 
+	//connexion mysql
+	$mysql_link = connexion_mysql() ;
+
 	if($group!="" )
 	{
-		modifier($group,  $DEBUG);
+		modifier($group, $mysql_link, $DEBUG);
 	}
 	elseif($group_to_update!="")
 	{
-		commit_update($group_to_update, $new_groupname, $new_comment, $new_double_valid,  $DEBUG);
+		commit_update($group_to_update, $new_groupname, $new_comment, $new_double_valid, $mysql_link, $DEBUG);
 	}
 	else
 	{
@@ -82,6 +83,7 @@ echo "</head>\n";
 		header("Location: admin_index.php?session=$session&onglet=admin-group");
 	}
 
+	mysql_close($mysql_link);
 
 echo "<hr align=\"center\" size=\"2\" width=\"90%\">\n";
 
@@ -94,14 +96,13 @@ echo "</html>\n";
 /**************************************************************************************/
 /**********  FONCTIONS  ***************************************************************/
 
-function modifier($group,  $DEBUG=FALSE)
+function modifier($group, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
-	// RÃ©cupÃ©ration des informations
-	$sql1 = 'SELECT g_groupename, g_comment, g_double_valid FROM conges_groupe WHERE g_gid = \''.$sql->escape($group).'\'';
+	// Récupération des informations
+	$sql1 = "SELECT g_groupename, g_comment, g_double_valid FROM conges_groupe WHERE g_gid = '$group' " ;
 
 	// AFFICHAGE TABLEAU
 	echo "<form action=$PHP_SELF?session=$session&group_to_update=".$group." method=\"POST\">\n" ;
@@ -113,8 +114,8 @@ function modifier($group,  $DEBUG=FALSE)
 		echo "	<td class=\"histo\">".$_SESSION['lang']['admin_groupes_double_valid']."</td>\n";
 	echo "</tr>\n";
 
-	$ReqLog1 = requete_mysql($sql1,  "modifier", $DEBUG);
-	while ($resultat1 = $ReqLog1->fetch_array())
+	$ReqLog1 = requete_mysql($sql1, $mysql_link, "modifier", $DEBUG);
+	while ($resultat1 = mysql_fetch_array($ReqLog1))
 	{
 		$sql_groupename=$resultat1["g_groupename"];
 		$sql_comment=$resultat1["g_comment"];
@@ -163,9 +164,8 @@ function modifier($group,  $DEBUG=FALSE)
 
 }
 
-function commit_update($group_to_update, $new_groupname, $new_comment, $new_double_valid,  $DEBUG=FALSE)
+function commit_update($group_to_update, $new_groupname, $new_comment, $new_double_valid, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
@@ -176,14 +176,14 @@ function commit_update($group_to_update, $new_groupname, $new_comment, $new_doub
 
 
 	// UPDATE de la table conges_groupe
-	$sql1 = 'UPDATE conges_groupe  SET g_groupename=\''.$new_groupname.'\', g_comment=\''.$new_comment.'\' , g_double_valid=\''.$new_double_valid.'\' WHERE g_gid=\''.$sql->escape($group_to_update).'\''  ;
-	$result1 = requete_mysql($sql1,  "commit_update", $DEBUG);
+	$sql1 = "UPDATE conges_groupe  SET g_groupename='$new_groupname', g_comment='$new_comment' , g_double_valid='$new_double_valid' WHERE g_gid=$group_to_update " ;
+	$result1 = requete_mysql($sql1, $mysql_link, "commit_update", $DEBUG);
 	if($result1==FALSE)
 		$result==FALSE;
 
 
 	$comment_log = "modif_groupe ($group_to_update) : $new_groupname , $new_comment (double_valid = $new_double_valid)";
-	log_action(0, "", "", $comment_log,  $DEBUG);
+	log_action(0, "", "", $comment_log, $mysql_link, $DEBUG);
 
 	if($result==TRUE)
 		echo $_SESSION['lang']['form_modif_ok']." !<br><br> \n";

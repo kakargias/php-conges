@@ -1,16 +1,16 @@
 <?php
 /************************************************************************************************
-PHP_CONGES : Gestion Interactive des Cong√©s
+PHP_CONGES : Gestion Interactive des CongÈs
 Copyright (C) 2005 (cedric chauvineau)
 
 Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les 
-termes de la Licence Publique G√©n√©rale GNU publi√©e par la Free Software Foundation.
-Ce programme est distribu√© car potentiellement utile, mais SANS AUCUNE GARANTIE, 
+termes de la Licence Publique GÈnÈrale GNU publiÈe par la Free Software Foundation.
+Ce programme est distribuÈ car potentiellement utile, mais SANS AUCUNE GARANTIE, 
 ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation 
-dans un but sp√©cifique. Reportez-vous √† la Licence Publique G√©n√©rale GNU pour plus de d√©tails.
-Vous devez avoir re√ßu une copie de la Licence Publique G√©n√©rale GNU en m√™me temps 
-que ce programme ; si ce n'est pas le cas, √©crivez √† la Free Software Foundation, 
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, √âtats-Unis.
+dans un but spÈcifique. Reportez-vous ‡ la Licence Publique GÈnÈrale GNU pour plus de dÈtails.
+Vous devez avoir reÁu une copie de la Licence Publique GÈnÈrale GNU en mÍme temps 
+que ce programme ; si ce n'est pas le cas, Ècrivez ‡ la Free Software Foundation, 
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, …tats-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation; either 
@@ -23,7 +23,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
+if(file_exists("controle_ids.php"))  // test si on est appelÈ de la racine
+	include("controle_ids.php") ;
+else
+	include("../controle_ids.php") ;
 
 // Fichier de Langue FR (FRANCAIS )
 $LANG=array();
@@ -41,11 +44,11 @@ $LANG['avril']      = "April";
 $LANG['mai']        = "May";
 $LANG['juin']       = "June";
 $LANG['juillet']    = "July";
-$LANG['aout']       = "Ao√ªt";
+$LANG['aout']       = "Ao˚t";
 $LANG['septembre']  = "September";
 $LANG['octobre']    = "October";
 $LANG['novembre']   = "November";
-$LANG['decembre']   = "D√©cember";
+$LANG['decembre']   = "DÈcember";
 
 $LANG['lundi']      = "monday";
 $LANG['mardi']      = "tuesday";
@@ -482,7 +485,7 @@ $LANG['config_abs_confirm_suppr_of']        = "Please confirm the deletion of";
 // CONFIGURATION PHP_CONGES
 $LANG['config_appli_titre_1']       = "Configuration of the PHP_CONGES Application";
 $LANG['config_appli_titre_2']       = "Configuration of php_conges";
-//groupes de param√®tres
+//groupes de paramËtres
 $LANG['00_php_conges']              = "00 php_conges";
 $LANG['01_Serveur Web']             = "01 Web Server";
 $LANG["02_PAGE D'AUTENTIFICATION"]  = "02 AUTHENTIFICATION PAGE";
@@ -497,11 +500,11 @@ $LANG['10_Gestion par groupes']     = "10 Management by groups";
 $LANG['11_Editions papier']         = "11 Paper editions";
 $LANG["12_Fonctionnement de l'Etablissement"]   = " 12 Functioning of the Establishment";
 $LANG['13_Divers']                  = "13 Diverse";
-$LANG['14_Pr√©sentation']            = "14 Presentation";
+$LANG['14_PrÈsentation']            = "14 Presentation";
 $LANG['15_Modules Externes']        = "15 Extern Modules";
 // parametres de config
 $LANG['config_comment_installed_version']   = "release number installed";
-$LANG['config_comment_lang']                = "// LANGUE / LANGUAGE<br>\n//---------------------------<br>\n// fr = fran√ßais<br>\n// test = seulement pour les d√©veloppeurs de php_conges (only for php_conges developpers)";
+$LANG['config_comment_lang']                = "// LANGUE / LANGUAGE<br>\n//---------------------------<br>\n// fr = franÁais<br>\n// test = seulement pour les dÈveloppeurs de php_conges (only for php_conges developpers)";
 $LANG['config_comment_URL_ACCUEIL_CONGES']  = "// MAIN URL OF YOUR INSTALLATION OF PHP_CONGES<br>\n//-------------------------------------------------<br>\n// Main URL of php_conges on your server (what you must type to get to authentification page.<br>\n// (do NOT finish by a / and without the index.php at the end)<br>\n// URL_ACCUEIL_CONGES = \"http://mywebserver.mydomain/php_conges\"";
 $LANG['config_comment_img_login']           = "// PICTURE OF LOGIN PAGE<br>\n//---------------------------<br>\n// picture that displays on to of authentification page of php_conges";
 $LANG['config_comment_texte_img_login']     = "// TEXTE DE L'IMAGE<br>\n//-------------------<br>\n// texte de l'image";
@@ -518,7 +521,7 @@ $LANG['config_comment_user_affiche_calendrier'] = "//  DISPLAY OF THE BUTTON OF 
 $LANG['config_comment_user_saisie_mission']     = "//  INPUT BY THE USER OF ABSENCES FOR MISSIONS, TRAININGS, CONGRESSES, ETC ....<br>\n//--------------------------------------------------------------------------------------<br>\n// ( absences of this type do not take off holidays days ! )<br>\n// if at FALSE : no input by the user of absences for mission, training, congress, etc ....<br>\n// if at TRUE : input by user of absences for mission, training, congress, etc .... (TRUE is default value)";
 $LANG['config_comment_user_ch_passwd']          = "//  CHANGE YOUR PASSWORD<br>\n//---------------------------------------<br>\n// if at FALSE : the user cannot change his password<br>\n// if at TRUE : the user can change his password (TRUE is the default value)";
 $LANG['config_comment_responsable_virtuel']     = "//  GENERIC VIRTUAL MANAGER OR NOT<br>\n//-------------------------------------------<br>\n// if at FALSE : the manager that handles the staff holidays is a real person (user of php_conges) (FALSE is the default value)<br>\n// if at TRUE : the manager that handles the staff holidays is a virtual generic user (login=conges)";
-$LANG['config_comment_resp_affiche_calendrier'] = "//  DISPLAY OF THE BUTTON OF THE CALENDAR FOR THE MANAGER<br>\n//--------------------------------------------------------------------------------------<br>\n// si √† FALSE : the managers cannot display the holidays calendrar<br>\n// if at TRUE : the managers can display the holidays calendrar(TRUE is the default value)";
+$LANG['config_comment_resp_affiche_calendrier'] = "//  DISPLAY OF THE BUTTON OF THE CALENDAR FOR THE MANAGER<br>\n//--------------------------------------------------------------------------------------<br>\n// si ‡ FALSE : the managers cannot display the holidays calendrar<br>\n// if at TRUE : the managers can display the holidays calendrar(TRUE is the default value)";
 $LANG['config_comment_resp_saisie_mission']     = "//  INPUT BY THE MANAGER OF ABSENCES FOR MISSIONS, TRAININGS, CONGRESSES, ETC ....<br>\n//---------------------------------------------------------------------------------------<br>\n// ( absences of this type do not take off holidays days ! )<br>\n// if at FALSE : no input by the manager of absences for mission, training, congress, etc ....(FALSE is the default value)<br>\n// if at TRUE : input by manager of absences for mission, training, congress, etc ....";
 $LANG['config_comment_resp_vertical_menu']      = "//  CONFIG  OF THE MENU OF THE MANAGER<br>\n//---------------------------------------<br>\n// if at TRUE : in the manager window, the menu is vertical (on the left) (TRUE is the default value)<br>\n// if at FALSE : in the manager window, the menu is horizontal (on top)";
 $LANG['config_comment_admin_see_all']           = "//  CONFIG  OF THE ADMINISTRATOR MODE<br>\n//---------------------------------------<br>\n// if at FALSE : the admin only manages the users of which he is responsable (FALSE is the default value)<br>\n// if at TRUE : the admin manages all users";
@@ -529,7 +532,7 @@ $LANG['config_comment_mail_new_demande_alerte_resp']    = "// SENDING OF MAIL TO
 $LANG['config_comment_mail_valid_conges_alerte_user']   = "// SENDING OF MAIL TO THE USER FOR A NEW HOLIDAYS TYPED IN OR VALID :<br>\n//----------------------------------------------------------------<br>\n// if at FALSE : the user doesn't receive a mail when the manager types in or accepts a new holiday for him (FALSE is the default value)<br>\n// if at TRUE : the user receives a warning mail eachtime the managers types in a new holiday or accepts a demand for him\n";
 $LANG['config_comment_mail_refus_conges_alerte_user']   = "// SENDING OF MAIL TO THE USER FOR THE REFUSAL OF A HOLIDAYS DEMAND :<br>\n//----------------------------------------------------------------<br>\n// if at FALSE : the user doesn't receive a mail when the manager refuses one of his holidays demands (FALSE is the default value)<br>\n// if at TRUE : the user receives a warning mail eachtime the manager refuses one of his holidays demands.\n";
 $LANG['config_comment_mail_annul_conges_alerte_user']   = "// SENDING OF MAIL TO THE USER FOR THE CANCELLATION BY THE MANAG FOR A HOLIDAYS ALREADY VALIDATED :<br>\n//---------------------------------------------------------------------------------<br>\n// if at FALSE : the user doesn't receive a mail when the manager cancels his holidays (FALSE is the default value)<br>\n// if at TRUE : the user receives a warning mail eachtime the manager cancels one of his holidays.\n";
-$LANG['config_comment_serveur_smtp']                    = "//  SERVER SMTP TO USE<br>\n//---------------------------------------<br>\n// address ip or name of the smpt server to use to send the mails<br>\n// If you don't master the SMTP server or if, while using, you have a connection √©rror to the server, leave this field empty (\"\")";
+$LANG['config_comment_serveur_smtp']                    = "//  SERVER SMTP TO USE<br>\n//---------------------------------------<br>\n// address ip or name of the smpt server to use to send the mails<br>\n// If you don't master the SMTP server or if, while using, you have a connection Èrror to the server, leave this field empty (\"\")";
 $LANG['config_comment_where_to_find_user_email']        = "//  WHERE TO FIND THE USERS' MAIL ADDRESSES<br>\n//-------------------------------------------------<br>\n// many possibilities to find the users' mail addresses :<br>\n// if at \"dbconges\" : the users' mail can be found in the users table of the db_conges database<br>\n// if at \"ldap\"     : the users' mail can be found in a LDAP directory that one will query (cf file config_ldap.php)<br>\n// WARNING : all other value than \"dbconges\" or \"ldap\" will lead to an error !!!";
 $LANG['config_comment_samedi_travail']      = "//  MANAGEMENT OF THE SATURDAYS AS WORKING DAYS OR NOT<br>\n//--------------------------------------------------------------------------------------<br>\n// one defines here if the saturdays are working days or not.<br>\n// if at TRUE : the considered day is a working day ....<br>\n// if at FALSE : the considered day is not a working day (weekend).... (FALSE is the default value)";
 $LANG['config_comment_dimanche_travail']    = "//  MANAGEMENT OF THE SUNDAYS AS WORKING DAYS OR NOT<br>\n//--------------------------------------------------------------------------------------<br>\n// one defines here if the sundays are working days or not.<br>\n// if at TRUE : the considered day is a working day ....<br>\n// if at FALSE : the considered day is not a working day (weekend).... (FALSE is the default value)";
@@ -633,14 +636,13 @@ $LANG['export_cal_format']      = "choice of the format";
 
 /***************************/
 // CONFIG
-/*
 $LANG['config_comment_semaine_bgcolor']         = "background color of the week days in the calendar";
 $LANG['config_comment_week_end_bgcolor']        = "background color of the week-end days in the calendar";
 $LANG['config_comment_temps_partiel_bgcolor']   = "background color of the part-time or de rtt days in the calendar";
 $LANG['config_comment_conges_bgcolor']          = "background color of the holidays in the calendar (holidays accepted by the manager)";
 $LANG['config_comment_demande_conges_bgcolor']  = "background color of the asked holidays in the calendar (not yet accepted by the manager)";
 $LANG['config_comment_absence_autre_bgcolor']   = "background color of the absence days for mission, etc ... in the calendar";
-*/
+
 /***************************/
 // MAIL DE PHP_CONGES
 $LANG['mail_new_demande_comment']           = "alert message to the manager in case of new demand of holidays.";
@@ -796,8 +798,8 @@ $LANG['mail_remplace_date_fin']     = "__DATE_FIN__   will automatically be repl
 
 /***********************/
 // CONFIGURATION MAILS
-//$LANG['mail_remplace_commentaire']	= "__COMMENT__    sera automatiquement remplac√© par le commentaire   de l'absence concern√©e.";
-//$LANG['mail_remplace_type_absence']	= "__TYPE_ABSENCE__   sera automatiquement remplac√© par le libell√©   de l'absence concern√©e.";
+//$LANG['mail_remplace_commentaire']	= "__COMMENT__    sera automatiquement remplacÈ par le commentaire   de l'absence concernÈe.";
+//$LANG['mail_remplace_type_absence']	= "__TYPE_ABSENCE__   sera automatiquement remplacÈ par le libellÈ   de l'absence concernÈe.";
 
 // PARTIE ADMINISTRATEUR
 //$LANG['admin_button_jours_fermeture_1']       = "saisie des jours de fermeture";
@@ -807,27 +809,27 @@ $LANG['mail_remplace_date_fin']     = "__DATE_FIN__   will automatically be repl
 //$LANG['admin_jours_fermeture_fermeture_pour_tous']	= "Fermeture pour tous";
 //$LANG['admin_jours_fermeture_fermeture_par_groupe']	= "Fermeture par groupe";
 //$LANG['admin_jours_fermeture_new_fermeture']	= "Nouvelle Fermeture";
-//$LANG['admin_jours_fermeture_enregistrees']		= "Fermetures Enregistr√©es";
+//$LANG['admin_jours_fermeture_enregistrees']		= "Fermetures EnregistrÈes";
 //$LANG['admin_jours_fermeture_dates_incompatibles']		= "dates saisies incompatibles !!! veuillez recommencer";
-//$LANG['admin_jours_fermeture_date_passee_error']		= "dates pass√©es impossibles !!! veuillez recommencer";
-//$LANG['admin_jours_fermeture_annee_non_saisie']			= "les jours feri√©s de ces ann√©es ne sont pas saisie !!! veuillez recommencer ou saisir les jours f√©ri√©s pour ces ann√©es";
-//$LANG['admin_jours_fermeture_chevauche_periode']		= "Erreur: la fermeture saisie chevauche une autre fermeture ou un cong√© pris par un utilisateur concern√© !!! veuillez recommencer";
-//$LANG['admin_jours_fermeture_fermeture_aujourd_hui']	= "Erreur: la fermeture saisie d√©bute ou finie aujourd'hui, ce qui est interdit !!! veuillez recommencer";
-//$LANG['admin_jours_fermeture_affect_type_conges']		= "√† quel type de conges affecter cette fermeture : ";
+//$LANG['admin_jours_fermeture_date_passee_error']		= "dates passÈes impossibles !!! veuillez recommencer";
+//$LANG['admin_jours_fermeture_annee_non_saisie']			= "les jours feriÈs de ces annÈes ne sont pas saisie !!! veuillez recommencer ou saisir les jours fÈriÈs pour ces annÈes";
+//$LANG['admin_jours_fermeture_chevauche_periode']		= "Erreur: la fermeture saisie chevauche une autre fermeture ou un congÈ pris par un utilisateur concernÈ !!! veuillez recommencer";
+//$LANG['admin_jours_fermeture_fermeture_aujourd_hui']	= "Erreur: la fermeture saisie dÈbute ou finie aujourd'hui, ce qui est interdit !!! veuillez recommencer";
+//$LANG['admin_jours_fermeture_affect_type_conges']		= "‡ quel type de conges affecter cette fermeture : ";
 //$LANG['admin_annuler_fermeture']           		= "Annuler cette Fermeture";
 //$LANG['admin_annul_fermeture_confirm']          = "Veuillez confirmer cette Annulation";
-//$LANG['config_comment_fermeture_par_groupe']	= "//  GESTION DES FERMETURES PAR GROUPE : Fermetures d'√©tablissement / de service par groupe ou non<br>\n//--------------------------------------------------------------------------------------------<br>\n// si la gestion des groupes est active, on d√©finit ici si les fermetures d'√©tablissement sont diff√©rentes suivant les groupes d'utilisateurs ou pas.<br>\n// si √† FALSE : les fermetures s'appliquent √† tous les parsonnels (la fermeture leur est d√©bit√©e en cong√©s) (FALSE est la valeur par defaut)<br>\n// si √† TRUE : les fermetures d'√©tablissement / de service sont g√©r√©es par groupe et peuvent √™tre diff√©rentes d'un groupe √† l'autre.";
+//$LANG['config_comment_fermeture_par_groupe']	= "//  GESTION DES FERMETURES PAR GROUPE : Fermetures d'Ètablissement / de service par groupe ou non<br>\n//--------------------------------------------------------------------------------------------<br>\n// si la gestion des groupes est active, on dÈfinit ici si les fermetures d'Ètablissement sont diffÈrentes suivant les groupes d'utilisateurs ou pas.<br>\n// si ‡ FALSE : les fermetures s'appliquent ‡ tous les parsonnels (la fermeture leur est dÈbitÈe en congÈs) (FALSE est la valeur par defaut)<br>\n// si ‡ TRUE : les fermetures d'Ètablissement / de service sont gÈrÈes par groupe et peuvent Ítre diffÈrentes d'un groupe ‡ l'autre.";
 //$LANG['divers_fermeture']		= "fermeture";
 //$LANG['divers_fermeture_du']	= "fermeture du";
 //$LANG['divers_du']				= "du";
 //$LANG['divers_au']				= "au";
-//$LANG['divers_date_debut']		= "date de d√©but";
+//$LANG['divers_date_debut']		= "date de dÈbut";
 //$LANG['divers_date_fin']		= "date de fin";
 //$LANG['divers_confirmer_maj_1']		= "Confirmer";
 // CONFIG
-//$LANG['config_comment_affiche_demandes_dans_calendrier']	= "//  AFFICHAGE DES DEMANDES DE CONGES DES UTILISATEURS DANS LE CALENDRIER : <br>\n//--------------------------------------------------------------------------------------------<br>\n// si √† FALSE : les demandes de cong√©s de tous les utilisateurs n'apparaissent pas sur le calendrier des cong√©s. (seules les demandes de l'utilisateur connect√© apparaissent) (FALSE est la valeur par defaut)<br>\n// si √† TRUE : les demandes de cong√©s de tous les utilisateurs apparaissent sur le calendrier des cong√©s.";
-//$LANG['config_comment_calcul_auto_jours_feries_france']		= "//  SAISIE DES JOURS FERIES DE L'ANNEE : <br>\n//--------------------------------------------------------------------------------------------<br>\n// si √† FALSE : la saisie des jours f√©ri√©s de l'ann√©e par l'administrateur se fait √† la main. (FALSE est la valeur par defaut)<br>\n// si √† TRUE : lors de la saisie des jours f√©ri√©s de l'ann√©e par l'administrateur, les jours f√©ri√©s (de France) sont automatiquement renseign√©s (iln'y a plus qu'√† v√©rifier et valider).";
-//$LANG['config_comment_gestion_cas_absence_responsable']		= "//  PRISE EN COMPTE DES ABSENCES DU RESPONSABLE : <br>\n//--------------------------------------------------------------------------------------------<br>\n// si √† FALSE : en cas d'absence de leur responsable, les demandes des utilisateurs attendent le retour de celui ci. (FALSE est la valeur par defaut)<br>\n// si √† TRUE : en cas d'absence de leur responsable, les demandes des utilisateurs sont transmises au responsable du responsable qui peut alors les traiter.";
+//$LANG['config_comment_affiche_demandes_dans_calendrier']	= "//  AFFICHAGE DES DEMANDES DE CONGES DES UTILISATEURS DANS LE CALENDRIER : <br>\n//--------------------------------------------------------------------------------------------<br>\n// si ‡ FALSE : les demandes de congÈs de tous les utilisateurs n'apparaissent pas sur le calendrier des congÈs. (seules les demandes de l'utilisateur connectÈ apparaissent) (FALSE est la valeur par defaut)<br>\n// si ‡ TRUE : les demandes de congÈs de tous les utilisateurs apparaissent sur le calendrier des congÈs.";
+//$LANG['config_comment_calcul_auto_jours_feries_france']		= "//  SAISIE DES JOURS FERIES DE L'ANNEE : <br>\n//--------------------------------------------------------------------------------------------<br>\n// si ‡ FALSE : la saisie des jours fÈriÈs de l'annÈe par l'administrateur se fait ‡ la main. (FALSE est la valeur par defaut)<br>\n// si ‡ TRUE : lors de la saisie des jours fÈriÈs de l'annÈe par l'administrateur, les jours fÈriÈs (de France) sont automatiquement renseignÈs (iln'y a plus qu'‡ vÈrifier et valider).";
+//$LANG['config_comment_gestion_cas_absence_responsable']		= "//  PRISE EN COMPTE DES ABSENCES DU RESPONSABLE : <br>\n//--------------------------------------------------------------------------------------------<br>\n// si ‡ FALSE : en cas d'absence de leur responsable, les demandes des utilisateurs attendent le retour de celui ci. (FALSE est la valeur par defaut)<br>\n// si ‡ TRUE : en cas d'absence de leur responsable, les demandes des utilisateurs sont transmises au responsable du responsable qui peut alors les traiter.";
 // DIVERS
 //$LANG['divers_normal_maj_1']		= "Normal";
 
@@ -840,43 +842,12 @@ $LANG['mail_remplace_date_fin']     = "__DATE_FIN__   will automatically be repl
 
 /***********************/
 // CONFIG
-//$LANG['config_comment_texte_page_login']		= "// TEXTE DE LA PAGE D'ACCUEIL<br>\n//------------------<br>\n// texte qui apparaitra sous l'image sur la page de login (peut √™tre vide)";
-//$LANG['config_comment_solde_toujours_positif']	= "//  SOLDES TOUJOURS POSITIFS : <br>\n//--------------------------------------------------------------------------------------------<br>\n// si √† FALSE : le solde d'un cong√© peut √™tre n√©gatif. (FALSE est la valeur par defaut)<br>\n// si √† TRUE : le solde d'un cong√© ne peut pas √™tre n√©gatif (un utilisateur ne peut poser un cong√© si son solde devient n√©gatif).";
+//$LANG['config_comment_texte_page_login']		= "// TEXTE DE LA PAGE D'ACCUEIL<br>\n//------------------<br>\n// texte qui apparaitra sous l'image sur la page de login (peut Ítre vide)";
+//$LANG['config_comment_solde_toujours_positif']	= "//  SOLDES TOUJOURS POSITIFS : <br>\n//--------------------------------------------------------------------------------------------<br>\n// si ‡ FALSE : le solde d'un congÈ peut Ítre nÈgatif. (FALSE est la valeur par defaut)<br>\n// si ‡ TRUE : le solde d'un congÈ ne peut pas Ítre nÈgatif (un utilisateur ne peut poser un congÈ si son solde devient nÈgatif).";
 // VERIF SOLDE POSITIF
-//$LANG['verif_solde_erreur_part_1']	= "Attention le nombre de jours d'absence demand√©s";
-//$LANG['verif_solde_erreur_part_2']	= "est sup√©rieur √† votre solde (somme du solde";
-//$LANG['verif_solde_erreur_part_3']	= "et des cong√©s √† valider";
-
-
-
-/***********************/
-/***********************/
-/***********************/
-// NEW : V1.5.0
-
-/***********************/
-// ADMIN
-//$LANG['admin_groupes_nb_users']        = "nb membres";
-//$LANG['resp_cloture_exercice_titre']   = "cloture/d√©but d'exercice";
-//$LANG['divers_cloturer_maj_1']         = "Cloturer";
-//$LANG['divers_reliquat']        	   = "reliquat";
-//$LANG['button_cloture']  		       = "Changement Exercice";
-//$LANG['resp_cloture_exercice_all']     = "Cloture d'exercice globale pour Tous";
-//$LANG['resp_cloture_exercice_groupe']  = "Cloture d'exercice globale par groupe";
-//$LANG['resp_cloture_exercice_users']   = "Cloture d'exercice par personne";
-//$LANG['resp_cloture_exercice_for_all_text_confirmer']     = "Confirmez la cloture de l'exercice en cours et le d√©but de l'exercice suivant pour tous les utilisateurs dont vous √™tes responsable ?";
-//$LANG['resp_cloture_exercice_for_groupe_text_confirmer']  = "Confirmez la cloture de l'exercice en cours et le d√©but de l'exercice suivant pour tous les utilisateurs du groupe s√©l√©ctionn√© ?";
-//$LANG['form_valid_cloture_global']     = "Valider la cloture globale";
-//$LANG['form_valid_cloture_group']      = "Valider la cloture pour le groupe";
-//$LANG['resp_cloture_exercice_commentaire']	= "cloture exercice";
-// CONFIG
-//$LANG['config_comment_autorise_reliquats_exercice']	= "// RELIQUATS AUTORISES D'UN EXERCICE SUR L'AUTRE : <br>\n//--------------------------------------------------------------------------------------------<br>\n// si √† FALSE : le solde d'un cong√© ne peut pas √™tre report√© comme reliquat sur l'exercice suivant.<br>\n// si √† TRUE : le solde d'un cong√© peut √™tre report√© comme reliquat sur l'exercice suivant.. (TRUE est la valeur par defaut)";
-//$LANG['config_comment_nb_maxi_jours_reliquats']		= "// NOMBRE MAX DE JOURS DE RELIQUATS AUTORISES D'UN EXERCICE SUR L'AUTRE : <br>\n//--------------------------------------------------------------------------------------------<br>\n// Nombre maximum de jours qui peut √™tre report√© comme reliquat sur l'exercice suivant (les jours au dela du maxi sont perdus). Mettre √† 0 (zero) si pas de limite. (0 est la valeur par defaut)";
-//$LANG['config_comment_jour_mois_limite_reliquats']	= "// DATE LIMITE D'UTILISATION DES RELIQUATS : <br>\n//------------------<br>\n// (si les reliquats sont autoris√©s) : date maximum dans l'ann√©e pour utiliser ses reliquats de cong√©s de l'exercice pr√©c√©dent (au dela, ils sont perdus) (date au format JJ-MM) (√©gal √† 0 si pas de date limite)";
-//$LANG['config_jour_mois_limite_reliquats_modif_impossible']	= "IMPOSSIBLE de modifier la date limite des reliquats ! (format invalide !)";
-//
-//$LANG['lang']['session_pas_de_compte_dans_db']   = "Il n'existe pas de compte correspondant √† votre login dans la base de donn√©es de PHP_CONGES<br>\n";
-//$LANG['lang']['session_contactez_admin']   = "Contactez l'administrateur de php_conges";
+//$LANG['verif_solde_erreur_part_1']	= "Attention le nombre de jours d'absence demandÈs";
+//$LANG['verif_solde_erreur_part_2']	= "est supÈrieur ‡ votre solde (somme du solde";
+//$LANG['verif_solde_erreur_part_3']	= "et des congÈs ‡ valider";
 
 
 

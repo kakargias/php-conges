@@ -43,7 +43,7 @@ CREATE TABLE `conges_artt` (
   `a_date_debut_grille` date NOT NULL default '0000-00-00',
   `a_date_fin_grille` date NOT NULL default '9999-12-31',
   PRIMARY KEY  (`a_login`,`a_date_fin_grille`)
-) DEFAULT CHARSET=latin1;
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
 
 #
 # Contenu de la table `conges_artt`
@@ -65,7 +65,7 @@ CREATE TABLE `conges_echange_rtt` (
   `e_presence` enum('N','J','M','A') NOT NULL default 'N',
   `e_comment` varchar(255) default NULL,
   PRIMARY KEY  (`e_login`,`e_date_jour`)
-) DEFAULT CHARSET=latin1;
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
 
 #
 # Contenu de la table `conges_echange_rtt`
@@ -84,7 +84,7 @@ CREATE TABLE `conges_edition_papier` (
   `ep_date` date NOT NULL default '0000-00-00',
   `ep_num_for_user` int(5) unsigned NOT NULL default '1',
   PRIMARY KEY  (`ep_id`)
-) DEFAULT CHARSET=latin1;
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
 
 #
 # Contenu de la table `conges_edition_papier`
@@ -102,7 +102,7 @@ CREATE TABLE `conges_groupe` (
   `g_comment` varchar(250) default NULL,
   `g_double_valid` enum('Y','N') NOT NULL default 'N',
   PRIMARY KEY  (`g_gid`)
-) DEFAULT CHARSET=latin1;
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
 
 #
 # Contenu de la table `conges_groupe`
@@ -118,7 +118,7 @@ CREATE TABLE `conges_groupe` (
 CREATE TABLE `conges_groupe_resp` (
   `gr_gid` int(11) NOT NULL default '0',
   `gr_login` varbinary(32) NOT NULL default ''
-) DEFAULT CHARSET=latin1;
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
 
 #
 # Contenu de la table `conges_groupe_resp`
@@ -133,7 +133,7 @@ CREATE TABLE `conges_groupe_resp` (
 CREATE TABLE `conges_groupe_grd_resp` (
   `ggr_gid` int(11) NOT NULL default '0',
   `ggr_login` varbinary(32) NOT NULL default ''
-) DEFAULT CHARSET=latin1;
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
 
 #
 # Contenu de la table `conges_groupe_resp`
@@ -148,7 +148,7 @@ CREATE TABLE `conges_groupe_grd_resp` (
 CREATE TABLE `conges_groupe_users` (
   `gu_gid` int(11) NOT NULL default '0',
   `gu_login` varbinary(32) NOT NULL default ''
-) DEFAULT CHARSET=latin1;
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
 
 #
 # Contenu de la table `conges_groupe_users`
@@ -163,7 +163,7 @@ CREATE TABLE `conges_groupe_users` (
 CREATE TABLE `conges_jours_feries` (
   `jf_date` date NOT NULL default '0000-00-00',
   PRIMARY KEY  (`jf_date`)
-) DEFAULT CHARSET=latin1;
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
 
 #
 # Contenu de la table `conges_jours_feries`
@@ -192,7 +192,7 @@ CREATE TABLE `conges_periode` (
   `p_fermeture_id` int(5),
   `p_num` int(5) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (`p_num`)
-) DEFAULT CHARSET=latin1;
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
 
 #
 # Contenu de la table `conges_periode`
@@ -217,7 +217,7 @@ CREATE TABLE `conges_users` (
   `u_email` varchar(100) default NULL,
   PRIMARY KEY  (`u_login`),
   KEY `u_login` (`u_login`)
-) DEFAULT CHARSET=latin1;
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
 
 #
 # Contenu de la table `conges_users`
@@ -239,7 +239,7 @@ CREATE TABLE IF NOT EXISTS `conges_config` (
   `conf_type` varchar(200) NOT NULL default 'texte',
   `conf_commentaire` text NOT NULL,
   PRIMARY KEY  (`conf_nom`)
-) DEFAULT CHARSET=latin1;
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
 
 #
 # Contenu de la table `conges_config`
@@ -299,7 +299,7 @@ INSERT INTO `conges_config` VALUES ('calendrier_select_all_groups', 'FALSE', '10
 INSERT INTO `conges_config` VALUES ('fermeture_par_groupe', 'FALSE', '10_Gestion par groupes', 'boolean', 'config_comment_fermeture_par_groupe');
 
 INSERT INTO `conges_config` VALUES ('editions_papier', 'TRUE', '11_Editions papier', 'boolean', 'config_comment_editions_papier');
-INSERT INTO `conges_config` VALUES ('texte_haut_edition_papier', '- Adex_conges : édition des congés -', '11_Editions papier', 'texte', 'config_comment_texte_haut_edition_papier');
+INSERT INTO `conges_config` VALUES ('texte_haut_edition_papier', '- php_conges : édition des congés -', '11_Editions papier', 'texte', 'config_comment_texte_haut_edition_papier');
 INSERT INTO `conges_config` VALUES ('texte_bas_edition_papier', '- édité par php_conges -', '11_Editions papier', 'texte', 'config_comment_texte_bas_edition_papier');
 
 INSERT INTO `conges_config` VALUES ('user_echange_rtt', 'FALSE', '12_Fonctionnement de l\'Etablissement', 'boolean', 'config_comment_user_echange_rtt');
@@ -351,7 +351,7 @@ CREATE TABLE `conges_type_absence` (
   `ta_libelle` varchar(20) NOT NULL default '',
   `ta_short_libelle` char(3) NOT NULL default '',
   PRIMARY KEY  (`ta_id`)
-) DEFAULT CHARSET=latin1;
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
 
 #
 # Contenu de la table `conges_type_absence`
@@ -376,7 +376,7 @@ CREATE TABLE `conges_solde_user` (
   `su_nb_an` decimal(4,2) NOT NULL default '0.00',
   `su_solde` decimal(4,2) NOT NULL default '0.00',
   PRIMARY KEY  (`su_login`,`su_abs_id`)
-) DEFAULT CHARSET=latin1;
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
 
 #
 # Contenu de la table `conges_solde_user`
@@ -392,7 +392,7 @@ CREATE TABLE `conges_solde_edition` (
 `se_id_edition` INT( 11 ) NOT NULL ,
 `se_id_absence` INT( 2 ) NOT NULL ,
 `se_solde` DECIMAL( 4, 2 ) NOT NULL
-) DEFAULT CHARSET=latin1;
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
 
 # --------------------------------------------------------
 
@@ -405,7 +405,7 @@ CREATE TABLE `conges_mail` (
 `mail_subject` TEXT NULL ,
 `mail_body` TEXT NULL ,
 UNIQUE KEY `mail_nom` (`mail_nom`)
-)  DEFAULT CHARSET=latin1;
+) TYPE = MYISAM  DEFAULT CHARSET=latin1;
 
 #
 # Contenu de la table `conges_mail`
@@ -432,7 +432,7 @@ CREATE TABLE `conges_logs` (
    `log_comment` TEXT NULL,
    `log_date` TIMESTAMP NOT NULL,
    PRIMARY KEY  (`log_id`)
-) DEFAULT CHARSET=latin1;
+) TYPE=MyISAM DEFAULT CHARSET=latin1;
 
 
 # --------------------------------------------------------
@@ -445,4 +445,4 @@ CREATE TABLE `conges_logs` (
 	`jf_id` INT( 5 ) NOT NULL ,
 	`jf_gid` INT( 11 ) NOT NULL DEFAULT '0',
 	`jf_date` DATE NOT NULL
-) DEFAULT CHARSET=latin1;
+) TYPE=MyISAM DEFAULT CHARSET=latin1;

@@ -1,16 +1,16 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des CongÃ©s
+PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
 Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les
-termes de la Licence Publique GÃ©nÃ©rale GNU publiÃ©e par la Free Software Foundation.
-Ce programme est distribuÃ© car potentiellement utile, mais SANS AUCUNE GARANTIE,
+termes de la Licence Publique Générale GNU publiée par la Free Software Foundation.
+Ce programme est distribué car potentiellement utile, mais SANS AUCUNE GARANTIE,
 ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation
-dans un but spÃ©cifique. Reportez-vous Ã  la Licence Publique GÃ©nÃ©rale GNU pour plus de dÃ©tails.
-Vous devez avoir reÃ§u une copie de la Licence Publique GÃ©nÃ©rale GNU en mÃªme temps
-que ce programme ; si ce n'est pas le cas, Ã©crivez Ã  la Free Software Foundation,
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, Ã‰tats-Unis.
+dans un but spécifique. Reportez-vous à la Licence Publique Générale GNU pour plus de détails.
+Vous devez avoir reçu une copie de la Licence Publique Générale GNU en même temps
+que ce programme ; si ce n'est pas le cas, écrivez à la Free Software Foundation,
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, États-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation; either
@@ -25,15 +25,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 //#################################################################################################
 
+include("controle_ids.php") ;
 
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-include_once __DIR__ .'/INCLUDE.PHP/sql.class.php';
-
-// affichage du calendrier avec les case Ã  cocher, du mois du dÃ©but du congÃ©s
-function  affiche_calendrier_saisie_date_debut($user_login, $year, $mois,  $DEBUG=FALSE)
+// affichage du calendrier avec les case à cocher, du mois du début du congés
+function  affiche_calendrier_saisie_date_debut($user_login, $year, $mois, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
+
 	$jour_today=date("j");
 	$jour_today_name=date("D");
 
@@ -45,21 +43,21 @@ function  affiche_calendrier_saisie_date_debut($user_login, $year, $mois,  $DEBU
 	if($first_jour_mois_rang==0)
 		$first_jour_mois_rang=7 ;    // jour de la semaine en chiffre (1=lun , 7=dim)
 
-	echo '<table cellpadding="0" cellspacing="0" border="1" width="250" bgcolor="'.$_SESSION['config']['semaine_bgcolor'].'">';
+	echo "<table cellpadding=\"0\" cellspacing=\"0\" border=\"1\" width=\"250\" bgcolor=\"".$_SESSION['config']['semaine_bgcolor']."\">\n";
 	/* affichage  2 premieres lignes */
-	echo '	<tr align="center" bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'"><td colspan=7 class="titre"> '.$mois_name.' '.$year.' </td></tr>' ;
-	echo '	<tr bgcolor=\"'.$_SESSION['config']['light_grey_bgcolor'].'\">';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['lundi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['mardi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['mercredi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['jeudi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['vendredi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['samedi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['dimanche_1c'].'</td>';
-	echo '	</tr>' ;
+	echo "	<tr align=\"center\" bgcolor=\"".$_SESSION['config']['light_grey_bgcolor']."\"><td colspan=7 class=\"titre\"> $mois_name $year </td></tr>\n" ;
+	echo "	<tr bgcolor=\"".$_SESSION['config']['light_grey_bgcolor']."\">\n";
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['lundi_1c']."</td>\n";
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['mardi_1c']."</td>\n";
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['mercredi_1c']."</td>\n";
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['jeudi_1c']."</td>\n";
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['vendredi_1c']."</td>\n";
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['samedi_1c']."</td>\n";
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['dimanche_1c']."</td>\n";
+	echo "	</tr>\n" ;
 
 	/* affichage ligne 1 du mois*/
-	echo '<tr>';
+	echo "<tr>\n";
 	// affichage des cellules vides jusqu'au 1 du mois ...
 	for($i=1; $i<$first_jour_mois_rang; $i++)
 	{
@@ -67,58 +65,58 @@ function  affiche_calendrier_saisie_date_debut($user_login, $year, $mois,  $DEBU
 			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
 		else
 			$bgcolor=$_SESSION['config']['semaine_bgcolor'];
-		echo '<td bgcolor='.$bgcolor.' class="cal-saisie2">-</td>';
+		echo "<td bgcolor=$bgcolor class=\"cal-saisie2\">-</td>";
 	}
-	// affichage des cellules cochables du 1 du mois Ã  la fin de la ligne ...
+	// affichage des cellules cochables du 1 du mois à la fin de la ligne ...
 	for($i=$first_jour_mois_rang; $i<8; $i++)
 	{
 		$j=$i-$first_jour_mois_rang+1 ;
 		$j_timestamp=mktime (0,0,0,$mois,$j,$year);
 		$td_second_class=get_td_class_of_the_day_in_the_week($j_timestamp);
 
-		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, 'new_debut', $DEBUG);
+		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, "new_debut", $mysql_link, $DEBUG);
 	}
-	echo '</tr>';
+	echo "</tr>\n";
 
 	/* affichage ligne 2 du mois*/
-	echo '<tr>';
+	echo "<tr>\n";
 	for($i=8-$first_jour_mois_rang+1; $i<15-$first_jour_mois_rang+1; $i++) {
 		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
 		$td_second_class=get_td_class_of_the_day_in_the_week($j_timestamp);
 
-		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, 'new_debut', $DEBUG);
+		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, "new_debut", $mysql_link, $DEBUG);
 	}
-	echo '</tr>';
+	echo "</tr>\n";
 
 	/* affichage ligne 3 du mois*/
-	echo '<tr>';
+	echo "<tr>\n";
 	for($i=15-$first_jour_mois_rang+1; $i<22-$first_jour_mois_rang+1; $i++)
 	{
 		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
 		$td_second_class=get_td_class_of_the_day_in_the_week($j_timestamp);
 
-		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, 'new_debut', $DEBUG);
+		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, "new_debut", $mysql_link, $DEBUG);
 	}
-	echo '</tr>';
+	echo "</tr>\n";
 
 	/* affichage ligne 4 du mois*/
-	echo '<tr>';
+	echo "<tr>\n";
 	for($i=22-$first_jour_mois_rang+1; $i<29-$first_jour_mois_rang+1; $i++) {
 		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
 		$td_second_class=get_td_class_of_the_day_in_the_week($j_timestamp);
 
-		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, 'new_debut', $DEBUG);
+		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, "new_debut", $mysql_link, $DEBUG);
 	}
-	echo '</tr>';
+	echo "</tr>\n";
 
 	/* affichage ligne 5 du mois (peut etre la derniere ligne) */
-	echo '<tr>';
+	echo "<tr>\n";
 	for($i=29-$first_jour_mois_rang+1; $i<36-$first_jour_mois_rang+1 && checkdate($mois, $i, $year); $i++)
 	{
 		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
 		$td_second_class=get_td_class_of_the_day_in_the_week($j_timestamp);
 
-		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, 'new_debut', $DEBUG);
+		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, "new_debut", $mysql_link, $DEBUG);
 	}
 	for($i; $i<36-$first_jour_mois_rang+1; $i++) {
 		if( (($i==35-$first_jour_mois_rang)&&($_SESSION['config']['samedi_travail']==FALSE))
@@ -126,18 +124,18 @@ function  affiche_calendrier_saisie_date_debut($user_login, $year, $mois,  $DEBU
 			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
 		else
 			$bgcolor=$_SESSION['config']['semaine_bgcolor'];
-		echo '<td bgcolor='.$bgcolor.' class="cal-saisie2">-</td>';
+		echo "<td bgcolor=$bgcolor class=\"cal-saisie2\">-</td>";
 	}
-	echo '</tr>';
+	echo "</tr>\n";
 
 	/* affichage ligne 6 du mois (derniere ligne)*/
-	echo '<tr>';
+	echo "<tr>\n";
 	for($i=36-$first_jour_mois_rang+1; checkdate($mois, $i, $year); $i++)
 	{
 		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
 		$td_second_class=get_td_class_of_the_day_in_the_week($j_timestamp);
 
-		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, 'new_debut', $DEBUG);
+		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, "new_debut", $mysql_link, $DEBUG);
 	}
 	for($i; $i<43-$first_jour_mois_rang+1; $i++)
 	{
@@ -146,46 +144,46 @@ function  affiche_calendrier_saisie_date_debut($user_login, $year, $mois,  $DEBU
 			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
 		else
 			$bgcolor=$_SESSION['config']['semaine_bgcolor'];
-		echo '<td bgcolor='.$bgcolor.' class="cal-saisie2">-</td>';
+		echo "<td bgcolor=$bgcolor class=\"cal-saisie2\">-</td>";
 	}
-	echo '</tr>';
+	echo "</tr>\n";
 
-	echo '</table>';
+	echo "</table>\n";
 }
 
 
-// affichage du calendrier avec les case Ã  cocher, du mois de fin du congÃ©s
-function  affiche_calendrier_saisie_date_fin($user_login, $year, $mois, $DEBUG=FALSE)
+// affichage du calendrier avec les case à cocher, du mois de fin du congés
+function  affiche_calendrier_saisie_date_fin($user_login, $year, $mois, $mysql_link, $DEBUG=FALSE)
 {
 
 
-	$jour_today=date('j');
-	$jour_today_name=date('D');
+	$jour_today=date("j");
+	$jour_today_name=date("D");
 
 	$first_jour_mois_timestamp=mktime (0,0,0,$mois,1,$year);
-//	$mois_name=date('F', $first_jour_mois_timestamp);
-	$mois_name=date_fr('F', $first_jour_mois_timestamp);
-	//$first_jour_mois_name=date('D', $first_jour_mois_timestamp);
-	$first_jour_mois_rang=date('w', $first_jour_mois_timestamp);      // jour de la semaine en chiffre (0=dim , 6=sam)
+//	$mois_name=date("F", $first_jour_mois_timestamp);
+	$mois_name=date_fr("F", $first_jour_mois_timestamp);
+	//$first_jour_mois_name=date("D", $first_jour_mois_timestamp);
+	$first_jour_mois_rang=date("w", $first_jour_mois_timestamp);      // jour de la semaine en chiffre (0=dim , 6=sam)
 	if($first_jour_mois_rang==0)
 		$first_jour_mois_rang=7 ;    // jour de la semaine en chiffre (1=lun , 7=dim)
 
-	echo '<table cellpadding="0" cellspacing="0" border="1" width="250" bgcolor="'.$_SESSION['config']['semaine_bgcolor'].'">';
+	echo "<table cellpadding=\"0\" cellspacing=\"0\" border=\"1\" width=\"250\" bgcolor=\"".$_SESSION['config']['semaine_bgcolor']."\">\n";
 	/* affichage  2 premieres lignes */
-	echo '	<tr align="center" bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'"><td colspan=7 class="titre"> '.$mois_name.' '.$year.' </td></tr>' ;
-	echo '	<tr align="center"  bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'">' ;
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['lundi_1c'].'</td>' ;
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['mardi_1c'].'</td>' ;
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['mercredi_1c'].'</td>' ;
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['jeudi_1c'].'</td>' ;
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['vendredi_1c'].'</td>' ;
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['samedi_1c'].'</td>' ;
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['dimanche_1c'].'</td>' ;
-	echo '	</tr>' ;
+	echo "	<tr align=\"center\" bgcolor=\"".$_SESSION['config']['light_grey_bgcolor']."\"><td colspan=7 class=\"titre\"> $mois_name $year </td></tr>\n" ;
+	echo "	<tr align=\"center\"  bgcolor=\"".$_SESSION['config']['light_grey_bgcolor']."\">\n" ;
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['lundi_1c']."</td>\n" ;
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['mardi_1c']."</td>\n" ;
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['mercredi_1c']."</td>\n" ;
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['jeudi_1c']."</td>\n" ;
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['vendredi_1c']."</td>\n" ;
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['samedi_1c']."</td>\n" ;
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['dimanche_1c']."</td>\n" ;
+	echo "	</tr>\n" ;
 
 
 	/* affichage ligne 1 du mois*/
-	echo '<tr>';
+	echo "<tr>\n";
 	// affichage des cellules vides jusqu'au 1 du mois ...
 	for($i=1; $i<$first_jour_mois_rang; $i++)
 	{
@@ -193,58 +191,58 @@ function  affiche_calendrier_saisie_date_fin($user_login, $year, $mois, $DEBUG=F
 			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
 		else
 			$bgcolor=$_SESSION['config']['semaine_bgcolor'];
-		echo '<td bgcolor='.$bgcolor.' class="cal-saisie2">-</td>';
+		echo "<td bgcolor=$bgcolor class=\"cal-saisie2\">-</td>";
 	}
-	// affichage des cellules cochables du 1 du mois Ã  la fin de la ligne ...
+	// affichage des cellules cochables du 1 du mois à la fin de la ligne ...
 	for($i=$first_jour_mois_rang; $i<8; $i++) {
 		$j=$i-$first_jour_mois_rang+1 ;
 		$j_timestamp=mktime (0,0,0,$mois,$j,$year);
 		$td_second_class=get_td_class_of_the_day_in_the_week($j_timestamp);
 
-		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, 'new_fin', $DEBUG);
+		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, "new_fin", $mysql_link, $DEBUG);
 	}
-	echo '</tr>';
+	echo "</tr>\n";
 
 	/* affichage ligne 2 du mois*/
-	echo '<tr>';
+	echo "<tr>\n";
 	for($i=8-$first_jour_mois_rang+1; $i<15-$first_jour_mois_rang+1; $i++)
 	{
 		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
 		$td_second_class=get_td_class_of_the_day_in_the_week($j_timestamp);
 
-		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, 'new_fin', $DEBUG);
+		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, "new_fin", $mysql_link, $DEBUG);
 	}
-	echo '</tr>';
+	echo "</tr>\n";
 
 	/* affichage ligne 3 du mois*/
-	echo '<tr>';
+	echo "<tr>\n";
 	for($i=15-$first_jour_mois_rang+1; $i<22-$first_jour_mois_rang+1; $i++)
 	{
 		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
 		$td_second_class=get_td_class_of_the_day_in_the_week($j_timestamp);
 
-		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, 'new_fin', $DEBUG);
+		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, "new_fin", $mysql_link, $DEBUG);
 	}
-	echo '</tr>';
+	echo "</tr>\n";
 
 	/* affichage ligne 4 du mois*/
-	echo '<tr>';
+	echo "<tr>\n";
 	for($i=22-$first_jour_mois_rang+1; $i<29-$first_jour_mois_rang+1; $i++) {
 		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
 		$td_second_class=get_td_class_of_the_day_in_the_week($j_timestamp);
 
-		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, 'new_fin', $DEBUG);
+		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, "new_fin", $mysql_link, $DEBUG);
 	}
-	echo '</tr>';
+	echo "</tr>\n";
 
 	/* affichage ligne 5 du mois (peut etre la derniere ligne)*/
-	echo '<tr>';
+	echo "<tr>\n";
 	for($i=29-$first_jour_mois_rang+1; $i<36-$first_jour_mois_rang+1 && checkdate($mois, $i, $year); $i++)
 	{
 		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
 		$td_second_class=get_td_class_of_the_day_in_the_week($j_timestamp);
 
-		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, 'new_fin', $DEBUG);
+		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, "new_fin", $mysql_link, $DEBUG);
 	}
 	for($i; $i<36-$first_jour_mois_rang+1; $i++)
 	{
@@ -253,18 +251,18 @@ function  affiche_calendrier_saisie_date_fin($user_login, $year, $mois, $DEBUG=F
 			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
 		else
 			$bgcolor=$_SESSION['config']['semaine_bgcolor'];
-		echo '<td bgcolor='.$bgcolor.' class="cal-saisie2">-</td>';
+		echo "<td bgcolor=$bgcolor class=\"cal-saisie2\">-</td>";
 	}
-	echo '</tr>';
+	echo "</tr>\n";
 
 	/* affichage ligne 6 du mois (derniere ligne)*/
-	echo '<tr>';
+	echo "<tr>\n";
 	for($i=36-$first_jour_mois_rang+1; checkdate($mois, $i, $year); $i++)
 	{
 		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
 		$td_second_class=get_td_class_of_the_day_in_the_week($j_timestamp);
 
-		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, 'new_fin', $DEBUG);
+		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, "new_fin", $mysql_link, $DEBUG);
 	}
 	for($i; $i<43-$first_jour_mois_rang+1; $i++)
 	{
@@ -273,44 +271,44 @@ function  affiche_calendrier_saisie_date_fin($user_login, $year, $mois, $DEBUG=F
 			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
 		else
 			$bgcolor=$_SESSION['config']['semaine_bgcolor'];
-		echo '<td bgcolor='.$bgcolor.' class="cal-saisie2">-</td>';
+		echo "<td bgcolor=$bgcolor class=\"cal-saisie2\">-</td>";
 	}
-	echo '</tr>';
+	echo "</tr>\n";
 
-	echo '</table>';
+	echo "</table>\n";
 }
 
 
 
 
-// affichage du calendrier du mois avec les case Ã  cocher sur les jour d'absence
-function  affiche_calendrier_saisie_jour_absence($user_login, $year, $mois, $DEBUG=FALSE)
+// affichage du calendrier du mois avec les case à cocher sur les jour d'absence
+function  affiche_calendrier_saisie_jour_absence($user_login, $year, $mois, $mysql_link, $DEBUG=FALSE)
 {
-	$jour_today=date('j');
-	$jour_today_name=date('D');
+	$jour_today=date("j");
+	$jour_today_name=date("D");
 
 	$first_jour_mois_timestamp=mktime (0,0,0,$mois,1,$year);
-	$mois_name=date_fr('F', $first_jour_mois_timestamp);
-	$first_jour_mois_rang=date('w', $first_jour_mois_timestamp);      // jour de la semaine en chiffre (0=dim , 6=sam)
+	$mois_name=date_fr("F", $first_jour_mois_timestamp);
+	$first_jour_mois_rang=date("w", $first_jour_mois_timestamp);      // jour de la semaine en chiffre (0=dim , 6=sam)
 	if($first_jour_mois_rang==0)
 		$first_jour_mois_rang=7 ;    // jour de la semaine en chiffre (1=lun , 7=dim)
 
-//	echo '<table cellpadding="0" cellspacing="0" border="1" width="250" bgcolor='.$_SESSION['config']['semaine_bgcolor'].'>';
-	echo '<table cellpadding="0" cellspacing="0" border="1" bgcolor='.$_SESSION['config']['semaine_bgcolor'].'>';
+//	echo "<table cellpadding=\"0\" cellspacing=\"0\" border=\"1\" width=\"250\" bgcolor=".$_SESSION['config']['semaine_bgcolor'].">\n";
+	echo "<table cellpadding=\"0\" cellspacing=\"0\" border=\"1\" bgcolor=".$_SESSION['config']['semaine_bgcolor'].">\n";
 	/* affichage  2 premieres lignes */
-	echo '	<tr align="center" bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'"><td colspan=7 class="titre"> '.$mois_name.' '.$year.' </td></tr>' ;
-	echo '	<tr bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'">';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['lundi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['mardi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['mercredi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['jeudi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['vendredi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['samedi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['dimanche_1c'].'</td>';
-	echo '	</tr>' ;
+	echo "	<tr align=\"center\" bgcolor=\"".$_SESSION['config']['light_grey_bgcolor']."\"><td colspan=7 class=\"titre\"> $mois_name $year </td></tr>\n" ;
+	echo "	<tr bgcolor=\"".$_SESSION['config']['light_grey_bgcolor']."\">\n";
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['lundi_1c']."</td>\n";
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['mardi_1c']."</td>\n";
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['mercredi_1c']."</td>\n";
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['jeudi_1c']."</td>\n";
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['vendredi_1c']."</td>\n";
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['samedi_1c']."</td>\n";
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['dimanche_1c']."</td>\n";
+	echo "	</tr>\n" ;
 
 	/* affichage ligne 1 du mois*/
-	echo '<tr>';
+	echo "<tr>\n";
 	// affichage des cellules vides jusqu'au 1 du mois ...
 	for($i=1; $i<$first_jour_mois_rang; $i++)
 	{
@@ -320,436 +318,436 @@ function  affiche_calendrier_saisie_jour_absence($user_login, $year, $mois, $DEB
 		else
 			$bgcolor=$_SESSION['config']['semaine_bgcolor'];
 //		echo "<td bgcolor=$bgcolor width=\"14%\" class=\"cal-saisie2\">-</td>";
-		echo '<td bgcolor='.$bgcolor.' class="cal-saisie2">-</td>';
+		echo "<td bgcolor=$bgcolor class=\"cal-saisie2\">-</td>";
 	}
-	// affichage des cellules cochables du 1 du mois Ã  la fin de la ligne ...
+	// affichage des cellules cochables du 1 du mois à la fin de la ligne ...
 	for($i=$first_jour_mois_rang; $i<8; $i++)
 	{
 		$j=$i-$first_jour_mois_rang+1 ;
-		$val_matin='';
-		$val_aprem='';
+		$val_matin="";
+		$val_aprem="";
 		$j_timestamp=mktime (0,0,0,$mois,$j,$year);
 
-		// si on est samedi et sam non travaillÃ© ou dimanche et dim non travaillÃ© ou jour chomÃ©
+		// si on est samedi et sam non travaillé ou dimanche et dim non travaillé ou jour chomé
 		if( (($i==6)&&($_SESSION['config']['samedi_travail']==FALSE))
 			|| (($i==7)&&($_SESSION['config']['dimanche_travail']==FALSE))
 			|| (est_chome($j_timestamp)==TRUE) || (est_ferme($j_timestamp)==TRUE) )
 		{
 			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
 //			echo "<td bgcolor=$bgcolor width=\"14%\" class=\"cal-saisie\">$j</td>";
-			echo '<td bgcolor='.$bgcolor.' class="cal-saisie">'.$j.'</td>';
+			echo "<td bgcolor=$bgcolor class=\"cal-saisie\">$j</td>";
 		}
 		else
 		{
-			recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem,  $DEBUG);
+			recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem, $mysql_link, $DEBUG);
 			affiche_cellule_calendrier_echange_absence_saisie_semaine($val_matin, $val_aprem, $year, $mois, $j, $DEBUG);
 		}
 	}
-	echo '</tr>';
+	echo "</tr>\n";
 
 	/* affichage ligne 2 du mois*/
-	echo '<tr>';
+	echo "<tr>\n";
 	for($i=8-$first_jour_mois_rang+1; $i<15-$first_jour_mois_rang+1; $i++)
 	{
-		$val_matin='';
-		$val_aprem='';
+		$val_matin="";
+		$val_aprem="";
 		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
 
-		// si on est samedi et sam non travaillÃ© ou dimanche et dim non travaillÃ© ou jour chomÃ©
+		// si on est samedi et sam non travaillé ou dimanche et dim non travaillé ou jour chomé
 		if( (($i==14-$first_jour_mois_rang)&&($_SESSION['config']['samedi_travail']==FALSE))
 			|| (($i==15-$first_jour_mois_rang)&&($_SESSION['config']['dimanche_travail']==FALSE))
 			|| (est_chome($j_timestamp)==TRUE) || (est_ferme($j_timestamp)==TRUE) )
 		{
 			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
-			echo '<td bgcolor='.$bgcolor.' class="cal-saisie">'.$i.'</td>';
+			echo "<td bgcolor=$bgcolor class=\"cal-saisie\">$i</td>";
 		}
 		else
 		{
-			recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem,  $DEBUG);
+			recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem, $mysql_link, $DEBUG);
 			affiche_cellule_calendrier_echange_absence_saisie_semaine($val_matin, $val_aprem, $year, $mois, $i, $DEBUG);
 		}
 	}
-	echo '</tr>';
+	echo "</tr>\n";
 
 	/* affichage ligne 3 du mois*/
-	echo '<tr>';
+	echo "<tr>\n";
 	for($i=15-$first_jour_mois_rang+1; $i<22-$first_jour_mois_rang+1; $i++)
 	{
-		$val_matin='';
-		$val_aprem='';
+		$val_matin="";
+		$val_aprem="";
 		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
 
-		// si on est samedi et sam non travaillÃ© ou dimanche et dim non travaillÃ© ou jour chomÃ©
+		// si on est samedi et sam non travaillé ou dimanche et dim non travaillé ou jour chomé
 		if( (($i==21-$first_jour_mois_rang)&&($_SESSION['config']['samedi_travail']==FALSE))
 			|| (($i==22-$first_jour_mois_rang)&&($_SESSION['config']['dimanche_travail']==FALSE))
 			|| (est_chome($j_timestamp)==TRUE) || (est_ferme($j_timestamp)==TRUE) )
 		{
 			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
-			echo '<td bgcolor='.$bgcolor.' class="cal-saisie">'.$i.'</td>';
+			echo "<td bgcolor=$bgcolor class=\"cal-saisie\">$i</td>";
 		}
 		else
 		{
-			recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem,  $DEBUG);
+			recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem, $mysql_link, $DEBUG);
 			affiche_cellule_calendrier_echange_absence_saisie_semaine($val_matin, $val_aprem, $year, $mois, $i, $DEBUG);
 		}
 	}
-	echo '</tr>';
+	echo "</tr>\n";
 
 	/* affichage ligne 4 du mois*/
-	echo '<tr>';
+	echo "<tr>\n";
 	for($i=22-$first_jour_mois_rang+1; $i<29-$first_jour_mois_rang+1; $i++)
 	{
-		$val_matin='';
-		$val_aprem='';
+		$val_matin="";
+		$val_aprem="";
 		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
 
-		// si on est samedi et sam non travaillÃ© ou dimanche et dim non travaillÃ© ou jour chomÃ©
+		// si on est samedi et sam non travaillé ou dimanche et dim non travaillé ou jour chomé
 		if( (($i==28-$first_jour_mois_rang)&&($_SESSION['config']['samedi_travail']==FALSE))
 			|| (($i==29-$first_jour_mois_rang)&&($_SESSION['config']['dimanche_travail']==FALSE))
 			|| (est_chome($j_timestamp)==TRUE) || (est_ferme($j_timestamp)==TRUE) )
 		{
 			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
-			echo '<td bgcolor='.$bgcolor.' class="cal-saisie">'.$i.'</td>';
+			echo "<td bgcolor=$bgcolor class=\"cal-saisie\">$i</td>";
 		}
 		else
 		{
-			recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem,  $DEBUG);
+			recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem, $mysql_link, $DEBUG);
 			affiche_cellule_calendrier_echange_absence_saisie_semaine($val_matin, $val_aprem, $year, $mois, $i, $DEBUG);
 		}
 	}
-	echo '</tr>';
+	echo "</tr>\n";
 
 	/* affichage ligne 5 du mois (peut etre la derniere ligne) */
-	echo '<tr>';
+	echo "<tr>\n";
 	for($i=29-$first_jour_mois_rang+1; $i<36-$first_jour_mois_rang+1 && checkdate($mois, $i, $year); $i++)
 	{
-		$val_matin='';
-		$val_aprem='';
+		$val_matin="";
+		$val_aprem="";
 		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
 
-		// si on est samedi et sam non travaillÃ© ou dimanche et dim non travaillÃ© ou jour chomÃ©
+		// si on est samedi et sam non travaillé ou dimanche et dim non travaillé ou jour chomé
 		if( (($i==35-$first_jour_mois_rang)&&($_SESSION['config']['samedi_travail']==FALSE))
 			|| (($i==36-$first_jour_mois_rang)&&($_SESSION['config']['dimanche_travail']==FALSE))
 			|| (est_chome($j_timestamp)==TRUE) || (est_ferme($j_timestamp)==TRUE) )
 		{
 			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
-			echo '<td bgcolor='.$bgcolor.' class="cal-saisie">'.$i.'</td>';
+			echo "<td bgcolor=$bgcolor class=\"cal-saisie\">$i</td>";
 		}
 		else
 		{
-			recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem,  $DEBUG);
+			recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem, $mysql_link, $DEBUG);
 			affiche_cellule_calendrier_echange_absence_saisie_semaine($val_matin, $val_aprem, $year, $mois, $i, $DEBUG);
 		}
 	}
 	for($i; $i<36-$first_jour_mois_rang+1; $i++)
 	{
-		// si on est samedi et sam non travaillÃ© ou dimanche et dim non travaillÃ©
+		// si on est samedi et sam non travaillé ou dimanche et dim non travaillé
 		if( (($i==35-$first_jour_mois_rang)&&($_SESSION['config']['samedi_travail']==FALSE))
 			|| (($i==36-$first_jour_mois_rang)&&($_SESSION['config']['dimanche_travail']==FALSE)) )
 			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
 		else
 			$bgcolor=$_SESSION['config']['semaine_bgcolor'];
-		echo '<td bgcolor='.$bgcolor.' class="cal-saisie2">-</td>';
+		echo "<td bgcolor=$bgcolor class=\"cal-saisie2\">-</td>";
 	}
-	echo '</tr>';
+	echo "</tr>\n";
 
 	/* affichage ligne 6 du mois (derniere ligne)*/
-	echo '<tr>';
+	echo "<tr>\n";
 	for($i=36-$first_jour_mois_rang+1; checkdate($mois, $i, $year); $i++)
 	{
-		$val_matin='';
-		$val_aprem='';
+		$val_matin="";
+		$val_aprem="";
 		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
 
-		// si on est samedi et sam non travaillÃ© ou dimanche et dim non travaillÃ© ou jour chomÃ©
+		// si on est samedi et sam non travaillé ou dimanche et dim non travaillé ou jour chomé
 		if( (($i==42-$first_jour_mois_rang)&&($_SESSION['config']['samedi_travail']==FALSE))
 			|| (($i==43-$first_jour_mois_rang)&&($_SESSION['config']['dimanche_travail']==FALSE))
 			|| (est_chome($j_timestamp)==TRUE) || (est_ferme($j_timestamp)==TRUE) )
 		{
 			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
-			echo '<td bgcolor='.$bgcolor.' class="cal-saisie">'.$i.'</td>';
+			echo "<td bgcolor=$bgcolor class=\"cal-saisie\">$i</td>";
 		}
 		else
 		{
-			recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem,  $DEBUG);
+			recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem, $mysql_link, $DEBUG);
 			affiche_cellule_calendrier_echange_absence_saisie_semaine($val_matin, $val_aprem, $year, $mois, $i, $DEBUG);
 		}
 	}
 	for($i; $i<43-$first_jour_mois_rang+1; $i++)
 	{
-		// si on est samedi et sam non travaillÃ© ou dimanche et dim non travaillÃ©
+		// si on est samedi et sam non travaillé ou dimanche et dim non travaillé
 		if( (($i==42-$first_jour_mois_rang)&&($_SESSION['config']['samedi_travail']==FALSE))
 			|| (($i==43-$first_jour_mois_rang)&&($_SESSION['config']['dimanche_travail']==FALSE)) )
 			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
 		else
 			$bgcolor=$_SESSION['config']['semaine_bgcolor'];
-		echo '<td bgcolor='.$bgcolor.' class="cal-saisie2">-</td>';
+		echo "<td bgcolor=$bgcolor class=\"cal-saisie2\">-</td>";
 	}
-	echo '</tr>';
+	echo "</tr>\n";
 
-	echo '</table>';
+	echo "</table>\n";
 }
 
 function affiche_cellule_calendrier_echange_absence_saisie_semaine($val_matin, $val_aprem, $year, $mois, $j, $DEBUG=FALSE)
 {
 	$bgcolor=$_SESSION['config']['semaine_bgcolor'];
-	if(($val_matin=='Y')&&($val_aprem=='Y'))
+	if(($val_matin=="Y")&&($val_aprem=="Y"))
 	{
 		$bgcolor=$_SESSION['config']['temps_partiel_bgcolor'];
-		echo '<td bgcolor='.$bgcolor.' class="cal-saisie">'.$j.'<input type="radio" name="new_debut" value="'.$year.'-'.$mois.'-'.$j.'-j"></td>';
+		echo "<td bgcolor=$bgcolor class=\"cal-saisie\">$j<input type=\"radio\" name=\"new_debut\" value=\"$year-$mois-$j-j\"></td>";
 	}
-	elseif(($val_matin=='Y')&&($val_aprem=='N'))
+	elseif(($val_matin=="Y")&&($val_aprem=="N"))
 	{
 		$bgcolor=$_SESSION['config']['temps_partiel_bgcolor'];
-		echo '<td bgcolor='.$bgcolor.' class="cal-day_semaine_rtt_am_travail_pm_w35">'.$j.'<input type="radio" name="new_debut" value="'.$year.'-'.$mois.'-'.$j.'-a"></td>';
+		echo "<td bgcolor=$bgcolor class=\"cal-day_semaine_rtt_am_travail_pm_w35\">$j<input type=\"radio\" name=\"new_debut\" value=\"$year-$mois-$j-a\"></td>";
 	}
-	elseif(($val_matin=='N')&&($val_aprem=='Y'))
+	elseif(($val_matin=="N")&&($val_aprem=="Y"))
 	{
 		$bgcolor=$_SESSION['config']['temps_partiel_bgcolor'];
-		echo '<td bgcolor='.$bgcolor.' class="cal-day_semaine_travail_am_rtt_pm_w35">'.$j.'<input type="radio" name="new_debut" value="'.$year.'-'.$mois.'-'.$j.'-p"></td>';
+		echo "<td bgcolor=$bgcolor class=\"cal-day_semaine_travail_am_rtt_pm_w35\">$j<input type=\"radio\" name=\"new_debut\" value=\"$year-$mois-$j-p\"></td>";
 	}
 	else
 	{
-		echo '<td bgcolor='.$bgcolor.' class="cal-saisie">'.$j.'</td>';
+		echo "<td bgcolor=$bgcolor class=\"cal-saisie\">$j</td>";
 	}
 }
 
-// affichage du calendrier du mois avec les case Ã  cocher sur les jour de prÃ©sence
-function  affiche_calendrier_saisie_jour_presence($user_login, $year, $mois, $DEBUG=FALSE)
+// affichage du calendrier du mois avec les case à cocher sur les jour de présence
+function  affiche_calendrier_saisie_jour_presence($user_login, $year, $mois, $mysql_link, $DEBUG=FALSE)
 {
-	$jour_today=date('j');
-	$jour_today_name=date('D');
+	$jour_today=date("j");
+	$jour_today_name=date("D");
 
 	$first_jour_mois_timestamp=mktime (0,0,0,$mois,1,$year);
-//	$mois_name=date('F', $first_jour_mois_timestamp);
-	$mois_name=date_fr('F', $first_jour_mois_timestamp);
-	//$first_jour_mois_name=date('D', $first_jour_mois_timestamp);
-	$first_jour_mois_rang=date('w', $first_jour_mois_timestamp);      // jour de la semaine en chiffre (0=dim , 6=sam)
+//	$mois_name=date("F", $first_jour_mois_timestamp);
+	$mois_name=date_fr("F", $first_jour_mois_timestamp);
+	//$first_jour_mois_name=date("D", $first_jour_mois_timestamp);
+	$first_jour_mois_rang=date("w", $first_jour_mois_timestamp);      // jour de la semaine en chiffre (0=dim , 6=sam)
 	if($first_jour_mois_rang==0)
 		$first_jour_mois_rang=7 ;    // jour de la semaine en chiffre (1=lun , 7=dim)
 
-	echo '<table cellpadding="0" cellspacing="0" border="1" width="250" bgcolor="'.$_SESSION['config']['semaine_bgcolor'].'">';
+	echo "<table cellpadding=\"0\" cellspacing=\"0\" border=\"1\" width=\"250\" bgcolor=\"".$_SESSION['config']['semaine_bgcolor']."\">\n";
 	/* affichage  2 premieres lignes */
-	echo '	<tr align="center" bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'"><td colspan=7 class="titre"> '.$mois_name.' '.$year.' </td></tr>' ;
-	echo '	<tr bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'">';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['lundi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['mardi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['mercredi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['jeudi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['vendredi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['samedi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['dimanche_1c'].'</td>';
-	echo '	</tr>' ;
+	echo "	<tr align=\"center\" bgcolor=\"".$_SESSION['config']['light_grey_bgcolor']."\"><td colspan=7 class=\"titre\"> $mois_name $year </td></tr>\n" ;
+	echo "	<tr bgcolor=\"".$_SESSION['config']['light_grey_bgcolor']."\">\n";
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['lundi_1c']."</td>\n";
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['mardi_1c']."</td>\n";
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['mercredi_1c']."</td>\n";
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['jeudi_1c']."</td>\n";
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['vendredi_1c']."</td>\n";
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['samedi_1c']."</td>\n";
+	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['dimanche_1c']."</td>\n";
+	echo "	</tr>\n" ;
 
 
 	/* affichage ligne 1 du mois*/
-	echo '<tr>';
+	echo "<tr>\n";
 	// affichage des cellules vides jusqu'au 1 du mois ...
 	for($i=1; $i<$first_jour_mois_rang; $i++)
 	{
-		// si on est samedi et sam non travaillÃ© ou dimanche et dim non travaillÃ©
+		// si on est samedi et sam non travaillé ou dimanche et dim non travaillé
 		if( (($i==6)&&($_SESSION['config']['samedi_travail']==FALSE))
 			|| (($i==7)&&($_SESSION['config']['dimanche_travail']==FALSE)) )
 			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
 		else
 			$bgcolor=$_SESSION['config']['semaine_bgcolor'];
-		echo '<td bgcolor='.$bgcolor.' class="cal-saisie2">-</td>';
+		echo "<td bgcolor=$bgcolor class=\"cal-saisie2\">-</td>";
 	}
-	// affichage des cellules cochables du 1 du mois Ã  la fin de la ligne ...
+	// affichage des cellules cochables du 1 du mois à la fin de la ligne ...
 	for($i=$first_jour_mois_rang; $i<8; $i++)
 	{
 		$j=$i-$first_jour_mois_rang+1 ;
-		$val_matin='';
-		$val_aprem='';
+		$val_matin="";
+		$val_aprem="";
 		$j_timestamp=mktime (0,0,0,$mois,$j,$year);
 
-		// si on est samedi et sam non travaillÃ© ou dimanche et dim non travaillÃ© ou jour chomÃ©
+		// si on est samedi et sam non travaillé ou dimanche et dim non travaillé ou jour chomé
 		if( (($i==6)&&($_SESSION['config']['samedi_travail']==FALSE))
 			|| (($i==7)&&($_SESSION['config']['dimanche_travail']==FALSE))
 			|| (est_chome($j_timestamp)==TRUE) || (est_ferme($j_timestamp)==TRUE) )
 		{
 			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
-			echo '<td bgcolor='.$bgcolor.' width="14%" class="cal-saisie">'.$j.'</td>';
+			echo "<td bgcolor=$bgcolor width=\"14%\" class=\"cal-saisie\">$j</td>";
 		}
 		else
 		{
 			$j_timestamp=mktime (0,0,0,$mois,$j,$year);
-			recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem, $DEBUG);
+			recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem, $mysql_link, $DEBUG);
 			affiche_cellule_calendrier_echange_presence_saisie_semaine($val_matin, $val_aprem, $year, $mois, $j, $DEBUG);
 		}
 	}
-	echo '</tr>';
+	echo "</tr>\n";
 
 	/* affichage ligne 2 du mois*/
-	echo '<tr>';
+	echo "<tr>\n";
 	for($i=8-$first_jour_mois_rang+1; $i<15-$first_jour_mois_rang+1; $i++)
 	{
-		$val_matin='';
-		$val_aprem='';
+		$val_matin="";
+		$val_aprem="";
 		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
 
-		// si on est samedi et sam non travaillÃ© ou dimanche et dim non travaillÃ© ou jour chomÃ©
+		// si on est samedi et sam non travaillé ou dimanche et dim non travaillé ou jour chomé
 		if( (($i==14-$first_jour_mois_rang)&&($_SESSION['config']['samedi_travail']==FALSE))
 			|| (($i==15-$first_jour_mois_rang)&&($_SESSION['config']['dimanche_travail']==FALSE))
 			|| (est_chome($j_timestamp)==TRUE) || (est_ferme($j_timestamp)==TRUE) )
 		{
 			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
-			echo '<td bgcolor='.$bgcolor.' width="14%" class="cal-saisie">'.$i.'</td>';
+			echo "<td bgcolor=$bgcolor width=\"14%\" class=\"cal-saisie\">$i</td>";
 		}
 		else
 		{
 			$j_timestamp=mktime (0,0,0,$mois,$i,$year);
-			recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem, $DEBUG);
+			recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem, $mysql_link, $DEBUG);
 			affiche_cellule_calendrier_echange_presence_saisie_semaine($val_matin, $val_aprem, $year, $mois, $i, $DEBUG);
 		}
 	}
-	echo '</tr>';
+	echo "</tr>\n";
 
 	/* affichage ligne 3 du mois*/
-	echo '<tr>';
+	echo "<tr>\n";
 	for($i=15-$first_jour_mois_rang+1; $i<22-$first_jour_mois_rang+1; $i++)
 	{
-		$val_matin='';
-		$val_aprem='';
+		$val_matin="";
+		$val_aprem="";
 		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
 
-		// si on est samedi et sam non travaillÃ© ou dimanche et dim non travaillÃ© ou jour chomÃ©
+		// si on est samedi et sam non travaillé ou dimanche et dim non travaillé ou jour chomé
 		if( (($i==21-$first_jour_mois_rang)&&($_SESSION['config']['samedi_travail']==FALSE))
 			|| (($i==22-$first_jour_mois_rang)&&($_SESSION['config']['dimanche_travail']==FALSE))
 			|| (est_chome($j_timestamp)==TRUE) || (est_ferme($j_timestamp)==TRUE) )
 		{
 			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
-			echo '<td bgcolor='.$bgcolor.' width="14%" class="cal-saisie">'.$i.'</td>';
+			echo "<td bgcolor=$bgcolor width=\"14%\" class=\"cal-saisie\">$i</td>";
 		}
 		else
 		{
 			$j_timestamp=mktime (0,0,0,$mois,$i,$year);
-			recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem, $DEBUG);
+			recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem, $mysql_link, $DEBUG);
 			affiche_cellule_calendrier_echange_presence_saisie_semaine($val_matin, $val_aprem, $year, $mois, $i, $DEBUG);
 		}
 	}
-	echo '</tr>';
+	echo "</tr>\n";
 
 	/* affichage ligne 4 du mois*/
-	echo '<tr>';
+	echo "<tr>\n";
 	for($i=22-$first_jour_mois_rang+1; $i<29-$first_jour_mois_rang+1; $i++)
 	{
-		$val_matin='';
-		$val_aprem='';
+		$val_matin="";
+		$val_aprem="";
 		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
 
-		// si on est samedi et sam non travaillÃ© ou dimanche et dim non travaillÃ© ou jour chomÃ©
+		// si on est samedi et sam non travaillé ou dimanche et dim non travaillé ou jour chomé
 		if( (($i==28-$first_jour_mois_rang)&&($_SESSION['config']['samedi_travail']==FALSE))
 			|| (($i==29-$first_jour_mois_rang)&&($_SESSION['config']['dimanche_travail']==FALSE))
 			|| (est_chome($j_timestamp)==TRUE) || (est_ferme($j_timestamp)==TRUE) )
 		{
 			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
-			echo '<td bgcolor='.$bgcolor.' width="14%" class="cal-saisie">'.$i.'</td>';
+			echo "<td bgcolor=$bgcolor width=\"14%\" class=\"cal-saisie\">$i</td>";
 		}
 		else
 		{
 			$j_timestamp=mktime (0,0,0,$mois,$i,$year);
-			recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem,  $DEBUG);
+			recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem, $mysql_link, $DEBUG);
 			affiche_cellule_calendrier_echange_presence_saisie_semaine($val_matin, $val_aprem, $year, $mois, $i, $DEBUG);
 		}
 	}
-	echo '</tr>';
+	echo "</tr>\n";
 
 	/* affichage ligne 5 du mois (peut etre la derniere ligne)*/
-	echo '<tr>';
+	echo "<tr>\n";
 	for($i=29-$first_jour_mois_rang+1; $i<36-$first_jour_mois_rang+1 && checkdate($mois, $i, $year); $i++)
 	{
-		$val_matin='';
-		$val_aprem='';
+		$val_matin="";
+		$val_aprem="";
 		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
 
-		// si on est samedi et sam non travaillÃ© ou dimanche et dim non travaillÃ© ou jour chomÃ©
+		// si on est samedi et sam non travaillé ou dimanche et dim non travaillé ou jour chomé
 		if( (($i==35-$first_jour_mois_rang)&&($_SESSION['config']['samedi_travail']==FALSE))
 			|| (($i==36-$first_jour_mois_rang)&&($_SESSION['config']['dimanche_travail']==FALSE))
 			|| (est_chome($j_timestamp)==TRUE) || (est_ferme($j_timestamp)==TRUE) )
 		{
 			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
-			echo '<td bgcolor='.$bgcolor.' width="14%" class="cal-saisie">'.$i.'</td>';
+			echo "<td bgcolor=$bgcolor width=\"14%\" class=\"cal-saisie\">$i</td>";
 		}
 		else
 		{
 			$j_timestamp=mktime (0,0,0,$mois,$i,$year);
-			recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem,  $DEBUG);
+			recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem, $mysql_link, $DEBUG);
 			affiche_cellule_calendrier_echange_presence_saisie_semaine($val_matin, $val_aprem, $year, $mois, $i, $DEBUG);
 		}
 	}
 	for($i; $i<36-$first_jour_mois_rang+1; $i++)
 	{
-		// si on est samedi et sam non travaillÃ© ou dimanche et dim non travaillÃ©
+		// si on est samedi et sam non travaillé ou dimanche et dim non travaillé
 		if( (($i==35-$first_jour_mois_rang)&&($_SESSION['config']['samedi_travail']==FALSE))
 			|| (($i==36-$first_jour_mois_rang)&&($_SESSION['config']['dimanche_travail']==FALSE)) )
 			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
 		else
 			$bgcolor=$_SESSION['config']['semaine_bgcolor'];
-		echo '<td bgcolor='.$bgcolor.' class="cal-saisie2">-</td>';
+		echo "<td bgcolor=$bgcolor class=\"cal-saisie2\">-</td>";
 	}
-	echo '</tr>';
+	echo "</tr>\n";
 
 	/* affichage ligne 6 du mois (derniere ligne)*/
-	echo '<tr>';
+	echo "<tr>\n";
 	for($i=36-$first_jour_mois_rang+1; checkdate($mois, $i, $year); $i++)
 	{
-		$val_matin='';
-		$val_aprem='';
+		$val_matin="";
+		$val_aprem="";
 		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
 
-		// si on est samedi et sam non travaillÃ© ou dimanche et dim non travaillÃ© ou jour chomÃ©
+		// si on est samedi et sam non travaillé ou dimanche et dim non travaillé ou jour chomé
 		if( (($i==42-$first_jour_mois_rang)&&($_SESSION['config']['samedi_travail']==FALSE))
 			|| (($i==43-$first_jour_mois_rang)&&($_SESSION['config']['dimanche_travail']==FALSE))
 			|| (est_chome($j_timestamp)==TRUE) || (est_ferme($j_timestamp)==TRUE) )
 		{
 			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
-			echo '<td bgcolor='.$bgcolor.' width="14%" class="cal-saisie">'.$i.'</td>';
+			echo "<td bgcolor=$bgcolor width=\"14%\" class=\"cal-saisie\">$i</td>";
 		}
 		else
 		{
 			$j_timestamp=mktime (0,0,0,$mois,$i,$year);
-			recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem,  $DEBUG);
+			recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem, $mysql_link, $DEBUG);
 			affiche_cellule_calendrier_echange_presence_saisie_semaine($val_matin, $val_aprem, $year, $mois, $i, $DEBUG);
 		}
 	}
 	for($i; $i<43-$first_jour_mois_rang+1; $i++)
 	{
-		// si on est samedi et sam non travaillÃ© ou dimanche et dim non travaillÃ©
+		// si on est samedi et sam non travaillé ou dimanche et dim non travaillé
 		if( (($i==42-$first_jour_mois_rang)&&($_SESSION['config']['samedi_travail']==FALSE))
 			|| (($i==43-$first_jour_mois_rang)&&($_SESSION['config']['dimanche_travail']==FALSE)) )
 			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
 		else
 			$bgcolor=$_SESSION['config']['semaine_bgcolor'];
-		echo '<td bgcolor='.$bgcolor.' class="cal-saisie2">-</td>';
+		echo "<td bgcolor=$bgcolor class=\"cal-saisie2\">-</td>";
 	}
-	echo '</tr>';
+	echo "</tr>\n";
 
-	echo '</table>';
+	echo "</table>\n";
 }
 
 
 function affiche_cellule_calendrier_echange_presence_saisie_semaine($val_matin, $val_aprem, $year, $mois, $j, $DEBUG=FALSE)
 {
 	$bgcolor=$_SESSION['config']['semaine_bgcolor'];
-	if(($val_matin=='Y')&&($val_aprem=='Y'))  // rtt le matin et l'apres midi !
+	if(($val_matin=="Y")&&($val_aprem=="Y"))  // rtt le matin et l'apres midi !
 	{
 		$bgcolor=$_SESSION['config']['temps_partiel_bgcolor'];
-		echo '<td bgcolor='.$bgcolor.' class="cal-saisie">'.$j.'</td>';
+		echo "<td bgcolor=$bgcolor class=\"cal-saisie\">$j</td>";
 	}
-	elseif(($val_matin=='Y')&&($val_aprem=='N'))
+	elseif(($val_matin=="Y")&&($val_aprem=="N"))
 	{
 		$bgcolor=$_SESSION['config']['temps_partiel_bgcolor'];
-		echo '<td bgcolor='.$bgcolor.' class="cal-day_semaine_rtt_am_travail_pm_w35">'.$j.'<input type="radio" name="new_fin" value="'.$year.'-'.$mois.'-'.$j.'-p"></td>';
+		echo "<td bgcolor=$bgcolor class=\"cal-day_semaine_rtt_am_travail_pm_w35\">$j<input type=\"radio\" name=\"new_fin\" value=\"$year-$mois-$j-p\"></td>";
 	}
-	elseif(($val_matin=='N')&&($val_aprem=='Y'))
+	elseif(($val_matin=="N")&&($val_aprem=="Y"))
 	{
 		$bgcolor=$_SESSION['config']['temps_partiel_bgcolor'];
-		echo '<td bgcolor='.$bgcolor.' class="cal-day_semaine_travail_am_rtt_pm_w35">'.$j.'<input type="radio" name="new_fin" value="'.$year.'-'.$mois.'-'.$j.'-a"></td>';
+		echo "<td bgcolor=$bgcolor class=\"cal-day_semaine_travail_am_rtt_pm_w35\">$j<input type=\"radio\" name=\"new_fin\" value=\"$year-$mois-$j-a\"></td>";
 	}
 	else
 	{
-		echo '<td bgcolor='.$bgcolor.' class="cal-saisie">'.$j.'<input type="radio" name="new_fin" value="'.$year.'-'.$mois.'-'.$j.'-j"></td>';
+		echo "<td bgcolor=$bgcolor class=\"cal-saisie\">$j<input type=\"radio\" name=\"new_fin\" value=\"$year-$mois-$j-j\"></td>";
 	}
 }
 
@@ -757,221 +755,220 @@ function affiche_cellule_calendrier_echange_presence_saisie_semaine($val_matin, 
 
 
 // saisie de la grille des jours d'abscence ARTT ou temps partiel:
-function saisie_jours_absence_temps_partiel($login,  $DEBUG=FALSE)
+function saisie_jours_absence_temps_partiel($login, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
 	/* initialisation des variables **************/
-	$checked_option_sem_imp_lu_am='';
-	$checked_option_sem_imp_lu_pm='';
-	$checked_option_sem_imp_ma_am='';
-	$checked_option_sem_imp_ma_pm='';
-	$checked_option_sem_imp_me_am='';
-	$checked_option_sem_imp_me_pm='';
-	$checked_option_sem_imp_je_am='';
-	$checked_option_sem_imp_je_pm='';
-	$checked_option_sem_imp_ve_am='';
-	$checked_option_sem_imp_ve_pm='';
-	$checked_option_sem_imp_sa_am='';
-	$checked_option_sem_imp_sa_pm='';
-	$checked_option_sem_imp_di_am='';
-	$checked_option_sem_imp_di_pm='';
+	$checked_option_sem_imp_lu_am="";
+	$checked_option_sem_imp_lu_pm="";
+	$checked_option_sem_imp_ma_am="";
+	$checked_option_sem_imp_ma_pm="";
+	$checked_option_sem_imp_me_am="";
+	$checked_option_sem_imp_me_pm="";
+	$checked_option_sem_imp_je_am="";
+	$checked_option_sem_imp_je_pm="";
+	$checked_option_sem_imp_ve_am="";
+	$checked_option_sem_imp_ve_pm="";
+	$checked_option_sem_imp_sa_am="";
+	$checked_option_sem_imp_sa_pm="";
+	$checked_option_sem_imp_di_am="";
+	$checked_option_sem_imp_di_pm="";
 
-	$checked_option_sem_p_lu_am='';
-	$checked_option_sem_p_lu_pm='';
-	$checked_option_sem_p_ma_am='';
-	$checked_option_sem_p_ma_pm='';
-	$checked_option_sem_p_me_am='';
-	$checked_option_sem_p_me_pm='';
-	$checked_option_sem_p_je_am='';
-	$checked_option_sem_p_je_pm='';
-	$checked_option_sem_p_ve_am='';
-	$checked_option_sem_p_ve_pm='';
-	$checked_option_sem_p_sa_am='';
-	$checked_option_sem_p_sa_pm='';
-	$checked_option_sem_p_di_am='';
-	$checked_option_sem_p_di_pm='';
+	$checked_option_sem_p_lu_am="";
+	$checked_option_sem_p_lu_pm="";
+	$checked_option_sem_p_ma_am="";
+	$checked_option_sem_p_ma_pm="";
+	$checked_option_sem_p_me_am="";
+	$checked_option_sem_p_me_pm="";
+	$checked_option_sem_p_je_am="";
+	$checked_option_sem_p_je_pm="";
+	$checked_option_sem_p_ve_am="";
+	$checked_option_sem_p_ve_pm="";
+	$checked_option_sem_p_sa_am="";
+	$checked_option_sem_p_sa_pm="";
+	$checked_option_sem_p_di_am="";
+	$checked_option_sem_p_di_pm="";
 	/*********************************************/
 
-	// recup des donnÃ©es de la derniÃ¨re table artt du user :
-	$sql1 = 'SELECT * FROM conges_artt WHERE a_login=\''.$sql->escape($login).'\' AND a_date_fin_grille=\'9999-12-31\' '  ;
-	$ReqLog1 = requete_mysql($sql1,  'saisie_jours_absence_temps_partiel', $DEBUG);
+	// recup des données de la dernière table artt du user :
+	$sql1 = "SELECT * FROM conges_artt WHERE a_login='$login' AND a_date_fin_grille='9999-12-31' "  ;
+	$ReqLog1 = requete_mysql($sql1, $mysql_link, "saisie_jours_absence_temps_partiel", $DEBUG);
 
-	while ($resultat1 = $ReqLog1 -> fetch_array()) {
-		if($resultat1['sem_imp_lu_am']=='Y') $checked_option_sem_imp_lu_am=' checked';
-		if($resultat1['sem_imp_lu_pm']=='Y') $checked_option_sem_imp_lu_pm=' checked';
-		if($resultat1['sem_imp_ma_am']=='Y') $checked_option_sem_imp_ma_am=' checked';
-		if($resultat1['sem_imp_ma_pm']=='Y') $checked_option_sem_imp_ma_pm=' checked';
-		if($resultat1['sem_imp_me_am']=='Y') $checked_option_sem_imp_me_am=' checked';
-		if($resultat1['sem_imp_me_pm']=='Y') $checked_option_sem_imp_me_pm=' checked';
-		if($resultat1['sem_imp_je_am']=='Y') $checked_option_sem_imp_je_am=' checked';
-		if($resultat1['sem_imp_je_pm']=='Y') $checked_option_sem_imp_je_pm=' checked';
-		if($resultat1['sem_imp_ve_am']=='Y') $checked_option_sem_imp_ve_am=' checked';
-		if($resultat1['sem_imp_ve_pm']=='Y') $checked_option_sem_imp_ve_pm=' checked';
-		if($resultat1['sem_imp_sa_am']=='Y') $checked_option_sem_imp_sa_am=' checked';
-		if($resultat1['sem_imp_sa_pm']=='Y') $checked_option_sem_imp_sa_pm=' checked';
-		if($resultat1['sem_imp_di_am']=='Y') $checked_option_sem_imp_di_am=' checked';
-		if($resultat1['sem_imp_di_pm']=='Y') $checked_option_sem_imp_di_pm=' checked';
+	while ($resultat1 = mysql_fetch_array($ReqLog1)) {
+		if($resultat1['sem_imp_lu_am']=="Y") $checked_option_sem_imp_lu_am=" checked";
+		if($resultat1['sem_imp_lu_pm']=="Y") $checked_option_sem_imp_lu_pm=" checked";
+		if($resultat1['sem_imp_ma_am']=="Y") $checked_option_sem_imp_ma_am=" checked";
+		if($resultat1['sem_imp_ma_pm']=="Y") $checked_option_sem_imp_ma_pm=" checked";
+		if($resultat1['sem_imp_me_am']=="Y") $checked_option_sem_imp_me_am=" checked";
+		if($resultat1['sem_imp_me_pm']=="Y") $checked_option_sem_imp_me_pm=" checked";
+		if($resultat1['sem_imp_je_am']=="Y") $checked_option_sem_imp_je_am=" checked";
+		if($resultat1['sem_imp_je_pm']=="Y") $checked_option_sem_imp_je_pm=" checked";
+		if($resultat1['sem_imp_ve_am']=="Y") $checked_option_sem_imp_ve_am=" checked";
+		if($resultat1['sem_imp_ve_pm']=="Y") $checked_option_sem_imp_ve_pm=" checked";
+		if($resultat1['sem_imp_sa_am']=="Y") $checked_option_sem_imp_sa_am=" checked";
+		if($resultat1['sem_imp_sa_pm']=="Y") $checked_option_sem_imp_sa_pm=" checked";
+		if($resultat1['sem_imp_di_am']=="Y") $checked_option_sem_imp_di_am=" checked";
+		if($resultat1['sem_imp_di_pm']=="Y") $checked_option_sem_imp_di_pm=" checked";
 
-		if($resultat1['sem_p_lu_am']=='Y') $checked_option_sem_p_lu_am=' checked';
-		if($resultat1['sem_p_lu_pm']=='Y') $checked_option_sem_p_lu_pm=' checked';
-		if($resultat1['sem_p_ma_am']=='Y') $checked_option_sem_p_ma_am=' checked';
-		if($resultat1['sem_p_ma_pm']=='Y') $checked_option_sem_p_ma_pm=' checked';
-		if($resultat1['sem_p_me_am']=='Y') $checked_option_sem_p_me_am=' checked';
-		if($resultat1['sem_p_me_pm']=='Y') $checked_option_sem_p_me_pm=' checked';
-		if($resultat1['sem_p_je_am']=='Y') $checked_option_sem_p_je_am=' checked';
-		if($resultat1['sem_p_je_pm']=='Y') $checked_option_sem_p_je_pm=' checked';
-		if($resultat1['sem_p_ve_am']=='Y') $checked_option_sem_p_ve_am=' checked';
-		if($resultat1['sem_p_ve_pm']=='Y') $checked_option_sem_p_ve_pm=' checked';
-		if($resultat1['sem_p_sa_am']=='Y') $checked_option_sem_p_sa_am=' checked';
-		if($resultat1['sem_p_sa_pm']=='Y') $checked_option_sem_p_sa_pm=' checked';
-		if($resultat1['sem_p_di_am']=='Y') $checked_option_sem_p_di_am=' checked';
-		if($resultat1['sem_p_di_pm']=='Y') $checked_option_sem_p_di_pm=' checked';
+		if($resultat1['sem_p_lu_am']=="Y") $checked_option_sem_p_lu_am=" checked";
+		if($resultat1['sem_p_lu_pm']=="Y") $checked_option_sem_p_lu_pm=" checked";
+		if($resultat1['sem_p_ma_am']=="Y") $checked_option_sem_p_ma_am=" checked";
+		if($resultat1['sem_p_ma_pm']=="Y") $checked_option_sem_p_ma_pm=" checked";
+		if($resultat1['sem_p_me_am']=="Y") $checked_option_sem_p_me_am=" checked";
+		if($resultat1['sem_p_me_pm']=="Y") $checked_option_sem_p_me_pm=" checked";
+		if($resultat1['sem_p_je_am']=="Y") $checked_option_sem_p_je_am=" checked";
+		if($resultat1['sem_p_je_pm']=="Y") $checked_option_sem_p_je_pm=" checked";
+		if($resultat1['sem_p_ve_am']=="Y") $checked_option_sem_p_ve_am=" checked";
+		if($resultat1['sem_p_ve_pm']=="Y") $checked_option_sem_p_ve_pm=" checked";
+		if($resultat1['sem_p_sa_am']=="Y") $checked_option_sem_p_sa_am=" checked";
+		if($resultat1['sem_p_sa_pm']=="Y") $checked_option_sem_p_sa_pm=" checked";
+		if($resultat1['sem_p_di_am']=="Y") $checked_option_sem_p_di_am=" checked";
+		if($resultat1['sem_p_di_pm']=="Y") $checked_option_sem_p_di_pm=" checked";
 		$date_deb_grille=$resultat1['a_date_debut_grille'];
 		$date_fin_grille=$resultat1['a_date_fin_grille'];
 	}
 
 
-	echo '<h4>'.$_SESSION['lang']['admin_temps_partiel_titre'].' :</h4>';
-	echo '<table cellpadding="0" cellspacing="0" border="0">';
-	echo '<tr>';
-	echo '<td>';
+	echo "<h4>".$_SESSION['lang']['admin_temps_partiel_titre']." :</h4>\n";
+	echo "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n";
+	echo "<tr>\n";
+	echo "<td>\n";
 		//tableau semaines impaires
-		echo '<b><u>'.$_SESSION['lang']['admin_temps_partiel_sem_impaires'].' :</u></b><br>';
+		echo "<b><u>".$_SESSION['lang']['admin_temps_partiel_sem_impaires']." :</u></b><br>\n";
 		$tab_checkbox_sem_imp=array();
-		$imp_lu_am='<input type="checkbox" name="tab_checkbox_sem_imp[sem_imp_lu_am]" value="Y" '.$checked_option_sem_imp_lu_am.'>';
-		$imp_lu_pm='<input type="checkbox" name="tab_checkbox_sem_imp[sem_imp_lu_pm]" value="Y" '.$checked_option_sem_imp_lu_pm.'>';
-		$imp_ma_am='<input type="checkbox" name="tab_checkbox_sem_imp[sem_imp_ma_am]" value="Y" '.$checked_option_sem_imp_ma_am.'>';
-		$imp_ma_pm='<input type="checkbox" name="tab_checkbox_sem_imp[sem_imp_ma_pm]" value="Y" '.$checked_option_sem_imp_ma_pm.'>';
-		$imp_me_am='<input type="checkbox" name="tab_checkbox_sem_imp[sem_imp_me_am]" value="Y" '.$checked_option_sem_imp_me_am.'>';
-		$imp_me_pm='<input type="checkbox" name="tab_checkbox_sem_imp[sem_imp_me_pm]" value="Y" '.$checked_option_sem_imp_me_pm.'>';
-		$imp_je_am='<input type="checkbox" name="tab_checkbox_sem_imp[sem_imp_je_am]" value="Y" '.$checked_option_sem_imp_je_am.'>';
-		$imp_je_pm='<input type="checkbox" name="tab_checkbox_sem_imp[sem_imp_je_pm]" value="Y" '.$checked_option_sem_imp_je_pm.'>';
-		$imp_ve_am='<input type="checkbox" name="tab_checkbox_sem_imp[sem_imp_ve_am]" value="Y" '.$checked_option_sem_imp_ve_am.'>';
-		$imp_ve_pm='<input type="checkbox" name="tab_checkbox_sem_imp[sem_imp_ve_pm]" value="Y" '.$checked_option_sem_imp_ve_pm.'>';
+		$imp_lu_am="<input type=\"checkbox\" name=\"tab_checkbox_sem_imp[sem_imp_lu_am]\" value=\"Y\" $checked_option_sem_imp_lu_am>";
+		$imp_lu_pm="<input type=\"checkbox\" name=\"tab_checkbox_sem_imp[sem_imp_lu_pm]\" value=\"Y\" $checked_option_sem_imp_lu_pm>";
+		$imp_ma_am="<input type=\"checkbox\" name=\"tab_checkbox_sem_imp[sem_imp_ma_am]\" value=\"Y\" $checked_option_sem_imp_ma_am>";
+		$imp_ma_pm="<input type=\"checkbox\" name=\"tab_checkbox_sem_imp[sem_imp_ma_pm]\" value=\"Y\" $checked_option_sem_imp_ma_pm>";
+		$imp_me_am="<input type=\"checkbox\" name=\"tab_checkbox_sem_imp[sem_imp_me_am]\" value=\"Y\" $checked_option_sem_imp_me_am>";
+		$imp_me_pm="<input type=\"checkbox\" name=\"tab_checkbox_sem_imp[sem_imp_me_pm]\" value=\"Y\" $checked_option_sem_imp_me_pm>";
+		$imp_je_am="<input type=\"checkbox\" name=\"tab_checkbox_sem_imp[sem_imp_je_am]\" value=\"Y\" $checked_option_sem_imp_je_am>";
+		$imp_je_pm="<input type=\"checkbox\" name=\"tab_checkbox_sem_imp[sem_imp_je_pm]\" value=\"Y\" $checked_option_sem_imp_je_pm>";
+		$imp_ve_am="<input type=\"checkbox\" name=\"tab_checkbox_sem_imp[sem_imp_ve_am]\" value=\"Y\" $checked_option_sem_imp_ve_am>";
+		$imp_ve_pm="<input type=\"checkbox\" name=\"tab_checkbox_sem_imp[sem_imp_ve_pm]\" value=\"Y\" $checked_option_sem_imp_ve_pm>";
 		if($_SESSION['config']['samedi_travail']==TRUE)
 		{
-			$imp_sa_am='<input type="checkbox" name="tab_checkbox_sem_imp[sem_imp_sa_am]" value="Y" '.$checked_option_sem_imp_sa_am.'>';
-			$imp_sa_pm='<input type="checkbox" name="tab_checkbox_sem_imp[sem_imp_sa_pm]" value="Y" '.$checked_option_sem_imp_sa_pm.'>';
+			$imp_sa_am="<input type=\"checkbox\" name=\"tab_checkbox_sem_imp[sem_imp_sa_am]\" value=\"Y\" $checked_option_sem_imp_sa_am>";
+			$imp_sa_pm="<input type=\"checkbox\" name=\"tab_checkbox_sem_imp[sem_imp_sa_pm]\" value=\"Y\" $checked_option_sem_imp_sa_pm>";
 		}
 		if($_SESSION['config']['dimanche_travail']==TRUE)
 		{
-			$imp_di_am='<input type="checkbox" name="tab_checkbox_sem_imp[sem_imp_di_am]" value="Y" '.$checked_option_sem_imp_di_am.'>';
-			$imp_di_pm='<input type="checkbox" name="tab_checkbox_sem_imp[sem_imp_di_pm]" value="Y" '.$checked_option_sem_imp_di_pm.'>';
+			$imp_di_am="<input type=\"checkbox\" name=\"tab_checkbox_sem_imp[sem_imp_di_am]\" value=\"Y\" $checked_option_sem_imp_di_am>";
+			$imp_di_pm="<input type=\"checkbox\" name=\"tab_checkbox_sem_imp[sem_imp_di_pm]\" value=\"Y\" $checked_option_sem_imp_di_pm>";
 		}
 
-		echo '<table cellpadding="1" class="tablo">';
-		echo '<tr align="center">';
-			echo '<td></td>';
-			echo '<td class="histo">'.$_SESSION['lang']['lundi'].'</td>';
-			echo '<td class="histo">'.$_SESSION['lang']['mardi'].'</td>';
-			echo '<td class="histo">'.$_SESSION['lang']['mercredi'].'</td>';
-			echo '<td class="histo">'.$_SESSION['lang']['jeudi'].'</td>';
-			echo '<td class="histo">'.$_SESSION['lang']['vendredi'].'</td>';
+		echo "<table cellpadding=\"1\" class=\"tablo\">\n";
+		echo "<tr align=\"center\">\n";
+			echo "<td></td>\n";
+			echo "<td class=\"histo\">".$_SESSION['lang']['lundi']."</td>\n";
+			echo "<td class=\"histo\">".$_SESSION['lang']['mardi']."</td>\n";
+			echo "<td class=\"histo\">".$_SESSION['lang']['mercredi']."</td>\n";
+			echo "<td class=\"histo\">".$_SESSION['lang']['jeudi']."</td>\n";
+			echo "<td class=\"histo\">".$_SESSION['lang']['vendredi']."</td>\n";
 			if($_SESSION['config']['samedi_travail']==TRUE)
-				echo '<td class="histo">'.$_SESSION['lang']['samedi'].'</td>';
+				echo "<td class=\"histo\">".$_SESSION['lang']['samedi']."</td>\n";
 			if($_SESSION['config']['dimanche_travail']==TRUE)
-				echo '<td class="histo">'.$_SESSION['lang']['dimanche'].'</td>';
-		echo '</tr>';
-		echo '<tr align="center">';
-			echo '<td class="histo">'.$_SESSION['lang']['admin_temps_partiel_am'].'</td>';
-			echo '<td class="histo">'.$imp_lu_am.'</td>';
-			echo '<td class="histo">'.$imp_ma_am.'</td>';
-			echo '<td class="histo">'.$imp_me_am.'</td>';
-			echo '<td class="histo">'.$imp_je_am.'</td>';
-			echo '<td class="histo">'.$imp_ve_am.'</td>';
+				echo "<td class=\"histo\">".$_SESSION['lang']['dimanche']."</td>\n";
+		echo "</tr>\n";
+		echo "<tr align=\"center\">\n";
+			echo "<td class=\"histo\">".$_SESSION['lang']['admin_temps_partiel_am']."</td>\n";
+			echo "<td class=\"histo\">$imp_lu_am</td>\n";
+			echo "<td class=\"histo\">$imp_ma_am</td>\n";
+			echo "<td class=\"histo\">$imp_me_am</td>\n";
+			echo "<td class=\"histo\">$imp_je_am</td>\n";
+			echo "<td class=\"histo\">$imp_ve_am</td>\n";
 			if($_SESSION['config']['samedi_travail']==TRUE)
-				echo '<td class="histo">'.$imp_sa_am.'</td>';
+				echo "<td class=\"histo\">$imp_sa_am</td>\n";
 			if($_SESSION['config']['dimanche_travail']==TRUE)
-				echo '<td class="histo">'.$imp_di_am.'</td>';
-		echo '</tr>';
-		echo '<tr align="center">';
-			echo '<td class="histo">'.$_SESSION['lang']['admin_temps_partiel_pm'].'</td>';
-			echo '<td class="histo">'.$imp_lu_pm.'</td>';
-			echo '<td class="histo">'.$imp_ma_pm.'</td>';
-			echo '<td class="histo">'.$imp_me_pm.'</td>';
-			echo '<td class="histo">'.$imp_je_pm.'</td>';
-			echo '<td class="histo">'.$imp_ve_pm.'</td>';
+				echo "<td class=\"histo\">$imp_di_am</td>\n";
+		echo "</tr>\n";
+		echo "<tr align=\"center\">\n";
+			echo "<td class=\"histo\">".$_SESSION['lang']['admin_temps_partiel_pm']."</td>\n";
+			echo "<td class=\"histo\">$imp_lu_pm</td>\n";
+			echo "<td class=\"histo\">$imp_ma_pm</td>\n";
+			echo "<td class=\"histo\">$imp_me_pm</td>\n";
+			echo "<td class=\"histo\">$imp_je_pm</td>\n";
+			echo "<td class=\"histo\">$imp_ve_pm</td>\n";
 			if($_SESSION['config']['samedi_travail']==TRUE)
-				echo '<td class="histo">'.$imp_sa_pm.'</td>';
+				echo "<td class=\"histo\">$imp_sa_pm</td>\n";
 			if($_SESSION['config']['dimanche_travail']==TRUE)
-				echo '<td class="histo">'.$imp_di_pm.'</td>';
-		echo '</tr>';
-		echo '</table>';
+				echo "<td class=\"histo\">$imp_di_pm</td>\n";
+		echo "</tr>\n";
+		echo "</table>\n";
 
-	echo '</td>';
-	echo ' <td><img src="../img/shim.gif" width="15" height="2" border="0" vspace="0" hspace="0"></td>';
-	echo ' <td>';
+	echo "</td>\n";
+	echo " <td><img src=\"../img/shim.gif\" width=\"15\" height=\"2\" border=\"0\" vspace=\"0\" hspace=\"0\"></td>\n";
+	echo " <td>\n";
 
 		//tableau semaines paires
-		echo '<b><u>'.$_SESSION['lang']['admin_temps_partiel_sem_paires'].':</u></b><br>';
+		echo "<b><u>".$_SESSION['lang']['admin_temps_partiel_sem_paires'].":</u></b><br>\n";
 		$tab_checkbox_sem_p=array();
-		$p_lu_am='<input type="checkbox" name="tab_checkbox_sem_p[sem_p_lu_am]" value="Y" '.$checked_option_sem_p_lu_am.'>';
-		$p_lu_pm='<input type="checkbox" name="tab_checkbox_sem_p[sem_p_lu_pm]" value="Y" '.$checked_option_sem_p_lu_pm.'>';
-		$p_ma_am='<input type="checkbox" name="tab_checkbox_sem_p[sem_p_ma_am]" value="Y" '.$checked_option_sem_p_ma_am.'>';
-		$p_ma_pm='<input type="checkbox" name="tab_checkbox_sem_p[sem_p_ma_pm]" value="Y" '.$checked_option_sem_p_ma_pm.'>';
-		$p_me_am='<input type="checkbox" name="tab_checkbox_sem_p[sem_p_me_am]" value="Y" '.$checked_option_sem_p_me_am.'>';
-		$p_me_pm='<input type="checkbox" name="tab_checkbox_sem_p[sem_p_me_pm]" value="Y" '.$checked_option_sem_p_me_pm.'>';
-		$p_je_am='<input type="checkbox" name="tab_checkbox_sem_p[sem_p_je_am]" value="Y" '.$checked_option_sem_p_je_am.'>';
-		$p_je_pm='<input type="checkbox" name="tab_checkbox_sem_p[sem_p_je_pm]" value="Y" '.$checked_option_sem_p_je_pm.'>';
-		$p_ve_am='<input type="checkbox" name="tab_checkbox_sem_p[sem_p_ve_am]" value="Y" '.$checked_option_sem_p_ve_am.'>';
-		$p_ve_pm='<input type="checkbox" name="tab_checkbox_sem_p[sem_p_ve_pm]" value="Y" '.$checked_option_sem_p_ve_pm.'>';
-		$p_sa_am='<input type="checkbox" name="tab_checkbox_sem_p[sem_p_sa_am]" value="Y" '.$checked_option_sem_p_sa_am.'>';
-		$p_sa_pm='<input type="checkbox" name="tab_checkbox_sem_p[sem_p_sa_pm]" value="Y" '.$checked_option_sem_p_sa_pm.'>';
-		$p_di_am='<input type="checkbox" name="tab_checkbox_sem_p[sem_p_di_am]" value="Y" '.$checked_option_sem_p_di_am.'>';
-		$p_di_pm='<input type="checkbox" name="tab_checkbox_sem_p[sem_p_di_pm]" value="Y" '.$checked_option_sem_p_di_pm.'>';
+		$p_lu_am="<input type=\"checkbox\" name=\"tab_checkbox_sem_p[sem_p_lu_am]\" value=\"Y\" $checked_option_sem_p_lu_am>";
+		$p_lu_pm="<input type=\"checkbox\" name=\"tab_checkbox_sem_p[sem_p_lu_pm]\" value=\"Y\" $checked_option_sem_p_lu_pm>";
+		$p_ma_am="<input type=\"checkbox\" name=\"tab_checkbox_sem_p[sem_p_ma_am]\" value=\"Y\" $checked_option_sem_p_ma_am>";
+		$p_ma_pm="<input type=\"checkbox\" name=\"tab_checkbox_sem_p[sem_p_ma_pm]\" value=\"Y\" $checked_option_sem_p_ma_pm>";
+		$p_me_am="<input type=\"checkbox\" name=\"tab_checkbox_sem_p[sem_p_me_am]\" value=\"Y\" $checked_option_sem_p_me_am>";
+		$p_me_pm="<input type=\"checkbox\" name=\"tab_checkbox_sem_p[sem_p_me_pm]\" value=\"Y\" $checked_option_sem_p_me_pm>";
+		$p_je_am="<input type=\"checkbox\" name=\"tab_checkbox_sem_p[sem_p_je_am]\" value=\"Y\" $checked_option_sem_p_je_am>";
+		$p_je_pm="<input type=\"checkbox\" name=\"tab_checkbox_sem_p[sem_p_je_pm]\" value=\"Y\" $checked_option_sem_p_je_pm>";
+		$p_ve_am="<input type=\"checkbox\" name=\"tab_checkbox_sem_p[sem_p_ve_am]\" value=\"Y\" $checked_option_sem_p_ve_am>";
+		$p_ve_pm="<input type=\"checkbox\" name=\"tab_checkbox_sem_p[sem_p_ve_pm]\" value=\"Y\" $checked_option_sem_p_ve_pm>";
+		$p_sa_am="<input type=\"checkbox\" name=\"tab_checkbox_sem_p[sem_p_sa_am]\" value=\"Y\" $checked_option_sem_p_sa_am>";
+		$p_sa_pm="<input type=\"checkbox\" name=\"tab_checkbox_sem_p[sem_p_sa_pm]\" value=\"Y\" $checked_option_sem_p_sa_pm>";
+		$p_di_am="<input type=\"checkbox\" name=\"tab_checkbox_sem_p[sem_p_di_am]\" value=\"Y\" $checked_option_sem_p_di_am>";
+		$p_di_pm="<input type=\"checkbox\" name=\"tab_checkbox_sem_p[sem_p_di_pm]\" value=\"Y\" $checked_option_sem_p_di_pm>";
 
-		echo '<table cellpadding="1"  class="tablo">';
-		echo '<tr align="center">';
-			echo '<td></td>';
-			echo '<td class="histo">'.$_SESSION['lang']['lundi'].'</td>';
-			echo '<td class="histo">'.$_SESSION['lang']['mardi'].'</td>';
-			echo '<td class="histo">'.$_SESSION['lang']['mercredi'].'</td>';
-			echo '<td class="histo">'.$_SESSION['lang']['jeudi'].'</td>';
-			echo '<td class="histo">'.$_SESSION['lang']['vendredi'].'</td>';
+		echo "<table cellpadding=\"1\"  class=\"tablo\">\n";
+		echo "<tr align=\"center\">\n";
+			echo "<td></td>\n";
+			echo "<td class=\"histo\">".$_SESSION['lang']['lundi']."</td>\n";
+			echo "<td class=\"histo\">".$_SESSION['lang']['mardi']."</td>\n";
+			echo "<td class=\"histo\">".$_SESSION['lang']['mercredi']."</td>\n";
+			echo "<td class=\"histo\">".$_SESSION['lang']['jeudi']."</td>\n";
+			echo "<td class=\"histo\">".$_SESSION['lang']['vendredi']."</td>\n";
 			if($_SESSION['config']['samedi_travail']==TRUE)
-				echo '<td class="histo">'.$_SESSION['lang']['samedi'].'</td>';
+				echo "<td class=\"histo\">".$_SESSION['lang']['samedi']."</td>\n";
 			if($_SESSION['config']['dimanche_travail']==TRUE)
-				echo '<td class="histo">'.$_SESSION['lang']['dimanche'].'</td>';
-		echo '</tr>';
-		echo '<tr align="center">';
-			echo '<td class="histo">'.$_SESSION['lang']['admin_temps_partiel_am'].'</td>';
-			echo '<td class="histo">'.$p_lu_am.'</td>';
-			echo '<td class="histo">'.$p_ma_am.'</td>';
-			echo '<td class="histo">'.$p_me_am.'</td>';
-			echo '<td class="histo">'.$p_je_am.'</td>';
-			echo '<td class="histo">'.$p_ve_am.'</td>';
+				echo "<td class=\"histo\">".$_SESSION['lang']['dimanche']."</td>\n";
+		echo "</tr>\n";
+		echo "<tr align=\"center\">\n";
+			echo "<td class=\"histo\">".$_SESSION['lang']['admin_temps_partiel_am']."</td>\n";
+			echo "<td class=\"histo\">$p_lu_am</td>\n";
+			echo "<td class=\"histo\">$p_ma_am</td>\n";
+			echo "<td class=\"histo\">$p_me_am</td>\n";
+			echo "<td class=\"histo\">$p_je_am</td>\n";
+			echo "<td class=\"histo\">$p_ve_am</td>\n";
 			if($_SESSION['config']['samedi_travail']==TRUE)
-				echo '<td class="histo">'.$p_sa_am.'</td>';
+				echo "<td class=\"histo\">$p_sa_am</td>\n";
 			if($_SESSION['config']['dimanche_travail']==TRUE)
-				echo '<td class="histo">'.$p_di_am.'</td>';
-		echo '</tr>';
-		echo '<tr align="center">';
-			echo '<td class="histo">'.$_SESSION['lang']['admin_temps_partiel_pm'].'</td>';
-			echo '<td class="histo">'.$p_lu_pm.'</td>';
-			echo '<td class="histo">'.$p_ma_pm.'</td>';
-			echo '<td class="histo">'.$p_me_pm.'</td>';
-			echo '<td class="histo">'.$p_je_pm.'</td>';
-			echo '<td class="histo">'.$p_ve_pm.'</td>';
+				echo "<td class=\"histo\">$p_di_am</td>\n";
+		echo "</tr>\n";
+		echo "<tr align=\"center\">\n";
+			echo "<td class=\"histo\">".$_SESSION['lang']['admin_temps_partiel_pm']."</td>\n";
+			echo "<td class=\"histo\">$p_lu_pm</td>\n";
+			echo "<td class=\"histo\">$p_ma_pm</td>\n";
+			echo "<td class=\"histo\">$p_me_pm</td>\n";
+			echo "<td class=\"histo\">$p_je_pm</td>\n";
+			echo "<td class=\"histo\">$p_ve_pm</td>\n";
 			if($_SESSION['config']['samedi_travail']==TRUE)
-				echo '<td class="histo">'.$p_sa_pm.'</td>';
+				echo "<td class=\"histo\">$p_sa_pm</td>\n";
 			if($_SESSION['config']['dimanche_travail']==TRUE)
-				echo '<td class="histo">'.$p_di_pm.'</td>';
-		echo '</tr>';
-		echo '</table>';
-	echo '</td>';
-	echo '</tr>';
-	echo '<tr align="center">';
-	echo '<td colspan="3">';
-		$jour_default=date('d');
-		$mois_default=date('m');
-		$year_default=date('Y');
-		echo '<br>'.$_SESSION['lang']['admin_temps_partiel_date_valid'].' :';
+				echo "<td class=\"histo\">$p_di_pm</td>\n";
+		echo "</tr>\n";
+		echo "</table>\n";
+	echo "</td>\n";
+	echo "</tr>\n";
+	echo "<tr align=\"center\">\n";
+	echo "<td colspan=\"3\">\n";
+		$jour_default=date("d");
+		$mois_default=date("m");
+		$year_default=date("Y");
+		echo "<br>".$_SESSION['lang']['admin_temps_partiel_date_valid']." :\n";
 		affiche_selection_new_jour($jour_default);  // la variable est $new_jour
 		affiche_selection_new_mois($mois_default);  // la variable est $new_mois
 		affiche_selection_new_year($year_default-2, $year_default+10, $year_default );  // la variable est $new_year
-	echo '</td>';
-	echo '</tr>';
-	echo '</table>';
+	echo "</td>\n";
+	echo "</tr>\n";
+	echo "</table>\n";
 
 }
 
@@ -979,43 +976,82 @@ function saisie_jours_absence_temps_partiel($login,  $DEBUG=FALSE)
 // retourne le nom du jour de la semaine en francais sur 2 caracteres
 function get_j_name_fr_2c($timestamp)
 {
-	$jour_name_fr_2c=array(0=>'di',1=>'lu', 2=>'ma',3=>'me',4=>'je',5=>'ve',6=>'sa',);
+	$jour_name_fr_2c="";
 
-	$jour_num=date('w', $timestamp);
-	if (isset($jour_name_fr_2c[$jour_num]))
-		return $jour_name_fr_2c[$jour_num];
-	else
-		return false;
+	$jour_num=date("w", $timestamp);
+	switch($jour_num) {
+	 	case 1:
+			$jour_name_fr_2c = "lu" ;
+			break;
+	 	case 2:
+			$jour_name_fr_2c = "ma" ;
+			break;
+	 	case 3:
+			$jour_name_fr_2c = "me" ;
+			break;
+	 	case 4:
+			$jour_name_fr_2c = "je" ;
+			break;
+	 	case 5:
+			$jour_name_fr_2c = "ve" ;
+			break;
+	 	case 6:
+			$jour_name_fr_2c = "sa" ;
+			break;
+	 	case 0:
+			$jour_name_fr_2c = "di" ;
+			break;
+		default:
+			$jour_name_fr_2c=FALSE;
+	}
+
+	return $jour_name_fr_2c;
 }
 
 
 // retourne le nom du jour de la semaine dans la langue choisie sur 2 caracteres
 function get_j_name_lang_2c($timestamp)
 {
-	$jour_name_fr_2c=array(
-			0 => $_SESSION['lang']['dimanche_2c'],
-			1 => $_SESSION['lang']['lundi_2c'],
-			2 => $_SESSION['lang']['mardi_2c'],
-			3 => $_SESSION['lang']['mercredi_2c'],
-			4 => $_SESSION['lang']['jeudi_2c'],
-			5 => $_SESSION['lang']['vendredi_2c'],
-			6 => $_SESSION['lang']['samedi_2c'],);
+	$jour_name_fr_2c="";
 
 	$jour_num=date("w", $timestamp);
-	if (isset($jour_name_fr_2c[$jour_num]))
-		return $jour_name_fr_2c[$jour_num];
-	else
-		return false;
+	switch($jour_num) {
+	 	case 1:
+			$jour_name_fr_2c = $_SESSION['lang']['lundi_2c'] ;
+			break;
+	 	case 2:
+			$jour_name_fr_2c = $_SESSION['lang']['mardi_2c'] ;
+			break;
+	 	case 3:
+			$jour_name_fr_2c = $_SESSION['lang']['mercredi_2c'] ;
+			break;
+	 	case 4:
+			$jour_name_fr_2c = $_SESSION['lang']['jeudi_2c'] ;
+			break;
+	 	case 5:
+			$jour_name_fr_2c = $_SESSION['lang']['vendredi_2c'] ;
+			break;
+	 	case 6:
+			$jour_name_fr_2c = $_SESSION['lang']['samedi_2c'] ;
+			break;
+	 	case 0:
+			$jour_name_fr_2c = $_SESSION['lang']['dimanche_2c'] ;
+			break;
+		default:
+			$jour_name_fr_2c=FALSE;
+	}
+
+	return $jour_name_fr_2c;
 }
 
 
 
 
 //affiche le formulaire de saisie d'une nouvelle demande de conges
-function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $onglet,  $DEBUG=FALSE)
+function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $onglet, $mysql_link, $DEBUG=FALSE)
 {
 //$DEBUG=TRUE;
-	if($DEBUG==TRUE) { echo 'user_login = '.$user_login.', year_calendrier_saisie_debut = '.$year_calendrier_saisie_debut.', mois_calendrier_saisie_debut = '.$mois_calendrier_saisie_debut.', year_calendrier_saisie_fin = '.$year_calendrier_saisie_fin.', mois_calendrier_saisie_fin = '.$mois_calendrier_saisie_fin.', onglet = '.$onglet.'<br>';}
+	if($DEBUG==TRUE) { echo "user_login = $user_login, year_calendrier_saisie_debut = $year_calendrier_saisie_debut, mois_calendrier_saisie_debut = $mois_calendrier_saisie_debut, year_calendrier_saisie_fin = $year_calendrier_saisie_fin, mois_calendrier_saisie_fin = $mois_calendrier_saisie_fin, onglet = $onglet<br>\n";}
 
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
@@ -1024,29 +1060,29 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 	$mois_calendrier_saisie_fin_prec=0; $year_calendrier_saisie_fin_prec=0;
 	$mois_calendrier_saisie_fin_suiv=0; $year_calendrier_saisie_fin_suiv=0;
 
-	init_tab_jours_fermeture($user_login);
+	init_tab_jours_fermeture($user_login, $mysql_link);
 
-//		echo '<form action="'.$PHP_SELF.'?session='.$session.'" method="POST">' ;
-		echo '<form action="'.$PHP_SELF.'?session='.$session.'&onglet='.$onglet.'" method="POST">' ;
-//		echo '<form action="'.$PHP_SELF.'?session='.$session.'&login_user='.$user_login.'" method="POST">' ;
-		// il faut indiquer le champ de formulaire 'login_user' car il est rÃ©cupÃ©rÃ© par le javascript qui apelle le calcul automatique.
-//		echo '<input type="hidden" name="login_user" value="'.$user_login.'">';
+//		echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n" ;
+		echo "<form action=\"$PHP_SELF?session=$session&onglet=$onglet\" method=\"POST\">\n" ;
+//		echo "<form action=\"$PHP_SELF?session=$session&login_user=$user_login\" method=\"POST\">\n" ;
+		// il faut indiquer le champ de formulaire "login_user" car il est récupéré par le javascript qui apelle le calcul automatique.
+//		echo "<input type=\"hidden\" name=\"login_user\" value=\"$user_login\">\n";
 
-			echo '<table cellpadding="0" cellspacing="5" border="0">';
-			echo '<tr align="center">';
-			echo '<td>';
-				echo '<table cellpadding="0" cellspacing="0" border="0">';
-				echo '<tr align="center">';
-					echo '<td>';
-					echo '<fieldset class="cal_saisie">';
-						echo '<table cellpadding="0" cellspacing="0" border="0">';
-						echo '<tr align="center">';
+			echo "<table cellpadding=\"0\" cellspacing=\"5\" border=\"0\">\n";
+			echo "<tr align=\"center\">\n";
+			echo "<td>\n";
+				echo "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n";
+				echo "<tr align=\"center\">\n";
+					echo "<td>\n";
+					echo "<fieldset class=\"cal_saisie\">\n";
+						echo "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n";
+						echo "<tr align=\"center\">\n";
 							echo "<td>\n";
 								/******************************************************************/
-								// affichage du calendrier de saisie de la date de DEBUT de congÃ¨s
+								// affichage du calendrier de saisie de la date de DEBUT de congès
 								/******************************************************************/
-								echo '<table cellpadding="0" cellspacing="0" width="250" border="0">';
-								echo '<tr>';
+								echo "<table cellpadding=\"0\" cellspacing=\"0\" width=\"250\" border=\"0\">\n";
+								echo "<tr>\n";
 									init_var_navigation_mois_year($mois_calendrier_saisie_debut, $year_calendrier_saisie_debut,
 												$mois_calendrier_saisie_debut_prec, $year_calendrier_saisie_debut_prec,
 												$mois_calendrier_saisie_debut_suiv, $year_calendrier_saisie_debut_suiv,
@@ -1054,211 +1090,211 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 												$mois_calendrier_saisie_fin_prec, $year_calendrier_saisie_fin_prec,
 												$mois_calendrier_saisie_fin_suiv, $year_calendrier_saisie_fin_suiv );
 
-								// affichage des boutons de dÃ©filement
-								// recul du mois saisie dÃ©but
-								echo '<td align="center" class="big">';
-								echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut_prec.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut_prec.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin.'&user_login='.$user_login.'&onglet='.$onglet.'">';
-								echo ' <img src="../img/simfirs.gif" width="16" height="16" border="0" alt="'.$_SESSION['lang']['divers_mois_precedent'].'" title="'.$_SESSION['lang']['divers_mois_precedent'].'"> ';
-								echo '</a>';
-								echo '</td>';
+								// affichage des boutons de défilement
+								// recul du mois saisie début
+								echo "<td align=\"center\" class=\"big\">\n";
+								echo "<a href=\"$PHP_SELF?session=$session&year_calendrier_saisie_debut=$year_calendrier_saisie_debut_prec&mois_calendrier_saisie_debut=$mois_calendrier_saisie_debut_prec&year_calendrier_saisie_fin=$year_calendrier_saisie_fin&mois_calendrier_saisie_fin=$mois_calendrier_saisie_fin&user_login=$user_login&onglet=$onglet\">\n";
+								echo " <img src=\"../img/simfirs.gif\" width=\"16\" height=\"16\" border=\"0\" alt=\"".$_SESSION['lang']['divers_mois_precedent']."\" title=\"".$_SESSION['lang']['divers_mois_precedent']."\"> \n";
+								echo "</a>\n";
+								echo "</td>\n";
 
-								echo '<td align="center" class="big">'.$_SESSION['lang']['divers_debut_maj'].' :</td>';
+								echo "<td align=\"center\" class=\"big\">".$_SESSION['lang']['divers_debut_maj']." :</td>\n";
 
-								// affichage des boutons de dÃ©filement
-								// avance du mois saisie dÃ©but
-								// si le mois de saisie fin est antÃ©rieur ou Ã©gal au mois de saisie dÃ©but, on avance les 2 , sinon on avance que le mois de saisie dÃ©but
+								// affichage des boutons de défilement
+								// avance du mois saisie début
+								// si le mois de saisie fin est antérieur ou égal au mois de saisie début, on avance les 2 , sinon on avance que le mois de saisie début
 								if( (($year_calendrier_saisie_debut_suiv==$year_calendrier_saisie_fin) && ($mois_calendrier_saisie_debut_suiv>=$mois_calendrier_saisie_fin))
 								    || ($year_calendrier_saisie_debut_suiv>$year_calendrier_saisie_fin)  )
-									$lien_mois_debut_suivant = $PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut_suiv.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut_suiv.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_debut_suiv.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_debut_suiv.'&user_login='.$user_login.'&onglet='.$onglet ;
+									$lien_mois_debut_suivant = "$PHP_SELF?session=$session&year_calendrier_saisie_debut=$year_calendrier_saisie_debut_suiv&mois_calendrier_saisie_debut=$mois_calendrier_saisie_debut_suiv&year_calendrier_saisie_fin=$year_calendrier_saisie_debut_suiv&mois_calendrier_saisie_fin=$mois_calendrier_saisie_debut_suiv&user_login=$user_login&onglet=$onglet" ;
 								else
-									$lien_mois_debut_suivant = $PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut_suiv.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut_suiv.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin.'&user_login='.$user_login.'&onglet='.$onglet ;
-								echo '<td align="center" class="big">';
-								echo '<a href="'.$lien_mois_debut_suivant.'">';
-								echo ' <img src="../img/simlast.gif" width="16" height="16" border="0" alt="'.$_SESSION['lang']['divers_mois_suivant'].'" title="'.$_SESSION['lang']['divers_mois_suivant'].'"> ';
-								echo '</a>';
-								echo '</td>';
+									$lien_mois_debut_suivant = "$PHP_SELF?session=$session&year_calendrier_saisie_debut=$year_calendrier_saisie_debut_suiv&mois_calendrier_saisie_debut=$mois_calendrier_saisie_debut_suiv&year_calendrier_saisie_fin=$year_calendrier_saisie_fin&mois_calendrier_saisie_fin=$mois_calendrier_saisie_fin&user_login=$user_login&onglet=$onglet" ;
+								echo "<td align=\"center\" class=\"big\">\n";
+								echo "<a href=\"$lien_mois_debut_suivant\">\n";
+								echo " <img src=\"../img/simlast.gif\" width=\"16\" height=\"16\" border=\"0\" alt=\"".$_SESSION['lang']['divers_mois_suivant']."\" title=\"".$_SESSION['lang']['divers_mois_suivant']."\"> \n";
+								echo "</a>\n";
+								echo "</td>\n";
 
 
-								echo '</tr>';
-								echo '</table>';
+								echo "</tr>\n";
+								echo "</table>\n";
 								/*** calendrier saisie date debut ***/
-								affiche_calendrier_saisie_date_debut($user_login, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut,  $DEBUG);
-							echo '</td>';
+								affiche_calendrier_saisie_date_debut($user_login, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $mysql_link, $DEBUG);
+							echo "</td>\n";
 							/**************************************************/
-							/* cellule 2 : boutons radio matin ou aprÃ¨s midi */
-							echo '<td align="left">';
-								echo '<input type="radio" name="new_demi_jour_deb" ';
+							/* cellule 2 : boutons radio matin ou après midi */
+							echo "<td align=\"left\">\n";
+								echo "<input type=\"radio\" name=\"new_demi_jour_deb\" ";
 								if($_SESSION['config']['rempli_auto_champ_nb_jours_pris']==TRUE)
 								{
 									// attention : IE6 : bug avec les "OnChange" sur les boutons radio!!! (on remplace par OnClick)
-									if( (isset($_SERVER['HTTP_USER_AGENT'])) && (stristr($_SERVER['HTTP_USER_AGENT'], 'MSIE')!=FALSE) )
-										echo 'onClick="compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return true;"' ;
+									if( (isset($_SERVER["HTTP_USER_AGENT"])) && (stristr($_SERVER["HTTP_USER_AGENT"], "MSIE 6")!=FALSE) )
+										echo "onClick=\"compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return true;\"" ;
 									else
-										echo 'onChange="compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return false;"' ;
+										echo "onChange=\"compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return false;\"" ;
 								}
-								echo 'value="am" checked><b><u>'.$_SESSION['lang']['form_am'].'</u></b><br><br>';
+								echo "value=\"am\" checked><b><u>".$_SESSION['lang']['form_am']."</u></b><br><br>\n";
 
-								echo '<input type="radio" name="new_demi_jour_deb" ';
+								echo "<input type=\"radio\" name=\"new_demi_jour_deb\" ";
 								if($_SESSION['config']['rempli_auto_champ_nb_jours_pris']==TRUE)
 								{
-									if( (isset($_SERVER['HTTP_USER_AGENT'])) && (stristr($_SERVER['HTTP_USER_AGENT'], 'MSIE')!=FALSE) )
-										echo 'onClick="compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return true;"' ;
+									if( (isset($_SERVER["HTTP_USER_AGENT"])) && (stristr($_SERVER["HTTP_USER_AGENT"], "MSIE 6")!=FALSE) )
+										echo "onClick=\"compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return true;\"" ;
 									else
-										echo 'onChange="compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return false;"' ;
+										echo "onChange=\"compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return false;\"" ;
 								}
-								echo 'value="pm"><b><u>'.$_SESSION['lang']['form_pm'].'</u></b><br><br>';
-							echo '</td>';
+								echo "value=\"pm\"><b><u>".$_SESSION['lang']['form_pm']."</u></b><br><br>\n";
+							echo "</td>\n";
 							/**************************************************/
-						echo '</tr>';
-						echo '</table>';
-					echo '</fieldset>';
-					echo '</td>';
-				echo '</tr>';
-				echo '<tr align="center">';
-					echo '<td><img src="../img/shim.gif" width="15" height="10" border="0" vspace="0" hspace="0"></td>';
-				echo '</tr>';
-				echo '<tr align="center">';
-					echo '<td>';
-					echo '<fieldset class="cal_saisie">';
-						echo '<table cellpadding="0" cellspacing="0" border="0">';
-						echo '<tr align="center">';
-							echo '<td>';
+						echo "</tr>\n";
+						echo "</table>\n";
+					echo "</fieldset>\n";
+					echo "</td>\n";
+				echo "</tr>\n";
+				echo "<tr align=\"center\">\n";
+					echo "<td><img src=\"../img/shim.gif\" width=\"15\" height=\"10\" border=\"0\" vspace=\"0\" hspace=\"0\"></td>\n";
+				echo "</tr>\n";
+				echo "<tr align=\"center\">\n";
+					echo "<td>\n";
+					echo "<fieldset class=\"cal_saisie\">\n";
+						echo "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n";
+						echo "<tr align=\"center\">\n";
+							echo "<td>\n";
 								/******************************************************************/
-								// affichage du calendrier de saisie de la date de FIN de congÃ¨s
+								// affichage du calendrier de saisie de la date de FIN de congès
 								/******************************************************************/
-								echo '<table cellpadding="0" cellspacing="0" width="250" border="0">';
-								echo '<tr>';
-									$mois_calendrier_saisie_fin_prec = $mois_calendrier_saisie_fin==1 ? 12 : $mois_calendrier_saisie_fin-1 ;
-									$mois_calendrier_saisie_fin_suiv = $mois_calendrier_saisie_fin==12 ? 1 : $mois_calendrier_saisie_fin+1 ;
+								echo "<table cellpadding=\"0\" cellspacing=\"0\" width=\"250\" border=\"0\">\n";
+								echo "<tr>\n";
+									if($mois_calendrier_saisie_fin==1) $mois_calendrier_saisie_fin_prec=12; else $mois_calendrier_saisie_fin_prec=$mois_calendrier_saisie_fin-1 ;
+									if($mois_calendrier_saisie_fin==12) $mois_calendrier_saisie_fin_suiv=1; else $mois_calendrier_saisie_fin_suiv=$mois_calendrier_saisie_fin+1 ;
 
-								// affichage des boutons de dÃ©filement
+								// affichage des boutons de défilement
 								// recul du mois saisie fin
-								// si le mois de saisie fin est antÃ©rieur ou Ã©gal au mois de saisie dÃ©but, on recule les 2 , sinon on recule que le mois de saisie fin
+								// si le mois de saisie fin est antérieur ou égal au mois de saisie début, on recule les 2 , sinon on recule que le mois de saisie fin
 								if( (($year_calendrier_saisie_debut==$year_calendrier_saisie_fin_prec) && ($mois_calendrier_saisie_debut>=$mois_calendrier_saisie_fin_prec))
 								    || ($year_calendrier_saisie_debut>$year_calendrier_saisie_fin_prec) )
-								    $lien_mois_fin_precedent = ''.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_fin_prec.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_fin_prec.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin_prec.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin_prec.'&user_login='.$user_login.'&onglet='.$onglet;
+								    $lien_mois_fin_precedent = "$PHP_SELF?session=$session&year_calendrier_saisie_debut=$year_calendrier_saisie_fin_prec&mois_calendrier_saisie_debut=$mois_calendrier_saisie_fin_prec&year_calendrier_saisie_fin=$year_calendrier_saisie_fin_prec&mois_calendrier_saisie_fin=$mois_calendrier_saisie_fin_prec&user_login=$user_login&onglet=$onglet" ;
 								else
-									$lien_mois_fin_precedent = ''.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin_prec.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin_prec.'&user_login='.$user_login.'&onglet='.$onglet;
-								echo '<td align="center" class="big">';
-								echo '<a href="'.$lien_mois_fin_precedent.'">';
-								echo ' <img src="../img/simfirs.gif" width="16" height="16" border="0" alt="'.$_SESSION['lang']['divers_mois_precedent'].'" title="'.$_SESSION['lang']['divers_mois_precedent'].'">';
-								echo ' </a>';
-								echo '</td>';
+									$lien_mois_fin_precedent = "$PHP_SELF?session=$session&year_calendrier_saisie_debut=$year_calendrier_saisie_debut&mois_calendrier_saisie_debut=$mois_calendrier_saisie_debut&year_calendrier_saisie_fin=$year_calendrier_saisie_fin_prec&mois_calendrier_saisie_fin=$mois_calendrier_saisie_fin_prec&user_login=$user_login&onglet=$onglet" ;
+								echo "<td align=\"center\" class=\"big\">\n";
+								echo "<a href=\"$lien_mois_fin_precedent\">\n";
+								echo " <img src=\"../img/simfirs.gif\" width=\"16\" height=\"16\" border=\"0\" alt=\"".$_SESSION['lang']['divers_mois_precedent']."\" title=\"".$_SESSION['lang']['divers_mois_precedent']."\">\n";
+								echo " </a>\n";
+								echo "</td>\n";
 
-								echo '<td align="center" class="big">'.$_SESSION['lang']['divers_fin_maj'].' :</td>';
+								echo "<td align=\"center\" class=\"big\">".$_SESSION['lang']['divers_fin_maj']." :</td>\n";
 
-								// affichage des boutons de dÃ©filement
+								// affichage des boutons de défilement
 								// avance du mois saisie fin
-								echo '<td align="center" class="big">';
-								echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin_suiv.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin_suiv.'&user_login='.$user_login.'&onglet='.$onglet.'">';
-								echo ' <img src="../img/simlast.gif" width="16" height="16" border="0" alt="'.$_SESSION['lang']['divers_mois_suivant'].'" title="'.$_SESSION['lang']['divers_mois_suivant'].'"> ';
-								echo '</a>';
-								echo '</td>';
-								echo '</tr>';
-								echo '</table>';
+								echo "<td align=\"center\" class=\"big\">\n";
+								echo "<a href=\"$PHP_SELF?session=$session&year_calendrier_saisie_debut=$year_calendrier_saisie_debut&mois_calendrier_saisie_debut=$mois_calendrier_saisie_debut&year_calendrier_saisie_fin=$year_calendrier_saisie_fin_suiv&mois_calendrier_saisie_fin=$mois_calendrier_saisie_fin_suiv&user_login=$user_login&onglet=$onglet\">\n";
+								echo " <img src=\"../img/simlast.gif\" width=\"16\" height=\"16\" border=\"0\" alt=\"".$_SESSION['lang']['divers_mois_suivant']."\" title=\"".$_SESSION['lang']['divers_mois_suivant']."\"> \n";
+								echo "</a>\n";
+								echo "</td>\n";
+								echo "</tr>\n";
+								echo "</table>\n";
 								/*** calendrier saisie date fin ***/
-								affiche_calendrier_saisie_date_fin($user_login, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin,  $DEBUG);
-							echo '</td>';
+								affiche_calendrier_saisie_date_fin($user_login, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $mysql_link, $DEBUG);
+							echo "</td>\n";
 							/**************************************************/
-							/* cellule 2 : boutons radio matin ou aprÃ¨s midi */
-							echo '<td align="left">';
-								echo '<input type="radio" name="new_demi_jour_fin" ';
+							/* cellule 2 : boutons radio matin ou après midi */
+							echo "<td align=\"left\">\n";
+								echo "<input type=\"radio\" name=\"new_demi_jour_fin\" ";
 								if($_SESSION['config']['rempli_auto_champ_nb_jours_pris']==TRUE)
 								{
 									// attention : IE6 : bug avec les "OnChange" sur les boutons radio!!! (on remplace par OnClick)
-									if( (isset($_SERVER['HTTP_USER_AGENT'])) && (stristr($_SERVER['HTTP_USER_AGENT'], 'MSIE')!=FALSE) )
-										echo 'onClick="compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return true;"' ;
+									if( (isset($_SERVER["HTTP_USER_AGENT"])) && (stristr($_SERVER["HTTP_USER_AGENT"], "MSIE 6")!=FALSE) )
+										echo "onClick=\"compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return true;\"" ;
 									else
-										echo 'onChange="compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return false;"' ;
+										echo "onChange=\"compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return false;\"" ;
 								}
-								echo 'value="am"><b><u>'.$_SESSION['lang']['form_am'].'</u></b><br><br>';
+								echo "value=\"am\"><b><u>".$_SESSION['lang']['form_am']."</u></b><br><br>\n";
 
-								echo '<input type="radio" name="new_demi_jour_fin"  ';
+								echo "<input type=\"radio\" name=\"new_demi_jour_fin\"  ";
 								if($_SESSION['config']['rempli_auto_champ_nb_jours_pris']==TRUE)
 								{
-									if( (isset($_SERVER['HTTP_USER_AGENT'])) && (stristr($_SERVER['HTTP_USER_AGENT'], 'MSIE')!=FALSE) )
-										echo 'onClick="compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return true;"' ;
+									if( (isset($_SERVER["HTTP_USER_AGENT"])) && (stristr($_SERVER["HTTP_USER_AGENT"], "MSIE 6")!=FALSE) )
+										echo "onClick=\"compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return true;\"" ;
 									else
-										echo 'onChange="compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return false;"' ;
+										echo "onChange=\"compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return false;\"" ;
 								}
-								echo 'value="pm" checked><b><u>'.$_SESSION['lang']['form_pm'].'</u></b><br><br>';
-							echo '</td>';
+								echo "value=\"pm\" checked><b><u>".$_SESSION['lang']['form_pm']."</u></b><br><br>\n";
+							echo "</td>\n";
 							/**************************************************/
-						echo '</tr>';
-						echo '</table>';
-					echo '</fieldset>';
-					echo '</td>';
-				echo '</tr>';
-				echo '</table>';
-			echo '</td>';
-			echo '<td><img src="../img/shim.gif" width="15" height="2" border="0" vspace="0" hspace="0"></td>';
-			echo '<td>';
+						echo "</tr>\n";
+						echo "</table>\n";
+					echo "</fieldset>\n";
+					echo "</td>\n";
+				echo "</tr>\n";
+				echo "</table>\n";
+			echo "</td>\n";
+			echo "<td><img src=\"../img/shim.gif\" width=\"15\" height=\"2\" border=\"0\" vspace=\"0\" hspace=\"0\"></td>\n";
+			echo "<td>\n";
 
 				/*******************/
 				/*   formulaire    */
 				/*******************/
-				echo '<table cellpadding="0" cellspacing="2" border="0" >';
-				echo '<tr>';
-				echo '<td valign="top">';
-					echo '<table cellpadding="2" cellspacing="3" border="0" >';
-//					echo '<input type="hidden" name="login_user" value="'.'.$_SESSION['userlogin'].'.'">';
-					echo '<input type="hidden" name="login_user" value="'.$user_login.'">';
-					echo '<input type="hidden" name="session" value="'.$session.'">';
-					// bouton 'compter les jours'
+				echo "<table cellpadding=\"0\" cellspacing=\"2\" border=\"0\" >\n";
+				echo "<tr>\n";
+				echo "<td valign=\"top\">\n";
+					echo "<table cellpadding=\"2\" cellspacing=\"3\" border=\"0\" >\n";
+//					echo "<input type=\"hidden\" name=\"login_user\" value=\"".$_SESSION['userlogin']."\">\n";
+					echo "<input type=\"hidden\" name=\"login_user\" value=\"$user_login\">\n";
+					echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
+					// bouton "compter les jours"
 					if($_SESSION['config']['affiche_bouton_calcul_nb_jours_pris']==TRUE)
 					{
-						echo '<tr><td colspan="2">';
-							echo '<input type="button" onclick="compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return false;" value="'.$_SESSION['lang']['saisie_conges_compter_jours'].'">';
-						echo '</td></tr>';
+						echo "<tr><td colspan=\"2\">\n";
+							echo "<input type=\"button\" onclick=\"compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return false;\" value=\"".$_SESSION['lang']['saisie_conges_compter_jours']."\">\n";
+						echo "</td></tr>\n";
 					}
 					// zones de texte
-					echo '<tr align="center"><td><b>'.$_SESSION['lang']['saisie_conges_nb_jours'].'</b></td><td><b>'.$_SESSION['lang']['divers_comment_maj_1'].'</b></td></tr>';
+					echo "<tr align=\"center\"><td><b>".$_SESSION['lang']['saisie_conges_nb_jours']."</b></td><td><b>".$_SESSION['lang']['divers_comment_maj_1']."</b></td></tr>\n";
 
-					if($_SESSION['config']['disable_saise_champ_nb_jours_pris']==TRUE)  // zone de texte en readonly et grisÃ©e
-						$text_nb_jours ='<input type="text" name="new_nb_jours" size="10" maxlength="30" value="" style="background-color: #D4D4D4; " readonly="readonly">' ;
+					if($_SESSION['config']['disable_saise_champ_nb_jours_pris']==TRUE)  // zone de texte en readonly et grisée
+						$text_nb_jours="<input type=\"text\" name=\"new_nb_jours\" size=\"10\" maxlength=\"30\" value=\"\" style=\"background-color: #D4D4D4; \" readonly=\"readonly\">" ;
 					else
-						$text_nb_jours ='<input type="text" name="new_nb_jours" size="10" maxlength="30" value="">' ;
+						$text_nb_jours="<input type=\"text\" name=\"new_nb_jours\" size=\"10\" maxlength=\"30\" value=\"\">" ;
 
-					$text_commentaire='<input type="text" name="new_comment" size="25" maxlength="30" value="">' ;
-					echo '<tr align="center">';
-					echo '<td>'.($text_nb_jours).'</td><td>'.($text_commentaire).'</td>';
-					echo '</tr>';
-					echo '<tr align="center"><td><img src="../img/shim.gif" width="15" height="10" border="0" vspace="0" hspace="0"></td><td></td></tr>';
-					echo '<tr align="center">';
-					echo '<td colspan=2>';
-						echo '<input type="hidden" name="user_login" value="'.$user_login.'">';
-						echo '<input type="hidden" name="new_demande_conges" value=1>';
+					$text_commentaire="<input type=\"text\" name=\"new_comment\" size=\"25\" maxlength=\"30\" value=\"\">" ;
+					echo "<tr align=\"center\">\n";
+					echo "<td>$text_nb_jours</td><td>$text_commentaire</td>\n";
+					echo "</tr>\n";
+					echo "<tr align=\"center\"><td><img src=\"../img/shim.gif\" width=\"15\" height=\"10\" border=\"0\" vspace=\"0\" hspace=\"0\"></td><td></td></tr>\n";
+					echo "<tr align=\"center\">\n";
+					echo "<td colspan=2>\n";
+						echo "<input type=\"hidden\" name=\"user_login\" value=\"$user_login\">\n";
+						echo "<input type=\"hidden\" name=\"new_demande_conges\" value=1>\n";
 						// boutons du formulaire
-						echo '<input type="submit" value="'.$_SESSION['lang']['form_submit'].'">   <input type="reset" value="'.$_SESSION['lang']['form_cancel'].'">';
-					echo '</td>';
-					echo '</tr>';
-					echo '</table>';
+						echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">   <input type=\"reset\" value=\"".$_SESSION['lang']['form_cancel']."\">\n";
+					echo "</td>\n";
+					echo "</tr>\n";
+					echo "</table>\n";
 
-				echo '</td>';
+				echo "</td>\n";
 				/*****************/
 				/* boutons radio */
 				/*****************/
 				// recup d tableau des types de conges
-				$tab_type_conges=recup_tableau_types_conges( $DEBUG);
+				$tab_type_conges=recup_tableau_types_conges($mysql_link, $DEBUG);
 				// recup du tableau des types d'absence
-				$tab_type_absence=recup_tableau_types_absence( $DEBUG);
+				$tab_type_absence=recup_tableau_types_absence($mysql_link, $DEBUG);
 				// recup d tableau des types de conges exceptionnels
-				// $tab_type_conges_exceptionnels=recup_tableau_types_conges_exceptionnels( $DEBUG);
+				$tab_type_conges_exceptionnels=recup_tableau_types_conges_exceptionnels($mysql_link, $DEBUG);
 
-				echo '<td align="left" valign="top">';
+				echo "<td align=\"left\" valign=\"top\">\n";
 				// si le user a droit de saisir une demande de conges ET si on est PAS dans une fenetre de responsable
 				// OU si le user n'a pas droit de saisir une demande de conges ET si on est dans une fenetre de responsable
 				if( (($_SESSION['config']['user_saisie_demande']==TRUE)&&($user_login==$_SESSION['userlogin'])) ||
 				    (($_SESSION['config']['user_saisie_demande']==FALSE)&&($user_login!=$_SESSION['userlogin'])) )
 				{
-					// congÃ©s
-					echo '<b><i><u>'.$_SESSION['lang']['divers_conges'].' :</u></i></b><br>';
+					// congés
+					echo "<b><i><u>".$_SESSION['lang']['divers_conges']." :</u></i></b><br>\n";
 					foreach($tab_type_conges as $id => $libelle)
 					{
 						if($id==1)
-							echo '<input type="radio" name="new_type" value="'.$id.'" checked> '.$libelle.'<br>';
+							echo "<input type=\"radio\" name=\"new_type\" value=\"$id\" checked> $libelle<br>\n";
 						else
-							echo '<input type="radio" name="new_type" value="'.$id.'"> '.$libelle.'<br>';
+							echo "<input type=\"radio\" name=\"new_type\" value=\"$id\"> $libelle<br>\n";
 					}
 				}
 				// si le user a droit de saisir une mission ET si on est PAS dans une fenetre de responsable
@@ -1266,14 +1302,14 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 				// OU si le resp a droit de saisir une mission ET si le resp est resp de lui meme
 				if( (($_SESSION['config']['user_saisie_mission']==TRUE)&&($user_login==$_SESSION['userlogin'])) ||
 				    (($_SESSION['config']['resp_saisie_mission']==TRUE)&&($user_login!=$_SESSION['userlogin'])) ||
-				    (($_SESSION['config']['resp_saisie_mission']==TRUE)&&(is_resp_of_user($_SESSION['userlogin'], $user_login,  $DEBUG)==TRUE)) )
+				    (($_SESSION['config']['resp_saisie_mission']==TRUE)&&(is_resp_of_user($_SESSION['userlogin'], $user_login, $mysql_link, $DEBUG)==TRUE)) )
 				{
-					echo '<br>';
+					echo "<br>\n";
 					// absences
-					echo '<b><i><u>'.$_SESSION['lang']['divers_absences'].' :</u></i></b><br>';
+					echo "<b><i><u>".$_SESSION['lang']['divers_absences']." :</u></i></b><br>\n";
 					foreach($tab_type_absence as $id => $libelle)
 					{
-						echo '<input type="radio" name="new_type" value="'.$id.'"> '.$libelle.'<br>';
+						echo "<input type=\"radio\" name=\"new_type\" value=\"$id\"> $libelle<br>\n";
 					}
 				}
 				// si le user a droit de saisir une demande de conges ET si on est PAS dans une fenetre de responsable
@@ -1282,32 +1318,32 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 				    (($_SESSION['config']['user_saisie_demande']==TRUE)&&($user_login==$_SESSION['userlogin'])) ||
 				    (($_SESSION['config']['user_saisie_demande']==FALSE)&&($user_login!=$_SESSION['userlogin'])) ) )
 				{
-					echo '<br>';
-					// congÃ©s exceptionnels
-					echo '<b><i><u>'.$_SESSION['lang']['divers_conges_exceptionnels'].' :</u></i></b><br>';
-					// foreach($tab_type_conges_exceptionnels as $id => $libelle)
-					// {
-						// if($id==1)
-							// echo '<input type="radio" name="new_type" value="'.$id.'" checked> '.$libelle.'<br>';
-						// else
-							// echo '<input type="radio" name="new_type" value="'.$id.'"> '.$libelle.'<br>';
-					// }
+					echo "<br>\n";
+					// congés exceptionnels
+					echo "<b><i><u>".$_SESSION['lang']['divers_conges_exceptionnels']." :</u></i></b><br>\n";
+					foreach($tab_type_conges_exceptionnels as $id => $libelle)
+					{
+						if($id==1)
+							echo "<input type=\"radio\" name=\"new_type\" value=\"$id\" checked> $libelle<br>\n";
+						else
+							echo "<input type=\"radio\" name=\"new_type\" value=\"$id\"> $libelle<br>\n";
+					}
 				}
 
-				echo '</td>';
-				echo '</tr>';
-				echo '</table>';
+				echo "</td>\n";
+				echo "</tr>\n";
+				echo "</table>\n";
 
-			echo '</td>';
-			echo '</tr>';
-			echo '</table>';
+			echo "</td>\n";
+			echo "</tr>\n";
+			echo "</table>\n";
 
-		echo '</form>' ;
+		echo "</form>\n" ;
 }
 
 
-//affiche le formulaire d'Ã©change d'un jour de rtt-temps partiel / jour travaillÃ©
-function saisie_echange_rtt($user_login, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $onglet,  $DEBUG=FALSE)
+//affiche le formulaire d'échange d'un jour de rtt-temps partiel / jour travaillé
+function saisie_echange_rtt($user_login, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $onglet, $mysql_link, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
@@ -1316,17 +1352,17 @@ function saisie_echange_rtt($user_login, $year_calendrier_saisie_debut, $mois_ca
 	$mois_calendrier_saisie_fin_prec=0; $year_calendrier_saisie_fin_prec=0;
 	$mois_calendrier_saisie_fin_suiv=0; $year_calendrier_saisie_fin_suiv=0;
 
-	if($DEBUG==TRUE) { echo 'param = '.$user_login.', '.$year_calendrier_saisie_debut.', '.$mois_calendrier_saisie_debut.', '.$year_calendrier_saisie_fin.', '.$mois_calendrier_saisie_fin.' <br>' ; }
+	if($DEBUG==TRUE) { echo "param = $user_login, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin <br>\n" ; }
 
-	echo '<form action="'.$PHP_SELF.'?session='.$session.'&&onglet='.$onglet.'" method="POST">' ;
+	echo "<form action=\"$PHP_SELF?session=$session&&onglet=$onglet\" method=\"POST\">\n" ;
 
-			echo '<table cellpadding="0" cellspacing="5" border="0">';
-			echo '<tr align="center">';
+			echo "<table cellpadding=\"0\" cellspacing=\"5\" border=\"0\">\n";
+			echo "<tr align=\"center\">\n";
 
 			// cellule 1 : calendrier de saisie du jour d'absence
-			echo '<td>';
-				echo '<table cellpadding="0" cellspacing="0" width="250">';
-				echo '<tr>';
+			echo "<td>\n";
+				echo "<table cellpadding=\"0\" cellspacing=\"0\" width=\"250\">\n";
+				echo "<tr>\n";
 					init_var_navigation_mois_year($mois_calendrier_saisie_debut, $year_calendrier_saisie_debut,
 								$mois_calendrier_saisie_debut_prec, $year_calendrier_saisie_debut_prec,
 								$mois_calendrier_saisie_debut_suiv, $year_calendrier_saisie_debut_suiv,
@@ -1334,105 +1370,105 @@ function saisie_echange_rtt($user_login, $year_calendrier_saisie_debut, $mois_ca
 								$mois_calendrier_saisie_fin_prec, $year_calendrier_saisie_fin_prec,
 								$mois_calendrier_saisie_fin_suiv, $year_calendrier_saisie_fin_suiv );
 
-					// affichage des boutons de dÃ©filement
+					// affichage des boutons de défilement
 					// recul du mois saisie debut
-					echo '<td align="center" class="big">';
-					echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut_prec.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut_prec.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin.'&user_login='.$user_login.'&onglet='.$onglet.'">';
-					echo ' <img src="../img/simfirs.gif" width="16" height="16" border="0" alt="'.$_SESSION['lang']['divers_mois_precedent'].'" title="'.$_SESSION['lang']['divers_mois_precedent'].'"> ';
-					echo '</a>';
-					echo '</td>';
+					echo "<td align=\"center\" class=\"big\">\n";
+					echo "<a href=\"$PHP_SELF?session=$session&year_calendrier_saisie_debut=$year_calendrier_saisie_debut_prec&mois_calendrier_saisie_debut=$mois_calendrier_saisie_debut_prec&year_calendrier_saisie_fin=$year_calendrier_saisie_fin&mois_calendrier_saisie_fin=$mois_calendrier_saisie_fin&user_login=$user_login&onglet=$onglet\">\n";
+					echo " <img src=\"../img/simfirs.gif\" width=\"16\" height=\"16\" border=\"0\" alt=\"".$_SESSION['lang']['divers_mois_precedent']."\" title=\"".$_SESSION['lang']['divers_mois_precedent']."\"> \n";
+					echo "</a>\n";
+					echo "</td>\n";
 
 					// titre du calendrier de saisie du jour d'absence
-					echo '<td align="center" class="big">'.$_SESSION['lang']['saisie_echange_titre_calendrier_1'].' :</td>';
+					echo "<td align=\"center\" class=\"big\">".$_SESSION['lang']['saisie_echange_titre_calendrier_1']." :</td>\n";
 
-					// affichage des boutons de dÃ©filement
+					// affichage des boutons de défilement
 					// avance du mois saisie debut
-					echo '<td align="center" class="big">';
-					echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut_suiv.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut_suiv.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin.'&user_login='.$user_login.'&onglet='.$onglet.'">';
-					echo ' <img src="../img/simlast.gif" width="16" height="16" border="0" alt="'.$_SESSION['lang']['divers_mois_suivant'].'" title="'.$_SESSION['lang']['divers_mois_suivant'].'"> ';
-					echo '</a>';
-					echo '</td>';
-				echo '</tr>';
-				echo '</table>';
+					echo "<td align=\"center\" class=\"big\">\n";
+					echo "<a href=\"$PHP_SELF?session=$session&year_calendrier_saisie_debut=$year_calendrier_saisie_debut_suiv&mois_calendrier_saisie_debut=$mois_calendrier_saisie_debut_suiv&year_calendrier_saisie_fin=$year_calendrier_saisie_fin&mois_calendrier_saisie_fin=$mois_calendrier_saisie_fin&user_login=$user_login&onglet=$onglet\">\n";
+					echo " <img src=\"../img/simlast.gif\" width=\"16\" height=\"16\" border=\"0\" alt=\"".$_SESSION['lang']['divers_mois_suivant']."\" title=\"".$_SESSION['lang']['divers_mois_suivant']."\"> \n";
+					echo "</a>\n";
+					echo "</td>\n";
+				echo "</tr>\n";
+				echo "</table>\n";
 				//*** calendrier saisie date debut ***/
-				affiche_calendrier_saisie_jour_absence($user_login, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut);
-			echo '</td>';
+				affiche_calendrier_saisie_jour_absence($user_login, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $mysql_link);
+			echo "</td>\n";
 
-			// cellule 2 : boutons radio 1/2 journÃ©e ou jour complet
-			echo '<td>';
-				echo '<input type="radio" name="moment_absence_ordinaire" value="a"><b><u>'.$_SESSION['lang']['form_am'].'</u></b><input type="radio" name="moment_absence_souhaitee" value="a"><br><br>';
-				echo '<input type="radio" name="moment_absence_ordinaire" value="p"><b><u>'.$_SESSION['lang']['form_pm'].'</u></b><input type="radio" name="moment_absence_souhaitee" value="p"><br><br>';
-				echo '<input type="radio" name="moment_absence_ordinaire" value="j" checked><b><u>'.$_SESSION['lang']['form_day'].'</u></b><input type="radio" name="moment_absence_souhaitee" value="j" checked><br>';
-			echo '</td>';
+			// cellule 2 : boutons radio 1/2 journée ou jour complet
+			echo "<td>\n";
+				echo "<input type=\"radio\" name=\"moment_absence_ordinaire\" value=\"a\"><b><u>".$_SESSION['lang']['form_am']."</u></b><input type=\"radio\" name=\"moment_absence_souhaitee\" value=\"a\"><br><br>\n";
+				echo "<input type=\"radio\" name=\"moment_absence_ordinaire\" value=\"p\"><b><u>".$_SESSION['lang']['form_pm']."</u></b><input type=\"radio\" name=\"moment_absence_souhaitee\" value=\"p\"><br><br>\n";
+				echo "<input type=\"radio\" name=\"moment_absence_ordinaire\" value=\"j\" checked><b><u>".$_SESSION['lang']['form_day']."</u></b><input type=\"radio\" name=\"moment_absence_souhaitee\" value=\"j\" checked><br>\n";
+			echo "</td>\n";
 
 			// cellule 3 : calendrier de saisie du jour d'absence
-			echo '<td>';
-				echo '<table cellpadding="0" cellspacing="0" width="250">';
-				echo '<tr>';
-					$mois_calendrier_saisie_fin_prec = $mois_calendrier_saisie_fin==1 ? 12 : $mois_calendrier_saisie_fin-1 ;
-					$mois_calendrier_saisie_fin_suiv = $mois_calendrier_saisie_fin==12 ? 1 : $mois_calendrier_saisie_fin+1 ;
+			echo "<td>\n";
+				echo "<table cellpadding=\"0\" cellspacing=\"0\" width=\"250\">\n";
+				echo "<tr>\n";
+					if($mois_calendrier_saisie_fin==1) $mois_calendrier_saisie_fin_prec=12; else $mois_calendrier_saisie_fin_prec=$mois_calendrier_saisie_fin-1 ;
+					if($mois_calendrier_saisie_fin==12) $mois_calendrier_saisie_fin_suiv=1; else $mois_calendrier_saisie_fin_suiv=$mois_calendrier_saisie_fin+1 ;
 
-					// affichage des boutons de dÃ©filement
+					// affichage des boutons de défilement
 					// recul du mois saisie fin
-					echo '<td align="center" class="big">';
-					echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin_prec.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin_prec.'&user_login='.$user_login.'&onglet='.$onglet.'">';
-					echo ' <img src="../img/simfirs.gif" width="16" height="16" border="0" alt="'.$_SESSION['lang']['divers_mois_precedent'].'" title="'.$_SESSION['lang']['divers_mois_precedent'].'"> ';
-					echo '</a>';
-					echo '</td>';
+					echo "<td align=\"center\" class=\"big\">\n";
+					echo "<a href=\"$PHP_SELF?session=$session&year_calendrier_saisie_debut=$year_calendrier_saisie_debut&mois_calendrier_saisie_debut=$mois_calendrier_saisie_debut&year_calendrier_saisie_fin=$year_calendrier_saisie_fin_prec&mois_calendrier_saisie_fin=$mois_calendrier_saisie_fin_prec&user_login=$user_login&onglet=$onglet\">\n";
+					echo " <img src=\"../img/simfirs.gif\" width=\"16\" height=\"16\" border=\"0\" alt=\"".$_SESSION['lang']['divers_mois_precedent']."\" title=\"".$_SESSION['lang']['divers_mois_precedent']."\"> \n";
+					echo "</a>\n";
+					echo "</td>\n";
 
 					// titre du ecalendrier de saisie du jour d'absence
-					echo '<td align="center" class="big">'.$_SESSION['lang']['saisie_echange_titre_calendrier_2'].' :</td>';
+					echo "<td align=\"center\" class=\"big\">".$_SESSION['lang']['saisie_echange_titre_calendrier_2']." :</td>\n";
 
-					// affichage des boutons de dÃ©filement
+					// affichage des boutons de défilement
 					// avance du mois saisie fin
-					echo '<td align="center" class="big">';
-					echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin_suiv.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin_suiv.'&user_login='.$user_login.'&onglet='.$onglet.'">';
-					echo ' <img src="../img/simlast.gif" width="16" height="16" border="0" alt="'.$_SESSION['lang']['divers_mois_suivant'].'" title="'.$_SESSION['lang']['divers_mois_suivant'].'"> ';
-					echo '</a>';
-					echo '</td>';
-				echo '</tr>';
-				echo '</table>';
+					echo "<td align=\"center\" class=\"big\">\n";
+					echo "<a href=\"$PHP_SELF?session=$session&year_calendrier_saisie_debut=$year_calendrier_saisie_debut&mois_calendrier_saisie_debut=$mois_calendrier_saisie_debut&year_calendrier_saisie_fin=$year_calendrier_saisie_fin_suiv&mois_calendrier_saisie_fin=$mois_calendrier_saisie_fin_suiv&user_login=$user_login&onglet=$onglet\">\n";
+					echo " <img src=\"../img/simlast.gif\" width=\"16\" height=\"16\" border=\"0\" alt=\"".$_SESSION['lang']['divers_mois_suivant']."\" title=\"".$_SESSION['lang']['divers_mois_suivant']."\"> \n";
+					echo "</a>\n";
+					echo "</td>\n";
+				echo "</tr>\n";
+				echo "</table>\n";
 
 				//*** calendrier saisie date fin ***/
-				affiche_calendrier_saisie_jour_presence($user_login, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin);
-			echo '</td>';
+				affiche_calendrier_saisie_jour_presence($user_login, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $mysql_link);
+			echo "</td>\n";
 
-			echo '</tr>';
-			echo '<tr align="center">';
+			echo "</tr>\n";
+			echo "<tr align=\"center\">\n";
 
 			// cellule 1 : champs texte et boutons (valider/cancel)
-			echo '<td colspan=3>';
+			echo "<td colspan=3>\n";
 
 				/***  formulaire ***/
-					echo '<table cellpadding="2" cellspacing="3" border="0" >';
-					echo '<tr align="center">';
-						echo '<td><b>'.$_SESSION['lang']['divers_comment_maj_1'].' : </b></td>';
-						$text_commentaire ='<input type="text" name="new_comment" size="25" maxlength="30" value="">' ;
-						echo '<td>'.$text_commentaire.'</td>';
-					echo '</tr>';
-					echo '<tr align="center">';
-						echo '<td colspan=2><img src="../img/shim.gif" width="15" height="10" border="0" vspace="0" hspace="0"></td>';
-					echo '</tr>';
-					echo '<tr align="center">';
-						echo '<td colspan=2>';
-							echo '<input type="hidden" name="user_login" value="'.schars($user_login).'">';
-							echo '<input type="hidden" name="new_echange_rtt" value=1>';
-							echo '<input type="submit" value="'.$_SESSION['lang']['form_submit'].'">   <input type="reset" value="'.$_SESSION['lang']['form_cancel'].'">';
-						echo '</td>';
-					echo '</tr>';
-					echo '</table>';
+					echo "<table cellpadding=\"2\" cellspacing=\"3\" border=\"0\" >\n";
+					echo "<tr align=\"center\">\n";
+						echo "<td><b>".$_SESSION['lang']['divers_comment_maj_1']." : </b></td>\n";
+						$text_commentaire="<input type=\"text\" name=\"new_comment\" size=\"25\" maxlength=\"30\" value=\"\">" ;
+						echo "<td>$text_commentaire</td>\n";
+					echo "</tr>\n";
+					echo "<tr align=\"center\">\n";
+						echo "<td colspan=2><img src=\"../img/shim.gif\" width=\"15\" height=\"10\" border=\"0\" vspace=\"0\" hspace=\"0\"></td>\n";
+					echo "</tr>\n";
+					echo "<tr align=\"center\">\n";
+						echo "<td colspan=2>\n";
+							echo "<input type=\"hidden\" name=\"user_login\" value=\"$user_login\">\n";
+							echo "<input type=\"hidden\" name=\"new_echange_rtt\" value=1>\n";
+							echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">   <input type=\"reset\" value=\"".$_SESSION['lang']['form_cancel']."\">\n";
+						echo "</td>\n";
+					echo "</tr>\n";
+					echo "</table>\n";
 
 
-			echo '</td>';
-			echo '</tr>';
-			echo '</table>';
+			echo "</td>\n";
+			echo "</tr>\n";
+			echo "</table>\n";
 
-		echo '</form>' ;
+		echo "</form>\n" ;
 }
 
 
-// initialisation des variables pour la mavigation mois prÃ©cÃ©dent / mois suivant
-// certains arguments sont passÃ©s par rÃ©fÃ©rence (avec &) car on change leur valeur
+// initialisation des variables pour la mavigation mois précédent / mois suivant
+// certains arguments sont passés par référence (avec &) car on change leur valeur
 function init_var_navigation_mois_year(	$mois_calendrier_saisie_debut, $year_calendrier_saisie_debut,
 								&$mois_calendrier_saisie_debut_prec, &$year_calendrier_saisie_debut_prec,
 								&$mois_calendrier_saisie_debut_suiv, &$year_calendrier_saisie_debut_suiv,
@@ -1476,63 +1512,61 @@ function init_var_navigation_mois_year(	$mois_calendrier_saisie_debut, $year_cal
 }
 
 
-// affiche une chaine reprÃ©sentant un decimal sans 0 Ã  la fin ...
-// (un point separe les unitÃ©s et les decimales et on ne considere que 2 decimales !!!)
+// affiche une chaine représentant un decimal sans 0 à la fin ...
+// (un point separe les unités et les decimales et on ne considere que 2 decimales !!!)
 // ex : 10.00 devient 10  , 5.50 devient 5.5  , et 3.05 reste 3.05
 function affiche_decimal($str, $DEBUG=FALSE)
 {
-	$champs=explode('.', $str);
+	$champs=explode(".", $str);
 	$int=$champs[0];
-	$decimal='00';
+	$decimal="00";
 	if (count($champs)>1)
 		$decimal = $champs[1];
 	//$decimal=$champs[1];
 
-	if($decimal=='00')
+	if($decimal=="00")
 		return $int ;
-	elseif (preg_match('/[0-9][1-9]$/' , $decimal ))
+	elseif (ereg("([0-9])([1-9])", $decimal))
 		return $str;
-	elseif (preg_match('/([0-9])0$/' , $decimal, $regs ))
-		return $int.'.'.$regs[1] ;
+	elseif (ereg("([0-9])0", $decimal, $regs))
+		return $int.".".$regs[1] ;
 	else {
-		echo 'ERREUR: affiche_decimal('.$str.') : '.$str.' n\'a pas le format attendu !!!!<br>';
+		echo "ERREUR: affiche_decimal($str) : $str n'a pas le format attendu !!!!<br>\n";
 		exit;
 	}
 }
 
 
-// verif validitÃ© des valeurs saisies lors d'une demande de conges par un user ou d'une saisie de conges par le responsable
-//  (attention : le $new_nb_jours est passÃ© par rÃ©fÃ©rence car on le modifie si besoin)
+// verif validité des valeurs saisies lors d'une demande de congespar un user ou d'une saisie de conges par le responsable
+//  (attention : le $new_nb_jours est passé par référence car on le modifie si besoin)
 function verif_saisie_new_demande($new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin, &$new_nb_jours, $new_comment, $DEBUG=FALSE)
 {
 	$verif=TRUE ;
 
-	// leur champs doivent etre renseignÃ©s dans le formulaire
-	if( ($new_debut=='') || ($new_fin=='') || ($new_nb_jours=='') ) {
-		echo '<br>'.$_SESSION['lang']['verif_saisie_erreur_valeur_manque'].'<br>';
+	// leur champs doivent etre renseignés dans le formulaire
+	if( ($new_debut=="") || ($new_fin=="") || ($new_nb_jours=="") ) {
+		echo "<br>".$_SESSION['lang']['verif_saisie_erreur_valeur_manque']."<br>\n";
 		$verif=FALSE ;
 	}
 
-	if ( !preg_match('/([0-9]+)([\.\,]*[0-9]{1,2})*$/', $new_nb_jours) ) 
-	{
-		echo '<br>'.$_SESSION['lang']['verif_saisie_erreur_nb_jours_bad'].'<br>';
+	if ( !ereg( "([0-9]+)([\.\,]*[0-9]{1,2})*", $new_nb_jours) ) {
+		echo "<br>".$_SESSION['lang']['verif_saisie_erreur_nb_jours_bad']."<br>\n";
 		$verif=FALSE ;
 	}
-	else 
-	{
-		if ( preg_match('/([0-9]+)\,([0-9]{1,2})$/', $new_nb_jours, $reg) ) 
-			$new_nb_jours=$reg[1].'.'.$reg[2];    // on remplace la virgule par un point pour les dÃ©cimaux
+	else {
+		if( ereg( "([0-9]+)\,([0-9]{1,2})", $new_nb_jours, $reg) )
+			$new_nb_jours=$reg[1].".".$reg[2];    // on remplace la virgule par un point pour les décimaux
 	}
 
-	// si la date de fin est antÃ©reieure Ã  la date debut
+	// si la date de fin est antéreieure à la date debut
 	if(strnatcmp($new_debut, $new_fin)>0) {
-		echo '<br>'.$_SESSION['lang']['verif_saisie_erreur_fin_avant_debut'].'<br>';
+		echo "<br>".$_SESSION['lang']['verif_saisie_erreur_fin_avant_debut']."<br>\n";
 		$verif=FALSE ;
 	}
 
-	// si la date debut et fin = mÃªme jour mais dÃ©but=aprÃ¨s midi et fin=matin !!
+	// si la date debut et fin = même jour mais début=après midi et fin=matin !!
 	if((strnatcmp($new_debut, $new_fin)==0)&&($new_demi_jour_deb=="pm")&&($new_demi_jour_fin=="am") ) {
-		echo '<br>'.$_SESSION['lang']['verif_saisie_erreur_debut_apres_fin'].'<br>';
+		echo "<br>".$_SESSION['lang']['verif_saisie_erreur_debut_apres_fin']."<br>\n";
 		$verif=FALSE ;
 	}
 
@@ -1540,44 +1574,45 @@ function verif_saisie_new_demande($new_debut, $new_demi_jour_deb, $new_fin, $new
 }
 
 
-// renvoit la couleur de fond du jour indiquÃ¯Â¿Â½par le timestamp
+// renvoit la couleur de fond du jour indiquï¿½par le timestamp
 // (une couleur pour les jours de semaine et une pour les jours de week end)
 function get_bgcolor_of_the_day_in_the_week($timestamp_du_jour)
 {
-	$j_name=date('D', $timestamp_du_jour);
+	$j_name=date("D", $timestamp_du_jour);
 
-	if(($j_name=='Sat') || ($j_name=='Sun'))
+	if(($j_name=="Sat") || ($j_name=="Sun"))
 		return $_SESSION['config']['week_end_bgcolor'];
 	else
 		return $_SESSION['config']['semaine_bgcolor'];
+
 }
 
 
-// renvoit la class de cellule du jour indiquÃ©e par le timestamp
+// renvoit la class de cellule du jour indiquée par le timestamp
 // (une classe pour les jours de semaine et une pour les jours de week end)
 function get_td_class_of_the_day_in_the_week($timestamp_du_jour)
 {
-	$j_name=date('D', $timestamp_du_jour);
-	$j_date=date('Y-m-d', $timestamp_du_jour);
+	$j_name=date("D", $timestamp_du_jour);
+	$j_date=date("Y-m-d", $timestamp_du_jour);
 
-	if( (($j_name=='Sat')&&($_SESSION['config']['samedi_travail']==FALSE))
-	|| (($j_name=='Sun')&&($_SESSION['config']['dimanche_travail']==FALSE))
+	if( (($j_name=="Sat")&&($_SESSION['config']['samedi_travail']==FALSE))
+	|| (($j_name=="Sun")&&($_SESSION['config']['dimanche_travail']==FALSE))
 	|| (est_chome($timestamp_du_jour)==TRUE) || (est_ferme($timestamp_du_jour)==TRUE) )
-		return 'weekend';
+		return "weekend";
 	else
-		return 'semaine';
+		return "semaine";
 }
 
 
 //
-// affichage bouton de dÃ©connexion
+// affichage bouton de déconnexion
 function   bouton_deconnexion($DEBUG=FALSE)
 {
    $session=session_id();
 
-	echo '<a href="../deconnexion.php?session='.$session.'" target="_top">' .
-			'<img src="../img/exit.png" width="22" height="22" border="0" title="'.$_SESSION['lang']['button_deconnect'].'" alt="'.$_SESSION['lang']['button_deconnect'].'">' .
-			$_SESSION['lang']['button_deconnect'].'</a>';
+	echo "<a href=\"../deconnexion.php?session=$session\" target=\"_top\">" .
+			"<img src=\"../img/exit.png\" width=\"22\" height=\"22\" border=\"0\" title=\"".$_SESSION['lang']['button_deconnect']."\" alt=\"".$_SESSION['lang']['button_deconnect']."\">" .
+			"</a> ".$_SESSION['lang']['button_deconnect']."\n";
 
 }
 
@@ -1587,49 +1622,48 @@ function bouton_actualiser($onglet, $DEBUG=FALSE)
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
-	echo '<a href="'.$PHP_SELF.'?session='.$session.'&onglet='.$onglet.'">';
-	echo '<img src="../img/reload_page.png" width="22" height="22" border="0" title="'.$_SESSION['lang']['button_refresh'].'" alt="'.$_SESSION['lang']['button_refresh'].'">';
-	echo $_SESSION['lang']['button_refresh'].'</a>';
+	echo "<a href=\"$PHP_SELF?session=$session&onglet=$onglet\">\n";
+	echo "<img src=\"../img/reload_page.png\" width=\"22\" height=\"22\" border=\"0\" title=\"".$_SESSION['lang']['button_refresh']."\" alt=\"".$_SESSION['lang']['button_refresh']."\">\n";
+	echo "</a> ".$_SESSION['lang']['button_refresh']."\n";
 }
 
 
 
 // recup des infos ARTT ou Temps Partiel :
-// attention : les param $val_matin et $val_aprem sont passÃ©es par rÃ©fÃ©rence (avec &) car on change leur valeur
-function recup_infos_artt_du_jour($sql_login, $j_timestamp, &$val_matin, &$val_aprem,  $DEBUG=FALSE)
+// attention : les param $val_matin et $val_aprem sont passées par référence (avec &) car on change leur valeur
+function recup_infos_artt_du_jour($sql_login, $j_timestamp, &$val_matin, &$val_aprem, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
-	$num_semaine=date('W', $j_timestamp);
+	$num_semaine=date("W", $j_timestamp);
 	$jour_name_fr_2c=get_j_name_fr_2c($j_timestamp); // nom du jour de la semaine en francais sur 2 caracteres
 
-	// on ne cherche pas d'artt les samedis ou dimanches quand il ne sont pas travaillÃ©s (cf config de php_conges)
-	if( (($jour_name_fr_2c=='sa')&&($_SESSION['config']['samedi_travail']==FALSE)) || (($jour_name_fr_2c=='di')&&($_SESSION['config']['dimanche_travail']==FALSE)) )
+	// on ne cherche pas d'artt les samedis ou dimanches quand il ne sont pas travaillés (cf config de php_conges)
+	if( (($jour_name_fr_2c=="sa")&&($_SESSION['config']['samedi_travail']==FALSE)) || (($jour_name_fr_2c=="di")&&($_SESSION['config']['dimanche_travail']==FALSE)) )
 	{
-		// on ne cherche pas d'artt les samedis ou dimanches quand ils ne sont pas travaillÃ©s
+		// on ne cherche pas d'artt les samedis ou dimanches quand ils ne sont pas travaillés
 	}
 	else
 	{
 		// verif si le jour fait l'objet d'un echange ....
-		$date_j=date('Y-m-d', $j_timestamp);
-		$sql_echange_rtt='SELECT e_absence FROM conges_echange_rtt WHERE e_login=\''.$sql->escape($sql_login).'\' AND e_date_jour=\''.$sql->escape($date_j).'\' ';
-		$res_echange_rtt = requete_mysql($sql_echange_rtt,  'recup_infos_artt_du_jour', $DEBUG);
+		$date_j=date("Y-m-d", $j_timestamp);
+		$sql_echange_rtt="SELECT e_absence FROM conges_echange_rtt WHERE e_login='$sql_login' AND e_date_jour='$date_j' ";
+		$res_echange_rtt = requete_mysql($sql_echange_rtt, $mysql_link, "recup_infos_artt_du_jour", $DEBUG);
 
-		$num_echange_rtt = $res_echange_rtt->num_rows;
-		// si le jour est l'objet d'un echange, on tient compte de l'Ã©change
+		$num_echange_rtt = mysql_num_rows($res_echange_rtt);
+		// si le jour est l'objet d'un echange, on tient compte de l'échange
 		if($num_echange_rtt!=0)
 		{
-			$result_echange_rtt = $res_echange_rtt->fetch_array();
-			if ($result_echange_rtt['e_absence']=='J') // jour entier
+			$result_echange_rtt = mysql_fetch_array($res_echange_rtt);
+			if ($result_echange_rtt["e_absence"]=='J') // jour entier
 			{
 				$val_matin='Y';
 				$val_aprem='Y';
 			}
-			elseif ($result_echange_rtt['e_absence']=='M') // matin
+			elseif ($result_echange_rtt["e_absence"]=='M') // matin
 			{
 				$val_matin='Y';
 				$val_aprem='N';
 			}
-			elseif ($result_echange_rtt['e_absence']=='A') // apres-midi
+			elseif ($result_echange_rtt["e_absence"]=='A') // apres-midi
 			{
 				$val_matin='N';
 				$val_aprem='Y';
@@ -1644,17 +1678,17 @@ function recup_infos_artt_du_jour($sql_login, $j_timestamp, &$val_matin, &$val_a
 		else
 		{
 			$parite_semaine=($num_semaine % 2);   //(modulo) =1 si sem impaire, =o si sem paire
-			$par_sem = $parite_semaine==0 ? 'p' : 'imp';
+			if ($parite_semaine==0) $par_sem="p"; else $par_sem="imp" ;
 
 			//on calcule la key du tableau $result_artt qui correspond au jour j que l'on est en train d'afficher
-			$key_artt_matin ='sem_'.$par_sem.'_'.$jour_name_fr_2c.'_am' ;
-			$key_artt_aprem ='sem_'.$par_sem.'_'.$jour_name_fr_2c.'_pm' ;
+			$key_artt_matin="sem_".$par_sem."_".$jour_name_fr_2c."_am" ;
+			$key_artt_aprem="sem_".$par_sem."_".$jour_name_fr_2c."_pm" ;
 
 			// recup des ARTT et temps-partiels du user
-			$sql_artt='SELECT '.$sql->escape($key_artt_matin).', '.$sql->escape($key_artt_aprem).' FROM conges_artt
-				WHERE a_login=\''.$sql->escape($sql_login).'\' AND a_date_debut_grille<=\''.$sql->escape($date_j).'\' AND a_date_fin_grille>=\''.$sql->escape($date_j).' \'';
-			$res_artt = requete_mysql($sql_artt, 'recup_infos_artt_du_jour', $DEBUG);
-			$result_artt = $res_artt->fetch_array();
+			$sql_artt="SELECT $key_artt_matin, $key_artt_aprem FROM conges_artt
+						WHERE a_login='$sql_login' AND a_date_debut_grille<='$date_j' AND a_date_fin_grille>='$date_j' ";
+			$res_artt = requete_mysql($sql_artt, $mysql_link, "recup_infos_artt_du_jour", $DEBUG);
+			$result_artt = mysql_fetch_array($res_artt);
 			if($result_artt["$key_artt_matin"]=='Y')
 				$val_matin='Y';
 			else
@@ -1669,35 +1703,35 @@ function recup_infos_artt_du_jour($sql_login, $j_timestamp, &$val_matin, &$val_a
 
 
 // recup des infos ARTT ou Temps Partiel :
-// attention : les param $val_matin et $val_aprem sont passÃ©es par rÃ©fÃ©rence (avec &) car on change leur valeur
-function recup_infos_artt_du_jour_from_tab($sql_login, $j_timestamp, &$val_matin, &$val_aprem, $tab_rtt_echange, $tab_rtt_planifiees, $DEBUG=FALSE)
+// attention : les param $val_matin et $val_aprem sont passées par référence (avec &) car on change leur valeur
+function recup_infos_artt_du_jour_from_tab($sql_login, $j_timestamp, &$val_matin, &$val_aprem, $tab_rtt_echange, $tab_rtt_planifiees, $mysql_link, $DEBUG=FALSE)
 {
 
-	//$tab_rtt_echange  //tableau indexÃ© dont la clÃ© est la date sous forme yyyy-mm-dd
-						//il contient pour chaque clÃ© (chaque jour): un tableau indÃ©xÃ© ($tab_jour_rtt_echange) (clÃ©= login)
-						// qui contient lui mÃªme un tableau ($tab_echange) contenant les infos des echanges de rtt pour ce
+	//$tab_rtt_echange  //tableau indexé dont la clé est la date sous forme yyyy-mm-dd
+						//il contient pour chaque clé (chaque jour): un tableau indéxé ($tab_jour_rtt_echange) (clé= login)
+						// qui contient lui même un tableau ($tab_echange) contenant les infos des echanges de rtt pour ce
 						// jour et ce login (valeur du matin + valeur de l'apres midi ('Y' si rtt, 'N' sinon) )
-	//$tab_rtt_planifiees  //tableau indexÃ© dont la clÃ© est le login_user
-					// il contient pour chaque clÃ© login : un tableau ($tab_user_grille) indexÃ© dont la
-					// clÃ© est la date_fin_grille.
-					// qui contient lui meme pour chaque clÃ© : un tableau ($tab_user_rtt) qui contient enfin
-					// les infos pour le matin et l'aprÃ¨s midi ('Y' si rtt, 'N' sinon) sur 2 semaines
-					// ( du sem_imp_lu_am au sem_p_ve_pm ) + la date de dÃ©but et de fin de la grille
+	//$tab_rtt_planifiees  //tableau indexé dont la clé est le login_user
+					// il contient pour chaque clé login : un tableau ($tab_user_grille) indexé dont la
+					// clé est la date_fin_grille.
+					// qui contient lui meme pour chaque clé : un tableau ($tab_user_rtt) qui contient enfin
+					// les infos pour le matin et l'après midi ('Y' si rtt, 'N' sinon) sur 2 semaines
+					// ( du sem_imp_lu_am au sem_p_ve_pm ) + la date de début et de fin de la grille
 
-	$num_semaine=date('W', $j_timestamp);
+	$num_semaine=date("W", $j_timestamp);
 	$jour_name_fr_2c=get_j_name_fr_2c($j_timestamp); // nom du jour de la semaine en francais sur 2 caracteres
 
-	// on ne cherche pas d'artt les samedis ou dimanches quand il ne sont pas travaillÃ©s (cf config de php_conges)
+	// on ne cherche pas d'artt les samedis ou dimanches quand il ne sont pas travaillés (cf config de php_conges)
 	if( (($jour_name_fr_2c=="sa")&&($_SESSION['config']['samedi_travail']==FALSE)) || (($jour_name_fr_2c=="di")&&($_SESSION['config']['dimanche_travail']==FALSE)) )
 	{
-		// on ne cherche pas d'artt les samedis ou dimanches quand il ne sont pas travaillÃ©s
+		// on ne cherche pas d'artt les samedis ou dimanches quand il ne sont pas travaillés
 	}
 	else
 	{
 		// verif si le jour fait l'objet d'un echange ....
 		$date_j=date("Y-m-d", $j_timestamp);
 		//echo "$date_j<br>\n";
-		// si le jour est l'objet d'un echange, on tient compte de l'Ã©change
+		// si le jour est l'objet d'un echange, on tient compte de l'échange
 		$tab_day=$tab_rtt_echange[$date_j];  // on recup le tableau du jour
 		if(array_key_exists($sql_login, $tab_day))   // si la periode correspond au user que l'on est en train de traiter
 		{
@@ -1717,21 +1751,17 @@ function recup_infos_artt_du_jour_from_tab($sql_login, $j_timestamp, &$val_matin
 			// recup des ARTT et temps-partiels du user :
 			// recup des grille du user
 			$tab_grille_user=$tab_rtt_planifiees[$sql_login];
-			// parcours du tableau des grille pour trouver la key qui correspond Ã  la bonne pÃ©riode
-			if(count($tab_grille_user))
-			{
-				foreach ($tab_grille_user as $key => $value) 
+			// parcours du tableau des grille pour trouver la key qui correspond à la bonne période
+			foreach ($tab_grille_user as $key => $value) {
+				if( ($date_j>=$value["date_debut_grille"]) && ($date_j<=$value["date_fin_grille"]) ) // date_jour comprise entre date_deb_grille et date_fin grille
 				{
-					if( ($date_j>=$value["date_debut_grille"]) && ($date_j<=$value["date_fin_grille"]) ) // date_jour comprise entre date_deb_grille et date_fin grille
-					{
-						$val_matin=$value[$key_artt_matin];
-						$val_aprem=$value[$key_artt_aprem];
-						//echo "$sql_login : ".$value["login"]."<br>\n";
-					}
-					else
-					{
-						// ne fait rien
-					}
+					$val_matin=$value[$key_artt_matin];
+					$val_aprem=$value[$key_artt_aprem];
+					//echo "$sql_login : ".$value["login"]."<br>\n";
+				}
+				else
+				{
+					// ne fait rien
 				}
 			}
 		}
@@ -1741,23 +1771,23 @@ function recup_infos_artt_du_jour_from_tab($sql_login, $j_timestamp, &$val_matin
 
 
 
-// verif validitÃ© d'un nombre saisi (decimal ou non)
-//  (attention : le $nombre est passÃ© par rÃ©fÃ©rence car on le modifie si besoin)
+// verif validité d'un nombre saisi (decimal ou non)
+//  (attention : le $nombre est passé par référence car on le modifie si besoin)
 function verif_saisie_decimal(&$nombre, $DEBUG=FALSE)
 {
 	$verif=TRUE ;
 
-	if ( !preg_match('/^-?([0-9]+)([\.\,]?[0-9]?[0-9]?)$/', $nombre) ) 
+	if ( !ereg( "^-?([0-9]+)([\.\,]?[0-9]?[0-9]?)", $nombre) )
 	{
 		echo "<br>".$_SESSION['lang']['verif_saisie_erreur_nb_bad']." ($nombre)<br>\n";
 		$verif=FALSE ;
 	}
 	else
 	{
-		if( preg_match('/^([0-9]+)\,([0-9]{1,2})$/', $nombre, $reg) ) 
-			$nombre=$reg[1].".".$reg[2];    // on remplace la virgule par un point pour les dÃ©cimaux
-		elseif( preg_match('/^-([0-9]+)\,([0-9]{1,2})$/', $nombre, $reg) )
-			$nombre="-".$reg[1].".".$reg[2];    // on remplace la virgule par un point pour les dÃ©cimaux
+		if( ereg( "^([0-9]+)\,([0-9]{1,2})", $nombre, $reg) )
+			$nombre=$reg[1].".".$reg[2];    // on remplace la virgule par un point pour les décimaux
+		elseif( ereg( "^-([0-9]+)\,([0-9]{1,2})", $nombre, $reg) )
+			$nombre="-".$reg[1].".".$reg[2];    // on remplace la virgule par un point pour les décimaux
 	}
 
 	return $verif;
@@ -1802,16 +1832,16 @@ function date_fr($code, $timestmp)
 
 
 // envoi d'un message d'avertissement
-// parametre 1=login de l'expÃ©diteur
+// parametre 1=login de l'expéditeur
 // parametre 2=login du destnataire (ou ":responsable:" si envoi au(x) responsable(s))
-// parametre 3= numero de l'absence concernÃ©e
+// parametre 3= numero de l'absence concernée
 // parametre 4=objet du message (cf table conges_mail pour les diff valeurs possibles)
-function alerte_mail($login_expediteur, $destinataire, $num_periode, $objet,  $DEBUG=FALSE)
+function alerte_mail($login_expediteur, $destinataire, $num_periode, $objet, $mysql_link, $DEBUG=FALSE)
 {
 //$DEBUG=TRUE;
 
 	$phpmailer_filename = $_SESSION['config']['php_conges_phpmailer_include_path']."/phpmailer/class.phpmailer.php";
-	// verif si la librairie phpmailer est prÃ©sente
+	// verif si la librairie phpmailer est présente
 	if(!is_readable($phpmailer_filename))
 	{
 		echo $_SESSION['lang']['phpmailer_not_valid']."<br> !";
@@ -1822,7 +1852,7 @@ function alerte_mail($login_expediteur, $destinataire, $num_periode, $objet,  $D
 
 
 		/*********************************************/
-		// recup des infos concernant l'expÃ©diteur ....
+		// recup des infos concernant l'expéditeur ....
 		$mail_array=find_email_adress_for_user($login_expediteur, $DEBUG);
 		$mail_sender_name = $mail_array[0];
 		$mail_sender_addr = $mail_array[1];
@@ -1834,8 +1864,8 @@ function alerte_mail($login_expediteur, $destinataire, $num_periode, $objet,  $D
 		if($destinataire==":responsable:")  // c'est une message au responsable
 		{
 //			$tab_resp=array();
-//			get_tab_resp_du_user($login_expediteur, $tab_resp,  $DEBUG);
-			$tab_resp=get_tab_resp_du_user($login_expediteur,  $DEBUG);
+//			get_tab_resp_du_user($login_expediteur, $tab_resp, $mysql_link, $DEBUG);
+			$tab_resp=get_tab_resp_du_user($login_expediteur, $mysql_link, $DEBUG);
 			if( $DEBUG==TRUE ) { echo "tab_resp :<br>"; print_r($tab_resp); echo "<br>\n"; }
 
 			foreach($tab_resp as $item_login => $item_presence)
@@ -1851,18 +1881,18 @@ function alerte_mail($login_expediteur, $destinataire, $num_periode, $objet,  $D
 					echo "<b>ERROR : $mail_dest_name : no mail address !</b><br>\n";
 				else
 				{
-					// on change l'objet si c'est un "new_demande" Ã  un resp absent et qu'on gere les absence de resp !
+					// on change l'objet si c'est un "new_demande" à un resp absent et qu'on gere les absence de resp !
 					if( ($_SESSION['config']['gestion_cas_absence_responsable']==TRUE) && ($item_presence=="absent") && ($objet="new_demande") )
 						$new_objet="new_demande_resp_absent";
 					else
 						$new_objet=$objet;
 						
-					constuct_and_send_mail($new_objet, $mail_sender_name, $mail_sender_addr, $mail_dest_name, $mail_dest_addr, $num_periode,  $DEBUG);
+					constuct_and_send_mail($new_objet, $mail_sender_name, $mail_sender_addr, $mail_dest_name, $mail_dest_addr, $num_periode, $mysql_link, $DEBUG);
 				}
 			}
 			
 		}
-		else   // c'est un message du responsale Ã  un user
+		else   // c'est un message du responsale à un user
 		{
 			$dest_login = $destinataire ;
 			$mail_array_dest=find_email_adress_for_user($dest_login, $DEBUG);
@@ -1874,14 +1904,14 @@ function alerte_mail($login_expediteur, $destinataire, $num_periode, $objet,  $D
 			if($mail_dest_addr=="")
 				echo "<b>ERROR : $mail_dest_name : no mail address !</b><br>\n";
 			else
-				constuct_and_send_mail($objet, $mail_sender_name, $mail_sender_addr, $mail_dest_name, $mail_dest_addr, $num_periode,  $DEBUG);
+				constuct_and_send_mail($objet, $mail_sender_name, $mail_sender_addr, $mail_dest_name, $mail_dest_addr, $num_periode, $mysql_link, $DEBUG);
 
 			/****************************/
-			if($objet=="valid_conges")  // c'est un mail de premiÃ¨re validation de demande : il faut faire une copie au(x) grand(s) responsable(s)
+			if($objet=="valid_conges")  // c'est un mail de première validation de demande : il faut faire une copie au(x) grand(s) responsable(s)
 			{
 				// on recup la liste des grands resp du user
 				$tab_grd_resp=array();
-				get_tab_grd_resp_du_user($dest_login, $tab_grd_resp,  $DEBUG);
+				get_tab_grd_resp_du_user($dest_login, $tab_grd_resp, $mysql_link, $DEBUG);
 				if( $DEBUG==TRUE ) { echo "tab_grd_resp :<br>"; print_r($tab_grd_resp); echo "<br>\n"; }
 
 				if(count($tab_grd_resp)!=0)  // si tableau n'est pas vide
@@ -1898,7 +1928,7 @@ function alerte_mail($login_expediteur, $destinataire, $num_periode, $objet,  $D
 						if($mail_dest_addr=="")
 							echo "<b>ERROR : $mail_dest_name : no mail address !</b><br>\n";
 						else
-							constuct_and_send_mail($objet, $mail_sender_name, $mail_sender_addr, $mail_dest_name, $mail_dest_addr, $num_periode,  $DEBUG);
+							constuct_and_send_mail($objet, $mail_sender_name, $mail_sender_addr, $mail_dest_name, $mail_dest_addr, $num_periode, $mysql_link, $DEBUG);
 					}
 				}
 			}
@@ -1912,7 +1942,7 @@ function alerte_mail($login_expediteur, $destinataire, $num_periode, $objet,  $D
 
 
 // construit et envoie le mail 
-function constuct_and_send_mail($objet, $mail_sender_name, $mail_sender_addr, $mail_dest_name, $mail_dest_addr, $num_periode,  $DEBUG=FALSE)
+function constuct_and_send_mail($objet, $mail_sender_name, $mail_sender_addr, $mail_dest_name, $mail_dest_addr, $num_periode, $mysql_link, $DEBUG=FALSE)
 {
 	if( $DEBUG==TRUE ) {echo "constuct_and_send_mail($objet, $mail_sender_name, $mail_sender_addr, $mail_dest_name, $mail_dest_addr, $num_periode)<br>\n";}
 	
@@ -1934,7 +1964,7 @@ function constuct_and_send_mail($objet, $mail_sender_name, $mail_sender_addr, $m
 			$mail->Host = $_SESSION['config']['serveur_smtp'];
 		}
 
-		// initialisation du langage utilisÃ© par php_mailer
+		// initialisation du langage utilisé par php_mailer
 		$mail->SetLanguage("fr", $_SESSION['config']['php_conges_phpmailer_include_path']."/phpmailer/language/");
 
 		if( $DEBUG==TRUE )
@@ -1957,8 +1987,8 @@ function constuct_and_send_mail($objet, $mail_sender_name, $mail_sender_addr, $m
 					FROM   conges_periode, conges_type_absence
 					WHERE  conges_periode.p_num=$num_periode
 							AND    conges_periode.p_type = conges_type_absence.ta_id";
-		$res_abs = requete_mysql($select_abs,  "alerte_mail", $DEBUG);
-		$rec_abs = $res_abs->fetch_array();
+		$res_abs = requete_mysql($select_abs, $mysql_link, "alerte_mail", $DEBUG);
+		$rec_abs = mysql_fetch_array($res_abs);
 
 		$tab_date_deb= explode("-", $rec_abs["p_date_deb"]);
 		// affiche : "23 / 01 / 2008 (am)"
@@ -2046,7 +2076,7 @@ function find_email_adress_for_user($login, $DEBUG=FALSE)
 	if($_SESSION['config']['where_to_find_user_email']=="ldap") // recherche du mail du user dans un annuaire LDAP
 	{
 //		include('config_ldap.php');
-		// cnx Ã  l'annuaire ldap :
+		// cnx à l'annuaire ldap :
 		$ds = ldap_connect($_SESSION['config']['ldap_server']);
 		if($_SESSION['config']['ldap_protocol_version'] != 0)
 			ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, $_SESSION['config']['ldap_protocol_version']) ;
@@ -2054,7 +2084,7 @@ function find_email_adress_for_user($login, $DEBUG=FALSE)
 		     $bound = ldap_bind($ds);
 		else $bound = ldap_bind($ds, $_SESSION['config']['ldap_user'], $_SESSION['config']['ldap_pass']);
 
-		// recherche des entrÃ©es correspondantes au "login" passÃ© en paramÃ¨tre :
+		// recherche des entrées correspondantes au "login" passé en paramètre :
 		$filter = "(".$_SESSION['config']['ldap_login']."=".$login.")";
 
 		$sr   = ldap_search($ds, $_SESSION['config']['searchdn'], $filter);
@@ -2063,11 +2093,11 @@ function find_email_adress_for_user($login, $DEBUG=FALSE)
 		foreach ($data as $info)
 		{
 			$found_mail=array();
-			// On rÃ©cupÃ¨re le nom et le mail de la personne.
-			// Utilisation de la fonction utf8_decode pour corriger les caractÃ¨res accentuÃ©s
-			// (qnd les noms ou prÃ©noms ont des accents, "Ã§", ...
+			// On récupère le nom et le mail de la personne.
+			// Utilisation de la fonction utf8_decode pour corriger les caractères accentués
+			// (qnd les noms ou prénoms ont des accents, "ç", ...
 
-			// Les champs LDAP utilisÃ©s, bien que censÃ©s Ãªtre uniformes, sont ceux d'un AD 2003.
+			// Les champs LDAP utilisés, bien que censés être uniformes, sont ceux d'un AD 2003.
 			$ldap_prenom = $_SESSION['config']['ldap_prenom'];
 			$ldap_nom    = $_SESSION['config']['ldap_nom'];
 			$ldap_mail   = $_SESSION['config']['ldap_mail'];
@@ -2079,9 +2109,10 @@ function find_email_adress_for_user($login, $DEBUG=FALSE)
 	}
 	elseif($_SESSION['config']['where_to_find_user_email']=="dbconges") // recherche du mail du user dans la base db_conges
 	{
-		$req = 'SELECT u_nom, u_prenom, u_email FROM conges_users WHERE u_login=\''.$sql->escape($login).'\' ';
-		$res = requete_mysql($req,  "find_email_adress_for_user", $DEBUG);
-		$rec = $res->fetch_array();
+		$mysql_link = connexion_mysql();
+		$req = "SELECT u_nom, u_prenom, u_email FROM conges_users WHERE u_login='$login' ";
+		$res = requete_mysql($req, $mysql_link, "find_email_adress_for_user", $DEBUG);
+		$rec = mysql_fetch_array($res);
 
 		$sql_nom = $rec["u_nom"];
 		$sql_prenom = $rec["u_prenom"];
@@ -2100,33 +2131,32 @@ function find_email_adress_for_user($login, $DEBUG=FALSE)
 
 
 /**************************************************/
-/* recup des Ã©changes de rtt de chaque jour du mois pour tous les users et stockage dans 1 tableau de tableaux */
+/* recup des échanges de rtt de chaque jour du mois pour tous les users et stockage dans 1 tableau de tableaux */
 /**************************************************/
-function recup_tableau_rtt_echange($mois, $first_jour, $year,  $DEBUG=FALSE)
+function recup_tableau_rtt_echange($mois, $first_jour, $year, $mysql_link, $DEBUG=FALSE)
 {
-	$tab_rtt_echange=array();  //tableau indexÃ© dont la clÃ© est la date sous forme yyyy-mm-dd
-						//il contient pour chaque clÃ© (chaque jour): un tableau indÃ©xÃ© ($tab_jour_rtt_echange) (clÃ©= login)
-						// qui contient lui mÃªme un tableau ($tab_echange) contenant les infos des echanges de rtt pour ce
+	$tab_rtt_echange=array();  //tableau indexé dont la clé est la date sous forme yyyy-mm-dd
+						//il contient pour chaque clé (chaque jour): un tableau indéxé ($tab_jour_rtt_echange) (clé= login)
+						// qui contient lui même un tableau ($tab_echange) contenant les infos des echanges de rtt pour ce
 						// jour et ce login (valeur du matin + valeur de l'apres midi ('Y' si rtt, 'N' sinon) )
 
 	// construction du tableau $tab_rtt_echange:
 
-	// pour chaque jour : (du premier jour demandÃ© Ã  la fin du mois ...)
+	// pour chaque jour : (du premier jour demandé à la fin du mois ...)
 	for($j=$first_jour; checkdate($mois, $j, $year); $j++)
 	{
-		$sql=SQL::singleton();
 		$j_timestamp=mktime (0,0,0,$mois, $j, $year);
 		$date_j=date("Y-m-d", $j_timestamp);
 		$tab_jour_rtt_echange=array();
 
-		$sql_echange_rtt='SELECT e_login, e_absence FROM conges_echange_rtt WHERE e_date_jour=\''.$sql->escape($date_j).'\' ';
-		$res_echange_rtt = requete_mysql($sql_echange_rtt,  "recup_tableau_rtt_echange", $DEBUG);
+		$sql_echange_rtt="SELECT e_login, e_absence FROM conges_echange_rtt WHERE e_date_jour='$date_j' ";
+		$res_echange_rtt = requete_mysql($sql_echange_rtt, $mysql_link, "recup_tableau_rtt_echange", $DEBUG);
 
-		$num_echange_rtt = $res_echange_rtt->num_rows;
-		// si le jour est l'objet d'un echange, on tient compte de l'Ã©change
+		$num_echange_rtt = mysql_num_rows($res_echange_rtt);
+		// si le jour est l'objet d'un echange, on tient compte de l'échange
 		if($num_echange_rtt!=0)
 		{
-			while($result_echange_rtt = $res_echange_rtt->fetch_array())
+			while($result_echange_rtt = mysql_fetch_array($res_echange_rtt))
 			{
 				$tab_echange=array();
 				$login=$result_echange_rtt["e_login"];
@@ -2156,7 +2186,7 @@ function recup_tableau_rtt_echange($mois, $first_jour, $year,  $DEBUG=FALSE)
 		$tab_rtt_echange[$date_j]=$tab_jour_rtt_echange;
 	}
 
-	// si le premier jour demandÃ© n'est pas le 1ier du mois , on va jusqu'Ã  la meme date le mois suivant :
+	// si le premier jour demandé n'est pas le 1ier du mois , on va jusqu'à la meme date le mois suivant :
 	if($first_jour!=1) {
 		// pour chaque jour jusqu'a la date voulue : (meme num de jour le mois suivant)
 		for($j=1; $j<$first_jour; $j++)
@@ -2165,13 +2195,13 @@ function recup_tableau_rtt_echange($mois, $first_jour, $year,  $DEBUG=FALSE)
 			$date_j=date("Y-m-d", $j_timestamp);
 			$tab_jour_rtt_echange=array();
 
-			$sql_echange_rtt='SELECT e_login, e_absence FROM conges_echange_rtt WHERE e_date_jour=\''.$sql->escape($date_j).'\' ';
-			$res_echange_rtt = requete_mysql($sql_echange_rtt,  "recup_tableau_rtt_echange", $DEBUG);
-			$num_echange_rtt = $res_echange_rtt->num_rows;
-			// si le jour est l'objet d'un echange, on tient compte de l'Ã©change
+			$sql_echange_rtt="SELECT e_login, e_absence FROM conges_echange_rtt WHERE e_date_jour='$date_j' ";
+			$res_echange_rtt = requete_mysql($sql_echange_rtt, $mysql_link, "recup_tableau_rtt_echange", $DEBUG);
+			$num_echange_rtt = mysql_num_rows($res_echange_rtt);
+			// si le jour est l'objet d'un echange, on tient compte de l'échange
 			if($num_echange_rtt!=0)
 			{
-				while($result_echange_rtt = $res_echange_rtt->fetch_array())
+				while($result_echange_rtt = mysql_fetch_array($res_echange_rtt))
 				{
 					$tab_echange=array();
 					$login=$result_echange_rtt["e_login"];
@@ -2207,36 +2237,35 @@ function recup_tableau_rtt_echange($mois, $first_jour, $year,  $DEBUG=FALSE)
 
 
 /**************************************************/
-/* recup dans un tableau des rtt planifiÃ©es  pour tous les users */
+/* recup dans un tableau des rtt planifiées  pour tous les users */
 /**************************************************/
-function recup_tableau_rtt_planifiees($mois, $first_jour, $year,  $DEBUG=FALSE)
+function recup_tableau_rtt_planifiees($mois, $first_jour, $year, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
-	$tab_rtt_planifiees=array();  //tableau indexÃ© dont la clÃ© est le login_user
-					// il contient pour chaque clÃ© login : un tableau ($tab_user_grille) indexÃ© dont la
-					// clÃ© est la date_fin_grille.
-					// qui contient lui meme pour chaque clÃ© : un tableau ($tab_user_rtt) qui contient enfin
-					// les infos pour le matin et l'aprÃ¨s midi ('Y' si rtt, 'N' sinon) sur 2 semaines
-					// ( du sem_imp_lu_am au sem_p_ve_pm ) + la date de dÃ©but et de fin de la grille
+	$tab_rtt_planifiees=array();  //tableau indexé dont la clé est le login_user
+					// il contient pour chaque clé login : un tableau ($tab_user_grille) indexé dont la
+					// clé est la date_fin_grille.
+					// qui contient lui meme pour chaque clé : un tableau ($tab_user_rtt) qui contient enfin
+					// les infos pour le matin et l'après midi ('Y' si rtt, 'N' sinon) sur 2 semaines
+					// ( du sem_imp_lu_am au sem_p_ve_pm ) + la date de début et de fin de la grille
 
 	$tab_user_grille=array();
 	$tab_user_rtt=array();
 
 	// construction du tableau $tab_rtt_planifie:
 	$req_artt_login="SELECT DISTINCT(a_login) FROM conges_artt ";
-	$res_artt_login = requete_mysql($req_artt_login,  "recup_tableau_rtt_planifiees", $DEBUG);
+	$res_artt_login = requete_mysql($req_artt_login, $mysql_link, "recup_tableau_rtt_planifiees", $DEBUG);
 
-	//$num_artt_login = $res_artt_login->num_rows;
-	while($result_artt_login = $res_artt_login->fetch_array()) // pour chaque login trouvÃ©
+	//$num_artt_login = mysql_num_rows($res_artt_login);
+	while($result_artt_login = mysql_fetch_array($res_artt_login)) // pour chaque login trouvé
 	{
 		$sql_artt_login=$result_artt_login["a_login"];
 		$tab_user_grille=array();
 
-		$req_artt = 'SELECT * FROM conges_artt WHERE a_login=\''.$sql->escape($sql_artt_login).'\' ';
-		$res_artt = requete_mysql($req_artt,  "recup_tableau_rtt_planifiees", $DEBUG);
+		$req_artt = "SELECT * FROM conges_artt WHERE a_login='$sql_artt_login' ";
+		$res_artt = requete_mysql($req_artt, $mysql_link, "recup_tableau_rtt_planifiees", $DEBUG);
 
-		$num_artt = $res_artt->num_rows;
-		while($result_artt = $res_artt->fetch_array())
+		$num_artt = mysql_num_rows($res_artt);
+		while($result_artt = mysql_fetch_array($res_artt))
 		{
 			$tab_user_rtt=array();
 			$sql_date_fin_grille=$result_artt["a_date_fin_grille"];
@@ -2284,7 +2313,7 @@ function recup_tableau_rtt_planifiees($mois, $first_jour, $year,  $DEBUG=FALSE)
 }
 
 
-// affiche une liste dÃ©roulante des jours du mois : la variable est $new_jour
+// affiche une liste déroulante des jours du mois : la variable est $new_jour
 function affiche_selection_new_jour($default)
 {
 	echo "<select name=\"new_jour\" >\n";
@@ -2305,7 +2334,7 @@ function affiche_selection_new_jour($default)
 	echo "</select>\n";
 }
 
-// affiche une liste dÃ©roulante des mois de l'annÃ©e : la variable est $new_mois
+// affiche une liste déroulante des mois de l'année : la variable est $new_mois
 function affiche_selection_new_mois($default)
 {
 	echo "<select name=\"new_mois\" >\n";
@@ -2327,7 +2356,7 @@ function affiche_selection_new_mois($default)
 	echo "</select>\n";
 }
 
-// affiche une liste dÃ©roulante d'annÃ©e : la variable est $new_year
+// affiche une liste déroulante d'année : la variable est $new_year
 function affiche_selection_new_year($an_debut, $an_fin, $default)
 {
 	echo "<select name=\"new_year\" >\n";
@@ -2357,7 +2386,7 @@ function fr_date_to_eng($une_date)
 
 
 // affichage de la cellule correspondant au jour dans les calendrier de saisie (demande de conges, etc ...)
-function affiche_cellule_jour_cal_saisie($login, $j_timestamp, $td_second_class, $result,  $DEBUG=FALSE)
+function affiche_cellule_jour_cal_saisie($login, $j_timestamp, $td_second_class, $result, $mysql_link, $DEBUG=FALSE)
 {
 	$session=session_id();
 
@@ -2372,7 +2401,7 @@ function affiche_cellule_jour_cal_saisie($login, $j_timestamp, $td_second_class,
 	$val_aprem="";
 	// recup des infos ARTT ou Temps Partiel :
 	// la fonction suivante change les valeurs de $val_matin $val_aprem ....
-	recup_infos_artt_du_jour($login, $j_timestamp, $val_matin, $val_aprem,  $DEBUG);
+	recup_infos_artt_du_jour($login, $j_timestamp, $val_matin, $val_aprem, $mysql_link, $DEBUG);
 
 	//## AFICHAGE ##
 	if($val_matin=="Y")
@@ -2389,19 +2418,19 @@ function affiche_cellule_jour_cal_saisie($login, $j_timestamp, $td_second_class,
 	$mois_today=date("m");
 	$year_today=date("Y");
 	$timestamp_today = mktime (0,0,0,$mois_today,$jour_today,$year_today);
-	// si la saisie de conges pour une periode passÃ©e est interdite : pas de case Ã  cocher dans les dates avant aujourd'hui
+	// si la saisie de conges pour une periode passée est interdite : pas de case à cocher dans les dates avant aujourd'hui
 	if( ($_SESSION['config']['interdit_saisie_periode_date_passee']==TRUE) && ($j_timestamp<$timestamp_today) )
 		echo "<td  class=\"cal-saisie $td_second_class $class_am $class_pm\">$j</td>";
 	else
 	{
-		// Si le client est sous IE, on affiche pas les jours de rtt (car IE ne gÃ¨re pas les appels standart de classe de feuille e style)
+		// Si le client est sous IE, on affiche pas les jours de rtt (car IE ne gère pas les appels standart de classe de feuille e style)
 		if( (isset($_SERVER["HTTP_USER_AGENT"])) && (stristr($_SERVER["HTTP_USER_AGENT"], "MSIE")!=FALSE) )
 		{
 			echo "<td  class=\"cal-saisie\">$j<input type=\"radio\" name=\"$result\" ";
 			if($_SESSION['config']['rempli_auto_champ_nb_jours_pris']==TRUE)
 			{
 				// attention : IE6 : bug avec les "OnChange" sur les boutons radio!!! (on remplace par OnClick)
-				if( (isset($_SERVER["HTTP_USER_AGENT"])) && (stristr($_SERVER["HTTP_USER_AGENT"], "MSIE")!=FALSE) )
+				if( (isset($_SERVER["HTTP_USER_AGENT"])) && (stristr($_SERVER["HTTP_USER_AGENT"], "MSIE 6")!=FALSE) )
 					echo "onClick=\"compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return true;\"" ;
 				else
 					echo "onChange=\"compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return false;\"" ;
@@ -2423,14 +2452,13 @@ function affiche_cellule_jour_cal_saisie($login, $j_timestamp, $td_second_class,
 
 
 
-// recup du nom d'un groupe grace Ã  son group_id
-function get_group_name_from_id($groupe_id,  $DEBUG=FALSE)
+// recup du nom d'un groupe grace à son group_id
+function get_group_name_from_id($groupe_id, $mysql_link, $DEBUG=FALSE)
 {
-		$sql=SQL::singleton();
-		$req_name='SELECT g_groupename FROM conges_groupe WHERE g_gid='.$sql->escape($groupe_id);
-		$ReqLog_name = requete_mysql($req_name,  "ajout_global_groupe", $DEBUG);
+		$req_name="SELECT g_groupename FROM conges_groupe WHERE g_gid=$groupe_id ";
+		$ReqLog_name = requete_mysql($req_name, $mysql_link, "ajout_global_groupe", $DEBUG);
 
-		$resultat_name = $ReqLog_name->fetch_array();
+		$resultat_name = mysql_fetch_array($ReqLog_name);
 		return $resultat_name["g_groupename"];
 
 }
@@ -2438,35 +2466,32 @@ function get_group_name_from_id($groupe_id,  $DEBUG=FALSE)
 
 // recup de la liste de TOUS les users dont $resp_login est responsable
 // (prend en compte le resp direct, les groupes, le reps virtuel, etc ...)
-// renvoit une liste de login entre quotes et sÃ©parÃ©s par des virgules
-function get_list_all_users_du_resp($resp_login,  $DEBUG=FALSE)
+// renvoit une liste de login entre quotes et séparés par des virgules
+function get_list_all_users_du_resp($resp_login, $mysql_link, $DEBUG=FALSE)
 {
 
-	$sql=SQL::singleton();
 	$list_users="";
 
-// 	Modification ML : Remonte toutes les demandes de conges pour un responsable SAUF celles du responsable lui mÃªme et des autres responsables du groupe
-// 	$sql="SELECT DISTINCT(u_login) FROM conges_users WHERE u_login!='conges' AND u_login!='admin'";
-	$sql1="SELECT DISTINCT(u_login) FROM conges_users WHERE u_login!='conges' AND u_login!='admin' AND u_login!='$resp_login'";
+	$sql="SELECT DISTINCT(u_login) FROM conges_users WHERE u_login!='conges' AND u_login!='admin' ";
 
 	// si resp virtuel, on renvoit tout le monde, sinon, seulement ceux dont on est responsables
 	if($_SESSION['config']['responsable_virtuel']==FALSE)
 	{
-		$sql1 = $sql1." AND  ( u_resp_login='$resp_login' " ;
+		$sql = $sql." AND  ( u_resp_login='$resp_login' " ;
 		if($_SESSION['config']['gestion_groupes'] == TRUE)
 		{
-			$list_users_group=get_list_users_des_groupes_du_resp_sauf_resp($resp_login, $DEBUG);
+			$list_users_group=get_list_users_des_groupes_du_resp($resp_login, $mysql_link, $DEBUG);
 			if($list_users_group!="")
-				$sql1=$sql1." OR u_login IN ($list_users_group) ";
+				$sql=$sql." OR u_login IN ($list_users_group) ";
 		}
 
-		$sql1=$sql1." ) " ;
+		$sql=$sql." ) " ;
 	}
-	$sql1 = $sql1." ORDER BY u_nom " ;
+	$sql = $sql." ORDER BY u_nom " ;
 
-		$ReqLog1 = requete_mysql($sql1, "get_list_all_users_du_resp_sauf_resp", $DEBUG);
+	$ReqLog1 = requete_mysql($sql, $mysql_link, "get_list_all_users_du_resp", $DEBUG);
 
-	while ($resultat1 = $ReqLog1->fetch_array())
+	while ($resultat1 = mysql_fetch_array($ReqLog1))
 	{
 		$current_login=$resultat1["u_login"];
 		if($list_users=="")
@@ -2481,14 +2506,14 @@ function get_list_all_users_du_resp($resp_login,  $DEBUG=FALSE)
 	if($_SESSION['config']['gestion_cas_absence_responsable']==TRUE)
 	{
 		// recup liste des resp absents, dont $resp_login est responsable
-		$sql_2='SELECT DISTINCT(u_login) FROM conges_users WHERE u_is_resp=\'Y\' AND u_login!=\''.$sql->escape($resp_login).'\' AND u_login!=\'conges\' AND u_login!=\'admin\'';
+		$sql_2="SELECT DISTINCT(u_login) FROM conges_users WHERE u_is_resp='Y' AND u_login!='$resp_login' AND u_login!='conges' AND u_login!='admin' ";
 		// si resp virtuel, on renvoit tout le monde, sinon, seulement ceux dont on est responsables
 		if($_SESSION['config']['responsable_virtuel']==FALSE)
 		{
 			$sql_2 = $sql_2." AND  ( u_resp_login='$resp_login' " ;
 			if($_SESSION['config']['gestion_groupes'] == TRUE)
 			{
-				$list_users_group=get_list_users_des_groupes_du_resp_sauf_resp($resp_login, $DEBUG);
+				$list_users_group=get_list_users_des_groupes_du_resp($resp_login, $mysql_link, $DEBUG);
 				if($list_users_group!="")
 					$sql_2=$sql_2." OR u_login IN ($list_users_group) ";
 			}
@@ -2496,28 +2521,28 @@ function get_list_all_users_du_resp($resp_login,  $DEBUG=FALSE)
 		}
 		$sql_2 = $sql_2." ORDER BY u_nom " ;
 	
-		$ReqLog_2 = requete_mysql($sql_2, "get_list_all_users_du_resp_sauf_resp", $DEBUG);
+		$ReqLog_2 = requete_mysql($sql_2, $mysql_link, "get_list_all_users_du_resp", $DEBUG);
 	
-		// on va verifier si les resp rÃ©cupÃ©rÃ©s sont absents (si oui, c'est $resp_login qui traite leurs users
-		while ($resultat_2 = $ReqLog_2->fetch_array())
+		// on va verifier si les resp récupérés sont absents (si oui, c'est $resp_login qui traite leurs users
+		while ($resultat_2 = mysql_fetch_array($ReqLog_2))
 		{
 			$current_resp=$resultat_2["u_login"];
 			// verif dans la base si le current_resp est absent :
-			$req = 'SELECT p_num 
+			$req = "SELECT p_num 
                                      FROM conges_periode 
-                                     WHERE p_login = \''.$sql->escape($current_resp).'\'
-                                     AND p_etat = \'ok\'
+                                     WHERE p_login = '$current_resp'
+                                     AND p_etat = 'ok'
                                      AND TO_DAYS(conges_periode.p_date_deb) <= TO_DAYS(NOW()) 
-                                     AND TO_DAYS(conges_periode.p_date_fin) >= TO_DAYS(NOW())';
-			$ReqLog_3 = requete_mysql($req,  "get_list_all_users_du_resp", $DEBUG);
+                                     AND TO_DAYS(conges_periode.p_date_fin) >= TO_DAYS(NOW())";
+			$ReqLog_3 = requete_mysql($req, $mysql_link, "get_list_all_users_du_resp", $DEBUG);
 			
 			// si le current resp est absent : on recup la liste de ses users pour les traiter .....
-			if ($ReqLog_3->num_rows!=0)
+			if (mysql_num_rows($ReqLog_3)!=0)
 			{
 				if($list_users=="")
-					$list_users=get_list_all_users_du_resp($current_resp,  $DEBUG);
+					$list_users=get_list_all_users_du_resp($current_resp, $mysql_link, $DEBUG);
 				else
-					$list_users=$list_users.", ".get_list_all_users_du_resp($current_resp,  $DEBUG);
+					$list_users=$list_users.", ".get_list_all_users_du_resp($current_resp, $mysql_link, $DEBUG);
 			}
 		}
 		
@@ -2531,21 +2556,24 @@ function get_list_all_users_du_resp($resp_login,  $DEBUG=FALSE)
 }
 
 
-// recup de la liste des users d'un groupe donnÃ©
-// renvoit une liste de login entre quotes et sÃ©parÃ©s par des virgules
-function get_list_users_du_groupe($group_id,  $DEBUG=FALSE)
+// recup de la liste des users d'un groupe donné
+// renvoit une liste de login entre quotes et séparés par des virgules
+function get_list_users_du_groupe($group_id, $mysql_link, $DEBUG=FALSE)
 {
-	$sql = SQL::singleton();
 
-	$list_users=array();
+	$list_users="";
 
-	$sql1='SELECT DISTINCT(gu_login) FROM conges_groupe_users WHERE gu_gid = '.intval($group_id).' ORDER BY gu_login ';
-	$ReqLog1 = requete_mysql($sql1,  "get_list_users_du_groupe", $DEBUG);
+	$sql="SELECT DISTINCT(gu_login) FROM conges_groupe_users WHERE gu_gid = $group_id ORDER BY gu_login ";
+	$ReqLog1 = requete_mysql($sql, $mysql_link, "get_list_users_du_groupe", $DEBUG);
 
-	while ($resultat1 = $ReqLog1->fetch_array())
-		$list_users[] = '\''.$sql->escape($resultat1["gu_login"]).'\'';
-	
-	$list_users = implode(' , ', $list_users);
+	while ($resultat1 = mysql_fetch_array($ReqLog1))
+	{
+		$current_login=$resultat1["gu_login"];
+		if($list_users=="")
+			$list_users="'$current_login'";
+		else
+			$list_users=$list_users.", '$current_login'";
+	}
 
 	if($DEBUG==TRUE) { echo "list_users = $list_users<br>\n" ;}
 
@@ -2553,33 +2581,20 @@ function get_list_users_du_groupe($group_id,  $DEBUG=FALSE)
 
 }
 
-// recup le nombre de users d'un groupe donnÃ©
-function get_nb_users_du_groupe($group_id,  $DEBUG=FALSE)
-{
-	$sql=SQL::singleton();
-   $sql='SELECT DISTINCT(gu_login) FROM conges_groupe_users WHERE gu_gid = '.$sql->escape($group_id).' ORDER BY gu_login ';
-   $ReqLog1 = requete_mysql($sql,  "get_list_users_du_groupe", $DEBUG);
-
-   $nb_users = $ReqLog1->num_rows;
-
-   return $nb_users;
-
-}
-
 // recup de la liste des users des groupes dont $resp_login est responsable
-// renvoit une liste de login entre quotes et sÃ©parÃ©s par des virgules
-function get_list_users_des_groupes_du_resp($resp_login,  $DEBUG=FALSE)
+// renvoit une liste de login entre quotes et séparés par des virgules
+function get_list_users_des_groupes_du_resp($resp_login, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
+
 	$list_users_des_groupes_du_resp="";
 
-	$list_groups=get_list_groupes_du_resp($resp_login,  $DEBUG);
+	$list_groups=get_list_groupes_du_resp($resp_login, $mysql_link, $DEBUG);
 	if($list_groups!="") // si $resp_login est responsable d'au moins un groupe
 	{
-		$sql='SELECT DISTINCT(gu_login) FROM conges_groupe_users WHERE gu_gid IN ('.$sql->escape($list_groups).') ORDER BY gu_login ';
-		$ReqLog1 = requete_mysql($sql,  "get_list_users_des_groupes_du_resp", $DEBUG);
+		$sql="SELECT DISTINCT(gu_login) FROM conges_groupe_users WHERE gu_gid IN ($list_groups) ORDER BY gu_login ";
+		$ReqLog1 = requete_mysql($sql, $mysql_link, "get_list_users_des_groupes_du_resp", $DEBUG);
 
-		while ($resultat1 = $ReqLog1->fetch_array())
+		while ($resultat1 = mysql_fetch_array($ReqLog1))
 		{
 			$current_login=$resultat1["gu_login"];
 			if($list_users_des_groupes_du_resp=="")
@@ -2595,18 +2610,17 @@ function get_list_users_des_groupes_du_resp($resp_login,  $DEBUG=FALSE)
 }
 
 // recup de la liste des groupes dont $resp_login est responsable
-// renvoit une liste de group_id sÃ©parÃ©s par des virgules
-function get_list_groupes_du_resp($resp_login,  $DEBUG=FALSE)
+// renvoit une liste de group_id séparés par des virgules
+function get_list_groupes_du_resp($resp_login, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
 	$list_group="";
 
-	$sql='SELECT gr_gid FROM conges_groupe_resp WHERE gr_login=\''.$sql->escape($resp_login).'\' ORDER BY gr_gid';
-	$ReqLog1 = requete_mysql($sql,  "get_list_groupes_du_resp", $DEBUG);
+	$sql="SELECT gr_gid FROM conges_groupe_resp WHERE gr_login='$resp_login' ORDER BY gr_gid";
+	$ReqLog1 = requete_mysql($sql, $mysql_link, "get_list_groupes_du_resp", $DEBUG);
 
-	if($ReqLog1->num_rows !=0)
+	if(mysql_num_rows($ReqLog1)!=0)
 	{
-		while ($resultat1 = $ReqLog1->fetch_array())
+		while ($resultat1 = mysql_fetch_array($ReqLog1))
 		{
 			$current_group=$resultat1["gr_gid"];
 			if($list_group=="")
@@ -2621,17 +2635,17 @@ function get_list_groupes_du_resp($resp_login,  $DEBUG=FALSE)
 }
 
 // recup de la liste des groupes dont $resp_login est grandresponsable
-// renvoit une liste de group_id sÃ©parÃ©s par des virgules
-function get_list_groupes_du_grand_resp($resp_login,  $DEBUG=FALSE)
+// renvoit une liste de group_id séparés par des virgules
+function get_list_groupes_du_grand_resp($resp_login, $mysql_link, $DEBUG=FALSE)
 {
 	$list_group="";
 
-	$sql='SELECT ggr_gid FROM conges_groupe_grd_resp WHERE ggr_login=\''.$sql->escape($resp_login).'\' ORDER BY ggr_gid';
-	$ReqLog1 = requete_mysql($sql,  "get_list_groupes_du_grand_resp", $DEBUG);
+	$sql="SELECT ggr_gid FROM conges_groupe_grd_resp WHERE ggr_login='$resp_login' ORDER BY ggr_gid";
+	$ReqLog1 = requete_mysql($sql, $mysql_link, "get_list_groupes_du_grand_resp", $DEBUG);
 
-	if($ReqLog1->num_rows!=0)
+	if(mysql_num_rows($ReqLog1)!=0)
 	{
-		while ($resultat1 = $ReqLog1->fetch_array())
+		while ($resultat1 = mysql_fetch_array($ReqLog1))
 		{
 			$current_group=$resultat1["ggr_gid"];
 			if($list_group=="")
@@ -2645,16 +2659,16 @@ function get_list_groupes_du_grand_resp($resp_login,  $DEBUG=FALSE)
 	return $list_group;
 }
 
-// recup de la liste des groupes Ã  double validation
-// renvoit une liste de gid sÃ©parÃ©s par des virgules
-function get_list_groupes_double_valid( $DEBUG=FALSE)
+// recup de la liste des groupes à double validation
+// renvoit une liste de gid séparés par des virgules
+function get_list_groupes_double_valid($mysql_link, $DEBUG=FALSE)
 {
 	$list_groupes_double_valid="";
 
 	$sql="SELECT g_gid FROM conges_groupe WHERE g_double_valid='Y' ORDER BY g_gid ";
-	$ReqLog1 = requete_mysql($sql,  "get_list_groupes_double_valid_du_resp", $DEBUG);
+	$ReqLog1 = requete_mysql($sql, $mysql_link, "get_list_groupes_double_valid_du_resp", $DEBUG);
 
-	while ($resultat1 = $ReqLog1 -> fetch_array())
+	while ($resultat1 = mysql_fetch_array($ReqLog1))
 	{
 		$current_gid=$resultat1["g_gid"];
 		if($list_groupes_double_valid=="")
@@ -2669,20 +2683,19 @@ function get_list_groupes_double_valid( $DEBUG=FALSE)
 
 }
 
-// recup de la liste des groupes Ã  double validation, dont $resp_login est responsable
-// renvoit une liste de gid sÃ©parÃ©s par des virgules
-function get_list_groupes_double_valid_du_resp($resp_login,  $DEBUG=FALSE)
+// recup de la liste des groupes à double validation, dont $resp_login est responsable
+// renvoit une liste de gid séparés par des virgules
+function get_list_groupes_double_valid_du_resp($resp_login, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
 	$list_groupes_double_valid_du_resp="";
 
-	$list_groups=get_list_groupes_du_resp($resp_login,  $DEBUG);
+	$list_groups=get_list_groupes_du_resp($resp_login, $mysql_link, $DEBUG);
 	if($list_groups!="") // si $resp_login est responsable d'au moins un groupe
 	{
-		$sql='SELECT DISTINCT(g_gid) FROM conges_groupe WHERE g_double_valid=\'Y\' AND g_gid IN ('.$sql->escape($list_groups).') ORDER BY g_gid ';
-		$ReqLog1 = requete_mysql($sql,  "get_list_groupes_double_valid_du_resp", $DEBUG);
+		$sql="SELECT DISTINCT(g_gid) FROM conges_groupe WHERE g_double_valid='Y' AND g_gid IN ($list_groups) ORDER BY g_gid ";
+		$ReqLog1 = requete_mysql($sql, $mysql_link, "get_list_groupes_double_valid_du_resp", $DEBUG);
 
-		while ($resultat1 = $ReqLog1->fetch_array())
+		while ($resultat1 = mysql_fetch_array($ReqLog1))
 		{
 			$current_gid=$resultat1["g_gid"];
 			if($list_groupes_double_valid_du_resp=="")
@@ -2697,17 +2710,16 @@ function get_list_groupes_double_valid_du_resp($resp_login,  $DEBUG=FALSE)
 
 }
 
-// recup de la liste des groupes Ã  double validation, dont $resp_login est GRAND responsable
-// renvoit une liste de gid sÃ©parÃ©s par des virgules
-function get_list_groupes_double_valid_du_grand_resp($resp_login,  $DEBUG=FALSE)
+// recup de la liste des groupes à double validation, dont $resp_login est GRAND responsable
+// renvoit une liste de gid séparés par des virgules
+function get_list_groupes_double_valid_du_grand_resp($resp_login, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
 	$list_groupes_double_valid_du_grand_resp="";
 
-	$sql='SELECT DISTINCT(ggr_gid) FROM conges_groupe_grd_resp WHERE ggr_login=\''.$sql->escape($resp_login).'\' ORDER BY ggr_gid ';
-	$ReqLog1 = requete_mysql($sql,  "get_list_groupes_double_valid_du_grand_resp", $DEBUG);
+	$sql="SELECT DISTINCT(ggr_gid) FROM conges_groupe_grd_resp WHERE ggr_login='$resp_login' ORDER BY ggr_gid ";
+	$ReqLog1 = requete_mysql($sql, $mysql_link, "get_list_groupes_double_valid_du_grand_resp", $DEBUG);
 
-	while ($resultat1 = $ReqLog1->fetch_array())
+	while ($resultat1 = mysql_fetch_array($ReqLog1))
 	{
 		$current_gid=$resultat1["ggr_gid"];
 		if($list_groupes_double_valid_du_grand_resp=="")
@@ -2722,55 +2734,63 @@ function get_list_groupes_double_valid_du_grand_resp($resp_login,  $DEBUG=FALSE)
 }
 
 // recup de la liste des users des groupes dont $user_login est membre
-// renvoit une liste de login entre quotes et sÃ©parÃ©s par des virgules
-function get_list_users_des_groupes_du_user($user_login,  $DEBUG=FALSE)
+// renvoit une liste de login entre quotes et séparés par des virgules
+function get_list_users_des_groupes_du_user($user_login, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
-	$list_users=array();
+	$list_users="";
 
-	$list_groups=get_list_groupes_du_user($user_login,  $DEBUG);
+	$list_groups=get_list_groupes_du_user($user_login, $mysql_link, $DEBUG);
 	if($list_groups!="") // si $user_login est membre d'au moins un groupe
 	{
-		$sql1='SELECT DISTINCT(gu_login) FROM conges_groupe_users WHERE gu_gid IN ('.$list_groups.') ORDER BY gu_login ';
-		$ReqLog1 = requete_mysql($sql1,  "get_list_users_des_groupes_du_user", $DEBUG);
+		$sql="SELECT DISTINCT(gu_login) FROM conges_groupe_users WHERE gu_gid IN ($list_groups) ORDER BY gu_login ";
+		$ReqLog1 = requete_mysql($sql, $mysql_link, "get_list_users_des_groupes_du_user", $DEBUG);
 
-		while ($resultat1 = $ReqLog1->fetch_array())
-			$list_users[] = '\''.$sql->escape($resultat1["gu_login"]).'\'';
+		while ($resultat1 = mysql_fetch_array($ReqLog1))
+		{
+			$current_login=$resultat1["gu_login"];
+			if($list_users=="")
+				$list_users="'$current_login'";
+			else
+				$list_users=$list_users.", '$current_login'";
+		}
 	}
-	$list_users = implode(' , ', $list_users);
 	return $list_users;
 
 }
 
 // recup de la liste des groupes dont $resp_login est membre
-// renvoit une liste de group_id sÃ©parÃ©s par des virgules
-function get_list_groupes_du_user($user_login,  $DEBUG=FALSE)
+// renvoit une liste de group_id séparés par des virgules
+function get_list_groupes_du_user($user_login, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
-	$list_group=array();
+	$list_group="";
 
-	$sql1='SELECT gu_gid FROM conges_groupe_users WHERE gu_login=\''.$sql->escape($user_login).'\' ORDER BY gu_gid';
-	$ReqLog1 = requete_mysql($sql1, "get_list_groupes_du_user", $DEBUG);
+	$sql="SELECT gu_gid FROM conges_groupe_users WHERE gu_login='$user_login' ORDER BY gu_gid";
+	$ReqLog1 = requete_mysql($sql, $mysql_link, "get_list_groupes_du_user", $DEBUG);
 
-	while ($resultat1 = $ReqLog1->fetch_array())
-		$list_group[] = $resultat1["gu_gid"];
-	$list_group = implode(' , ', $list_group);
+	while ($resultat1 = mysql_fetch_array($ReqLog1))
+	{
+		$current_group=$resultat1["gu_gid"];
+		if($list_group=="")
+			$list_group="$current_group";
+		else
+			$list_group=$list_group.", $current_group";
+	}
 	return $list_group;
 }
 
 
 // recup de la liste de TOUS les users (sauf "conges" et "admin"
-// renvoit une liste de login entre quotes et sÃ©parÃ©s par des virgules
-function get_list_all_users($DEBUG=FALSE)
+// renvoit une liste de login entre quotes et séparés par des virgules
+function get_list_all_users($mysql_link, $DEBUG=FALSE)
 {
 
 	$list_users="";
 
 	$sql="SELECT DISTINCT(u_login) FROM conges_users WHERE u_login!='conges' AND u_login!='admin' ORDER BY u_login " ;
 
-	$ReqLog1 = requete_mysql($sql, "get_list_all_users", $DEBUG);
+	$ReqLog1 = requete_mysql($sql, $mysql_link, "get_list_all_users", $DEBUG);
 
-	while ($resultat1 = $ReqLog1 -> fetch_array())
+	while ($resultat1 = mysql_fetch_array($ReqLog1))
 	{
 		$current_login=$resultat1["u_login"];
 		if($list_users=="")
@@ -2786,16 +2806,16 @@ function get_list_all_users($DEBUG=FALSE)
 
 
 // recup de la liste des groupes (tous)
-// renvoit une liste de group_id sÃ©parÃ©s par des virgules
-function get_list_all_groupes($DEBUG=FALSE)
+// renvoit une liste de group_id séparés par des virgules
+function get_list_all_groupes($mysql_link, $DEBUG=FALSE)
 {
 	$list_group="";
 
-	// on select dans conges_groupe_users pour ne rÃ©cupÃ©rer QUE les groupes qui ont des users !!
+	// on select dans conges_groupe_users pour ne récupérer QUE les groupes qui ont des users !!
 	$sql="SELECT DISTINCT(gu_gid) FROM conges_groupe_users ORDER BY gu_gid";
-	$ReqLog1 = requete_mysql($sql,  "get_list_all_groupes", $DEBUG);
+	$ReqLog1 = requete_mysql($sql, $mysql_link, "get_list_all_groupes", $DEBUG);
 
-	while ($resultat1 = $ReqLog1->fetch_array())
+	while ($resultat1 = mysql_fetch_array($ReqLog1))
 	{
 		$current_group=$resultat1["gu_gid"];
 		if($list_group=="")
@@ -2808,9 +2828,9 @@ function get_list_all_groupes($DEBUG=FALSE)
 
 
 // construit le tableau des responsables d'un user
-// le login du user est passÃ© en paramÃªtre ainsi que le tableau (vide) des resp
-//renvoit un tableau indexÃ© de resp_login => "absent" ou "present" 
-function get_tab_resp_du_user($user_login,  $DEBUG=FALSE)
+// le login du user est passé en paramêtre ainsi que le tableau (vide) des resp
+//renvoit un tableau indexé de resp_login => "absent" ou "present" 
+function get_tab_resp_du_user($user_login, $mysql_link, $DEBUG=FALSE)
 {
 	$tab_resp=array();
 	if($_SESSION['config']['responsable_virtuel']==TRUE)
@@ -2820,29 +2840,29 @@ function get_tab_resp_du_user($user_login,  $DEBUG=FALSE)
 	else
 	{
 		if($DEBUG==TRUE) {echo ">> RECHERCHE des RESPONSABLES de : $user_login<br>\n";}
-		// recup du resp indiquÃ© dans la table users (sauf s'il est resp de lui meme)
-		$req = 'SELECT u_resp_login FROM conges_users WHERE u_login=\''.$sql->escape($user_login);
-		$res = requete_mysql($req,  "get_tab_resp_du_user", $DEBUG);
+		// recup du resp indiqué dans la table users (sauf s'il est resp de lui meme)
+		$req = "SELECT u_resp_login FROM conges_users WHERE u_login='$user_login' ";
+		$res = requete_mysql($req, $mysql_link, "get_tab_resp_du_user", $DEBUG);
 
-		$rec = $res->fetch_array();
+		$rec = mysql_fetch_array($res);
 		$tab_resp[$rec['u_resp_login']]="present";
 
 		// recup des resp des groupes du user 
 		if($_SESSION['config']['gestion_groupes']==TRUE)
 		{
-			$list_groups=get_list_groupes_du_user($user_login,  $DEBUG);
+			$list_groups=get_list_groupes_du_user($user_login, $mysql_link, $DEBUG);
 			if($list_groups!="")
 			{
 				$tab_gid=explode(",", $list_groups);
 				foreach($tab_gid as $gid)
 				{
 					$gid=trim($gid);
-					$sql='SELECT gr_login FROM conges_groupe_resp WHERE gr_gid='.$sql->escape($gid).' AND gr_login!=\''.$sql->escape($user_login);
-					$ReqLog1 = requete_mysql($sql,  "get_tab_resp_du_user", $DEBUG);
+					$sql="SELECT gr_login FROM conges_groupe_resp WHERE gr_gid=$gid AND gr_login!='$user_login' ";
+					$ReqLog1 = requete_mysql($sql, $mysql_link, "get_tab_resp_du_user", $DEBUG);
 
-					while ($resultat1 = $ReqLog1->fetch_array())
+					while ($resultat1 = mysql_fetch_array($ReqLog1))
 					{
-						//attention Ã  ne pas mettre 2 fois le meme resp dans le tableau
+						//attention à ne pas mettre 2 fois le meme resp dans le tableau
 						if (in_array($resultat1["gr_login"], $tab_resp)==FALSE)
 //							$tab_resp[]=$resultat1["gr_login"];
 							$tab_resp[$resultat1["gr_login"]]="present";
@@ -2854,24 +2874,24 @@ function get_tab_resp_du_user($user_login,  $DEBUG=FALSE)
 
 		/************************************/
 		// gestion des absence des responsables :
-		// on verifie que les resp sont prÃ©sents, si tous absent, on cherhe les resp des resp, et ainsi de suite ....
+		// on verifie que les resp sont présents, si tous absent, on cherhe les resp des resp, et ainsi de suite ....
 		if($_SESSION['config']['gestion_cas_absence_responsable']==TRUE)
 		{
 			if($DEBUG==TRUE) {echo "gestion des absence des responsables<br>\n"; }
 			
-			// on va verifier si les resp rÃ©cupÃ©rÃ©s sont absents 
+			// on va verifier si les resp récupérés sont absents 
 			$nb_present=count($tab_resp);
 			foreach ($tab_resp as $current_resp => $presence )
 			{
 				// verif dans la base si le current_resp est absent :
-				$req = 'SELECT p_num 
+				$req = "SELECT p_num 
 	                                     FROM conges_periode 
-	                                     WHERE p_login = \''.$sql->escape($current_resp).'\'
-	                                     AND p_etat = \'ok\'
+	                                     WHERE p_login = '$current_resp'
+	                                     AND p_etat = 'ok'
 	                                     AND TO_DAYS(conges_periode.p_date_deb) <= TO_DAYS(NOW()) 
-	                                     AND TO_DAYS(conges_periode.p_date_fin) >= TO_DAYS(NOW())';
-				$ReqLog_3 = requete_mysql($req,  "get_tab_resp_du_user", $DEBUG);
-				if($ReqLog_3->num_rows!=0)
+	                                     AND TO_DAYS(conges_periode.p_date_fin) >= TO_DAYS(NOW())";
+				$ReqLog_3 = requete_mysql($req, $mysql_link, "get_tab_resp_du_user", $DEBUG);
+				if(mysql_num_rows($ReqLog_3)!=0)
 				{
 					$nb_present=$nb_present-1;
 					$tab_resp[$current_resp]="absent";
@@ -2882,12 +2902,12 @@ function get_tab_resp_du_user($user_login,  $DEBUG=FALSE)
 			if($nb_present==0)
 			{
 				$new_tab_resp=array();
-				if($DEBUG==TRUE) { echo "zero resp prÃ©sent<br>\n"; }
+				if($DEBUG==TRUE) { echo "zero resp présent<br>\n"; }
 				foreach ($tab_resp as $current_resp => $presence)
 				{
 					// attention ,on evite le cas ou le user est son propre resp (sinon on boucle infiniment)
 					if($current_resp != $user_login)
-						$new_tab_resp = array_merge  ( $new_tab_resp , get_tab_resp_du_user($current_resp,  $DEBUG));
+						$new_tab_resp = array_merge  ( $new_tab_resp , get_tab_resp_du_user($current_resp, $mysql_link, $DEBUG));
 				}
 				$tab_resp = array_merge  ( $tab_resp, $new_tab_resp);
 			}
@@ -2903,15 +2923,15 @@ function get_tab_resp_du_user($user_login,  $DEBUG=FALSE)
 
 
 // construit le tableau des grands responsables d'un user
-// (tab des grd resp des groupes Ã  double_valid dont le user fait partie
-// le login du user est passÃ© en paramÃªtre ainsi que le tableau (vide) des resp
-function get_tab_grd_resp_du_user($user_login, &$tab_grd_resp,  $DEBUG=FALSE)
+// (tab des grd resp des groupes à double_valid dont le user fait partie
+// le login du user est passé en paramêtre ainsi que le tableau (vide) des resp
+function get_tab_grd_resp_du_user($user_login, &$tab_grd_resp, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
+
 	// recup des resp des groupes du user
 	if($_SESSION['config']['gestion_groupes']==TRUE)
 	{
-		$list_groups=get_list_groupes_du_user($user_login,  $DEBUG);
+		$list_groups=get_list_groupes_du_user($user_login, $mysql_link, $DEBUG);
 		if($DEBUG==TRUE) { echo "list_groups : <br>$list_groups<br>\n"; }
 
 		if($list_groups!="")
@@ -2920,12 +2940,12 @@ function get_tab_grd_resp_du_user($user_login, &$tab_grd_resp,  $DEBUG=FALSE)
 			foreach($tab_gid as $gid)
 			{
 				$gid=trim($gid);
-				$sql1='SELECT ggr_login FROM conges_groupe_grd_resp WHERE ggr_gid='.$sql->escape($gid);
-				$ReqLog1 = requete_mysql($sql1,  "get_tab_grd_resp_du_user", $DEBUG);
+				$sql="SELECT ggr_login FROM conges_groupe_grd_resp WHERE ggr_gid=$gid ";
+				$ReqLog1 = requete_mysql($sql, $mysql_link, "get_tab_grd_resp_du_user", $DEBUG);
 
-				while ($resultat1 = $ReqLog1->fetch_array())
+				while ($resultat1 = mysql_fetch_array($ReqLog1))
 				{
-					//attention Ã  ne pas mettre 2 fois le meme resp dans le tableau
+					//attention à ne pas mettre 2 fois le meme resp dans le tableau
 					if (in_array($resultat1["ggr_login"], $tab_grd_resp)==FALSE)
 						$tab_grd_resp[]=$resultat1["ggr_login"];
 				}
@@ -2937,8 +2957,8 @@ function get_tab_grd_resp_du_user($user_login, &$tab_grd_resp,  $DEBUG=FALSE)
 
 function valid_ldap_user($username, $DEBUG=FALSE)
 {
-/* fonction utilisÃ©e avec le mode d'authentification ldap.
-   En effet, si un utilisateur (enregistrÃ© dans le ldap) tente de se
+/* fonction utilisée avec le mode d'authentification ldap.
+   En effet, si un utilisateur (enregistré dans le ldap) tente de se
 connecter alors qu'il n'a pas de compte dans
    la base, il n'y a aucun message qui lui indique !
 
@@ -2947,95 +2967,108 @@ connecter alors qu'il n'a pas de compte dans
 
 */
 	// connexion MySQL + selection de la database sur le serveur
+	$mysql_link=connexion_mysql();
 
-	$req = 'SELECT COUNT(*) FROM conges_users WHERE u_login=\''.$sql->escape($username);
-	$res = requete_mysql($req,  "valid_ldap_user", $DEBUG);
-	$cpt = $res->fetch_array();
+	$req = "SELECT COUNT(*) FROM conges_users WHERE u_login='$username'";
+	$res = requete_mysql($req, $mysql_link, "valid_ldap_user", $DEBUG);
+	$cpt = mysql_fetch_array($res);
 	$cpt = $cpt[0];
 
-	return ( $cpt != 0 );
+	if ($cpt == 0)
+		return FALSE;
+	else
+		return TRUE;
 
 }
 
 
 // verifie si un user est responasble ou pas
 // renvoit TRUE si le login est responsable dans la table conges_users, FALSE sinon.
-function is_resp($login,  $DEBUG=FALSE)
+function is_resp($login, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
 	// recup de qq infos sur le user
-	$select_info='SELECT u_is_resp FROM conges_users WHERE u_login=\''.$sql->escape($login).'\'';
-	$ReqLog_info = requete_mysql($select_info,  "is_resp", $DEBUG);
+	$select_info="SELECT u_is_resp FROM conges_users WHERE u_login='$login' ";
+	$ReqLog_info = requete_mysql($select_info, $mysql_link, "is_resp", $DEBUG);
 
-	$resultat_info = $ReqLog_info->fetch_array();
+	$resultat_info = mysql_fetch_array($ReqLog_info);
 	$sql_is_resp=$resultat_info["u_is_resp"];
 
-	return ($sql_is_resp=='Y');
+	if($sql_is_resp=='Y')
+		return TRUE;
+	else
+		return FALSE;
 }
 
 
 // verifie si un user est responasble d'un secon user
 // renvoit TRUE si le $resp_login est responsable du $user_login, FALSE sinon.
-function is_resp_of_user($resp_login, $user_login,  $DEBUG=FALSE)
+function is_resp_of_user($resp_login, $user_login, $mysql_link, $DEBUG=FALSE)
 {
 	// recup de qq infos sur le user
-	$select_info='SELECT u_resp_login FROM conges_users WHERE u_login=\''.$sql->escape($user_login);
-	$ReqLog_info = requete_mysql($select_info,  "is_resp_of_user", $DEBUG);
+	$select_info="SELECT u_resp_login FROM conges_users WHERE u_login='$user_login' ";
+	$ReqLog_info = requete_mysql($select_info, $mysql_link, "is_resp_of_user", $DEBUG);
 
-	$resultat_info = $ReqLog_info->fetch_array();
+	$resultat_info = mysql_fetch_array($ReqLog_info);
 	$sql_resp_login=$resultat_info["u_resp_login"];
 
-	return ($resp_login==$sql_resp_login);
+	if($resp_login==$sql_resp_login)
+		return TRUE;
+	else
+		return FALSE;
+
 }
 
 
 
 // verifie si un user est administrateur ou pas
 // renvoit TRUE si le login est administrateur dans la table conges_users, FALSE sinon.
-function is_admin($login, $DEBUG=FALSE)
+function is_admin($login, $mysql_link, $DEBUG=FALSE)
 {
-	$sql = SQL::singleton();
 	// recup de qq infos sur le user
-	$select_info='SELECT u_is_admin FROM conges_users WHERE u_login=\''.$sql->escape($login).'\'';
-	$ReqLog_info = requete_mysql($select_info, "is_admin", $DEBUG);
+	$select_info="SELECT u_is_admin FROM conges_users WHERE u_login='$login' ";
+	$ReqLog_info = requete_mysql($select_info, $mysql_link, "is_admin", $DEBUG);
 
-	$resultat_info = $ReqLog_info -> fetch_array();
+	$resultat_info = mysql_fetch_array($ReqLog_info);
 	$sql_is_admin=$resultat_info["u_is_admin"];
 
-	return ($sql_is_admin=='Y');
+	if($sql_is_admin=='Y')
+		return TRUE;
+	else
+		return FALSE;
 }
 
 
 // verifie si un administrateur est responsable de users ou pas
 // renvoit TRUE si le login est responsable dans la table conges_users, FALSE sinon.
-function admin_is_responsable($login, $DEBUG=FALSE)
+function admin_is_responsable($login, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
 	// recup de qq infos sur le responsable
-	$select_info='SELECT u_is_resp FROM conges_users WHERE u_login=\''.$sql->escape($login).'\'';
-	$ReqLog_info = requete_mysql($select_info, "admin_is_responsable", $DEBUG);
+	$select_info="SELECT u_is_resp FROM conges_users WHERE u_login='$login' ";
+	$ReqLog_info = requete_mysql($select_info, $mysql_link, "admin_is_responsable", $DEBUG);
 
-	$resultat_info = $ReqLog_info -> fetch_array();
+	$resultat_info = mysql_fetch_array($ReqLog_info);
 	$sql_is_resp=$resultat_info["u_is_resp"];
 
-	return ($sql_is_resp=='Y');
+	if($sql_is_resp=='Y')
+		return TRUE;
+	else
+		return FALSE;
 }
 
 
 
 // on insert une nouvelle periode dans la table periode
 // retourne le num d'auto_incremente (p_num) ou 0 en cas l'erreur
-function insert_dans_periode($login, $date_deb, $demi_jour_deb, $date_fin, $demi_jour_fin, $nb_jours, $commentaire, $id_type_abs, $etat, $id_fermeture, $DEBUG=FALSE)
+function insert_dans_periode($login, $date_deb, $demi_jour_deb, $date_fin, $demi_jour_fin, $nb_jours, $commentaire, $id_type_abs, $etat, $id_fermeture, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
-	// RÃ©cupÃ©ration du + grand p_num (+ grand numero identifiant de conges)
+	// Récupération du + grand p_num (+ grand numero identifiant de conges)
 	$sql1 = "SELECT max(p_num) FROM conges_periode" ;
-	$ReqLog1 = requete_mysql($sql1, "insert_dans_periode", $DEBUG);
-	if ( $num_new_demande = $ReqLog1->fetch_row() )
-		$num_new_demande = $num_new_demande[0] +1;
+	$ReqLog1 = requete_mysql($sql1, $mysql_link, "insert_dans_periode", $DEBUG);
+	if(mysql_result($ReqLog1, 0))
+		$num_new_demande = mysql_result($ReqLog1, 0)+1;
 	else
-		$num_new_demande = 1;
-	
+		$num_new_demande = 1;  // la table est vide ! le premier num sera 1
+
 	$sql2 = "INSERT INTO conges_periode
 			SET p_login='$login',
 			p_date_deb='$date_deb', p_demi_jour_deb='$demi_jour_deb',
@@ -3051,16 +3084,15 @@ function insert_dans_periode($login, $date_deb, $demi_jour_deb, $date_fin, $demi
 
 	$sql2 = $sql2." p_num='$num_new_demande' " ;
 
-	$result = requete_mysql($sql2, "insert_dans_periode", $DEBUG);
+	$result = requete_mysql($sql2, $mysql_link, "insert_dans_periode", $DEBUG);
 
 	if($id_fermeture!=0)
-		$comment_log = "saisie de fermeture num $num_new_demande (type $id_type_abs) pour $login ($nb_jours jours) (de $date_deb $demi_jour_deb Ã  $date_fin $demi_jour_fin)";
+		$comment_log = "saisie de fermeture num $num_new_demande (type $id_type_abs) pour $login ($nb_jours jours) (de $date_deb $demi_jour_deb à $date_fin $demi_jour_fin)";
 	elseif($etat=="demande")
-		$comment_log = "demande de conges num $num_new_demande (type $id_type_abs) pour $login ($nb_jours jours) (de $date_deb $demi_jour_deb Ã  $date_fin $demi_jour_fin)";
+		$comment_log = "demande de conges num $num_new_demande (type $id_type_abs) pour $login ($nb_jours jours) (de $date_deb $demi_jour_deb à $date_fin $demi_jour_fin)";
 	else
-		$comment_log = "saisie de conges num $num_new_demande (type $id_type_abs) pour $login ($nb_jours jours) (de $date_deb $demi_jour_deb Ã  $date_fin $demi_jour_fin)";
-	
-	log_action($num_new_demande, $etat, $login, $comment_log, $DEBUG);
+		$comment_log = "saisie de conges num $num_new_demande (type $id_type_abs) pour $login ($nb_jours jours) (de $date_deb $demi_jour_deb à $date_fin $demi_jour_fin)";
+	log_action($num_new_demande, $etat, $login, $comment_log, $mysql_link, $DEBUG);
 
 	if($result==TRUE)
 		return $num_new_demande;
@@ -3070,20 +3102,20 @@ function insert_dans_periode($login, $date_deb, $demi_jour_deb, $date_fin, $demi
 
 
 // remplit le tableau global des jours feries a partir de la database
-function init_tab_jours_feries($DEBUG=FALSE)
+function init_tab_jours_feries($mysql_link, $DEBUG=FALSE)
 {
 	$_SESSION["tab_j_feries"]=array();
 
 	$sql_select="SELECT jf_date FROM conges_jours_feries ";
-	$res_select = requete_mysql($sql_select, "init_tab_jours_feries", $DEBUG);
+	$res_select = requete_mysql($sql_select, $mysql_link, "init_tab_jours_feries", $DEBUG);
 
-	while( $row = $res_select -> fetch_array())
+	while( $row = mysql_fetch_array($res_select))
 	{
 		$_SESSION["tab_j_feries"][]=$row["jf_date"];
 	}
 }
 
-// renvoit TRUE si le jour est chomÃ© (fÃ©riÃ©), sinon FALSE (verifie dans le tableau global $_SESSION["tab_j_feries"]
+// renvoit TRUE si le jour est chomé (férié), sinon FALSE (verifie dans le tableau global $_SESSION["tab_j_feries"]
 function est_chome($timestamp)
 {
 	$j_date=date("Y-m-d", $timestamp);
@@ -3129,26 +3161,23 @@ function init_config_tab($DEBUG=FALSE)
 	if(isset($mysql_database)) {$tab['mysql_database']=$mysql_database  ;}
 
 	/******************************************/
-	//  recup des variables de la table conges_appli
-	$sql_appli = "SELECT appli_variable, appli_valeur FROM conges_appli";
-	$sql = SQL::singleton();
-	$req_appli = $sql->query($sql_appli) or die ("ERREUR : query --> $sql_appli ".$sql->error);
-
-	while ($data_appli = $req_appli->fetch_array())
+	//  recup des variables de la table conges_config
+	$mysql_link = MYSQL_CONNECT($mysql_serveur,$mysql_user,$mysql_pass);
+	if (! $mysql_link)
 	{
-		$key=$data_appli[0];
-		$value=$data_appli[1];
-
-		$tab[$key] = $value;
+		die("connexion_mysql() : Impossible de se connecter au serveur ".mysql_error($mysql_link));
 	}
 
-	/******************************************/
-	//  recup des variables de la table conges_config
-	$sql=SQL::singleton();
-	$sql_config = "SELECT conf_nom, conf_valeur, conf_type FROM conges_config";
-	$req_config = $sql->query($sql_config) or die ("ERREUR : query --> $sql_config ".$sql->error);
+	$dbselect   = mysql_select_db($mysql_database,$mysql_link);
+	if (! $dbselect)
+	{
+		die("connexion_mysql() : Impossible de se connecter à la base de données ".mysql_error($mysql_link));
+	}
 
-	while ($data = $req_config->fetch_array())
+	$sql = "SELECT conf_nom, conf_valeur, conf_type FROM conges_config";
+	$req = mysql_query($sql) or die ("ERREUR : mysql_query --> $sql ".mysql_error($mysql_link));
+
+	while ($data = mysql_fetch_array($req))
 	{
 		$key=$data[0];
 		$value=$data[1];
@@ -3172,7 +3201,7 @@ function init_config_tab($DEBUG=FALSE)
 
 	/******************************************/
 	// recup du nom du fichier de langue ...
-	// on verifie si on est dans le rÃ©pertoire "install" ou ailleurs ...
+	// on verifie si on est dans le répertoire "install" ou ailleurs ...
 	$script_path = dirname ($_SERVER['SCRIPT_NAME']);
 
 	inculde_lang_file($tab['lang'], $DEBUG);
@@ -3181,9 +3210,9 @@ function init_config_tab($DEBUG=FALSE)
 	/******************************************/
 	//  recup des mails dans  la table conges_mail
 	$sql_mail = "SELECT mail_nom, mail_subject, mail_body FROM conges_mail";
-	$req_mail = $sql->query($sql_mail) or die ("ERREUR : query --> $sql_mail ".$sql->error);
+	$req_mail = mysql_query($sql_mail) or die ("ERREUR : mysql_query --> $sql_mail ".mysql_error($mysql_link));
 
-	while ($data_mail = $req_mail->fetch_array())
+	while ($data_mail = mysql_fetch_array($req_mail))
 	{
 		$mail_nom=$data_mail[0];
 		$key1=$mail_nom."_sujet";
@@ -3227,14 +3256,13 @@ function init_config_tab($DEBUG=FALSE)
 	//  recup de qq infos sur le user
 	if(isset($_SESSION['userlogin']))
 	{
-		$sql_user = "SELECT u_is_resp, u_is_admin , u_is_hr FROM conges_users WHERE u_login='".$_SESSION['userlogin']."' ";
-		$req_user = $sql->query($sql_user) or die ("ERREUR : query --> $sql_user ".$sql->error);
+		$sql_user = "SELECT u_is_resp, u_is_admin FROM conges_users WHERE u_login='".$_SESSION['userlogin']."' ";
+		$req_user = mysql_query($sql_user) or die ("ERREUR : mysql_query --> $sql_user ".mysql_error($mysql_link));
 
-		if($data_user = $req_user->fetch_array())
+		if($data_user = mysql_fetch_array($req_user))
 		{
 			$_SESSION['is_resp']=$data_user[0] ;
 			$_SESSION['is_admin']=$data_user[1] ;
-			$_SESSION['is_hr']=$data_user[2] ;
 		}
 	}
 
@@ -3246,7 +3274,7 @@ function init_config_tab($DEBUG=FALSE)
 
 
 
-// RÃ©cupÃ¨re le contenu d une variable $_GET / $_POST
+// Récupère le contenu d une variable $_GET / $_POST
 function getpost_variable($variable, $default="")
 {
    $valeur = (isset($_POST[$variable]) ? $_POST[$variable]  : (isset($_GET[$variable]) ? $_GET[$variable]   : $default));
@@ -3255,17 +3283,19 @@ function getpost_variable($variable, $default="")
 }
 
 
-// recup TRUE si le user a "u_see_all" Ã  'Y' dans la table users, FALSE sinon
-function get_user_see_all($login,  $DEBUG=FALSE)
+// recup TRUE si le user a "u_see_all" à 'Y' dans la table users, FALSE sinon
+function get_user_see_all($login, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
-	$sql='SELECT u_see_all FROM conges_users WHERE u_login=\''.$sql->escape($login).'\'';
-	$ReqLog1 = requete_mysql($sql,  "get_user_see_all", $DEBUG);
+	$sql="SELECT u_see_all FROM conges_users WHERE u_login='$login' ";
+	$ReqLog1 = requete_mysql($sql, $mysql_link, "get_user_see_all", $DEBUG);
 
-	if($resultat1 = $ReqLog1->fetch_array())
+	if($resultat1 = mysql_fetch_array($ReqLog1))
 	{
 		$see_all=$resultat1["u_see_all"];
-		return ($see_all=="Y");
+		if($see_all=="Y")
+			return TRUE;
+		else
+			return FALSE;
 	}
 	else
 		return FALSE;
@@ -3273,13 +3303,13 @@ function get_user_see_all($login,  $DEBUG=FALSE)
 
 
 // recup dans un tableau des types de conges
-function recup_tableau_types_conges($DEBUG=FALSE)
+function recup_tableau_types_conges($mysql_link, $DEBUG=FALSE)
 {
 	$tab=array();
 	$sql_cong="SELECT ta_id, ta_libelle, ta_type FROM conges_type_absence WHERE ta_type='conges' ";
-	$ReqLog_cong = requete_mysql($sql_cong,"recup_tableau_types_conges", $DEBUG);
+	$ReqLog_cong = requete_mysql($sql_cong, $mysql_link, "recup_tableau_types_conges", $DEBUG);
 
-	while ($resultat_cong = $ReqLog_cong->fetch_array())
+	while ($resultat_cong = mysql_fetch_array($ReqLog_cong))
 	{
 		$id=(int)$resultat_cong['ta_id'];
 		$tab[$id]= $resultat_cong['ta_libelle'];
@@ -3288,13 +3318,13 @@ function recup_tableau_types_conges($DEBUG=FALSE)
 }
 
 // recup dans un tableau des types d'absence
-function recup_tableau_types_absence($DEBUG=FALSE)
+function recup_tableau_types_absence($mysql_link, $DEBUG=FALSE)
 {
 	$tab=array();
 	$sql_abs="SELECT ta_id, ta_libelle FROM conges_type_absence WHERE ta_type='absences' ";
-	$ReqLog_abs = requete_mysql($sql_abs, "recup_tableau_types_absence", $DEBUG);
+	$ReqLog_abs = requete_mysql($sql_abs, $mysql_link, "recup_tableau_types_absence", $DEBUG);
 
-	while ($resultat_abs = $ReqLog_abs->fetch_array())
+	while ($resultat_abs = mysql_fetch_array($ReqLog_abs))
 	{
 		$id=$resultat_abs['ta_id'];
 		$tab[$id]= $resultat_abs['ta_libelle'];
@@ -3303,13 +3333,13 @@ function recup_tableau_types_absence($DEBUG=FALSE)
 }
 
 // recup dans un tableau des types de conges exceptionnels
-function recup_tableau_types_conges_exceptionnels( $DEBUG=FALSE)
+function recup_tableau_types_conges_exceptionnels($mysql_link, $DEBUG=FALSE)
 {
 	$tab=array();
 	$sql_abs="SELECT ta_id, ta_libelle FROM conges_type_absence WHERE ta_type='conges_exceptionnels' ";
-	$ReqLog_abs = requete_mysql($sql_abs,  "recup_tableau_types_conges_exceptionnels", $DEBUG);
+	$ReqLog_abs = requete_mysql($sql_abs, $mysql_link, "recup_tableau_types_conges_exceptionnels", $DEBUG);
 
-	while ($resultat_abs = $ReqLog_abs -> fetch_array())
+	while ($resultat_abs = mysql_fetch_array($ReqLog_abs))
 	{
 		$id=$resultat_abs['ta_id'];
 		$tab[$id]= $resultat_abs['ta_libelle'];
@@ -3318,7 +3348,7 @@ function recup_tableau_types_conges_exceptionnels( $DEBUG=FALSE)
 }
 
 // recup dans un tableau de tableau les infos des types de conges et absences
-function recup_tableau_tout_types_abs( $DEBUG=FALSE)
+function recup_tableau_tout_types_abs($mysql_link, $DEBUG=FALSE)
 {
 	$tab=array();
 	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) // on prend tout les types de conges
@@ -3326,9 +3356,9 @@ function recup_tableau_tout_types_abs( $DEBUG=FALSE)
 	else // on prend tout les types de conges SAUF les conges exceptionnels
 		$sql_cong="SELECT ta_id, ta_type, ta_libelle, ta_short_libelle FROM conges_type_absence WHERE conges_type_absence.ta_type != 'conges_exceptionnels' ";
 
-	$ReqLog_cong = requete_mysql($sql_cong,  "recup_tableau_tout_types_abs", $DEBUG);
+	$ReqLog_cong = requete_mysql($sql_cong, $mysql_link, "recup_tableau_tout_types_abs", $DEBUG);
 
-	while ($resultat_cong = $ReqLog_cong->fetch_array())
+	while ($resultat_cong = mysql_fetch_array($ReqLog_cong))
 	{
 		$tab_2=array();
 		$id=$resultat_cong['ta_id'];
@@ -3342,57 +3372,50 @@ function recup_tableau_tout_types_abs( $DEBUG=FALSE)
 
 
 // renvoit le type d'absence (conges ou absence) d'une absence
-function get_type_abs($_type_abs_id,  $DEBUG=FALSE)
+function get_type_abs($_type_abs_id, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
-	$sql_abs='SELECT ta_type FROM conges_type_absence WHERE ta_id=\''.$sql->escape($_type_abs_id).'\'';
-	$ReqLog_abs = requete_mysql($sql_abs, "get_type_abs", $DEBUG);
+	$sql_abs="SELECT ta_type FROM conges_type_absence WHERE ta_id='$_type_abs_id' ";
+	$ReqLog_abs = requete_mysql($sql_abs, $mysql_link, "get_type_abs", $DEBUG);
 
-	if($resultat_abs = $ReqLog_abs->fetch_array())
-		return $resultat_abs["ta_type"];
+	if($resultat_abs = mysql_fetch_array($ReqLog_abs))
+		return $resultat_abs['ta_type'];
 	else
 		return "" ;
 }
 
-// renvoit le libelle d une absence (conges ou absence) d une absence
-function get_libelle_abs($_type_abs_id,  $DEBUG=FALSE)
+// renvoit le libelle d'une absence (conges ou absence) d'une absence
+function get_libelle_abs($_type_abs_id, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
-	$sql_abs='SELECT ta_libelle FROM conges_type_absence WHERE ta_id=\''.$sql->escape($_type_abs_id).'\'';
-	$ReqLog_abs = requete_mysql($sql_abs, "get_libelle_abs", $DEBUG);
-	if($resultat_abs = $ReqLog_abs->fetch_array())
+	$sql_abs="SELECT ta_libelle FROM conges_type_absence WHERE ta_id='$_type_abs_id' ";
+	$ReqLog_abs = requete_mysql($sql_abs, $mysql_link, "get_libelle_abs", $DEBUG);
+	if($resultat_abs = mysql_fetch_array($ReqLog_abs))
 		return $resultat_abs['ta_libelle'];
 	else
 		return "" ;
 }
 
 
-// recup dans un tableau de tableaux les nb et soldes de conges d'un user (indicÃ© par id de conges)
-function recup_tableau_conges_for_user($login, $hide_conges_exceptionnels, $DEBUG=FALSE)
+// recup dans un tableau de tableaux les nb et soldes de conges d'un user (indicé par id de conges)
+function recup_tableau_conges_for_user($login, $mysql_link, $DEBUG=FALSE)
 {
-
-	$sql = SQL::singleton();
 	// on pourrait tout faire en un seule select, mais cela bug si on change la prise en charge des conges exceptionnels en cours d'utilisation ...
 
-	
-
-	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE && ! $hide_conges_exceptionnels) // on prend tout les types de conges
-		$sql_bilan = 'SELECT ta_libelle, su_nb_an, su_solde, su_reliquat FROM conges_solde_user, conges_type_absence WHERE conges_type_absence.ta_id = conges_solde_user.su_abs_id AND su_login = \''.$sql->escape($login).'\' ORDER BY su_abs_id ASC';
+	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) // on prend tout les types de conges
+		$sql_bilan = "SELECT ta_libelle, su_nb_an, su_solde FROM conges_solde_user, conges_type_absence WHERE conges_type_absence.ta_id = conges_solde_user.su_abs_id AND su_login = '$login' ORDER BY su_abs_id ASC";
 	else // on prend tout les types de conges SAUF les conges exceptionnels
-		$sql_bilan = 'SELECT ta_libelle, su_nb_an, su_solde, su_reliquat FROM conges_solde_user, conges_type_absence WHERE conges_type_absence.ta_type != \'conges_exceptionnels\' AND conges_type_absence.ta_id = conges_solde_user.su_abs_id AND su_login = \''.$sql->escape($login).'\' ORDER BY su_abs_id ASC';
+		$sql_bilan = "SELECT ta_libelle, su_nb_an, su_solde FROM conges_solde_user, conges_type_absence WHERE conges_type_absence.ta_type != 'conges_exceptionnels' AND conges_type_absence.ta_id = conges_solde_user.su_abs_id AND su_login = '$login' ORDER BY su_abs_id ASC";
 
-	$ReqLog_bilan = requete_mysql($sql_bilan, "recup_tableau_types_conges", $DEBUG);
 
-	$count_num_bilan = $ReqLog_bilan -> num_rows;
+	$ReqLog_bilan = requete_mysql($sql_bilan, $mysql_link, "recup_tableau_types_conges", $DEBUG);
+
+	$count_num_bilan = mysql_num_rows($ReqLog_bilan);
 	$tab_cong_user=array();
-	
-	while ($resultat_bilan = $ReqLog_bilan -> fetch_array())
+	while ($resultat_bilan = mysql_fetch_array($ReqLog_bilan))
 	{
 		$tab=array();
 		$sql_id=$resultat_bilan["ta_libelle"];
 		$tab['nb_an']=affiche_decimal($resultat_bilan["su_nb_an"]);
 		$tab['solde']=affiche_decimal($resultat_bilan["su_solde"]);
-		$tab['reliquat']=affiche_decimal($resultat_bilan["su_reliquat"]);
 		$tab_cong_user[$sql_id]=$tab;
 	}
 
@@ -3400,58 +3423,74 @@ function recup_tableau_conges_for_user($login, $hide_conges_exceptionnels, $DEBU
 }
 
 
-// affichage du tableau rÃ©capitulatif des solde de congÃ©s d'un user
-function affiche_tableau_bilan_conges_user($login, $DEBUG=FALSE)
+// affichage du tableau récapitulatif des solde de congés d'un user
+function affiche_tableau_bilan_conges_user($login, $mysql_link, $DEBUG=FALSE)
 {
-	
-	$sql = SQL::singleton();
-	$sql_1 = 'SELECT u_quotite FROM conges_users where u_login = \''.$sql->escape($login).'\'';
-	$ReqLog_1 = requete_mysql($sql_1, "affiche_tableau_bilan_conges_user", $DEBUG) ;
+	$sql_1 = "SELECT u_quotite FROM conges_users where u_login = '$login' ";
+	$ReqLog_1 = requete_mysql($sql_1, $mysql_link, "affiche_tableau_bilan_conges_user", $DEBUG) ;
 
-	$resultat_1 = $ReqLog_1->fetch_array();
+	$resultat_1 = mysql_fetch_array($ReqLog_1);
 	$sql_quotite=$resultat_1["u_quotite"];
 
 	// recup dans un tableau de tableaux les nb et soldes de conges d'un user
-	$tab_cong_user = recup_tableau_conges_for_user($login, true ,$DEBUG);
+	$tab_cong_user = recup_tableau_conges_for_user($login, $mysql_link, $DEBUG);
 	if($DEBUG==TRUE) { echo"tab_cong_user =<br>\n"; print_r($tab_cong_user); echo "<br>\n"; }
 
 	// recup du tableau des types de conges exceptionnels (seulement les conges exceptionnels)
 	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
-		$tab_type_conges_exceptionnels=recup_tableau_types_conges_exceptionnels($DEBUG);
-		
+	{
+	  $tab_type_conges_exceptionnels=recup_tableau_types_conges_exceptionnels($mysql_link, $DEBUG);
+	}
 	if($DEBUG==TRUE)
 	{
-		echo"tab_type_conges_exceptionnels =<br>\n";
-		print_r($tab_type_conges_exceptionnels);
-		echo "<br>\n";
+	  echo"tab_type_conges_exceptionnels =<br>\n";
+	  print_r($tab_type_conges_exceptionnels);
+	  echo "<br>\n";
 	}
-	
-	// $tab_type_conges_exceptionnels=array();
 
-	// taille du tableau Ã  afficher
+	// taille du tableau à afficher
 	$taille_tableau_bilan=100 + (150 * count($tab_cong_user));
 
 	echo "<table cellpadding=\"2\" width=\"$taille_tableau_bilan\" class=\"tablo\">\n";
 	echo "<tr align=\"center\"><td class=\"titre\">".$_SESSION['lang']['divers_quotite']."</td>" ;
-
+/*	foreach($tab_cong_user as $id => $val)
+	  if (($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) && ($id == "récupération")) {
+		echo "<td class=\"titre\">".$_SESSION['lang']['divers_solde_maj']." ".$id."</td>" ;
+	  } else {
+		echo "<td class=\"titre\">".$id."/ ".$_SESSION['lang']['divers_an_maj']."</td><td class=\"titre\">".$_SESSION['lang']['divers_solde_maj']." ".$id."</td>" ;
+	  }
+*/
 	foreach($tab_cong_user as $id => $val)
 	{
-		if (($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) && ((in_array($id,$tab_type_conges_exceptionnels))))
-			echo "<td class=\"titre\">".$_SESSION['lang']['divers_solde_maj']." ".$id."</td>" ;
-		else
-			echo "<td class=\"titre\">".$id."/ ".$_SESSION['lang']['divers_an_maj']."</td><td class=\"titre\">".$_SESSION['lang']['divers_solde_maj']." ".$id."</td>" ;
+	  if (($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) && ((in_array($id,$tab_type_conges_exceptionnels))))
+	  {
+	    echo "<td class=\"titre\">".$_SESSION['lang']['divers_solde_maj']." ".$id."</td>" ;
+	  }
+	  else
+	  {
+	    echo "<td class=\"titre\">".$id."/ ".$_SESSION['lang']['divers_an_maj']."</td><td class=\"titre\">".$_SESSION['lang']['divers_solde_maj']." ".$id."</td>" ;
+ 	  }
 	}
 	echo "</tr>\n";
 
 	echo "<tr align=\"center\">\n";
 	echo "<td>$sql_quotite%</td>\n";
-
 	foreach($tab_cong_user as $id => $val)
+/*	  if (($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) && ($id == "récupération")) {
+		echo "<td bgcolor=\"#FF9191\"><b>".$val['solde']."</b></td>\n";
+	  } else {
+		echo "<td><b>".$val['nb_an']."</b></td><td bgcolor=\"#FF9191\"><b>".$val['solde']."</b></td>\n";
+	  }
+*/
 	{
-		if (($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) && ((in_array($id,$tab_type_conges_exceptionnels))))
-			echo "<td bgcolor=\"#FF9191\"><b>".$val['solde']."</b></td>\n";
-		else
-			echo "<td><b>".$val['nb_an']."</b></td><td bgcolor=\"#FF9191\"><b>".$val['solde']."</b></td>\n";
+	  if (($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) && ((in_array($id,$tab_type_conges_exceptionnels))))
+	  {
+	    echo "<td bgcolor=\"#FF9191\"><b>".$val['solde']."</b></td>\n";
+	  }
+	  else
+	  {
+	    echo "<td><b>".$val['nb_an']."</b></td><td bgcolor=\"#FF9191\"><b>".$val['solde']."</b></td>\n";
+ 	  }
 	}
 
 	echo "</tr>\n";
@@ -3461,119 +3500,90 @@ function affiche_tableau_bilan_conges_user($login, $DEBUG=FALSE)
 
 // renvoit un tableau de tableau contenant les informations du user
 // renvoit FALSE si erreur
-function recup_infos_du_user($login, $list_groups_double_valid, $DEBUG=FALSE)
+function recup_infos_du_user($login, $list_groups_double_valid, $mysql_link, $DEBUG=FALSE)
 {
-    $tab=array();
+	$tab=array();
 
-    $sql = "SELECT u_login, u_nom, u_prenom, u_is_resp, u_resp_login, u_is_admin, u_is_hr, u_see_all, u_passwd, u_quotite, u_email, u_num_exercice FROM conges_users " .
-            "WHERE u_login='$login' ";
+	$sql = "SELECT u_login, u_nom, u_prenom, u_is_resp, u_resp_login, u_is_admin, u_see_all, u_passwd, u_quotite, u_email FROM conges_users " .
+			"WHERE u_login='$login' ";
 
-    $ReqLog = requete_mysql($sql, "recup_infos_du_user", $DEBUG) ;
+	$ReqLog = requete_mysql($sql, $mysql_link, "recup_infos_du_user", $DEBUG) ;
 
-    if($resultat = $ReqLog->fetch_array())
-    {
-        $tab_user=array();
-        $tab_user['login']=$resultat["u_login"];;
-        $tab_user['nom']=$resultat["u_nom"];
-        $tab_user['prenom']=$resultat["u_prenom"];
-        $tab_user['is_resp']=$resultat["u_is_resp"];
-        $tab_user['resp_login']=$resultat["u_resp_login"];
-        $tab_user['is_admin']=$resultat["u_is_admin"];
-        $tab_user['is_hr']=$resultat["u_is_hr"];
-        $tab_user['see_all']=$resultat["u_see_all"];
-        $tab_user['passwd']=$resultat["u_passwd"];
-        $tab_user['quotite']=$resultat["u_quotite"];
-        $tab_user['email']=$resultat["u_email"];
-        $tab_user['num_exercice']=$resultat["u_num_exercice"];
-        $tab_user['conges']=recup_tableau_conges_for_user($login, false, $DEBUG);
+	if($resultat = mysql_fetch_array($ReqLog))
+	{
+		$tab_user=array();
+		$tab_user['login']=$resultat["u_login"];;
+		$tab_user['nom']=$resultat["u_nom"];
+		$tab_user['prenom']=$resultat["u_prenom"];
+		$tab_user['is_resp']=$resultat["u_is_resp"];
+		$tab_user['resp_login']=$resultat["u_resp_login"];
+		$tab_user['is_admin']=$resultat["u_is_admin"];
+		$tab_user['see_all']=$resultat["u_see_all"];
+		$tab_user['passwd']=$resultat["u_passwd"];
+		$tab_user['quotite']=$resultat["u_quotite"];
+		$tab_user['email']=$resultat["u_email"];
+		$tab_user['conges']=recup_tableau_conges_for_user($login, $mysql_link, $DEBUG);
 
-        $tab_user['double_valid'] = "N";
+		$tab_user['double_valid'] = "N";
 
-        // on regarde ici si le user est dans un groupe qui fait l'objet d'une double validation
-        if($_SESSION['config']['double_validation_conges']==TRUE)
-        {
-            if($list_groups_double_valid!="") // si $resp_login est responsable d'au moins un groupe a double validation
-            {
-                $sql="SELECT gu_login FROM conges_groupe_users WHERE gu_login='$login' AND gu_gid IN ($list_groups_double_valid) ORDER BY gu_gid, gu_login ";
-                $ReqLog1 = requete_mysql($sql, "recup_infos_du_user", $DEBUG);
+		// on regarde ici si le user est dans un groupe qui fait l'objet d'une double validation
+		if($_SESSION['config']['double_validation_conges']==TRUE)
+		{
+//			$list_groups_double_valid=get_list_groupes_double_valid_du_resp($login, $mysql_link, $DEBUG);
 
-                if($ReqLog1->num_rows  !=0)
-                    $tab_user['double_valid'] = "Y";
-            }
-        }
-        return $tab_user ;
-    }
-    else
-        return FALSE;
+			if($list_groups_double_valid!="") // si $resp_login est responsable d'au moins un groupe a double validation
+			{
+				$sql="SELECT gu_login FROM conges_groupe_users WHERE gu_login='$login' AND gu_gid IN ($list_groups_double_valid) ORDER BY gu_login ";
+				$ReqLog1 = requete_mysql($sql, $mysql_link, "recup_infos_du_user", $DEBUG);
+
+				if(mysql_num_rows($ReqLog1)!=0)
+					$tab_user['double_valid'] = "Y";
+			}
+		}
+		return $tab_user ;
+	}
+	else
+		return FALSE;
 }
 
 
 // renvoit un tableau de tableau contenant les informations de tous les users
-function recup_infos_all_users($DEBUG=FALSE)
+function recup_infos_all_users($mysql_link, $DEBUG=FALSE)
 {
 	$tab=array();
 
-	$list_groupes_double_validation=get_list_groupes_double_valid($DEBUG);
+	$list_groupes_double_validation=get_list_groupes_double_valid($mysql_link, $DEBUG);
 	if($DEBUG==TRUE) { echo "list_groupes_double_validation :<br>\n"; print_r($list_groupes_double_validation); echo "<br><br>\n";}
 
 	//$sql = "SELECT u_login FROM conges_users WHERE u_login!='conges' AND u_login!='admin' ORDER BY u_login";
 	$sql = "SELECT u_login FROM conges_users WHERE u_login!='conges' AND u_login!='admin' ORDER BY u_nom";
 
-	$ReqLog = requete_mysql($sql, "recup_infos_all_users", $DEBUG) ;
+	$ReqLog = requete_mysql($sql, $mysql_link, "recup_infos_all_users", $DEBUG) ;
 
-	while ($resultat =$ReqLog->fetch_array())
+	while ($resultat = mysql_fetch_array($ReqLog))
 	{
 		$tab_user=array();
 		$sql_login=$resultat["u_login"];
 
-		$tab[$sql_login] = recup_infos_du_user($sql_login, $list_groupes_double_validation, $DEBUG);
+		$tab[$sql_login] = recup_infos_du_user($sql_login, $list_groupes_double_validation, $mysql_link, $DEBUG);
 	}
 
 	return $tab ;
 }
-
-
-// renvoit un tableau de tableau contenant les informations de tous les users d'un groupe donnÃ©
-function recup_infos_all_users_du_groupe($group_id, $DEBUG=FALSE)
-{
-	$tab=array();
-
-	// recup de la liste de tous les users du groupe ...
-	$list_all_users_du_groupe = get_list_users_du_groupe($group_id, $DEBUG);
-	if($DEBUG==TRUE) { echo "list_all_users_du_groupe :<br>\n"; print_r($list_all_users_du_groupe); echo "<br><br>\n";}
-
-	$list_groupes_double_validation=get_list_groupes_double_valid($DEBUG);
-	if($DEBUG==TRUE) { echo "list_groupes_double_validation :<br>\n"; print_r($list_groupes_double_validation); echo "<br><br>\n";}
-
-	if(strlen($list_all_users_du_groupe)!=0)
-	{
-		$tab_users_du_groupe=explode(",", $list_all_users_du_groupe);
-		foreach($tab_users_du_groupe as $current_login)
-		{
-			$current_login = trim($current_login);
-			$current_login = trim($current_login, "\'");  // on enleve les quotes qui ont Ã©tÃ© ajoutÃ© lors de la creation de la liste
-
-			$tab[$current_login] = recup_infos_du_user($current_login, $list_groupes_double_validation, $DEBUG);
-		}
-	}
-
-	return $tab ;
-}
-
 
 
 // renvoit un tableau de tableau contenant les informations de tous les users dont $login est responsable
-function recup_infos_all_users_du_resp($login, $DEBUG=FALSE)
+function recup_infos_all_users_du_resp($login, $mysql_link, $DEBUG=FALSE)
 {
 	$tab=array();
 
 	// recup de la liste de tous les users du resp ...
-	$list_all_users_du_resp = get_list_all_users_du_resp($login, $DEBUG);
+	$list_all_users_du_resp = get_list_all_users_du_resp($login, $mysql_link, $DEBUG);
 	if($DEBUG==TRUE) { echo "list_all_users_du_resp :<br>\n"; print_r($list_all_users_du_resp); echo "<br><br>\n";}
 
-	// recup de la liste des groupes Ã  double validation, dont $login est responsable
-	// (servira Ã  dire pour chaque user s'il est dans un de ces groupe ou non , donc s'il fait l'objet d'une double valid ou non )
-	$list_groups_double_valid_du_resp=get_list_groupes_double_valid_du_resp($login, $DEBUG);
+	// recup de la liste des groupes à double validation, dont $login est responsable
+	// (servira à dire pour chaque user s'il est dans un de ces groupe ou non , donc s'il fait l'objet d'une double valid ou non )
+	$list_groups_double_valid_du_resp=get_list_groupes_double_valid_du_resp($login, $mysql_link, $DEBUG);
 	if($DEBUG==TRUE) { echo "list_groups_double_valid :<br>\n"; print_r($list_groups_double_valid_du_resp); echo "<br><br>\n";}
 
 	if(strlen($list_all_users_du_resp)!=0)
@@ -3582,9 +3592,9 @@ function recup_infos_all_users_du_resp($login, $DEBUG=FALSE)
 		foreach($tab_users_du_resp as $current_login)
 		{
 			$current_login = trim($current_login);
-			$current_login = trim($current_login, "\'");  // on enleve les quotes qui ont Ã©tÃ© ajoutÃ© lors de la creation de la liste
+			$current_login = trim($current_login, "\'");  // on enleve les quotes qui ont été ajouté lors de la creation de la liste
 
-			$tab[$current_login] = recup_infos_du_user($current_login, $list_groups_double_valid_du_resp, $DEBUG);
+			$tab[$current_login] = recup_infos_du_user($current_login, $list_groups_double_valid_du_resp, $mysql_link, $DEBUG);
 		}
 	}
 
@@ -3593,22 +3603,21 @@ function recup_infos_all_users_du_resp($login, $DEBUG=FALSE)
 
 
 // renvoit un tableau de tableau contenant les informations de tous les users dont $login est GRAND responsable
-function recup_infos_all_users_du_grand_resp($login, $DEBUG=FALSE)
+function recup_infos_all_users_du_grand_resp($login, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
 	$tab=array();
 
-	$list_groups_double_valid=get_list_groupes_double_valid_du_grand_resp($login, $DEBUG);
+	$list_groups_double_valid=get_list_groupes_double_valid_du_grand_resp($login, $mysql_link, $DEBUG);
 	if($DEBUG==TRUE) { echo "list_groups_double_valid :<br>\n"; print_r($list_groups_double_valid); echo "<br><br>\n";}
 
 	if($list_groups_double_valid!="")
 	{
 		// recup de la liste des users des groupes de la liste $list_groups_double_valid
-		$sql_users = 'SELECT DISTINCT(gu_login) FROM conges_groupe_users, conges_users WHERE gu_gid IN ('.$sql->escape($list_groups_double_valid).') AND gu_login=u_login ORDER BY u_nom; ';
-		$ReqLog_users = requete_mysql($sql_users, "recup_infos_all_users_du_grand_resp", $DEBUG) ;
+		$sql_users = "SELECT DISTINCT(gu_login) FROM conges_groupe_users, conges_users WHERE gu_gid IN ($list_groups_double_valid) AND gu_login=u_login ORDER BY u_nom; ";
+		$ReqLog_users = requete_mysql($sql_users, $mysql_link, "recup_infos_all_users_du_grand_resp", $DEBUG) ;
 
 		$list_all_users_dbl_valid="";
-		while ($resultat_users =$ReqLog_users->fetch_array())
+		while ($resultat_users = mysql_fetch_array($ReqLog_users))
 		{
 			$current_login=$resultat_users["gu_login"];
 			if($list_all_users_dbl_valid=="")
@@ -3623,9 +3632,9 @@ function recup_infos_all_users_du_grand_resp($login, $DEBUG=FALSE)
 			foreach($tab_users_du_resp as $current_login)
 			{
 				$current_login = trim($current_login);
-				$current_login = trim($current_login, "\'");  // on enleve les qote qui on Ã©tÃ© ajoutÃ© lors de la creation de la liste
+				$current_login = trim($current_login, "\'");  // on enleve les qote qui on été ajouté lors de la creation de la liste
 
-				$tab[$current_login] = recup_infos_du_user($current_login, $list_groups_double_valid, $DEBUG);
+				$tab[$current_login] = recup_infos_du_user($current_login, $list_groups_double_valid, $mysql_link, $DEBUG);
 			}
 		} //if($list_all_users_dbl_valid!="")
 	} //if($list_all_users_dbl_valid!="")
@@ -3635,17 +3644,17 @@ function recup_infos_all_users_du_grand_resp($login, $DEBUG=FALSE)
 
 
 //
-// cree un tableau Ã  partir des valeurs du enum(...) d'un champ mysql (cf structure des tables)
+// cree un tableau à partir des valeurs du enum(...) d'un champ mysql (cf structure des tables)
 //    $table         = nom de la table sql
 //    $column        = nom du champ sql
-function get_tab_from_mysql_enum_field($table, $column, $DEBUG=FALSE)
+function get_tab_from_mysql_enum_field($table, $column, $mysql_link, $DEBUG=FALSE)
 {
 
    $tab=array();
    $req_enum = "DESCRIBE $table $column";
-   $res_enum = requete_mysql($req_enum, "affiche_select_from_mysql_enum_field", $DEBUG);
+   $res_enum = requete_mysql($req_enum, $mysql_link, "affiche_select_from_mysql_enum_field", $DEBUG);
 
-   while ($row_enum = $res_enum->fetch_array())
+   while ($row_enum = mysql_fetch_array($res_enum))
    {
       $sql_type=$row_enum['Type'];
       // exemple : enum('autre','labo','fonction','personne','web', ....
@@ -3668,19 +3677,25 @@ function get_tab_from_mysql_enum_field($table, $column, $DEBUG=FALSE)
 
 
 //
-// Affichage d'un SELECT de formulaire web Ã  partir des valeurs du enum(...) d'un champ mysql (cf structure des tables)
+// Affichage d'un SELECT de formulaire web à partir des valeurs du enum(...) d'un champ mysql (cf structure des tables)
 //    $table         = nom de la table sql
 //    $column        = nom du champ sql
 //    $form_field    = nom du champ du formulaire (variable dont on va exploiter la valeur)
-//    $default_value = valeur par dÃ©faut
-//    $style         = style Ã  appliquer Ã  la liste
-function affiche_select_from_mysql_enum_field($table, $column, $form_field, $default_value, $style, $DEBUG=FALSE)
+//    $default_value = valeur par défaut
+//    $style         = style à appliquer à la liste
+function affiche_select_from_mysql_enum_field($table, $column, $form_field, $default_value, $style, $mysql_link, $DEBUG=FALSE)
 {
-   $tab_enum = get_tab_from_mysql_enum_field($table, $column, $DEBUG);
+
+   $tab_enum = get_tab_from_mysql_enum_field($table, $column, $mysql_link, $DEBUG);
+
    if ($style  == "")
+   {
       echo "<SELECT NAME=$form_field>\n";
+   }
    else
+   {
       echo "<SELECT NAME=$form_field STYLE=\"$style\">\n";
+   }
 
    foreach($tab_enum as $option)
    {
@@ -3689,26 +3704,29 @@ function affiche_select_from_mysql_enum_field($table, $column, $form_field, $def
          else
             echo "<OPTION>$option</OPTION>\n";
    }
+
    echo "</SELECT>\n";
+
 }
 
 
-// recup l'id de la derniere absence (le max puisque c'est un auto incrÃ©ment)
-function get_last_absence_id($DEBUG=FALSE)
+// recup l'id de la derniere absence (le max puisque c'est un auto incrément)
+function get_last_absence_id($mysql_link, $DEBUG=FALSE)
 {
    $req_1="SELECT MAX(ta_id) FROM conges_type_absence ";
-   $res_1 = requete_mysql($req_1, "get_last_absence_id", $DEBUG);
-   $row_1 = $res_1->fetch_row();
+   $res_1 = requete_mysql($req_1, $mysql_link, "get_last_absence_id", $DEBUG);
+   $row_1 = mysql_fetch_row($res_1);
    if(!$row_1)
       return 0;     // si la table est vide, on renvoit 0
    else
       return $row_1[0];
+
 }
 
 
 
-// execute sequentiellement les requÃ¨tes d'un fichier .sql
-function execute_sql_file($file, $DEBUG=FALSE)
+// execute sequentiellement les requètes d'un fichier .sql
+function execute_sql_file($file, $mysql_link, $DEBUG=FALSE)
 {
 	// lecture du fichier SQL
 	// et execution de chaque ligne ....
@@ -3724,19 +3742,20 @@ function execute_sql_file($file, $DEBUG=FALSE)
 			{
 				if($DEBUG==TRUE)
 					echo "$sql_requete<br>\n";
-				$result = requete_mysql($sql_requete,  "execute_sql_file", $DEBUG);
+				$result = requete_mysql($sql_requete, $mysql_link, "execute_sql_file", $DEBUG);
 				$sql_requete="";
 			}
 	    }
 	}
 	return TRUE;
+
 }
 
 
 function affiche_bouton_retour($session, $DEBUG=FALSE)
 {
-	// Bouton de retour : diffÃ©rent suivant si on vient des pages d'install ou de l'appli
-	// $_SESSION['from_config'] est initialisÃ©e dans install/index
+	// Bouton de retour : différent suivant si on vient des pages d'install ou de l'appli
+	// $_SESSION['from_config'] est initialisée dans install/index
 	if(isset($_SESSION['from_config']) && ($_SESSION['from_config']==TRUE))
 		echo "<center><a href=\"".$_SESSION['config']['URL_ACCUEIL_CONGES']."/config/?session=$session\">".$_SESSION['lang']['form_retour']."</a></center>\n";
 	else
@@ -3751,41 +3770,39 @@ function affiche_bouton_retour($session, $DEBUG=FALSE)
 
 
 
-// verif des droits du user Ã  afficher la page qu'il demande (pour Ã©viter les hacks par bricolage d'URL)
+// verif des droits du user à afficher la page qu'il demande (pour éviter les hacks par bricolage d'URL)
 // verif_droits_user($session, "is_admin", $DEBUG);
 function verif_droits_user($session, $niveau_droits, $DEBUG=FALSE)
 {
-    if($DEBUG==TRUE) { print_r($_SESSION); echo "<br><br>\n"; }
-	
-	$niveau_droits = strtolower($niveau_droits);
+	if($DEBUG==TRUE) { print_r($_SESSION); echo "<br><br>\n"; }
 
-    // verif si $_SESSION['is_admin'] ou $_SESSION['is_resp'] ou $_SESSION['is_hr'] =="N"
-    if($_SESSION[$niveau_droits]=="N")
-    {
-        // on recupere les variable utiles pour le suite :
-        $url_accueil_conges = $_SESSION['config']['URL_ACCUEIL_CONGES'] ;
+	// verif si $_SESSION['is_admin'] ou $_SESSION['is_resp'] =="N"
+	if($_SESSION[$niveau_droits]=="N")
+	{
+		// on recupere les variable utiles pour le suite :
+		$url_accueil_conges = $_SESSION['config']['URL_ACCUEIL_CONGES'] ;
 
-        $lang_divers_acces_page_interdit = $_SESSION['lang']['divers_acces_page_interdit'];
-        $lang_divers_user_disconnected   = $_SESSION['lang']['divers_user_disconnected'];
-        $lang_divers_veuillez            = $_SESSION['lang']['divers_veuillez'];
-        $lang_divers_vous_authentifier   = $_SESSION['lang']['divers_vous_authentifier'];
+		$lang_divers_acces_page_interdit = $_SESSION['lang']['divers_acces_page_interdit'];
+		$lang_divers_user_disconnected   = $_SESSION['lang']['divers_user_disconnected'];
+		$lang_divers_veuillez            = $_SESSION['lang']['divers_veuillez'];
+		$lang_divers_vous_authentifier   = $_SESSION['lang']['divers_vous_authentifier'];
 
-        // on delete la session et on renvoit sur l'authentification (page d'accueil)
-        session_delete($session);
+		// on delete la session et on renvoit sur l'authentification (page d'accueil)
+		session_delete($session);
 
-        // message d'erreur !
-        echo "<center>\n";
-        echo "<font color=\"red\">$lang_divers_acces_page_interdit</font><br>$lang_divers_user_disconnected<br>\n";
-        echo "$lang_divers_veuillez <a href='$url_accueil_conges/index.php' target='_top'> $lang_divers_vous_authentifier .</a>\n";
-        echo "</center>\n";
+		// message d'erreur !
+		echo "<center>\n";
+		echo "<font color=\"red\">$lang_divers_acces_page_interdit</font><br>$lang_divers_user_disconnected<br>\n";
+		echo "$lang_divers_veuillez <a href='$url_accueil_conges/index.php' target='_top'> $lang_divers_vous_authentifier .</a>\n";
+		echo "</center>\n";
 
-        exit;
-    }
+		exit;
+	}
 
 }
 
 
-// on lit le contenu du rÃ©pertoire lang et on parse les nom de ficher (ex lang_fr_francais.php)
+// on lit le contenu du répertoire lang et on parse les nom de ficher (ex lang_fr_francais.php)
 function affiche_select_from_lang_directory($select_name="lang")
 {
 	if(is_dir("lang"))
@@ -3805,7 +3822,9 @@ function affiche_select_from_lang_directory($select_name="lang")
 	{
 		$dh  = opendir($lang_dir);
 		while (false !== ($filename = readdir($dh)))
+		{
 		    $tab_files[] = $filename;
+		}
 		sort($tab_files);
 	}
 
@@ -3814,7 +3833,7 @@ function affiche_select_from_lang_directory($select_name="lang")
 //	if($DEBUG==TRUE) { print_r($tab_files); echo "<br>\n"; }
 	foreach($tab_files as $file)
 	{
-		if(preg_match('/^lang_.+_.+.php$/i', $file))
+		if(eregi("^lang_.+_.+.php$", $file))
 		{
 			$chaine_1=explode(".", $file);
 			$chaine_2=explode("_", $chaine_1[0]);
@@ -3829,12 +3848,12 @@ function affiche_select_from_lang_directory($select_name="lang")
 
 // on insert les logs des periodes de conges
 // retourne TRUE ou FALSE
-function log_action($num_periode, $etat_periode, $login_pour, $comment, $DEBUG=FALSE)
+function log_action($num_periode, $etat_periode, $login_pour, $comment, $mysql_link, $DEBUG=FALSE)
 {
 	if(isset($_SESSION['userlogin']))
-		$user = $_SESSION['userlogin'] ;
+	$user = $_SESSION['userlogin'] ;
 	else
-		$user = "inconnu";
+	$user = "inconnu";
 
 	$sql = "INSERT INTO conges_logs
 		SET log_p_num='$num_periode',
@@ -3843,14 +3862,14 @@ function log_action($num_periode, $etat_periode, $login_pour, $comment, $DEBUG=F
 			log_etat='$etat_periode',
 			log_comment='$comment',
 			log_date=NOW() " ;
-	$result = requete_mysql($sql, "log", $DEBUG);
+	$result = requete_mysql($sql, $mysql_link, "log", $DEBUG);
 
 	return $result;
 }
 
 
 
-// fonction qui determine le fichier de langue et fait un include de ce fichier quelque soit l'endroit oÃ¹ on se trouve (chemin)
+// fonction qui determine le fichier de langue et fait un include de ce fichier quelque soit l'endroit où on se trouve (chemin)
 // le parametre $lang est "fr" ou "es", etc ...
 // on utilise plus la fonction php "glob()" qui ne fonctionne pas chez certains hebergeurs (free.fr)
 function inculde_lang_file($lang, $DEBUG=FALSE)
@@ -3860,9 +3879,9 @@ function inculde_lang_file($lang, $DEBUG=FALSE)
 	// test si on est dans "install"
 	if(is_dir("lang"))  // test si on est dans "install"
 		$dir= "lang/";
-	elseif(is_dir("install/lang"))   // test si on est Ã  la racine
+	elseif(is_dir("install/lang"))   // test si on est à la racine
 		$dir= "install/lang/";
-	else    // alors on est dans un autre rÃ©pertoire ...
+	else    // alors on est dans un autre répertoire ...
 		$dir= "../install/lang/";
 
 
@@ -3871,8 +3890,10 @@ function inculde_lang_file($lang, $DEBUG=FALSE)
 	    while(($file = readdir($dh)) !== false)
 	    {
 			if($DEBUG==TRUE) { echo "file : $file<br> \n";}
-	        if(preg_match('/lang_'.$lang.'_.+.php$/', $file))
+	        if(ereg("lang_".$lang."_.+.php", $file))
+	        {
 	        	$lang_file=$dir.$file;
+	        }
 	    }
     }
     if($DEBUG==TRUE) { echo "lang_file : $lang_file<br> \n";}
@@ -3881,19 +3902,20 @@ function inculde_lang_file($lang, $DEBUG=FALSE)
 
 
 // remplit le tableau global des jours feries a partir de la database
-function init_tab_jours_fermeture($user,  $DEBUG=FALSE)
+function init_tab_jours_fermeture($user, $mysql_link, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
 	$_SESSION["tab_j_fermeture"]=array();
 
-	$sql_select='SELECT DISTINCT jf_date FROM conges_jours_fermeture, conges_groupe_users WHERE gu_login=\''.$sql->escape($user).'\' AND gu_gid=jf_gid';
-	$res_select = requete_mysql($sql_select,  "init_tab_jours_fermeture", $DEBUG);
+	$sql_select="SELECT DISTINCT jf_date FROM conges_jours_fermeture, conges_groupe_users WHERE gu_login='$user' AND gu_gid=jf_gid";
+	$res_select = requete_mysql($sql_select, $mysql_link, "init_tab_jours_fermeture", $DEBUG);
 
-	while( $row = $res_select->fetch_array())
+	while( $row = mysql_fetch_array($res_select))
+	{
 		$_SESSION["tab_j_fermeture"][]=$row["jf_date"];
+	}
 }
 
-// renvoit TRUE si le jour est fermÃ© (fermeture), sinon FALSE (verifie dans le tableau global $_SESSION["tab_j_fermeture"]
+// renvoit TRUE si le jour est fermé (fermeture), sinon FALSE (verifie dans le tableau global $_SESSION["tab_j_fermeture"]
 function est_ferme($timestamp)
 {
 	$j_date=date("Y-m-d", $timestamp);
@@ -3907,259 +3929,31 @@ function est_ferme($timestamp)
 
 // verifie si un user est absent ou pas
 // renvoit TRUE si le login est absent, FALSE sinon.
-function is_absent($login,  $DEBUG=FALSE)
+function is_absent($login, $mysql_link, $DEBUG=FALSE)
 {
-	$req = 'SELECT p_login FROM conges_periode
-				WHERE p_login=\' '.$sql->escape($login).'\'
+	$req = "SELECT p_login FROM conges_periode
+				WHERE p_login=' $login'
 						AND TO_DAYS(conges_periode.p_date_deb) <= TO_DAYS(NOW())
-						AND TO_DAYS(conges_periode.p_date_fin) >= TO_DAYS(NOW())';
-	$res = requete_mysql($req,  "is_absent", $DEBUG);
-	return ($res->num_rows==0);
+						AND TO_DAYS(conges_periode.p_date_fin) >= TO_DAYS(NOW())";
+	$res = requete_mysql($req, $mysql_link, "is_absent", $DEBUG);
+	if(mysql_num_rows($res)==0)
+		return TRUE;
+	else
+		return FALSE;
 }
 
 //fonction qui test si l'utilisateur est dans un groupe
 // renvoit TRUE ou FALSE
-function is_user_in_group($login,  $DEBUG=FALSE)
+function is_user_in_group($login, $mysql_link, $DEBUG=FALSE)
 {
-    $sql='SELECT * FROM conges_groupe_users WHERE gu_login LIKE \''.$sql->escape($login);
-    $ReqLog1 = requete_mysql($sql,  "?", $DEBUG); // COMMENTAIRE  A REFAIRE
-    return ($ReqLog1->num_rows!=0 );
+    $sql="SELECT * FROM conges_groupe_users WHERE gu_login LIKE '$login'";
+    $ReqLog1 = requete_mysql($sql, $mysql_link, "?", $DEBUG); // COMMENTAIRE  A REFAIRE
+
+    if(mysql_num_rows($ReqLog1)!=0)
+        return TRUE;
+    else
+        return FALSE;
 }
 
-
-// renvoit le "su_reliquat" pour un user et un type de conges donnÃ©
-function get_reliquat_user_conges($login, $type_abs,  $DEBUG=FALSE)
-{
-	$sql=SQL::singleton();
-	$select_info='SELECT su_reliquat FROM conges_solde_user WHERE su_login=\''.$sql->escape($login).'\' AND su_abs_id=\''.$sql->escape($type_abs).'\'';
-	$ReqLog_info = requete_mysql($select_info,  "get_reliquat_user_conges", $DEBUG);
-
-	$resultat_info = $ReqLog_info->fetch_array();
-	$sql_reliquat=$resultat_info["su_reliquat"];
-
-	return $sql_reliquat;
-}
-
-
-/*
- NE SERT PLUS ! utiliser la suivante Ã  la place ....
-function soustrait_solde_user($user_login, $user_nb_jours_pris, $type_abs,  $DEBUG=FALSE)
-{
-	if($_SESSION['config']['autorise_reliquats_exercice']==TRUE)
-	{
-		$reliquat=get_reliquat_user_conges($user_login, $type_abs,  $DEBUG);
-		//echo "reliquat = $reliquat<br>\n";
-		if($reliquat>$user_nb_jours_pris)
-			$new_reliquat = $reliquat-$user_nb_jours_pris;
-		else
-			$new_reliquat = 0;
-			
-		$sql2 = "UPDATE conges_solde_user SET su_solde=su_solde-$user_nb_jours_pris, su_reliquat=$new_reliquat WHERE su_login='$user_login' AND su_abs_id=$type_abs " ;
-
-	}
-	else
-	{
-		$sql2 = "UPDATE conges_solde_user SET su_solde=su_solde-$user_nb_jours_pris WHERE su_login='$user_login' AND su_abs_id=$type_abs " ;
-	}
-	
-	$ReqLog2 = requete_mysql($sql2, "soustrait_solde_user", $DEBUG) ;				
-}
-*/
-
-
-
-
-//  soustrait_solde_et_reliquat_user($user_login, $user_nb_jours_pris, $type_abs, $date_deb, $demi_jour_deb, $date_fin, $demi_jour_fin,  $DEBUG=FALSE)
-/*	si date_fin_conges < date_limite_reliquat => alors on dÃ©compte dans reliquats 
-	si date_debut_conges > date_limite_reliquat => alors on ne dÃ©compte pas dans reliquats
-	si gonges demandÃ© est Ã  cheval sur la date_limite_reliquat => il faut decompter le nb_jours_pris du solde, puis il faut 
-	calculer le nb_jours_avant pris avant la date limite, et on le decompte des reliquats, et calculer le nb_jours_apres 
-	d'apres la data limite et ne pas le dÃ©compter des reliquats !!!
-*/			
-function soustrait_solde_et_reliquat_user($user_login, $user_nb_jours_pris, $type_abs, $date_deb, $demi_jour_deb, $date_fin, $demi_jour_fin,  $DEBUG=FALSE)
-{
-	$sql=SQL::singleton();
-	//si on autorise les reliquats
-	if($_SESSION['config']['autorise_reliquats_exercice']==TRUE)
-	{
-		//recup du reliquat du user pour ce type d'absence
-		$reliquat=get_reliquat_user_conges($user_login, $type_abs,  $DEBUG);
-		//echo "reliquat = $reliquat<br>\n";
-
-		// s'il y a une date limite d'utilisationdes reliquats (au format jj-mm)
-		if($_SESSION['config']['jour_mois_limite_reliquats']!=0)
-		{
-			//si date_fin_conges < date_limite_reliquat => alors on dÃ©compte dans reliquats
-			if($date_fin < $_SESSION['config']['date_limite_reliquats'])
-			{
-				if($reliquat>$user_nb_jours_pris)
-					$new_reliquat = $reliquat-$user_nb_jours_pris;
-				else
-					$new_reliquat = 0;
-			}
-			//si date_debut_conges > date_limite_reliquat => alors on ne dÃ©compte pas dans reliquats
-			elseif($date_deb >= $_SESSION['config']['date_limite_reliquats'])
-			{
-				$new_reliquat = $reliquat;
-			}
-			//si gonges demandÃ© est Ã  cheval sur la date_limite_reliquat => il faut decompter le nb_jours_pris du solde, puis il faut 
-			//calculer le nb_jours_avant pris avant la date limite, et on le decompte des reliquats, et calculer le nb_jours_apres 
-			//d'apres la data limite et ne pas le dÃ©compter des reliquats !!!
-			else
-			{
-				include 'fonctions_calcul.php' ;
-				//include_once("fonctions_calcul.php"):
-				//require_once("fonctions_calcul.php"):
-				$nb_reliquats_a_deduire = compter($user_login, $date_deb, $_SESSION['config']['date_limite_reliquats'], $demi_jour_deb, "pm", null ,  $DEBUG);
-				
-				if($nb_reliquats_a_deduire>$user_nb_jours_pris)
-					$new_reliquat = $nb_reliquats_a_deduire-$user_nb_jours_pris;
-				else
-					$new_reliquat = 0;
-			}
-		}
-		// s'il n'y a pas de date limite d'utilisation des reliquats
-		else
-		{
-			if($reliquat>$user_nb_jours_pris)
-				$new_reliquat = $reliquat-$user_nb_jours_pris;
-			else
-				$new_reliquat = 0;
-		}
-			
-	$sql2 = 'UPDATE conges_solde_user SET su_solde=su_solde-'.$sql->escape($user_nb_jours_pris).', su_reliquat='.$sql->escape($new_reliquat).' WHERE su_login=\''.$sql->escape($user_login).'\'  AND su_abs_id='.$sql->escape($type_abs).' ';
-		
-	}
-	else
-	{
-		$sql2 = 'UPDATE conges_solde_user SET su_solde=su_solde-'.$sql->escape($user_nb_jours_pris).' WHERE su_login=\''.$sql->escape($user_login).'\'  AND su_abs_id=\''.$type_abs.'\' ';
-	}
-	
-	$ReqLog2 = requete_mysql($sql2, 'soustrait_solde_et_reliquat_user', $DEBUG) ;				
-}
-
-
-
-
-
-
-
-// verifie si un user est HR ou pas
-// renvoit TRUE si le login est HR dans la table conges_users, FALSE sinon.
-function is_hr($login,  $DEBUG=FALSE)
-{
-    // recup de qq infos sur le user
-    $select_info="SELECT u_is_hr FROM conges_users WHERE u_login='$login' ";
-    $ReqLog_info = requete_mysql($select_info, "is_hr", $DEBUG);
-
-    $resultat_info = $ReqLog_info->fetch_array();
-    $sql_is_hr=$resultat_info["u_is_hr"];
-
-    return ($sql_is_hr=='Y');
-}
-
-// renvoit un tableau de tableau contenant les informations de tous les users dont $login est HR responsable
-function recup_infos_all_users_du_hr($login, $DEBUG=FALSE)
-{
-    $tab=array();
-
-    $list_groupes_double_validation=get_list_groupes_double_valid($DEBUG);
-    if($DEBUG==TRUE) { echo "list_groupes_double_validation :<br>\n"; print_r($list_groupes_double_validation); echo "<br><br>\n";}
-
-    //$sql = "SELECT u_login FROM conges_users WHERE u_login!='conges' AND u_login!='admin' ORDER BY u_login";
-    $sql1 = "SELECT u_login FROM conges_users WHERE u_login!='conges' AND u_login!='admin' ORDER BY u_nom";
-
-    $ReqLog = requete_mysql($sql1, "recup_infos_all_users", $DEBUG) ;
-
-    while ($resultat = $ReqLog->fetch_array())
-    {
-        $tab_user=array();
-        $sql_login=$resultat["u_login"];
-
-        $tab[$sql_login] = recup_infos_du_user($sql_login, $list_groupes_double_validation, $DEBUG);
-    }
-
-    return $tab ;
-}
-
-
-// recup de la liste de TOUS les users pour le responsable RH
-// renvoit une liste de login entre quotes et sÃ©parÃ©s par des virgules
-function get_list_all_users_du_hr($resp_login, $DEBUG=FALSE)
-{
-
-	$list_users="";
-
-	$sql1="SELECT DISTINCT(u_login) FROM conges_users WHERE u_login!='conges' AND u_login!='admin'  ORDER BY u_nom  ";
-
-	$ReqLog1 = requete_mysql($sql1, "get_list_all_users_du_hr", $DEBUG);
-
-	while ($resultat1 = $ReqLog1->fetch_array())
-	{
-		$current_login=$resultat1["u_login"];
-		if($list_users=="")
-			$list_users="'$current_login'";
-		else
-			$list_users=$list_users.", '$current_login'";
-	}
-	
-
-	if($DEBUG==TRUE) { echo "list_users = $list_users<br>\n" ;}
-
-	return $list_users;
-}
-
-// recup de la liste de tous les groupes pour le mode RH
-
-function get_list_groupes_pour_rh($user_login, $DEBUG=FALSE)
-{
-	$list_group="";
-
-	$sql="SELECT g_gid FROM conges_groupe ORDER BY g_gid";
-	$ReqLog1 = requete_mysql($sql, "get_list_groupes_pour_rh", $DEBUG);
-
-	if($ReqLog1->num_rows != 0)
-	{
-		while ($resultat1 = $ReqLog1->fetch_array())
-		{
-			$current_group=$resultat1["g_gid"];
-			if($list_group=="")
-				$list_group="$current_group";
-			else
-				$list_group=$list_group.", $current_group";
-		}
-	}
-	if($DEBUG==TRUE) { echo "list_group = $list_group<br>\n" ;}
-
-	return $list_group;
-}
-
-// recup de la liste des users des groupes dont $resp_login est responsable mais ne remonte pas les autres responsables
-// renvoit une liste de login entre quotes et sÃ©parÃ©s par des virgules
-function get_list_users_des_groupes_du_resp_sauf_resp($resp_login, $DEBUG=FALSE)
-{
-
-	$list_users_des_groupes_du_resp_sauf_resp="";
-
-	$list_groups=get_list_groupes_du_resp($resp_login, $DEBUG);
-	if($list_groups!="") // si $resp_login est responsable d'au moins un groupe
-	{
-		$sql1="SELECT DISTINCT(gu_login) FROM conges_groupe_users WHERE gu_gid IN ($list_groups) AND gu_login NOT IN (SELECT gr_login FROM conges_groupe_resp WHERE gr_gid IN ($list_groups)) ORDER BY gu_login ";
-		$ReqLog1 = requete_mysql($sql1, "get_list_users_des_groupes_du_resp_sauf_resp", $DEBUG);
-
-		while ($resultat1 = $ReqLog1->fetch_array())
-		{
-			$current_login=$resultat1["gu_login"];
-			if($list_users_des_groupes_du_resp_sauf_resp=="")
-				$list_users_des_groupes_du_resp_sauf_resp="'$current_login'";
-			else
-				$list_users_des_groupes_du_resp_sauf_resp=$list_users_des_groupes_du_resp_sauf_resp.", '$current_login'";
-		}
-	}
-	if($DEBUG==TRUE) { echo "list_users_des_groupes_du_resp_sauf_resp= $list_users_des_groupes_du_resp_sauf_resp<br>\n" ;}
-
-	return $list_users_des_groupes_du_resp_sauf_resp;
-
-}
 
 ?>

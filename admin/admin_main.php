@@ -1,33 +1,8 @@
 <?php
-/*************************************************************************************************
-PHP_CONGES : Gestion Interactive des Congés
-Copyright (C) 2005 (cedric chauvineau)
-
-Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les 
-termes de la Licence Publique Générale GNU publiée par la Free Software Foundation.
-Ce programme est distribué car potentiellement utile, mais SANS AUCUNE GARANTIE, 
-ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation 
-dans un but spécifique. Reportez-vous à la Licence Publique Générale GNU pour plus de détails.
-Vous devez avoir reçu une copie de la Licence Publique Générale GNU en même temps 
-que ce programme ; si ce n'est pas le cas, écrivez à la Free Software Foundation, 
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, États-Unis.
-*************************************************************************************************
-This program is free software; you can redistribute it and/or modify it under the terms
-of the GNU General Public License as published by the Free Software Foundation; either 
-version 2 of the License, or any later version.
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
-See the GNU General Public License for more details.
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*************************************************************************************************/
-
 include("../config.php") ;
 include("../fonctions_conges.php") ;
 include("../INCLUDE.PHP/fonction.php");
 include("../INCLUDE.PHP/session.php");
-if($config_verif_droits==1){ include("../INCLUDE.PHP/verif_droits.php");}
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
@@ -58,7 +33,7 @@ if($config_verif_droits==1){ include("../INCLUDE.PHP/verif_droits.php");}
 
 function affichage() {
 	global $PHP_SELF, $link;
-	global $config_admin_see_all , $config_responsable_virtuel ;
+	global $config_admin_see_all ;
 	global $session;
 	global $session_username ;
 	global $new_login, $new_nom, $new_prenom, $new_jours_an, $new_jours_reste, $new_is_resp, $new_resp_login, $new_password1, $new_password2 ;
@@ -67,13 +42,12 @@ function affichage() {
 	/* Etat Utilisateurs */
 	/*********************/
 	// Récuperation des informations
-	
-	// si l'admin peut voir tous les users  OU si on est en mode "responsble virtuel" (cf config.php)
-	if(($config_admin_see_all==1) || ($config_responsable_virtuel==1))   
+	if($config_admin_see_all==1) {   # si l'admin peut voir tous les users (cf config.php)
 		$sql3 = "SELECT u_login, u_nom, u_prenom, u_nb_jours_an, u_nb_jours_reste, u_is_resp, u_resp_login, u_passwd, u_quotite FROM conges_users ORDER BY u_nom"  ;
-	else
+	}
+	else {
 		$sql3 = "SELECT u_login, u_nom, u_prenom, u_nb_jours_an, u_nb_jours_reste, u_is_resp, u_resp_login, u_passwd, u_quotite FROM conges_users WHERE u_resp_login = '$session_username' ORDER BY u_nom, u_prenom"  ;
-
+	}
 	// AFFICHAGE TABLEAU
 	printf("<h3>Etat des Utilisateurs :</h3>\n");
 	printf("<table cellpadding=\"2\" cellspacing=\"3\" border=\"2\" width=\"80%%\">\n");
@@ -84,8 +58,7 @@ function affichage() {
 			$admin_suppr_user="<a href=\"admin_suppr_user.php?session=$session&u_login=".$resultat3["u_login"]."\">Supprimer</a>" ;
 			$admin_chg_pwd_user="<a href=\"admin_chg_pwd_user.php?session=$session&u_login=".$resultat3["u_login"]."\">Password</a>" ;
 			printf("<tr>\n");
-			printf("<td><b>%s</b></td><td><b>%s</b></td><td>%s</td><td>%d%%</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>\n", 
-					$resultat3["u_nom"], $resultat3["u_prenom"], $resultat3["u_login"], $resultat3["u_quotite"], $resultat3["u_nb_jours_an"], $resultat3["u_nb_jours_reste"], $resultat3["u_is_resp"], $resultat3["u_resp_login"], $admin_modif_user, $admin_suppr_user, $admin_chg_pwd_user);
+			printf("<td><b>%s</b></td><td><b>%s</b></td><td>%s</td><td>%d%%</td><td>%d</td><td>%d</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>\n", $resultat3["u_nom"], $resultat3["u_prenom"], $resultat3["u_login"], $resultat3["u_quotite"], $resultat3["u_nb_jours_an"], $resultat3["u_nb_jours_reste"], $resultat3["u_is_resp"], $resultat3["u_resp_login"], $admin_modif_user, $admin_suppr_user, $admin_chg_pwd_user);
 			printf("</tr>\n");
 		}
 	printf("</table>\n\n");
@@ -107,8 +80,8 @@ function affichage() {
 	$text_nom="<input type=\"text\" name=\"new_nom\" size=\"10\" maxlength=\"30\" value=\"".$new_nom."\">" ;
 	$text_prenom="<input type=\"text\" name=\"new_prenom\" size=\"10\" maxlength=\"30\" value=\"".$new_prenom."\">" ;
 	$text_quotite="<input type=\"text\" name=\"new_quotite\" size=\"3\" maxlength=\"3\" value=\"".$new_quotite."\">" ;
-	$text_jours_an="<input type=\"text\" name=\"new_jours_an\" size=\"5\" maxlength=\"5\" value=\"".$new_jours_an."\">" ;
-	$text_jours_reste="<input type=\"text\" name=\"new_jours_reste\" size=\"5\" maxlength=\"5\" value=\"".$new_jours_reste."\">" ;
+	$text_jours_an="<input type=\"text\" name=\"new_jours_an\" size=\"3\" maxlength=\"3\" value=\"".$new_jours_an."\">" ;
+	$text_jours_reste="<input type=\"text\" name=\"new_jours_reste\" size=\"3\" maxlength=\"3\" value=\"".$new_jours_reste."\">" ;
 
 	$text_is_resp="<select name=\"new_is_resp\" id=\"is_resp_id\" ><option value=\"N\">N</option><option value=\"Y\">Y</option></select>" ;
 	
@@ -162,35 +135,31 @@ function ajout_user() {
 	$list_colums_to_insert="a_login";
 	$list_values_to_insert="'$new_login'";
 	// on parcours le tableau des jours d'absence semaine impaire
-	if(isset($tab_checkbox_sem_imp)) {
-		while($elem_tableau = each($tab_checkbox_sem_imp))
-		{
-			$champs = $elem_tableau['value'];
-			$key=$elem_tableau['key'];          // retourne la key entre quotes (il faut enlever les quotes)
-			$pieces = explode("'", $key);
-			$unquoted_key=$pieces[1];
-
-			$list_colums_to_insert = "$list_colums_to_insert, $unquoted_key";
-			$list_values_to_insert = "$list_values_to_insert, '$champs'";
-		}
-	}
+	while($elem_tableau = each($tab_checkbox_sem_imp))
+	{
+		$champs = $elem_tableau['value'];
+		$key=$elem_tableau['key'];          // retourne la key entre quotes (il faut enlever les quotes)
+		$pieces = explode("'", $key);
+		$unquoted_key=$pieces[1];
+		
+		$list_colums_to_insert = "$list_colums_to_insert, $unquoted_key";
+		$list_values_to_insert = "$list_values_to_insert, '$champs'";
+	} 
 	// on parcours le tableau des jours d'absence semaine paire
-	if(isset($tab_checkbox_sem_p)) {
-		while($elem_tableau = each($tab_checkbox_sem_p))
-		{
-			$champs = $elem_tableau['value'];
-			$key=$elem_tableau['key'];          // retourne la key entre quotes (il faut enlever les quotes)
-			$pieces = explode("'", $key);
-			$unquoted_key=$pieces[1];
-
-			$list_colums_to_insert = "$list_colums_to_insert, $unquoted_key";
-			$list_values_to_insert = "$list_values_to_insert, '$champs'";
-		}
-	}
+	while($elem_tableau = each($tab_checkbox_sem_p))
+	{
+		$champs = $elem_tableau['value'];
+		$key=$elem_tableau['key'];          // retourne la key entre quotes (il faut enlever les quotes)
+		$pieces = explode("'", $key);
+		$unquoted_key=$pieces[1];
+		
+		$list_colums_to_insert = "$list_colums_to_insert, $unquoted_key";
+		$list_values_to_insert = "$list_values_to_insert, '$champs'";
+	} 
 		
 	
 	$sql2 = "INSERT INTO conges_artt ($list_colums_to_insert) VALUES ($list_values_to_insert)" ;
-	$result = mysql_query($sql2, $link) or die("ERREUR : admin_index.php : ".mysql_error());
+	$result = mysql_query($sql2, $link) or die("ERREUR : admin_main.php : ".mysql_error());
 	
 	if($result==TRUE)
 		printf(" Changements pris en compte avec succes !<br><br> \n");

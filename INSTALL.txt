@@ -32,13 +32,12 @@ SOMMAIRE :
 	gunzip php_conges.version.tar.gz
 	tar xvf php_conges.version.tar
 	ou
-	unzip php_conges.version.zip
+	unzip php_conges.version.tar
 
 
 	3: installation des fichiers :
 	------------------------------
-	- copier le contenu de l'archive dans l'arborescence de votre site web.
-	- ATTENTION : le répertoire "tmp" de PHP_IDS (INCLUDE.EXTERNAL/phpids-0.5.3/lib/IDS/tmp) doit être accessible en écriture ! ("writable") !!!
+	copier le contenu de l'archive dans l'arborescence de votre site web.
 
 
 	4: configuration de PHP :
@@ -58,12 +57,13 @@ SOMMAIRE :
 
 	6: configuration de base PHP_Conges :
 	--------------------------------------
-	- Renommer le fichier "dbconnect_new.php"  en "dbconnect.php".
-	- Editer le fichier "dbconnect.php" et renseigner les paramètres relatifs à votre 
+	- Editer le fichier "config.php" et renseigner en priorité les variables relatives à votre 
 	  connexion MySQL (serveur, user, password, database).
 	- Puis saisir l'URL suivant dans votre navigateur pour obtenir le formulaire de configuration de php_conges : 
 	  http://monsiteweb.mondomaine.org/mon_chemin/php_conges/install/
-	- ajout d'une nouvelle langue : (optionnel, le francais et l'espagnol sont livés avec php_conges)
+	- Vous pouvez également éditer le fichier config.php pour y personnaliser les mails d'alerte envoyés par l'application 
+	  (si vous utilisez ceux ci).
+	- ajout d'une nouvelle langue : voir 
 		- télécharger le fichier de langue.
 		- copier ce fichier de langue dans le répertoire install/lang/ de votre application php_conges.
 		- vérifier que votre fichier ai les bons droits en lecture.
@@ -108,8 +108,7 @@ SOMMAIRE :
 	
 	6: configuration de PHP_Conges :
 	----------------------------------
-	- Renommer le fichier "dbconnect_new.php"  en "dbconnect.php".
-	- Editer le fichier "dbconnect.php" et renseigner les paramètres relatifs à votre 
+	- Editer le fichier "config.php" et renseigner en priorité les variables relatives à votre 
 	  connexion MySQL (serveur, user, password, database).
 	- Puis saisir l'URL suivant dans votre navigateur pour obtenir le formulaire de configuration de php_conges : 
 	  http://monsiteweb.mondomaine.org/mon_chemin/php_conges/install/
@@ -118,7 +117,9 @@ SOMMAIRE :
 	- pour extraire les utilisateurs du LDAP, Positionner l'option de configuration $config_export_users_from_ldap=TRUE; !
 	- Renseignez également les variables relatives à votre connexion MySQL (serveur, user, password, database).
 	  éditer le fichier "config_ldap.php" et positionner les options de configuration comme désiré.
-	- ajout d'une nouvelle langue : (optionnel, le francais et l'espagnol sont livés avec php_conges)
+	- Vous pouvez également éditer le fichier config.php pour y personnaliser les mails d'alerte envoyés par l'application 
+	  (si vous utilisez ceux ci).
+	- ajout d'une nouvelle langue : voir 
 		- télécharger le fichier de langue.
 		- copier ce fichier de langue dans le répertoire install/lang/ de votre application php_conges.
 		- vérifier que votre fichier ai les bons droits en lecture.
@@ -147,13 +148,6 @@ SOMMAIRE :
 	ci ne doivent être accessibles qu'à certainnes personnes habilitées.
 
 
-	Remarque : utilisation avec Easy_php :
-	---------------------------------------------------------------------
-	sous easy_php il faut éditer le php.ini et décommenter la ligne
-        extension=php_ldap.dll
-    ... sinon pb avec l'authentification et la recup des users LDAP !
-
-
 ----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------
 
@@ -170,8 +164,7 @@ SOMMAIRE :
 	
 	6: configuration de PHP_Conges :
 	----------------------------------
-	- Renommer le fichier "dbconnect_new.php"  en "dbconnect.php".
-	- Editer le fichier "dbconnect.php" et renseigner les paramètres relatifs à votre 
+	- Editer le fichier "config.php" et renseigner en priorité les variables relatives à votre 
 	  connexion MySQL (serveur, user, password, database).
 	- Puis saisir l'URL suivant dans votre navigateur pour obtenir le formulaire de configuration de php_conges : 
 	  http://monsiteweb.mondomaine.org/mon_chemin/php_conges/install/
@@ -181,7 +174,9 @@ SOMMAIRE :
 	- Renseignez également les variables relatives à votre connexion MySQL (serveur, user, password, database).
 	  éditer le fichier "config_CAS.php" et positionner les options de configuration comme désiré.
 	- Si vous vous servez du LDAP, éditer le fichier "config_ldap.php" et positionner les options de configuration comme désiré.
-	- ajout d'une nouvelle langue : (optionnel, le francais et l'espagnol sont livés avec php_conges)
+	- Vous pouvez également éditer le fichier config.php pour y personnaliser les mails d'alerte envoyés par l'application 
+	(si vous utilisez ceux ci).
+	- ajout d'une nouvelle langue : voir 
 		- télécharger le fichier de langue.
 		- copier ce fichier de langue dans le répertoire install/lang/ de votre application php_conges.
 		- vérifier que votre fichier ai les bons droits en lecture.
@@ -230,13 +225,12 @@ SOMMAIRE :
 	gunzip php_conges.version.tar.gz
 	tar xvf php_conges.version.tar
 	ou
-	unzip php_conges.version.zip
+	unzip php_conges.version.tar
 
 
 	3: installation des fichiers
 	-----------------------------
-	copier le contenu de l'archive dans l'arborescence de votre site web (à la place de votre ancienne version).
-	- ATTENTION : le répertoire "tmp" de PHP_IDS (INCLUDE.EXTERNAL/phpids-0.5.3/lib/IDS/tmp) doit être accessible en écriture ! ("writable") !!!
+	copier le contenu de l'archive dans l'arborescence de votre site web.
 
 
 	4: mise à jour de la database et configuration de PHP_Conges :
@@ -247,7 +241,9 @@ SOMMAIRE :
 	  être renseignées afin que l'application fonctionne correctement.
 	  (ATTENTION : dans certains cas rares, certaines variables de configuration peuvent changer de nom d'une version à l'autre. Soyez 
 	  vigilant!)
-	- ajout d'une nouvelle langue : (optionnel, le francais et l'espagnol sont livés avec php_conges)
+	- Vous pouvez également éditer le fichier config.php pour y personnaliser les mails d'alerte envoyés par l'application 
+	  (si vous utilisez ceux ci).
+	- ajout d'une nouvelle langue : voir 
 		- télécharger le fichier de langue.
 		- copier ce fichier de langue dans le répertoire install/lang/ de votre application php_conges.
 		- vérifier que votre fichier ai les bons droits en lecture.
@@ -287,8 +283,10 @@ SOMMAIRE :
 ---------------------------------------------------------
 	1: configuration de base PHP_Conges :
 	--------------------------------------
-	- Le fichier "dbconnect.php" doit contenir les paramètresrelatifs à votre 
+	- Editer le fichier "config.php" et renseigner en priorité les variables relatives à votre 
 	  connexion MySQL (serveur, user, password, database).
+	- Vous pouvez également éditer le fichier config.php pour y personnaliser les mails d'alerte envoyés par l'application 
+	  (si vous utilisez ceux ci).
 
 
 	2: configuration générale de PHP_Conges :
@@ -309,19 +307,9 @@ SOMMAIRE :
 	  http://monsiteweb.mondomaine.org/mon_chemin/php_conges/install/
 	  (ce formulaire peut être accessible dans l'application, depuis le mode administarteur si php_conges a été paramétré ainsi)
 
-
-	4: configuration des mails envoyés par PHP_Conges :
-	------------------------------------------------------------
-	(cette étape n'est utile QUE si votre php_conges est configuré pour envoyer des mails d'alerte 
-	  (voir configuration de php_conges))
-	- Pour obtenir le formulaire de configuration, saisir l'URL suivant dans votre navigateur : 
-	  http://monsiteweb.mondomaine.org/mon_chemin/php_conges/install/
-	  (ce formulaire peut être accessible dans l'application, depuis le mode administarteur si php_conges a été paramétré ainsi)
-
-
 	REMARQUE : Sécurité :
 	----------------------
-	Afin d'assurer la sécurité de votre application, il est FORTEMENT recommandé de protéger
+	Afin d'assurer la sécurité de votre application, il est FORTEMENT recommendé de protéger
 	le répertoire "install" (par un fichier ".htaccess" par exemple (sous unix)).
 	En effet, ce répertoire contient les pages d'install et de configuration de l'appli; celles
 	ci ne doivent être accessibles qu'à certainnes personnes habilitées.

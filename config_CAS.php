@@ -1,39 +1,33 @@
 <?php
 
-//appel de PHP-IDS que si version de php > 5.1.2
-// if(phpversion() > "5.1.2") { include("controle_ids.php") ;}
-
 /**
 **	@author Benjamin Husson
 **
 **	-------------------------Fichier de configuration du serveur CAS-------------------------
 **
-**	CAS pour SystÃ¨me d'Authentification  CentralisÃ© http://www.yale.edu/tp/cas/
+**	CAS pour Système d'Authentification  Centralisé http://www.yale.edu/tp/cas/
 ** 
-**  Pre-requis pour l'utilisation du mode d'authentification CAS (utilisation de la librairie phpcas et de ses dÃ©pendances)
+**  Pre-requis pour l'utilisation du mode d'authentification CAS (utilisation de la librairie phpcas et de ses dépendances)
 **	http://esup-phpcas.sourceforge.net/requirements.html
 **
-**	Pour utiliser le systÃ¨me d'authentification CAS le paramÃªtre de configuration de php_conges "how_to_connect_user"
-**	doit Ãªtre positionnÃ© a "CAS"
+**	Pour utiliser le système d'authentification CAS le paramêtre "$config_how_to_connect_user" du fichier config.php doit 
+**	être positionné a "CAS"
 **	
-** 	ATTENTION : Un utilisateur ne peut se connecter en utilisant CAS uniquement si le login utilisÃ© par CAS 
+** 	ATTENTION : Un utilisateur ne peut se connecter en utilisant CAS uniquement si le login utilisé par CAS 
 **	est identique au champ u_login de la table conges_users de la bdd.
 **	REMARQUE : CAS s'appuyant souvent sur un annuaire LDAP, l'utilisation de CAS ne rentre pas en conflit avec l'utilisation de LDAP 
-**	pour gerer la crÃ©ation d'utilisateurs en mode Admin.
-**	(il est mÃªme recommandÃ© d'utiliser l'authentification CAS en parrallele avec la crÃ©ation d'utilisateurs en mode ldap.)
-**	De cette faÃ§on les logins associÃ©s aux utilisateurs de php_conges seront identique Ã  ceux utilisÃ©s par CAS.
+**	pour gerer la création d'utilisateurs en mode Admin.
+**	(il est même recommandé d'utiliser l'authentification CAS en parrallele avec la création d'utilisateurs en mode ldap.)
+**	De cette façon les logins associés aux utilisateurs de php_conges seront identique à ceux utilisés par CAS.
 **
-**	Fichier de configuration du systÃ¨me d'authentification CAS. 
+**	Fichier de configuration du système d'authentification CAS. 
 **	
 **	$config_CAS_host = hostName				adresse du serveur CAS
-**	$config_CAS_portNumber = PortNumber		numero de port sur lequel tourne le service (par dÃ©faut 443)
-**	$config_CAS_URI = "" 					vide par dÃ©faut, c'est la sous adresse pour le service CAS
+**	$config_CAS_portNumber = PortNumber		numero de port sur lequel tourne le service (par défaut 443)
+**	$config_CAS_URI = "" 					vide par défaut, c'est la sous adresse pour le service CAS
 **/
 
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
-
-
-$config_CAS_host = "localhost";		//adresse http
-$config_CAS_portNumber = 443; 	//entier
-$config_CAS_URI = "";		//chemin relatif (peut Ãªtre vide)
+$config_CAS_host = "";		//adresse http
+$config_CAS_portNumber = ""; 	//entier
+$config_CAS_URI = "";		//chemin relatif (peut être vide)
 ?>

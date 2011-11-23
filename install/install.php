@@ -74,6 +74,7 @@ if($DEBUG==TRUE) { echo "SESSION = <br>\n"; print_r($_SESSION); echo "<br><br>\n
 // install la nouvelle version dans une database vide ... et config
 function lance_install($lang, $DEBUG=FALSE)
 {
+	$sql=SQL::singleton();
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	
 	include("../dbconnect.php") ;
@@ -112,13 +113,13 @@ function lance_install($lang, $DEBUG=FALSE)
 		$sql_update_lang="UPDATE conges_config SET conf_valeur = '$lang' WHERE conf_nom='lang' ";
 		$result_update_lang = $sql->query($sql_update_lang) or die ($sql->error);
 		
-		$tab_url=explode("/", $_SERVER['HTTP_REFERER']);
-		$url_accueil="";
-		for($i=0; $i<count($tab_url)-3; $i++)
-		{
-			$url_accueil=$url_accueil.$tab_url[$i]."/" ;  // on prend l'url complet sans le /install/install.php à la fin
-		}
-		$url_accueil=$url_accueil.$tab_url[$i] ;  // on prend l'url complet sans le /install/install.php à la fin
+		$tab_url=explode("/", $_SERVER['PHP_SELF']);
+
+		array_pop($tab_url);
+		array_pop($tab_url);
+		
+		$url_accueil= implode("/", $tab_url) ;  // on prend l'url complet sans le /install/install.php à la fin
+		
 		$sql_update_lang="UPDATE conges_config SET conf_valeur = '$url_accueil' WHERE conf_nom='URL_ACCUEIL_CONGES' ";
 		$result_update_lang = $sql->query($sql_update_lang) or die ($sql->error);
 		
@@ -130,7 +131,7 @@ function lance_install($lang, $DEBUG=FALSE)
 		// on propose la page de config ....
 		echo "<br><br><h2>".$_SESSION['lang']['install_ok']." !</h2><br>\n";
 		
-		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"1; URL=../config/\">";
+		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=../config/\">";
 	}
 }
 

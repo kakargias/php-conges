@@ -71,12 +71,7 @@ echo "<head>\n";
 		$new_fin2 = implode('-', $new_fin2);
 		
 		$new_nb_jours = compter($_SESSION['userlogin'], $new_debut2,  $new_fin2, $new_demi_jour_deb, $new_demi_jour_fin, $comm,  $DEBUG, $p_num_to_update);
-		
-		echo 'toto', $new_nb_jours;
-		echo $comm;
-		echo $_SESSION['userlogin'];
-		// if ($new_nb_jours <= 0 )
-			// $new_nb_jours      = getpost_variable("new_nb_jours");
+
 	}
 	else
 		$new_nb_jours      = getpost_variable("new_nb_jours");

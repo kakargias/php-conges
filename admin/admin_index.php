@@ -373,12 +373,21 @@ function ajout_user(&$tab_new_user, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, 
 		else
 			$motdepasse = "none";
 			
+
+			
 		$sql1 = "INSERT INTO conges_users SET ";
 		$sql1=$sql1."u_login='".$tab_new_user['login']."', ";
 		$sql1=$sql1."u_nom='".addslashes($tab_new_user['nom'])."', ";
 		$sql1=$sql1."u_prenom='".addslashes($tab_new_user['prenom'])."', ";
 		$sql1=$sql1."u_is_resp='".$tab_new_user['is_resp']."', ";
-		$sql1=$sql1."u_resp_login='".$tab_new_user['resp_login']."', ";
+		
+		
+		if($tab_new_user['is_resp'] = "no_resp")
+			$sql1=$sql1."u_resp_login= NULL , ";
+		else
+			$sql1=$sql1."u_resp_login='". $tab_new_user['is_resp']."', ";
+		
+		
 		$sql1=$sql1."u_is_admin='".$tab_new_user['is_admin']."', ";
 		$sql1=$sql1."u_is_hr='".$tab_new_user['is_hr']."', ";
 		$sql1=$sql1."u_see_all='".$tab_new_user['see_all']."', ";
@@ -772,7 +781,7 @@ function affiche_formulaire_ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab
 	$text_is_resp="<select name=\"new_is_resp\" ><option value=\"N\">N</option><option value=\"Y\">Y</option></select>" ;
 
 	// PREPARATION DES OPTIONS DU SELECT du resp_login
-	$text_resp_login="<select name=\"new_resp_login\" id=\"resp_login_id\" >" ;
+	$text_resp_login="<select name=\"new_resp_login\" id=\"resp_login_id\" ><option value=\"no_resp\">Pas de resopnsable</option>" ;
 	$sql2 = "SELECT u_login, u_nom, u_prenom FROM conges_users WHERE u_is_resp = \"Y\" ORDER BY u_nom, u_prenom"  ;
 	$ReqLog2 = requete_mysql($sql2,  "affiche_formulaire_ajout_user", $DEBUG);
 
@@ -1025,8 +1034,8 @@ function ajout_groupe($new_group_name, $new_group_libelle, $new_group_double_val
 
 		$new_gid=$sql->insert_id;
 		// par défaut le responsable virtuel est resp de tous les groupes !!!
-		$sql2 = "INSERT INTO conges_groupe_resp SET gr_gid=$new_gid, gr_login='conges' " ;
-		$result = requete_mysql($sql2, "ajout_groupe", $DEBUG);
+		// $sql2 = "INSERT INTO conges_groupe_resp SET gr_gid=$new_gid, gr_login='conges' " ;
+		// $result = requete_mysql($sql2, "ajout_groupe", $DEBUG);
 
 		if($result==TRUE)
 			echo $_SESSION['lang']['form_modif_ok']."<br><br> \n";

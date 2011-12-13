@@ -2041,6 +2041,7 @@ function constuct_and_send_mail($objet, $mail_sender_name, $mail_sender_addr, $m
 // renvoit un tableau a 2 valeurs : prenom+nom et email
 function find_email_adress_for_user($login, $DEBUG=FALSE)
 {
+	$sql=SQL::singleton();
 	$found_mail=array();
 
 	if($_SESSION['config']['where_to_find_user_email']=="ldap") // recherche du mail du user dans un annuaire LDAP
@@ -2812,6 +2813,7 @@ function get_list_all_groupes($DEBUG=FALSE)
 //renvoit un tableau indexé de resp_login => "absent" ou "present" 
 function get_tab_resp_du_user($user_login,  $DEBUG=FALSE)
 {
+	$sql=SQL::singleton();
 	$tab_resp=array();
 	if($_SESSION['config']['responsable_virtuel']==TRUE)
 	{
@@ -2821,12 +2823,14 @@ function get_tab_resp_du_user($user_login,  $DEBUG=FALSE)
 	{
 		if($DEBUG==TRUE) {echo ">> RECHERCHE des RESPONSABLES de : $user_login<br>\n";}
 		// recup du resp indiqué dans la table users (sauf s'il est resp de lui meme)
-		$req = 'SELECT u_resp_login FROM conges_users WHERE u_login=\''.$sql->escape($user_login);
+		$req = 'SELECT u_resp_login FROM conges_users WHERE u_login=\''.$sql->escape($user_login).'\'';
 		$res = requete_mysql($req,  "get_tab_resp_du_user", $DEBUG);
 
 		$rec = $res->fetch_array();
-		$tab_resp[$rec['u_resp_login']]="present";
-
+		if ($rec['u_resp_login'] !== NULL)
+			$tab_resp[$rec['u_resp_login']]="present";
+		
+		
 		// recup des resp des groupes du user 
 		if($_SESSION['config']['gestion_groupes']==TRUE)
 		{
@@ -2837,8 +2841,8 @@ function get_tab_resp_du_user($user_login,  $DEBUG=FALSE)
 				foreach($tab_gid as $gid)
 				{
 					$gid=trim($gid);
-					$sql='SELECT gr_login FROM conges_groupe_resp WHERE gr_gid='.$sql->escape($gid).' AND gr_login!=\''.$sql->escape($user_login);
-					$ReqLog1 = requete_mysql($sql,  "get_tab_resp_du_user", $DEBUG);
+					$sql2='SELECT gr_login FROM conges_groupe_resp WHERE gr_gid='.$sql->escape($gid).' AND gr_login!=\''.$sql->escape($user_login).'\'';
+					$ReqLog1 = requete_mysql($sql2,  "get_tab_resp_du_user", $DEBUG);
 
 					while ($resultat1 = $ReqLog1->fetch_array())
 					{
@@ -2866,7 +2870,7 @@ function get_tab_resp_du_user($user_login,  $DEBUG=FALSE)
 				// verif dans la base si le current_resp est absent :
 				$req = 'SELECT p_num 
 	                                     FROM conges_periode 
-	                                     WHERE p_login = \''.$sql->escape($current_resp).'\'
+	                                     WHERE p_login =\''.$sql->escape($current_resp).'\'
 	                                     AND p_etat = \'ok\'
 	                                     AND TO_DAYS(conges_periode.p_date_deb) <= TO_DAYS(NOW()) 
 	                                     AND TO_DAYS(conges_periode.p_date_fin) >= TO_DAYS(NOW())';

@@ -3125,13 +3125,7 @@ function init_config_tab($DEBUG=FALSE)
 	if(isset($config_php_conges_version)) {$tab['php_conges_version']=$config_php_conges_version ;}
 	if(isset($config_url_site_web_php_conges)) {$tab['url_site_web_php_conges']=$config_url_site_web_php_conges ;}
 
-	/******************************************/
-	//  recup des variables de dbconnect.php
-	if(isset($mysql_serveur)) {$tab['mysql_serveur']=$mysql_serveur ;}
-	if(isset($mysql_user)) {$tab['mysql_user']=$mysql_user ;}
-	if(isset($mysql_pass)) {$tab['mysql_pass']=$mysql_pass ;}
-	if(isset($mysql_database)) {$tab['mysql_database']=$mysql_database  ;}
-
+	
 	/******************************************/
 	//  recup des variables de la table conges_appli
 	$sql_appli = "SELECT appli_variable, appli_valeur FROM conges_appli";
@@ -3158,16 +3152,13 @@ function init_config_tab($DEBUG=FALSE)
 		$value=$data[1];
 		$type=$data[2];
 
-		if($value == "FALSE")
-		{
+		if($value == "FALSE") {
 			$value = FALSE;
 		}
-		elseif($value == "TRUE")
-		{
+		elseif($value == "TRUE") {
 			$value = TRUE;
 		}
-		elseif($type=="path")
-		{
+		elseif($type == "path") {
 			$value = $config_php_conges_document_root."/".$value ;
 		}
 
@@ -3177,7 +3168,6 @@ function init_config_tab($DEBUG=FALSE)
 	/******************************************/
 	// recup du nom du fichier de langue ...
 	// on verifie si on est dans le répertoire "install" ou ailleurs ...
-	$script_path = dirname ($_SERVER['SCRIPT_NAME']);
 
 	inculde_lang_file($tab['lang'], $DEBUG);
 

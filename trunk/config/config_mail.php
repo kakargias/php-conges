@@ -181,6 +181,7 @@ function affichage($tab_new_values, $session, $DEBUG=FALSE)
 
 function commit_modif($tab_new_values, $session, $DEBUG=FALSE)
 {
+	$sql=SQL::singleton();
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 
 	if($session=="")

@@ -28,11 +28,6 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 include_once  __DIR__ .'/sql.class.php';
 
-function  connexion_mysql()
-{
-	debug_print_backtrace();
-	die('A remplacer');
-}
 
 
 //
@@ -75,6 +70,23 @@ function requete_mysql($requete,$fonction_name,$debug=FALSE)
    return   $res;
 }
 
+function schars( $htmlspec )
+{
+	return htmlspecialchars( $htmlspec );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 //
 // indique (TRUE / FALSE) si une session est valide (par / au temps de connexion)
 //
@@ -99,11 +111,6 @@ function session_is_valid($session)
 	}
 
 	return $is_valid;
-}
-
-function schars( $htmlspec )
-{
-	return htmlspecialchars( $htmlspec );
 }
 
 //
@@ -324,46 +331,6 @@ function autentification_passwd_conges($username,$password)
 	return   $username_password_ok;
 }
 
-
-
-//
-// supprime les accents d'une chaine de caracteres
-//
-function supprime_accent($string)
-{
-   $string_noaccent = $string;
-   $string_noaccent = strtr($string_noaccent, "áàâäãéèêëíìîïóòôöõúùûüýÿçñ", "aaaaaeeeeiiiiooooouuuuyycn");
-   $string_noaccent = strtr($string_noaccent, "ÁÀÂÄÃÉÈÊËÍÌÎÏÓÒÔÖÕÚÙÛÜÝYÇÑ", "AAAAAEEEEIIIIOOOOOUUUUYYCN");
-
-   return $string_noaccent;
-}
-
-
-//
-// genère le mot de passe MySQL à partir du mot de passe en clair
-//
-function make_mysql_password($password)
-{
-
-
-   $mysqlpassword="";
-
-   $req_password = "SELECT OLD_PASSWORD('$password'),PASSWORD('$password')";
-   $res_password = $sql->query($req_password) or die("make_mysql_password() : Erreur ".$sql->error);
-
-   if ($row_password = $res_password->fetch_array())  /* si un enregistrement deja dans la table unix */
-   {
-      $mysql_old_password=$row_password["OLD_PASSWORD('$password')"];
-      $mysql_new_password=$row_password["PASSWORD('$password')"];
-
-      //
-      // ATTENTION : selon la version de MySQL ...
-      //
-      $mysqlpassword=$mysql_old_password;
-   }
-
-   return $mysqlpassword;
-}
 
 // authentification du login/passwd sur un serveur LDAP
 // - renvoie $username si authentification OK

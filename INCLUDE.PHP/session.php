@@ -30,7 +30,6 @@ include_once __DIR__ .'/sql.class.php';
 
 //
 // MAIN
--
 //
 
 /*** initialisation des variables ***/
@@ -197,20 +196,9 @@ else    //  PAS DE SESSION   ($session == "")
 					// on initialise la nouvelle session
 					session_create($session_username);
 					
-					// on log la connexion du user 
-					if(!isset($session))
-					{
-						//connexion mysql
-							
-						$comment_log = "Connexion de $session_username";
-						log_action(0, "", $session_username, $comment_log, $DEBUG);
-						
-					}
-					else
-					{
-						$comment_log = "Connexion de $session_username";
-						log_action(0, "", $session_username, $comment_log,  $DEBUG);
-					}
+					$comment_log = 'Connexion de '.$session_username;
+					log_action(0, '', $session_username, $comment_log, $DEBUG);
+
 				}
 			}
 		}

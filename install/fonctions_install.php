@@ -64,8 +64,8 @@ function test_database($DEBUG=FALSE)
 	if( empty($mysql_serveur) || empty($mysql_user) || empty($mysql_pass) || empty($mysql_database)  )
 		return false;
 	
-	$sql = SQL::singleton();
-	return ($sql->connect_errno == 0 );
+
+	return (SQL::connect_errno == 0 );
 }
 
 
@@ -76,7 +76,7 @@ function get_installed_version( $DEBUG=FALSE)
 	$installed_version=0;
 	
 	$sql1="SELECT conf_valeur FROM conges_config WHERE conf_nom='installed_version' ";
-	if($reglog= $sql->query($sql1))
+	if($reglog= SQL::query($sql1))
 	{
 		// la table existe !
 		if($result=$reglog->fetch_array())
@@ -96,7 +96,7 @@ function get_installed_version( $DEBUG=FALSE)
 // renvoit TRUE ou FALSE
 function test_create_table( $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
+
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 
 	/*********************************************/
@@ -106,7 +106,7 @@ function test_create_table( $DEBUG=FALSE)
 				`test2` varchar(100) BINARY NOT NULL default '',
  				 PRIMARY KEY  (`test1`)
 				) ;" ;
-	$result_create = $sql->query($sql_create);
+	$result_create = SQL::query($sql_create);
 	return ($result_create);
 }
 
@@ -120,7 +120,7 @@ function test_alter_table( $DEBUG=FALSE)
 	/*********************************************/
 	// alter de la table `conges_test`
 	$sql_alter="ALTER TABLE `conges_test` CHANGE `test2` `test2` varchar(150) ;" ;
-	$result_alter = $sql->query($sql_alter) ;
+	$result_alter = SQL::query($sql_alter) ;
 	return ($result_alter);
 }
 
@@ -129,13 +129,13 @@ function test_alter_table( $DEBUG=FALSE)
 // renvoit TRUE ou FALSE
 function test_drop_table( $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
+
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 
 	/*********************************************/
 	// suppression de la table `conges_test`
 	$sql_drop="DROP TABLE `conges_test` ;" ;
-	$result_drop = $sql->query($sql_drop);
+	$result_drop = SQL::query($sql_drop);
 	return $result_drop;
 }
 

@@ -94,15 +94,15 @@ include("../menu.php");
 
 function confirmer($p_num, $onglet, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
+
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id() ;
 
 
 	// Récupération des informations
-	$sql1 = 'SELECT p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_nb_jours, p_commentaire, p_type, p_num FROM conges_periode WHERE p_num = \''.$sql->escape($p_num).'\'';
+	$sql1 = 'SELECT p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_nb_jours, p_commentaire, p_type, p_num FROM conges_periode WHERE p_num = \''.SQL::escape($p_num).'\'';
 	//printf("sql1 = %s<br>\n", $sql1);
-	$ReqLog1 = requete_mysql($sql1) ;
+	$ReqLog1 = SQL::query($sql1) ;
 
 	// AFFICHAGE TABLEAU
 	echo "<form action=\"$PHP_SELF\" method=\"POST\">\n"  ;
@@ -158,15 +158,15 @@ function confirmer($p_num, $onglet, $DEBUG=FALSE)
 
 function suppression($p_num_to_delete, $onglet, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
+
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id() ;
 
 
 	//$sql_delete = "DELETE FROM conges_periode WHERE p_num = $p_num_to_delete AND p_etat='demande' AND p_login='".$_SESSION['userlogin']."' ;" ;
-	$sql_delete = 'DELETE FROM conges_periode WHERE p_num = '.$sql->escape($p_num_to_delete).';';
+	$sql_delete = 'DELETE FROM conges_periode WHERE p_num = '.SQL::escape($p_num_to_delete).';';
 
-	$result_delete = requete_mysql($sql_delete);
+	$result_delete = SQL::query($sql_delete);
 
 	$comment_log = "suppression de demande num $p_num_to_delete";
 	log_action($p_num_to_delete, "", $_SESSION['userlogin'], $comment_log, $DEBUG);

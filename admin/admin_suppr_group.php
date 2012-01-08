@@ -94,7 +94,7 @@ echo "</html>\n";
 
 function confirmer($group, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
+
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
@@ -102,8 +102,8 @@ function confirmer($group, $DEBUG=FALSE)
 	/* Groupe en cours */
 	/*******************/
 	// Récupération des informations
-	$sql1 = 'SELECT g_groupename, g_comment, g_double_valid FROM conges_groupe WHERE g_gid = \''.$sql->escape($group).'\'';
-	$ReqLog1 = requete_mysql($sql1);
+	$sql1 = 'SELECT g_groupename, g_comment, g_double_valid FROM conges_groupe WHERE g_gid = \''.SQL::escape($group).'\'';
+	$ReqLog1 = SQL::query($sql1);
 
 	// AFFICHAGE TABLEAU
 
@@ -138,23 +138,23 @@ function confirmer($group, $DEBUG=FALSE)
 
 function suppression_group($group_to_delete,  $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
+
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
-	$sql1 = 'DELETE FROM conges_groupe WHERE g_gid = '.$sql->escape($group_to_delete);
-	$result = requete_mysql($sql1);
+	$sql1 = 'DELETE FROM conges_groupe WHERE g_gid = '.SQL::escape($group_to_delete);
+	$result = SQL::query($sql1);
 
-	$sql2 = 'DELETE FROM conges_groupe_users WHERE gu_gid = '.$sql->escape($group_to_delete);
-	$result2 = requete_mysql($sql2);
+	$sql2 = 'DELETE FROM conges_groupe_users WHERE gu_gid = '.SQL::escape($group_to_delete);
+	$result2 = SQL::query($sql2);
 
-	$sql3 = 'DELETE FROM conges_groupe_resp WHERE gr_gid = '.$sql->escape($group_to_delete);
-	$result3 = requete_mysql($sql3);
+	$sql3 = 'DELETE FROM conges_groupe_resp WHERE gr_gid = '.SQL::escape($group_to_delete);
+	$result3 = SQL::query($sql3);
 
 	if($_SESSION['config']['double_validation_conges']==TRUE)
 	{
-		$sql4 = 'DELETE FROM conges_groupe_grd_resp WHERE ggr_gid = '.$sql->escape($group_to_delete);
-        	$result4 = requete_mysql($sql4);
+		$sql4 = 'DELETE FROM conges_groupe_grd_resp WHERE ggr_gid = '.SQL::escape($group_to_delete);
+        	$result4 = SQL::query($sql4);
 	}
 
 	$comment_log = "suppression_groupe ($group_to_delete)";

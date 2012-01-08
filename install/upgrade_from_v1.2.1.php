@@ -97,23 +97,23 @@ function e1_maj_table_conges_type_absence( $DEBUG=FALSE)
 	# on permet l'ajout d'un type "absences"
 	$sql_alter_1=" ALTER TABLE `conges_type_absence` CHANGE `ta_type` `ta_type` enum ('conges', 'conges_exceptionnels', 'absence', 'absences') ";
 	if($DEBUG==FALSE)
-		$result_alter_1 = $sql->query($sql_alter_1);
+		$result_alter_1 = SQL::query($sql_alter_1);
 	else
-		$result_update = $sql->query($sql_alter_1)  ;
+		$result_update = SQL::query($sql_alter_1)  ;
 
 	# on modifie le type "absence" en "absences"
 	$sql_update=" UPDATE `conges_type_absence` SET `ta_type` = 'absences' where `ta_type` = 'absence'";
 	if($DEBUG==FALSE)
-		$result_update = $sql->query($sql_update);
+		$result_update = SQL::query($sql_update);
 	else
-		$result_update = $sql->query($sql_update)  ;
+		$result_update = SQL::query($sql_update)  ;
 
 	# on supprime la possibilité d'avoir un type "absence"
 	$sql_alter_2=" ALTER TABLE `conges_type_absence` CHANGE `ta_type` `ta_type` enum ('conges', 'conges_exceptionnels', 'absences')";
 	if($DEBUG==FALSE)
-		$result_alter_2 = $sql->query($sql_alter_2);
+		$result_alter_2 = SQL::query($sql_alter_2);
 	else
-		$result_alter_2 = $sql->query($sql_alter_2)  ;		
+		$result_alter_2 = SQL::query($sql_alter_2)  ;		
 
 }
 
@@ -126,21 +126,21 @@ function e2_insert_into_conges_config( $DEBUG=FALSE)
 
 	$sql_insert="INSERT INTO `conges_config` VALUES ('gestion_conges_exceptionnels', 'FALSE', '12_Fonctionnement de l\'Etablissement', 'boolean', 'config_comment_gestion_conges_exceptionnels')";
 	if($DEBUG==FALSE)
-		$result_insert = $sql->query($sql_insert);
+		$result_insert = SQL::query($sql_insert);
 	else
-		$result_insert = $sql->query($sql_insert)  ;
+		$result_insert = SQL::query($sql_insert)  ;
 	
 	$sql_insert_2="INSERT INTO `conges_config` VALUES ('grand_resp_ajout_conges', 'FALSE', '12_Fonctionnement de l\'Etablissement', 'boolean', 'config_comment_grand_resp_ajout_conges')";
 	if($DEBUG==FALSE)
-		$result_insert_2 = $sql->query($sql_insert_2);
+		$result_insert_2 = SQL::query($sql_insert_2);
 	else
-		$result_insert_2 = $sql->query($sql_insert_2)  ;
+		$result_insert_2 = SQL::query($sql_insert_2)  ;
 	
 	$sql_insert_3="INSERT INTO `conges_config` VALUES ('interdit_saisie_periode_date_passee', 'FALSE', '13_Divers', 'boolean', 'config_comment_interdit_saisie_periode_date_passee')";
 	if($DEBUG==FALSE)
-		$result_insert_3 = $sql->query($sql_insert_3);
+		$result_insert_3 = SQL::query($sql_insert_3);
 	else
-		$result_insert_3 = $sql->query($sql_insert_3)  ;
+		$result_insert_3 = SQL::query($sql_insert_3)  ;
 	
 }
 
@@ -160,9 +160,9 @@ function e3_create_table_conges_historique_ajout( $DEBUG=FALSE)
 					 PRIMARY KEY (`ha_login`, `ha_date`, `ha_abs_id` )
 					) DEFAULT CHARSET=latin1 ";
 	if($DEBUG==FALSE)
-		$result_create = $sql->query($sql_create);
+		$result_create = SQL::query($sql_create);
 	else
-		$result_create = $sql->query($sql_create)  ;
+		$result_create = SQL::query($sql_create)  ;
 	
 }
 
@@ -184,9 +184,9 @@ function e4_create_table_conges_logs( $DEBUG=FALSE)
 				   PRIMARY KEY  (`log_id`)
 					) DEFAULT CHARSET=latin1 ";
 	if($DEBUG==FALSE)
-		$result_create_logs = $sql->query($sql_create_logs);
+		$result_create_logs = SQL::query($sql_create_logs);
 	else
-		$result_create_logs = $sql->query($sql_create_logs)  ;
+		$result_create_logs = SQL::query($sql_create_logs)  ;
 	
 }
 					

@@ -469,7 +469,7 @@ function insert_year($tab_checkbox_j_chome,$DEBUG=FALSE)
 	foreach($tab_checkbox_j_chome as $key => $value)
 	{
 		$sql_insert="INSERT INTO conges_jours_feries SET jf_date='$key' ;";
-		$result = requete_mysql($sql_insert);
+		$result = SQL::query($sql_insert);
 	}
 
 	return TRUE;
@@ -477,28 +477,28 @@ function insert_year($tab_checkbox_j_chome,$DEBUG=FALSE)
 
 function delete_year($tab_checkbox_j_chome, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
+
 	$date_1=key($tab_checkbox_j_chome);
 	$year=substr($date_1, 0, 4);
 	//echo "year= $year<br>\n";
-	$sql_delete='DELETE FROM conges_jours_feries WHERE jf_date LIKE \''.$sql->escape($year).'%\' ;';
-	$result = requete_mysql($sql_delete);
+	$sql_delete='DELETE FROM conges_jours_feries WHERE jf_date LIKE \''.SQL::escape($year).'%\' ;';
+	$result = SQL::query($sql_delete);
 
 	return TRUE;
 }
 
 function verif_year_deja_saisie($tab_checkbox_j_chome, $DEBUG=FALSE)
 {
-	$sql=SQL :: singleton();
+
 	$date_1=key($tab_checkbox_j_chome);
 	$year=substr($date_1, 0, 4);
 	//echo "year= $year<br>\n";
-	$sql_select='SELECT jf_date FROM conges_jours_feries WHERE jf_date LIKE \''.$sql->escape($year).'%\' ;';
-	$relog = $sql -> query($sql_select);
+	$sql_select='SELECT jf_date FROM conges_jours_feries WHERE jf_date LIKE \''.SQL::escape($year).'%\' ;';
+	$relog = SQL::query($sql_select);
 //	attention ne fonctionne pas avec requete_mysql
-//	$relog = requete_mysql($sql_select);
+//	$relog = SQL::query($sql_select);
 
-	$count=$relog -> num_rows;
+	$count=$relog->num_rows;
 	return($count != 0);
 }
 
@@ -506,16 +506,16 @@ function verif_year_deja_saisie($tab_checkbox_j_chome, $DEBUG=FALSE)
 // retourne un tableau des jours feriés de l'année dans un tables passé par référence
 function get_tableau_jour_feries($year, &$tab_year,  $DEBUG=FALSE)
 {
-	$sql=SQL :: singleton();
-	$sql_select='SELECT jf_date FROM conges_jours_feries WHERE jf_date LIKE \''.$sql->escape($year).'-%\' ;';
-	$res_select = $sql -> query($sql_select);
+
+	$sql_select='SELECT jf_date FROM conges_jours_feries WHERE jf_date LIKE \''.SQL::escape($year).'-%\' ;';
+	$res_select = SQL::query($sql_select);
 //	attention ne fonctionne pas avec requete_mysql
-//	$res_select = requete_mysql($sql_select);
-	$num_select = $res_select -> num_rows;
+//	$res_select = SQL::query($sql_select);
+	$num_select = $res_select->num_rows;
 
 	if($num_select!=0)
 	{
-		while($result_select = $res_select -> fetch_array())
+		while($result_select = $res_select->fetch_array())
 		{
 			$tab_year[]=$result_select["jf_date"];
 		}

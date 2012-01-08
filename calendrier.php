@@ -686,7 +686,7 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 // affichage de la cellule correspondant au jour et au user considéré
 function affiche_cellule_jour_user($sql_login, $j_timestamp, $year_select, $mois_select, $j, $second_class, $printable, $tab_calendrier, $tab_rtt_echange, $tab_rtt_planifiees, $tab_type_absence,  $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
+
 	$session=session_id();
 
 	$return = array();						
@@ -1012,7 +1012,7 @@ function get_class_titre($sql_p_type, $tab_type_absence, $sql_p_etat, $sql_p_fer
 /**************************************************/
 function recup_tableau_periodes($mois, $first_jour, $year,  $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
+
 	$tab_calendrier=array();  //tableau indexé dont la clé est la date sous forme yyyy-mm-dd
 						//il contient pour chaque clé : un tableau ($tab_jour) qui contient lui même des
 						// tableaux indexés contenant les infos des periode de conges dont ce jour fait partie
@@ -1029,11 +1029,11 @@ function recup_tableau_periodes($mois, $first_jour, $year,  $DEBUG=FALSE)
 		//$user_periode_sql = "SELECT  p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_type, p_etat FROM conges_periode WHERE ( p_etat='ok' OR  p_etat='demande' OR  p_type='formation' OR  p_type='mission' OR  p_type='autre' ) AND (p_date_deb<='$date_j' AND p_date_fin>='$date_j') ORDER BY p_date_deb ";
 		$user_periode_sql = 'SELECT  p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_type, p_etat, p_fermeture_id, p_commentaire
 						FROM conges_periode
-						WHERE ( p_etat=\'ok\' OR  p_etat=\'demande\' OR  p_etat=\'valid\') AND (p_date_deb<=\''.$sql->escape($date_j).'\' AND p_date_fin>=\''.$sql->escape($date_j).'\')
+						WHERE ( p_etat=\'ok\' OR  p_etat=\'demande\' OR  p_etat=\'valid\') AND (p_date_deb<=\''.SQL::escape($date_j).'\' AND p_date_fin>=\''.SQL::escape($date_j).'\')
 						ORDER BY p_date_deb ';
 
 		//echo "user_periode_sql = $user_periode_sql<br>\n";
-		$user_periode_request = requete_mysql($user_periode_sql);
+		$user_periode_request = SQL::query($user_periode_sql);
 
 		$nb_resultat_periode = $user_periode_request->num_rows;
 		while($resultat_periode=$user_periode_request->fetch_array())
@@ -1071,9 +1071,9 @@ function recup_tableau_periodes($mois, $first_jour, $year,  $DEBUG=FALSE)
 
 			$user_periode_sql = 'SELECT  p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_type, p_etat,  p_fermeture_id
 							FROM conges_periode 
-							WHERE ( p_etat=\'ok\' OR  p_etat=\'demande\' OR  p_etat=\'valid\') AND (p_date_deb<=\''.$sql->escape($date_j).'\' AND p_date_fin>=\''.$sql->escape($date_j).'\') ';
+							WHERE ( p_etat=\'ok\' OR  p_etat=\'demande\' OR  p_etat=\'valid\') AND (p_date_deb<=\''.SQL::escape($date_j).'\' AND p_date_fin>=\''.SQL::escape($date_j).'\') ';
 			//echo "user_periode_sql = $user_periode_sql<br>\n";
-			$user_periode_request = requete_mysql($user_periode_sql);
+			$user_periode_request = SQL::query($user_periode_sql);
 
 			$nb_resultat_periode = $user_periode_request->num_rows;
 			while($resultat_periode=$user_periode_request->fetch_array())
@@ -1107,7 +1107,7 @@ function recup_tableau_periodes($mois, $first_jour, $year,  $DEBUG=FALSE)
 // affiche les groupes du user OU les groupes du resp (si user est resp) OU tous ls groupes (si option de config ok)
 function affiche_select_groupe($select_groupe, $selected, $printable, $year, $mois, $first_jour,  $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
+
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
@@ -1161,7 +1161,7 @@ function affiche_select_groupe($select_groupe, $selected, $printable, $year, $mo
 // renvoit un tableau de tableau
 function recup_tableau_des_users_a_afficher($select_groupe,  $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
+
 		// si acces sans authentification est permis : alors droit de voir tout le monde
 		// sinon, on verifie si le user a le droite de voir tout le monde
 		if( ($_SESSION['config']['consult_calendrier_sans_auth']==TRUE) && (!isset($_SESSION['userlogin'])) )
@@ -1221,7 +1221,7 @@ function recup_tableau_des_users_a_afficher($select_groupe,  $DEBUG=FALSE)
 				{
 					$sql1 = "SELECT DISTINCT u_login, u_nom, u_prenom, u_quotite FROM conges_users ";
 					$sql1 = $sql1." WHERE u_login!='conges' AND u_login!='admin' ";
-					$sql1 = $sql1.' AND ( u_login = \''.$sql->escape($_SESSION['userlogin']).'\' ';
+					$sql1 = $sql1.' AND ( u_login = \''.SQL::escape($_SESSION['userlogin']).'\' ';
 	
 					//recup de la liste des users des groupes dont le user est membre
 					$list_users=get_list_users_du_groupe($select_groupe,  $DEBUG);
@@ -1258,7 +1258,7 @@ function recup_tableau_des_users_a_afficher($select_groupe,  $DEBUG=FALSE)
 		
 						if($_SESSION['userlogin']!="conges")
 						{
-							$sql1 = $sql1.' AND ( u_login = \''.$sql->escape($_SESSION['userlogin']).'\' ';
+							$sql1 = $sql1.' AND ( u_login = \''.SQL::escape($_SESSION['userlogin']).'\' ';
 		
 							//si affichage par groupe : on affiche les membres des groupes du user ($_SESSION['userlogin'])
 							if( ($_SESSION['config']['gestion_groupes']==TRUE) && ($_SESSION['config']['affiche_groupe_in_calendrier']==TRUE) )
@@ -1285,7 +1285,7 @@ function recup_tableau_des_users_a_afficher($select_groupe,  $DEBUG=FALSE)
 			}
 		}
 
-		$ReqLog = requete_mysql($sql1);
+		$ReqLog = SQL::query($sql1);
 		$tab_all_users=array();
 		while ($resultat = $ReqLog->fetch_array())
 		{

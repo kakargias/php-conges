@@ -29,45 +29,6 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 include_once  __DIR__ .'/sql.class.php';
 
 
-
-//
-// AFFICHAGE de la requete SQL   si debug == TRUE
-// EXECUTION de la requete SQL   si debug != TRUE
-//
-function requete_mysql($requete)
-{
-   //
-   // PARAMETRES :
-   //  - $requete          : requete SQL a executer
-   //
-	$sql=SQL :: singleton();
-
-	if ($debug != TRUE)
-	{
-		$res = $sql->query($requete)   ;
-	}
-	else
-	{
-      echo "DEBUG : $fonction_name() : requete='$requete'<BR>\n";
-		if(preg_match('/^.*SELECT.+FROM.+$/i' , $requete))
-		{
-			$res = $sql->query($requete)   ;
-			echo "requete executée ...<BR>\n";
-		}
-		elseif(preg_match('/^.*DESCRIBE.*$/i' , $requete))      {
-			$res = $sql->query($requete)   ;
-			echo "requete non executée ...<BR>\n";
-		}
-		else
-		{
-			echo "requete non reconnue ; non executée ...<BR>\n";
-			$res = TRUE;
-		}
-	}
-
-   return   $res;
-}
-
 function schars( $htmlspec )
 {
 	return htmlspecialchars( $htmlspec );
@@ -310,7 +271,7 @@ function session_saisie_user_password($erreur, $session_username, $session_passw
 function autentification_passwd_conges($username,$password)
 {
 	// connexion MySQL + selection de la database sur le serveur
-	$sql = SQL::singleton();
+
 	
 	
 	$username_password_ok="";
@@ -318,8 +279,8 @@ function autentification_passwd_conges($username,$password)
 	$password_md5=md5($password);
 //	$req_conges="SELECT u_passwd   FROM conges_users   WHERE u_login='$username' AND u_passwd='$password_md5' " ;
 	// on conserve le double mode d'autentificatio (nouveau cryptage (md5) ou ancien cryptage (mysql))
-	$req_conges='SELECT u_passwd   FROM conges_users   WHERE u_login=\''. $sql->real_escape_string( $username ) .'\' AND ( u_passwd=\''. $sql->real_escape_string( $password_md5) .'\' OR u_passwd=PASSWORD(\''.$password.'\') ) ' ;
-	$res_conges = $sql->query($req_conges) ;
+	$req_conges='SELECT u_passwd   FROM conges_users   WHERE u_login=\''. SQL::real_escape_string( $username ) .'\' AND ( u_passwd=\''. SQL::real_escape_string( $password_md5) .'\' OR u_passwd=PASSWORD(\''.$password.'\') ) ' ;
+	$res_conges = SQL::query($req_conges) ;
 	$num_row_conges = $res_conges->num_rows;
 	if ($num_row_conges !=0)
 	{
@@ -398,8 +359,8 @@ function authentification_passwd_conges_CAS()
 	session_create($usernameCAS);
 	
 	//ON VERIFIE ICI QUE L'UTILISATEUR EST DEJA ENREGISTRE SOUS DBCONGES
-	$req_conges = 'SELECT u_login FROM conges_users WHERE u_login=\''.$sql->escape($usernameCAS);
-	$res_conges = $sql->query($req_conges) ;
+	$req_conges = 'SELECT u_login FROM conges_users WHERE u_login=\''.SQL::escape($usernameCAS);
+	$res_conges = SQL::query($req_conges) ;
 	$num_row_conges = $res_conges->num_rows;
 	if($num_row_conges !=0)
 		$username_password_ok = $usernameCAS;

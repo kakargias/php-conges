@@ -122,7 +122,7 @@ echo "</CENTER>\n";
 
 function confirmer($u_login, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
+
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
@@ -139,8 +139,8 @@ function confirmer($u_login, $DEBUG=FALSE)
 	echo "</tr>\n";
 
 	// Récupération des informations
-	$sql1 = 'SELECT u_login, u_nom, u_prenom FROM conges_users WHERE u_login = \''.$sql->escape($u_login).'\'';
-	$ReqLog1 = requete_mysql($sql1);
+	$sql1 = 'SELECT u_login, u_nom, u_prenom FROM conges_users WHERE u_login = \''.SQL::escape($u_login).'\'';
+	$ReqLog1 = SQL::query($sql1);
 
 	echo "<tr align=\"center\">\n";
 	while ($resultat1 = $ReqLog1->fetch_array())
@@ -162,31 +162,31 @@ function confirmer($u_login, $DEBUG=FALSE)
 
 function suppression($u_login_to_delete, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
+
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 	//echo($u_login_to_delete."---".$u_login_to_delete."<br>");
 
-	$sql1 = 'DELETE FROM conges_users WHERE u_login = \''.$sql->escape($u_login_to_delete).'\'';
-	$result = requete_mysql($sql1);
+	$sql1 = 'DELETE FROM conges_users WHERE u_login = \''.SQL::escape($u_login_to_delete).'\'';
+	$result = SQL::query($sql1);
 
-	$sql2 = 'DELETE FROM conges_periode WHERE p_login = \''.$sql->escape($u_login_to_delete).'\'';
-	$result2 = requete_mysql($sql2);
+	$sql2 = 'DELETE FROM conges_periode WHERE p_login = \''.SQL::escape($u_login_to_delete).'\'';
+	$result2 = SQL::query($sql2);
 
-	$sql3 = 'DELETE FROM conges_artt WHERE a_login = \''.$sql->escape($u_login_to_delete).'\'';
-	$result3 = requete_mysql($sql3);
+	$sql3 = 'DELETE FROM conges_artt WHERE a_login = \''.SQL::escape($u_login_to_delete).'\'';
+	$result3 = SQL::query($sql3);
 
-	$sql4 = 'DELETE FROM conges_echange_rtt WHERE e_login = \''.$sql->escape($u_login_to_delete).'\'';
-	$result4 = requete_mysql($sql4);
+	$sql4 = 'DELETE FROM conges_echange_rtt WHERE e_login = \''.SQL::escape($u_login_to_delete).'\'';
+	$result4 = SQL::query($sql4);
 
-	$sql5 = 'DELETE FROM conges_groupe_resp WHERE gr_login = \''.$sql->escape($u_login_to_delete).'\'';
-	$result5 = requete_mysql($sql5);
+	$sql5 = 'DELETE FROM conges_groupe_resp WHERE gr_login = \''.SQL::escape($u_login_to_delete).'\'';
+	$result5 = SQL::query($sql5);
 
-	$sql6 = 'DELETE FROM conges_groupe_users WHERE gu_login = \''.$sql->escape($u_login_to_delete).'\'';
-	$result6 = requete_mysql($sql6);
+	$sql6 = 'DELETE FROM conges_groupe_users WHERE gu_login = \''.SQL::escape($u_login_to_delete).'\'';
+	$result6 = SQL::query($sql6);
 
-	$sql7 = 'DELETE FROM conges_solde_user WHERE su_login = \''.$sql->escape($u_login_to_delete).'\'';
-	$result7 = requete_mysql($sql7);
+	$sql7 = 'DELETE FROM conges_solde_user WHERE su_login = \''.SQL::escape($u_login_to_delete).'\'';
+	$result7 = SQL::query($sql7);
 
 
 	$comment_log = "suppression_user ($u_login_to_delete)";

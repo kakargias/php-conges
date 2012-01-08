@@ -120,7 +120,7 @@ function affichage($tab_new_values, $session, $DEBUG=FALSE)
 
 	//requête qui récupère les informations de la table conges_type_absence
 	$sql1 = "SELECT * FROM conges_mail ";
-	$ReqLog1 = requete_mysql($sql1);
+	$ReqLog1 = SQL::query($sql1);
 
 	echo "    <form action=\"$URL\" method=\"POST\"> \n";
 	while ($data = $ReqLog1->fetch_array())
@@ -181,7 +181,7 @@ function affichage($tab_new_values, $session, $DEBUG=FALSE)
 
 function commit_modif($tab_new_values, $session, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
+
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 
 	if($session=="")
@@ -195,8 +195,8 @@ function commit_modif($tab_new_values, $session, $DEBUG=FALSE)
 	{
 		$subject = addslashes($tab_mail['subject']);
 		$body = addslashes($tab_mail['body']) ;
-		$req_update='UPDATE conges_mail SET mail_subject=\''.$subject.'\', mail_body=\''.$body.'\' WHERE mail_nom=\''.$sql->escape($nom_mail).'\' ';
-		$result1 = requete_mysql($req_update);
+		$req_update='UPDATE conges_mail SET mail_subject=\''.$subject.'\', mail_body=\''.$body.'\' WHERE mail_nom=\''.SQL::escape($nom_mail).'\' ';
+		$result1 = SQL::query($req_update);
 	}
 	echo "<span class = \"messages\">".$_SESSION['lang']['form_modif_ok']."</span><br>";
 

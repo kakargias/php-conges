@@ -74,7 +74,7 @@ if($DEBUG==TRUE) { echo "SESSION = <br>\n"; print_r($_SESSION); echo "<br><br>\n
 // install la nouvelle version dans une database vide ... et config
 function lance_install($lang, $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
+
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	
 	include("../dbconnect.php") ;
@@ -108,10 +108,10 @@ function lance_install($lang, $DEBUG=FALSE)
 		/*************************************/
 		// FIN : mise à jour de la "installed_version" et de la langue dans la table conges_config
 		$sql_update_version="UPDATE conges_config SET conf_valeur = '$config_php_conges_version' WHERE conf_nom='installed_version' ";
-		$result_update_version = $sql->query($sql_update_version) ;
+		$result_update_version = SQL::query($sql_update_version) ;
 
 		$sql_update_lang="UPDATE conges_config SET conf_valeur = '$lang' WHERE conf_nom='lang' ";
-		$result_update_lang = $sql->query($sql_update_lang) ;
+		$result_update_lang = SQL::query($sql_update_lang) ;
 		
 		$tab_url=explode("/", $_SERVER['PHP_SELF']);
 
@@ -121,7 +121,7 @@ function lance_install($lang, $DEBUG=FALSE)
 		$url_accueil= implode("/", $tab_url) ;  // on prend l'url complet sans le /install/install.php à la fin
 		
 		$sql_update_lang="UPDATE conges_config SET conf_valeur = '$url_accueil' WHERE conf_nom='URL_ACCUEIL_CONGES' ";
-		$result_update_lang = $sql->query($sql_update_lang) ;
+		$result_update_lang = SQL::query($sql_update_lang) ;
 		
 		
 		$comment_log = "Install de php_conges (version = $config_php_conges_version) ";

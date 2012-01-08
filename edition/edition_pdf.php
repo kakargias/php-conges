@@ -174,7 +174,7 @@ function edition_pdf($login, $edit_id,  $DEBUG=FALSE)
 			//$ligne120="123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
 			//$pdf->Cell(0, 5, $ligne120 ,0,1,'C');
 			
-			$sql = SQL::singleton();
+
 			
 			// Récupération des informations
 			// on ne recup QUE les periodes de l'edition choisie
@@ -182,7 +182,7 @@ function edition_pdf($login, $edit_id,  $DEBUG=FALSE)
 			$sql2=$sql2."FROM conges_periode ";
 			$sql2=$sql2."WHERE p_edition_id = $edit_id ";
 			$sql2=$sql2."ORDER BY p_date_deb ASC ";
-			$ReqLog2 = $sql->query($sql2) ;
+			$ReqLog2 = SQL::query($sql2) ;
 	
 			$count2=$ReqLog2->num_rows;
 			if($count2==0)

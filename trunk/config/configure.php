@@ -112,7 +112,7 @@ function affichage($session, $DEBUG=FALSE)
 
 	//requête qui récupère les informations de config
 	$sql1 = "SELECT * FROM conges_config ORDER BY conf_groupe ASC";
-	$ReqLog1 = requete_mysql($sql1);
+	$ReqLog1 = SQL::query($sql1);
 
 	$old_groupe="";
 	while ($data =$ReqLog1->fetch_array())
@@ -211,7 +211,7 @@ function affichage($session, $DEBUG=FALSE)
 
 function commit_saisie(&$tab_new_values, $session, $DEBUG=FALSE)
 {
-$sql=SQL::singleton();
+
 //$DEBUG=TRUE;
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 
@@ -226,7 +226,7 @@ $sql=SQL::singleton();
 		if(($key=="gestion_conges_exceptionnels") && ($value=="FALSE") )
 		{
 			$sql_abs="SELECT ta_id, ta_libelle FROM conges_type_absence WHERE ta_type='conges_exceptionnels' ";
-			$ReqLog_abs = requete_mysql($sql_abs);
+			$ReqLog_abs = SQL::query($sql_abs);
 
 			if($ReqLog_abs->num_rows !=0)
 			{
@@ -245,7 +245,7 @@ $sql=SQL::singleton();
 			{		
 				echo "<b>".$_SESSION['lang']['config_jour_mois_limite_reliquats_modif_impossible']."</b><br>\n";
 				$sql_date="SELECT conf_valeur FROM conges_config WHERE conf_nom='jour_mois_limite_reliquats' ";
-				$ReqLog_date = requete_mysql($sql_date);
+				$ReqLog_date = SQL::query($sql_date);
 				$data = $ReqLog_date->fetch_row();
 				$value = $data[0] ;
 				$timeout=5 ;
@@ -253,8 +253,8 @@ $sql=SQL::singleton();
 		}
 		
 		// Mise à jour
-		$sql2 = 'UPDATE conges_config SET conf_valeur = \''.$value.'\' WHERE conf_nom =\''.$sql->escape($key).'\' ';
-		$ReqLog2 = requete_mysql($sql2);
+		$sql2 = 'UPDATE conges_config SET conf_valeur = \''.$value.'\' WHERE conf_nom =\''.SQL::escape($key).'\' ';
+		$ReqLog2 = SQL::query($sql2);
 	}
 
 	$_SESSION['config']=init_config_tab();      // on re-initialise le tableau des variables de config

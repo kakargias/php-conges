@@ -80,15 +80,15 @@ echo "</html>\n";
 
 function affichage($login,  $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
+
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
 
-	$sql1 = 'SELECT u_nom, u_prenom, u_quotite FROM conges_users where u_login = \''.$sql->escape($login).'\'';
-	$ReqLog1 = requete_mysql($sql1);
+	$sql1 = 'SELECT u_nom, u_prenom, u_quotite FROM conges_users where u_login = \''.SQL::escape($login).'\'';
+	$ReqLog1 = SQL::query($sql1);
 
-	while ($resultat1 = $ReqLog1 -> fetch_array()) {
+	while ($resultat1 = $ReqLog1->fetch_array()) {
 		$sql_nom=$resultat1["u_nom"];
 		$sql_prenom=$resultat1["u_prenom"];
 		$sql_quotite=$resultat1["u_quotite"];
@@ -129,11 +129,11 @@ function affiche_nouvelle_edition($login,  $DEBUG=FALSE)
 	$sql2=$sql2."AND (p_login = '$login') ";
 	$sql2=$sql2."AND (a.p_type=b.ta_id AND  ( (b.ta_type='conges') OR (b.ta_type='conges_exceptionnels') ) )";
 	$sql2=$sql2."ORDER BY p_date_deb ASC ";
-	$ReqLog2 = requete_mysql($sql2);
+	$ReqLog2 = SQL::query($sql2);
 
 	echo "<h3>".$_SESSION['lang']['editions_last_edition']." :</h3>\n";
 
-	$count2=$ReqLog2 -> num_rows;
+	$count2=$ReqLog2->num_rows;
 	if($count2==0)
 	{
 		echo "<b>".$_SESSION['lang']['editions_aucun_conges']."</b><br>\n";

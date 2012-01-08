@@ -85,13 +85,13 @@ function e1_insert_into_conges_config( $DEBUG=FALSE)
 {
 
 	$sql_insert_1="INSERT INTO `conges_config` VALUES ('calendrier_select_all_groups', 'FALSE', '10_Gestion par groupes', 'boolean', 'config_comment_calendrier_select_all_groups')";
-	$result_insert_1 = $sql->query($sql_insert_1)  ;
+	$result_insert_1 = SQL::query($sql_insert_1)  ;
 		
 	$sql_insert_2="INSERT INTO `conges_config` VALUES ('consult_calendrier_sans_auth', 'FALSE', '04_Authentification', 'boolean', 'config_comment_consult_calendrier_sans_auth')";
-	$result_insert_2 = $sql->query($sql_insert_2)  ;		
+	$result_insert_2 = SQL::query($sql_insert_2)  ;		
 	
 	$sql_insert_3="INSERT INTO `conges_config` VALUES ('resp_ajoute_conges', 'TRUE', '06_Responsable', 'boolean', 'config_comment_resp_ajoute_conges')";
-	$result_insert_3 = $sql->query($sql_insert_3)  ;		
+	$result_insert_3 = SQL::query($sql_insert_3)  ;		
 
 }
 

@@ -96,12 +96,12 @@ echo "</html>\n";
 
 function modifier($group,  $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
+
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
 	// Récupération des informations
-	$sql1 = 'SELECT g_groupename, g_comment, g_double_valid FROM conges_groupe WHERE g_gid = \''.$sql->escape($group).'\'';
+	$sql1 = 'SELECT g_groupename, g_comment, g_double_valid FROM conges_groupe WHERE g_gid = \''.SQL::escape($group).'\'';
 
 	// AFFICHAGE TABLEAU
 	echo "<form action=$PHP_SELF?session=$session&group_to_update=".$group." method=\"POST\">\n" ;
@@ -113,7 +113,7 @@ function modifier($group,  $DEBUG=FALSE)
 		echo "	<td class=\"histo\">".$_SESSION['lang']['admin_groupes_double_valid']."</td>\n";
 	echo "</tr>\n";
 
-	$ReqLog1 = requete_mysql($sql1);
+	$ReqLog1 = SQL::query($sql1);
 	while ($resultat1 = $ReqLog1->fetch_array())
 	{
 		$sql_groupename=$resultat1["g_groupename"];
@@ -165,7 +165,7 @@ function modifier($group,  $DEBUG=FALSE)
 
 function commit_update($group_to_update, $new_groupname, $new_comment, $new_double_valid,  $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
+
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
@@ -176,8 +176,8 @@ function commit_update($group_to_update, $new_groupname, $new_comment, $new_doub
 
 
 	// UPDATE de la table conges_groupe
-	$sql1 = 'UPDATE conges_groupe  SET g_groupename=\''.$new_groupname.'\', g_comment=\''.$new_comment.'\' , g_double_valid=\''.$new_double_valid.'\' WHERE g_gid=\''.$sql->escape($group_to_update).'\''  ;
-	$result1 = requete_mysql($sql1);
+	$sql1 = 'UPDATE conges_groupe  SET g_groupename=\''.$new_groupname.'\', g_comment=\''.$new_comment.'\' , g_double_valid=\''.$new_double_valid.'\' WHERE g_gid=\''.SQL::escape($group_to_update).'\''  ;
+	$result1 = SQL::query($sql1);
 	if($result1==FALSE)
 		$result==FALSE;
 

@@ -91,9 +91,9 @@ function e1_maj_table_conges_config( $DEBUG=FALSE)
 	// mise à jour des param 00_version
 	$sql_update=" UPDATE conges_config SET `conf_groupe` = '14_Presentation'  WHERE `conf_groupe` LIKE '14_Pr%' " ;
 	if($DEBUG==FALSE)
-		$result_update = $sql->query($sql_update);
+		$result_update = SQL::query($sql_update);
 	else
-		$result_update = $sql->query($sql_update)  ;
+		$result_update = SQL::query($sql_update)  ;
 		
 
 }
@@ -107,9 +107,9 @@ function e2_insert_into_conges_config( $DEBUG=FALSE)
 
 	$sql_insert="INSERT INTO `conges_config` VALUES ('affiche_soldes_calendrier', 'TRUE', '13_Divers', 'boolean', 'config_comment_affiche_soldes_calendrier')";
 	if($DEBUG==FALSE)
-		$result_insert = $sql->query($sql_insert);
+		$result_insert = SQL::query($sql_insert);
 	else
-		$result_insert = $sql->query($sql_insert)  ;
+		$result_insert = SQL::query($sql_insert)  ;
 	
 }
 

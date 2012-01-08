@@ -108,75 +108,75 @@ function e1_insert_into_conges_config( $DEBUG=FALSE)
 
 	$sql_insert="INSERT INTO conges_config VALUES ('disable_saise_champ_nb_jours_pris', 'FALSE', '13_Divers', 'boolean', 'config_comment_disable_saise_champ_nb_jours_pris')";
 	if($DEBUG==FALSE)
-		$result_insert = $sql->query($sql_insert);
+		$result_insert = SQL::query($sql_insert);
 	else
-		$result_insert = $sql->query($sql_insert)  ;
+		$result_insert = SQL::query($sql_insert)  ;
 
 	$sql_insert="INSERT INTO conges_config VALUES ('export_ical_vcal', 'TRUE', '13_Divers', 'boolean', 'config_comment_export_ical_vcal')";
 	if($DEBUG==FALSE)
-		$result_insert = $sql->query($sql_insert);
+		$result_insert = SQL::query($sql_insert);
 	else
-		$result_insert = $sql->query($sql_insert)  ;
+		$result_insert = SQL::query($sql_insert)  ;
 
 	$sql_insert="INSERT INTO conges_config VALUES ('semaine_bgcolor', '#FFFFFF', '14_Présentation', 'hidden', 'config_comment_semaine_bgcolor')";
 	if($DEBUG==FALSE)
-		$result_insert = $sql->query($sql_insert);
+		$result_insert = SQL::query($sql_insert);
 	else
-		$result_insert = $sql->query($sql_insert)  ;
+		$result_insert = SQL::query($sql_insert)  ;
 
 	$sql_insert="INSERT INTO conges_config VALUES ('week_end_bgcolor', '#BFBFBF', '14_Présentation', 'hidden', 'config_comment_week_end_bgcolor')";
 	if($DEBUG==FALSE)
-		$result_insert = $sql->query($sql_insert);
+		$result_insert = SQL::query($sql_insert);
 	else
-		$result_insert = $sql->query($sql_insert)  ;
+		$result_insert = SQL::query($sql_insert)  ;
 
 	$sql_insert="INSERT INTO conges_config VALUES ('temps_partiel_bgcolor', '#FFFFC4', '14_Présentation', 'hidden', 'config_comment_temps_partiel_bgcolor')";
 	if($DEBUG==FALSE)
-		$result_insert = $sql->query($sql_insert);
+		$result_insert = SQL::query($sql_insert);
 	else
-		$result_insert = $sql->query($sql_insert)  ;
+		$result_insert = SQL::query($sql_insert)  ;
 
 	$sql_insert="INSERT INTO conges_config VALUES ('conges_bgcolor', '#DEDEDE', '14_Présentation', 'hidden', 'config_comment_conges_bgcolor')";
 	if($DEBUG==FALSE)
-		$result_insert = $sql->query($sql_insert);
+		$result_insert = SQL::query($sql_insert);
 	else
-		$result_insert = $sql->query($sql_insert)  ;
+		$result_insert = SQL::query($sql_insert)  ;
 
 	$sql_insert="INSERT INTO conges_config VALUES ('demande_conges_bgcolor', '#E7C4C4', '14_Présentation', 'hidden', 'config_comment_demande_conges_bgcolor')";
 	if($DEBUG==FALSE)
-		$result_insert = $sql->query($sql_insert);
+		$result_insert = SQL::query($sql_insert);
 	else
-		$result_insert = $sql->query($sql_insert)  ;
+		$result_insert = SQL::query($sql_insert)  ;
 
 	$sql_insert="INSERT INTO conges_config VALUES ('absence_autre_bgcolor', '#D3FFB6', '14_Présentation', 'hidden', 'config_comment_absence_autre_bgcolor')";
 	if($DEBUG==FALSE)
-		$result_insert = $sql->query($sql_insert);
+		$result_insert = SQL::query($sql_insert);
 	else
-		$result_insert = $sql->query($sql_insert)  ;
+		$result_insert = SQL::query($sql_insert)  ;
 
 	$sql_insert="INSERT INTO `conges_config` VALUES ('affiche_bouton_config_mail_pour_admin', 'FALSE', '07_Administrateur', 'boolean', 'config_comment_affiche_bouton_config_mail_pour_admin')";
 	if($DEBUG==FALSE)
-		$result_insert = $sql->query($sql_insert);
+		$result_insert = SQL::query($sql_insert);
 	else
-		$result_insert = $sql->query($sql_insert)  ;
+		$result_insert = SQL::query($sql_insert)  ;
 		
 	$sql_insert="INSERT INTO `conges_config` VALUES ('double_validation_conges', 'FALSE', '12_Fonctionnement de l\'Etablissement', 'boolean', 'config_comment_double_validation_conges')";
 	if($DEBUG==FALSE)
-		$result_insert = $sql->query($sql_insert);
+		$result_insert = SQL::query($sql_insert);
 	else
-		$result_insert = $sql->query($sql_insert)  ;
+		$result_insert = SQL::query($sql_insert)  ;
 	
 	$sql_insert="INSERT INTO `conges_config` VALUES ('mail_prem_valid_conges_alerte_user', 'FALSE', '08_Mail', 'boolean', 'config_comment_mail_prem_valid_conges_alerte_user')";
 	if($DEBUG==FALSE)
-		$result_insert = $sql->query($sql_insert);
+		$result_insert = SQL::query($sql_insert);
 	else
-		$result_insert = $sql->query($sql_insert)  ;
+		$result_insert = SQL::query($sql_insert)  ;
 	
 	$sql_insert="INSERT INTO `conges_config` VALUES ('affiche_date_traitement', 'FALSE', '13_Divers', 'boolean', 'config_comment_affiche_date_traitement')";
 	if($DEBUG==FALSE)
-		$result_insert = $sql->query($sql_insert);
+		$result_insert = SQL::query($sql_insert);
 	else
-		$result_insert = $sql->query($sql_insert)  ;
+		$result_insert = SQL::query($sql_insert)  ;
 	
 	
 }
@@ -196,9 +196,9 @@ function e2_create_table_conges_mail( $DEBUG=FALSE)
 				) ;" ;
 	
 	if($DEBUG==FALSE)
-		$result_create = $sql->query($sql_create);
+		$result_create = SQL::query($sql_create);
 	else
-		$result_create = $sql->query($sql_create)  ;
+		$result_create = SQL::query($sql_create)  ;
 
 }	
 
@@ -211,33 +211,33 @@ function e3_insert_into_conges_mail( $DEBUG=FALSE)
 
 	$sql_insert="INSERT INTO `conges_mail` (`mail_nom`, `mail_subject`, `mail_body`) VALUES ('mail_new_demande', 'APPLI CONGES - Demande de congés', ' __SENDER_NAME__ a solicité une demande de congés dans l''application de gestion des congés.\r\n\r\nMerci de consulter votre application php_conges : __URL_ACCUEIL_CONGES__\r\n\r\n-------------------------------------------------------------------------------------------------------\r\nCeci est un message automatique.')";
 	if($DEBUG==FALSE)
-		$result_insert = $sql->query($sql_insert);
+		$result_insert = SQL::query($sql_insert);
 	else
-		$result_insert = $sql->query($sql_insert)  ;
+		$result_insert = SQL::query($sql_insert)  ;
 
 	$sql_insert="INSERT INTO `conges_mail` (`mail_nom`, `mail_subject`, `mail_body`) VALUES ('mail_valid_conges', 'APPLI CONGES - Congés accepté', ' __SENDER_NAME__ a enregistré/acceptéé un congés pour vous dans l''application de gestion des congés.\r\n\r\nMerci de consulter votre application php_conges : __URL_ACCUEIL_CONGES__\r\n\r\n-------------------------------------------------------------------------------------------------------\r\nCeci est un message automatique.');";
 	if($DEBUG==FALSE)
-		$result_insert = $sql->query($sql_insert);
+		$result_insert = SQL::query($sql_insert);
 	else
-		$result_insert = $sql->query($sql_insert)  ;
+		$result_insert = SQL::query($sql_insert)  ;
 
 	$sql_insert="INSERT INTO `conges_mail` (`mail_nom`, `mail_subject`, `mail_body`) VALUES ('mail_refus_conges', 'APPLI CONGES - Congés refusé', ' __SENDER_NAME__ a refusé une demande de congés pour vous dans l''application de gestion des congés.\r\n\r\nMerci de consulter votre application php_conges : __URL_ACCUEIL_CONGES__\r\n\r\n-------------------------------------------------------------------------------------------------------\r\nCeci est un message automatique.');";
 	if($DEBUG==FALSE)
-		$result_insert = $sql->query($sql_insert);
+		$result_insert = SQL::query($sql_insert);
 	else
-		$result_insert = $sql->query($sql_insert)  ;
+		$result_insert = SQL::query($sql_insert)  ;
 
 	$sql_insert="INSERT INTO `conges_mail` (`mail_nom`, `mail_subject`, `mail_body`) VALUES ('mail_annul_conges', 'APPLI CONGES - Congés annulé', ' __SENDER_NAME__ a annulé un de vos congés dans l''application de gestion des congés.\r\n\r\nMerci de consulter votre application php_conges : __URL_ACCUEIL_CONGES__\r\n\r\n-------------------------------------------------------------------------------------------------------\r\nCeci est un message automatique.');";
 	if($DEBUG==FALSE)
-		$result_insert = $sql->query($sql_insert);
+		$result_insert = SQL::query($sql_insert);
 	else
-		$result_insert = $sql->query($sql_insert)  ;
+		$result_insert = SQL::query($sql_insert)  ;
 
 	$sql_insert="INSERT INTO `conges_mail` (`mail_nom`, `mail_subject`, `mail_body`) VALUES ('mail_prem_valid_conges', 'APPLI CONGES - Congés validé', ' __SENDER_NAME__ a validé (première validation) un congés pour vous dans l''application de gestion des congés.\r\n\Il doit maintenant être accepté en deuxième validation.\r\n\r\nMerci de consulter votre application php_conges : __URL_ACCUEIL_CONGES__\r\n\r\n-------------------------------------------------------------------------------------------------------\r\nCeci est un message automatique.');";
 	if($DEBUG==FALSE)
-		$result_insert = $sql->query($sql_insert);
+		$result_insert = SQL::query($sql_insert);
 	else
-		$result_insert = $sql->query($sql_insert)  ;
+		$result_insert = SQL::query($sql_insert)  ;
 
 		
 }
@@ -254,9 +254,9 @@ function e4_alter_table_conges_edition_papier( $DEBUG=FALSE)
   				DROP `ep_solde_rtt`;" ;
 	
 	if($DEBUG==FALSE)
-		$result_alter = $sql->query($sql_alter);
+		$result_alter = SQL::query($sql_alter);
 	else
-		$result_alter = $sql->query($sql_alter)  ;
+		$result_alter = SQL::query($sql_alter)  ;
 
 }	
 
@@ -266,19 +266,19 @@ function e4_alter_table_conges_edition_papier( $DEBUG=FALSE)
 /****************************************************************/
 function e5_alter_table_conges_periode( $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
+
 	// alter de la table `conges_periode`
 	$sql_alter="ALTER TABLE `conges_periode` CHANGE `p_etat` `p_etat` ENUM( 'ok', 'valid', 'demande', 'ajout', 'refus', 'annul' )  NOT NULL DEFAULT 'demande' ;" ;
 	if($DEBUG==FALSE)
-		$result_alter = $sql->query($sql_alter);
+		$result_alter = SQL::query($sql_alter);
 	else
-		$result_alter = $sql->query($sql_alter)  ;
+		$result_alter = SQL::query($sql_alter)  ;
 
 	$sql_alter="ALTER TABLE `conges_periode` ADD `p_date_demande` DATETIME NULL AFTER `p_motif_refus`, ADD `p_date_traitement` DATETIME NULL AFTER `p_date_demande` ;" ;
 	if($DEBUG==FALSE)
-		$result_alter = $sql->query($sql_alter);
+		$result_alter = SQL::query($sql_alter);
 	else
-		$result_alter = $sql->query($sql_alter)  ;
+		$result_alter = SQL::query($sql_alter)  ;
 				
 }	
 
@@ -292,9 +292,9 @@ function e6_alter_table_conges_groupe( $DEBUG=FALSE)
 	$sql_alter="ALTER TABLE `conges_groupe` ADD `g_double_valid` ENUM( 'Y', 'N' ) NOT NULL DEFAULT 'N' ;" ;
 	
 	if($DEBUG==FALSE)
-		$result_alter = $sql->query($sql_alter);
+		$result_alter = SQL::query($sql_alter);
 	else
-		$result_alter = $sql->query($sql_alter)  ;
+		$result_alter = SQL::query($sql_alter)  ;
 
 }	
 
@@ -311,9 +311,9 @@ function e7_create_table_conges_groupe_grd_resp( $DEBUG=FALSE)
 				);" ;
 	
 	if($DEBUG==FALSE)
-		$result_create = $sql->query($sql_create);
+		$result_create = SQL::query($sql_create);
 	else
-		$result_create = $sql->query($sql_create)  ;
+		$result_create = SQL::query($sql_create)  ;
 
 }	
 
@@ -327,9 +327,9 @@ function e8_delete_from_conges_config( $DEBUG=FALSE)
 	
 	$sql_update="DELETE FROM conges_config WHERE conf_nom='titre_page_accueil'" ;
 	if($DEBUG==FALSE)
-		$result_update = $sql->query($sql_update);
+		$result_update = SQL::query($sql_update);
 	else
-		$result_update = $sql->query($sql_update)  ;
+		$result_update = SQL::query($sql_update)  ;
 		
 		
 }

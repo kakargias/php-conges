@@ -169,15 +169,15 @@ function jour_suivant($date)
 // retourne TRUE ou FALSE
 function verif_jours_feries_saisis($date,  $DEBUG=FALSE)
 {
-	$sql=SQL::singleton();
+
 	// on calcule le premier de l'an et le dernier de l'an de l'année de la date passee en parametre
 	$tab_date=explode("-", $date); // date est de la forme aaaa-mm-jj
 	$an=$tab_date[0];
 	$premier_an="$an-01-01";
 	$dernier_an="$an-12-31";
 
-	$sql_select='SELECT jf_date FROM conges_jours_feries WHERE jf_date >= \''.$sql->escape($premier_an).'\' AND jf_date <= \''.$sql->escape($dernier_an).'\' ';
-	$res_select = requete_mysql($sql_select);
+	$sql_select='SELECT jf_date FROM conges_jours_feries WHERE jf_date >= \''.SQL::escape($premier_an).'\' AND jf_date <= \''.SQL::escape($dernier_an).'\' ';
+	$res_select = SQL::query($sql_select);
 	
 	return ($res_select->num_rows != 0);
 }
@@ -248,7 +248,7 @@ function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $ta
 		/************************************************************/
 		// 2 : on verifie que le conges demandé ne chevauche pas une periode deja posée
 		// -> on recupere les periodes par rapport aux dates, on en fait une tableau de 1/2 journees, et on compare par 1/2 journee
-	$sql=SQL :: singleton();
+
 		$tab_periode_deja_prise=array();
 
 		$current_day=$date_debut;
@@ -267,8 +267,8 @@ function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $ta
 				// verif si c'est deja un conges
 				$user_periode_sql = 'SELECT  p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_etat
 								FROM conges_periode
-								WHERE p_login = \''.$sql->escape($user).'\' AND ( p_etat=\'ok\' OR p_etat=\'valid\' OR p_etat=\'demande\' )
-									AND p_date_deb<=\''.$sql->escape($current_day).'\' AND p_date_fin>=\''.$sql->escape($current_day).'\' ';
+								WHERE p_login = \''.SQL::escape($user).'\' AND ( p_etat=\'ok\' OR p_etat=\'valid\' OR p_etat=\'demande\' )
+									AND p_date_deb<=\''.SQL::escape($current_day).'\' AND p_date_fin>=\''.SQL::escape($current_day).'\' ';
 			}
 			else
 			{
@@ -276,13 +276,13 @@ function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $ta
 				// verif si c'est deja un conges
 				$user_periode_sql = 'SELECT  p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_etat
 								FROM conges_periode
-								WHERE p_login = \''.$sql->escape($user).'\' AND ( p_etat=\'ok\' OR p_etat=\'valid\' OR p_etat=\'demande\' )
-									AND p_date_deb<=\''.$sql->escape($current_day).'\' AND p_date_fin>=\''.$sql->escape($current_day).'\'
+								WHERE p_login = \''.SQL::escape($user).'\' AND ( p_etat=\'ok\' OR p_etat=\'valid\' OR p_etat=\'demande\' )
+									AND p_date_deb<=\''.SQL::escape($current_day).'\' AND p_date_fin>=\''.SQL::escape($current_day).'\'
 									AND p_num != \''.intval($num_update).'\' ';
 			}
 			
-			$user_periode_request = requete_mysql($user_periode_sql);
-//			$user_periode_request = $sql->query($user_periode_sql);
+			$user_periode_request = SQL::query($user_periode_sql);
+//			$user_periode_request = SQL::query($user_periode_sql);
 
 			if($user_periode_request->num_rows !=0)  // le jour courant est dans un periode de conges du user
 			{

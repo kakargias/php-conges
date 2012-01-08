@@ -163,7 +163,7 @@ function affichage($onglet, $year_calendrier_saisie_debut, $mois_calendrier_sais
 	
 	$sql = SQL::singleton();
 	$sql1 = 'SELECT u_nom, u_prenom FROM conges_users where u_login = \''.$sql->escape($_SESSION['userlogin']).'\' ';
-	$ReqLog1 = requete_mysql($sql1,"affichage", $DEBUG) ;
+	$ReqLog1 = requete_mysql($sql1) ;
 
 	while ($resultat1 = $ReqLog1->fetch_array()) {
 		$NOM=$resultat1["u_nom"];
@@ -644,7 +644,7 @@ function echange_absence_rtt($onglet, $new_debut_string, $new_fin_string, $new_c
 		// e_presence = N (non) , J (jour entier) , M (matin) ou A (apres-midi)
 		// verif si le couple user/date1 existe dans conges_echange_rtt ...
 		$sql_verif_echange1='SELECT e_absence, e_presence from conges_echange_rtt WHERE e_login=\''.$sql->escape($_SESSION['userlogin']).'\' AND e_date_jour=\''.$sql->escape($new_debut);
-		$result_verif_echange1 = requete_mysql($sql_verif_echange1,  "echange_absence_rtt", $DEBUG) ;
+		$result_verif_echange1 = requete_mysql($sql_verif_echange1) ;
 
 		$count_verif_echange1=$result_verif_echange1->num_rows;
 
@@ -663,13 +663,13 @@ function echange_absence_rtt($onglet, $new_debut_string, $new_fin_string, $new_c
 			$sql1 = "INSERT into conges_echange_rtt (e_login, e_date_jour, e_absence, e_presence, e_comment)
 					VALUES ('".$_SESSION['userlogin']."','$new_debut','$nouvelle_absence_date_1', '$nouvelle_presence_date_1', '$new_comment')" ;
 		}
-		$result1 = requete_mysql($sql1,  "echange_absence_rtt", $DEBUG);
+		$result1 = requete_mysql($sql1);
 
 		// insert du jour d'absence souhaité (qui en devient un)
 		// e_absence = N (non) , J (jour entier) , M (matin) ou A (apres-midi)
 		// verif si le couple user/date2 existe dans conges_echange_rtt ...
 		$sql_verif_echange2='SELECT e_absence, e_presence from conges_echange_rtt WHERE e_login=\''.$sql->escape($_SESSION['userlogin']).'\' AND e_date_jour=\''.$sql->escape($new_fin);
-		$result_verif_echange2 = requete_mysql($sql_verif_echange2,  "echange_absence_rtt", $DEBUG);
+		$result_verif_echange2 = requete_mysql($sql_verif_echange2);
 
 		$count_verif_echange2=$result_verif_echange2->num_rows;
 
@@ -685,7 +685,7 @@ function echange_absence_rtt($onglet, $new_debut_string, $new_fin_string, $new_c
 			$sql2 = "INSERT into conges_echange_rtt (e_login, e_date_jour, e_absence, e_presence, e_comment)
 					VALUES ('".$_SESSION['userlogin']."','$new_fin','$nouvelle_absence_date_2', '$nouvelle_presence_date_2', '$new_comment')" ;
 		}
-		$result2 = requete_mysql($sql2,  "echange_absence_rtt", $DEBUG) ;
+		$result2 = requete_mysql($sql2) ;
 
 		$comment_log = "echange absence - rtt  ($new_debut_string / $new_fin_string)";
 		log_action(0, "", $_SESSION['userlogin'], $comment_log,  $DEBUG);
@@ -731,7 +731,7 @@ function affichage_demandes_en_cours($tri_date, $onglet,  $DEBUG=FALSE)
 		$sql3=$sql3." ORDER BY p_date_deb DESC ";
 	else
 		$sql3=$sql3." ORDER BY p_date_deb ASC ";
-	$ReqLog3 = requete_mysql($sql3, "affichage_demandes_en_cours", $DEBUG) ;
+	$ReqLog3 = requete_mysql($sql3) ;
 
 	$count3=$ReqLog3->num_rows;
 	if($count3==0)
@@ -847,7 +847,7 @@ function affichage_historique_conges($tri_date, $year_affichage, $onglet,  $DEBU
 	else
 		$sql2=$sql2." ORDER BY p_date_deb ASC ";
 
-	$ReqLog2 = requete_mysql($sql2, "affichage_historique_conges", $DEBUG) ;
+	$ReqLog2 = requete_mysql($sql2) ;
 
 	$count2=$ReqLog2 -> num_rows;
 	if($count2==0)
@@ -981,7 +981,7 @@ function affichage_historique_absences($tri_date, $year_affichage, $onglet,  $DE
 	else
 		$sql4=$sql4." ORDER BY p_date_deb ASC ";
 
-	$ReqLog4 = requete_mysql($sql4, "affichage_historique_absences", $DEBUG) ;
+	$ReqLog4 = requete_mysql($sql4) ;
 
 	$count4=$ReqLog4->num_rows;
 	if($count4==0)
@@ -1096,7 +1096,7 @@ function change_passwd( $new_passwd1, $new_passwd2, $DEBUG=FALSE)
 	{
 		$passwd_md5=md5($new_passwd1);
 		$sql1 = 'UPDATE conges_users SET  u_passwd=\''.$passwd_md5.'\' WHERE u_login=\''.$_SESSION['userlogin'].'\' ';
-		$result = requete_mysql($sql1,  "change_passwd", $DEBUG) ;
+		$result = requete_mysql($sql1) ;
 
 		if($result==TRUE)
 			echo $_SESSION['lang']['form_modif_ok']." <br><br> \n";
@@ -1123,14 +1123,14 @@ function verif_solde_user($user_login, $type_conges, $nb_jours,  $DEBUG=FALSE)
 	{
 		// recup du solde de conges de type $type_conges pour le user de login $user_login
 		$select_solde='SELECT su_solde FROM conges_solde_user WHERE su_login=\''.$sql->escape($user_login).'\' AND su_abs_id='.$sql->escape($type_conges);
-		$ReqLog_solde_conges = requete_mysql($select_solde,  "verif_solde_user", $DEBUG);
+		$ReqLog_solde_conges = requete_mysql($select_solde);
 	
 		$resultat_solde = $ReqLog_solde_conges->fetch_array();
 		$sql_solde_user = $resultat_solde["su_solde"];
 	
 		// recup du nombre de jours de conges de type $type_conges pour le user de login $user_login qui sont à valider par son resp ou le grd resp
 		$select_solde_a_valider='SELECT SUM(p_nb_jours) FROM conges_periode WHERE p_login=\''.$sql->escape($user_login).'\' AND p_type='.$sql->escape($type_conges).' AND (p_etat=\'demande\' OR p_etat=\'valid\') ';
-		$ReqLog_solde_conges_a_valider = requete_mysql($select_solde_a_valider,  "verif_solde_user", $DEBUG);
+		$ReqLog_solde_conges_a_valider = requete_mysql($select_solde_a_valider);
 	
 		$resultat_solde_a_valider = $ReqLog_solde_conges_a_valider->fetch_array();
 		$sql_solde_user_a_valider = $resultat_solde_a_valider["SUM(p_nb_jours)"];

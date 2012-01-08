@@ -298,7 +298,7 @@ function affichage_saisie_globale_groupe($tab_type_conges,  $DEBUG=FALSE)
 			// création du select pour le choix du groupe
 			$text_choix_group="<select name=\"choix_groupe\" >";
 			$sql_group = "SELECT g_gid, g_groupename FROM conges_groupe WHERE g_gid IN ($list_group) ORDER BY g_groupename "  ;
-			$ReqLog_group = requete_mysql($sql_group,  "saisie", $DEBUG) ;
+			$ReqLog_group = requete_mysql($sql_group) ;
 				
 			while ($resultat_group = $ReqLog_group->fetch_array()) 
 			{
@@ -362,13 +362,13 @@ function ajout_conges($tab_champ_saisie, $tab_commentaire_saisie,  $DEBUG=FALSE)
 			/* Modification de la table conges_users */
 			$sql1 = "UPDATE conges_solde_user SET su_solde = su_solde+$user_nb_jours_ajout_float WHERE su_login='$user_name' AND su_abs_id = $id_conges " ;
 			/* On valide l'UPDATE dans la table ! */
-			$ReqLog1 = requete_mysql($sql1,  "ajout_conges", $DEBUG) ;
+			$ReqLog1 = requete_mysql($sql1) ;
 			
 /*			// Enregistrement du commentaire relatif à l'ajout de jours de congés 
 			$comment = $tab_commentaire_saisie[$user_name];
 			$sql1 = "INSERT INTO conges_historique_ajout (ha_login, ha_date, ha_abs_id, ha_nb_jours, ha_commentaire)
 					  VALUES ('$user_name', NOW(), $id_conges, $user_nb_jours_ajout_float , '$comment')";
-			$ReqLog1 = requete_mysql($sql1,  "ajout_historique_conges", $DEBUG) ;
+			$ReqLog1 = requete_mysql($sql1) ;
 */	
 			// on insert l'ajout de conges dans la table periode
 			$commentaire = $_SESSION['lang']['resp_ajout_conges_comment_periode_user'];
@@ -419,7 +419,7 @@ function ajout_global($tab_new_nb_conges_all, $tab_calcul_proportionnel, $tab_ne
 			$comment = $tab_new_comment_all[$id_conges];
 			
 			$sql1="SELECT u_login, u_quotite FROM conges_users WHERE u_login IN ($list_users_du_resp) ORDER BY u_login ";
-			$ReqLog1 = requete_mysql($sql1,  "ajout_global", $DEBUG);
+			$ReqLog1 = requete_mysql($sql1);
 				
 			while($resultat1 = $ReqLog1->fetch_array()) 
 			{
@@ -436,7 +436,7 @@ function ajout_global($tab_new_nb_conges_all, $tab_calcul_proportionnel, $tab_ne
 				// 1 : update de la table conges_solde_user
 				$req_update = "UPDATE conges_solde_user SET su_solde = su_solde+$nb_conges
 						WHERE  su_login = '$current_login' AND su_abs_id = $id_conges   ";
-				$ReqLog_update = requete_mysql($req_update,  "ajout_global", $DEBUG);
+				$ReqLog_update = requete_mysql($req_update);
 		
 				// 2 : on insert l'ajout de conges GLOBAL (pour tous les users) dans la table periode
 				$commentaire = $_SESSION['lang']['resp_ajout_conges_comment_periode_all'];
@@ -447,7 +447,7 @@ function ajout_global($tab_new_nb_conges_all, $tab_calcul_proportionnel, $tab_ne
 				$comment = $tab_new_comment_all[$id_conges];
 				$sql_comment = "INSERT INTO conges_historique_ajout (ha_login, ha_date, ha_abs_id, ha_nb_jours, ha_commentaire)
 						  VALUES ('$current_login', NOW(), $id_conges, $nb_conges , '$comment')";
-				$ReqLog_comment = requete_mysql($sql_comment,  "ajout_historique_conges", $DEBUG) ;
+				$ReqLog_comment = requete_mysql($sql_comment) ;
 */
 			}
 
@@ -492,7 +492,7 @@ function ajout_global_groupe($choix_groupe, $tab_new_nb_conges_all, $tab_calcul_
 			$comment = $tab_new_comment_all[$id_conges];
 
 			$sql1="SELECT u_login, u_quotite FROM conges_users WHERE u_login IN ($list_users) ORDER BY u_login ";
-			$ReqLog1 = requete_mysql($sql1,  "ajout_global_groupe", $DEBUG);
+			$ReqLog1 = requete_mysql($sql1);
 				
 			while ($resultat1 = $ReqLog1->fetch_array()) 
 			{
@@ -508,7 +508,7 @@ function ajout_global_groupe($choix_groupe, $tab_new_nb_conges_all, $tab_calcul_
 				// 1 : on update conges_solde_user
 				$req_update = "UPDATE conges_solde_user SET su_solde = su_solde+$nb_conges
 						WHERE  su_login = '$current_login' AND su_abs_id = $id_conges   ";
-				$ReqLog_update = requete_mysql($req_update,  "ajout_global_groupe", $DEBUG);
+				$ReqLog_update = requete_mysql($req_update);
 				
 				// 2 : on insert l'ajout de conges dans la table periode
 				// recup du nom du groupe
@@ -521,7 +521,7 @@ function ajout_global_groupe($choix_groupe, $tab_new_nb_conges_all, $tab_calcul_
 /*				// 3 : Enregistrement du commentaire relatif à l'ajout de jours de congés 
 				$sql_comment = "INSERT INTO conges_historique_ajout (ha_login, ha_date, ha_abs_id, ha_nb_jours, ha_commentaire)
 						  VALUES ('$current_login', NOW(), $id_conges, $nb_conges , '$comment')";
-				$ReqLog_comment = requete_mysql($sql_comment,  "ajout_historique_conges", $DEBUG) ;
+				$ReqLog_comment = requete_mysql($sql_comment) ;
 */
 			}
 

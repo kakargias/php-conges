@@ -113,7 +113,7 @@ function modifier($group,  $DEBUG=FALSE)
 		echo "	<td class=\"histo\">".$_SESSION['lang']['admin_groupes_double_valid']."</td>\n";
 	echo "</tr>\n";
 
-	$ReqLog1 = requete_mysql($sql1,  "modifier", $DEBUG);
+	$ReqLog1 = requete_mysql($sql1);
 	while ($resultat1 = $ReqLog1->fetch_array())
 	{
 		$sql_groupename=$resultat1["g_groupename"];
@@ -177,7 +177,7 @@ function commit_update($group_to_update, $new_groupname, $new_comment, $new_doub
 
 	// UPDATE de la table conges_groupe
 	$sql1 = 'UPDATE conges_groupe  SET g_groupename=\''.$new_groupname.'\', g_comment=\''.$new_comment.'\' , g_double_valid=\''.$new_double_valid.'\' WHERE g_gid=\''.$sql->escape($group_to_update).'\''  ;
-	$result1 = requete_mysql($sql1,  "commit_update", $DEBUG);
+	$result1 = requete_mysql($sql1);
 	if($result1==FALSE)
 		$result==FALSE;
 

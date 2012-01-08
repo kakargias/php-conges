@@ -99,21 +99,21 @@ function e1_maj_table_conges_type_absence( $DEBUG=FALSE)
 	if($DEBUG==FALSE)
 		$result_alter_1 = $sql->query($sql_alter_1);
 	else
-		$result_update = $sql->query($sql_alter_1) or die("erreur : e1_maj_table_conges_type_absence<br>\n".$sql->error) ;
+		$result_update = $sql->query($sql_alter_1)  ;
 
 	# on modifie le type "absence" en "absences"
 	$sql_update=" UPDATE `conges_type_absence` SET `ta_type` = 'absences' where `ta_type` = 'absence'";
 	if($DEBUG==FALSE)
 		$result_update = $sql->query($sql_update);
 	else
-		$result_update = $sql->query($sql_update) or die("erreur : e1_maj_table_conges_type_absence<br>\n".$sql->error) ;
+		$result_update = $sql->query($sql_update)  ;
 
 	# on supprime la possibilité d'avoir un type "absence"
 	$sql_alter_2=" ALTER TABLE `conges_type_absence` CHANGE `ta_type` `ta_type` enum ('conges', 'conges_exceptionnels', 'absences')";
 	if($DEBUG==FALSE)
 		$result_alter_2 = $sql->query($sql_alter_2);
 	else
-		$result_alter_2 = $sql->query($sql_alter_2) or die("erreur : e1_maj_table_conges_type_absence<br>\n".$sql->error) ;		
+		$result_alter_2 = $sql->query($sql_alter_2)  ;		
 
 }
 
@@ -128,19 +128,19 @@ function e2_insert_into_conges_config( $DEBUG=FALSE)
 	if($DEBUG==FALSE)
 		$result_insert = $sql->query($sql_insert);
 	else
-		$result_insert = $sql->query($sql_insert) or die("erreur : e2_insert_into_conges_config<br>\n".$sql->error) ;
+		$result_insert = $sql->query($sql_insert)  ;
 	
 	$sql_insert_2="INSERT INTO `conges_config` VALUES ('grand_resp_ajout_conges', 'FALSE', '12_Fonctionnement de l\'Etablissement', 'boolean', 'config_comment_grand_resp_ajout_conges')";
 	if($DEBUG==FALSE)
 		$result_insert_2 = $sql->query($sql_insert_2);
 	else
-		$result_insert_2 = $sql->query($sql_insert_2) or die("erreur : e2_insert_into_conges_config<br>\n".$sql->error) ;
+		$result_insert_2 = $sql->query($sql_insert_2)  ;
 	
 	$sql_insert_3="INSERT INTO `conges_config` VALUES ('interdit_saisie_periode_date_passee', 'FALSE', '13_Divers', 'boolean', 'config_comment_interdit_saisie_periode_date_passee')";
 	if($DEBUG==FALSE)
 		$result_insert_3 = $sql->query($sql_insert_3);
 	else
-		$result_insert_3 = $sql->query($sql_insert_3) or die("erreur : e2_insert_into_conges_config<br>\n".$sql->error) ;
+		$result_insert_3 = $sql->query($sql_insert_3)  ;
 	
 }
 
@@ -162,7 +162,7 @@ function e3_create_table_conges_historique_ajout( $DEBUG=FALSE)
 	if($DEBUG==FALSE)
 		$result_create = $sql->query($sql_create);
 	else
-		$result_create = $sql->query($sql_create) or die("erreur : e3_create_table_conges_historique_ajout<br>\n".$sql->error) ;
+		$result_create = $sql->query($sql_create)  ;
 	
 }
 
@@ -186,7 +186,7 @@ function e4_create_table_conges_logs( $DEBUG=FALSE)
 	if($DEBUG==FALSE)
 		$result_create_logs = $sql->query($sql_create_logs);
 	else
-		$result_create_logs = $sql->query($sql_create_logs) or die("erreur : e4_create_table_conges_logs<br>\n".$sql->error) ;
+		$result_create_logs = $sql->query($sql_create_logs)  ;
 	
 }
 					

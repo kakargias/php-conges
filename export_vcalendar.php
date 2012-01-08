@@ -193,7 +193,7 @@ function export_ical($user_login, $date_debut, $date_fin,  $DEBUG=FALSE)
 		// on prend toutes les periodes de conges qui chevauchent la periode donnée par les dates demandées
 		$sql_periodes="SELECT p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_commentaire, p_type  " .
 				'FROM conges_periode WHERE p_login=\''.$sql->escape($_SESSION['userlogin']).'\' AND p_etat=\'ok\' AND ((p_date_deb>=\''.$sql->escape($good_date_debut).'\' AND  p_date_deb<=\''.$sql->escape($good_date_fin).'\') OR (p_date_fin>=\''.$sql->escape($good_date_debut).'\' AND p_date_fin<=\''.$sql->escape($good_date_fin).'\'))';
-		$res_periodes = requete_mysql($sql_periodes,  "export_ical", $DEBUG);
+		$res_periodes = requete_mysql($sql_periodes);
 
 		if($num_periodes=$res_periodes->num_rows!=0)
 		{
@@ -292,7 +292,7 @@ function export_vcal($user_login, $date_debut, $date_fin,  $DEBUG=FALSE)
 		// on prend toutes les periodes de conges qui chevauchent la periode donnée par les dates demandées
 		$sql_periodes="SELECT p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_commentaire, p_type  " .
 				'FROM conges_periode WHERE p_login=\''.$sql->escape($_SESSION['userlogin']).'\' AND p_etat=\'ok\' AND (p_date_deb>=\''.$sql->escape($good_date_debut).'\' AND  p_date_deb<=\''.$sql->escape($good_date_fin).'\') OR (p_date_fin>=\''.$sql->escape($good_date_debut).'\' AND p_date_fin<=\''.$sql->escape($good_date_fin).'\')';
-		$res_periodes = requete_mysql($sql_periodes,  "export_ical", $DEBUG);
+		$res_periodes = requete_mysql($sql_periodes);
 
 		if($num_periodes=$res_periodes->num_rows!=0)
 		{

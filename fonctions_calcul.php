@@ -177,7 +177,7 @@ function verif_jours_feries_saisis($date,  $DEBUG=FALSE)
 	$dernier_an="$an-12-31";
 
 	$sql_select='SELECT jf_date FROM conges_jours_feries WHERE jf_date >= \''.$sql->escape($premier_an).'\' AND jf_date <= \''.$sql->escape($dernier_an).'\' ';
-	$res_select = requete_mysql($sql_select,  "verif_jours_feries_saisis", $DEBUG);
+	$res_select = requete_mysql($sql_select);
 	
 	return ($res_select->num_rows != 0);
 }
@@ -281,7 +281,7 @@ function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $ta
 									AND p_num != \''.intval($num_update).'\' ';
 			}
 			
-			$user_periode_request = requete_mysql($user_periode_sql, "verif_periode_chevauche_periode_user", $DEBUG);
+			$user_periode_request = requete_mysql($user_periode_sql);
 //			$user_periode_request = $sql->query($user_periode_sql);
 
 			if($user_periode_request->num_rows !=0)  // le jour courant est dans un periode de conges du user

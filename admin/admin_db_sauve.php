@@ -269,8 +269,8 @@ function commit_sauvegarde($type_sauvegarde, $DEBUG=FALSE)
 	echo "#\n";
 
 	//recup de la liste des tables
-	$sql="SHOW TABLES";
-	$ReqLog = $sql->query($sql) or die("ERREUR : ".$sql."<br>\n".$sql->error);
+	$sql1="SHOW TABLES";
+	$ReqLog = $sql->query($sql1) ;
 	while ($resultat = $ReqLog->fetch_array())
 	{
 		$table=$resultat[0] ;
@@ -404,7 +404,7 @@ function restaure($fichier_restaure_name, $fichier_restaure_tmpname, $fichier_re
 		// puis parcourt du tableau :
 		// si la ligne n'est pas un commentaire (commence par # (après avoir enlevé les espaces de debut de chaine))
 		// on l'ajoute a la requete sql )
-		$sql="";
+		$sql2="";
 		foreach ($tab_lines as $line_num => $line)
 		{
 			$line=trim($line);
@@ -416,9 +416,9 @@ function restaure($fichier_restaure_name, $fichier_restaure_tmpname, $fichier_re
 			{
 				//echo "$line<br>\n";
 				//execution de la requete sql:
-				$sql=$line;
-				//echo "$sql<br>";
-				$ReqLog = $sql->query($sql) or die("ERREUR : RESTAURATION : <br>\n $sql<br>\n<br>\n".$sql->error);
+				$sql2=$line;
+				//echo "$sql2<br>";
+				$ReqLog = $sql->query($sql2) ;
 			}
 		}
 */
@@ -461,7 +461,7 @@ function get_table_structure($table, $DEBUG=FALSE)
 
 	// description des champs :
 	$sql_champs='SHOW FIELDS FROM '.$sql->escape($table);
-	$ReqLog_champs = $sql->query($sql_champs) or die("ERREUR : get_table_structure() <br>\n".$sql->error);
+	$ReqLog_champs = $sql->query($sql_champs) ;
 	$count_champs=$ReqLog_champs->num_rows;
 	$i=0;
 	while ($resultat_champs = $ReqLog_champs->fetch_array())
@@ -492,7 +492,7 @@ function get_table_structure($table, $DEBUG=FALSE)
 
 	// description des index :
 	$sql_index = 'SHOW KEYS FROM '.$sql->escape($table).'';
-	$ReqLog_index = $sql->query($sql_index) or die("ERREUR : get_table_structure() <br>\n".$sql->error);
+	$ReqLog_index = $sql->query($sql_index) ;
 	$count_index=$ReqLog_index->num_rows;
 	$i=0;
 
@@ -562,7 +562,7 @@ function get_table_data($table,  $DEBUG=FALSE)
 
 	// recup des donnéées de la table :
 	$sql_data='SELECT * FROM '.$sql->escape($table);
-	$ReqLog_data = requete_mysql($sql_data, "get_table_data", $DEBUG);
+	$ReqLog_data = requete_mysql($sql_data);
 
 	while ($resultat_data = $ReqLog_data->fetch_array())
 	{

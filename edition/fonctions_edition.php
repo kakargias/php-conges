@@ -32,7 +32,7 @@ function enregistrement_edition($login,  $DEBUG=FALSE)
 
 	$tab_solde_user=array();
 	$sql1 = 'SELECT su_abs_id, su_solde FROM conges_solde_user where su_login = \''.$sql->escape($login).'\'';
-	$ReqLog1 = requete_mysql($sql1,  "enregistrement_edition", $DEBUG);
+	$ReqLog1 = requete_mysql($sql1);
 
 	while ($resultat1 = $ReqLog1->fetch_array()) 
 	{
@@ -48,7 +48,7 @@ function enregistrement_edition($login,  $DEBUG=FALSE)
 	/*************************************************/
 	$sql_insert = "INSERT INTO conges_edition_papier
 			SET ep_id=$new_edition_id, ep_login='$login', ep_date='$aujourdhui', ep_num_for_user=$num_for_user ";
-	$result_insert = requete_mysql($sql_insert,  "enregistrement_edition", $DEBUG);
+	$result_insert = requete_mysql($sql_insert);
 	
 	
 	/*************************************************/
@@ -60,7 +60,7 @@ function enregistrement_edition($login,  $DEBUG=FALSE)
 	{
 		$sql_insert_2 = "INSERT INTO conges_solde_edition
 				SET se_id_edition=$new_edition_id, se_id_absence=$id_abs, se_solde=$tab_solde_user[$id_abs] ";
-		$result_insert_2 = requete_mysql($sql_insert_2,  "enregistrement_edition", $DEBUG);
+		$result_insert_2 = requete_mysql($sql_insert_2);
 	}
 	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
 	{
@@ -69,7 +69,7 @@ function enregistrement_edition($login,  $DEBUG=FALSE)
 		{
 			$sql_insert_3 = "INSERT INTO conges_solde_edition
 					SET se_id_edition=$new_edition_id, se_id_absence=$id_abs, se_solde=$tab_solde_user[$id_abs] ";
-			$result_insert_3 = requete_mysql($sql_insert_3,  "enregistrement_edition", $DEBUG);
+			$result_insert_3 = requete_mysql($sql_insert_3);
 		}
 	}
 	
@@ -78,7 +78,7 @@ function enregistrement_edition($login,  $DEBUG=FALSE)
 	/********************************************************************************************/
 	// recup de la liste des id des absence de type conges !
 	$sql_list="SELECT ta_id FROM conges_type_absence WHERE ta_type='conges' OR ta_type='conges_exceptionnels'";
-	$ReqLog_list = requete_mysql($sql_list,  "enregistrement_edition", $DEBUG);
+	$ReqLog_list = requete_mysql($sql_list);
 
 	$list_abs_id="";
 	while($resultat_list = $ReqLog_list->fetch_array())
@@ -94,7 +94,7 @@ function enregistrement_edition($login,  $DEBUG=FALSE)
 			AND p_edition_id IS NULL
 			AND (p_type IN (\''.$list_abs_id.'\') )
 			AND (p_etat!=\'demande\') ';
-	$ReqLog_update = requete_mysql($sql_update,  "enregistrement_edition", $DEBUG);
+	$ReqLog_update = requete_mysql($sql_update);
 	
 	return $new_edition_id;
 }
@@ -105,14 +105,14 @@ function get_last_edition_id( $DEBUG=FALSE)
 {
 	// verif si table edition pas vide
 	$sql1 = "SELECT ep_id FROM conges_edition_papier ";
-	$ReqLog1 = requete_mysql($sql1,  "get_last_edition_id", $DEBUG);
+	$ReqLog1 = requete_mysql($sql1);
 
 	if($ReqLog1->num_rows==0) 
 		return 0;    // c'est qu'il n'y a pas encore d'edition 
 	else
 	{
 		$sql2 = 'SELECT MAX(ep_id) FROM conges_edition_papier ';
-		$ReqLog2 = requete_mysql($sql2,  "get_last_edition_id", $DEBUG);
+		$ReqLog2 = requete_mysql($sql2);
 		$tmp = $ReqLog2->fetch_row();
 		return $tmp[0];
 	}	
@@ -124,14 +124,14 @@ function get_num_last_edition_user($login,  $DEBUG=FALSE)
 	$sql=SQL::singleton();
 	// verif si le user a une edition
 	$sql1 = 'SELECT ep_num_for_user FROM conges_edition_papier WHERE ep_login=\''.$sql->escape($login).'\'';
-	$ReqLog1 = requete_mysql($sql1,  "get_num_last_edition_user", $DEBUG);
+	$ReqLog1 = requete_mysql($sql1);
 
 	if($ReqLog1->num_rows==0) 
 		return 0;    // c'est qu'il n'y a pas encore d'edition pour ce user
 	else
 	{
 		$sql2 = 'SELECT MAX(ep_num_for_user) FROM conges_edition_papier WHERE ep_login=\''.$sql->escape($login).'\'';
-		$ReqLog2 = requete_mysql($sql2,  "get_num_last_edition_user", $DEBUG);
+		$ReqLog2 = requete_mysql($sql2);
 		$tmp = $ReqLog2->fetch_row();
 		return $tmp[0];
 	}
@@ -144,7 +144,7 @@ function get_id_edition_precedente_user($login, $edition_id,  $DEBUG=FALSE)
 	$sql=SQL::singleton();
 	// verif si le user n'a pas une seule edition
 	$sql1 = 'SELECT * FROM conges_edition_papier WHERE ep_login=\''.$sql->escape($login).'\'';
-	$ReqLog1 = requete_mysql($sql1,  "get_id_edition_precedente_user", $DEBUG);
+	$ReqLog1 = requete_mysql($sql1);
 
 	$resultat1 = $ReqLog1->num_rows ;
 	if($resultat1<=1)    // une seule edition pour ce user
@@ -152,7 +152,7 @@ function get_id_edition_precedente_user($login, $edition_id,  $DEBUG=FALSE)
 	else
 	{
 		$sql2 = 'SELECT MAX(ep_id) FROM conges_edition_papier WHERE ep_login=\''.$sql->escape($login).'\' AND ep_id<'.$sql->escape($edition_id);
-		$ReqLog2 = requete_mysql($sql2,  "get_id_edition_precedente_user", $DEBUG);
+		$ReqLog2 = requete_mysql($sql2);
 		$tmp = $ReqLog2->fetch_row();
 		return $tmp[0];
 	}
@@ -166,7 +166,7 @@ function recup_solde_conges_of_edition($edition_id,  $DEBUG=FALSE)
     $sql=SQL::singleton();
 	$tab=array();
 	$sql_ed = 'SELECT se_id_absence, se_solde FROM conges_solde_edition where se_id_edition = '.$sql->escape($edition_id);
-	$ReqLog_ed = requete_mysql($sql_ed,  "recup_solde_conges_of_edition", $DEBUG);
+	$ReqLog_ed = requete_mysql($sql_ed);
 
 	$tab=array();
 	while ($resultat_ed = $ReqLog_ed->fetch_array()) 
@@ -185,7 +185,7 @@ function recup_info_user_pour_edition($login,  $DEBUG=FALSE)
 	$sql=SQL::singleton();
 	$tab=array();
 	$sql_user = 'SELECT u_nom, u_prenom, u_quotite FROM conges_users where u_login = \''.$sql->escape($login).'\'';
-	$ReqLog_user = requete_mysql($sql_user,  "recup_info_user_pour_edition", $DEBUG);
+	$ReqLog_user = requete_mysql($sql_user);
 
 	while ($resultat_user = $ReqLog_user->fetch_array()) {
 		$tab['nom']=$resultat_user["u_nom"];
@@ -208,7 +208,7 @@ function recup_info_edition($edit_id,  $DEBUG=FALSE)
 	$tab=array();
 	
 	$sql_edition= 'SELECT ep_date, ep_num_for_user FROM conges_edition_papier where ep_id = '.$sql->escape($edit_id);
-	$ReqLog_edition = requete_mysql($sql_edition,  "recup_info_edition", $DEBUG);
+	$ReqLog_edition = requete_mysql($sql_edition);
 
 	if($resultat_edition = $ReqLog_edition->fetch_array()) 
 	{
@@ -231,7 +231,7 @@ function recup_editions_user($login,  $DEBUG=FALSE)
 	$sql2 = "SELECT ep_id, ep_date, ep_num_for_user ";
 	$sql2=$sql2."FROM conges_edition_papier WHERE ep_login = '$login' ";
 	$sql2=$sql2."ORDER BY ep_num_for_user DESC ";
-	$ReqLog2 = requete_mysql($sql2,  "recup_editions_user", $DEBUG);
+	$ReqLog2 = requete_mysql($sql2);
 
 	if($ReqLog2 -> num_rows != 0)
 	{

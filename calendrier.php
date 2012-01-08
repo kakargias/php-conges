@@ -683,64 +683,6 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 }
 
 
-function recup_tableau_calcul_jours($tab, $DEBUG=FALSE)
-{
-	$tab_calcul_jours = array();
-	print_r($tab);
-	
-	foreach($tab as $key => $val)
-	{
-		foreach ($val as $key2=>$val2)
-		{
-			$login=$val2["p_login"];
-			$type_absence=$val2["p_type"];
-			$date_deb=$val2["p_date_deb"];
-			$date_fin=$val2["p_date_fin"];
-			
-			echo $login, ' : ';
-			echo $date_deb, ' - ';
-			echo $date_fin, ' ---- ';
-
-		
-			$tab_date_deb = explode("-", $date_deb);
-			var_dump($tab_date_deb);
-			
-			$tab_date_fin = explode("-", $date_fin);
-			var_dump($tab_date_fin);
-			
-			if ($date_deb=$val2["p_demi_jour_deb"] == 'am')
-				$seconde_date_deb = mktime(0, 0, 0, $tab_date_deb[1], $tab_date_deb[2], $tab_date_deb[0]);
-			else
-				$seconde_date_deb = mktime(12, 0, 0, $tab_date_deb[1], $tab_date_deb[2], $tab_date_deb[0]);
-				
-			if ($date_deb=$val2["p_demi_jour_fin"] == 'am')
-				$seconde_date_fin = mktime(12, 0, 0, $tab_date_fin[1], $tab_date_fin[2], $tab_date_fin[0]);
-			else
-				$seconde_date_fin = mktime(0, 0, 0, $tab_date_fin[1], $tab_date_fin[2] +1 , $tab_date_fin[0]);
-			
-			$jour_absence = ($seconde_date_fin - $seconde_date_deb) / (60*60*24);
-			echo "jour_absence :",$jour_absence;
-			
-			
-			if (isset($tab_calcul_jours[ $login ][ $val2["p_type"] ]) )
-				$tab_calcul_jours[ $login ][ $val2["p_type"] ] += $jour_absence;
-			else
-				$tab_calcul_jours[ $login ][ $val2["p_type"] ] = $jour_absence;
-			
-			
-			
-			// echo $key2, ':', $val2, '<br/>';
-		}
-	}
-
-
-			
-			
-
-	return $tab_calcul_jours;
-}
-
-
 // affichage de la cellule correspondant au jour et au user considéré
 function affiche_cellule_jour_user($sql_login, $j_timestamp, $year_select, $mois_select, $j, $second_class, $printable, $tab_calendrier, $tab_rtt_echange, $tab_rtt_planifiees, $tab_type_absence,  $DEBUG=FALSE)
 {
@@ -1091,7 +1033,7 @@ function recup_tableau_periodes($mois, $first_jour, $year,  $DEBUG=FALSE)
 						ORDER BY p_date_deb ';
 
 		//echo "user_periode_sql = $user_periode_sql<br>\n";
-		$user_periode_request = requete_mysql($user_periode_sql,  "recup_tableau_periodes", $DEBUG);
+		$user_periode_request = requete_mysql($user_periode_sql);
 
 		$nb_resultat_periode = $user_periode_request->num_rows;
 		while($resultat_periode=$user_periode_request->fetch_array())
@@ -1131,7 +1073,7 @@ function recup_tableau_periodes($mois, $first_jour, $year,  $DEBUG=FALSE)
 							FROM conges_periode 
 							WHERE ( p_etat=\'ok\' OR  p_etat=\'demande\' OR  p_etat=\'valid\') AND (p_date_deb<=\''.$sql->escape($date_j).'\' AND p_date_fin>=\''.$sql->escape($date_j).'\') ';
 			//echo "user_periode_sql = $user_periode_sql<br>\n";
-			$user_periode_request = requete_mysql($user_periode_sql,  "recup_tableau_periodes", $DEBUG);
+			$user_periode_request = requete_mysql($user_periode_sql);
 
 			$nb_resultat_periode = $user_periode_request->num_rows;
 			while($resultat_periode=$user_periode_request->fetch_array())
@@ -1343,7 +1285,7 @@ function recup_tableau_des_users_a_afficher($select_groupe,  $DEBUG=FALSE)
 			}
 		}
 
-		$ReqLog = requete_mysql($sql1,  "affichage_calendrier", $DEBUG);
+		$ReqLog = requete_mysql($sql1);
 		$tab_all_users=array();
 		while ($resultat = $ReqLog->fetch_array())
 		{

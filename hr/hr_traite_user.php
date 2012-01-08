@@ -168,7 +168,7 @@ function affiche_etat_demande_user_for_resp($user_login, $tab_user, $tab_grd_res
 			"FROM conges_periode " .
 			"WHERE p_login = '$user_login' AND p_etat ='demande' ".
 			"ORDER BY p_date_deb";
-	$ReqLog2 = requete_mysql($sql2, "affichage", $DEBUG);
+	$ReqLog2 = requete_mysql($sql2);
 		
 	$count2=$ReqLog2->num_rows;
 	if($count2==0)
@@ -282,7 +282,7 @@ function affiche_etat_demande_2_valid_user_for_resp($user_login, $DEBUG=FALSE)
 		$sql2 = "SELECT p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_nb_jours, p_commentaire, p_type, p_date_demande, p_date_traitement, p_num " .
 				"FROM conges_periode " .
 				"WHERE p_login = '$user_login' AND p_etat ='valid' ORDER BY p_date_deb";
-		$ReqLog2 = requete_mysql($sql2, "affichage", $DEBUG);
+		$ReqLog2 = requete_mysql($sql2);
 			
 		$count2=$ReqLog2->num_rows;
 		if($count2==0)
@@ -400,7 +400,7 @@ function affiche_etat_conges_user_for_resp($user_login, $year_affichage, $tri_da
 	else
 		$sql3=$sql3." ORDER BY p_date_deb ASC ";
 
-	$ReqLog3 = requete_mysql($sql3, "affiche_etat_conges_user_for_resp", $DEBUG);
+	$ReqLog3 = requete_mysql($sql3);
 
 	$count3=$ReqLog3->num_rows;
 	if($count3==0)
@@ -547,7 +547,7 @@ function annule_conges($user_login, $tab_checkbox_annule, $tab_text_annul, $DEBU
 
 		/* UPDATE table "conges_periode" */
 		$sql1 = "UPDATE conges_periode SET p_etat=\"annul\", p_motif_refus='$motif_annul', p_date_traitement=NOW() WHERE p_num=$numero_int" ;
-		$ReqLog1 = requete_mysql($sql1, "annule_conges", $DEBUG);
+		$ReqLog1 = requete_mysql($sql1);
 
 		// Log de l'action
 		log_action($numero_int,"annul", $user_login, "annulation conges $numero ($user_login) ($user_nb_jours_pris jours)", $DEBUG);
@@ -559,7 +559,7 @@ function annule_conges($user_login, $tab_checkbox_annule, $tab_text_annul, $DEBU
 		{
 			$sql2 = "UPDATE conges_solde_user SET su_solde = su_solde+$user_nb_jours_pris_float WHERE su_login='$user_login' AND su_abs_id=$user_type_abs_id " ;
 			//echo($sql2."<br>");
-			$ReqLog2 = requete_mysql($sql2, "annule_conges", $DEBUG);
+			$ReqLog2 = requete_mysql($sql2);
 		}
 		
 		//envoi d'un mail d'alerte au user (si demandé dans config de php_conges)
@@ -617,7 +617,7 @@ function traite_demandes($user_login, $tab_radio_traite_demande, $tab_text_refus
 		{
 			/* UPDATE table "conges_periode" */
 			$sql1 = "UPDATE conges_periode SET p_etat=\"ok\", p_date_traitement=NOW() WHERE p_num=$numero_int" ;
-			$ReqLog1 = requete_mysql($sql1, "traite_demandes", $DEBUG);
+			$ReqLog1 = requete_mysql($sql1);
 
 			// Log de l'action
 			log_action($numero_int,"ok", $user_login, "traite demande $numero ($user_login) ($user_nb_jours_pris jours) : $value_traite", $DEBUG);
@@ -640,7 +640,7 @@ function traite_demandes($user_login, $tab_radio_traite_demande, $tab_text_refus
 		{
 			/* UPDATE table "conges_periode" */
 			$sql1 = "UPDATE conges_periode SET p_etat=\"valid\", p_date_traitement=NOW() WHERE p_num=$numero_int" ;
-			$ReqLog1 = requete_mysql($sql1, "traite_demandes", $DEBUG);
+			$ReqLog1 = requete_mysql($sql1);
 
 			// Log de l'action
 			log_action($numero_int,"valid", $user_login, "traite demande $numero ($user_login) ($user_nb_jours_pris jours) : $value_traite", $DEBUG);
@@ -655,7 +655,7 @@ function traite_demandes($user_login, $tab_radio_traite_demande, $tab_text_refus
 			$motif_refus=addslashes($tab_text_refus[$numero_int]);
 			//$sql3 = "UPDATE conges_periode SET p_etat=\"refus\" WHERE p_num=$numero_int" ;
 			$sql3 = "UPDATE conges_periode SET p_etat=\"refus\", p_motif_refus='$motif_refus', p_date_traitement=NOW() WHERE p_num=$numero_int" ;
-			$ReqLog3 = requete_mysql($sql3, "traite_demandes", $DEBUG);
+			$ReqLog3 = requete_mysql($sql3);
 		
 			// Log de l'action
 			log_action($numero_int,"refus", $user_login, "traite demande $numero ($user_login) ($user_nb_jours_pris jours) : $value_traite", $DEBUG);

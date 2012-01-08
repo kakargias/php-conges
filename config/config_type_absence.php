@@ -150,7 +150,7 @@ function affichage($tab_new_values,$session, $DEBUG=FALSE)
 
 			//requête qui récupère les informations de la table conges_type_absence
 			$sql1 = 'SELECT * FROM conges_type_absence WHERE ta_type = \''.$sql->escape($ta_type).'\'';
-			$ReqLog1 = requete_mysql($sql1, "affichage", $DEBUG);
+			$ReqLog1 = requete_mysql($sql1);
 
 			if($ReqLog1->num_rows !=0)
 			{
@@ -273,7 +273,7 @@ function modifier(&$tab_new_values, $session, $id_to_update, $DEBUG=FALSE)
 	// recup des infos du type de conges / absences
 	$sql_cong='SELECT ta_type, ta_libelle, ta_short_libelle FROM conges_type_absence WHERE ta_id = '.$sql->escape($id_to_update);
 
-	$ReqLog_cong = requete_mysql($sql_cong, "modifier", $DEBUG);
+	$ReqLog_cong = requete_mysql($sql_cong);
 
 	if($resultat_cong = $ReqLog_cong->fetch_array())
 	{
@@ -360,7 +360,7 @@ function commit_modif(&$tab_new_values, $session, $id_to_update, $DEBUG=FALSE)
 	{
 		// update de la table
 		$req_update='UPDATE conges_type_absence SET ta_libelle=\''.$tab_new_values['libelle'].'\', ta_short_libelle=\''.$tab_new_values['short_libelle'].'\' WHERE ta_id=\''.$sql->escape($id_to_update).'\' ';
-		$result1 = requete_mysql($req_update, "commit_modif", $DEBUG);
+		$result1 = requete_mysql($req_update);
 
 		echo "<span class = \"messages\">".$_SESSION['lang']['form_modif_ok']."</span><br>";
 
@@ -389,7 +389,7 @@ function supprimer($session, $id_to_update, $DEBUG=FALSE)
 	// verif si pas de periode de ce type de conges !!!
 	//requête qui récupère les informations de la table conges_periode
 	$sql1 = 'SELECT p_num FROM conges_periode WHERE p_type=\''.$sql->escape($id_to_update).'\'';
-	$ReqLog1 = requete_mysql($sql1, "commit_suppr", $DEBUG);
+	$ReqLog1 = requete_mysql($sql1);
 
 	$count= ($ReqLog1->num_rows) ;
 
@@ -445,11 +445,11 @@ function commit_suppr($session, $id_to_update, $DEBUG=FALSE)
 
 	// delete dans la table conges_type_absence
 	$req_delete1='DELETE FROM conges_type_absence WHERE ta_id='.$sql->escape($id_to_update);
-	$result1 = requete_mysql($req_delete1, "commit_suppr", $DEBUG);
+	$result1 = requete_mysql($req_delete1);
 
 	// delete dans la table conges_solde_user
 	$req_delete2='DELETE FROM conges_solde_user WHERE su_abs_id='.$sql->escape($id_to_update);
-	$result2 = requete_mysql($req_delete2, "commit_suppr", $DEBUG);
+	$result2 = requete_mysql($req_delete2);
 
 	echo "<span class = \"messages\">".$_SESSION['lang']['form_modif_ok']."</span><br>";
 
@@ -507,7 +507,7 @@ function commit_ajout(&$tab_new_values, $session, $DEBUG=FALSE)
 		// ajout dans la table conges_type_absence
 		$req_insert1="INSERT INTO conges_type_absence (ta_libelle, ta_short_libelle, ta_type) " .
 				"VALUES ('".$tab_new_values['libelle']."', '".$tab_new_values['short_libelle']."', '".$tab_new_values['type']."') ";
-		$result1 = requete_mysql($req_insert1, "commit_ajout", $DEBUG);
+		$result1 = requete_mysql($req_insert1);
 
 	    // on recup l'id de l'absence qu'on vient de créer
 	    $new_abs_id = get_last_absence_id($DEBUG);
@@ -520,7 +520,7 @@ function commit_ajout(&$tab_new_values, $session, $DEBUG=FALSE)
 				// recup de users :
 			    $sql_users="SELECT DISTINCT(u_login) FROM conges_users WHERE u_login!='conges' AND u_login!='admin' " ;
 
-				$ReqLog_users = requete_mysql($sql_users, "commit_ajout", $DEBUG);
+				$ReqLog_users = requete_mysql($sql_users);
 
 				while ($resultat1 = $ReqLog_users->fetch_array())
 				{
@@ -528,7 +528,7 @@ function commit_ajout(&$tab_new_values, $session, $DEBUG=FALSE)
 
 					$req_insert2="INSERT INTO conges_solde_user (su_login, su_abs_id, su_nb_an, su_solde, su_reliquat) " .
 							"VALUES ('$current_login', $new_abs_id, 0, 0, 0) ";
-					$result2 = requete_mysql($req_insert2,  "commit_ajout", $DEBUG);
+					$result2 = requete_mysql($req_insert2);
 				}
 			}
 			echo "<span class = \"messages\">".$_SESSION['lang']['form_modif_ok']."</span><br>";

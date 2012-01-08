@@ -75,8 +75,8 @@ function get_installed_version( $DEBUG=FALSE)
 {
 	$installed_version=0;
 	
-	$sql="SELECT conf_valeur FROM conges_config WHERE conf_nom='installed_version' ";
-	if($reglog= $sql->query($sql))
+	$sql1="SELECT conf_valeur FROM conges_config WHERE conf_nom='installed_version' ";
+	if($reglog= $sql->query($sql1))
 	{
 		// la table existe !
 		if($result=$reglog->fetch_array())
@@ -120,7 +120,7 @@ function test_alter_table( $DEBUG=FALSE)
 	/*********************************************/
 	// alter de la table `conges_test`
 	$sql_alter="ALTER TABLE `conges_test` CHANGE `test2` `test2` varchar(150) ;" ;
-	$result_alter = $sql->query($sql_alter) or die($sql->error);
+	$result_alter = $sql->query($sql_alter) ;
 	return ($result_alter);
 }
 

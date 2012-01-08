@@ -34,30 +34,28 @@ include_once  __DIR__ .'/sql.class.php';
 // AFFICHAGE de la requete SQL   si debug == TRUE
 // EXECUTION de la requete SQL   si debug != TRUE
 //
-function requete_mysql($requete,$fonction_name,$debug=FALSE)
+function requete_mysql($requete)
 {
    //
    // PARAMETRES :
    //  - $requete          : requete SQL a executer
-   //  - $fonction_name    : nom de la fonction qui a appele "requete_mysql"  <==> BLABLA à afficher
-   //  - $debug            : si == TRUE, afficher requete SINON executer requete
    //
 	$sql=SQL :: singleton();
 
 	if ($debug != TRUE)
 	{
-		$res = $sql->query($requete)   or die($fonction_name.'() : Erreur :<br>'."\n" . $sql->error . "'<br>\n sur '$requete' <BR>");
+		$res = $sql->query($requete)   ;
 	}
 	else
 	{
       echo "DEBUG : $fonction_name() : requete='$requete'<BR>\n";
 		if(preg_match('/^.*SELECT.+FROM.+$/i' , $requete))
 		{
-			$res = $sql->query($requete)   or die($fonction_name.'() : Erreur :<br>'."\n" . $sql->error . "'<br>\n sur '$requete' <BR>");
+			$res = $sql->query($requete)   ;
 			echo "requete executée ...<BR>\n";
 		}
 		elseif(preg_match('/^.*DESCRIBE.*$/i' , $requete))      {
-			$res = $sql->query($requete)   or die($fonction_name.'() : Erreur :<br>'."\n" . $sql->error . "'<br>\n sur '$requete' <BR>");
+			$res = $sql->query($requete)   ;
 			echo "requete non executée ...<BR>\n";
 		}
 		else
@@ -321,7 +319,7 @@ function autentification_passwd_conges($username,$password)
 //	$req_conges="SELECT u_passwd   FROM conges_users   WHERE u_login='$username' AND u_passwd='$password_md5' " ;
 	// on conserve le double mode d'autentificatio (nouveau cryptage (md5) ou ancien cryptage (mysql))
 	$req_conges='SELECT u_passwd   FROM conges_users   WHERE u_login=\''. $sql->real_escape_string( $username ) .'\' AND ( u_passwd=\''. $sql->real_escape_string( $password_md5) .'\' OR u_passwd=PASSWORD(\''.$password.'\') ) ' ;
-	$res_conges = $sql->query($req_conges) or die("autentification_passwd_conges() : Erreur ".$sql->error );
+	$res_conges = $sql->query($req_conges) ;
 	$num_row_conges = $res_conges->num_rows;
 	if ($num_row_conges !=0)
 	{
@@ -401,7 +399,7 @@ function authentification_passwd_conges_CAS()
 	
 	//ON VERIFIE ICI QUE L'UTILISATEUR EST DEJA ENREGISTRE SOUS DBCONGES
 	$req_conges = 'SELECT u_login FROM conges_users WHERE u_login=\''.$sql->escape($usernameCAS);
-	$res_conges = $sql->query($req_conges) or die("authentification_passwd_conges_CAS() : Erreur :<br>\n$req_conges<br>\n".$sql->error);
+	$res_conges = $sql->query($req_conges) ;
 	$num_row_conges = $res_conges->num_rows;
 	if($num_row_conges !=0)
 		$username_password_ok = $usernameCAS;

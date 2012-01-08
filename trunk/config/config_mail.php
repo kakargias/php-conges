@@ -195,7 +195,7 @@ function commit_modif($tab_new_values, $session, $DEBUG=FALSE)
 	{
 		$subject = addslashes($tab_mail['subject']);
 		$body = addslashes($tab_mail['body']) ;
-		$req_update='UPDATE conges_mail SET mail_subject=\''.$subject.'\', mail_body=\''.$body.'\' WHERE mail_nom=\''.SQL::escape($nom_mail).'\' ';
+		$req_update='UPDATE conges_mail SET mail_subject=\''.$subject.'\', mail_body=\''.$body.'\' WHERE mail_nom=\''.SQL::quote($nom_mail).'\' ';
 		$result1 = SQL::query($req_update);
 	}
 	echo "<span class = \"messages\">".$_SESSION['lang']['form_modif_ok']."</span><br>";
@@ -210,4 +210,3 @@ function commit_modif($tab_new_values, $session, $DEBUG=FALSE)
 
 }
 
-?>

@@ -559,4 +559,3 @@ function insert_ajout_dans_periode($DEBUG, $login, $nb_jours, $id_type_abs, $com
 	$result=insert_dans_periode($login, $date_today, "am", $date_today, "am", $nb_jours, $commentaire, $id_type_abs, "ajout", 0,  $DEBUG);
 }
 
-?>

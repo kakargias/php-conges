@@ -366,4 +366,3 @@ function test_mail_smtp($tab_new_values,  $session, $DEBUG=FALSE)
 }
 
 
-?>

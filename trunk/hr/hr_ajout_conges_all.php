@@ -360,7 +360,7 @@ function ajout_conges($tab_champ_saisie, $tab_commentaire_saisie, $DEBUG=FALSE)
 	      if($user_nb_jours_ajout_float!=0)
 	      {
 			/* Modification de la table conges_users */
-			$sql1 = 'UPDATE conges_solde_user SET su_solde = su_solde+$user_nb_jours_ajout_float WHERE su_login=\''.SQL::escape($user_name).'\' AND su_abs_id = $id_conges ';
+			$sql1 = 'UPDATE conges_solde_user SET su_solde = su_solde+$user_nb_jours_ajout_float WHERE su_login=\''.SQL::quote($user_name).'\' AND su_abs_id = $id_conges ';
 			/* On valide l'UPDATE dans la table ! */
 			$ReqLog1 = SQL::query($sql1) ;
 			
@@ -435,7 +435,7 @@ function ajout_global($tab_new_nb_conges_all, $tab_calcul_proportionnel, $tab_ne
 
 				// 1 : update de la table conges_solde_user
 				$req_update = 'UPDATE conges_solde_user SET su_solde = su_solde+$nb_conges
-						WHERE  su_login = \''.SQL::escape('$current_login').'\'  AND su_abs_id = $id_conges   ';
+						WHERE  su_login = \''.SQL::quote('$current_login').'\'  AND su_abs_id = $id_conges   ';
 				$ReqLog_update = SQL::query($req_update);
 		
 				// 2 : on insert l'ajout de conges GLOBAL (pour tous les users) dans la table periode
@@ -510,7 +510,7 @@ function ajout_global_groupe($choix_groupe, $tab_new_nb_conges_all, $tab_calcul_
 				
 				// 1 : on update conges_solde_user
 				$req_update = 'UPDATE conges_solde_user SET su_solde = su_solde+$nb_conges
-						WHERE  su_login = \''.SQL::escape($current_login).'\' AND su_abs_id = $id_conges   ';
+						WHERE  su_login = \''.SQL::quote($current_login).'\' AND su_abs_id = $id_conges   ';
 				$ReqLog_update = SQL::query($req_update);
 				
 				// 2 : on insert l'ajout de conges dans la table periode
@@ -562,4 +562,4 @@ function insert_ajout_dans_periode($DEBUG, $login, $nb_jours, $id_type_abs, $com
 	$result=insert_dans_periode($login, $date_today, "am", $date_today, "am", $nb_jours, $commentaire, $id_type_abs, "ajout", 0, $DEBUG);
 }
 
-?>
+

@@ -481,7 +481,7 @@ function delete_year($tab_checkbox_j_chome, $DEBUG=FALSE)
 	$date_1=key($tab_checkbox_j_chome);
 	$year=substr($date_1, 0, 4);
 	//echo "year= $year<br>\n";
-	$sql_delete='DELETE FROM conges_jours_feries WHERE jf_date LIKE \''.SQL::escape($year).'%\' ;';
+	$sql_delete='DELETE FROM conges_jours_feries WHERE jf_date LIKE \''.SQL::quote($year).'%\' ;';
 	$result = SQL::query($sql_delete);
 
 	return TRUE;
@@ -493,7 +493,7 @@ function verif_year_deja_saisie($tab_checkbox_j_chome, $DEBUG=FALSE)
 	$date_1=key($tab_checkbox_j_chome);
 	$year=substr($date_1, 0, 4);
 	//echo "year= $year<br>\n";
-	$sql_select='SELECT jf_date FROM conges_jours_feries WHERE jf_date LIKE \''.SQL::escape($year).'%\' ;';
+	$sql_select='SELECT jf_date FROM conges_jours_feries WHERE jf_date LIKE \''.SQL::quote($year).'%\' ;';
 	$relog = SQL::query($sql_select);
 //	attention ne fonctionne pas avec requete_mysql
 //	$relog = SQL::query($sql_select);
@@ -507,7 +507,7 @@ function verif_year_deja_saisie($tab_checkbox_j_chome, $DEBUG=FALSE)
 function get_tableau_jour_feries($year, &$tab_year,  $DEBUG=FALSE)
 {
 
-	$sql_select='SELECT jf_date FROM conges_jours_feries WHERE jf_date LIKE \''.SQL::escape($year).'-%\' ;';
+	$sql_select='SELECT jf_date FROM conges_jours_feries WHERE jf_date LIKE \''.SQL::quote($year).'-%\' ;';
 	$res_select = SQL::query($sql_select);
 //	attention ne fonctionne pas avec requete_mysql
 //	$res_select = SQL::query($sql_select);
@@ -552,5 +552,3 @@ function fcListJourFeries($iAnnee = 2000)
 	return $tbJourFerie;
 }
 
-
-?>

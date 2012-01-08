@@ -244,4 +244,4 @@ function e7_alter_tables_taille_login( $DEBUG=FALSE)
 
 
 
-?>
+

@@ -1029,7 +1029,7 @@ function recup_tableau_periodes($mois, $first_jour, $year,  $DEBUG=FALSE)
 		//$user_periode_sql = "SELECT  p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_type, p_etat FROM conges_periode WHERE ( p_etat='ok' OR  p_etat='demande' OR  p_type='formation' OR  p_type='mission' OR  p_type='autre' ) AND (p_date_deb<='$date_j' AND p_date_fin>='$date_j') ORDER BY p_date_deb ";
 		$user_periode_sql = 'SELECT  p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_type, p_etat, p_fermeture_id, p_commentaire
 						FROM conges_periode
-						WHERE ( p_etat=\'ok\' OR  p_etat=\'demande\' OR  p_etat=\'valid\') AND (p_date_deb<=\''.SQL::escape($date_j).'\' AND p_date_fin>=\''.SQL::escape($date_j).'\')
+						WHERE ( p_etat=\'ok\' OR  p_etat=\'demande\' OR  p_etat=\'valid\') AND (p_date_deb<=\''.SQL::quote($date_j).'\' AND p_date_fin>=\''.SQL::quote($date_j).'\')
 						ORDER BY p_date_deb ';
 
 		//echo "user_periode_sql = $user_periode_sql<br>\n";
@@ -1071,7 +1071,7 @@ function recup_tableau_periodes($mois, $first_jour, $year,  $DEBUG=FALSE)
 
 			$user_periode_sql = 'SELECT  p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_type, p_etat,  p_fermeture_id
 							FROM conges_periode 
-							WHERE ( p_etat=\'ok\' OR  p_etat=\'demande\' OR  p_etat=\'valid\') AND (p_date_deb<=\''.SQL::escape($date_j).'\' AND p_date_fin>=\''.SQL::escape($date_j).'\') ';
+							WHERE ( p_etat=\'ok\' OR  p_etat=\'demande\' OR  p_etat=\'valid\') AND (p_date_deb<=\''.SQL::quote($date_j).'\' AND p_date_fin>=\''.SQL::quote($date_j).'\') ';
 			//echo "user_periode_sql = $user_periode_sql<br>\n";
 			$user_periode_request = SQL::query($user_periode_sql);
 
@@ -1221,7 +1221,7 @@ function recup_tableau_des_users_a_afficher($select_groupe,  $DEBUG=FALSE)
 				{
 					$sql1 = "SELECT DISTINCT u_login, u_nom, u_prenom, u_quotite FROM conges_users ";
 					$sql1 = $sql1." WHERE u_login!='conges' AND u_login!='admin' ";
-					$sql1 = $sql1.' AND ( u_login = \''.SQL::escape($_SESSION['userlogin']).'\' ';
+					$sql1 = $sql1.' AND ( u_login = \''.SQL::quote($_SESSION['userlogin']).'\' ';
 	
 					//recup de la liste des users des groupes dont le user est membre
 					$list_users=get_list_users_du_groupe($select_groupe,  $DEBUG);
@@ -1258,7 +1258,7 @@ function recup_tableau_des_users_a_afficher($select_groupe,  $DEBUG=FALSE)
 		
 						if($_SESSION['userlogin']!="conges")
 						{
-							$sql1 = $sql1.' AND ( u_login = \''.SQL::escape($_SESSION['userlogin']).'\' ';
+							$sql1 = $sql1.' AND ( u_login = \''.SQL::quote($_SESSION['userlogin']).'\' ';
 		
 							//si affichage par groupe : on affiche les membres des groupes du user ($_SESSION['userlogin'])
 							if( ($_SESSION['config']['gestion_groupes']==TRUE) && ($_SESSION['config']['affiche_groupe_in_calendrier']==TRUE) )
@@ -1300,5 +1300,5 @@ function recup_tableau_des_users_a_afficher($select_groupe,  $DEBUG=FALSE)
 	return($tab_all_users);
 }
 
-?>
+
 

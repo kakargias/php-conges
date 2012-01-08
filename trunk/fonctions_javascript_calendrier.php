@@ -649,4 +649,3 @@ input.DatePicker_trigger{
 <?php
 }
 
-?>

@@ -253,7 +253,7 @@ function commit_saisie(&$tab_new_values, $session, $DEBUG=FALSE)
 		}
 		
 		// Mise à jour
-		$sql2 = 'UPDATE conges_config SET conf_valeur = \''.$value.'\' WHERE conf_nom =\''.SQL::escape($key).'\' ';
+		$sql2 = 'UPDATE conges_config SET conf_valeur = \''.$value.'\' WHERE conf_nom =\''.SQL::quote($key).'\' ';
 		$ReqLog2 = SQL::query($sql2);
 	}
 
@@ -274,4 +274,4 @@ function commit_saisie(&$tab_new_values, $session, $DEBUG=FALSE)
 
 
 
-?>
+

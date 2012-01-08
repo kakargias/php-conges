@@ -112,7 +112,7 @@ function confirmer($p_num, $onglet, $DEBUG=FALSE)
 
 
 	// Récupération des informations
-	$sql1 = 'SELECT p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_nb_jours, p_commentaire, p_etat, p_num FROM conges_periode where p_num = \''.SQL::escape($p_num).'\'';
+	$sql1 = 'SELECT p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_nb_jours, p_commentaire, p_etat, p_num FROM conges_periode where p_num = \''.SQL::quote($p_num).'\'';
 	$ReqLog1 = SQL::query($sql1) ;
 
 	// AFFICHAGE TABLEAU
@@ -229,4 +229,4 @@ function modifier($p_num_to_update, $new_debut, $new_demi_jour_deb, $new_fin, $n
 	echo " </form> \n" ;
 
 }
-?>
+

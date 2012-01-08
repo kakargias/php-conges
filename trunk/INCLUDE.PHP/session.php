@@ -207,7 +207,3 @@ else    //  PAS DE SESSION   ($session == "")
 }
 
 
-
-
-
-?>

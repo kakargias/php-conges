@@ -135,5 +135,3 @@ function lance_install($lang, $DEBUG=FALSE)
 	}
 }
 
-
-?>

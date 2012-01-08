@@ -32,4 +32,3 @@ $config_url_site_web_php_conges="http://www.ced.univ-montp2.fr/php_conges";
 // ne pas toucher ces variables SVP ;-)
 
 
-?>

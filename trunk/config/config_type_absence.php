@@ -149,7 +149,7 @@ function affichage($tab_new_values,$session, $DEBUG=FALSE)
 			echo "    <i>$comment</i><br><br>\n";
 
 			//requête qui récupère les informations de la table conges_type_absence
-			$sql1 = 'SELECT * FROM conges_type_absence WHERE ta_type = \''.SQL::escape($ta_type).'\'';
+			$sql1 = 'SELECT * FROM conges_type_absence WHERE ta_type = \''.SQL::quote($ta_type).'\'';
 			$ReqLog1 = SQL::query($sql1);
 
 			if($ReqLog1->num_rows !=0)
@@ -271,7 +271,7 @@ function modifier(&$tab_new_values, $session, $id_to_update, $DEBUG=FALSE)
 	echo "<br>\n";
 
 	// recup des infos du type de conges / absences
-	$sql_cong='SELECT ta_type, ta_libelle, ta_short_libelle FROM conges_type_absence WHERE ta_id = '.SQL::escape($id_to_update);
+	$sql_cong='SELECT ta_type, ta_libelle, ta_short_libelle FROM conges_type_absence WHERE ta_id = '.SQL::quote($id_to_update);
 
 	$ReqLog_cong = SQL::query($sql_cong);
 
@@ -359,7 +359,7 @@ function commit_modif(&$tab_new_values, $session, $id_to_update, $DEBUG=FALSE)
 	else
 	{
 		// update de la table
-		$req_update='UPDATE conges_type_absence SET ta_libelle=\''.$tab_new_values['libelle'].'\', ta_short_libelle=\''.$tab_new_values['short_libelle'].'\' WHERE ta_id=\''.SQL::escape($id_to_update).'\' ';
+		$req_update='UPDATE conges_type_absence SET ta_libelle=\''.$tab_new_values['libelle'].'\', ta_short_libelle=\''.$tab_new_values['short_libelle'].'\' WHERE ta_id=\''.SQL::quote($id_to_update).'\' ';
 		$result1 = SQL::query($req_update);
 
 		echo "<span class = \"messages\">".$_SESSION['lang']['form_modif_ok']."</span><br>";
@@ -388,7 +388,7 @@ function supprimer($session, $id_to_update, $DEBUG=FALSE)
 
 	// verif si pas de periode de ce type de conges !!!
 	//requête qui récupère les informations de la table conges_periode
-	$sql1 = 'SELECT p_num FROM conges_periode WHERE p_type=\''.SQL::escape($id_to_update).'\'';
+	$sql1 = 'SELECT p_num FROM conges_periode WHERE p_type=\''.SQL::quote($id_to_update).'\'';
 	$ReqLog1 = SQL::query($sql1);
 
 	$count= ($ReqLog1->num_rows) ;
@@ -444,11 +444,11 @@ function commit_suppr($session, $id_to_update, $DEBUG=FALSE)
 	if($DEBUG==TRUE) { echo "URL = $URL<br>\n"; }
 
 	// delete dans la table conges_type_absence
-	$req_delete1='DELETE FROM conges_type_absence WHERE ta_id='.SQL::escape($id_to_update);
+	$req_delete1='DELETE FROM conges_type_absence WHERE ta_id='.SQL::quote($id_to_update);
 	$result1 = SQL::query($req_delete1);
 
 	// delete dans la table conges_solde_user
-	$req_delete2='DELETE FROM conges_solde_user WHERE su_abs_id='.SQL::escape($id_to_update);
+	$req_delete2='DELETE FROM conges_solde_user WHERE su_abs_id='.SQL::quote($id_to_update);
 	$result2 = SQL::query($req_delete2);
 
 	echo "<span class = \"messages\">".$_SESSION['lang']['form_modif_ok']."</span><br>";
@@ -546,4 +546,3 @@ function commit_ajout(&$tab_new_values, $session, $DEBUG=FALSE)
 }
 
 
-?>

@@ -162,7 +162,7 @@ function affichage($onglet, $year_calendrier_saisie_debut, $mois_calendrier_sais
 
 	
 
-	$sql1 = 'SELECT u_nom, u_prenom FROM conges_users where u_login = \''.SQL::escape($_SESSION['userlogin']).'\' ';
+	$sql1 = 'SELECT u_nom, u_prenom FROM conges_users where u_login = \''.SQL::quote($_SESSION['userlogin']).'\' ';
 	$ReqLog1 = SQL::query($sql1) ;
 
 	while ($resultat1 = $ReqLog1->fetch_array()) {
@@ -643,7 +643,7 @@ function echange_absence_rtt($onglet, $new_debut_string, $new_fin_string, $new_c
 		// insert du jour d'absence ordinaire (qui n'en sera plus un ou qu'a moitie ...)
 		// e_presence = N (non) , J (jour entier) , M (matin) ou A (apres-midi)
 		// verif si le couple user/date1 existe dans conges_echange_rtt ...
-		$sql_verif_echange1='SELECT e_absence, e_presence from conges_echange_rtt WHERE e_login=\''.SQL::escape($_SESSION['userlogin']).'\' AND e_date_jour=\''.SQL::escape($new_debut);
+		$sql_verif_echange1='SELECT e_absence, e_presence from conges_echange_rtt WHERE e_login=\''.SQL::quote($_SESSION['userlogin']).'\' AND e_date_jour=\''.SQL::quote($new_debut);
 		$result_verif_echange1 = SQL::query($sql_verif_echange1) ;
 
 		$count_verif_echange1=$result_verif_echange1->num_rows;
@@ -656,7 +656,7 @@ function echange_absence_rtt($onglet, $new_debut_string, $new_fin_string, $new_c
 			//if($resultatverif_echange1['e_absence'] == 'N' )
 			$sql1 = 'UPDATE conges_echange_rtt
 					SET e_absence=\''.$nouvelle_absence_date_1.'\', e_presence=\''.$nouvelle_presence_date_1.'\', e_comment=\''.$new_comment.'\'
-					WHERE e_login=\''.$_SESSION['userlogin'].'\' AND e_date_jour=\''.SQL::escape($new_debut).'\'  ';
+					WHERE e_login=\''.$_SESSION['userlogin'].'\' AND e_date_jour=\''.SQL::quote($new_debut).'\'  ';
 		}
 		else // sinon : on insert
 		{
@@ -668,7 +668,7 @@ function echange_absence_rtt($onglet, $new_debut_string, $new_fin_string, $new_c
 		// insert du jour d'absence souhaité (qui en devient un)
 		// e_absence = N (non) , J (jour entier) , M (matin) ou A (apres-midi)
 		// verif si le couple user/date2 existe dans conges_echange_rtt ...
-		$sql_verif_echange2='SELECT e_absence, e_presence from conges_echange_rtt WHERE e_login=\''.SQL::escape($_SESSION['userlogin']).'\' AND e_date_jour=\''.SQL::escape($new_fin);
+		$sql_verif_echange2='SELECT e_absence, e_presence from conges_echange_rtt WHERE e_login=\''.SQL::quote($_SESSION['userlogin']).'\' AND e_date_jour=\''.SQL::quote($new_fin);
 		$result_verif_echange2 = SQL::query($sql_verif_echange2);
 
 		$count_verif_echange2=$result_verif_echange2->num_rows;
@@ -723,7 +723,7 @@ function affichage_demandes_en_cours($tri_date, $onglet,  $DEBUG=FALSE)
 	// on ne recup QUE les periodes de type "conges"(cf table conges_type_absence) ET QUE les demandes
 	$sql3 = 'SELECT p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_nb_jours, p_commentaire, p_type, p_etat, p_motif_refus, p_date_demande, p_date_traitement, p_num, ta_libelle
 			FROM conges_periode as a, conges_type_absence as b
-			WHERE a.p_login = \''.SQL::escape($_SESSION['userlogin']).'\'
+			WHERE a.p_login = \''.SQL::quote($_SESSION['userlogin']).'\'
 			AND (a.p_type=b.ta_id)
 			AND ( (b.ta_type=\'conges\') OR (b.ta_type=\'conges_exceptionnels\') )
 			AND ((p_etat=\'demande\') OR (p_etat=\'valid\')) ';
@@ -971,7 +971,7 @@ function affichage_historique_absences($tri_date, $year_affichage, $onglet,  $DE
 	// Récupération des informations
 	$sql4 = 'SELECT p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_nb_jours, p_commentaire, p_type, p_etat, p_motif_refus, p_date_demande, p_date_traitement, p_num, ta_libelle
 			FROM conges_periode as a, conges_type_absence as b
-			WHERE a.p_login = \''.SQL::escape($_SESSION['userlogin']).'\'
+			WHERE a.p_login = \''.SQL::quote($_SESSION['userlogin']).'\'
 			AND (a.p_type=b.ta_id)
 			AND (b.ta_type=\'absences\')
 			AND (p_date_deb LIKE \''.intval($year_affichage).'%\' OR p_date_fin LIKE \''.intval($year_affichage).'%\') ';
@@ -1122,14 +1122,14 @@ function verif_solde_user($user_login, $type_conges, $nb_jours,  $DEBUG=FALSE)
 	if (get_type_abs($type_conges,  $DEBUG)=="conges") 
 	{
 		// recup du solde de conges de type $type_conges pour le user de login $user_login
-		$select_solde='SELECT su_solde FROM conges_solde_user WHERE su_login=\''.SQL::escape($user_login).'\' AND su_abs_id='.SQL::escape($type_conges);
+		$select_solde='SELECT su_solde FROM conges_solde_user WHERE su_login=\''.SQL::quote($user_login).'\' AND su_abs_id='.SQL::quote($type_conges);
 		$ReqLog_solde_conges = SQL::query($select_solde);
 	
 		$resultat_solde = $ReqLog_solde_conges->fetch_array();
 		$sql_solde_user = $resultat_solde["su_solde"];
 	
 		// recup du nombre de jours de conges de type $type_conges pour le user de login $user_login qui sont à valider par son resp ou le grd resp
-		$select_solde_a_valider='SELECT SUM(p_nb_jours) FROM conges_periode WHERE p_login=\''.SQL::escape($user_login).'\' AND p_type='.SQL::escape($type_conges).' AND (p_etat=\'demande\' OR p_etat=\'valid\') ';
+		$select_solde_a_valider='SELECT SUM(p_nb_jours) FROM conges_periode WHERE p_login=\''.SQL::quote($user_login).'\' AND p_type='.SQL::quote($type_conges).' AND (p_etat=\'demande\' OR p_etat=\'valid\') ';
 		$ReqLog_solde_conges_a_valider = SQL::query($select_solde_a_valider);
 	
 		$resultat_solde_a_valider = $ReqLog_solde_conges_a_valider->fetch_array();
@@ -1146,6 +1146,3 @@ function verif_solde_user($user_login, $type_conges, $nb_jours,  $DEBUG=FALSE)
 	}
 	return $verif;
 }
-
-
-?>

@@ -429,4 +429,3 @@ function traite_all_demande_en_cours($tab_bt_radio, $tab_text_refus, $DEBUG=FALS
 	}
 }
 
-?>

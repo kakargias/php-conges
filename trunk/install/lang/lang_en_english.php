@@ -884,8 +884,3 @@ $LANG['mail_remplace_date_fin']     = "__DATE_FIN__   will automatically be repl
 /*************************************************************************************************/
 $_SESSION['lang']=$LANG ;
 
-
-
-
-
-?>

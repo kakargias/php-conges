@@ -40,5 +40,3 @@ $mysql_pass="motdepasse";
 $mysql_database= "db_conges" ;
 
 
-
-?>

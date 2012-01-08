@@ -47,4 +47,4 @@ echo "<HTML>\n";
 echo "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"0; URL=$URL_ACCUEIL_CONGES\">";
 echo "</HTML>\n";
 
-?>
+

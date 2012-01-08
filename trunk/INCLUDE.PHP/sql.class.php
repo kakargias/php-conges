@@ -123,18 +123,8 @@ class Database extends mysqli
 		return $result;
     }
 	
-	public function escape( $escapestr )
+	public function quote( $escapestr )
 	{
 		return $this->escape_string( $escapestr );
 	}
 }
-
-
-// $result = $l->query('SHOW TABLES');
-// while ($ligne = $result->fetch_assoc())
-// {
-	// print_r($ligne);
-// }
-
-
-?>

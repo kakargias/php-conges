@@ -536,4 +536,4 @@ function affiche_tableau_conges_normal(&$pdf, $ReqLog2, $decalage, $tab_type_all
 
 }
 
-?>
+

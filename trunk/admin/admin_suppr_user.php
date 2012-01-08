@@ -139,7 +139,7 @@ function confirmer($u_login, $DEBUG=FALSE)
 	echo "</tr>\n";
 
 	// Récupération des informations
-	$sql1 = 'SELECT u_login, u_nom, u_prenom FROM conges_users WHERE u_login = \''.SQL::escape($u_login).'\'';
+	$sql1 = 'SELECT u_login, u_nom, u_prenom FROM conges_users WHERE u_login = \''.SQL::quote($u_login).'\'';
 	$ReqLog1 = SQL::query($sql1);
 
 	echo "<tr align=\"center\">\n";
@@ -167,25 +167,25 @@ function suppression($u_login_to_delete, $DEBUG=FALSE)
 	$session=session_id();
 	//echo($u_login_to_delete."---".$u_login_to_delete."<br>");
 
-	$sql1 = 'DELETE FROM conges_users WHERE u_login = \''.SQL::escape($u_login_to_delete).'\'';
+	$sql1 = 'DELETE FROM conges_users WHERE u_login = \''.SQL::quote($u_login_to_delete).'\'';
 	$result = SQL::query($sql1);
 
-	$sql2 = 'DELETE FROM conges_periode WHERE p_login = \''.SQL::escape($u_login_to_delete).'\'';
+	$sql2 = 'DELETE FROM conges_periode WHERE p_login = \''.SQL::quote($u_login_to_delete).'\'';
 	$result2 = SQL::query($sql2);
 
-	$sql3 = 'DELETE FROM conges_artt WHERE a_login = \''.SQL::escape($u_login_to_delete).'\'';
+	$sql3 = 'DELETE FROM conges_artt WHERE a_login = \''.SQL::quote($u_login_to_delete).'\'';
 	$result3 = SQL::query($sql3);
 
-	$sql4 = 'DELETE FROM conges_echange_rtt WHERE e_login = \''.SQL::escape($u_login_to_delete).'\'';
+	$sql4 = 'DELETE FROM conges_echange_rtt WHERE e_login = \''.SQL::quote($u_login_to_delete).'\'';
 	$result4 = SQL::query($sql4);
 
-	$sql5 = 'DELETE FROM conges_groupe_resp WHERE gr_login = \''.SQL::escape($u_login_to_delete).'\'';
+	$sql5 = 'DELETE FROM conges_groupe_resp WHERE gr_login = \''.SQL::quote($u_login_to_delete).'\'';
 	$result5 = SQL::query($sql5);
 
-	$sql6 = 'DELETE FROM conges_groupe_users WHERE gu_login = \''.SQL::escape($u_login_to_delete).'\'';
+	$sql6 = 'DELETE FROM conges_groupe_users WHERE gu_login = \''.SQL::quote($u_login_to_delete).'\'';
 	$result6 = SQL::query($sql6);
 
-	$sql7 = 'DELETE FROM conges_solde_user WHERE su_login = \''.SQL::escape($u_login_to_delete).'\'';
+	$sql7 = 'DELETE FROM conges_solde_user WHERE su_login = \''.SQL::quote($u_login_to_delete).'\'';
 	$result7 = SQL::query($sql7);
 
 
@@ -209,4 +209,3 @@ function suppression($u_login_to_delete, $DEBUG=FALSE)
 
 }
 
-?>

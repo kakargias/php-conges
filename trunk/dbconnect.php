@@ -40,5 +40,3 @@ $mysql_pass="root";
 $mysql_database= "db_conges" ;
 
 
-
-?>

@@ -213,5 +213,3 @@ include("../fonctions_javascript.php") ;
 	echo "</head>\n";
 }
 
-
-?>

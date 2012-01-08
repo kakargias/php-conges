@@ -478,7 +478,7 @@ function cloture_current_year_for_login($current_login, $tab_current_user, $tab_
 				$new_solde = $user_nb_jours_ajout_an + $new_reliquat  ;
 					
 				// update du solde
-				$sql_solde = 'UPDATE conges_solde_user SET su_solde = \''.$new_solde.'\' WHERE su_login=\''.SQL::escape($current_login).'\' AND su_abs_id =\''.SQL::escape($id_conges).'\' ';
+				$sql_solde = 'UPDATE conges_solde_user SET su_solde = \''.$new_solde.'\' WHERE su_login=\''.SQL::quote($current_login).'\' AND su_abs_id =\''.SQL::quote($id_conges).'\' ';
 				$ReqLog_solde = SQL::query($sql_solde) ;
 			}
 			else
@@ -489,14 +489,14 @@ function cloture_current_year_for_login($current_login, $tab_current_user, $tab_
 				else
 					$new_solde = $user_nb_jours_ajout_an ;
 					
-				$sql_solde = 'UPDATE conges_solde_user SET su_solde = \''.$new_solde.'\' WHERE su_login=\''.SQL::escape($current_login).'\'  AND su_abs_id = \''.SQL::escape($id_conges).'\' ';
+				$sql_solde = 'UPDATE conges_solde_user SET su_solde = \''.$new_solde.'\' WHERE su_login=\''.SQL::quote($current_login).'\'  AND su_abs_id = \''.SQL::quote($id_conges).'\' ';
 				$ReqLog_solde = SQL::query($sql_solde) ;
 			}
 
 			/* Modification de la table conges_users */
 			// ATTENTION : ne pas faire "SET u_num_exercice = u_num_exercice+1" dans la requete SQL car on incrémenterait pour chaque type d'absence !
 			$new_num_exercice=$_SESSION['config']['num_exercice'] ;
-			$sql2 = 'UPDATE conges_users SET u_num_exercice = \''.$new_num_exercice.'\' WHERE u_login=\''.SQL::escape($current_login).'\' ';
+			$sql2 = 'UPDATE conges_users SET u_num_exercice = \''.$new_num_exercice.'\' WHERE u_login=\''.SQL::quote($current_login).'\' ';
 			$ReqLog2 = SQL::query($sql2) ;
 			
 			// on insert l'ajout de conges dans la table periode (avec le commentaire)
@@ -517,7 +517,7 @@ function update_appli_num_exercice( $DEBUG=FALSE)
 
 	// verif
 	$appli_num_exercice = $_SESSION['config']['num_exercice'] ;
-	$sql_verif = 'SELECT u_login FROM conges_users WHERE u_login != \'admin\' AND u_login != \'conges\' AND u_num_exercice != '.SQL::escape($appli_num_exercice);
+	$sql_verif = 'SELECT u_login FROM conges_users WHERE u_login != \'admin\' AND u_login != \'conges\' AND u_num_exercice != '.SQL::quote($appli_num_exercice);
 	$ReqLog_verif = SQL::query($sql_verif) ;
 				
 	if($ReqLog_verif->num_rows == 0)
@@ -647,6 +647,3 @@ function set_nouvelle_date_limite_reliquat( $DEBUG=FALSE)
 	}
 }
 
-
-
-?>

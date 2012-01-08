@@ -531,7 +531,7 @@ function verif_new_param(&$tab_new_user, &$tab_new_jours_an, &$tab_new_solde, $D
 	}
 	else {
 		// verif si le login demandé n'existe pas déjà ....
-		$sql_verif='SELECT u_login FROM conges_users WHERE u_login=\''.SQL::escape($tab_new_user['login']).'\'';
+		$sql_verif='SELECT u_login FROM conges_users WHERE u_login=\''.SQL::quote($tab_new_user['login']).'\'';
 		$ReqLog_verif = SQL::query($sql_verif);
 
 		$num_verif = $ReqLog_verif->num_rows;
@@ -1075,7 +1075,7 @@ function verif_new_param_group($new_group_name, $new_group_libelle, $DEBUG=FALSE
 	}
 	else {
 		// verif si le groupe demandé n'existe pas déjà ....
-		$sql_verif='select g_groupename from conges_groupe where g_groupename=\''.SQL::escape($new_group_name).'\' ';
+		$sql_verif='select g_groupename from conges_groupe where g_groupename=\''.SQL::quote($new_group_name).'\' ';
 		$ReqLog_verif = SQL::query($sql_verif);
 		$num_verif = $ReqLog_verif->num_rows;
 		if ($num_verif!=0)
@@ -1185,7 +1185,7 @@ function affiche_gestion_groupes_users($choix_group, $DEBUG=FALSE)
 	/* Affichage Groupes    */
 	/************************/
 	// Récuperation des informations :
-	$sql_gr = 'SELECT g_groupename, g_comment FROM conges_groupe WHERE g_gid='.SQL::escape($choix_group);
+	$sql_gr = 'SELECT g_groupename, g_comment FROM conges_groupe WHERE g_gid='.SQL::quote($choix_group);
 	$ReqLog_gr = SQL::query($sql_gr);
 	$resultat_gr = $ReqLog_gr->fetch_array();
 	$sql_group=$resultat_gr["g_groupename"] ;
@@ -1225,7 +1225,7 @@ function affiche_gestion_groupes_users($choix_group, $DEBUG=FALSE)
 	}
 	// on rempli un autre tableau des users du groupe
 	$tab_group=array();
-	$sql_gu = 'SELECT gu_login FROM conges_groupe_users WHERE gu_gid=\''.SQL::escape($choix_group).'\' ORDER BY gu_login ';
+	$sql_gu = 'SELECT gu_login FROM conges_groupe_users WHERE gu_gid=\''.SQL::quote($choix_group).'\' ORDER BY gu_login ';
 	$ReqLog_gu = SQL::query($sql_gu);
 
 	while($resultat_gu=$ReqLog_gu->fetch_array())
@@ -1280,7 +1280,7 @@ function modif_group_users($choix_group, &$checkbox_group_users,  $DEBUG=FALSE)
 	$session=session_id();
 
 	// on supprime tous les anciens users du groupe puis on ajoute tous ceux qui sont dans le tableau checkbox (si il n'est pas vide)
-	$sql_del = 'DELETE FROM conges_groupe_users WHERE gu_gid='.SQL::escape($choix_group).' ';
+	$sql_del = 'DELETE FROM conges_groupe_users WHERE gu_gid='.SQL::quote($choix_group).' ';
 	$ReqLog_del = SQL::query($sql_del);
 	
 	if(is_array($checkbox_group_users) && count ($checkbox_group_users)!=0)
@@ -1436,7 +1436,7 @@ function affiche_tableau_affectation_user_groupes($choix_user,  $DEBUG=FALSE)
 	if($choix_user!="")
 	{
 		$tab_user=array();
-		$sql_gu = 'SELECT gu_gid FROM conges_groupe_users WHERE gu_login=\''.SQL::escape($choix_user).'\' ORDER BY gu_gid ';
+		$sql_gu = 'SELECT gu_gid FROM conges_groupe_users WHERE gu_login=\''.SQL::quote($choix_user).'\' ORDER BY gu_gid ';
 		$ReqLog_gu = SQL::query($sql_gu);
 
 		while($resultat_gu=$ReqLog_gu->fetch_array())
@@ -1505,7 +1505,7 @@ function commit_modif_user_groups($choix_user, &$checkbox_user_groups,  $DEBUG=F
 
 	$result_insert=FALSE;
 	// on supprime tous les anciens groupes du user, puis on ajoute tous ceux qui sont dans la tableau checkbox (si il n'est pas vide)
-	$sql_del = 'DELETE FROM conges_groupe_users WHERE gu_login=\''.SQL::escape($choix_user).'\'';
+	$sql_del = 'DELETE FROM conges_groupe_users WHERE gu_login=\''.SQL::quote($choix_user).'\'';
 	$ReqLog_del = SQL::query($sql_del);
 
 	if( ($checkbox_user_groups!="") && (count ($checkbox_user_groups)!=0) )
@@ -1615,7 +1615,7 @@ function affiche_gestion_groupes_responsables($choix_group, $DEBUG=FALSE)
 	/* Affichage Groupe    */
 	/***********************/
 	// Récuperation des informations :
-	$sql_gr = 'SELECT g_groupename, g_comment, g_double_valid FROM conges_groupe WHERE g_gid='.SQL::escape($choix_group);
+	$sql_gr = 'SELECT g_groupename, g_comment, g_double_valid FROM conges_groupe WHERE g_gid='.SQL::quote($choix_group);
 	$ReqLog_gr = SQL::query($sql_gr);
 
 	$resultat_gr = $ReqLog_gr->fetch_array();
@@ -1663,7 +1663,7 @@ function affiche_gestion_groupes_responsables($choix_group, $DEBUG=FALSE)
 
 		// on rempli un autre tableau des responsables du groupe
 		$tab_group=array();
-		$sql_gr = 'SELECT gr_login FROM conges_groupe_resp WHERE gr_gid='.SQL::escape($choix_group).' ORDER BY gr_login ';
+		$sql_gr = 'SELECT gr_login FROM conges_groupe_resp WHERE gr_gid='.SQL::quote($choix_group).' ORDER BY gr_login ';
 		$ReqLog_gr = SQL::query($sql_gr);
 
 		while($resultat_gr=$ReqLog_gr->fetch_array())
@@ -1722,7 +1722,7 @@ function affiche_gestion_groupes_responsables($choix_group, $DEBUG=FALSE)
 
 			// on rempli un autre tableau des grands responsables du groupe
 			$tab_group_grd=array();
-			$sql_ggr = 'SELECT ggr_login FROM conges_groupe_grd_resp WHERE ggr_gid='.SQL::escape($choix_group).' ORDER BY ggr_login ';
+			$sql_ggr = 'SELECT ggr_login FROM conges_groupe_grd_resp WHERE ggr_gid='.SQL::quote($choix_group).' ORDER BY ggr_login ';
 			$ReqLog_ggr = SQL::query($sql_ggr);
 
 			while($resultat_ggr=$ReqLog_ggr->fetch_array())
@@ -1788,11 +1788,11 @@ function modif_group_responsables($choix_group, &$checkbox_group_resp, &$checkbo
 
 	//echo "groupe : $choix_group<br>\n";
 	// on supprime tous les anciens resp du groupe puis on ajoute tous ceux qui sont dans le tableau de la checkbox
-	$sql_del = 'DELETE FROM conges_groupe_resp WHERE gr_gid='.SQL::escape($choix_group);
+	$sql_del = 'DELETE FROM conges_groupe_resp WHERE gr_gid='.SQL::quote($choix_group);
 	$ReqLog_del = SQL::query($sql_del);
 
 	// on supprime tous les anciens grand resp du groupe puis on ajoute tous ceux qui sont dans le tableau de la checkbox
-	$sql_del_2 = 'DELETE FROM conges_groupe_grd_resp WHERE ggr_gid='.SQL::escape($choix_group);
+	$sql_del_2 = 'DELETE FROM conges_groupe_grd_resp WHERE ggr_gid='.SQL::quote($choix_group);
 	$ReqLog_del_2 = SQL::query($sql_del_2);
 
 
@@ -1889,7 +1889,7 @@ function affiche_gestion_responsable_groupes($choix_resp, $DEBUG=FALSE)
 	/* Affichage Responsable    */
 	/****************************/
 	// Récuperation des informations :
-	$sql_r = 'SELECT u_nom, u_prenom FROM conges_users WHERE u_login=\''.SQL::escape($choix_resp).'\'';
+	$sql_r = 'SELECT u_nom, u_prenom FROM conges_users WHERE u_login=\''.SQL::quote($choix_resp).'\'';
 	$ReqLog_r = SQL::query($sql_r);
 
 	$resultat_r = $ReqLog_r->fetch_array();
@@ -1950,7 +1950,7 @@ function affiche_gestion_responsable_groupes($choix_resp, $DEBUG=FALSE)
 
 		// on rempli un autre tableau des groupes dont resp est responsables
 		$tab_resp=array();
-		$sql_r = 'SELECT gr_gid FROM conges_groupe_resp WHERE gr_login=\''.SQL::escape($choix_resp).'\' ORDER BY gr_gid ';
+		$sql_r = 'SELECT gr_gid FROM conges_groupe_resp WHERE gr_login=\''.SQL::quote($choix_resp).'\' ORDER BY gr_gid ';
 		$ReqLog_r = SQL::query($sql_r);
 
 		while($resultat_r=$ReqLog_r->fetch_array())
@@ -2010,7 +2010,7 @@ function affiche_gestion_responsable_groupes($choix_resp, $DEBUG=FALSE)
 
 			// on rempli un autre tableau des groupes dont resp est GRAND responsables
 			$tab_grd_resp=array();
-			$sql_gr = 'SELECT ggr_gid FROM conges_groupe_grd_resp WHERE ggr_login=\''.SQL::escape($choix_resp).'\' ORDER BY ggr_gid ';
+			$sql_gr = 'SELECT ggr_gid FROM conges_groupe_grd_resp WHERE ggr_login=\''.SQL::quote($choix_resp).'\' ORDER BY ggr_gid ';
 			$ReqLog_gr = SQL::query($sql_gr);
 
 			while($resultat_gr=$ReqLog_gr->fetch_array())
@@ -2078,11 +2078,11 @@ function modif_resp_groupes($choix_resp, &$checkbox_resp_group, &$checkbox_grd_r
 
 	//echo "responsable : $choix_resp<br>\n";
 	// on supprime tous les anciens resps du groupe puis on ajoute tous ceux qui sont dans le tableau de la checkbox
-	$sql_del = 'DELETE FROM conges_groupe_resp WHERE gr_login=\''.SQL::escape($choix_resp).'\'';
+	$sql_del = 'DELETE FROM conges_groupe_resp WHERE gr_login=\''.SQL::quote($choix_resp).'\'';
 	$ReqLog_del = SQL::query($sql_del);
 
 	// on supprime tous les anciens grands resps du groupe puis on ajoute tous ceux qui sont dans le tableau de la checkbox
-	$sql_del_2 = 'DELETE FROM conges_groupe_grd_resp WHERE ggr_login=\''.SQL::escape($choix_resp).'\'';
+	$sql_del_2 = 'DELETE FROM conges_groupe_grd_resp WHERE ggr_login=\''.SQL::quote($choix_resp).'\'';
 	$ReqLog_del_2 = SQL::query($sql_del_2);
 
 	// ajout des resp qui sont dans la checkbox
@@ -2157,4 +2157,3 @@ function recup_users_from_ldap(&$tab_ldap, &$tab_login, $DEBUG=FALSE)
 	}
 }
 
-?>

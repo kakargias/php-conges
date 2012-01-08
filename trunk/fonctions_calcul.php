@@ -176,7 +176,7 @@ function verif_jours_feries_saisis($date,  $DEBUG=FALSE)
 	$premier_an="$an-01-01";
 	$dernier_an="$an-12-31";
 
-	$sql_select='SELECT jf_date FROM conges_jours_feries WHERE jf_date >= \''.SQL::escape($premier_an).'\' AND jf_date <= \''.SQL::escape($dernier_an).'\' ';
+	$sql_select='SELECT jf_date FROM conges_jours_feries WHERE jf_date >= \''.SQL::quote($premier_an).'\' AND jf_date <= \''.SQL::quote($dernier_an).'\' ';
 	$res_select = SQL::query($sql_select);
 	
 	return ($res_select->num_rows != 0);
@@ -267,8 +267,8 @@ function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $ta
 				// verif si c'est deja un conges
 				$user_periode_sql = 'SELECT  p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_etat
 								FROM conges_periode
-								WHERE p_login = \''.SQL::escape($user).'\' AND ( p_etat=\'ok\' OR p_etat=\'valid\' OR p_etat=\'demande\' )
-									AND p_date_deb<=\''.SQL::escape($current_day).'\' AND p_date_fin>=\''.SQL::escape($current_day).'\' ';
+								WHERE p_login = \''.SQL::quote($user).'\' AND ( p_etat=\'ok\' OR p_etat=\'valid\' OR p_etat=\'demande\' )
+									AND p_date_deb<=\''.SQL::quote($current_day).'\' AND p_date_fin>=\''.SQL::quote($current_day).'\' ';
 			}
 			else
 			{
@@ -276,8 +276,8 @@ function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $ta
 				// verif si c'est deja un conges
 				$user_periode_sql = 'SELECT  p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_etat
 								FROM conges_periode
-								WHERE p_login = \''.SQL::escape($user).'\' AND ( p_etat=\'ok\' OR p_etat=\'valid\' OR p_etat=\'demande\' )
-									AND p_date_deb<=\''.SQL::escape($current_day).'\' AND p_date_fin>=\''.SQL::escape($current_day).'\'
+								WHERE p_login = \''.SQL::quote($user).'\' AND ( p_etat=\'ok\' OR p_etat=\'valid\' OR p_etat=\'demande\' )
+									AND p_date_deb<=\''.SQL::quote($current_day).'\' AND p_date_fin>=\''.SQL::quote($current_day).'\'
 									AND p_num != \''.intval($num_update).'\' ';
 			}
 			
@@ -388,5 +388,3 @@ function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $ta
 }
 
 
-
-?>

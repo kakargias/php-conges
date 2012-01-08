@@ -270,24 +270,15 @@ function session_saisie_user_password($erreur, $session_username, $session_passw
 //
 function autentification_passwd_conges($username,$password)
 {
-	// connexion MySQL + selection de la database sur le serveur
-
-	
-	
-	$username_password_ok="";
-	
 	$password_md5=md5($password);
 //	$req_conges="SELECT u_passwd   FROM conges_users   WHERE u_login='$username' AND u_passwd='$password_md5' " ;
 	// on conserve le double mode d'autentificatio (nouveau cryptage (md5) ou ancien cryptage (mysql))
-	$req_conges='SELECT u_passwd   FROM conges_users   WHERE u_login=\''. SQL::real_escape_string( $username ) .'\' AND ( u_passwd=\''. SQL::real_escape_string( $password_md5) .'\' OR u_passwd=PASSWORD(\''.$password.'\') ) ' ;
+	$req_conges='SELECT u_passwd   FROM conges_users   WHERE u_login=\''. SQL::quote( $username ) .'\' AND ( u_passwd=\''. md5($password) .'\' OR u_passwd=PASSWORD(\''.SQL::quote( $password ).'\') ) ' ;
 	$res_conges = SQL::query($req_conges) ;
 	$num_row_conges = $res_conges->num_rows;
 	if ($num_row_conges !=0)
-	{
-		$username_password_ok=$username;
-	}
-
-	return   $username_password_ok;
+		return $username;
+	return '';
 }
 
 
@@ -297,20 +288,16 @@ function autentification_passwd_conges($username,$password)
 //
 function authentification_ldap_conges($username,$password)
 {
-   require_once ($_SESSION['config']['php_conges_authldap_include_path']."/authLDAP.php");
-   
-   $username_password_ok="";
-   
-   $a = new authLDAP();
-   //$a->DEBUG = 1;
-   //$a->bind($username,$password);
-   $a->bind($username,stripslashes($password)); 
-   if ($a->is_authentificated())
-   {
- 	$username_password_ok=$username;
-  }  
+	require_once ($_SESSION['config']['php_conges_authldap_include_path']."/authLDAP.php");
 
-   return   $username_password_ok;
+	$a = new authLDAP();
+	//$a->DEBUG = 1;
+	//$a->bind($username,$password);
+	$a->bind($username,stripslashes($password)); 
+	if ($a->is_authentificated())
+		return $username;
+
+	return '';
 }
 
 
@@ -332,9 +319,7 @@ function authentification_passwd_conges_CAS()
 	
 	global $connexionCAS;
 	global $logoutCas;
-	
-	$username_password_ok="";
-	
+		
 	phpCAS::setDebug();
 			
 	// initialisation phpCAS
@@ -359,13 +344,13 @@ function authentification_passwd_conges_CAS()
 	session_create($usernameCAS);
 	
 	//ON VERIFIE ICI QUE L'UTILISATEUR EST DEJA ENREGISTRE SOUS DBCONGES
-	$req_conges = 'SELECT u_login FROM conges_users WHERE u_login=\''.SQL::escape($usernameCAS);
+	$req_conges = 'SELECT u_login FROM conges_users WHERE u_login=\''.SQL::quote($usernameCAS);
 	$res_conges = SQL::query($req_conges) ;
 	$num_row_conges = $res_conges->num_rows;
 	if($num_row_conges !=0)
-		$username_password_ok = $usernameCAS;
+		return $usernameCAS;
 	
-	return $username_password_ok;
+	return '';
 }
 
 
@@ -393,5 +378,3 @@ function deconnexion_CAS($url="")
 }
 
 
-
-?>

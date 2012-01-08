@@ -86,7 +86,7 @@ function affichage($login,  $DEBUG=FALSE)
 
 
 	$sql1 = 'SELECT u_nom, u_prenom, u_quotite FROM conges_users where u_login = \''.$sql->escape($login).'\'';
-	$ReqLog1 = requete_mysql($sql1,  "affichage", $DEBUG);
+	$ReqLog1 = requete_mysql($sql1);
 
 	while ($resultat1 = $ReqLog1 -> fetch_array()) {
 		$sql_nom=$resultat1["u_nom"];
@@ -129,7 +129,7 @@ function affiche_nouvelle_edition($login,  $DEBUG=FALSE)
 	$sql2=$sql2."AND (p_login = '$login') ";
 	$sql2=$sql2."AND (a.p_type=b.ta_id AND  ( (b.ta_type='conges') OR (b.ta_type='conges_exceptionnels') ) )";
 	$sql2=$sql2."ORDER BY p_date_deb ASC ";
-	$ReqLog2 = requete_mysql($sql2,  "affiche_nouvelle_edition", $DEBUG);
+	$ReqLog2 = requete_mysql($sql2);
 
 	echo "<h3>".$_SESSION['lang']['editions_last_edition']." :</h3>\n";
 

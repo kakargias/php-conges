@@ -90,40 +90,40 @@ function e1_alter_login_dans_tables( $DEBUG=FALSE)
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	
 	$sql_alter_1=" ALTER TABLE `conges_users` CHANGE `u_login` `u_login` VARCHAR( 16 ) CHARACTER SET binary NOT NULL ";
-	$result_alter_1 = $sql->query($sql_alter_1) or die("erreur : e1_alter_login_dans_tables<br>\n".$sql->error) ;
+	$result_alter_1 = $sql->query($sql_alter_1)  ;
 
 	$sql_alter_2=" ALTER TABLE `conges_artt` CHANGE `a_login` `a_login` VARCHAR( 16 ) CHARACTER SET binary NOT NULL ";
-	$result_alter_2 = $sql->query($sql_alter_2) or die("erreur : e1_alter_login_dans_tables<br>\n".$sql->error) ;
+	$result_alter_2 = $sql->query($sql_alter_2)  ;
 
 	$sql_alter_3=" ALTER TABLE `conges_echange_rtt` CHANGE `e_login` `e_login` VARCHAR( 16 ) CHARACTER SET binary NOT NULL ";
-	$result_alter_3 = $sql->query($sql_alter_3) or die("erreur : e1_alter_login_dans_tables<br>\n".$sql->error) ;
+	$result_alter_3 = $sql->query($sql_alter_3)  ;
 
 	$sql_alter_4=" ALTER TABLE `conges_edition_papier` CHANGE `ep_login` `ep_login` VARCHAR( 16 ) CHARACTER SET binary NOT NULL ";
-	$result_alter_4 = $sql->query($sql_alter_4) or die("erreur : e1_alter_login_dans_tables<br>\n".$sql->error) ;
+	$result_alter_4 = $sql->query($sql_alter_4)  ;
 
 	$sql_alter_5=" ALTER TABLE `conges_groupe_grd_resp` CHANGE `ggr_login` `ggr_login` VARCHAR( 16 ) CHARACTER SET binary NOT NULL ";
-	$result_alter_5 = $sql->query($sql_alter_5) or die("erreur : e1_alter_login_dans_tables<br>\n".$sql->error) ;
+	$result_alter_5 = $sql->query($sql_alter_5)  ;
 
 	$sql_alter_6=" ALTER TABLE `conges_groupe_resp` CHANGE `gr_login` `gr_login` VARCHAR( 16 ) CHARACTER SET binary NOT NULL ";
-	$result_alter_6 = $sql->query($sql_alter_6) or die("erreur : e1_alter_login_dans_tables<br>\n".$sql->error) ;
+	$result_alter_6 = $sql->query($sql_alter_6)  ;
 
 	$sql_alter_7=" ALTER TABLE `conges_groupe_users` CHANGE `gu_login` `gu_login` VARCHAR( 16 ) CHARACTER SET binary NOT NULL ";
-	$result_alter_7 = $sql->query($sql_alter_7) or die("erreur : e1_alter_login_dans_tables<br>\n".$sql->error) ;
+	$result_alter_7 = $sql->query($sql_alter_7)  ;
 
 	$sql_alter_8=" ALTER TABLE `conges_historique_ajout` CHANGE `ha_login` `ha_login` VARCHAR( 16 ) CHARACTER SET binary NOT NULL ";
-	$result_alter_8 = $sql->query($sql_alter_8) or die("erreur : e1_alter_login_dans_tables<br>\n".$sql->error) ;
+	$result_alter_8 = $sql->query($sql_alter_8)  ;
 
 	$sql_alter_9=" ALTER TABLE `conges_logs` CHANGE `log_user_login_par` `log_user_login_par` VARCHAR( 16 ) CHARACTER SET binary NOT NULL ";
-	$result_alter_9 = $sql->query($sql_alter_9) or die("erreur : e1_alter_login_dans_tables<br>\n".$sql->error) ;
+	$result_alter_9 = $sql->query($sql_alter_9)  ;
 
 	$sql_alter_10=" ALTER TABLE `conges_logs` CHANGE `log_user_login_pour` `log_user_login_pour` VARCHAR( 16 ) CHARACTER SET binary NOT NULL ";
-	$result_alter_10 = $sql->query($sql_alter_10) or die("erreur : e1_alter_login_dans_tables<br>\n".$sql->error) ;
+	$result_alter_10 = $sql->query($sql_alter_10)  ;
 
 	$sql_alter_11=" ALTER TABLE `conges_periode` CHANGE `p_login` `p_login` VARCHAR( 16 ) CHARACTER SET binary NOT NULL ";
-	$result_alter_11 = $sql->query($sql_alter_11) or die("erreur : e1_alter_login_dans_tables<br>\n".$sql->error) ;
+	$result_alter_11 = $sql->query($sql_alter_11)  ;
 
 	$sql_alter_12=" ALTER TABLE `conges_solde_user` CHANGE `su_login` `su_login` VARCHAR( 16 ) CHARACTER SET binary NOT NULL ";
-	$result_alter_12 = $sql->query($sql_alter_12) or die("erreur : e1_alter_login_dans_tables<br>\n".$sql->error) ;
+	$result_alter_12 = $sql->query($sql_alter_12)  ;
 
 }
 
@@ -136,7 +136,7 @@ function e2_alter_table_conges_solde_user( $DEBUG=FALSE)
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	
 	$sql_alter_1="  ALTER TABLE `conges_solde_user` ADD PRIMARY KEY ( `su_login` , `su_abs_id` ) ";
-	$result_alter_1 = $sql->query($sql_alter_1) or die("erreur : e2_alter_table_conges_solde_user<br>\n".$sql->error) ;
+	$result_alter_1 = $sql->query($sql_alter_1)  ;
 
 }
 
@@ -148,7 +148,7 @@ function e3_insert_into_conges_config( $DEBUG=FALSE)
 {
 
 	$sql_insert="INSERT INTO `conges_config` VALUES ('interdit_modif_demande', 'FALSE', '13_Divers', 'boolean', 'config_comment_interdit_modif_demande')";
-	$result_insert = $sql->query($sql_insert) or die("erreur : e3_insert_into_conges_config<br>\n".$sql->error) ;
+	$result_insert = $sql->query($sql_insert)  ;
 	
 
 }

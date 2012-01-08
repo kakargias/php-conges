@@ -121,7 +121,7 @@ function modifier($u_login, $DEBUG=FALSE)
 	// Récupération des informations
 //	$sql1 = "SELECT u_login, u_nom, u_prenom, u_nb_jours_an, u_solde_jours, u_is_resp, u_resp_login, u_passwd FROM conges_users WHERE u_login = '$u_login' " ;
 	$sql1 = 'SELECT u_login, u_nom, u_prenom FROM conges_users WHERE u_login = \''.$sql->escape($u_login).'\'';
-	$ReqLog1 = requete_mysql($sql1, "modifier", $DEBUG);
+	$ReqLog1 = requete_mysql($sql1);
 
 	while ($resultat1 = $ReqLog1->fetch_array()) {
 			$text_pwd1="<input type=\"password\" name=\"new_pwd1\" size=\"10\" maxlength=\"30\" value=\"\">" ;
@@ -150,7 +150,7 @@ function commit_update($u_login_to_update, $new_pwd1, $new_pwd2, $DEBUG=FALSE)
 
 		$passwd_md5=md5($new_pwd1);
 		$sql1 = 'UPDATE conges_users  SET u_passwd=\''.$passwd_md5.'\' WHERE u_login=\''.$sql->escape($u_login_to_update).'\'' ;
-		$result = requete_mysql($sql1, 'commit_update', $DEBUG);
+		$result = requete_mysql($sql1);
 
 		if($result==TRUE)
 			echo $_SESSION['lang']['form_modif_ok']." !<br><br> \n";

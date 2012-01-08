@@ -93,7 +93,7 @@ function e1_maj_table_conges_config( $DEBUG=FALSE)
 	if($DEBUG==FALSE)
 		$result_update = $sql->query($sql_update);
 	else
-		$result_update = $sql->query($sql_update) or die("erreur : e1_maj_table_conges_config<br>\n".$sql->error) ;
+		$result_update = $sql->query($sql_update)  ;
 		
 
 }
@@ -109,7 +109,7 @@ function e2_insert_into_conges_config( $DEBUG=FALSE)
 	if($DEBUG==FALSE)
 		$result_insert = $sql->query($sql_insert);
 	else
-		$result_insert = $sql->query($sql_insert) or die("erreur : e1_insert_into_conges_config<br>\n".$sql->error) ;
+		$result_insert = $sql->query($sql_insert)  ;
 	
 }
 

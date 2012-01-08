@@ -794,7 +794,7 @@ function saisie_jours_absence_temps_partiel($login,  $DEBUG=FALSE)
 
 	// recup des données de la dernière table artt du user :
 	$sql1 = 'SELECT * FROM conges_artt WHERE a_login=\''.$sql->escape($login).'\' AND a_date_fin_grille=\'9999-12-31\' '  ;
-	$ReqLog1 = requete_mysql($sql1,  'saisie_jours_absence_temps_partiel', $DEBUG);
+	$ReqLog1 = requete_mysql($sql1);
 
 	while ($resultat1 = $ReqLog1 -> fetch_array()) {
 		if($resultat1['sem_imp_lu_am']=='Y') $checked_option_sem_imp_lu_am=' checked';
@@ -987,28 +987,6 @@ function get_j_name_fr_2c($timestamp)
 	else
 		return false;
 }
-
-
-// retourne le nom du jour de la semaine dans la langue choisie sur 2 caracteres
-function get_j_name_lang_2c($timestamp)
-{
-	$jour_name_fr_2c=array(
-			0 => $_SESSION['lang']['dimanche_2c'],
-			1 => $_SESSION['lang']['lundi_2c'],
-			2 => $_SESSION['lang']['mardi_2c'],
-			3 => $_SESSION['lang']['mercredi_2c'],
-			4 => $_SESSION['lang']['jeudi_2c'],
-			5 => $_SESSION['lang']['vendredi_2c'],
-			6 => $_SESSION['lang']['samedi_2c'],);
-
-	$jour_num=date("w", $timestamp);
-	if (isset($jour_name_fr_2c[$jour_num]))
-		return $jour_name_fr_2c[$jour_num];
-	else
-		return false;
-}
-
-
 
 
 //affiche le formulaire de saisie d'une nouvelle demande de conges
@@ -1540,19 +1518,6 @@ function verif_saisie_new_demande($new_debut, $new_demi_jour_deb, $new_fin, $new
 }
 
 
-// renvoit la couleur de fond du jour indiquï¿½par le timestamp
-// (une couleur pour les jours de semaine et une pour les jours de week end)
-function get_bgcolor_of_the_day_in_the_week($timestamp_du_jour)
-{
-	$j_name=date('D', $timestamp_du_jour);
-
-	if(($j_name=='Sat') || ($j_name=='Sun'))
-		return $_SESSION['config']['week_end_bgcolor'];
-	else
-		return $_SESSION['config']['semaine_bgcolor'];
-}
-
-
 // renvoit la class de cellule du jour indiquée par le timestamp
 // (une classe pour les jours de semaine et une pour les jours de week end)
 function get_td_class_of_the_day_in_the_week($timestamp_du_jour)
@@ -1612,7 +1577,7 @@ function recup_infos_artt_du_jour($sql_login, $j_timestamp, &$val_matin, &$val_a
 		// verif si le jour fait l'objet d'un echange ....
 		$date_j=date('Y-m-d', $j_timestamp);
 		$sql_echange_rtt='SELECT e_absence FROM conges_echange_rtt WHERE e_login=\''.$sql->escape($sql_login).'\' AND e_date_jour=\''.$sql->escape($date_j).'\' ';
-		$res_echange_rtt = requete_mysql($sql_echange_rtt,  'recup_infos_artt_du_jour', $DEBUG);
+		$res_echange_rtt = requete_mysql($sql_echange_rtt);
 
 		$num_echange_rtt = $res_echange_rtt->num_rows;
 		// si le jour est l'objet d'un echange, on tient compte de l'échange
@@ -1653,7 +1618,7 @@ function recup_infos_artt_du_jour($sql_login, $j_timestamp, &$val_matin, &$val_a
 			// recup des ARTT et temps-partiels du user
 			$sql_artt='SELECT '.$sql->escape($key_artt_matin).', '.$sql->escape($key_artt_aprem).' FROM conges_artt
 				WHERE a_login=\''.$sql->escape($sql_login).'\' AND a_date_debut_grille<=\''.$sql->escape($date_j).'\' AND a_date_fin_grille>=\''.$sql->escape($date_j).' \'';
-			$res_artt = requete_mysql($sql_artt, 'recup_infos_artt_du_jour', $DEBUG);
+			$res_artt = requete_mysql($sql_artt);
 			$result_artt = $res_artt->fetch_array();
 			if($result_artt["$key_artt_matin"]=='Y')
 				$val_matin='Y';
@@ -1957,7 +1922,7 @@ function constuct_and_send_mail($objet, $mail_sender_name, $mail_sender_addr, $m
 					FROM   conges_periode, conges_type_absence
 					WHERE  conges_periode.p_num=$num_periode
 							AND    conges_periode.p_type = conges_type_absence.ta_id";
-		$res_abs = requete_mysql($select_abs,  "alerte_mail", $DEBUG);
+		$res_abs = requete_mysql($select_abs);
 		$rec_abs = $res_abs->fetch_array();
 
 		$tab_date_deb= explode("-", $rec_abs["p_date_deb"]);
@@ -2081,7 +2046,7 @@ function find_email_adress_for_user($login, $DEBUG=FALSE)
 	elseif($_SESSION['config']['where_to_find_user_email']=="dbconges") // recherche du mail du user dans la base db_conges
 	{
 		$req = 'SELECT u_nom, u_prenom, u_email FROM conges_users WHERE u_login=\''.$sql->escape($login).'\' ';
-		$res = requete_mysql($req,  "find_email_adress_for_user", $DEBUG);
+		$res = requete_mysql($req);
 		$rec = $res->fetch_array();
 
 		$sql_nom = $rec["u_nom"];
@@ -2121,7 +2086,7 @@ function recup_tableau_rtt_echange($mois, $first_jour, $year,  $DEBUG=FALSE)
 		$tab_jour_rtt_echange=array();
 
 		$sql_echange_rtt='SELECT e_login, e_absence FROM conges_echange_rtt WHERE e_date_jour=\''.$sql->escape($date_j).'\' ';
-		$res_echange_rtt = requete_mysql($sql_echange_rtt,  "recup_tableau_rtt_echange", $DEBUG);
+		$res_echange_rtt = requete_mysql($sql_echange_rtt);
 
 		$num_echange_rtt = $res_echange_rtt->num_rows;
 		// si le jour est l'objet d'un echange, on tient compte de l'échange
@@ -2167,7 +2132,7 @@ function recup_tableau_rtt_echange($mois, $first_jour, $year,  $DEBUG=FALSE)
 			$tab_jour_rtt_echange=array();
 
 			$sql_echange_rtt='SELECT e_login, e_absence FROM conges_echange_rtt WHERE e_date_jour=\''.$sql->escape($date_j).'\' ';
-			$res_echange_rtt = requete_mysql($sql_echange_rtt,  "recup_tableau_rtt_echange", $DEBUG);
+			$res_echange_rtt = requete_mysql($sql_echange_rtt);
 			$num_echange_rtt = $res_echange_rtt->num_rows;
 			// si le jour est l'objet d'un echange, on tient compte de l'échange
 			if($num_echange_rtt!=0)
@@ -2225,7 +2190,7 @@ function recup_tableau_rtt_planifiees($mois, $first_jour, $year,  $DEBUG=FALSE)
 
 	// construction du tableau $tab_rtt_planifie:
 	$req_artt_login="SELECT DISTINCT(a_login) FROM conges_artt ";
-	$res_artt_login = requete_mysql($req_artt_login,  "recup_tableau_rtt_planifiees", $DEBUG);
+	$res_artt_login = requete_mysql($req_artt_login);
 
 	//$num_artt_login = $res_artt_login->num_rows;
 	while($result_artt_login = $res_artt_login->fetch_array()) // pour chaque login trouvé
@@ -2234,7 +2199,7 @@ function recup_tableau_rtt_planifiees($mois, $first_jour, $year,  $DEBUG=FALSE)
 		$tab_user_grille=array();
 
 		$req_artt = 'SELECT * FROM conges_artt WHERE a_login=\''.$sql->escape($sql_artt_login).'\' ';
-		$res_artt = requete_mysql($req_artt,  "recup_tableau_rtt_planifiees", $DEBUG);
+		$res_artt = requete_mysql($req_artt);
 
 		$num_artt = $res_artt->num_rows;
 		while($result_artt = $res_artt->fetch_array())
@@ -2349,13 +2314,6 @@ function eng_date_to_fr($une_date, $DEBUG=FALSE)
 
 }
 
-// met la date jj-mm-aaaa dans le format aaaa-mm-jj
-function fr_date_to_eng($une_date)
-{
- return substr($une_date, 6)."-".substr($une_date, 3, 2)."-".substr($une_date, 0, 2);
-
-}
-
 
 // affichage de la cellule correspondant au jour dans les calendrier de saisie (demande de conges, etc ...)
 function affiche_cellule_jour_cal_saisie($login, $j_timestamp, $td_second_class, $result,  $DEBUG=FALSE)
@@ -2429,7 +2387,7 @@ function get_group_name_from_id($groupe_id,  $DEBUG=FALSE)
 {
 		$sql=SQL::singleton();
 		$req_name='SELECT g_groupename FROM conges_groupe WHERE g_gid='.$sql->escape($groupe_id);
-		$ReqLog_name = requete_mysql($req_name,  "ajout_global_groupe", $DEBUG);
+		$ReqLog_name = requete_mysql($req_name);
 
 		$resultat_name = $ReqLog_name->fetch_array();
 		return $resultat_name["g_groupename"];
@@ -2465,7 +2423,7 @@ function get_list_all_users_du_resp($resp_login,  $DEBUG=FALSE)
 	}
 	$sql1 = $sql1." ORDER BY u_nom " ;
 
-		$ReqLog1 = requete_mysql($sql1, "get_list_all_users_du_resp_sauf_resp", $DEBUG);
+		$ReqLog1 = requete_mysql($sql1);
 
 	while ($resultat1 = $ReqLog1->fetch_array())
 	{
@@ -2497,7 +2455,7 @@ function get_list_all_users_du_resp($resp_login,  $DEBUG=FALSE)
 		}
 		$sql_2 = $sql_2." ORDER BY u_nom " ;
 	
-		$ReqLog_2 = requete_mysql($sql_2, "get_list_all_users_du_resp_sauf_resp", $DEBUG);
+		$ReqLog_2 = requete_mysql($sql_2);
 	
 		// on va verifier si les resp récupérés sont absents (si oui, c'est $resp_login qui traite leurs users
 		while ($resultat_2 = $ReqLog_2->fetch_array())
@@ -2510,7 +2468,7 @@ function get_list_all_users_du_resp($resp_login,  $DEBUG=FALSE)
                                      AND p_etat = \'ok\'
                                      AND TO_DAYS(conges_periode.p_date_deb) <= TO_DAYS(NOW()) 
                                      AND TO_DAYS(conges_periode.p_date_fin) >= TO_DAYS(NOW())';
-			$ReqLog_3 = requete_mysql($req,  "get_list_all_users_du_resp", $DEBUG);
+			$ReqLog_3 = requete_mysql($req);
 			
 			// si le current resp est absent : on recup la liste de ses users pour les traiter .....
 			if ($ReqLog_3->num_rows!=0)
@@ -2541,7 +2499,7 @@ function get_list_users_du_groupe($group_id,  $DEBUG=FALSE)
 	$list_users=array();
 
 	$sql1='SELECT DISTINCT(gu_login) FROM conges_groupe_users WHERE gu_gid = '.intval($group_id).' ORDER BY gu_login ';
-	$ReqLog1 = requete_mysql($sql1,  "get_list_users_du_groupe", $DEBUG);
+	$ReqLog1 = requete_mysql($sql1);
 
 	while ($resultat1 = $ReqLog1->fetch_array())
 		$list_users[] = '\''.$sql->escape($resultat1["gu_login"]).'\'';
@@ -2558,8 +2516,8 @@ function get_list_users_du_groupe($group_id,  $DEBUG=FALSE)
 function get_nb_users_du_groupe($group_id,  $DEBUG=FALSE)
 {
 	$sql=SQL::singleton();
-   $sql='SELECT DISTINCT(gu_login) FROM conges_groupe_users WHERE gu_gid = '.$sql->escape($group_id).' ORDER BY gu_login ';
-   $ReqLog1 = requete_mysql($sql,  "get_list_users_du_groupe", $DEBUG);
+   $sql1='SELECT DISTINCT(gu_login) FROM conges_groupe_users WHERE gu_gid = '.$sql->escape($group_id).' ORDER BY gu_login ';
+   $ReqLog1 = requete_mysql($sql1);
 
    $nb_users = $ReqLog1->num_rows;
 
@@ -2567,33 +2525,6 @@ function get_nb_users_du_groupe($group_id,  $DEBUG=FALSE)
 
 }
 
-// recup de la liste des users des groupes dont $resp_login est responsable
-// renvoit une liste de login entre quotes et séparés par des virgules
-function get_list_users_des_groupes_du_resp($resp_login,  $DEBUG=FALSE)
-{
-	$sql=SQL::singleton();
-	$list_users_des_groupes_du_resp="";
-
-	$list_groups=get_list_groupes_du_resp($resp_login,  $DEBUG);
-	if($list_groups!="") // si $resp_login est responsable d'au moins un groupe
-	{
-		$sql='SELECT DISTINCT(gu_login) FROM conges_groupe_users WHERE gu_gid IN ('.$sql->escape($list_groups).') ORDER BY gu_login ';
-		$ReqLog1 = requete_mysql($sql,  "get_list_users_des_groupes_du_resp", $DEBUG);
-
-		while ($resultat1 = $ReqLog1->fetch_array())
-		{
-			$current_login=$resultat1["gu_login"];
-			if($list_users_des_groupes_du_resp=="")
-				$list_users_des_groupes_du_resp="'$current_login'";
-			else
-				$list_users_des_groupes_du_resp=$list_users_des_groupes_du_resp.", '$current_login'";
-		}
-	}
-	if($DEBUG==TRUE) { echo "list_users_des_groupes_du_resp = $list_users_des_groupes_du_resp<br>\n" ;}
-
-	return $list_users_des_groupes_du_resp;
-
-}
 
 // recup de la liste des groupes dont $resp_login est responsable
 // renvoit une liste de group_id séparés par des virgules
@@ -2602,8 +2533,8 @@ function get_list_groupes_du_resp($resp_login,  $DEBUG=FALSE)
 	$sql=SQL::singleton();
 	$list_group="";
 
-	$sql='SELECT gr_gid FROM conges_groupe_resp WHERE gr_login=\''.$sql->escape($resp_login).'\' ORDER BY gr_gid';
-	$ReqLog1 = requete_mysql($sql,  "get_list_groupes_du_resp", $DEBUG);
+	$sql1='SELECT gr_gid FROM conges_groupe_resp WHERE gr_login=\''.$sql->escape($resp_login).'\' ORDER BY gr_gid';
+	$ReqLog1 = requete_mysql($sql1);
 
 	if($ReqLog1->num_rows !=0)
 	{
@@ -2627,8 +2558,8 @@ function get_list_groupes_du_grand_resp($resp_login,  $DEBUG=FALSE)
 {
 	$list_group="";
 
-	$sql='SELECT ggr_gid FROM conges_groupe_grd_resp WHERE ggr_login=\''.$sql->escape($resp_login).'\' ORDER BY ggr_gid';
-	$ReqLog1 = requete_mysql($sql,  "get_list_groupes_du_grand_resp", $DEBUG);
+	$sql1='SELECT ggr_gid FROM conges_groupe_grd_resp WHERE ggr_login=\''.$sql->escape($resp_login).'\' ORDER BY ggr_gid';
+	$ReqLog1 = requete_mysql($sql1);
 
 	if($ReqLog1->num_rows!=0)
 	{
@@ -2652,8 +2583,8 @@ function get_list_groupes_double_valid( $DEBUG=FALSE)
 {
 	$list_groupes_double_valid="";
 
-	$sql="SELECT g_gid FROM conges_groupe WHERE g_double_valid='Y' ORDER BY g_gid ";
-	$ReqLog1 = requete_mysql($sql,  "get_list_groupes_double_valid_du_resp", $DEBUG);
+	$sql1="SELECT g_gid FROM conges_groupe WHERE g_double_valid='Y' ORDER BY g_gid ";
+	$ReqLog1 = requete_mysql($sql1);
 
 	while ($resultat1 = $ReqLog1 -> fetch_array())
 	{
@@ -2680,8 +2611,8 @@ function get_list_groupes_double_valid_du_resp($resp_login,  $DEBUG=FALSE)
 	$list_groups=get_list_groupes_du_resp($resp_login,  $DEBUG);
 	if($list_groups!="") // si $resp_login est responsable d'au moins un groupe
 	{
-		$sql='SELECT DISTINCT(g_gid) FROM conges_groupe WHERE g_double_valid=\'Y\' AND g_gid IN ('.$sql->escape($list_groups).') ORDER BY g_gid ';
-		$ReqLog1 = requete_mysql($sql,  "get_list_groupes_double_valid_du_resp", $DEBUG);
+		$sql1='SELECT DISTINCT(g_gid) FROM conges_groupe WHERE g_double_valid=\'Y\' AND g_gid IN ('.$sql->escape($list_groups).') ORDER BY g_gid ';
+		$ReqLog1 = requete_mysql($sql1);
 
 		while ($resultat1 = $ReqLog1->fetch_array())
 		{
@@ -2705,8 +2636,8 @@ function get_list_groupes_double_valid_du_grand_resp($resp_login,  $DEBUG=FALSE)
 	$sql=SQL::singleton();
 	$list_groupes_double_valid_du_grand_resp="";
 
-	$sql='SELECT DISTINCT(ggr_gid) FROM conges_groupe_grd_resp WHERE ggr_login=\''.$sql->escape($resp_login).'\' ORDER BY ggr_gid ';
-	$ReqLog1 = requete_mysql($sql,  "get_list_groupes_double_valid_du_grand_resp", $DEBUG);
+	$sql1='SELECT DISTINCT(ggr_gid) FROM conges_groupe_grd_resp WHERE ggr_login=\''.$sql->escape($resp_login).'\' ORDER BY ggr_gid ';
+	$ReqLog1 = requete_mysql($sql1);
 
 	while ($resultat1 = $ReqLog1->fetch_array())
 	{
@@ -2733,7 +2664,7 @@ function get_list_users_des_groupes_du_user($user_login,  $DEBUG=FALSE)
 	if($list_groups!="") // si $user_login est membre d'au moins un groupe
 	{
 		$sql1='SELECT DISTINCT(gu_login) FROM conges_groupe_users WHERE gu_gid IN ('.$list_groups.') ORDER BY gu_login ';
-		$ReqLog1 = requete_mysql($sql1,  "get_list_users_des_groupes_du_user", $DEBUG);
+		$ReqLog1 = requete_mysql($sql1);
 
 		while ($resultat1 = $ReqLog1->fetch_array())
 			$list_users[] = '\''.$sql->escape($resultat1["gu_login"]).'\'';
@@ -2751,7 +2682,7 @@ function get_list_groupes_du_user($user_login,  $DEBUG=FALSE)
 	$list_group=array();
 
 	$sql1='SELECT gu_gid FROM conges_groupe_users WHERE gu_login=\''.$sql->escape($user_login).'\' ORDER BY gu_gid';
-	$ReqLog1 = requete_mysql($sql1, "get_list_groupes_du_user", $DEBUG);
+	$ReqLog1 = requete_mysql($sql1);
 
 	while ($resultat1 = $ReqLog1->fetch_array())
 		$list_group[] = $resultat1["gu_gid"];
@@ -2767,9 +2698,9 @@ function get_list_all_users($DEBUG=FALSE)
 
 	$list_users="";
 
-	$sql="SELECT DISTINCT(u_login) FROM conges_users WHERE u_login!='conges' AND u_login!='admin' ORDER BY u_login " ;
+	$sql1="SELECT DISTINCT(u_login) FROM conges_users WHERE u_login!='conges' AND u_login!='admin' ORDER BY u_login " ;
 
-	$ReqLog1 = requete_mysql($sql, "get_list_all_users", $DEBUG);
+	$ReqLog1 = requete_mysql($sql1);
 
 	while ($resultat1 = $ReqLog1 -> fetch_array())
 	{
@@ -2793,8 +2724,8 @@ function get_list_all_groupes($DEBUG=FALSE)
 	$list_group="";
 
 	// on select dans conges_groupe_users pour ne récupérer QUE les groupes qui ont des users !!
-	$sql="SELECT DISTINCT(gu_gid) FROM conges_groupe_users ORDER BY gu_gid";
-	$ReqLog1 = requete_mysql($sql,  "get_list_all_groupes", $DEBUG);
+	$sql1="SELECT DISTINCT(gu_gid) FROM conges_groupe_users ORDER BY gu_gid";
+	$ReqLog1 = requete_mysql($sql1);
 
 	while ($resultat1 = $ReqLog1->fetch_array())
 	{
@@ -2824,7 +2755,7 @@ function get_tab_resp_du_user($user_login,  $DEBUG=FALSE)
 		if($DEBUG==TRUE) {echo ">> RECHERCHE des RESPONSABLES de : $user_login<br>\n";}
 		// recup du resp indiqué dans la table users (sauf s'il est resp de lui meme)
 		$req = 'SELECT u_resp_login FROM conges_users WHERE u_login=\''.$sql->escape($user_login).'\'';
-		$res = requete_mysql($req,  "get_tab_resp_du_user", $DEBUG);
+		$res = requete_mysql($req);
 
 		$rec = $res->fetch_array();
 		if ($rec['u_resp_login'] !== NULL)
@@ -2842,7 +2773,7 @@ function get_tab_resp_du_user($user_login,  $DEBUG=FALSE)
 				{
 					$gid=trim($gid);
 					$sql2='SELECT gr_login FROM conges_groupe_resp WHERE gr_gid='.$sql->escape($gid).' AND gr_login!=\''.$sql->escape($user_login).'\'';
-					$ReqLog1 = requete_mysql($sql2,  "get_tab_resp_du_user", $DEBUG);
+					$ReqLog1 = requete_mysql($sql2);
 
 					while ($resultat1 = $ReqLog1->fetch_array())
 					{
@@ -2874,7 +2805,7 @@ function get_tab_resp_du_user($user_login,  $DEBUG=FALSE)
 	                                     AND p_etat = \'ok\'
 	                                     AND TO_DAYS(conges_periode.p_date_deb) <= TO_DAYS(NOW()) 
 	                                     AND TO_DAYS(conges_periode.p_date_fin) >= TO_DAYS(NOW())';
-				$ReqLog_3 = requete_mysql($req,  "get_tab_resp_du_user", $DEBUG);
+				$ReqLog_3 = requete_mysql($req);
 				if($ReqLog_3->num_rows!=0)
 				{
 					$nb_present=$nb_present-1;
@@ -2925,7 +2856,7 @@ function get_tab_grd_resp_du_user($user_login, &$tab_grd_resp,  $DEBUG=FALSE)
 			{
 				$gid=trim($gid);
 				$sql1='SELECT ggr_login FROM conges_groupe_grd_resp WHERE ggr_gid='.$sql->escape($gid);
-				$ReqLog1 = requete_mysql($sql1,  "get_tab_grd_resp_du_user", $DEBUG);
+				$ReqLog1 = requete_mysql($sql1);
 
 				while ($resultat1 = $ReqLog1->fetch_array())
 				{
@@ -2953,7 +2884,7 @@ connecter alors qu'il n'a pas de compte dans
 	// connexion MySQL + selection de la database sur le serveur
 
 	$req = 'SELECT COUNT(*) FROM conges_users WHERE u_login=\''.$sql->escape($username);
-	$res = requete_mysql($req,  "valid_ldap_user", $DEBUG);
+	$res = requete_mysql($req);
 	$cpt = $res->fetch_array();
 	$cpt = $cpt[0];
 
@@ -2969,7 +2900,7 @@ function is_resp($login,  $DEBUG=FALSE)
 	$sql=SQL::singleton();
 	// recup de qq infos sur le user
 	$select_info='SELECT u_is_resp FROM conges_users WHERE u_login=\''.$sql->escape($login).'\'';
-	$ReqLog_info = requete_mysql($select_info,  "is_resp", $DEBUG);
+	$ReqLog_info = requete_mysql($select_info);
 
 	$resultat_info = $ReqLog_info->fetch_array();
 	$sql_is_resp=$resultat_info["u_is_resp"];
@@ -2984,7 +2915,7 @@ function is_resp_of_user($resp_login, $user_login,  $DEBUG=FALSE)
 {
 	// recup de qq infos sur le user
 	$select_info='SELECT u_resp_login FROM conges_users WHERE u_login=\''.$sql->escape($user_login);
-	$ReqLog_info = requete_mysql($select_info,  "is_resp_of_user", $DEBUG);
+	$ReqLog_info = requete_mysql($select_info);
 
 	$resultat_info = $ReqLog_info->fetch_array();
 	$sql_resp_login=$resultat_info["u_resp_login"];
@@ -3001,7 +2932,7 @@ function is_admin($login, $DEBUG=FALSE)
 	$sql = SQL::singleton();
 	// recup de qq infos sur le user
 	$select_info='SELECT u_is_admin FROM conges_users WHERE u_login=\''.$sql->escape($login).'\'';
-	$ReqLog_info = requete_mysql($select_info, "is_admin", $DEBUG);
+	$ReqLog_info = requete_mysql($select_info);
 
 	$resultat_info = $ReqLog_info -> fetch_array();
 	$sql_is_admin=$resultat_info["u_is_admin"];
@@ -3017,7 +2948,7 @@ function admin_is_responsable($login, $DEBUG=FALSE)
 	$sql=SQL::singleton();
 	// recup de qq infos sur le responsable
 	$select_info='SELECT u_is_resp FROM conges_users WHERE u_login=\''.$sql->escape($login).'\'';
-	$ReqLog_info = requete_mysql($select_info, "admin_is_responsable", $DEBUG);
+	$ReqLog_info = requete_mysql($select_info);
 
 	$resultat_info = $ReqLog_info -> fetch_array();
 	$sql_is_resp=$resultat_info["u_is_resp"];
@@ -3034,7 +2965,7 @@ function insert_dans_periode($login, $date_deb, $demi_jour_deb, $date_fin, $demi
 	$sql=SQL::singleton();
 	// Récupération du + grand p_num (+ grand numero identifiant de conges)
 	$sql1 = "SELECT max(p_num) FROM conges_periode" ;
-	$ReqLog1 = requete_mysql($sql1, "insert_dans_periode", $DEBUG);
+	$ReqLog1 = requete_mysql($sql1);
 	if ( $num_new_demande = $ReqLog1->fetch_row() )
 		$num_new_demande = $num_new_demande[0] +1;
 	else
@@ -3055,7 +2986,7 @@ function insert_dans_periode($login, $date_deb, $demi_jour_deb, $date_fin, $demi
 
 	$sql2 = $sql2." p_num='$num_new_demande' " ;
 
-	$result = requete_mysql($sql2, "insert_dans_periode", $DEBUG);
+	$result = requete_mysql($sql2);
 
 	if($id_fermeture!=0)
 		$comment_log = "saisie de fermeture num $num_new_demande (type $id_type_abs) pour $login ($nb_jours jours) (de $date_deb $demi_jour_deb à $date_fin $demi_jour_fin)";
@@ -3079,7 +3010,7 @@ function init_tab_jours_feries($DEBUG=FALSE)
 	$_SESSION["tab_j_feries"]=array();
 
 	$sql_select="SELECT jf_date FROM conges_jours_feries ";
-	$res_select = requete_mysql($sql_select, "init_tab_jours_feries", $DEBUG);
+	$res_select = requete_mysql($sql_select);
 
 	while( $row = $res_select -> fetch_array())
 	{
@@ -3130,7 +3061,7 @@ function init_config_tab($DEBUG=FALSE)
 	//  recup des variables de la table conges_appli
 	$sql_appli = "SELECT appli_variable, appli_valeur FROM conges_appli";
 	$sql = SQL::singleton();
-	$req_appli = $sql->query($sql_appli) or die ("ERREUR : query --> $sql_appli ".$sql->error);
+	$req_appli = $sql->query($sql_appli) ;
 
 	while ($data_appli = $req_appli->fetch_array())
 	{
@@ -3144,7 +3075,7 @@ function init_config_tab($DEBUG=FALSE)
 	//  recup des variables de la table conges_config
 	$sql=SQL::singleton();
 	$sql_config = "SELECT conf_nom, conf_valeur, conf_type FROM conges_config";
-	$req_config = $sql->query($sql_config) or die ("ERREUR : query --> $sql_config ".$sql->error);
+	$req_config = $sql->query($sql_config) ;
 
 	while ($data = $req_config->fetch_array())
 	{
@@ -3175,7 +3106,7 @@ function init_config_tab($DEBUG=FALSE)
 	/******************************************/
 	//  recup des mails dans  la table conges_mail
 	$sql_mail = "SELECT mail_nom, mail_subject, mail_body FROM conges_mail";
-	$req_mail = $sql->query($sql_mail) or die ("ERREUR : query --> $sql_mail ".$sql->error);
+	$req_mail = $sql->query($sql_mail) ;
 
 	while ($data_mail = $req_mail->fetch_array())
 	{
@@ -3222,7 +3153,7 @@ function init_config_tab($DEBUG=FALSE)
 	if(isset($_SESSION['userlogin']))
 	{
 		$sql_user = "SELECT u_is_resp, u_is_admin , u_is_hr FROM conges_users WHERE u_login='".$_SESSION['userlogin']."' ";
-		$req_user = $sql->query($sql_user) or die ("ERREUR : query --> $sql_user ".$sql->error);
+		$req_user = $sql->query($sql_user) ;
 
 		if($data_user = $req_user->fetch_array())
 		{
@@ -3253,8 +3184,8 @@ function getpost_variable($variable, $default="")
 function get_user_see_all($login,  $DEBUG=FALSE)
 {
 	$sql=SQL::singleton();
-	$sql='SELECT u_see_all FROM conges_users WHERE u_login=\''.$sql->escape($login).'\'';
-	$ReqLog1 = requete_mysql($sql,  "get_user_see_all", $DEBUG);
+	$sql1='SELECT u_see_all FROM conges_users WHERE u_login=\''.$sql->escape($login).'\'';
+	$ReqLog1 = requete_mysql($sql1);
 
 	if($resultat1 = $ReqLog1->fetch_array())
 	{
@@ -3271,7 +3202,7 @@ function recup_tableau_types_conges($DEBUG=FALSE)
 {
 	$tab=array();
 	$sql_cong="SELECT ta_id, ta_libelle, ta_type FROM conges_type_absence WHERE ta_type='conges' ";
-	$ReqLog_cong = requete_mysql($sql_cong,"recup_tableau_types_conges", $DEBUG);
+	$ReqLog_cong = requete_mysql($sql_cong);
 
 	while ($resultat_cong = $ReqLog_cong->fetch_array())
 	{
@@ -3286,7 +3217,7 @@ function recup_tableau_types_absence($DEBUG=FALSE)
 {
 	$tab=array();
 	$sql_abs="SELECT ta_id, ta_libelle FROM conges_type_absence WHERE ta_type='absences' ";
-	$ReqLog_abs = requete_mysql($sql_abs, "recup_tableau_types_absence", $DEBUG);
+	$ReqLog_abs = requete_mysql($sql_abs);
 
 	while ($resultat_abs = $ReqLog_abs->fetch_array())
 	{
@@ -3301,7 +3232,7 @@ function recup_tableau_types_conges_exceptionnels( $DEBUG=FALSE)
 {
 	$tab=array();
 	$sql_abs="SELECT ta_id, ta_libelle FROM conges_type_absence WHERE ta_type='conges_exceptionnels' ";
-	$ReqLog_abs = requete_mysql($sql_abs,  "recup_tableau_types_conges_exceptionnels", $DEBUG);
+	$ReqLog_abs = requete_mysql($sql_abs);
 
 	while ($resultat_abs = $ReqLog_abs -> fetch_array())
 	{
@@ -3320,7 +3251,7 @@ function recup_tableau_tout_types_abs( $DEBUG=FALSE)
 	else // on prend tout les types de conges SAUF les conges exceptionnels
 		$sql_cong="SELECT ta_id, ta_type, ta_libelle, ta_short_libelle FROM conges_type_absence WHERE conges_type_absence.ta_type != 'conges_exceptionnels' ";
 
-	$ReqLog_cong = requete_mysql($sql_cong,  "recup_tableau_tout_types_abs", $DEBUG);
+	$ReqLog_cong = requete_mysql($sql_cong);
 
 	while ($resultat_cong = $ReqLog_cong->fetch_array())
 	{
@@ -3340,7 +3271,7 @@ function get_type_abs($_type_abs_id,  $DEBUG=FALSE)
 {
 	$sql=SQL::singleton();
 	$sql_abs='SELECT ta_type FROM conges_type_absence WHERE ta_id=\''.$sql->escape($_type_abs_id).'\'';
-	$ReqLog_abs = requete_mysql($sql_abs, "get_type_abs", $DEBUG);
+	$ReqLog_abs = requete_mysql($sql_abs);
 
 	if($resultat_abs = $ReqLog_abs->fetch_array())
 		return $resultat_abs["ta_type"];
@@ -3353,7 +3284,7 @@ function get_libelle_abs($_type_abs_id,  $DEBUG=FALSE)
 {
 	$sql=SQL::singleton();
 	$sql_abs='SELECT ta_libelle FROM conges_type_absence WHERE ta_id=\''.$sql->escape($_type_abs_id).'\'';
-	$ReqLog_abs = requete_mysql($sql_abs, "get_libelle_abs", $DEBUG);
+	$ReqLog_abs = requete_mysql($sql_abs);
 	if($resultat_abs = $ReqLog_abs->fetch_array())
 		return $resultat_abs['ta_libelle'];
 	else
@@ -3375,7 +3306,7 @@ function recup_tableau_conges_for_user($login, $hide_conges_exceptionnels, $DEBU
 	else // on prend tout les types de conges SAUF les conges exceptionnels
 		$sql_bilan = 'SELECT ta_libelle, su_nb_an, su_solde, su_reliquat FROM conges_solde_user, conges_type_absence WHERE conges_type_absence.ta_type != \'conges_exceptionnels\' AND conges_type_absence.ta_id = conges_solde_user.su_abs_id AND su_login = \''.$sql->escape($login).'\' ORDER BY su_abs_id ASC';
 
-	$ReqLog_bilan = requete_mysql($sql_bilan, "recup_tableau_types_conges", $DEBUG);
+	$ReqLog_bilan = requete_mysql($sql_bilan);
 
 	$count_num_bilan = $ReqLog_bilan -> num_rows;
 	$tab_cong_user=array();
@@ -3400,7 +3331,7 @@ function affiche_tableau_bilan_conges_user($login, $DEBUG=FALSE)
 	
 	$sql = SQL::singleton();
 	$sql_1 = 'SELECT u_quotite FROM conges_users where u_login = \''.$sql->escape($login).'\'';
-	$ReqLog_1 = requete_mysql($sql_1, "affiche_tableau_bilan_conges_user", $DEBUG) ;
+	$ReqLog_1 = requete_mysql($sql_1) ;
 
 	$resultat_1 = $ReqLog_1->fetch_array();
 	$sql_quotite=$resultat_1["u_quotite"];
@@ -3458,11 +3389,11 @@ function affiche_tableau_bilan_conges_user($login, $DEBUG=FALSE)
 function recup_infos_du_user($login, $list_groups_double_valid, $DEBUG=FALSE)
 {
     $tab=array();
+	$sql = SQL::singleton();
+    $sql1 = 'SELECT u_login, u_nom, u_prenom, u_is_resp, u_resp_login, u_is_admin, u_is_hr, u_see_all, u_passwd, u_quotite, u_email, u_num_exercice FROM conges_users ' .
+            'WHERE u_login=\''.$sql->escape($login).'\';';
 
-    $sql = "SELECT u_login, u_nom, u_prenom, u_is_resp, u_resp_login, u_is_admin, u_is_hr, u_see_all, u_passwd, u_quotite, u_email, u_num_exercice FROM conges_users " .
-            "WHERE u_login='$login' ";
-
-    $ReqLog = requete_mysql($sql, "recup_infos_du_user", $DEBUG) ;
+    $ReqLog = requete_mysql($sql1) ;
 
     if($resultat = $ReqLog->fetch_array())
     {
@@ -3488,8 +3419,8 @@ function recup_infos_du_user($login, $list_groups_double_valid, $DEBUG=FALSE)
         {
             if($list_groups_double_valid!="") // si $resp_login est responsable d'au moins un groupe a double validation
             {
-                $sql="SELECT gu_login FROM conges_groupe_users WHERE gu_login='$login' AND gu_gid IN ($list_groups_double_valid) ORDER BY gu_gid, gu_login ";
-                $ReqLog1 = requete_mysql($sql, "recup_infos_du_user", $DEBUG);
+                $sql1='SELECT gu_login FROM conges_groupe_users WHERE gu_login=\''.$sql->escape($login).'\' AND gu_gid IN ('.$list_groups_double_valid.') ORDER BY gu_gid, gu_login ';
+                $ReqLog1 = requete_mysql($sql1);
 
                 if($ReqLog1->num_rows  !=0)
                     $tab_user['double_valid'] = "Y";
@@ -3511,9 +3442,9 @@ function recup_infos_all_users($DEBUG=FALSE)
 	if($DEBUG==TRUE) { echo "list_groupes_double_validation :<br>\n"; print_r($list_groupes_double_validation); echo "<br><br>\n";}
 
 	//$sql = "SELECT u_login FROM conges_users WHERE u_login!='conges' AND u_login!='admin' ORDER BY u_login";
-	$sql = "SELECT u_login FROM conges_users WHERE u_login!='conges' AND u_login!='admin' ORDER BY u_nom";
+	$sql1 = "SELECT u_login FROM conges_users WHERE u_login!='conges' AND u_login!='admin' ORDER BY u_nom";
 
-	$ReqLog = requete_mysql($sql, "recup_infos_all_users", $DEBUG) ;
+	$ReqLog = requete_mysql($sql1);
 
 	while ($resultat =$ReqLog->fetch_array())
 	{
@@ -3599,7 +3530,7 @@ function recup_infos_all_users_du_grand_resp($login, $DEBUG=FALSE)
 	{
 		// recup de la liste des users des groupes de la liste $list_groups_double_valid
 		$sql_users = 'SELECT DISTINCT(gu_login) FROM conges_groupe_users, conges_users WHERE gu_gid IN ('.$sql->escape($list_groups_double_valid).') AND gu_login=u_login ORDER BY u_nom; ';
-		$ReqLog_users = requete_mysql($sql_users, "recup_infos_all_users_du_grand_resp", $DEBUG) ;
+		$ReqLog_users = requete_mysql($sql_users) ;
 
 		$list_all_users_dbl_valid="";
 		while ($resultat_users =$ReqLog_users->fetch_array())
@@ -3637,7 +3568,7 @@ function get_tab_from_mysql_enum_field($table, $column, $DEBUG=FALSE)
 
    $tab=array();
    $req_enum = "DESCRIBE $table $column";
-   $res_enum = requete_mysql($req_enum, "affiche_select_from_mysql_enum_field", $DEBUG);
+   $res_enum = requete_mysql($req_enum);
 
    while ($row_enum = $res_enum->fetch_array())
    {
@@ -3659,39 +3590,11 @@ function get_tab_from_mysql_enum_field($table, $column, $DEBUG=FALSE)
    return $tab;
 }
 
-
-
-//
-// Affichage d'un SELECT de formulaire web à partir des valeurs du enum(...) d'un champ mysql (cf structure des tables)
-//    $table         = nom de la table sql
-//    $column        = nom du champ sql
-//    $form_field    = nom du champ du formulaire (variable dont on va exploiter la valeur)
-//    $default_value = valeur par défaut
-//    $style         = style à appliquer à la liste
-function affiche_select_from_mysql_enum_field($table, $column, $form_field, $default_value, $style, $DEBUG=FALSE)
-{
-   $tab_enum = get_tab_from_mysql_enum_field($table, $column, $DEBUG);
-   if ($style  == "")
-      echo "<SELECT NAME=$form_field>\n";
-   else
-      echo "<SELECT NAME=$form_field STYLE=\"$style\">\n";
-
-   foreach($tab_enum as $option)
-   {
-         if($option==$default_value)
-            echo "<OPTION selected>$option</OPTION>\n";
-         else
-            echo "<OPTION>$option</OPTION>\n";
-   }
-   echo "</SELECT>\n";
-}
-
-
 // recup l'id de la derniere absence (le max puisque c'est un auto incrément)
 function get_last_absence_id($DEBUG=FALSE)
 {
    $req_1="SELECT MAX(ta_id) FROM conges_type_absence ";
-   $res_1 = requete_mysql($req_1, "get_last_absence_id", $DEBUG);
+   $res_1 = requete_mysql($req_1);
    $row_1 = $res_1->fetch_row();
    if(!$row_1)
       return 0;     // si la table est vide, on renvoit 0
@@ -3718,7 +3621,7 @@ function execute_sql_file($file, $DEBUG=FALSE)
 			{
 				if($DEBUG==TRUE)
 					echo "$sql_requete<br>\n";
-				$result = requete_mysql($sql_requete,  "execute_sql_file", $DEBUG);
+				$result = requete_mysql($sql_requete);
 				$sql_requete="";
 			}
 	    }
@@ -3825,19 +3728,20 @@ function affiche_select_from_lang_directory($select_name="lang")
 // retourne TRUE ou FALSE
 function log_action($num_periode, $etat_periode, $login_pour, $comment, $DEBUG=FALSE)
 {
+	$sql = SQL::singleton();
 	if(isset($_SESSION['userlogin']))
 		$user = $_SESSION['userlogin'] ;
 	else
 		$user = "inconnu";
 
-	$sql = "INSERT INTO conges_logs
-		SET log_p_num='$num_periode',
-			log_user_login_par='$user',
-			log_user_login_pour='$login_pour',
-			log_etat='$etat_periode',
-			log_comment='$comment',
-			log_date=NOW() " ;
-	$result = requete_mysql($sql, "log", $DEBUG);
+	$sql1 = 'INSERT INTO conges_logs
+		SET log_p_num=\''.$sql->escape($num_periode).'\',
+			log_user_login_par=\''.$sql->escape($user).'\',
+			log_user_login_pour=\''.$sql->escape($login_pour).'\',
+			log_etat=\''.$sql->escape($etat_periode).'\',
+			log_comment=\''.$sql->escape($comment).'\',
+			log_date=NOW()';
+	$result = requete_mysql($sql1);
 
 	return $result;
 }
@@ -3881,7 +3785,7 @@ function init_tab_jours_fermeture($user,  $DEBUG=FALSE)
 	$_SESSION["tab_j_fermeture"]=array();
 
 	$sql_select='SELECT DISTINCT jf_date FROM conges_jours_fermeture, conges_groupe_users WHERE gu_login=\''.$sql->escape($user).'\' AND gu_gid=jf_gid';
-	$res_select = requete_mysql($sql_select,  "init_tab_jours_fermeture", $DEBUG);
+	$res_select = requete_mysql($sql_select);
 
 	while( $row = $res_select->fetch_array())
 		$_SESSION["tab_j_fermeture"][]=$row["jf_date"];
@@ -3898,35 +3802,12 @@ function est_ferme($timestamp)
 }
 
 
-
-// verifie si un user est absent ou pas
-// renvoit TRUE si le login est absent, FALSE sinon.
-function is_absent($login,  $DEBUG=FALSE)
-{
-	$req = 'SELECT p_login FROM conges_periode
-				WHERE p_login=\' '.$sql->escape($login).'\'
-						AND TO_DAYS(conges_periode.p_date_deb) <= TO_DAYS(NOW())
-						AND TO_DAYS(conges_periode.p_date_fin) >= TO_DAYS(NOW())';
-	$res = requete_mysql($req,  "is_absent", $DEBUG);
-	return ($res->num_rows==0);
-}
-
-//fonction qui test si l'utilisateur est dans un groupe
-// renvoit TRUE ou FALSE
-function is_user_in_group($login,  $DEBUG=FALSE)
-{
-    $sql='SELECT * FROM conges_groupe_users WHERE gu_login LIKE \''.$sql->escape($login);
-    $ReqLog1 = requete_mysql($sql,  "?", $DEBUG); // COMMENTAIRE  A REFAIRE
-    return ($ReqLog1->num_rows!=0 );
-}
-
-
 // renvoit le "su_reliquat" pour un user et un type de conges donné
 function get_reliquat_user_conges($login, $type_abs,  $DEBUG=FALSE)
 {
 	$sql=SQL::singleton();
 	$select_info='SELECT su_reliquat FROM conges_solde_user WHERE su_login=\''.$sql->escape($login).'\' AND su_abs_id=\''.$sql->escape($type_abs).'\'';
-	$ReqLog_info = requete_mysql($select_info,  "get_reliquat_user_conges", $DEBUG);
+	$ReqLog_info = requete_mysql($select_info);
 
 	$resultat_info = $ReqLog_info->fetch_array();
 	$sql_reliquat=$resultat_info["su_reliquat"];
@@ -3956,7 +3837,7 @@ function soustrait_solde_user($user_login, $user_nb_jours_pris, $type_abs,  $DEB
 		$sql2 = "UPDATE conges_solde_user SET su_solde=su_solde-$user_nb_jours_pris WHERE su_login='$user_login' AND su_abs_id=$type_abs " ;
 	}
 	
-	$ReqLog2 = requete_mysql($sql2, "soustrait_solde_user", $DEBUG) ;				
+	$ReqLog2 = requete_mysql($sql2) ;				
 }
 */
 
@@ -4029,7 +3910,7 @@ function soustrait_solde_et_reliquat_user($user_login, $user_nb_jours_pris, $typ
 		$sql2 = 'UPDATE conges_solde_user SET su_solde=su_solde-'.$sql->escape($user_nb_jours_pris).' WHERE su_login=\''.$sql->escape($user_login).'\'  AND su_abs_id=\''.$type_abs.'\' ';
 	}
 	
-	$ReqLog2 = requete_mysql($sql2, 'soustrait_solde_et_reliquat_user', $DEBUG) ;				
+	$ReqLog2 = requete_mysql($sql2) ;				
 }
 
 
@@ -4044,7 +3925,7 @@ function is_hr($login,  $DEBUG=FALSE)
 {
     // recup de qq infos sur le user
     $select_info="SELECT u_is_hr FROM conges_users WHERE u_login='$login' ";
-    $ReqLog_info = requete_mysql($select_info, "is_hr", $DEBUG);
+    $ReqLog_info = requete_mysql($select_info);
 
     $resultat_info = $ReqLog_info->fetch_array();
     $sql_is_hr=$resultat_info["u_is_hr"];
@@ -4063,7 +3944,7 @@ function recup_infos_all_users_du_hr($login, $DEBUG=FALSE)
     //$sql = "SELECT u_login FROM conges_users WHERE u_login!='conges' AND u_login!='admin' ORDER BY u_login";
     $sql1 = "SELECT u_login FROM conges_users WHERE u_login!='conges' AND u_login!='admin' ORDER BY u_nom";
 
-    $ReqLog = requete_mysql($sql1, "recup_infos_all_users", $DEBUG) ;
+    $ReqLog = requete_mysql($sql1) ;
 
     while ($resultat = $ReqLog->fetch_array())
     {
@@ -4086,7 +3967,7 @@ function get_list_all_users_du_hr($resp_login, $DEBUG=FALSE)
 
 	$sql1="SELECT DISTINCT(u_login) FROM conges_users WHERE u_login!='conges' AND u_login!='admin'  ORDER BY u_nom  ";
 
-	$ReqLog1 = requete_mysql($sql1, "get_list_all_users_du_hr", $DEBUG);
+	$ReqLog1 = requete_mysql($sql1);
 
 	while ($resultat1 = $ReqLog1->fetch_array())
 	{
@@ -4109,8 +3990,8 @@ function get_list_groupes_pour_rh($user_login, $DEBUG=FALSE)
 {
 	$list_group="";
 
-	$sql="SELECT g_gid FROM conges_groupe ORDER BY g_gid";
-	$ReqLog1 = requete_mysql($sql, "get_list_groupes_pour_rh", $DEBUG);
+	$sql1="SELECT g_gid FROM conges_groupe ORDER BY g_gid";
+	$ReqLog1 = requete_mysql($sql1);
 
 	if($ReqLog1->num_rows != 0)
 	{
@@ -4139,7 +4020,7 @@ function get_list_users_des_groupes_du_resp_sauf_resp($resp_login, $DEBUG=FALSE)
 	if($list_groups!="") // si $resp_login est responsable d'au moins un groupe
 	{
 		$sql1="SELECT DISTINCT(gu_login) FROM conges_groupe_users WHERE gu_gid IN ($list_groups) AND gu_login NOT IN (SELECT gr_login FROM conges_groupe_resp WHERE gr_gid IN ($list_groups)) ORDER BY gu_login ";
-		$ReqLog1 = requete_mysql($sql1, "get_list_users_des_groupes_du_resp_sauf_resp", $DEBUG);
+		$ReqLog1 = requete_mysql($sql1);
 
 		while ($resultat1 = $ReqLog1->fetch_array())
 		{

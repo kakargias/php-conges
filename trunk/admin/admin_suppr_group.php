@@ -103,7 +103,7 @@ function confirmer($group, $DEBUG=FALSE)
 	/*******************/
 	// Récupération des informations
 	$sql1 = 'SELECT g_groupename, g_comment, g_double_valid FROM conges_groupe WHERE g_gid = \''.$sql->escape($group).'\'';
-	$ReqLog1 = requete_mysql($sql1,  "confirmer", $DEBUG);
+	$ReqLog1 = requete_mysql($sql1);
 
 	// AFFICHAGE TABLEAU
 
@@ -143,18 +143,18 @@ function suppression_group($group_to_delete,  $DEBUG=FALSE)
 	$session=session_id();
 
 	$sql1 = 'DELETE FROM conges_groupe WHERE g_gid = '.$sql->escape($group_to_delete);
-	$result = requete_mysql($sql1,  "suppression_group", $DEBUG);
+	$result = requete_mysql($sql1);
 
 	$sql2 = 'DELETE FROM conges_groupe_users WHERE gu_gid = '.$sql->escape($group_to_delete);
-	$result2 = requete_mysql($sql2,  "suppression_group", $DEBUG);
+	$result2 = requete_mysql($sql2);
 
 	$sql3 = 'DELETE FROM conges_groupe_resp WHERE gr_gid = '.$sql->escape($group_to_delete);
-	$result3 = requete_mysql($sql3,  "suppression_group", $DEBUG);
+	$result3 = requete_mysql($sql3);
 
 	if($_SESSION['config']['double_validation_conges']==TRUE)
 	{
 		$sql4 = 'DELETE FROM conges_groupe_grd_resp WHERE ggr_gid = '.$sql->escape($group_to_delete);
-        	$result4 = requete_mysql($sql4,  "suppression_group", $DEBUG);
+        	$result4 = requete_mysql($sql4);
 	}
 
 	$comment_log = "suppression_groupe ($group_to_delete)";

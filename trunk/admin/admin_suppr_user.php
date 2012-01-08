@@ -140,7 +140,7 @@ function confirmer($u_login, $DEBUG=FALSE)
 
 	// Récupération des informations
 	$sql1 = 'SELECT u_login, u_nom, u_prenom FROM conges_users WHERE u_login = \''.$sql->escape($u_login).'\'';
-	$ReqLog1 = requete_mysql($sql1,"confirmer", $DEBUG);
+	$ReqLog1 = requete_mysql($sql1);
 
 	echo "<tr align=\"center\">\n";
 	while ($resultat1 = $ReqLog1->fetch_array())
@@ -168,25 +168,25 @@ function suppression($u_login_to_delete, $DEBUG=FALSE)
 	//echo($u_login_to_delete."---".$u_login_to_delete."<br>");
 
 	$sql1 = 'DELETE FROM conges_users WHERE u_login = \''.$sql->escape($u_login_to_delete).'\'';
-	$result = requete_mysql($sql1, "suppression", $DEBUG);
+	$result = requete_mysql($sql1);
 
 	$sql2 = 'DELETE FROM conges_periode WHERE p_login = \''.$sql->escape($u_login_to_delete).'\'';
-	$result2 = requete_mysql($sql2, "suppression", $DEBUG);
+	$result2 = requete_mysql($sql2);
 
 	$sql3 = 'DELETE FROM conges_artt WHERE a_login = \''.$sql->escape($u_login_to_delete).'\'';
-	$result3 = requete_mysql($sql3, "suppression", $DEBUG);
+	$result3 = requete_mysql($sql3);
 
 	$sql4 = 'DELETE FROM conges_echange_rtt WHERE e_login = \''.$sql->escape($u_login_to_delete).'\'';
-	$result4 = requete_mysql($sql4, "suppression", $DEBUG);
+	$result4 = requete_mysql($sql4);
 
 	$sql5 = 'DELETE FROM conges_groupe_resp WHERE gr_login = \''.$sql->escape($u_login_to_delete).'\'';
-	$result5 = requete_mysql($sql5, "suppression", $DEBUG);
+	$result5 = requete_mysql($sql5);
 
 	$sql6 = 'DELETE FROM conges_groupe_users WHERE gu_login = \''.$sql->escape($u_login_to_delete).'\'';
-	$result6 = requete_mysql($sql6, "suppression", $DEBUG);
+	$result6 = requete_mysql($sql6);
 
 	$sql7 = 'DELETE FROM conges_solde_user WHERE su_login = \''.$sql->escape($u_login_to_delete).'\'';
-	$result7 = requete_mysql($sql7, "suppression", $DEBUG);
+	$result7 = requete_mysql($sql7);
 
 
 	$comment_log = "suppression_user ($u_login_to_delete)";

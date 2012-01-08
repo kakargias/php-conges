@@ -113,7 +113,7 @@ function confirmer($p_num, $onglet, $DEBUG=FALSE)
 
 	// Récupération des informations
 	$sql1 = 'SELECT p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_nb_jours, p_commentaire, p_etat, p_num FROM conges_periode where p_num = \''.$sql->escape($p_num).'\'';
-	$ReqLog1 = requete_mysql($sql1,"confirmer", $DEBUG) ;
+	$ReqLog1 = requete_mysql($sql1) ;
 
 	// AFFICHAGE TABLEAU
 
@@ -216,7 +216,7 @@ function modifier($p_num_to_update, $new_debut, $new_demi_jour_deb, $new_fin, $n
 		 $sql1 = $sql1." p_date_traitement=NOW() ";
 	$sql1 = $sql1."	WHERE p_num='$p_num_to_update' AND p_login='".$_SESSION['userlogin']."' ;" ;
 
-	$result = requete_mysql($sql1, "modifier", $DEBUG) ;
+	$result = requete_mysql($sql1) ;
 
 	$comment_log = "modification de demande num $p_num_to_update ($new_nb_jours jour(s)) ( de $new_debut $new_demi_jour_deb a $new_fin $new_demi_jour_fin) ($new_comment)";
 	log_action($p_num_to_update, "$p_etat", $_SESSION['userlogin'], $comment_log, $DEBUG);

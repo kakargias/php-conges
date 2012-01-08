@@ -118,7 +118,7 @@ include("../menu.php");
     if($_SESSION['config']['responsable_virtuel']==FALSE)
     {
         $sql1 = "SELECT u_nom, u_prenom FROM conges_users where u_login = '".$sql->escape($_SESSION['userlogin'])."' ";
-        $ReqLog1 = requete_mysql($sql1, "resp_main", $DEBUG);
+        $ReqLog1 = requete_mysql($sql1);
         $resultat1 = $ReqLog1->fetch_array(); 
         
         echo "<H1>".$_SESSION['lang']['hr_menu_titre']." ".$resultat1["u_prenom"]." ".$resultat1["u_nom"]."</H1>\n\n";

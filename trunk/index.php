@@ -77,7 +77,7 @@ if(isset($_SESSION['userlogin']))
 {
 	$sql=SQL :: singleton();
 	$request= "SELECT u_nom, u_passwd, u_prenom, u_is_resp FROM conges_users where u_login = '".$_SESSION['userlogin']."' " ;
-	$rs = $sql->query($request ) or die("Erreur : index.php : ".$sql->error());
+	$rs = $sql->query($request );
 	if($rs ->num_rows <= 0)
 	{
 		header("Location: index.php");

@@ -394,7 +394,7 @@ function ajout_user(&$tab_new_user, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, 
 		$sql1=$sql1."u_passwd='$motdepasse', ";
 		$sql1=$sql1."u_quotite=".$tab_new_user['quotite'].",";
 		$sql1=$sql1." u_email='".$tab_new_user['email']."' ";
-		$result1 = requete_mysql($sql1, "ajout_user", $DEBUG);
+		$result1 = requete_mysql($sql1);
 
 
 		/**********************************/
@@ -403,7 +403,7 @@ function ajout_user(&$tab_new_user, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, 
 		{
 			$sql3 = "INSERT INTO conges_solde_user (su_login, su_abs_id, su_nb_an, su_solde, su_reliquat) ";
 			$sql3 = $sql3. "VALUES ('".$tab_new_user['login']."' , $id_cong, ".$tab_new_jours_an[$id_cong].", ".$tab_new_solde[$id_cong].", 0) " ;
-			$result3 = requete_mysql($sql3,  "ajout_user", $DEBUG);
+			$result3 = requete_mysql($sql3);
 		}
 
 
@@ -428,7 +428,7 @@ function ajout_user(&$tab_new_user, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, 
 		}
 
 		$sql2 = "INSERT INTO conges_artt ($list_colums_to_insert, a_date_debut_grille) VALUES ($list_values_to_insert, '$new_date_deb_grille')" ;
-		$result2 = requete_mysql($sql2, "ajout_user", $DEBUG);
+		$result2 = requete_mysql($sql2);
 
 
 		/***********************************/
@@ -532,7 +532,7 @@ function verif_new_param(&$tab_new_user, &$tab_new_jours_an, &$tab_new_solde, $D
 	else {
 		// verif si le login demandé n'existe pas déjà ....
 		$sql_verif='SELECT u_login FROM conges_users WHERE u_login=\''.$sql->escape($tab_new_user['login']).'\'';
-		$ReqLog_verif = requete_mysql($sql_verif, "verif_new_param", $DEBUG);
+		$ReqLog_verif = requete_mysql($sql_verif);
 
 		$num_verif = $ReqLog_verif -> num_rows;
 		if ($num_verif!=0)
@@ -783,7 +783,7 @@ function affiche_formulaire_ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab
 	// PREPARATION DES OPTIONS DU SELECT du resp_login
 	$text_resp_login="<select name=\"new_resp_login\" id=\"resp_login_id\" ><option value=\"no_resp\">Pas de resopnsable</option>" ;
 	$sql2 = "SELECT u_login, u_nom, u_prenom FROM conges_users WHERE u_is_resp = \"Y\" ORDER BY u_nom, u_prenom"  ;
-	$ReqLog2 = requete_mysql($sql2,  "affiche_formulaire_ajout_user", $DEBUG);
+	$ReqLog2 = requete_mysql($sql2);
 
 	while ($resultat2 = $ReqLog2 -> fetch_array()) {
 		$current_resp_login=$resultat2["u_login"];
@@ -948,7 +948,7 @@ function affiche_gestion_groupes($new_group_name, $new_group_libelle, $DEBUG=FAL
    echo "    <td></td>\n";
    echo "</tr>\n";
 
-   $ReqLog_gr = requete_mysql($sql_gr,  "affiche_gestion_groupes", $DEBUG);
+   $ReqLog_gr = requete_mysql($sql_gr);
    while ($resultat_gr = $ReqLog_gr->fetch_array())
    {
 
@@ -1030,12 +1030,12 @@ function ajout_groupe($new_group_name, $new_group_libelle, $new_group_double_val
 		echo "$ngm --- $new_group_libelle<br>\n";
 
 		$sql1 = "INSERT INTO conges_groupe SET g_groupename='$new_group_name', g_comment='$new_group_libelle', g_double_valid ='$new_group_double_valid' " ;
-		$result = requete_mysql($sql1,  "ajout_groupe", $DEBUG);
+		$result = requete_mysql($sql1);
 
 		$new_gid=$sql->insert_id;
 		// par défaut le responsable virtuel est resp de tous les groupes !!!
 		// $sql2 = "INSERT INTO conges_groupe_resp SET gr_gid=$new_gid, gr_login='conges' " ;
-		// $result = requete_mysql($sql2, "ajout_groupe", $DEBUG);
+		// $result = requete_mysql($sql2);
 
 		if($result==TRUE)
 			echo $_SESSION['lang']['form_modif_ok']."<br><br> \n";
@@ -1076,7 +1076,7 @@ function verif_new_param_group($new_group_name, $new_group_libelle, $DEBUG=FALSE
 	else {
 		// verif si le groupe demandé n'existe pas déjà ....
 		$sql_verif='select g_groupename from conges_groupe where g_groupename=\''.$sql->escape($new_group_name).'\' ';
-		$ReqLog_verif = requete_mysql($sql_verif, "verif_new_param_group", $DEBUG);
+		$ReqLog_verif = requete_mysql($sql_verif);
 		$num_verif = $ReqLog_verif->num_rows;
 		if ($num_verif!=0)
 		{
@@ -1152,7 +1152,7 @@ function affiche_choix_groupes_users($DEBUG=FALSE)
 	echo "	<td class=\"titre\">&nbsp;".$_SESSION['lang']['admin_groupes_libelle']."&nbsp;</td>\n";
 	echo "</tr>\n";
 
-	$ReqLog_gr = requete_mysql($sql_gr, "affiche_choix_groupes_users", $DEBUG);
+	$ReqLog_gr = requete_mysql($sql_gr);
 	while ($resultat_gr = $ReqLog_gr->fetch_array())
 	{
 
@@ -1186,7 +1186,7 @@ function affiche_gestion_groupes_users($choix_group, $DEBUG=FALSE)
 	/************************/
 	// Récuperation des informations :
 	$sql_gr = 'SELECT g_groupename, g_comment FROM conges_groupe WHERE g_gid='.$sql->escape($choix_group);
-	$ReqLog_gr = requete_mysql($sql_gr, "affiche_gestion_groupes_users", $DEBUG);
+	$ReqLog_gr = requete_mysql($sql_gr);
 	$resultat_gr = $ReqLog_gr->fetch_array();
 	$sql_group=$resultat_gr["g_groupename"] ;
 	$sql_comment=$resultat_gr["g_comment"] ;
@@ -1213,7 +1213,7 @@ function affiche_gestion_groupes_users($choix_group, $DEBUG=FALSE)
 	// Récuperation des utilisateurs :
 	$tab_users=array();
 	$sql_users = "SELECT u_login, u_nom, u_prenom FROM conges_users WHERE u_login!='conges' AND u_login!='admin' ORDER BY u_nom, u_prenom "  ;
-	$ReqLog_users = requete_mysql($sql_users, "affiche_gestion_groupes_users", $DEBUG);
+	$ReqLog_users = requete_mysql($sql_users);
 
 	while($resultat_users=$ReqLog_users->fetch_array())
 	{
@@ -1226,7 +1226,7 @@ function affiche_gestion_groupes_users($choix_group, $DEBUG=FALSE)
 	// on rempli un autre tableau des users du groupe
 	$tab_group=array();
 	$sql_gu = 'SELECT gu_login FROM conges_groupe_users WHERE gu_gid=\''.$sql->escape($choix_group).'\' ORDER BY gu_login ';
-	$ReqLog_gu = requete_mysql($sql_gu, "affiche_gestion_groupes_users", $DEBUG);
+	$ReqLog_gu = requete_mysql($sql_gu);
 
 	while($resultat_gu=$ReqLog_gu->fetch_array())
 	{
@@ -1281,7 +1281,7 @@ function modif_group_users($choix_group, &$checkbox_group_users,  $DEBUG=FALSE)
 
 	// on supprime tous les anciens users du groupe puis on ajoute tous ceux qui sont dans le tableau checkbox (si il n'est pas vide)
 	$sql_del = 'DELETE FROM conges_groupe_users WHERE gu_gid='.$sql->escape($choix_group).' ';
-	$ReqLog_del = requete_mysql($sql_del,  "modif_group_users", $DEBUG);
+	$ReqLog_del = requete_mysql($sql_del);
 	
 	if(is_array($checkbox_group_users) && count ($checkbox_group_users)!=0)
 	{
@@ -1289,7 +1289,7 @@ function modif_group_users($choix_group, &$checkbox_group_users,  $DEBUG=FALSE)
 		{
 			//$login=$checkbox_group_users[$i] ;
 			$sql_insert = "INSERT INTO conges_groupe_users SET gu_gid=$choix_group, gu_login='$login' "  ;
-			$result_insert = requete_mysql($sql_insert,  "modif_group_users", $DEBUG);
+			$result_insert = requete_mysql($sql_insert);
 		}
 	}
 	else
@@ -1334,7 +1334,7 @@ function affiche_choix_user_groupes( $DEBUG=FALSE)
 	echo "<td class=\"titre\">&nbsp;".$_SESSION['lang']['divers_login_maj_1']."&nbsp;</td>\n";
 	echo "</tr>\n";
 
-	$ReqLog_user = requete_mysql($sql_user,  "affiche_choix_user_groupes", $DEBUG);
+	$ReqLog_user = requete_mysql($sql_user);
 
 	while ($resultat_user = $ReqLog_user->fetch_array())
 	{
@@ -1369,7 +1369,7 @@ function affiche_gestion_user_groupes($choix_user,  $DEBUG=FALSE)
 
 /*	// Récuperation des informations :
 	$sql_u = "SELECT u_nom, u_prenom FROM conges_users WHERE u_login='$choix_user'"  ;
-	$ReqLog_u = requete_mysql($sql_u,  "affiche_gestion_user_groupes", $DEBUG);
+	$ReqLog_u = requete_mysql($sql_u);
 
 	$resultat_u = $ReqLog_u->fetch_array();
 	$sql_nom=$resultat_u["u_nom"] ;
@@ -1419,7 +1419,7 @@ function affiche_tableau_affectation_user_groupes($choix_user,  $DEBUG=FALSE)
 	//on rempli un tableau de tous les groupes avec le nom et libellé (tableau de tableau à 3 cellules)
 	$tab_groups=array();
 	$sql_g = "SELECT g_gid, g_groupename, g_comment FROM conges_groupe ORDER BY g_groupename "  ;
-	$ReqLog_g = requete_mysql($sql_g,  "affiche_gestion_user_groupes", $DEBUG);
+	$ReqLog_g = requete_mysql($sql_g);
 
 	while($resultat_g=$ReqLog_g->fetch_array())
 	{
@@ -1437,7 +1437,7 @@ function affiche_tableau_affectation_user_groupes($choix_user,  $DEBUG=FALSE)
 	{
 		$tab_user=array();
 		$sql_gu = 'SELECT gu_gid FROM conges_groupe_users WHERE gu_login=\''.$sql->escape($choix_user).'\' ORDER BY gu_gid ';
-		$ReqLog_gu = requete_mysql($sql_gu,  "affiche_gestion_user_groupes", $DEBUG);
+		$ReqLog_gu = requete_mysql($sql_gu);
 
 		while($resultat_gu=$ReqLog_gu->fetch_array())
 		{
@@ -1506,14 +1506,14 @@ function commit_modif_user_groups($choix_user, &$checkbox_user_groups,  $DEBUG=F
 	$result_insert=FALSE;
 	// on supprime tous les anciens groupes du user, puis on ajoute tous ceux qui sont dans la tableau checkbox (si il n'est pas vide)
 	$sql_del = 'DELETE FROM conges_groupe_users WHERE gu_login=\''.$sql->escape($choix_user).'\'';
-	$ReqLog_del = requete_mysql($sql_del,  "modif_user_groups", $DEBUG);
+	$ReqLog_del = requete_mysql($sql_del);
 
 	if( ($checkbox_user_groups!="") && (count ($checkbox_user_groups)!=0) )
 	{
 		foreach($checkbox_user_groups as $gid => $value)
 		{
 			$sql_insert = "INSERT INTO conges_groupe_users SET gu_gid=$gid, gu_login='$choix_user' "  ;
-			$result_insert = requete_mysql($sql_insert,  "modif_user_groups", $DEBUG);
+			$result_insert = requete_mysql($sql_insert);
 		}
 	}
 	else
@@ -1581,7 +1581,7 @@ function affiche_choix_groupes_responsables( $DEBUG=FALSE)
 	echo "	<td class=\"titre\">&nbsp;".$_SESSION['lang']['admin_groupes_libelle']."&nbsp;</td>\n";
 	echo "</tr>\n";
 
-	$ReqLog_gr = requete_mysql($sql_gr,  "affiche_choix_groupes_responsables", $DEBUG);
+	$ReqLog_gr = requete_mysql($sql_gr);
 
 	while ($resultat_gr = $ReqLog_gr->fetch_array())
 	{
@@ -1616,7 +1616,7 @@ function affiche_gestion_groupes_responsables($choix_group, $DEBUG=FALSE)
 	/***********************/
 	// Récuperation des informations :
 	$sql_gr = 'SELECT g_groupename, g_comment, g_double_valid FROM conges_groupe WHERE g_gid='.$sql->escape($choix_group);
-	$ReqLog_gr = requete_mysql($sql_gr,  "affiche_gestion_groupes_responsables", $DEBUG);
+	$ReqLog_gr = requete_mysql($sql_gr);
 
 	$resultat_gr = $ReqLog_gr->fetch_array();
 	$sql_groupename=$resultat_gr["g_groupename"] ;
@@ -1630,7 +1630,7 @@ function affiche_gestion_groupes_responsables($choix_group, $DEBUG=FALSE)
 	// Récuperation des responsables :
 	$tab_resp=array();
 	$sql_resp = "SELECT u_login, u_nom, u_prenom FROM conges_users WHERE u_login!='conges' AND u_is_resp='Y' ORDER BY u_nom, u_prenom "  ;
-	$ReqLog_resp = requete_mysql($sql_resp,  "affiche_gestion_groupes_responsables", $DEBUG);
+	$ReqLog_resp = requete_mysql($sql_resp);
 
 	while($resultat_resp=$ReqLog_resp->fetch_array())
 	{
@@ -1664,7 +1664,7 @@ function affiche_gestion_groupes_responsables($choix_group, $DEBUG=FALSE)
 		// on rempli un autre tableau des responsables du groupe
 		$tab_group=array();
 		$sql_gr = 'SELECT gr_login FROM conges_groupe_resp WHERE gr_gid='.$sql->escape($choix_group).' ORDER BY gr_login ';
-		$ReqLog_gr = requete_mysql($sql_gr,  "affiche_gestion_groupes_responsables", $DEBUG);
+		$ReqLog_gr = requete_mysql($sql_gr);
 
 		while($resultat_gr=$ReqLog_gr->fetch_array())
 		{
@@ -1723,7 +1723,7 @@ function affiche_gestion_groupes_responsables($choix_group, $DEBUG=FALSE)
 			// on rempli un autre tableau des grands responsables du groupe
 			$tab_group_grd=array();
 			$sql_ggr = 'SELECT ggr_login FROM conges_groupe_grd_resp WHERE ggr_gid='.$sql->escape($choix_group).' ORDER BY ggr_login ';
-			$ReqLog_ggr = requete_mysql($sql_ggr,  "affiche_gestion_groupes_responsables", $DEBUG);
+			$ReqLog_ggr = requete_mysql($sql_ggr);
 
 			while($resultat_ggr=$ReqLog_ggr->fetch_array())
 			{
@@ -1789,11 +1789,11 @@ function modif_group_responsables($choix_group, &$checkbox_group_resp, &$checkbo
 	//echo "groupe : $choix_group<br>\n";
 	// on supprime tous les anciens resp du groupe puis on ajoute tous ceux qui sont dans le tableau de la checkbox
 	$sql_del = 'DELETE FROM conges_groupe_resp WHERE gr_gid='.$sql->escape($choix_group);
-	$ReqLog_del = requete_mysql($sql_del,  "modif_group_responsables", $DEBUG);
+	$ReqLog_del = requete_mysql($sql_del);
 
 	// on supprime tous les anciens grand resp du groupe puis on ajoute tous ceux qui sont dans le tableau de la checkbox
 	$sql_del_2 = 'DELETE FROM conges_groupe_grd_resp WHERE ggr_gid='.$sql->escape($choix_group);
-	$ReqLog_del_2 = requete_mysql($sql_del_2,  "modif_group_responsables", $DEBUG);
+	$ReqLog_del_2 = requete_mysql($sql_del_2);
 
 
 	// ajout des resp qui sont dans la checkbox
@@ -1802,7 +1802,7 @@ function modif_group_responsables($choix_group, &$checkbox_group_resp, &$checkbo
 		foreach($checkbox_group_resp as $login => $value)
 		{
 			$sql_insert = "INSERT INTO conges_groupe_resp SET gr_gid=$choix_group, gr_login='$login' "  ;
-			$result_insert = requete_mysql($sql_insert,  "modif_group_responsables", $DEBUG);
+			$result_insert = requete_mysql($sql_insert);
 		}
 	}
 
@@ -1812,7 +1812,7 @@ function modif_group_responsables($choix_group, &$checkbox_group_resp, &$checkbo
 		foreach($checkbox_group_grd_resp as $grd_login => $grd_value)
 		{
 			$sql_insert_2 = "INSERT INTO conges_groupe_grd_resp SET ggr_gid=$choix_group, ggr_login='$grd_login' "  ;
-			$result_insert_2 = requete_mysql($sql_insert_2,  "modif_group_responsables", $DEBUG);
+			$result_insert_2 = requete_mysql($sql_insert_2);
 		}
 	}
 
@@ -1843,7 +1843,7 @@ function affiche_choix_responsable_groupes( $DEBUG=FALSE)
 
 	// Récuperation des informations :
 	$sql_resp = "SELECT u_login, u_nom, u_prenom FROM conges_users WHERE u_is_resp='Y' AND u_login!='conges' AND u_login!='admin' ORDER BY u_nom, u_prenom"  ;
-	$ReqLog_resp = requete_mysql($sql_resp,  "affiche_choix_responsable_groupes", $DEBUG);
+	$ReqLog_resp = requete_mysql($sql_resp);
 
 	/*************************/
 	/* Choix Responsable     */
@@ -1890,7 +1890,7 @@ function affiche_gestion_responsable_groupes($choix_resp, $DEBUG=FALSE)
 	/****************************/
 	// Récuperation des informations :
 	$sql_r = 'SELECT u_nom, u_prenom FROM conges_users WHERE u_login=\''.$sql->escape($choix_resp).'\'';
-	$ReqLog_r = requete_mysql($sql_r,  "affiche_gestion_responsable_groupes", $DEBUG);
+	$ReqLog_r = requete_mysql($sql_r);
 
 	$resultat_r = $ReqLog_r->fetch_array();
 	$sql_nom=$resultat_r["u_nom"] ;
@@ -1902,7 +1902,7 @@ function affiche_gestion_responsable_groupes($choix_resp, $DEBUG=FALSE)
 	// Récuperation des groupes :
 	$tab_groupe=array();
 	$sql_groupe = "SELECT g_gid, g_groupename, g_comment FROM conges_groupe ORDER BY g_groupename "  ;
-	$ReqLog_groupe = requete_mysql($sql_groupe,  "affiche_gestion_responsable_groupes", $DEBUG);
+	$ReqLog_groupe = requete_mysql($sql_groupe);
 
 	while($resultat_groupe=$ReqLog_groupe->fetch_array())
 	{
@@ -1916,7 +1916,7 @@ function affiche_gestion_responsable_groupes($choix_resp, $DEBUG=FALSE)
 	//on rempli un tableau de tous les groupes a double validation avec le groupename, le commentaire (tableau de tableau à 3 cellules)
 	$tab_groupe_dbl_valid=array();
 	$sql_g2 = "SELECT g_gid, g_groupename, g_comment FROM conges_groupe WHERE g_double_valid='Y' ORDER BY g_groupename "  ;
-	$ReqLog_g2 = requete_mysql($sql_g2,  "affiche_gestion_user_groupes", $DEBUG);
+	$ReqLog_g2 = requete_mysql($sql_g2);
 
 	while($resultat_groupe_2=$ReqLog_g2->fetch_array())
 	{
@@ -1951,7 +1951,7 @@ function affiche_gestion_responsable_groupes($choix_resp, $DEBUG=FALSE)
 		// on rempli un autre tableau des groupes dont resp est responsables
 		$tab_resp=array();
 		$sql_r = 'SELECT gr_gid FROM conges_groupe_resp WHERE gr_login=\''.$sql->escape($choix_resp).'\' ORDER BY gr_gid ';
-		$ReqLog_r = requete_mysql($sql_r,  "affiche_gestion_responsable_groupes", $DEBUG);
+		$ReqLog_r = requete_mysql($sql_r);
 
 		while($resultat_r=$ReqLog_r->fetch_array())
 		{
@@ -2011,7 +2011,7 @@ function affiche_gestion_responsable_groupes($choix_resp, $DEBUG=FALSE)
 			// on rempli un autre tableau des groupes dont resp est GRAND responsables
 			$tab_grd_resp=array();
 			$sql_gr = 'SELECT ggr_gid FROM conges_groupe_grd_resp WHERE ggr_login=\''.$sql->escape($choix_resp).'\' ORDER BY ggr_gid ';
-			$ReqLog_gr = requete_mysql($sql_gr,  "affiche_gestion_responsable_groupes", $DEBUG);
+			$ReqLog_gr = requete_mysql($sql_gr);
 
 			while($resultat_gr=$ReqLog_gr->fetch_array())
 			{
@@ -2079,11 +2079,11 @@ function modif_resp_groupes($choix_resp, &$checkbox_resp_group, &$checkbox_grd_r
 	//echo "responsable : $choix_resp<br>\n";
 	// on supprime tous les anciens resps du groupe puis on ajoute tous ceux qui sont dans le tableau de la checkbox
 	$sql_del = 'DELETE FROM conges_groupe_resp WHERE gr_login=\''.$sql->escape($choix_resp).'\'';
-	$ReqLog_del = requete_mysql($sql_del,  "modif_resp_groupes", $DEBUG);
+	$ReqLog_del = requete_mysql($sql_del);
 
 	// on supprime tous les anciens grands resps du groupe puis on ajoute tous ceux qui sont dans le tableau de la checkbox
 	$sql_del_2 = 'DELETE FROM conges_groupe_grd_resp WHERE ggr_login=\''.$sql->escape($choix_resp).'\'';
-	$ReqLog_del_2 = requete_mysql($sql_del_2,  "modif_resp_groupes", $DEBUG);
+	$ReqLog_del_2 = requete_mysql($sql_del_2);
 
 	// ajout des resp qui sont dans la checkbox
 	if($checkbox_resp_group!="") // si la checkbox contient qq chose
@@ -2091,7 +2091,7 @@ function modif_resp_groupes($choix_resp, &$checkbox_resp_group, &$checkbox_grd_r
 		foreach($checkbox_resp_group as $gid => $value)
 		{
 			$sql_insert = "INSERT INTO conges_groupe_resp SET gr_gid=$gid, gr_login='$choix_resp' "  ;
-			$result_insert = requete_mysql($sql_insert,  "modif_resp_groupes", $DEBUG);
+			$result_insert = requete_mysql($sql_insert);
 		}
 	}
 
@@ -2101,7 +2101,7 @@ function modif_resp_groupes($choix_resp, &$checkbox_resp_group, &$checkbox_grd_r
 		foreach($checkbox_grd_resp_group as $grd_gid => $value)
 		{
 			$sql_insert_2 = "INSERT INTO conges_groupe_grd_resp SET ggr_gid=$grd_gid, ggr_login='$choix_resp' "  ;
-			$result_insert_2 = requete_mysql($sql_insert_2,  "modif_resp_groupes", $DEBUG);
+			$result_insert_2 = requete_mysql($sql_insert_2);
 		}
 	}
 

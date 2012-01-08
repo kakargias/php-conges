@@ -252,7 +252,7 @@ function saisie_groupe_fermeture( $DEBUG=FALSE)
 
 			echo "<tr align=\"center\">\n";
 			echo "<td valign=\"top\">\n";
-			$ReqLog_gr = requete_mysql($sql_gr,  "saisie_groupe_fermeture", $DEBUG);
+			$ReqLog_gr = requete_mysql($sql_gr);
 			echo "<select name=\"groupe_id\">";
 			while ($resultat_gr = $ReqLog_gr->fetch_array())
 			{
@@ -857,7 +857,7 @@ function commit_annul_fermeture($fermeture_id, $groupe_id,  $DEBUG=FALSE)
 
 		// on recupère les infos de la periode ....
 		$sql_credit='SELECT p_num, p_nb_jours, p_type FROM conges_periode WHERE p_login=\''.$sql->escape($current_login).'\' AND p_fermeture_id=\''.$sql->escape($fermeture_id);
-		$result_credit = requete_mysql($sql_credit,  "commit_annul_fermeture", $DEBUG);
+		$result_credit = requete_mysql($sql_credit);
 		$row_credit = $result_credit->fetch_array();
 		$sql_num_periode=$row_credit['p_num'];
 		$sql_nb_jours_a_crediter=$row_credit['p_nb_jours'];
@@ -866,14 +866,14 @@ function commit_annul_fermeture($fermeture_id, $groupe_id,  $DEBUG=FALSE)
 
 		// on ne met à jour la table conges_periode .
 		$etat = "annul" ;
-	 	$sql = 'UPDATE conges_periode SET p_etat = \''.$sql->escape($etat).'\' WHERE p_num='.$sql->escape($sql_num_periode) ;
-	    $ReqLog = requete_mysql($sql,  "commit_annul_fermeture", $DEBUG);
+	 	$sql1 = 'UPDATE conges_periode SET p_etat = \''.$sql->escape($etat).'\' WHERE p_num='.$sql->escape($sql_num_periode) ;
+	    $ReqLog = requete_mysql($sql1);
 
 		// mise à jour du solde de jours de conges pour l'utilisateur $current_login
 		if ($sql_nb_jours_a_crediter != 0)
 		{
-		        $sql = 'UPDATE conges_solde_user SET su_solde = su_solde + '.$sql->escape($sql_nb_jours_a_crediter).' WHERE su_login=\''.$sql->escape($current_login).'\' AND su_abs_id = '.$sql->escape($sql_type_abs) ;
-		        $ReqLog = requete_mysql($sql,  "commit_annul_fermeture", $DEBUG);
+		        $sql1 = 'UPDATE conges_solde_user SET su_solde = su_solde + '.$sql->escape($sql_nb_jours_a_crediter).' WHERE su_login=\''.$sql->escape($current_login).'\' AND su_abs_id = '.$sql->escape($sql_type_abs) ;
+		        $ReqLog = requete_mysql($sql1);
 		}
 	}
 
@@ -907,7 +907,7 @@ function insert_year_fermeture($fermeture_id, $tab_j_ferme, $groupe_id,  $DEBUG=
 	foreach($tab_j_ferme as $jf_date )
 	{
 		$sql_insert="INSERT INTO conges_jours_fermeture (jf_id, jf_gid, jf_date) VALUES ($fermeture_id, $groupe_id, '$jf_date') ;";
-		$result_insert = requete_mysql($sql_insert,  "insert_year_fermeture", $DEBUG);
+		$result_insert = requete_mysql($sql_insert);
 	}
 	return TRUE;
 }
@@ -916,7 +916,7 @@ function delete_year_fermeture($fermeture_id,  $DEBUG=FALSE)
 {
 	$sql=SQL::singleton();
 	$sql_delete="DELETE FROM conges_jours_fermeture WHERE jf_id = '$fermeture_id' ;";
-	$result = requete_mysql($sql_delete,  "delete_year_fermeture", $DEBUG);
+	$result = requete_mysql($sql_delete);
 	return TRUE;
 }
 
@@ -930,10 +930,10 @@ function get_tableau_jour_fermeture($year, &$tab_year,  $groupe_id,  $DEBUG=FALS
 		$sql_select = $sql_select."AND jf_gid = 0";
 	else
 		$sql_select = $sql_select."AND  (jf_gid = $groupe_id OR jf_gid =0 ) ";
-	$res_select = requete_mysql($sql_select,  "get_tableau_jour_fermeture", $DEBUG);
+	$res_select = requete_mysql($sql_select);
 //	$res_select = $sql->query($sql_select);
 //	attention ne fonctionne pas avec requete_mysql
-//	$res_select = requete_mysql($sql_select,  "get_tableau_jour_feries", $DEBUG);
+//	$res_select = requete_mysql($sql_select);
 
 	$num_select =$res_select -> num_rows;
 
@@ -953,7 +953,7 @@ function get_tableau_periodes_fermeture(&$tab_periodes_fermeture, $groupe_id,  $
    $req_1="SELECT DISTINCT conges_periode.p_date_deb, conges_periode.p_date_fin, conges_periode.p_fermeture_id FROM conges_periode, conges_jours_fermeture " .
    		" WHERE conges_periode.p_fermeture_id = conges_jours_fermeture.jf_id AND conges_periode.p_etat='ok' AND conges_jours_fermeture.jf_gid = '$groupe_id' " .
   		" ORDER BY conges_periode.p_date_deb DESC ";
-   $res_1 = requete_mysql($req_1,  "get_tableau_periodes_fermeture", $DEBUG);
+   $res_1 = requete_mysql($req_1);
 
 	$num_select = $res_1 -> num_rows;
 
@@ -976,7 +976,7 @@ function get_tableau_periodes_fermeture(&$tab_periodes_fermeture, $groupe_id,  $
 function get_last_fermeture_id( $DEBUG=FALSE)
 {
    $req_1="SELECT MAX(jf_id) FROM conges_jours_fermeture ";
-   $res_1 = requete_mysql($req_1,  "get_last_fermeture_id", $DEBUG);
+   $res_1 = requete_mysql($req_1);
    $row_1 = $res_1->fetch_array();
    if(!$row_1)
       return 0;     // si la table est vide, on renvoit 0

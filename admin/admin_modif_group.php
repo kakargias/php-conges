@@ -101,7 +101,7 @@ function modifier($group,  $DEBUG=FALSE)
 	$session=session_id();
 
 	// Récupération des informations
-	$sql1 = 'SELECT g_groupename, g_comment, g_double_valid FROM conges_groupe WHERE g_gid = \''.SQL::escape($group).'\'';
+	$sql1 = 'SELECT g_groupename, g_comment, g_double_valid FROM conges_groupe WHERE g_gid = \''.SQL::quote($group).'\'';
 
 	// AFFICHAGE TABLEAU
 	echo "<form action=$PHP_SELF?session=$session&group_to_update=".$group." method=\"POST\">\n" ;
@@ -176,7 +176,7 @@ function commit_update($group_to_update, $new_groupname, $new_comment, $new_doub
 
 
 	// UPDATE de la table conges_groupe
-	$sql1 = 'UPDATE conges_groupe  SET g_groupename=\''.$new_groupname.'\', g_comment=\''.$new_comment.'\' , g_double_valid=\''.$new_double_valid.'\' WHERE g_gid=\''.SQL::escape($group_to_update).'\''  ;
+	$sql1 = 'UPDATE conges_groupe  SET g_groupename=\''.$new_groupname.'\', g_comment=\''.$new_comment.'\' , g_double_valid=\''.$new_double_valid.'\' WHERE g_gid=\''.SQL::quote($group_to_update).'\''  ;
 	$result1 = SQL::query($sql1);
 	if($result1==FALSE)
 		$result==FALSE;
@@ -195,4 +195,4 @@ function commit_update($group_to_update, $new_groupname, $new_comment, $new_doub
 
 }
 
-?>
+

@@ -225,4 +225,3 @@ $config_ldap_filtre_complet = "";
 */
 
 
-?>

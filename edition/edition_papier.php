@@ -371,4 +371,3 @@ function affiche_tableau_bilan_conges_user_edition($tab_info_user, $tab_info_edi
 	echo "</table>\n";
 }
 
-?>

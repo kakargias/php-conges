@@ -908,6 +908,3 @@ $LANG['hr_traite_user_etat_conges']         = "Etat des congés des Utilisateurs
 /*************************************************************************************************/
 $_SESSION['lang']=$LANG ;
 
-
-
-?>

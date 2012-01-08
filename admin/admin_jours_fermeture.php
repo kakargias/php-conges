@@ -856,7 +856,7 @@ function commit_annul_fermeture($fermeture_id, $groupe_id,  $DEBUG=FALSE)
 		$current_login = trim($current_login, "\'");
 
 		// on recupère les infos de la periode ....
-		$sql_credit='SELECT p_num, p_nb_jours, p_type FROM conges_periode WHERE p_login=\''.SQL::escape($current_login).'\' AND p_fermeture_id=\''.SQL::escape($fermeture_id);
+		$sql_credit='SELECT p_num, p_nb_jours, p_type FROM conges_periode WHERE p_login=\''.SQL::quote($current_login).'\' AND p_fermeture_id=\''.SQL::quote($fermeture_id);
 		$result_credit = SQL::query($sql_credit);
 		$row_credit = $result_credit->fetch_array();
 		$sql_num_periode=$row_credit['p_num'];
@@ -866,13 +866,13 @@ function commit_annul_fermeture($fermeture_id, $groupe_id,  $DEBUG=FALSE)
 
 		// on ne met à jour la table conges_periode .
 		$etat = "annul" ;
-	 	$sql1 = 'UPDATE conges_periode SET p_etat = \''.SQL::escape($etat).'\' WHERE p_num='.SQL::escape($sql_num_periode) ;
+	 	$sql1 = 'UPDATE conges_periode SET p_etat = \''.SQL::quote($etat).'\' WHERE p_num='.SQL::quote($sql_num_periode) ;
 	    $ReqLog = SQL::query($sql1);
 
 		// mise à jour du solde de jours de conges pour l'utilisateur $current_login
 		if ($sql_nb_jours_a_crediter != 0)
 		{
-		        $sql1 = 'UPDATE conges_solde_user SET su_solde = su_solde + '.SQL::escape($sql_nb_jours_a_crediter).' WHERE su_login=\''.SQL::escape($current_login).'\' AND su_abs_id = '.SQL::escape($sql_type_abs) ;
+		        $sql1 = 'UPDATE conges_solde_user SET su_solde = su_solde + '.SQL::quote($sql_nb_jours_a_crediter).' WHERE su_login=\''.SQL::quote($current_login).'\' AND su_abs_id = '.SQL::quote($sql_type_abs) ;
 		        $ReqLog = SQL::query($sql1);
 		}
 	}
@@ -1016,4 +1016,3 @@ function affiche_select_conges_id( $DEBUG=FALSE)
 }
 
 
-?>

@@ -406,5 +406,3 @@ function page_principale($session, $tab_type_cong, $tab_type_conges_exceptionnel
 
 }
 
-
-?>

@@ -140,4 +140,4 @@ function affichage($user, $date_debut, $date_fin, $opt_debut, $opt_fin, $DEBUG=F
 }
 
 
-?>
+

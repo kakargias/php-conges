@@ -885,7 +885,3 @@ $LANG['imprim_calendrier_titre']	= "escoger el mes a imprimir";
 $_SESSION['lang']=$LANG ;
 
 
-
-
-
-?>

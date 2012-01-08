@@ -141,4 +141,3 @@ function test_drop_table( $DEBUG=FALSE)
 
 
 
-?>

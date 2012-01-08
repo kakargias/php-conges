@@ -85,7 +85,7 @@ function affichage($login,  $DEBUG=FALSE)
 	$session=session_id();
 
 
-	$sql1 = 'SELECT u_nom, u_prenom, u_quotite FROM conges_users where u_login = \''.SQL::escape($login).'\'';
+	$sql1 = 'SELECT u_nom, u_prenom, u_quotite FROM conges_users where u_login = \''.SQL::quote($login).'\'';
 	$ReqLog1 = SQL::query($sql1);
 
 	while ($resultat1 = $ReqLog1->fetch_array()) {
@@ -302,4 +302,4 @@ function affiche_anciennes_editions($login,  $DEBUG=FALSE)
 }
 
 
-?>
+

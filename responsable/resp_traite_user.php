@@ -549,7 +549,7 @@ function annule_conges($user_login, $tab_checkbox_annule, $tab_text_annul,  $DEB
 		if($DEBUG==TRUE) { echo "<br><br>conges numero :$numero ---> login : $user_login --- nb de jours : $user_nb_jours_pris_float --- type : $user_type_abs_id ---> ANNULER <br>"; }
 
 		/* UPDATE table "conges_periode" */
-		$sql1 = 'UPDATE conges_periode SET p_etat=\"annul\", p_motif_refus=\''.$motif_annul.'\', p_date_traitement=NOW() WHERE p_num=\''.SQL::escape($numero_int).'\' ';
+		$sql1 = 'UPDATE conges_periode SET p_etat=\"annul\", p_motif_refus=\''.$motif_annul.'\', p_date_traitement=NOW() WHERE p_num=\''.SQL::quote($numero_int).'\' ';
 		$ReqLog1 = SQL::query($sql1);
 
 		// Log de l'action
@@ -560,7 +560,7 @@ function annule_conges($user_login, $tab_checkbox_annule, $tab_text_annul,  $DEB
 		// donc seulement si le type de l'absence qu'on annule est un "conges"
 		if($tab_tout_type_abs[$user_type_abs_id]['type']=="conges")
 		{
-			$sql2 = 'UPDATE conges_solde_user SET su_solde = su_solde+$user_nb_jours_pris_float WHERE su_login=\''.SQL::escape($user_login).'\' AND su_abs_id=\''.SQL::escape($user_type_abs_id).'\' ';
+			$sql2 = 'UPDATE conges_solde_user SET su_solde = su_solde+$user_nb_jours_pris_float WHERE su_login=\''.SQL::quote($user_login).'\' AND su_abs_id=\''.SQL::quote($user_type_abs_id).'\' ';
 			//echo($sql2."<br>");
 			$ReqLog2 = SQL::query($sql2);
 		}
@@ -619,7 +619,7 @@ function traite_demandes($user_login, $tab_radio_traite_demande, $tab_text_refus
 		if($reponse == "ACCEPTE") // acceptation definitive d'un conges
 		{
 			/* UPDATE table "conges_periode" */
-			$sql1 = 'UPDATE conges_periode SET p_etat=\"ok\", p_date_traitement=NOW() WHERE p_num=\''.SQL::escape($numero_int).'\' ';
+			$sql1 = 'UPDATE conges_periode SET p_etat=\"ok\", p_date_traitement=NOW() WHERE p_num=\''.SQL::quote($numero_int).'\' ';
 			$ReqLog1 = SQL::query($sql1);
 
 			// Log de l'action
@@ -642,7 +642,7 @@ function traite_demandes($user_login, $tab_radio_traite_demande, $tab_text_refus
 		elseif($reponse == "VALID") // première validation dans le cas d'une double validation  
 		{
 			/* UPDATE table "conges_periode" */
-			$sql1 = 'UPDATE conges_periode SET p_etat=\"valid\", p_date_traitement=NOW() WHERE p_num=\''.SQL::escape($numero_int).'\'';
+			$sql1 = 'UPDATE conges_periode SET p_etat=\"valid\", p_date_traitement=NOW() WHERE p_num=\''.SQL::quote($numero_int).'\'';
 			$ReqLog1 = SQL::query($sql1);
 
 			// Log de l'action
@@ -657,7 +657,7 @@ function traite_demandes($user_login, $tab_radio_traite_demande, $tab_text_refus
 			// recup di motif de refus
 			$motif_refus=addslashes($tab_text_refus[$numero_int]);
 			//$sql3 = "UPDATE conges_periode SET p_etat=\"refus\" WHERE p_num=$numero_int" ;
-			$sql3 = 'UPDATE conges_periode SET p_etat=\"refus\", p_motif_refus=\''.$motif_refus.'\', p_date_traitement=NOW() WHERE p_num=\''.SQL::escape($numero_int).'\'';
+			$sql3 = 'UPDATE conges_periode SET p_etat=\"refus\", p_motif_refus=\''.$motif_refus.'\', p_date_traitement=NOW() WHERE p_num=\''.SQL::quote($numero_int).'\'';
 			$ReqLog3 = SQL::query($sql3);
 		
 			// Log de l'action
@@ -738,7 +738,4 @@ function new_conges($user_login, $new_debut, $new_demi_jour_deb, $new_fin, $new_
 	echo "</form> \n";
 	
 }
-
-
-?>
 

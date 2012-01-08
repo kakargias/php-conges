@@ -93,6 +93,3 @@ include("../fonctions_javascript.php") ;
 	echo "</body>\n</html>\n";
 }
 
-
-
-?>

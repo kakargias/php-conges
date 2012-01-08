@@ -369,5 +369,3 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 	
 }
 
-
-?>

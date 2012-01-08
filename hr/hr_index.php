@@ -117,7 +117,7 @@ include("../menu.php");
 	
     if($_SESSION['config']['responsable_virtuel']==FALSE)
     {
-        $sql1 = "SELECT u_nom, u_prenom FROM conges_users where u_login = '".SQL::escape($_SESSION['userlogin'])."' ";
+        $sql1 = "SELECT u_nom, u_prenom FROM conges_users where u_login = '".SQL::quote($_SESSION['userlogin'])."' ";
         $ReqLog1 = SQL::query($sql1);
         $resultat1 = $ReqLog1->fetch_array(); 
         
@@ -365,5 +365,3 @@ function page_principale($session, $tab_type_cong, $tab_type_conges_exceptionnel
 
 }
 
-
-?>

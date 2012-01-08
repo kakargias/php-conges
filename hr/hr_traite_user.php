@@ -736,6 +736,3 @@ function new_conges($user_login, $new_debut, $new_demi_jour_deb, $new_fin, $new_
 	
 }
 
-
-?>
-

@@ -212,5 +212,3 @@ function commit_vider_table_logs($session, $DEBUG=FALSE)
 }
 
 
-
-?>

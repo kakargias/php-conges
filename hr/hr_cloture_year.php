@@ -467,7 +467,7 @@ function cloture_current_year_for_login($current_login, $tab_current_user, $tab_
 					
 					//
 					// update D'ABORD du reliquat
-					$sql_reliquat = 'UPDATE conges_solde_user SET su_reliquat = $new_reliquat WHERE su_login=\''.SQL::escape($current_login).'\'  AND su_abs_id = $id_conges ';
+					$sql_reliquat = 'UPDATE conges_solde_user SET su_reliquat = $new_reliquat WHERE su_login=\''.SQL::quote($current_login).'\'  AND su_abs_id = $id_conges ';
 					$ReqLog_reliquat = SQL::query($sql_reliquat) ;
 				}
 				else
@@ -477,7 +477,7 @@ function cloture_current_year_for_login($current_login, $tab_current_user, $tab_
 				$new_solde = $user_nb_jours_ajout_an + $new_reliquat  ;
 					
 				// update du solde
-				$sql_solde = 'UPDATE conges_solde_user SET su_solde = $new_solde WHERE su_login=\''.SQL::escape($current_login).'\'  AND su_abs_id = $id_conges ' ;
+				$sql_solde = 'UPDATE conges_solde_user SET su_solde = $new_solde WHERE su_login=\''.SQL::quote($current_login).'\'  AND su_abs_id = $id_conges ' ;
 				$ReqLog_solde = SQL::query($sql_solde) ;
 			}
 			else
@@ -488,14 +488,14 @@ function cloture_current_year_for_login($current_login, $tab_current_user, $tab_
 				else
 					$new_solde = $user_nb_jours_ajout_an ;
 					
-				$sql_solde = 'UPDATE conges_solde_user SET su_solde = $new_solde WHERE su_login=\''.SQL::escape($current_login).'\' AND su_abs_id = $id_conges ';
+				$sql_solde = 'UPDATE conges_solde_user SET su_solde = $new_solde WHERE su_login=\''.SQL::quote($current_login).'\' AND su_abs_id = $id_conges ';
 				$ReqLog_solde = SQL::query($sql_solde) ;
 			}
 
 			/* Modification de la table conges_users */
 			// ATTENTION : ne pas faire "SET u_num_exercice = u_num_exercice+1" dans la requete SQL car on incrémenterait pour chaque type d'absence !
 			$new_num_exercice=$_SESSION['config']['num_exercice'] ;
-			$sql2 = 'UPDATE conges_users SET u_num_exercice = $new_num_exercice WHERE u_login=\''.SQL::escape($current_login).'\'  ';
+			$sql2 = 'UPDATE conges_users SET u_num_exercice = $new_num_exercice WHERE u_login=\''.SQL::quote($current_login).'\'  ';
 			$ReqLog2 = SQL::query($sql2) ;
 			
 			// on insert l'ajout de conges dans la table periode (avec le commentaire)
@@ -646,5 +646,3 @@ function set_nouvelle_date_limite_reliquat($DEBUG=FALSE)
 }
 
 
-
-?>

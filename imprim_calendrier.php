@@ -130,4 +130,4 @@ function ouvre_calendrier($mois, $year, $DEBUG=FALSE)
 	echo "OpenPopUp('calendrier.php?session=$session&printable=1&mois=$mois&year=$year','calendrier',1000,600);\n";
 	echo "</script>\n";
 }
-?>
+

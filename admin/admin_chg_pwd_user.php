@@ -70,13 +70,13 @@ echo "</head>\n";
 
 	if($u_login!="")
 	{
-		echo "<H1>".$_SESSION['lang']['admin_chg_passwd_titre']." : $u_login .</H1>\n\n";
+		echo "<H1>". _('admin_chg_passwd_titre') ." : $u_login .</H1>\n\n";
 		modifier($u_login, $DEBUG);
 	}
 	else
 	{
 		if($u_login_to_update!="") {
-			echo "<H1>".$_SESSION['lang']['admin_chg_passwd_titre']." : $u_login_to_update .</H1>\n\n";
+			echo "<H1>". _('admin_chg_passwd_titre') ." : $u_login_to_update .</H1>\n\n";
 			commit_update($u_login_to_update, $new_pwd1, $new_pwd2, $DEBUG);
 		}
 		else {
@@ -109,11 +109,11 @@ function modifier($u_login, $DEBUG=FALSE)
 	echo "<form action=$PHP_SELF?session=$session&u_login_to_update=".$u_login." method=\"POST\">\n"  ;
 	echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 	echo "<tr align=\"center\">\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['divers_login_maj_1']."</td>\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['divers_nom_maj_1']."</td>\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['divers_prenom_maj_1']."</td>\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['admin_users_password_1']."</td>\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['admin_users_password_2']."</td>\n";
+	echo "<td class=\"histo\">". _('divers_login_maj_1') ."</td>\n";
+	echo "<td class=\"histo\">". _('divers_nom_maj_1') ."</td>\n";
+	echo "<td class=\"histo\">". _('divers_prenom_maj_1') ."</td>\n";
+	echo "<td class=\"histo\">". _('admin_users_password_1') ."</td>\n";
+	echo "<td class=\"histo\">". _('admin_users_password_2') ."</td>\n";
 	echo "</tr>\n";
 
 	echo "<tr align=\"center\">\n";
@@ -130,11 +130,11 @@ function modifier($u_login, $DEBUG=FALSE)
 		}
 	echo "<tr>\n";
 	echo "</table>\n\n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_submit') ."\">\n";
 	echo "</form>\n" ;
 
 	echo "<form action=\"admin_index.php?session=$session&onglet=admin-users\" method=\"POST\">\n" ;
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_cancel']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_cancel') ."\">\n";
 	echo "</form>\n"  ;
 
 }
@@ -153,9 +153,9 @@ function commit_update($u_login_to_update, $new_pwd1, $new_pwd2, $DEBUG=FALSE)
 		$result = SQL::query($sql1);
 
 		if($result==TRUE)
-			echo $_SESSION['lang']['form_modif_ok']." !<br><br> \n";
+			echo  _('form_modif_ok') ." !<br><br> \n";
 		else
-			echo $_SESSION['lang']['form_modif_not_ok']." !<br><br> \n";
+			echo  _('form_modif_not_ok') ." !<br><br> \n";
 
 		$comment_log = "admin_change_password_user : pour $u_login_to_update" ;
 		log_action(0, "", $u_login_to_update, $comment_log, $DEBUG);
@@ -163,7 +163,7 @@ function commit_update($u_login_to_update, $new_pwd1, $new_pwd2, $DEBUG=FALSE)
 		if($DEBUG==TRUE)
 		{
 			echo "<form action=\"admin_index.php?session=$session&onglet=admin-users\" method=\"POST\">\n" ;
-			echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_ok']."\">\n";
+			echo "<input type=\"submit\" value=\"". _('form_ok') ."\">\n";
 			echo "</form>\n" ;
 		}
 		else
@@ -175,11 +175,11 @@ function commit_update($u_login_to_update, $new_pwd1, $new_pwd2, $DEBUG=FALSE)
 	}
 	else
 	{
-	 	echo "<H3> ".$_SESSION['lang']['admin_verif_param_invalides']." </H3>\n" ;
+	 	echo "<H3> ". _('admin_verif_param_invalides') ." </H3>\n" ;
 		echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n" ;
 		echo "<input type=\"hidden\" name=\"u_login\" value=\"$u_login_to_update\">\n";
 
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_redo']."\">\n";
+		echo "<input type=\"submit\" value=\"". _('form_redo') ."\">\n";
 		echo "</form>\n" ;
 	}
 

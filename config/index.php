@@ -70,19 +70,19 @@ include("../fonctions_javascript.php") ;
 			
 	// affichage du titre
 	echo "<center>\n";
-	echo "<br><H1><img src=\"../img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"".$_SESSION['lang']['install_install_phpconges']."\" alt=\"".$_SESSION['lang']['install_install_phpconges']."\"> ".$_SESSION['lang']['install_index_titre']."</H1>\n";
+	echo "<br><H1><img src=\"../img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"". _('install_install_phpconges') ."\" alt=\"". _('install_install_phpconges') ."\"> ". _('install_index_titre') ."</H1>\n";
 	echo "<br><br>\n";
 	
-		echo "<h2>".$_SESSION['lang']['install_configuration']." :</h2>\n";
+		echo "<h2>". _('install_configuration') ." :</h2>\n";
 		echo "<h3>\n";
 		echo "<table border=\"0\">\n";
-		echo "<tr><td>-> <a href=\"configure.php?session=$session\">".$_SESSION['lang']['install_config_appli']."</a></td></tr>\n";
-		echo "<tr><td>-> <a href=\"config_type_absence.php?session=$session\">".$_SESSION['lang']['install_config_types_abs']."</a></td></tr>\n";
-		echo "<tr><td>-> <a href=\"config_mail.php?session=$session\">".$_SESSION['lang']['install_config_mail']."</a></td></tr>\n";
-		echo "<tr><td>-> <a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('test_mail.php?session=$session','testmail',800,350);\">".$_SESSION['lang']['install_test_mail']."</a></td></tr>\n";
-		echo "<tr><td>-> <a href=\"config_logs.php?session=$session\">".$_SESSION['lang']['config_logs']."</a></td></tr>\n";
+		echo "<tr><td>-> <a href=\"configure.php?session=$session\">". _('install_config_appli') ."</a></td></tr>\n";
+		echo "<tr><td>-> <a href=\"config_type_absence.php?session=$session\">". _('install_config_types_abs') ."</a></td></tr>\n";
+		echo "<tr><td>-> <a href=\"config_mail.php?session=$session\">". _('install_config_mail') ."</a></td></tr>\n";
+		echo "<tr><td>-> <a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('test_mail.php?session=$session','testmail',800,350);\">". _('install_test_mail') ."</a></td></tr>\n";
+		echo "<tr><td>-> <a href=\"config_logs.php?session=$session\">". _('config_logs') ."</a></td></tr>\n";
 		echo "<tr><td>&nbsp;</td></tr>\n";
-		echo "<tr><td>-> <a href=\"../\">".$_SESSION['lang']['install_acceder_appli']."</a></td></tr>\n";
+		echo "<tr><td>-> <a href=\"../\">". _('install_acceder_appli') ."</a></td></tr>\n";
 		echo "</table>\n";
 		echo "</h3><br><br>\n";
 		

@@ -70,7 +70,7 @@ function edition_pdf($login, $edit_id,  $DEBUG=FALSE)
 	// verif si la librairie fpdf est présente 
 	if (!is_readable($fpdf_filename))
 	{
-		echo $_SESSION['lang']['fpdf_not_valid']."<br> !";
+		echo  _('fpdf_not_valid') ."<br> !";
 	}
 	else
 	{
@@ -144,7 +144,7 @@ function edition_pdf($login, $edit_id,  $DEBUG=FALSE)
 		$pdf->Ln(5);
 		$pdf->SetFont('Times', 'B', 13);				
 		$tab_date=explode("-", $tab_info_edition['date']);
-		$pdf->Cell(0, 5, $_SESSION['lang']['editions_bilan_au']." ".$tab_date[2]." / ".$tab_date[1]." / ".$tab_date[0],0,1,'C');
+		$pdf->Cell(0, 5,  _('editions_bilan_au') ." ".$tab_date[2]." / ".$tab_date[1]." / ".$tab_date[0],0,1,'C');
 		$pdf->Ln(4);
 		
 		/****************************/
@@ -156,13 +156,13 @@ function edition_pdf($login, $edit_id,  $DEBUG=FALSE)
 		// affichage de la quotité
 		$pdf->SetFont('Times', 'B', 13);				
 		$quotite=$tab_info_user['quotite'];
-		$pdf->Cell(0, 5, $_SESSION['lang']['divers_quotite']."  :  $quotite % ",0,1,'C');
+		$pdf->Cell(0, 5,  _('divers_quotite') ."  :  $quotite % ",0,1,'C');
 		$pdf->Ln(4);
 		$pdf->Ln(8);
 	
 	
 		$pdf->SetFont('Times', 'BU', 11);				
-		$pdf->Cell(0, 5, $_SESSION['lang']['editions_historique']." :",0,1,'C');
+		$pdf->Cell(0, 5,  _('editions_historique') ." :",0,1,'C');
 		$pdf->Ln(5);
 		/*********************************************/
 		/* Tableau Historique des Conges et demandes */
@@ -187,7 +187,7 @@ function edition_pdf($login, $edit_id,  $DEBUG=FALSE)
 			$count2=$ReqLog2->num_rows;
 			if($count2==0)
 			{
-				$pdf->Cell(0, 5, $_SESSION['lang']['editions_aucun_conges']." ...",0,1,'C');
+				$pdf->Cell(0, 5,  _('editions_aucun_conges') ." ...",0,1,'C');
 				$pdf->Ln(5);
 			}
 			else
@@ -233,18 +233,18 @@ function edition_pdf($login, $edit_id,  $DEBUG=FALSE)
 		$pdf->SetFont('Times', 'B', 10);				
 		// decalage pour centrer 
 		$pdf->Cell(20); 
-		$pdf->Cell(70, 5, $_SESSION['lang']['editions_date']." :",0,0);
-		$pdf->Cell(70, 5, $_SESSION['lang']['editions_date']." :",0,1);
+		$pdf->Cell(70, 5,  _('editions_date') ." :",0,0);
+		$pdf->Cell(70, 5,  _('editions_date') ." :",0,1);
 		// decalage pour centrer 
 		$pdf->Cell(20); 
-		$pdf->Cell(70, 5, $_SESSION['lang']['editions_signature_1']." :",0,0);
-		$pdf->Cell(70, 5, $_SESSION['lang']['editions_signature_2']." :",0,1);
+		$pdf->Cell(70, 5,  _('editions_signature_1') ." :",0,0);
+		$pdf->Cell(70, 5,  _('editions_signature_2') ." :",0,1);
 		
 		$pdf->SetFont('Times', 'I', 10);				
 		// decalage pour centrer 
 		$pdf->Cell(20); 
 		$pdf->Cell(70, 5, "",0,0);
-		$pdf->Cell(70, 5, "(".$_SESSION['lang']['editions_cachet_etab'].")",0,1);
+		$pdf->Cell(70, 5, "(". _('editions_cachet_etab') .")",0,1);
 		
 		$pdf->Ln(30);
 		
@@ -270,8 +270,8 @@ function affiche_pdf_tableau_bilan_conges_user_edtion(&$pdf, $tab_info_user, $ta
 		
 	$pdf->Cell($decalage); 
 	$pdf->Cell(40, 5, " ", 1, 0, 'C');
-	$pdf->Cell(20, 5, " ".$_SESSION['lang']['editions_jours_an'], 1, 0, 'C');
-	$pdf->Cell(20, 5, $_SESSION['lang']['divers_solde_maj_1']." ", 1, 1, 'C');
+	$pdf->Cell(20, 5, " ". _('editions_jours_an') , 1, 0, 'C');
+	$pdf->Cell(20, 5,  _('divers_solde_maj_1') ." ", 1, 1, 'C');
 
 	foreach($tab_type_cong as $id_abs => $libelle)
 	{
@@ -303,7 +303,7 @@ function affiche_pdf_ancien_solde(&$pdf, $login, $edit_id, $tab_type_cong, $tab_
 	{
 		$pdf->Cell($decalage); 
 		$pdf->SetFont('Times', '', 10);
-		$pdf->Cell(50, 5, $_SESSION['lang']['editions_soldes_precedents_inconnus']." !...",0,1);
+		$pdf->Cell(50, 5,  _('editions_soldes_precedents_inconnus') ." !...",0,1);
 	}
 	else
 	{
@@ -313,7 +313,7 @@ function affiche_pdf_ancien_solde(&$pdf, $login, $edit_id, $tab_type_cong, $tab_
 		{
 			$pdf->Cell($decalage); 
 			$pdf->SetFont('Times', '', 10);
-			$pdf->Cell(26, 5, $_SESSION['lang']['editions_solde_precedent']." ",0,0);
+			$pdf->Cell(26, 5,  _('editions_solde_precedent') ." ",0,0);
 			$pdf->SetFont('Times', 'B', 10);
 			$pdf->Cell(10, 5, $libelle." : ".$tab_edition_precedente['conges'][$id_abs], 0, 1);
 		}
@@ -321,7 +321,7 @@ function affiche_pdf_ancien_solde(&$pdf, $login, $edit_id, $tab_type_cong, $tab_
 		{
 			$pdf->Cell($decalage); 
 			$pdf->SetFont('Times', '', 10);
-			$pdf->Cell(26, 5, $_SESSION['lang']['editions_solde_precedent']." ",0,0);
+			$pdf->Cell(26, 5,  _('editions_solde_precedent') ." ",0,0);
 			$pdf->SetFont('Times', 'B', 10);
 			$pdf->Cell(10, 5, $libelle." : ".$tab_edition_precedente['conges'][$id_abs], 0, 1);
 		}
@@ -337,7 +337,7 @@ function affiche_pdf_nouveau_solde(&$pdf, $login, $tab_info_edition, $tab_type_c
 	{
 		$pdf->Cell($decalage); 
 		$pdf->SetFont('Times', '', 10);
-		$pdf->Cell(24, 5, $_SESSION['lang']['editions_nouveau_solde']." ",0,0);
+		$pdf->Cell(24, 5,  _('editions_nouveau_solde') ." ",0,0);
 		$pdf->SetFont('Times', 'B', 10);
 		$pdf->Cell(40, 5, $libelle." : ".$tab_info_edition['conges'][$id_abs], 0, 1);
 	}
@@ -345,7 +345,7 @@ function affiche_pdf_nouveau_solde(&$pdf, $login, $tab_info_edition, $tab_type_c
 	{
 		$pdf->Cell($decalage); 
 		$pdf->SetFont('Times', '', 10);
-		$pdf->Cell(24, 5, $_SESSION['lang']['editions_nouveau_solde']." ",0,0);
+		$pdf->Cell(24, 5,  _('editions_nouveau_solde') ." ",0,0);
 		$pdf->SetFont('Times', 'B', 10);
 		$pdf->Cell(40, 5, $libelle." : ".$tab_info_edition['conges'][$id_abs], 0, 1);
 	}
@@ -373,27 +373,27 @@ function affiche_tableau_conges_avec_date_traitement(&$pdf, $ReqLog2, $decalage,
 	$pdf->Cell($decalage); 
 	
 	$pdf->SetFont('Times', 'B', 9);				
-	$pdf->Cell($size_cell_type, 5, $_SESSION['lang']['divers_type_maj_1'], 1, 0, 'C', 1); 
-	$pdf->Cell($size_cell_etat, 5, $_SESSION['lang']['divers_etat_maj_1'], 1, 0, 'C', 1);
-	$pdf->Cell($size_cell_nb_jours, 5, $_SESSION['lang']['divers_nb_jours_maj_1'], 1, 0, 'C', 1);
-	$pdf->Cell($size_cell_debut, 5, $_SESSION['lang']['divers_debut_maj_1'], 1, 0, 'C', 1);
-	$pdf->Cell($size_cell_fin, 5, $_SESSION['lang']['divers_fin_maj_1'], 1, 0, 'C', 1);
-	$pdf->Cell($size_cell_comment, 5, $_SESSION['lang']['divers_comment_maj_1'], 1, 1, 'C', 1);
+	$pdf->Cell($size_cell_type, 5,  _('divers_type_maj_1') , 1, 0, 'C', 1); 
+	$pdf->Cell($size_cell_etat, 5,  _('divers_etat_maj_1') , 1, 0, 'C', 1);
+	$pdf->Cell($size_cell_nb_jours, 5,  _('divers_nb_jours_maj_1') , 1, 0, 'C', 1);
+	$pdf->Cell($size_cell_debut, 5,  _('divers_debut_maj_1') , 1, 0, 'C', 1);
+	$pdf->Cell($size_cell_fin, 5,  _('divers_fin_maj_1') , 1, 0, 'C', 1);
+	$pdf->Cell($size_cell_comment, 5,  _('divers_comment_maj_1') , 1, 1, 'C', 1);
 				
 	while ($resultat2 = $ReqLog2->fetch_array()) 
 	{
 		$sql_p_date_deb = eng_date_to_fr($resultat2["p_date_deb"]);
 		$sql_p_demi_jour_deb = $resultat2["p_demi_jour_deb"];
 		if($sql_p_demi_jour_deb=="am")
-			$demi_j_deb = $_SESSION['lang']['divers_am_short'];
+			$demi_j_deb =  _('divers_am_short') ;
 		else
-			$demi_j_deb = $_SESSION['lang']['divers_pm_short'];
+			$demi_j_deb =  _('divers_pm_short') ;
 		$sql_p_date_fin = eng_date_to_fr($resultat2["p_date_fin"]);
 		$sql_p_demi_jour_fin = $resultat2["p_demi_jour_fin"];
 		if($sql_p_demi_jour_fin=="am")
-			$demi_j_fin = $_SESSION['lang']['divers_am_short'];
+			$demi_j_fin =  _('divers_am_short') ;
 		else
-			$demi_j_fin = $_SESSION['lang']['divers_pm_short'];
+			$demi_j_fin =  _('divers_pm_short') ;
 		$sql_p_nb_jours = $resultat2["p_nb_jours"];
 		$sql_p_commentaire = $resultat2["p_commentaire"];
 		$sql_p_type = $resultat2["p_type"];
@@ -412,9 +412,9 @@ function affiche_tableau_conges_avec_date_traitement(&$pdf, $ReqLog2, $decalage,
 		$pdf->Cell($size_cell_type, $hauteur_cellule*2, $tab_type_all_cong[$sql_p_type]['libelle'], 1, 0, 'C'); 
 	
 		if($sql_p_etat=="refus")
-			$text_etat = $_SESSION['lang']['divers_refuse'];
+			$text_etat =  _('divers_refuse') ;
 		elseif($sql_p_etat=="annul")
-			$text_etat = $_SESSION['lang']['divers_annule'];
+			$text_etat =  _('divers_annule') ;
 		else
 			$text_etat=$sql_p_etat;
 		$pdf->Cell($size_cell_etat, $hauteur_cellule*2, $text_etat, 1, 0, 'C');
@@ -466,27 +466,27 @@ function affiche_tableau_conges_normal(&$pdf, $ReqLog2, $decalage, $tab_type_all
 	
 	//$pdf->SetFont('Times', 'B', 10);				
 	$pdf->SetFont('Times', 'B', 10);				
-	$pdf->Cell($size_cell_type, 5, $_SESSION['lang']['divers_type_maj_1'], 1, 0, 'C', 1); 
-	$pdf->Cell($size_cell_etat, 5, $_SESSION['lang']['divers_etat_maj_1'], 1, 0, 'C', 1);
-	$pdf->Cell($size_cell_nb_jours, 5, $_SESSION['lang']['divers_nb_jours_maj_1'], 1, 0, 'C', 1);
-	$pdf->Cell($size_cell_debut, 5, $_SESSION['lang']['divers_debut_maj_1'], 1, 0, 'C', 1);
-	$pdf->Cell($size_cell_fin, 5, $_SESSION['lang']['divers_fin_maj_1'], 1, 0, 'C', 1);
-	$pdf->Cell($size_cell_comment, 5, $_SESSION['lang']['divers_comment_maj_1'], 1, 1, 'C', 1);
+	$pdf->Cell($size_cell_type, 5,  _('divers_type_maj_1') , 1, 0, 'C', 1); 
+	$pdf->Cell($size_cell_etat, 5,  _('divers_etat_maj_1') , 1, 0, 'C', 1);
+	$pdf->Cell($size_cell_nb_jours, 5,  _('divers_nb_jours_maj_1') , 1, 0, 'C', 1);
+	$pdf->Cell($size_cell_debut, 5,  _('divers_debut_maj_1') , 1, 0, 'C', 1);
+	$pdf->Cell($size_cell_fin, 5,  _('divers_fin_maj_1') , 1, 0, 'C', 1);
+	$pdf->Cell($size_cell_comment, 5,  _('divers_comment_maj_1') , 1, 1, 'C', 1);
 				
 	while ($resultat2 = $ReqLog2->fetch_array()) 
 	{
 		$sql_p_date_deb = eng_date_to_fr($resultat2["p_date_deb"]);
 		$sql_p_demi_jour_deb = $resultat2["p_demi_jour_deb"];
 		if($sql_p_demi_jour_deb=="am")
-				$demi_j_deb = $_SESSION['lang']['divers_am_short'];
+				$demi_j_deb =  _('divers_am_short') ;
 		else
-				$demi_j_deb = $_SESSION['lang']['divers_pm_short'];
+				$demi_j_deb =  _('divers_pm_short') ;
 		$sql_p_date_fin = eng_date_to_fr($resultat2["p_date_fin"]);
 		$sql_p_demi_jour_fin = $resultat2["p_demi_jour_fin"];
 		if($sql_p_demi_jour_fin=="am")
-			$demi_j_fin = $_SESSION['lang']['divers_am_short'];
+			$demi_j_fin =  _('divers_am_short') ;
 		else
-			$demi_j_fin = $_SESSION['lang']['divers_pm_short'];
+			$demi_j_fin =  _('divers_pm_short') ;
 		$sql_p_nb_jours = $resultat2["p_nb_jours"];
 		$sql_p_commentaire = $resultat2["p_commentaire"];
 		$sql_p_type = $resultat2["p_type"];
@@ -505,9 +505,9 @@ function affiche_tableau_conges_normal(&$pdf, $ReqLog2, $decalage, $tab_type_all
 		$pdf->Cell($size_cell_type, $hauteur_cellule, $tab_type_all_cong[$sql_p_type]['libelle'], 1, 0, 'C'); 
 	
 		if($sql_p_etat=="refus")
-			$text_etat = $_SESSION['lang']['divers_refuse'];
+			$text_etat =  _('divers_refuse') ;
 		elseif($sql_p_etat=="annul")
-			$text_etat = $_SESSION['lang']['divers_annule'];
+			$text_etat =  _('divers_annule') ;
 		else
 			$text_etat=$sql_p_etat;
 		$pdf->Cell($size_cell_etat, $hauteur_cellule, $text_etat, 1, 0, 'C');

@@ -95,7 +95,7 @@ function affichage($session, $DEBUG=FALSE)
 
 	/**************************************/
 	// affichage du titre
-	echo "<br><center><H1><img src=\"../img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"".$_SESSION['lang']['config_appli_titre_2']."\" alt=\"".$_SESSION['lang']['config_appli_titre_2']."\"> ".$_SESSION['lang']['config_appli_titre_1']."</H1></center>\n";
+	echo "<br><center><H1><img src=\"../img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"". _('config_appli_titre_2') ."\" alt=\"". _('config_appli_titre_2') ."\"> ". _('config_appli_titre_1') ."</H1></center>\n";
 	echo "<br>\n";
 	/**************************************/
 
@@ -130,7 +130,7 @@ function affichage($session, $DEBUG=FALSE)
 			{
 				echo "</td></tr>\n";
 				echo "<tr><td align=\"right\">\n";
-				echo "<input type=\"submit\"  value=\"".$_SESSION['lang']['form_save_modif']."\"><br>";
+				echo "<input type=\"submit\"  value=\"". _('form_save_modif') ."\"><br>";
 				echo "</td></tr>\n";
 				echo "</table>\n";
 			}
@@ -138,7 +138,7 @@ function affichage($session, $DEBUG=FALSE)
 			echo "<table width=\"100%\">\n";
 			echo "<tr><td>\n";
 			echo "    <fieldset class=\"cal_saisie\">\n";
-			echo "    <legend class=\"boxlogin\">".$_SESSION['lang'][$conf_groupe]."</legend>\n";
+			echo "    <legend class=\"boxlogin\">". _($conf_groupe) ."</legend>\n";
 			$old_groupe = $conf_groupe ;
 		}
 
@@ -154,7 +154,7 @@ function affichage($session, $DEBUG=FALSE)
 		else
 		{
 			// affichage commentaire
-			echo "<br><i>".$_SESSION['lang'][$conf_commentaire]."</i><br>\n";
+			echo "<br><i>". _($conf_commentaire) ."</i><br>\n";
 
 			// affichage saisie variable
 			if($conf_nom=="installed_version")
@@ -194,7 +194,7 @@ function affichage($session, $DEBUG=FALSE)
 	}
 	echo "</td></tr>\n";
 	echo "<tr><td align=\"right\">\n";
-	echo "<input type=\"submit\"  value=\"".$_SESSION['lang']['form_save_modif']."\"><br>";
+	echo "<input type=\"submit\"  value=\"". _('form_save_modif') ."\"><br>";
 	echo "</td></tr>\n";
 	echo "</table>\n";
 	echo "</form>\n";
@@ -230,7 +230,7 @@ function commit_saisie(&$tab_new_values, $session, $DEBUG=FALSE)
 
 			if($ReqLog_abs->num_rows !=0)
 			{
-				echo "<b>".$_SESSION['lang']['config_abs_desactive_cong_excep_impossible']."</b><br>\n";
+				echo "<b>". _('config_abs_desactive_cong_excep_impossible') ."</b><br>\n";
 				$value = "TRUE" ;
 				$timeout=5 ;
 			}
@@ -243,7 +243,7 @@ function commit_saisie(&$tab_new_values, $session, $DEBUG=FALSE)
 			$t=explode("-", $value);
 			if(checkdate($t[1], $t[0], date("Y"))==FALSE)
 			{		
-				echo "<b>".$_SESSION['lang']['config_jour_mois_limite_reliquats_modif_impossible']."</b><br>\n";
+				echo "<b>". _('config_jour_mois_limite_reliquats_modif_impossible') ."</b><br>\n";
 				$sql_date="SELECT conf_valeur FROM conges_config WHERE conf_nom='jour_mois_limite_reliquats' ";
 				$ReqLog_date = SQL::query($sql_date);
 				$data = $ReqLog_date->fetch_row();
@@ -263,7 +263,7 @@ function commit_saisie(&$tab_new_values, $session, $DEBUG=FALSE)
 	$comment_log = "nouvelle configuration de php_conges ";
 	log_action(0, "", "", $comment_log, $DEBUG);
 
-	echo "<span class = \"messages\">".$_SESSION['lang']['form_modif_ok']."</span><br>";
+	echo "<span class = \"messages\">". _('form_modif_ok') ."</span><br>";
 	if($session=="")
 		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"$timeout; URL=$PHP_SELF?\">";
 	else

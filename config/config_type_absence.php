@@ -117,7 +117,7 @@ function affichage($tab_new_values,$session, $DEBUG=FALSE)
 
 	/**************************************/
 	// affichage du titre
-	echo "<br><center><H1> ".$_SESSION['lang']['config_abs_titre']."</H1></center>\n";
+	echo "<br><center><H1> ". _('config_abs_titre') ."</H1></center>\n";
 	echo "<br>\n";
 	/**************************************/
 
@@ -138,8 +138,8 @@ function affichage($tab_new_values,$session, $DEBUG=FALSE)
 			$divers_maj_1 = 'divers_' . $ta_type . '_maj_1';
 			$config_abs_comment = 'config_abs_comment_' . $ta_type;
 
-			$legend=$_SESSION['lang'][$divers_maj_1] ;
-			$comment=$_SESSION['lang'][$config_abs_comment] ;
+			$legend= _($divers_maj_1)  ;
+			$comment= _($config_abs_comment)  ;
 
 			echo "<br>\n";
 			echo "<table width=\"100%\">\n";
@@ -156,8 +156,8 @@ function affichage($tab_new_values,$session, $DEBUG=FALSE)
 			{
 				echo "    <table cellpadding=\"2\" class=\"tablo\" >\n";
 				echo "    <tr>\n";
-				echo "    <td class=\"titre\"><b><u>".$_SESSION['lang']['config_abs_libelle']."</b></u></td>\n";
-				echo "    <td class=\"titre\"><b><u>".$_SESSION['lang']['config_abs_libelle_short']."</b></u></td>\n";
+				echo "    <td class=\"titre\"><b><u>". _('config_abs_libelle') ."</b></u></td>\n";
+				echo "    <td class=\"titre\"><b><u>". _('config_abs_libelle_short') ."</b></u></td>\n";
 				echo "    <td></td>\n";
 				echo "    <td></td>\n";
 				echo "    </tr>\n";
@@ -170,13 +170,13 @@ function affichage($tab_new_values,$session, $DEBUG=FALSE)
 
 					if($session=="")
 					{
-						$text_modif="<a href=\"$PHP_SELF?action=modif&id_to_update=$ta_id\">".$_SESSION['lang']['form_modif']."</a>";
-						$text_suppr="<a href=\"$PHP_SELF?action=suppr&id_to_update=$ta_id\">".$_SESSION['lang']['form_supprim']."</a>";
+						$text_modif="<a href=\"$PHP_SELF?action=modif&id_to_update=$ta_id\">". _('form_modif') ."</a>";
+						$text_suppr="<a href=\"$PHP_SELF?action=suppr&id_to_update=$ta_id\">". _('form_supprim') ."</a>";
 					}
 					else
 					{
-						$text_modif="<a href=\"$PHP_SELF?session=$session&action=modif&id_to_update=$ta_id\">".$_SESSION['lang']['form_modif']."</a>";
-						$text_suppr="<a href=\"$PHP_SELF?session=$session&action=suppr&id_to_update=$ta_id\">".$_SESSION['lang']['form_supprim']."</a>";
+						$text_modif="<a href=\"$PHP_SELF?session=$session&action=modif&id_to_update=$ta_id\">". _('form_modif') ."</a>";
+						$text_suppr="<a href=\"$PHP_SELF?session=$session&action=suppr&id_to_update=$ta_id\">". _('form_supprim') ."</a>";
 					}
 
 					echo "    <tr><td class=\"histo\"><b>$ta_libelle</b></td><td class=\"histo\">$ta_short_libelle</td><td class=\"histo\">$text_modif</td><td class=\"histo\">$text_suppr</td></tr>\n";
@@ -202,13 +202,13 @@ function affichage($tab_new_values,$session, $DEBUG=FALSE)
 	echo "<tr><td>\n";
 	echo "    <form action=\"$URL\" method=\"POST\"> \n";
 	echo "    <fieldset class=\"cal_saisie\">\n";
-	echo "    <legend class=\"boxlogin\">".$_SESSION['lang']['config_abs_add_type_abs']."</legend>\n";
-	echo "    ".$_SESSION['lang']['config_abs_add_type_abs_comment']."\n";
+	echo "    <legend class=\"boxlogin\">". _('config_abs_add_type_abs') ."</legend>\n";
+	echo "    ". _('config_abs_add_type_abs_comment') ."\n";
 	echo "    <table cellpadding=\"2\" >\n";
 	echo "    <tr>\n";
-	echo "    <td class=\"titre\">".$_SESSION['lang']['config_abs_libelle']."</td>\n";
-	echo "    <td class=\"titre\">".$_SESSION['lang']['config_abs_libelle_short']."</td>\n";
-	echo "    <td class=\"titre\">".$_SESSION['lang']['divers_type']."</td>\n";
+	echo "    <td class=\"titre\">". _('config_abs_libelle') ."</td>\n";
+	echo "    <td class=\"titre\">". _('config_abs_libelle_short') ."</td>\n";
+	echo "    <td class=\"titre\">". _('divers_type') ."</td>\n";
 	echo "    </tr>\n";
 
 	echo "    <tr>\n";
@@ -242,7 +242,7 @@ function affichage($tab_new_values,$session, $DEBUG=FALSE)
 	echo "    </table>\n";
 
 	echo "    <input type=\"hidden\" name=\"action\" value=\"new\">\n";
-	echo "    <input type=\"submit\"  value=\"".$_SESSION['lang']['form_ajout']."\"><br>\n";
+	echo "    <input type=\"submit\"  value=\"". _('form_ajout') ."\"><br>\n";
 	echo "    </form>\n";
 	echo "</td></tr>\n";
 
@@ -267,7 +267,7 @@ function modifier(&$tab_new_values, $session, $id_to_update, $DEBUG=FALSE)
 
 	/**************************************/
 	// affichage du titre
-	echo "<br><center><H1> ".$_SESSION['lang']['config_abs_titre']."</H1></center>\n";
+	echo "<br><center><H1> ". _('config_abs_titre') ."</H1></center>\n";
 	echo "<br>\n";
 
 	// recup des infos du type de conges / absences
@@ -291,9 +291,9 @@ function modifier(&$tab_new_values, $session, $id_to_update, $DEBUG=FALSE)
 	// affichage
 	echo "<table cellpadding=\"2\" class=\"tablo\" >\n";
 	echo "    <tr>\n";
-	echo "    <td class=\"titre\"><b><u>".$_SESSION['lang']['config_abs_libelle']."</b></u></td>\n";
-	echo "    <td class=\"titre\"><b><u>".$_SESSION['lang']['config_abs_libelle_short']."</b></u></td>\n";
-	echo "    <td class=\"titre\">".$_SESSION['lang']['divers_type']."</td>\n";
+	echo "    <td class=\"titre\"><b><u>". _('config_abs_libelle') ."</b></u></td>\n";
+	echo "    <td class=\"titre\"><b><u>". _('config_abs_libelle_short') ."</b></u></td>\n";
+	echo "    <td class=\"titre\">". _('divers_type') ."</td>\n";
 	echo "    </tr>\n";
 	echo "    <tr><td class=\"histo\"><b>$sql_libelle</b></td><td class=\"histo\">$sql_short_libelle</td><td class=\"histo\">$sql_type</td></tr>\n";
 	echo "    <tr><td class=\"histo\"><b>$text_libelle</b></td><td class=\"histo\">$text_short_libelle</td><td class=\"histo\"></td></tr>\n";
@@ -302,12 +302,12 @@ function modifier(&$tab_new_values, $session, $id_to_update, $DEBUG=FALSE)
 	echo "<br>\n";
 	echo "<input type=\"hidden\" name=\"action\" value=\"commit_modif\">\n";
 	echo "<input type=\"hidden\" name=\"id_to_update\" value=\"$id_to_update\">\n";
-	echo "<input type=\"submit\"  value=\"".$_SESSION['lang']['form_modif']."\">\n";
+	echo "<input type=\"submit\"  value=\"". _('form_modif') ."\">\n";
 	echo "</form>\n";
 
 	echo "<br>\n";
 	echo "<form action=\"$URL\" method=\"POST\"> \n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_annul']."\" >\n";
+	echo "<input type=\"submit\" value=\"". _('form_annul') ."\" >\n";
 	echo "</form>\n";
 	echo "<br><br>\n";
 
@@ -330,13 +330,13 @@ function commit_modif(&$tab_new_values, $session, $id_to_update, $DEBUG=FALSE)
 	// verif si pas de " ' , . ; % ?
 	if( (preg_match('/.*[?%;.,"\'].*$/', $tab_new_values['libelle'])) || (preg_match('/.*[?%;.,"\'].*$/', $tab_new_values['short_libelle'])) )
 	{
-		echo "<br> ".$_SESSION['lang']['config_abs_saisie_not_ok']." : ".$_SESSION['lang']['config_abs_bad_caracteres']."  \" \' , . ; % ? <br>\n";
+		echo "<br> ". _('config_abs_saisie_not_ok') ." : ". _('config_abs_bad_caracteres') ."  \" \' , . ; % ? <br>\n";
 		$erreur=TRUE;
 	}
 	// verif si les champs sont vides
 	if( (strlen($tab_new_values['libelle'])==0) || (strlen($tab_new_values['short_libelle'])==0) )
 	{
-		echo "<br> ".$_SESSION['lang']['config_abs_saisie_not_ok']." : ".$_SESSION['lang']['config_abs_champs_vides']." <br>\n";
+		echo "<br> ". _('config_abs_saisie_not_ok') ." : ". _('config_abs_champs_vides') ." <br>\n";
 		$erreur=TRUE;
 	}
 
@@ -352,7 +352,7 @@ function commit_modif(&$tab_new_values, $session, $id_to_update, $DEBUG=FALSE)
 		echo "<input type=\"hidden\" name=\"id_to_update\" value=\"$id_to_update\">\n";
 		echo "<input type=\"hidden\" name=\"tab_new_values[libelle]\" value=\"".$tab_new_values['libelle']."\">\n";
 		echo "<input type=\"hidden\" name=\"tab_new_values[short_libelle]\" value=\"".$tab_new_values['short_libelle']."\">\n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_redo']."\" >\n";
+		echo "<input type=\"submit\" value=\"". _('form_redo') ."\" >\n";
 		echo "</form>\n";
 		echo "<br><br>\n";
 	}
@@ -362,13 +362,13 @@ function commit_modif(&$tab_new_values, $session, $id_to_update, $DEBUG=FALSE)
 		$req_update='UPDATE conges_type_absence SET ta_libelle=\''.$tab_new_values['libelle'].'\', ta_short_libelle=\''.$tab_new_values['short_libelle'].'\' WHERE ta_id=\''.SQL::quote($id_to_update).'\' ';
 		$result1 = SQL::query($req_update);
 
-		echo "<span class = \"messages\">".$_SESSION['lang']['form_modif_ok']."</span><br>";
+		echo "<span class = \"messages\">". _('form_modif_ok') ."</span><br>";
 
 		$comment_log = "config : modif_type_absence ($id_to_update): ".$tab_new_values['libelle']."  (".$tab_new_values['short_libelle'].") ";
 		log_action(0, "", "", $comment_log, $DEBUG);
 	
 		if($DEBUG==TRUE)
-				echo "<a href=\"$URL\" method=\"POST\">".$_SESSION['lang']['form_retour']."</a><br>\n" ;
+				echo "<a href=\"$URL\" method=\"POST\">". _('form_retour') ."</a><br>\n" ;
 			else
 				echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=$URL\">";
 	}
@@ -396,11 +396,11 @@ function supprimer($session, $id_to_update, $DEBUG=FALSE)
 	if( $count!=0 )
 	{
 		echo "<center>\n";
-		echo "<br> ".$_SESSION['lang']['config_abs_suppr_impossible']."<br>\n".$_SESSION['lang']['config_abs_already_used']." <br>\n";
+		echo "<br> ". _('config_abs_suppr_impossible') ."<br>\n". _('config_abs_already_used') ." <br>\n";
 
 		echo "<br>\n";
 		echo "<form action=\"$URL\" method=\"POST\"> \n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_redo']."\" >\n";
+		echo "<input type=\"submit\" value=\"". _('form_redo') ."\" >\n";
 		echo "</form>\n";
 		echo "<br><br>\n";
 		echo "</center>\n";
@@ -412,17 +412,17 @@ function supprimer($session, $id_to_update, $DEBUG=FALSE)
 
 		echo "<center>\n";
 		echo "<br>\n";
-		echo $_SESSION['lang']['config_abs_confirm_suppr_of']."  <b>\" ".$tab_type_abs[$id_to_update]['libelle']." \"</b>\n";
+		echo  _('config_abs_confirm_suppr_of') ."  <b>\" ".$tab_type_abs[$id_to_update]['libelle']." \"</b>\n";
 		echo "<br>\n";
 		echo "<form action=\"$URL\" method=\"POST\"> \n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"commit_suppr\">\n";
 		echo "<input type=\"hidden\" name=\"id_to_update\" value=\"$id_to_update\">\n";
-		echo "<input type=\"submit\"  value=\"".$_SESSION['lang']['form_supprim']."\">\n";
+		echo "<input type=\"submit\"  value=\"". _('form_supprim') ."\">\n";
 		echo "</form>\n";
 
 		echo "<br>\n";
 		echo "<form action=\"$URL\" method=\"POST\"> \n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_annul']."\" >\n";
+		echo "<input type=\"submit\" value=\"". _('form_annul') ."\" >\n";
 		echo "</form>\n";
 		echo "<br><br>\n";
 		echo "</center>\n";
@@ -451,13 +451,13 @@ function commit_suppr($session, $id_to_update, $DEBUG=FALSE)
 	$req_delete2='DELETE FROM conges_solde_user WHERE su_abs_id='.SQL::quote($id_to_update);
 	$result2 = SQL::query($req_delete2);
 
-	echo "<span class = \"messages\">".$_SESSION['lang']['form_modif_ok']."</span><br>";
+	echo "<span class = \"messages\">". _('form_modif_ok') ."</span><br>";
 
 	$comment_log = "config : supprime_type_absence ($id_to_update) ";
 	log_action(0, "", "", $comment_log,$DEBUG);
 
 	if($DEBUG==TRUE)
-		echo "<a href=\"$URL\" method=\"POST\">".$_SESSION['lang']['form_retour']."</a><br>\n" ;
+		echo "<a href=\"$URL\" method=\"POST\">". _('form_retour') ."</a><br>\n" ;
 	else
 		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=$URL\">";
 }
@@ -479,13 +479,13 @@ function commit_ajout(&$tab_new_values, $session, $DEBUG=FALSE)
 	// verif si pas de " ' , . ; % ?
 	if( (preg_match('/.*[?%;.,"\'].*$/', $tab_new_values['libelle'])) || (preg_match('/.*[?%;.,"\'].*$/', $tab_new_values['short_libelle'])) )
 	{
-		echo "<br> ".$_SESSION['lang']['config_abs_saisie_not_ok']." : ".$_SESSION['lang']['config_abs_bad_caracteres']."  \" \' , . ; % ? <br>\n";
+		echo "<br> ". _('config_abs_saisie_not_ok') ." : ". _('config_abs_bad_caracteres') ."  \" \' , . ; % ? <br>\n";
 		$erreur=TRUE;
 	}
 	// verif si les champs sont vides
 	if( (strlen($tab_new_values['libelle'])==0) || (strlen($tab_new_values['short_libelle'])==0) || (strlen($tab_new_values['type'])==0) )
 	{
-		echo "<br> ".$_SESSION['lang']['config_abs_saisie_not_ok']." : ".$_SESSION['lang']['config_abs_champs_vides']." <br>\n";
+		echo "<br> ". _('config_abs_saisie_not_ok') ." : ". _('config_abs_champs_vides') ." <br>\n";
 		$erreur=TRUE;
 	}
 
@@ -498,7 +498,7 @@ function commit_ajout(&$tab_new_values, $session, $DEBUG=FALSE)
 		echo "<input type=\"hidden\" name=\"tab_new_values[libelle]\" value=\"".$tab_new_values['libelle']."\">\n";
 		echo "<input type=\"hidden\" name=\"tab_new_values[short_libelle]\" value=\"".$tab_new_values['short_libelle']."\">\n";
 		echo "<input type=\"hidden\" name=\"tab_new_values[type]\" value=\"".$tab_new_values['type']."\">\n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_redo']."\" >\n";
+		echo "<input type=\"submit\" value=\"". _('form_redo') ."\" >\n";
 		echo "</form>\n";
 		echo "<br><br>\n";
 	}
@@ -531,14 +531,14 @@ function commit_ajout(&$tab_new_values, $session, $DEBUG=FALSE)
 					$result2 = SQL::query($req_insert2);
 				}
 			}
-			echo "<span class = \"messages\">".$_SESSION['lang']['form_modif_ok']."</span><br>";
+			echo "<span class = \"messages\">". _('form_modif_ok') ."</span><br>";
 		}
 
 	$comment_log = "config : ajout_type_absence : ".$tab_new_values['libelle']."  (".$tab_new_values['short_libelle'].") (type : ".$tab_new_values['type'].") ";
 	log_action(0, "", "", $comment_log, $DEBUG);
 
 	if($DEBUG==TRUE)
-			echo "<a href=\"$URL\" method=\"POST\">".$_SESSION['lang']['form_retour']."</a><br>\n" ;
+			echo "<a href=\"$URL\" method=\"POST\">". _('form_retour') ."</a><br>\n" ;
 		else
 			echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=$URL\">";
 	}

@@ -194,43 +194,43 @@ function affichage($onglet, $year_calendrier_saisie_debut, $mois_calendrier_sais
 		if(($_SESSION['config']['user_saisie_demande']==TRUE)||($_SESSION['config']['user_saisie_mission']==TRUE))
 		{
 			if($onglet!="nouvelle_absence")
-				echo "<td class=\"onglet\" width=\"150\"><a href=\"$PHP_SELF?session=$session&onglet=nouvelle_absence\" class=\"bouton-onglet\"> ".$_SESSION['lang']['divers_nouvelle_absence']." </a></td>\n";
+				echo "<td class=\"onglet\" width=\"150\"><a href=\"$PHP_SELF?session=$session&onglet=nouvelle_absence\" class=\"bouton-onglet\"> ". _('divers_nouvelle_absence') ." </a></td>\n";
 			else
-				echo "<td class=\"current-onglet\" width=\"150\"><a href=\"$PHP_SELF?session=$session&onglet=nouvelle_absence\" class=\"bouton-current-onglet\"> ".$_SESSION['lang']['divers_nouvelle_absence']." </a></td>\n";
+				echo "<td class=\"current-onglet\" width=\"150\"><a href=\"$PHP_SELF?session=$session&onglet=nouvelle_absence\" class=\"bouton-current-onglet\"> ". _('divers_nouvelle_absence') ." </a></td>\n";
 			$nb_colonnes=$nb_colonnes+1;
 		}
 		if($_SESSION['config']['user_echange_rtt']==TRUE)
 		{
 			if($onglet!="echange_jour_absence")
-				echo "<td class=\"onglet\" width=\"170\"><a href=\"$PHP_SELF?session=$session&onglet=echange_jour_absence\" class=\"bouton-onglet\"> ".$_SESSION['lang']['user_onglet_echange_abs']." </a></td>\n";
+				echo "<td class=\"onglet\" width=\"170\"><a href=\"$PHP_SELF?session=$session&onglet=echange_jour_absence\" class=\"bouton-onglet\"> ". _('user_onglet_echange_abs') ." </a></td>\n";
 			else
-				echo "<td class=\"current-onglet\" width=\"170\"><a href=\"$PHP_SELF?session=$session&onglet=echange_jour_absence\" class=\"bouton-current-onglet\"> ".$_SESSION['lang']['user_onglet_echange_abs']." </a></td>\n";
+				echo "<td class=\"current-onglet\" width=\"170\"><a href=\"$PHP_SELF?session=$session&onglet=echange_jour_absence\" class=\"bouton-current-onglet\"> ". _('user_onglet_echange_abs') ." </a></td>\n";
 			$nb_colonnes=$nb_colonnes+1;
 		}
 		if($_SESSION['config']['user_saisie_demande']==TRUE)
 		{
 			if($onglet!="demandes_en_cours")
-				echo "<td class=\"onglet\" width=\"150\"><a href=\"$PHP_SELF?session=$session&onglet=demandes_en_cours\" class=\"bouton-onglet\"> ".$_SESSION['lang']['user_onglet_demandes']." </a></td>\n";
+				echo "<td class=\"onglet\" width=\"150\"><a href=\"$PHP_SELF?session=$session&onglet=demandes_en_cours\" class=\"bouton-onglet\"> ". _('user_onglet_demandes') ." </a></td>\n";
 			else
-				echo "<td class=\"current-onglet\" width=\"150\"><a href=\"$PHP_SELF?session=$session&onglet=demandes_en_cours\" class=\"bouton-current-onglet\"> ".$_SESSION['lang']['user_onglet_demandes']." </a></td>\n";
+				echo "<td class=\"current-onglet\" width=\"150\"><a href=\"$PHP_SELF?session=$session&onglet=demandes_en_cours\" class=\"bouton-current-onglet\"> ". _('user_onglet_demandes') ." </a></td>\n";
 			$nb_colonnes=$nb_colonnes+1;
 		}
 
 		if($onglet!="historique_conges")
-			echo "<td class=\"onglet\" width=\"170\"><a href=\"$PHP_SELF?session=$session&onglet=historique_conges\" class=\"bouton-onglet\"> ".$_SESSION['lang']['user_onglet_historique_conges']." </a></td>\n";
+			echo "<td class=\"onglet\" width=\"170\"><a href=\"$PHP_SELF?session=$session&onglet=historique_conges\" class=\"bouton-onglet\"> ". _('user_onglet_historique_conges') ." </a></td>\n";
 		else
-			echo "<td class=\"current-onglet\" width=\"170\"><a href=\"$PHP_SELF?session=$session&onglet=historique_conges\" class=\"bouton-current-onglet\"> ".$_SESSION['lang']['user_onglet_historique_conges']." </a></td>\n";
+			echo "<td class=\"current-onglet\" width=\"170\"><a href=\"$PHP_SELF?session=$session&onglet=historique_conges\" class=\"bouton-current-onglet\"> ". _('user_onglet_historique_conges') ." </a></td>\n";
 
 		if($onglet!="historique_autres_absences")
-			echo "<td class=\"onglet\" width=\"200\"><a href=\"$PHP_SELF?session=$session&onglet=historique_autres_absences\" class=\"bouton-onglet\"> ".$_SESSION['lang']['user_onglet_historique_abs']." </a></td>\n";
+			echo "<td class=\"onglet\" width=\"200\"><a href=\"$PHP_SELF?session=$session&onglet=historique_autres_absences\" class=\"bouton-onglet\"> ". _('user_onglet_historique_abs') ." </a></td>\n";
 		else
-			echo "<td class=\"current-onglet\" width=\"200\"><a href=\"$PHP_SELF?session=$session&onglet=historique_autres_absences\" class=\"bouton-current-onglet\"> ".$_SESSION['lang']['user_onglet_historique_abs']." </a></td>\n";
+			echo "<td class=\"current-onglet\" width=\"200\"><a href=\"$PHP_SELF?session=$session&onglet=historique_autres_absences\" class=\"bouton-current-onglet\"> ". _('user_onglet_historique_abs') ." </a></td>\n";
 		if(($_SESSION['config']['auth']==TRUE) && ($_SESSION['config']['user_ch_passwd']==TRUE))
 		{
 			if($onglet!="changer_mot_de_passe")
-				echo "<td class=\"onglet\" width=\"170\"><a href=\"$PHP_SELF?session=$session&onglet=changer_mot_de_passe\" class=\"bouton-onglet\"> ".$_SESSION['lang']['user_onglet_change_passwd']." </a></td>\n";
+				echo "<td class=\"onglet\" width=\"170\"><a href=\"$PHP_SELF?session=$session&onglet=changer_mot_de_passe\" class=\"bouton-onglet\"> ". _('user_onglet_change_passwd') ." </a></td>\n";
 			else
-				echo "<td class=\"current-onglet\" width=\"170\"><a href=\"$PHP_SELF?session=$session&onglet=changer_mot_de_passe\" class=\"bouton-current-onglet\"> ".$_SESSION['lang']['user_onglet_change_passwd']." </a></td>\n";
+				echo "<td class=\"current-onglet\" width=\"170\"><a href=\"$PHP_SELF?session=$session&onglet=changer_mot_de_passe\" class=\"bouton-current-onglet\"> ". _('user_onglet_change_passwd') ." </a></td>\n";
 			$nb_colonnes=$nb_colonnes+1;
 		}
 	echo "</tr>\n";
@@ -253,7 +253,7 @@ function affichage($onglet, $year_calendrier_saisie_debut, $mois_calendrier_sais
 	{
 	
 		echo "<td colspan=$nb_colonnes>\n";
-		echo "<H3>".$_SESSION['lang']['divers_nouvelle_absence']." :</H3>\n\n";
+		echo "<H3>". _('divers_nouvelle_absence') ." :</H3>\n\n";
 
 		//affiche le formulaire de saisie d'une nouvelle demande de conges
 		saisie_nouveau_conges($_SESSION['userlogin'], $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $onglet, $DEBUG);
@@ -268,7 +268,7 @@ function affichage($onglet, $year_calendrier_saisie_debut, $mois_calendrier_sais
 	if($onglet=="echange_jour_absence")
 	{
 		echo '<td colspan='.schars($nb_colonnes).'>'."\n";
-		echo "<H3>".$_SESSION['lang']['user_echange_rtt']." :</H3>\n\n";
+		echo "<H3>". _('user_echange_rtt') ." :</H3>\n\n";
 
 		//affiche le formulaire de saisie d'une nouvelle demande de conges
 		saisie_echange_rtt($_SESSION['userlogin'], $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $onglet,  $DEBUG);
@@ -283,7 +283,7 @@ function affichage($onglet, $year_calendrier_saisie_debut, $mois_calendrier_sais
 	if($onglet=="demandes_en_cours")
 	{
 		echo '<td colspan='.schars($nb_colonnes).'>'."\n";
-		echo "<h3>".$_SESSION['lang']['user_etat_demandes']." :</h3>\n" ;
+		echo "<h3>". _('user_etat_demandes') ." :</h3>\n" ;
 
 		//affiche le tableau des demandes en cours
 		affichage_demandes_en_cours($tri_date, $onglet, $DEBUG);
@@ -298,7 +298,7 @@ function affichage($onglet, $year_calendrier_saisie_debut, $mois_calendrier_sais
 	if($onglet=="historique_conges")
 	{
 		echo '<td colspan='.schars($nb_colonnes).'>'."\n";
-		echo "<h3>".$_SESSION['lang']['user_historique_conges']." :</h3>\n";
+		echo "<h3>". _('user_historique_conges') ." :</h3>\n";
 
 		//affiche le tableau de l'hitorique des conges
 		affichage_historique_conges($tri_date, $year_affichage, $onglet, $DEBUG);
@@ -313,7 +313,7 @@ function affichage($onglet, $year_calendrier_saisie_debut, $mois_calendrier_sais
 	if($onglet=="historique_autres_absences")
 	{
 		echo "<td colspan=$nb_colonnes>\n";
-		echo "<h3>".$_SESSION['lang']['user_historique_abs']." :</h3>\n";
+		echo "<h3>". _('user_historique_abs') ." :</h3>\n";
 
 		//affiche le tableau de l'hitorique des absences
 		affichage_historique_absences($tri_date, $year_affichage, $onglet, $DEBUG);
@@ -327,11 +327,11 @@ function affichage($onglet, $year_calendrier_saisie_debut, $mois_calendrier_sais
 	if($onglet=="changer_mot_de_passe")
 	{
 		echo "<td colspan=$nb_colonnes>\n";
-		echo "<H3>".$_SESSION['lang']['user_change_password']." :</H3>\n\n";
+		echo "<H3>". _('user_change_password') ." :</H3>\n\n";
 
 		echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n" ;
 		echo "<table cellpadding=\"2\" class=\"tablo\" width=\"500\">\n";
-		echo "<tr><td class=\"titre\">".$_SESSION['lang']['user_passwd_saisie_1']."</td><td class=\"titre\">".$_SESSION['lang']['user_passwd_saisie_2']."</td></tr>\n";
+		echo "<tr><td class=\"titre\">". _('user_passwd_saisie_1') ."</td><td class=\"titre\">". _('user_passwd_saisie_2') ."</td></tr>\n";
 
 		$text_passwd1="<input type=\"password\" name=\"new_passwd1\" size=\"10\" maxlength=\"20\" value=\"\">" ;
 		$text_passwd2="<input type=\"password\" name=\"new_passwd2\" size=\"10\" maxlength=\"20\" value=\"\">" ;
@@ -341,7 +341,7 @@ function affichage($onglet, $year_calendrier_saisie_debut, $mois_calendrier_sais
 
 		echo "</table><br>\n";
 		echo "<input type=\"hidden\" name=\"change_passwd\" value=1>\n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">   <input type=\"reset\" value=\"".$_SESSION['lang']['form_cancel']."\">\n";
+		echo "<input type=\"submit\" value=\"". _('form_submit') ."\">   <input type=\"reset\" value=\"". _('form_cancel') ."\">\n";
 		echo "</form>\n" ;
 
 		echo "</td>\n";
@@ -391,22 +391,22 @@ function new_demande($new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fi
 
 		if($periode_num!=0)
 		{
-			echo schars($_SESSION['lang']['form_modif_ok']).' !<br><br>'."\n";
+			echo schars( _('form_modif_ok') ).' !<br><br>'."\n";
 			//envoi d'un mail d'alerte au responsable (si demandé dans config de php_conges)
 			if($_SESSION['config']['mail_new_demande_alerte_resp']==TRUE)
 				alerte_mail($_SESSION['userlogin'], ":responsable:", $periode_num, "new_demande", $DEBUG);
 		}
 		else
-			echo schars($_SESSION['lang']['form_modif_not_ok']).' !<br><br>'."\n";
+			echo schars( _('form_modif_not_ok') ).' !<br><br>'."\n";
 	}
 	else
 	{
-			echo schars($_SESSION['lang']['resp_traite_user_valeurs_not_ok']).' !<br><br>'."\n";
+			echo schars( _('resp_traite_user_valeurs_not_ok') ).' !<br><br>'."\n";
 	}
 
 		/* RETOUR PAGE PRINCIPALE */
 		echo " <form action=\"$PHP_SELF?session=$session&onglet=demandes_en_cours\" method=\"POST\"> \n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_retour']."\">\n";
+		echo "<input type=\"submit\" value=\"". _('form_retour') ."\">\n";
 		echo " </form> \n";
 
 }
@@ -736,7 +736,7 @@ function affichage_demandes_en_cours($tri_date, $onglet,  $DEBUG=FALSE)
 	$count3=$ReqLog3->num_rows;
 	if($count3==0)
 	{
-		echo "<b>".$_SESSION['lang']['user_demandes_aucune_demande']."</b><br>\n";
+		echo "<b>". _('user_demandes_aucune_demande') ."</b><br>\n";
 	}
 	else
 	{
@@ -745,17 +745,17 @@ function affichage_demandes_en_cours($tri_date, $onglet,  $DEBUG=FALSE)
 		echo "<tr>\n";
 		echo "<td class=\"titre\">";
 		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=descendant\"><img src=\"../img/1downarrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>";
-		echo $_SESSION['lang']['divers_debut_maj_1'] ;
+		echo  _('divers_debut_maj_1')  ;
 		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=ascendant\"><img src=\"../img/1uparrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>";
 		echo "</td>\n";
-		echo "<td class=\"titre\">".$_SESSION['lang']['divers_fin_maj_1']."</td>" ;
-		echo "<td class=\"titre\">".$_SESSION['lang']['divers_type_maj_1']."</td>" ;
-		echo "<td class=\"titre\">".$_SESSION['lang']['divers_nb_jours_pris_maj_1']."</td>" ;
-		echo "<td class=\"titre\">".$_SESSION['lang']['divers_comment_maj_1']."</td>" ;
+		echo "<td class=\"titre\">". _('divers_fin_maj_1') ."</td>" ;
+		echo "<td class=\"titre\">". _('divers_type_maj_1') ."</td>" ;
+		echo "<td class=\"titre\">". _('divers_nb_jours_pris_maj_1') ."</td>" ;
+		echo "<td class=\"titre\">". _('divers_comment_maj_1') ."</td>" ;
 		echo "<td></td><td></td>" ;
 		if($_SESSION['config']['affiche_date_traitement']==TRUE)
 		{
-			echo "<td class=\"titre\">".$_SESSION['lang']['divers_date_traitement']."</td>\n" ;
+			echo "<td class=\"titre\">". _('divers_date_traitement') ."</td>\n" ;
 		}
 		echo "</tr>\n" ;
 
@@ -783,9 +783,9 @@ function affichage_demandes_en_cours($tri_date, $onglet,  $DEBUG=FALSE)
 				if($sql_p_etat=="valid")
 					$user_modif_demande="&nbsp;";
 				else
-					$user_modif_demande="<a href=\"user_modif_demande.php?session=$session&p_num=$sql_p_num&onglet=$onglet\">".$_SESSION['lang']['form_modif']."</a>" ;
+					$user_modif_demande="<a href=\"user_modif_demande.php?session=$session&p_num=$sql_p_num&onglet=$onglet\">". _('form_modif') ."</a>" ;
 			}
-			$user_suppr_demande="<a href=\"user_suppr_demande.php?session=$session&p_num=$sql_p_num&onglet=$onglet\">".$_SESSION['lang']['form_supprim']."</a>" ;
+			$user_suppr_demande="<a href=\"user_suppr_demande.php?session=$session&p_num=$sql_p_num&onglet=$onglet\">". _('form_supprim') ."</a>" ;
 			echo "<tr>\n" ;
 			echo '<td class="histo">'.($sql_p_date_deb).' _ '.($demi_j_deb).'</td><td class="histo">'.($sql_p_date_fin).' _ '.($demi_j_fin).'</td>' ;
 			echo '<td class="histo">'.schars($sql_p_type).'</td>' ;
@@ -800,9 +800,9 @@ function affichage_demandes_en_cours($tri_date, $onglet,  $DEBUG=FALSE)
 			if($_SESSION['config']['affiche_date_traitement']==TRUE)
 			{
 				if($sql_p_date_demande == NULL)
-					echo "<td class=\"histo-left\">".$_SESSION['lang']['divers_demande']." : $sql_p_date_demande<br>".$_SESSION['lang']['divers_traitement']." : $sql_p_date_traitement</td>\n" ;
+					echo "<td class=\"histo-left\">". _('divers_demande') ." : $sql_p_date_demande<br>". _('divers_traitement') ." : $sql_p_date_traitement</td>\n" ;
 				else
-					echo "<td class=\"histo-left\">".$_SESSION['lang']['divers_demande']." : $sql_p_date_demande<br>".$_SESSION['lang']['divers_traitement']." : pas traité</td>\n" ;
+					echo "<td class=\"histo-left\">". _('divers_demande') ." : $sql_p_date_demande<br>". _('divers_traitement') ." : pas traité</td>\n" ;
 			}
 				
 			echo "</tr>\n" ;
@@ -852,7 +852,7 @@ function affichage_historique_conges($tri_date, $year_affichage, $onglet,  $DEBU
 	$count2=$ReqLog2->num_rows;
 	if($count2==0)
 	{
-		echo "<b>".$_SESSION['lang']['user_conges_aucun_conges']."</b><br>\n";
+		echo "<b>". _('user_conges_aucun_conges') ."</b><br>\n";
 	}
 	else
 	{
@@ -861,18 +861,18 @@ function affichage_historique_conges($tri_date, $year_affichage, $onglet,  $DEBU
 		echo "<tr>\n";
 		echo " <td class=\"titre\">\n";
 		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=descendant\"><img src=\"../img/1downarrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
-		echo $_SESSION['lang']['divers_debut_maj_1'] ;
+		echo  _('divers_debut_maj_1')  ;
 		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=ascendant\"><img src=\"../img/1uparrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
 		echo " </td>\n";
-		echo " <td class=\"titre\">".$_SESSION['lang']['divers_fin_maj_1']."</td>\n";
-		echo " <td class=\"titre\">".$_SESSION['lang']['divers_nb_jours_maj_1']."</td>\n";
-		echo " <td class=\"titre\">".$_SESSION['lang']['divers_comment_maj_1']."</td>\n";
-		echo " <td class=\"titre\">".$_SESSION['lang']['divers_type_maj_1']."</td>\n";
-		echo " <td class=\"titre\">".$_SESSION['lang']['divers_etat_maj_1']."</td>\n";
-		echo " <td class=\"titre\">".$_SESSION['lang']['divers_motif_refus']."</td>\n";
+		echo " <td class=\"titre\">". _('divers_fin_maj_1') ."</td>\n";
+		echo " <td class=\"titre\">". _('divers_nb_jours_maj_1') ."</td>\n";
+		echo " <td class=\"titre\">". _('divers_comment_maj_1') ."</td>\n";
+		echo " <td class=\"titre\">". _('divers_type_maj_1') ."</td>\n";
+		echo " <td class=\"titre\">". _('divers_etat_maj_1') ."</td>\n";
+		echo " <td class=\"titre\">". _('divers_motif_refus') ."</td>\n";
 		if($_SESSION['config']['affiche_date_traitement']==TRUE)
 		{
-			echo "<td class=\"titre\">".$_SESSION['lang']['divers_date_traitement']."</td>\n" ;
+			echo "<td class=\"titre\">". _('divers_date_traitement') ."</td>\n" ;
 		}
 
 		echo "</tr>\n";
@@ -903,9 +903,9 @@ function affichage_historique_conges($tri_date, $year_affichage, $onglet,  $DEBU
 				
 				echo "<td class=\"histo\">";
 				if($sql_p_etat=="refus")
-					echo $_SESSION['lang']['divers_refuse'];
+					echo  _('divers_refuse') ;
 				elseif($sql_p_etat=="annul")
-					echo $_SESSION['lang']['divers_annule'];
+					echo  _('divers_annule') ;
 				else
 					echo schars($sql_p_etat);
 				echo "</td>\n" ;
@@ -914,14 +914,14 @@ function affichage_historique_conges($tri_date, $year_affichage, $onglet,  $DEBU
 				if($sql_p_etat=="refus")
 				{
 					if($sql_p_motif_refus=="")
-						$sql_p_motif_refus=$_SESSION['lang']['divers_inconnu'];
+						$sql_p_motif_refus= _('divers_inconnu') ;
 					echo '<td class="histo">'.schars($sql_p_motif_refus).'</td>'."\n";
 //					echo "<br><i>motif : $sql_p_motif_refus</i>";
 				}
 				elseif($sql_p_etat=="annul")
 				{
 					if($sql_p_motif_refus=="")
-						$sql_p_motif_refus=$_SESSION['lang']['divers_inconnu'];
+						$sql_p_motif_refus= _('divers_inconnu') ;
 					echo'<td class="histo">'.schars($sql_p_motif_refus).'</td>'."\n";
 //					echo "<br><i>motif : $sql_p_motif_refus</i>";
 				}
@@ -936,9 +936,9 @@ function affichage_historique_conges($tri_date, $year_affichage, $onglet,  $DEBU
 
 				if($_SESSION['config']['affiche_date_traitement']==TRUE)
 				{
-					echo '<td class="histo-left">'.schars($_SESSION['lang']['divers_demande']).' : '.schars($sql_p_date_demande).'<br>'."\n";
+					echo '<td class="histo-left">'.schars( _('divers_demande') ).' : '.schars($sql_p_date_demande).'<br>'."\n";
 					$text_lang_a_afficher="divers_traitement_$sql_p_etat" ; // p_etat='ok' OR  p_etat='refus' OR  p_etat='annul' .....
-					echo schars($_SESSION['lang'][$text_lang_a_afficher]).' : '.schars($sql_p_date_traitement).'</td>'."\n" ;
+					echo schars( _($text_lang_a_afficher) ).' : '.schars($sql_p_date_traitement).'</td>'."\n" ;
 				}
 			
 				echo "</tr>\n";
@@ -986,7 +986,7 @@ function affichage_historique_absences($tri_date, $year_affichage, $onglet,  $DE
 	$count4=$ReqLog4->num_rows;
 	if($count4==0)
 	{
-		echo "<b>".$_SESSION['lang']['user_abs_aucune_abs']."</b><br>\n";
+		echo "<b>". _('user_abs_aucune_abs') ."</b><br>\n";
 	}
 	else
 	{
@@ -995,18 +995,18 @@ function affichage_historique_absences($tri_date, $year_affichage, $onglet,  $DE
 		echo "<tr>\n";
 		echo "<td class=\"titre\">\n";
 		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=descendant\"><img src=\"../img/1downarrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
-		echo $_SESSION['lang']['divers_debut_maj_1'] ;
+		echo  _('divers_debut_maj_1')  ;
 		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=ascendant\"><img src=\"../img/1uparrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
 		echo "</td>\n";
-		echo "<td class=\"titre\">".$_SESSION['lang']['divers_fin_maj_1']."</td>\n";
-		echo "<td class=\"titre\">".$_SESSION['lang']['divers_nb_jours_maj_1']."</td>\n";
-		echo "<td class=\"titre\">".$_SESSION['lang']['divers_comment_maj_1']."</td>\n";
-		echo "<td class=\"titre\">".$_SESSION['lang']['user_abs_type']."</td>\n";
-		echo "<td class=\"titre\">".$_SESSION['lang']['divers_etat_maj_1']."</td>\n";
+		echo "<td class=\"titre\">". _('divers_fin_maj_1') ."</td>\n";
+		echo "<td class=\"titre\">". _('divers_nb_jours_maj_1') ."</td>\n";
+		echo "<td class=\"titre\">". _('divers_comment_maj_1') ."</td>\n";
+		echo "<td class=\"titre\">". _('user_abs_type') ."</td>\n";
+		echo "<td class=\"titre\">". _('divers_etat_maj_1') ."</td>\n";
 		echo "<td></td><td></td>\n";
 		if($_SESSION['config']['affiche_date_traitement']==TRUE)
 		{
-			echo "<td class=\"titre\">".$_SESSION['lang']['divers_date_traitement']."</td>\n" ;
+			echo "<td class=\"titre\">". _('divers_date_traitement') ."</td>\n" ;
 		}
 		echo "</tr>\n";
 
@@ -1032,8 +1032,8 @@ function affichage_historique_absences($tri_date, $year_affichage, $onglet,  $DE
 			// si le user a le droit de saisir lui meme ses absences et qu'elle n'est pas deja annulee, on propose de modifier ou de supprimer
 			if(($sql_etat != "annul")&&($_SESSION['config']['user_saisie_mission']==TRUE))
 			{
-				$user_modif_mission="<a href=\"user_modif_demande.php?session=$session&p_num=$sql_num&onglet=$onglet\">".$_SESSION['lang']['form_modif']."</a>" ;
-				$user_suppr_mission="<a href=\"user_suppr_demande.php?session=$session&p_num=$sql_num&onglet=$onglet\">".$_SESSION['lang']['form_supprim']."</a>" ;
+				$user_modif_mission="<a href=\"user_modif_demande.php?session=$session&p_num=$sql_num&onglet=$onglet\">". _('form_modif') ."</a>" ;
+				$user_suppr_mission="<a href=\"user_suppr_demande.php?session=$session&p_num=$sql_num&onglet=$onglet\">". _('form_supprim') ."</a>" ;
 			}
 			else
 			{
@@ -1049,22 +1049,22 @@ function affichage_historique_absences($tri_date, $year_affichage, $onglet,  $DE
 			if($sql_etat=="refus")
 			{
 				if($sql_motif_refus=="")
-					$sql_motif_refus=$_SESSION['lang']['divers_inconnu'];
-				echo '<br><i>".'.schars($_SESSION['lang']['divers_motif_refus']).'." : '.schars($sql_motif_refus).'</i>';
+					$sql_motif_refus= _('divers_inconnu') ;
+				echo '<br><i>".'.schars( _('divers_motif_refus') ).'." : '.schars($sql_motif_refus).'</i>';
 			}
 			elseif($sql_etat=="annul")
 			{
 				if($sql_motif_refus=="")
-					$sql_motif_refus=$_SESSION['lang']['divers_inconnu'];
-				echo '<br><i>".'.schars($_SESSION['lang']['divers_motif_annul']).'." : '.schars($sql_motif_refus).'</i>';
+					$sql_motif_refus= _('divers_inconnu') ;
+				echo '<br><i>".'.schars( _('divers_motif_annul') ).'." : '.schars($sql_motif_refus).'</i>';
 			}
 			echo "</td>\n";
 			echo '<td class="histo">'.schars($sql_type).'</td>'."\n";
 			echo "<td class=\"histo\">";
 			if($sql_etat=="refus")
-				echo $_SESSION['lang']['divers_refuse'];
+				echo  _('divers_refuse') ;
 			elseif($sql_etat=="annul")
-				echo $_SESSION['lang']['divers_annule'];
+				echo  _('divers_annule') ;
 			else
 				echo schars($sql_etat);
 			echo "</td>\n";
@@ -1072,7 +1072,7 @@ function affichage_historique_absences($tri_date, $year_affichage, $onglet,  $DE
 			echo '<td class="histo">'.($user_suppr_mission).'</td>'."\n";
 			if($_SESSION['config']['affiche_date_traitement']==TRUE)
 			{
-				echo '<td class="histo-left">'.schars($_SESSION['lang']['divers_demande']).' : '.schars($sql_date_demande).'<br>'.schars($_SESSION['lang']['divers_traitement']).' : '.schars($sql_date_traitement).'</td>'."\n" ;
+				echo '<td class="histo-left">'.schars( _('divers_demande') ).' : '.schars($sql_date_demande).'<br>'.schars( _('divers_traitement') ).' : '.schars($sql_date_traitement).'</td>'."\n" ;
 			}
 			echo "</tr>\n";
 		}
@@ -1090,7 +1090,7 @@ function change_passwd( $new_passwd1, $new_passwd2, $DEBUG=FALSE)
 
 	if((strlen($new_passwd1)==0) || (strlen($new_passwd2)==0) || ($new_passwd1!=$new_passwd2)) // si les 2 passwd sont vides ou differents
 	{
-		echo $_SESSION['lang']['user_passwd_error']."<br>\n" ;
+		echo  _('user_passwd_error') ."<br>\n" ;
 	}
 	else
 	{
@@ -1099,9 +1099,9 @@ function change_passwd( $new_passwd1, $new_passwd2, $DEBUG=FALSE)
 		$result = SQL::query($sql1) ;
 
 		if($result==TRUE)
-			echo $_SESSION['lang']['form_modif_ok']." <br><br> \n";
+			echo  _('form_modif_ok') ." <br><br> \n";
 		else
-			echo $_SESSION['lang']['form_mofif_not_ok']."<br><br> \n";
+			echo  _('form_mofif_not_ok') ."<br><br> \n";
 	}
 
 	$comment_log = "changement Password";
@@ -1140,7 +1140,7 @@ function verif_solde_user($user_login, $type_conges, $nb_jours,  $DEBUG=FALSE)
 		// vérification du solde de jours de type $type_conges
 		if ($sql_solde_user < $nb_jours+$sql_solde_user_a_valider)
 		{
-			echo '<br><font color="red">".'.schars($_SESSION['lang']['verif_solde_erreur_part_1']).'." (". (float)'.schars($nb_jours).' .") ".'.schars($_SESSION['lang']['verif_solde_erreur_part_2']).'." (". (float)'.schars($sql_solde_user).' .") ".'.schars($_SESSION['lang']['verif_solde_erreur_part_3']).'." (" . (float)'.schars($sql_solde_user_a_valider).' . "))</font><br>'."\n";
+			echo '<br><font color="red">".'.schars( _('verif_solde_erreur_part_1') ).'." (". (float)'.schars($nb_jours).' .") ".'.schars( _('verif_solde_erreur_part_2') ).'." (". (float)'.schars($sql_solde_user).' .") ".'.schars( _('verif_solde_erreur_part_3') ).'." (" . (float)'.schars($sql_solde_user_a_valider).' . "))</font><br>'."\n";
 			$verif = FALSE;
 		}
 	}

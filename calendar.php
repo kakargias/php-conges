@@ -126,10 +126,10 @@ function affichage_boutons_defilement_calendar($mois, $year, $champ_date, $DEBUG
 		echo "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"90%\" >\n";
 		echo "<tr>\n";
 		echo "<td align=\"left\">
-				<a href=\"$PHP_SELF?session=$session&mois=$prev_mois&year=$prev_year&champ_date=$champ_date\" method=\"POST\"> << ".$_SESSION['lang']['divers_mois_precedent_maj_1']." </a>
+				<a href=\"$PHP_SELF?session=$session&mois=$prev_mois&year=$prev_year&champ_date=$champ_date\" method=\"POST\"> << ". _('divers_mois_precedent_maj_1') ." </a>
 			</td>\n";
 		echo "<td align=\"right\">
-				<a href=\"$PHP_SELF?session=$session&mois=$next_mois&year=$next_year&champ_date=$champ_date\" method=\"POST\"> ".$_SESSION['lang']['divers_mois_suivant_maj_1']." >> </a>
+				<a href=\"$PHP_SELF?session=$session&mois=$next_mois&year=$next_year&champ_date=$champ_date\" method=\"POST\"> ". _('divers_mois_suivant_maj_1') ." >> </a>
 			</td>\n";
 		echo "</tr></table>\n";
 
@@ -170,13 +170,13 @@ function affiche_calendar($year, $mois, $DEBUG=FALSE)
 	/* affichage ligne des jours de la semaine*/
 	echo "<tr>\n";
 //	echo "<td bgcolor=$bgcolor class=\"cal-saisie2\"><a href=\"\" onClick=\"javascript:envoi_date('$jour-$mois_value-$year');\">$j</a></td>";
-	echo "<td class=\"calendar-header\">".$_SESSION['lang']['lundi_2c']."</td>";
-	echo "<td class=\"calendar-header\">".$_SESSION['lang']['mardi_2c']."</td>";
-	echo "<td class=\"calendar-header\">".$_SESSION['lang']['mercredi_2c']."</td>";
-	echo "<td class=\"calendar-header\">".$_SESSION['lang']['jeudi_2c']."</td>";
-	echo "<td class=\"calendar-header\">".$_SESSION['lang']['vendredi_2c']."</td>";
-	echo "<td class=\"calendar-header\">".$_SESSION['lang']['samedi_2c']."</td>";
-	echo "<td class=\"calendar-header\">".$_SESSION['lang']['dimanche_2c']."</td>";
+	echo "<td class=\"calendar-header\">". _('lundi_2c') ."</td>";
+	echo "<td class=\"calendar-header\">". _('mardi_2c') ."</td>";
+	echo "<td class=\"calendar-header\">". _('mercredi_2c') ."</td>";
+	echo "<td class=\"calendar-header\">". _('jeudi_2c') ."</td>";
+	echo "<td class=\"calendar-header\">". _('vendredi_2c') ."</td>";
+	echo "<td class=\"calendar-header\">". _('samedi_2c') ."</td>";
+	echo "<td class=\"calendar-header\">". _('dimanche_2c') ."</td>";
 	echo "</tr>\n";
 
 	/* affichage ligne 1 du mois*/

@@ -102,7 +102,7 @@ function saisie($year_calendrier_saisie, $DEBUG=FALSE)
 
 	echo "<body>\n";
 	echo "<center>\n";
-	echo "<h1>".$_SESSION['lang']['admin_jours_chomes_titre']."</h1>\n";
+	echo "<h1>". _('admin_jours_chomes_titre') ."</h1>\n";
 
 	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n" ;
 
@@ -120,7 +120,7 @@ function saisie($year_calendrier_saisie, $DEBUG=FALSE)
 					// recul d'un an
 					echo "<td align=\"center\" class=\"big\">\n";
 					echo "<a href=\"$PHP_SELF?session=$session&year_calendrier_saisie=$year_calendrier_saisie_prec\"> \n";
-					echo "<img src=\"../img/simfirs.gif\" width=\"16\" height=\"16\" border=\"0\" alt=\"".$_SESSION['lang']['admin_jours_chomes_annee_precedente']."\" title=\"".$_SESSION['lang']['admin_jours_chomes_annee_precedente']."\"> \n";
+					echo "<img src=\"../img/simfirs.gif\" width=\"16\" height=\"16\" border=\"0\" alt=\"". _('admin_jours_chomes_annee_precedente') ."\" title=\"". _('admin_jours_chomes_annee_precedente') ."\"> \n";
 					echo "</a>\n";
 					echo "</td>\n";
 					echo "<td colspan=\"2\" align=\"center\" class=\"big\">$year_calendrier_saisie</td>\n";
@@ -128,7 +128,7 @@ function saisie($year_calendrier_saisie, $DEBUG=FALSE)
 					// avance d'un an
 					echo "<td align=\"center\" class=\"big\">\n";
 					echo "<a href=\"$PHP_SELF?session=$session&year_calendrier_saisie=$year_calendrier_saisie_suiv\"> \n";
-					echo "<img src=\"../img/simlast.gif\" width=\"16\" height=\"16\" border=\"0\" alt=\"".$_SESSION['lang']['admin_jours_chomes_annee_suivante']."\" title=\"".$_SESSION['lang']['admin_jours_chomes_annee_suivante']."\"> \n";
+					echo "<img src=\"../img/simlast.gif\" width=\"16\" height=\"16\" border=\"0\" alt=\"". _('admin_jours_chomes_annee_suivante') ."\" title=\"". _('admin_jours_chomes_annee_suivante') ."\"> \n";
 					echo "</a>\n";
 					echo "</td>\n";
 
@@ -189,8 +189,8 @@ function saisie($year_calendrier_saisie, $DEBUG=FALSE)
 	echo "<tr align=\"center\">\n";
 	echo "<td>\n";
 		echo "<input type=\"hidden\" name=\"choix_action\" value=\"confirm\">\n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">  \n";
-		echo "<input type=\"button\" value=\"".$_SESSION['lang']['form_cancel']."\" onClick=\"javascript:window.close();\">\n";
+		echo "<input type=\"submit\" value=\"". _('form_submit') ."\">  \n";
+		echo "<input type=\"button\" value=\"". _('form_cancel') ."\" onClick=\"javascript:window.close();\">\n";
 	echo "</td>\n";
 	echo "</tr>\n";
 	echo "</table>\n";
@@ -224,13 +224,13 @@ function  affiche_calendrier_saisie_jours_chomes($year, $mois, $tab_year, $DEBUG
 	/* affichage  2 premieres lignes */
 	echo "	<tr align=\"center\" bgcolor=\"".$_SESSION['config']['light_grey_bgcolor']."\"><td colspan=7 class=\"titre\"> $mois_name $year </td></tr>\n" ;
 	echo "	<tr bgcolor=\"".$_SESSION['config']['light_grey_bgcolor']."\">\n";
-	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['lundi_1c']."</td>\n";
-	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['mardi_1c']."</td>\n";
-	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['mercredi_1c']."</td>\n";
-	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['jeudi_1c']."</td>\n";
-	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['vendredi_1c']."</td>\n";
-	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['samedi_1c']."</td>\n";
-	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['dimanche_1c']."</td>\n";
+	echo "		<td class=\"cal-saisie2\">". _('lundi_1c') ."</td>\n";
+	echo "		<td class=\"cal-saisie2\">". _('mardi_1c') ."</td>\n";
+	echo "		<td class=\"cal-saisie2\">". _('mercredi_1c') ."</td>\n";
+	echo "		<td class=\"cal-saisie2\">". _('jeudi_1c') ."</td>\n";
+	echo "		<td class=\"cal-saisie2\">". _('vendredi_1c') ."</td>\n";
+	echo "		<td class=\"cal-saisie2\">". _('samedi_1c') ."</td>\n";
+	echo "		<td class=\"cal-saisie2\">". _('dimanche_1c') ."</td>\n";
 	echo "	</tr>\n" ;
 
 	/* affichage ligne 1 du mois*/
@@ -375,7 +375,7 @@ function confirm_saisie($tab_checkbox_j_chome, $DEBUG=FALSE)
 
 	echo "<body>\n";
 	echo "<center>\n";
-	echo "<h1>".$_SESSION['lang']['admin_jours_chomes_titre']."</h1>\n";
+	echo "<h1>". _('admin_jours_chomes_titre') ."</h1>\n";
 
 	//echo "tab_checkbox_j_chome : <br>\n";
 	//print_r($tab_checkbox_j_chome);
@@ -392,12 +392,12 @@ function confirm_saisie($tab_checkbox_j_chome, $DEBUG=FALSE)
 			echo "<input type=\"hidden\" name=\"tab_checkbox_j_chome[$key]\" value=\"$value\">\n";
 		}
 		echo "<input type=\"hidden\" name=\"choix_action\" value=\"commit\">\n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['admin_jours_chomes_confirm']."\">\n";
+		echo "<input type=\"submit\" value=\"". _('admin_jours_chomes_confirm') ."\">\n";
 	echo "</td>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
 	echo "<td align=\"center\">\n";
-	echo "	<input type=\"button\" value=\"".$_SESSION['lang']['form_cancel']."\" onClick=\"javascript:window.close();\">\n";
+	echo "	<input type=\"button\" value=\"". _('form_cancel') ."\" onClick=\"javascript:window.close();\">\n";
 	echo "</td>\n";
 	echo "</tr>\n";
 	echo "</table>\n";
@@ -424,7 +424,7 @@ function commit_saisie($tab_checkbox_j_chome,$DEBUG=FALSE)
 
 	echo "<body>\n";
 	echo "<center>\n";
-	echo "<h1>".$_SESSION['lang']['admin_jours_chomes_titre']."</h1>\n";
+	echo "<h1>". _('admin_jours_chomes_titre') ."</h1>\n";
 
 	if($DEBUG==TRUE) { echo "tab_checkbox_j_chome : <br>\n"; print_r($tab_checkbox_j_chome); echo "<br>\n"; }
 
@@ -439,9 +439,9 @@ function commit_saisie($tab_checkbox_j_chome,$DEBUG=FALSE)
 	init_tab_jours_feries($DEBUG);
 
 	if($result==TRUE)
-		echo "<br>".$_SESSION['lang']['form_modif_ok'].".<br><br>\n";
+		echo "<br>". _('form_modif_ok') .".<br><br>\n";
 	else
-		echo "<br>".$_SESSION['lang']['form_modif_not_ok']." !<br><br>\n";
+		echo "<br>". _('form_modif_not_ok') ." !<br><br>\n";
 
 	$date_1=key($tab_checkbox_j_chome);
 	$tab_date = explode('-', $date_1);
@@ -451,7 +451,7 @@ function commit_saisie($tab_checkbox_j_chome,$DEBUG=FALSE)
 	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n";
 	echo "<table>\n";
 	echo "<tr><td align=\"center\">\n";
-	echo "	<input type=\"button\" value=\"".$_SESSION['lang']['form_close_window']."\" onClick=\"javascript:window.close();\">\n";
+	echo "	<input type=\"button\" value=\"". _('form_close_window') ."\" onClick=\"javascript:window.close();\">\n";
 	echo "</td></tr>\n";
 	echo "</table>\n";
 	echo "</form>\n";

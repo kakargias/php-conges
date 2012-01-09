@@ -37,7 +37,6 @@ $DEBUG=FALSE;
 
 //recup de la langue
 $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST['lang'] : "") ) ;
-inculde_lang_file($lang, $DEBUG);
 /*
 $tab_lang_file = glob("lang/lang_".$lang."_*.php");  
 if($DEBUG==TRUE) { echo "lang = $lang # fichier de langue = ".$tab_lang_file[0]."<br>\n"; }
@@ -57,7 +56,7 @@ if($DEBUG==TRUE) { echo "SESSION = <br>\n"; print_r($_SESSION); echo "<br><br>\n
 	
 	// affichage du titre
 	echo "<center>\n";
-	echo "<br><H1><img src=\"../img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"".$_SESSION['lang']['install_install_phpconges']."\" alt=\"".$_SESSION['lang']['install_install_phpconges']."\"> ".$_SESSION['lang']['install_install_titre']."</H1>\n";
+	echo "<br><H1><img src=\"../img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"". _('install_install_phpconges') ."\" alt=\"". _('install_install_phpconges') ."\"> ". _('install_install_titre') ."</H1>\n";
 	echo "<br><br>\n";
 		
 	lance_install($lang, $DEBUG); 
@@ -83,18 +82,18 @@ function lance_install($lang, $DEBUG=FALSE)
 	//verif si create / alter table possible !!!
 	if(test_create_table( $DEBUG) == FALSE)
 	{
-		echo "<font color=\"red\"><b>CREATE TABLE</b> ".$_SESSION['lang']['install_impossible_sur_db']." <b>$mysql_database</b> (".$_SESSION['lang']['install_verif_droits_mysql']." <b>$mysql_user</b>)...</font><br> \n";
-		echo "<br>".$_SESSION['lang']['install_puis']." ...<br>\n";
+		echo "<font color=\"red\"><b>CREATE TABLE</b> ". _('install_impossible_sur_db') ." <b>$mysql_database</b> (". _('install_verif_droits_mysql') ." <b>$mysql_user</b>)...</font><br> \n";
+		echo "<br>". _('install_puis') ." ...<br>\n";
 		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_redo']."\">\n";
+		echo "<input type=\"submit\" value=\"". _('form_redo') ."\">\n";
 		echo "</form>\n";
 	}
 	elseif(test_drop_table( $DEBUG) == FALSE)
 	{
-		echo "<font color=\"red\"><b>DROP TABLE</b> ".$_SESSION['lang']['install_impossible_sur_db']." <b>$mysql_database</b> (".$_SESSION['lang']['install_verif_droits_mysql']." <b>$mysql_user</b>)...</font><br> \n";
-		echo "<br>".$_SESSION['lang']['install_puis']." ...<br>\n";
+		echo "<font color=\"red\"><b>DROP TABLE</b> ". _('install_impossible_sur_db') ." <b>$mysql_database</b> (". _('install_verif_droits_mysql') ." <b>$mysql_user</b>)...</font><br> \n";
+		echo "<br>". _('install_puis') ." ...<br>\n";
 		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_redo']."\">\n";
+		echo "<input type=\"submit\" value=\"". _('form_redo') ."\">\n";
 		echo "</form>\n";
 	}
 	else
@@ -129,7 +128,7 @@ function lance_install($lang, $DEBUG=FALSE)
 
 		/*************************************/
 		// on propose la page de config ....
-		echo "<br><br><h2>".$_SESSION['lang']['install_ok']." !</h2><br>\n";
+		echo "<br><br><h2>". _('install_ok') ." !</h2><br>\n";
 		
 		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=../config/\">";
 	}

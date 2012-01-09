@@ -43,11 +43,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 	printf("<H1>ERREUR !</H1>\n");
 	switch ( $error_num ) {
 		case 1: 	// authentification Error
-			echo $_SESSION['lang']['erreur_user'].".<br> ".$_SESSION['lang']['erreur_login_password'].".<br>\n" ;
+			echo  _('erreur_user') .".<br> ". _('erreur_login_password') .".<br>\n" ;
 			break;
 
 		case 2 :   // session error
-			echo $_SESSION['lang']['erreur_user'].".<br>\n" ;
+			echo  _('erreur_user') .".<br>\n" ;
 			break;
 
 		case 3 :   // autre

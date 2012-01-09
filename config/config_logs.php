@@ -93,7 +93,7 @@ function affichage($login_par, $session, $DEBUG=FALSE)
 
 	/**************************************/
 	// affichage du titre
-	echo "<br><center><H1><img src=\"../img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"".$_SESSION['lang']['config_logs_titre_2']."\" alt=\"".$_SESSION['lang']['config_logs_titre_2']."\"> ".$_SESSION['lang']['config_logs_titre_1']."</H1></center>\n";
+	echo "<br><center><H1><img src=\"../img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"". _('config_logs_titre_2') ."\" alt=\"". _('config_logs_titre_2') ."\"> ". _('config_logs_titre_1') ."</H1></center>\n";
 	echo "<br>\n";
 	/**************************************/
 
@@ -119,18 +119,18 @@ function affichage($login_par, $session, $DEBUG=FALSE)
 		echo "<br>\n";
 		echo "<table align=\"center\">\n";
 
-		echo "<tr><td class=\"histo\" colspan=\"5\">".$_SESSION['lang']['voir_les_logs_par']."</td>";
+		echo "<tr><td class=\"histo\" colspan=\"5\">". _('voir_les_logs_par') ."</td>";
 		if($login_par!="")
-			echo "<tr><td class=\"histo\" colspan=\"5\">".$_SESSION['lang']['voir_tous_les_logs']." <a href=\"$PHP_SELF?session=$session\">".$_SESSION['lang']['voir_tous_les_logs']."</a></td>";
+			echo "<tr><td class=\"histo\" colspan=\"5\">". _('voir_tous_les_logs') ." <a href=\"$PHP_SELF?session=$session\">". _('voir_tous_les_logs') ."</a></td>";
 		echo "<tr><td class=\"histo\" colspan=\"5\">&nbsp;</td>";
 
 		// titres
 		echo "<tr>\n";
-		echo "<td class=\"titre\">".$_SESSION['lang']['divers_date_maj_1']."</td>\n";
-		echo "<td class=\"titre\">".$_SESSION['lang']['divers_fait_par_maj_1']."</td>\n";
-		echo "<td class=\"titre\">".$_SESSION['lang']['divers_pour_maj_1']."</td>\n";
-		echo "<td class=\"titre\">".$_SESSION['lang']['divers_comment_maj_1']."</td>\n";
-		echo "<td class=\"titre\">".$_SESSION['lang']['divers_etat_maj_1']."</td>\n";
+		echo "<td class=\"titre\">". _('divers_date_maj_1') ."</td>\n";
+		echo "<td class=\"titre\">". _('divers_fait_par_maj_1') ."</td>\n";
+		echo "<td class=\"titre\">". _('divers_pour_maj_1') ."</td>\n";
+		echo "<td class=\"titre\">". _('divers_comment_maj_1') ."</td>\n";
+		echo "<td class=\"titre\">". _('divers_etat_maj_1') ."</td>\n";
 		echo "</tr>\n";
 
 		// affichage des logs
@@ -155,12 +155,12 @@ function affichage($login_par, $session, $DEBUG=FALSE)
 
 		// affichage du bouton pour vider les logs
 		echo "<input type=\"hidden\" name=\"action\" value=\"suppr_logs\">\n";
-		echo "<input type=\"submit\"  value=\"".$_SESSION['lang']['form_delete_logs']."\"><br>";
+		echo "<input type=\"submit\"  value=\"". _('form_delete_logs') ."\"><br>";
 		echo "</form>\n";
 		echo "</center>\n";
 	}
 	else
-		echo $_SESSION['lang']['no_logs_in_db']."><br>";
+		echo  _('no_logs_in_db') ."><br>";
 
 
 	echo "<br>\n";
@@ -176,15 +176,15 @@ function confirmer_vider_table_logs($session, $DEBUG=FALSE)
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 
 	echo "<center>\n";
-	echo "<br><h2>".$_SESSION['lang']['confirm_vider_logs']."</h2><br>\n";
+	echo "<br><h2>". _('confirm_vider_logs') ."</h2><br>\n";
 
 	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n"  ;
 	echo "<input type=\"hidden\" name=\"action\" value=\"commit_suppr_logs\">\n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_delete_logs']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_delete_logs') ."\">\n";
 	echo "</form>\n" ;
 
 	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n"  ;
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_cancel']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_cancel') ."\">\n";
 	echo "</form>\n" ;
 	echo "</center>\n";
 
@@ -202,7 +202,7 @@ function commit_vider_table_logs($session, $DEBUG=FALSE)
 	$comment_log = "effacement des logs de php_conges ";
 	log_action(0, "", "", $comment_log, $DEBUG);
 
-	echo "<span class = \"messages\">".$_SESSION['lang']['form_modif_ok']."</span><br>";
+	echo "<span class = \"messages\">". _('form_modif_ok') ."</span><br>";
 	if($session=="")
 		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"1; URL=$PHP_SELF?\">";
 	else

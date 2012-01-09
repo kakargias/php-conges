@@ -105,20 +105,20 @@ function affichage($user, $date_debut, $date_fin, $opt_debut, $opt_fin, $DEBUG=F
 	echo "<tr>\n";
 	// calcul :
 	$nb_jours=compter($user, $date_debut, $date_fin, $opt_debut, $opt_fin, $comment, $DEBUG);
-	echo "<td align=\"center\"><h2>".$_SESSION['lang']['calcul_nb_jours_nb_jours']." <b>$nb_jours</b></h2></td>\n";
+	echo "<td align=\"center\"><h2>". _('calcul_nb_jours_nb_jours') ." <b>$nb_jours</b></h2></td>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
 	echo "<td align=\"center\"><i><font color=\"red\">$comment<font/></i></td>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
-	echo "<td align=\"center\"><i>".$_SESSION['lang']['calcul_nb_jours_reportez']." \"".$_SESSION['lang']['saisie_conges_nb_jours']."\" ".$_SESSION['lang']['calcul_nb_jours_form'].".</i></td>\n";
+	echo "<td align=\"center\"><i>". _('calcul_nb_jours_reportez') ." \"". _('saisie_conges_nb_jours') ."\" ". _('calcul_nb_jours_form') .".</i></td>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
 	echo "<td align=\"center\">&nbsp;</td>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
 	echo "<td align=\"center\">\n";
-	echo "	<input type=\"button\" value=\"".$_SESSION['lang']['form_close_window']."\" onClick=\"javascript:window.close();\">\n";
+	echo "	<input type=\"button\" value=\"". _('form_close_window') ."\" onClick=\"javascript:window.close();\">\n";
 	echo "</td>\n";
 	echo "</tr>\n";
 	echo "</table>\n";

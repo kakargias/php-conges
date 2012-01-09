@@ -73,11 +73,11 @@ function saisie_ajout( $tab_type_conges, $DEBUG)
 		
 	}
 	else
-	 echo $_SESSION['lang']['resp_etat_aucun_user']."<br>\n";
+	 echo  _('resp_etat_aucun_user') ."<br>\n";
 	
 	/* APPEL D'UNE AUTRE PAGE */
 	echo " <form action=\"hr_index.php?session=$session\" method=\"POST\"> \n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_retour']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_retour') ."\">\n";
 	echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
 	echo " </form> \n";
 
@@ -104,23 +104,23 @@ function affichage_saisie_user_par_user($tab_type_conges, $tab_type_conges_excep
 		// AFFICHAGE TITRES TABLEAU
 		echo "<table cellpadding=\"2\" class=\"tablo\" width=\"700\">\n";
 		echo "<tr align=\"center\">\n";
-		echo "<td class=\"titre\">".$_SESSION['lang']['divers_nom_maj_1']."</td>\n";
-		echo "<td class=\"titre\">".$_SESSION['lang']['divers_prenom_maj_1']."</td>\n";
-		echo "<td class=\"titre\">".$_SESSION['lang']['divers_quotite_maj_1']."</td>\n";
+		echo "<td class=\"titre\">". _('divers_nom_maj_1') ."</td>\n";
+		echo "<td class=\"titre\">". _('divers_prenom_maj_1') ."</td>\n";
+		echo "<td class=\"titre\">". _('divers_quotite_maj_1') ."</td>\n";
 		foreach($tab_type_conges as $id_conges => $libelle)
 		{
-			echo "<td class=\"titre\">$libelle<br><i>(".$_SESSION['lang']['divers_solde'].")</i></td>\n";
-			echo "<td class=\"titre\">$libelle<br>".$_SESSION['lang']['resp_ajout_conges_nb_jours_ajout']."</td>\n" ;
+			echo "<td class=\"titre\">$libelle<br><i>(". _('divers_solde') .")</i></td>\n";
+			echo "<td class=\"titre\">$libelle<br>". _('resp_ajout_conges_nb_jours_ajout') ."</td>\n" ;
 		}
 		if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
 		{
 			foreach($tab_type_conges_exceptionnels as $id_conges => $libelle)
 			{
-				echo "<td class=\"titre\">$libelle<br><i>(".$_SESSION['lang']['divers_solde'].")</i></td>\n";
-				echo "<td class=\"titre\">$libelle<br>".$_SESSION['lang']['resp_ajout_conges_nb_jours_ajout']."</td>\n" ;
+				echo "<td class=\"titre\">$libelle<br><i>(". _('divers_solde') .")</i></td>\n";
+				echo "<td class=\"titre\">$libelle<br>". _('resp_ajout_conges_nb_jours_ajout') ."</td>\n" ;
 			}
 		}
-		echo "<td class=\"titre\">".$_SESSION['lang']['divers_comment_maj_1']."<br></td>\n" ;
+		echo "<td class=\"titre\">". _('divers_comment_maj_1') ."<br></td>\n" ;
 		echo"</tr>\n";
 		
 		// AFFICHAGE LIGNES TABLEAU
@@ -165,7 +165,7 @@ function affichage_saisie_user_par_user($tab_type_conges, $tab_type_conges_excep
 		if( ($_SESSION['config']['double_validation_conges']==TRUE) && ($_SESSION['config']['grand_resp_ajout_conges']==TRUE) )
 		{
 			$nb_colspan=50;
-			echo "<tr align=\"center\"><td class=\"histo\" colspan=\"$nb_colspan\"><i>".$_SESSION['lang']['resp_etat_users_titre_double_valid']."</i></td></tr>\n";
+			echo "<tr align=\"center\"><td class=\"histo\" colspan=\"$nb_colspan\"><i>". _('resp_etat_users_titre_double_valid') ."</i></td></tr>\n";
 
 			foreach($tab_all_users_du_grand_resp as $current_login => $tab_current_user)
 			{		
@@ -205,7 +205,7 @@ function affichage_saisie_user_par_user($tab_type_conges, $tab_type_conges_excep
 	
 		echo "<input type=\"hidden\" name=\"ajout_conges\" value=\"TRUE\">\n";
 		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">\n";
+		echo "<input type=\"submit\" value=\"". _('form_submit') ."\">\n";
 		echo " </form> \n";
 	}
 }
@@ -223,28 +223,28 @@ function affichage_saisie_globale_pour_tous($tab_type_conges, $DEBUG=FALSE)
 	echo "<table>\n";
 	echo "<tr><td align=\"center\">\n";
 	echo "	<fieldset class=\"cal_saisie\">\n";
-	echo "	<legend class=\"boxlogin\">".$_SESSION['lang']['resp_ajout_conges_ajout_all']."</legend>\n";
+	echo "	<legend class=\"boxlogin\">". _('resp_ajout_conges_ajout_all') ."</legend>\n";
 	echo "	<table>\n";
 	foreach($tab_type_conges as $id_conges => $libelle)
 	{
 		echo "	<tr>\n";
-		echo "		<td class=\"big\">".$_SESSION['lang']['resp_ajout_conges_nb_jours_all_1']." <font color=\"red\" size=\"+1\">$libelle</font> ".$_SESSION['lang']['resp_ajout_conges_nb_jours_all_2']." </td>\n";
+		echo "		<td class=\"big\">". _('resp_ajout_conges_nb_jours_all_1') ." <font color=\"red\" size=\"+1\">$libelle</font> ". _('resp_ajout_conges_nb_jours_all_2') ." </td>\n";
 		echo "		<td><input type=\"text\" name=\"tab_new_nb_conges_all[$id_conges]\" size=\"6\" maxlength=\"6\" value=\"0\"></td>\n";
-		echo "		<td> ( ".$_SESSION['lang']['resp_ajout_conges_calcul_prop']." </td>\n";
-		echo "		<td>".$_SESSION['lang']['resp_ajout_conges_oui']." <input type=\"checkbox\" name=\"tab_calcul_proportionnel[$id_conges]\" value=\"TRUE\" checked> )</td>\n";
-		echo "		<td>".$_SESSION['lang']['divers_comment_maj_1']." : <input type=\"text\" name=\"tab_new_comment_all[$id_conges]\" size=\"30\" maxlength=\"200\" value=\"\"></td>\n";
+		echo "		<td> ( ". _('resp_ajout_conges_calcul_prop') ." </td>\n";
+		echo "		<td>". _('resp_ajout_conges_oui') ." <input type=\"checkbox\" name=\"tab_calcul_proportionnel[$id_conges]\" value=\"TRUE\" checked> )</td>\n";
+		echo "		<td>". _('divers_comment_maj_1') ." : <input type=\"text\" name=\"tab_new_comment_all[$id_conges]\" size=\"30\" maxlength=\"200\" value=\"\"></td>\n";
 		echo "	</tr>\n";
 	}
 	// texte sur l'arrondi du calcul proportionnel
 	echo "	<tr>\n";
 	echo "		<td class=\"big\">&nbsp;</td>\n";
 	echo "		<td>&nbsp;</td>\n";
-	echo "		<td colspan=\"2\"> (".$_SESSION['lang']['resp_ajout_conges_calcul_prop_arondi']." !) </td>\n";
+	echo "		<td colspan=\"2\"> (". _('resp_ajout_conges_calcul_prop_arondi') ." !) </td>\n";
 	echo "		<td>&nbsp;</td>\n";
 	echo "	</tr>\n";
 	// bouton valider
 	echo "	<tr>\n";
-	echo "		<td colspan=\"5\" align=\"center\"><input type=\"submit\" value=\"".$_SESSION['lang']['form_valid_global']."\"></td>\n";
+	echo "		<td colspan=\"5\" align=\"center\"><input type=\"submit\" value=\"". _('form_valid_global') ."\"></td>\n";
 	echo "	</tr>\n";
 	echo "	</table>\n";
 	echo "	</fieldset>\n";
@@ -291,10 +291,10 @@ function affichage_saisie_globale_groupe($tab_type_conges, $DEBUG=FALSE)
 		echo "<table>\n";
 		echo "<tr><td align=\"center\">\n";
 		echo "	<fieldset class=\"cal_saisie\">\n";
-		echo "	<legend class=\"boxlogin\">".$_SESSION['lang']['resp_ajout_conges_ajout_groupe']."</legend>\n";
+		echo "	<legend class=\"boxlogin\">". _('resp_ajout_conges_ajout_groupe') ."</legend>\n";
 		echo "	<table>\n";
 		echo "	<tr>\n";
-		echo "		<td class=\"big\">".$_SESSION['lang']['resp_ajout_conges_choix_groupe']." : </td>\n";
+		echo "		<td class=\"big\">". _('resp_ajout_conges_choix_groupe') ." : </td>\n";
 			// création du select pour le choix du groupe
 			$text_choix_group="<select name=\"choix_groupe\" >";
 			$sql_group = "SELECT g_gid, g_groupename FROM conges_groupe WHERE g_gid IN ($list_group) ORDER BY g_groupename "  ;
@@ -313,21 +313,21 @@ function affichage_saisie_globale_groupe($tab_type_conges, $DEBUG=FALSE)
 		foreach($tab_type_conges as $id_conges => $libelle)
 		{
 			echo "	<tr>\n";
-			echo "		<td class=\"big\">".$_SESSION['lang']['resp_ajout_conges_nb_jours_groupe_1']." <font color=\"red\" size=\"+1\">$libelle</font> ".$_SESSION['lang']['resp_ajout_conges_nb_jours_groupe_2']." </td>\n";
+			echo "		<td class=\"big\">". _('resp_ajout_conges_nb_jours_groupe_1') ." <font color=\"red\" size=\"+1\">$libelle</font> ". _('resp_ajout_conges_nb_jours_groupe_2') ." </td>\n";
 			echo "		<td><input type=\"text\" name=\"tab_new_nb_conges_all[$id_conges]\" size=\"6\" maxlength=\"6\" value=\"0\"></td>\n";
-			echo "		<td> ( ".$_SESSION['lang']['resp_ajout_conges_calcul_prop']." </td>\n";
-			echo "		<td>".$_SESSION['lang']['resp_ajout_conges_oui']." <input type=\"checkbox\" name=\"tab_calcul_proportionnel[$id_conges]\" value=\"TRUE\" checked> )</td>\n";
-			echo "		<td>".$_SESSION['lang']['divers_comment_maj_1']." : <input type=\"text\" name=\"tab_new_comment_all[$id_conges]\" size=\"30\" maxlength=\"200\" value=\"\"></td>\n";
+			echo "		<td> ( ". _('resp_ajout_conges_calcul_prop') ." </td>\n";
+			echo "		<td>". _('resp_ajout_conges_oui') ." <input type=\"checkbox\" name=\"tab_calcul_proportionnel[$id_conges]\" value=\"TRUE\" checked> )</td>\n";
+			echo "		<td>". _('divers_comment_maj_1') ." : <input type=\"text\" name=\"tab_new_comment_all[$id_conges]\" size=\"30\" maxlength=\"200\" value=\"\"></td>\n";
 			echo "	</tr>\n";
 		}
 		echo "	<tr>\n";
 		echo "		<td class=\"big\">&nbsp;</td>\n";
 		echo "		<td>&nbsp;</td>\n";
-		echo "		<td colspan=\"2\"> (".$_SESSION['lang']['resp_ajout_conges_calcul_prop_arondi']." !) </td>\n";
+		echo "		<td colspan=\"2\"> (". _('resp_ajout_conges_calcul_prop_arondi') ." !) </td>\n";
 		echo "		<td>&nbsp;</td>\n";
 		echo "	</tr>\n";
 		echo "	<tr>\n";
-		echo "		<td colspan=\"5\" align=\"center\"><input type=\"submit\" value=\"".$_SESSION['lang']['form_valid_groupe']."\"></td>\n";
+		echo "		<td colspan=\"5\" align=\"center\"><input type=\"submit\" value=\"". _('form_valid_groupe') ."\"></td>\n";
 		echo "	</tr>\n";
 		echo "	</table>\n";
 		echo "	</fieldset>\n";
@@ -371,7 +371,7 @@ function ajout_conges($tab_champ_saisie, $tab_commentaire_saisie, $DEBUG=FALSE)
 			$ReqLog1 = SQL::query($sql1) ;
 */	
 			// on insert l'ajout de conges dans la table periode
-			$commentaire = $_SESSION['lang']['resp_ajout_conges_comment_periode_user'];
+			$commentaire =  _('resp_ajout_conges_comment_periode_user') ;
 			insert_ajout_dans_periode($DEBUG, $user_name, $user_nb_jours_ajout_float, $id_conges, $commentaire);
 	      }
 	    }
@@ -382,12 +382,12 @@ function ajout_conges($tab_champ_saisie, $tab_commentaire_saisie, $DEBUG=FALSE)
 	{
 		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
 		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_ok']."\">\n";
+		echo "<input type=\"submit\" value=\"". _('form_ok') ."\">\n";
 		echo "</form>\n" ;
 	}
 	else
 	{
-		echo " ".$_SESSION['lang']['form_modif_ok']." <br><br> \n";
+		echo " ". _('form_modif_ok') ." <br><br> \n";
 		/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
 		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=$PHP_SELF?session=$session\">";
 	}
@@ -439,7 +439,7 @@ function ajout_global($tab_new_nb_conges_all, $tab_calcul_proportionnel, $tab_ne
 				$ReqLog_update = SQL::query($req_update);
 		
 				// 2 : on insert l'ajout de conges GLOBAL (pour tous les users) dans la table periode
-				$commentaire = $_SESSION['lang']['resp_ajout_conges_comment_periode_all'];
+				$commentaire =  _('resp_ajout_conges_comment_periode_all') ;
 				// ajout conges
 				insert_ajout_dans_periode($DEBUG, $current_login, $nb_conges, $id_conges, $commentaire);
 				
@@ -463,12 +463,12 @@ function ajout_global($tab_new_nb_conges_all, $tab_calcul_proportionnel, $tab_ne
 	{
 		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
 		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_ok']."\">\n";
+		echo "<input type=\"submit\" value=\"". _('form_ok') ."\">\n";
 		echo "</form>\n" ;
 	}
 	else
 	{
-		echo " ".$_SESSION['lang']['form_modif_ok']." <br><br> \n";
+		echo " ". _('form_modif_ok') ." <br><br> \n";
 		/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
 		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=hr_index.php?session=$session\">";
 	}
@@ -516,7 +516,7 @@ function ajout_global_groupe($choix_groupe, $tab_new_nb_conges_all, $tab_calcul_
 				// 2 : on insert l'ajout de conges dans la table periode
 				// recup du nom du groupe
 				$groupename= get_group_name_from_id($choix_groupe, $DEBUG);
-				$commentaire = $_SESSION['lang']['resp_ajout_conges_comment_periode_groupe']." $groupename";
+				$commentaire =  _('resp_ajout_conges_comment_periode_groupe') ." $groupename";
 			
 				// ajout conges
 				insert_ajout_dans_periode($DEBUG, $current_login, $nb_conges, $id_conges, $commentaire);
@@ -541,12 +541,12 @@ function ajout_global_groupe($choix_groupe, $tab_new_nb_conges_all, $tab_calcul_
 	{
 		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
 		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_ok']."\">\n";
+		echo "<input type=\"submit\" value=\"". _('form_ok') ."\">\n";
 		echo "</form>\n" ;
 	}
 	else
 	{
-		echo " ".$_SESSION['lang']['form_modif_ok']." <br><br> \n";
+		echo " ". _('form_modif_ok') ." <br><br> \n";
 		/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
 		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=hr_index.php?session=$session\">";
 	}

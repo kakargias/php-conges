@@ -38,7 +38,6 @@ $DEBUG=FALSE;
 
 //recup de la langue
 $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST['lang'] : "") ) ;
-inculde_lang_file($lang, $DEBUG);
 /*
 $tab_lang_file = glob("lang/lang_".$lang."_*.php");
 if($DEBUG==TRUE) { echo "lang = $lang # fichier de langue = ".$tab_lang_file[0]."<br>\n"; }
@@ -60,12 +59,12 @@ if($DEBUG==TRUE) { echo "SESSION = <br>\n"; print_r($_SESSION); echo "<br><br>\n
 		if($DEBUG==FALSE)
 			echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=index.php?lang=$lang\">";
 		else
-			echo "<a href=\"index.php?lang=$lang\">".$_SESSION['lang']['install_version_non_choisie']."</a><br>\n";
+			echo "<a href=\"index.php?lang=$lang\">". _('install_version_non_choisie') ."</a><br>\n";
 		exit;
 	}
 
 	echo "<html>\n<head>\n";
-	echo "<TITLE> PHP_CONGES : ".$_SESSION['lang']['install_maj_titre_1']." : </TITLE>\n</head>\n";
+	echo "<TITLE> PHP_CONGES : ". _('install_maj_titre_1') ." : </TITLE>\n</head>\n";
 	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
 	echo "<link href=\"../style_basic.css\" rel=\"stylesheet\" type=\"text/css\">\n";
 	echo "</head>\n";
@@ -74,7 +73,7 @@ if($DEBUG==TRUE) { echo "SESSION = <br>\n"; print_r($_SESSION); echo "<br><br>\n
 
 	// affichage du titre
 	echo "<center>\n";
-	echo "<br><H1><img src=\"../img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"".$_SESSION['lang']['install_install_phpconges']."\" alt=\"".$_SESSION['lang']['install_install_phpconges']."\"> ".$_SESSION['lang']['install_maj_titre_2']."</H1>\n";
+	echo "<br><H1><img src=\"../img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"". _('install_install_phpconges') ."\" alt=\"". _('install_install_phpconges') ."\"> ". _('install_maj_titre_2') ."</H1>\n";
 	echo "<br><br>\n";
 
 	// $config_php_conges_version est fourni par include("../version.php") ;
@@ -104,14 +103,14 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 	if($etape==0)
 	{
 		//avant tout , on conseille une sauvegarde de la database !! (cf vieux index.php)
-		echo "<h3>".$_SESSION['lang']['install_maj_passer_de']." <font color=\"black\">$installed_version</font> ".$_SESSION['lang']['install_maj_a_version']." <font color=\"black\">$config_php_conges_version</font> .</h3>\n";
-		echo "<h3><font color=\"red\">".$_SESSION['lang']['install_maj_sauvegardez']." !!!</font></h3>\n";
+		echo "<h3>". _('install_maj_passer_de') ." <font color=\"black\">$installed_version</font> ". _('install_maj_a_version') ." <font color=\"black\">$config_php_conges_version</font> .</h3>\n";
+		echo "<h3><font color=\"red\">". _('install_maj_sauvegardez') ." !!!</font></h3>\n";
 		echo "<h2>....</h2>\n";
 		echo "<br>\n";
 		echo "<form action=\"$PHP_SELF?lang=$lang\" method=\"POST\">\n";
 		echo "<input type=\"hidden\" name=\"etape\" value=\"1\">\n";
 		echo "<input type=\"hidden\" name=\"version\" value=\"$installed_version\">\n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_continuer']."\">\n";
+		echo "<input type=\"submit\" value=\"". _('form_continuer') ."\">\n";
 		echo "</form>\n";
 		echo "<br><br>\n";
 
@@ -122,32 +121,32 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 		//verif si create / alter table possible !!!
 		if(test_create_table( $DEBUG) == FALSE)
 		{
-			echo "<font color=\"red\"><b>CREATE TABLE</b> ".$_SESSION['lang']['install_impossible_sur_db']." <b>$mysql_database</b> (".$_SESSION['lang']['install_verif_droits_mysql']." <b>$mysql_user</b>)...</font><br> \n";
+			echo "<font color=\"red\"><b>CREATE TABLE</b> ". _('install_impossible_sur_db') ." <b>$mysql_database</b> (". _('install_verif_droits_mysql') ." <b>$mysql_user</b>)...</font><br> \n";
 			echo "<br>puis ...<br>\n";
 			echo "<form action=\"$PHP_SELF?lang=$lang\" method=\"POST\">\n";
 			echo "<input type=\"hidden\" name=\"etape\"value=\"1\" >\n";
 			echo "<input type=\"hidden\" name=\"version\" value=\"$installed_version\">\n";
-			echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_redo']."\">\n";
+			echo "<input type=\"submit\" value=\"". _('form_redo') ."\">\n";
 			echo "</form>\n";
 		}
 		elseif(test_alter_table( $DEBUG) == FALSE)
 		{
-			echo "<font color=\"red\"><b>ALTER TABLE</b> ".$_SESSION['lang']['install_impossible_sur_db']." <b>$mysql_database</b> (".$_SESSION['lang']['install_verif_droits_mysql']." <b>$mysql_user</b>)...</font><br> \n";
+			echo "<font color=\"red\"><b>ALTER TABLE</b> ". _('install_impossible_sur_db') ." <b>$mysql_database</b> (". _('install_verif_droits_mysql') ." <b>$mysql_user</b>)...</font><br> \n";
 			echo "<br>puis ...<br>\n";
 			echo "<form action=\"$PHP_SELF?lang=$lang\" method=\"POST\">\n";
 			echo "<input type=\"hidden\" name=\"etape\"value=\"1\" >\n";
 			echo "<input type=\"hidden\" name=\"version\" value=\"$installed_version\">\n";
-			echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_redo']."\">\n";
+			echo "<input type=\"submit\" value=\"". _('form_redo') ."\">\n";
 			echo "</form>\n";
 		}
 		elseif(test_drop_table( $DEBUG) == FALSE)
 		{
-			echo "<font color=\"red\"><b>DROP TABLE</b> ".$_SESSION['lang']['install_impossible_sur_db']." <b>$mysql_database</b> (".$_SESSION['lang']['install_verif_droits_mysql']." <b>$mysql_user</b>)...</font><br> \n";
+			echo "<font color=\"red\"><b>DROP TABLE</b> ". _('install_impossible_sur_db') ." <b>$mysql_database</b> (". _('install_verif_droits_mysql') ." <b>$mysql_user</b>)...</font><br> \n";
 			echo "<br>puis ...<br>\n";
 			echo "<form action=\"$PHP_SELF?lang=$lang\">\n";
 			echo "<input type=\"hidden\" name=\"etape\"value=\"1\" >\n";
 			echo "<input type=\"hidden\" name=\"version\" value=\"$installed_version\">\n";
-			echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_redo']."\">\n";
+			echo "<input type=\"submit\" value=\"". _('form_redo') ."\">\n";
 			echo "</form>\n";
 		}
 		else
@@ -155,7 +154,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 			if($DEBUG==FALSE)
 				echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$PHP_SELF?etape=2&version=$installed_version&lang=$lang\">";
 			else
-				echo "<a href=\"$PHP_SELF?etape=2&version=$installed_version&lang=$lang\">".$_SESSION['lang']['install_etape']." 1  OK</a><br>\n";
+				echo "<a href=\"$PHP_SELF?etape=2&version=$installed_version&lang=$lang\">". _('install_etape') ." 1  OK</a><br>\n";
 		}
 	}
 	//*** ETAPE 2
@@ -168,16 +167,16 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 			if(test_old_config_file($DEBUG) == FALSE)
 			{
 				echo "<font color=\"red\">\n";
-				echo $_SESSION['lang']['install_le_fichier']." \"<b>install / config_old.php</b>\" ".$_SESSION['lang']['install_inaccessible']." !<br>\n";
-				echo $_SESSION['lang']['install_maj_conserv_config']."<br>\n";
-				echo $_SESSION['lang']['install_maj_copy_config_file']." \"<b>install</b>\" ".$_SESSION['lang']['install_maj_whith_name']." \"<b>config_old.php</b>\" ".$_SESSION['lang']['install_maj_and']."<br>\n";
-				echo $_SESSION['lang']['install_maj_verif_droit_fichier']." <br>\n";
+				echo  _('install_le_fichier') ." \"<b>install / config_old.php</b>\" ". _('install_inaccessible') ." !<br>\n";
+				echo  _('install_maj_conserv_config') ."<br>\n";
+				echo  _('install_maj_copy_config_file') ." \"<b>install</b>\" ". _('install_maj_whith_name') ." \"<b>config_old.php</b>\" ". _('install_maj_and') ."<br>\n";
+				echo  _('install_maj_verif_droit_fichier') ." <br>\n";
 				echo "</font><br> \n";
-				echo "<br>".$_SESSION['lang']['install_puis']." ...<br>\n";
+				echo "<br>". _('install_puis') ." ...<br>\n";
 				echo "<form action=\"$PHP_SELF?lang=$lang\" method=\"POST\">\n";
 				echo "<input type=\"hidden\" name=\"etape\"value=\"2\" >\n";
 				echo "<input type=\"hidden\" name=\"version\" value=\"$installed_version\">\n";
-				echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_continuer']."\">\n";
+				echo "<input type=\"submit\" value=\"". _('form_continuer') ."\">\n";
 				echo "</form>\n";
 			}
 			else
@@ -185,7 +184,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 				if($DEBUG==FALSE)
 					echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$PHP_SELF?etape=3&version=$installed_version&lang=$lang\">";
 				else
-					echo "<a href=\"$PHP_SELF?etape=3&version=$installed_version&lang=$lang\">".$_SESSION['lang']['install_etape']." 2  OK</a><br>\n";
+					echo "<a href=\"$PHP_SELF?etape=3&version=$installed_version&lang=$lang\">". _('install_etape') ." 2  OK</a><br>\n";
 			}
 		}
 		else
@@ -193,7 +192,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 			if($DEBUG==FALSE)
 				echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$PHP_SELF?etape=3&version=$installed_version&lang=$lang\">";
 			else
-				echo "<a href=\"$PHP_SELF?etape=3&version=$installed_version&lang=$lang\">".$_SESSION['lang']['install_etape']." 2  OK</a><br>\n";
+				echo "<a href=\"$PHP_SELF?etape=3&version=$installed_version&lang=$lang\">". _('install_etape') ." 2  OK</a><br>\n";
 		}
 
 	}
@@ -206,7 +205,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 			if($DEBUG==FALSE)
 				echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$PHP_SELF?etape=4&version=$installed_version&lang=$lang\">";
 			else
-				echo "<a href=\"$PHP_SELF?etape=4&version=$installed_version&lang=$lang\">".$_SESSION['lang']['install_etape']." 3  OK</a><br>\n";
+				echo "<a href=\"$PHP_SELF?etape=4&version=$installed_version&lang=$lang\">". _('install_etape') ." 3  OK</a><br>\n";
 		}
 		else
 		{
@@ -230,7 +229,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 			if($DEBUG==FALSE)
 				echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$PHP_SELF?etape=4&version=1.0&lang=$lang\">";
 			else
-				echo "<a href=\"$PHP_SELF?etape=4&version=1.0&lang=$lang\">".$_SESSION['lang']['install_etape']." 3  OK</a><br>\n";
+				echo "<a href=\"$PHP_SELF?etape=4&version=1.0&lang=$lang\">". _('install_etape') ." 3  OK</a><br>\n";
 		}
 
 	}
@@ -322,7 +321,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 			if($DEBUG==FALSE)
 				echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$PHP_SELF?etape=5&version=1.4.1&lang=$lang\">";
 			else
-				echo "<a href=\"$PHP_SELF?etape=5&version=1.5.0&lang=$lang\">".$_SESSION['lang']['install_etape']." 4  OK</a><br>\n";
+				echo "<a href=\"$PHP_SELF?etape=5&version=1.5.0&lang=$lang\">". _('install_etape') ." 4  OK</a><br>\n";
 		}
 
 	}
@@ -335,13 +334,13 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 		{
 			if(test_config_file($DEBUG)==TRUE)
 			{
-				echo $_SESSION['lang']['install_le_fichier']." <b>\"config.php\"</b> ".$_SESSION['lang']['install_remove_fichier'].".<br> \n";
+				echo  _('install_le_fichier') ." <b>\"config.php\"</b> ". _('install_remove_fichier') .".<br> \n";
 			}
 			if(test_old_config_file($DEBUG)==TRUE)
 			{
-				echo $_SESSION['lang']['install_le_fichier']." <b>\"install/config_old.php\"</b> ".$_SESSION['lang']['install_remove_fichier'].".<br> \n";
+				echo  _('install_le_fichier') ." <b>\"install/config_old.php\"</b> ". _('install_remove_fichier') .".<br> \n";
 			}
-			echo "<br><a href=\"$PHP_SELF?etape=5&version=$config_php_conges_version&lang=$lang\">".$_SESSION['lang']['install_reload_page']." ....</a><br>\n";
+			echo "<br><a href=\"$PHP_SELF?etape=5&version=$config_php_conges_version&lang=$lang\">". _('install_reload_page') ." ....</a><br>\n";
 		}
 		else
 		{
@@ -356,7 +355,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 			log_action(0, "", "", $comment_log,  $DEBUG);
 
 			// on propose la page de config ....
-			echo "<br><br><h2>".$_SESSION['lang']['install_ok']." !</h2><br>\n";
+			echo "<br><br><h2>". _('install_ok') ." !</h2><br>\n";
 
 			echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=../config/\">";
 		}

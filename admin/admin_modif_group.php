@@ -65,7 +65,7 @@ echo "</head>\n";
 	/*************************************/
 
 	// TITRE
-	echo "<H1>".$_SESSION['lang']['admin_modif_groupe_titre']."</H1>\n\n";
+	echo "<H1>". _('admin_modif_groupe_titre') ."</H1>\n\n";
 
 
 	if($group!="" )
@@ -107,10 +107,10 @@ function modifier($group,  $DEBUG=FALSE)
 	echo "<form action=$PHP_SELF?session=$session&group_to_update=".$group." method=\"POST\">\n" ;
 	echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 	echo "<tr align=\"center\">\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['admin_groupes_groupe']."</td>\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['admin_groupes_libelle']." / ".$_SESSION['lang']['divers_comment_maj_1']."</td>\n";
+	echo "<td class=\"histo\">". _('admin_groupes_groupe') ."</td>\n";
+	echo "<td class=\"histo\">". _('admin_groupes_libelle') ." / ". _('divers_comment_maj_1') ."</td>\n";
 	if($_SESSION['config']['double_validation_conges']==TRUE)
-		echo "	<td class=\"histo\">".$_SESSION['lang']['admin_groupes_double_valid']."</td>\n";
+		echo "	<td class=\"histo\">". _('admin_groupes_double_valid') ."</td>\n";
 	echo "</tr>\n";
 
 	$ReqLog1 = SQL::query($sql1);
@@ -154,11 +154,11 @@ function modifier($group,  $DEBUG=FALSE)
 	echo "</table><br>\n\n";
 
 
-	echo "<br><input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">\n";
+	echo "<br><input type=\"submit\" value=\"". _('form_submit') ."\">\n";
 	echo "</form>\n" ;
 
 	echo "<form action=\"admin_index.php?session=$session&onglet=admin-group\" method=\"POST\">\n" ;
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_cancel']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_cancel') ."\">\n";
 	echo "</form>\n" ;
 
 }
@@ -186,9 +186,9 @@ function commit_update($group_to_update, $new_groupname, $new_comment, $new_doub
 	log_action(0, "", "", $comment_log,  $DEBUG);
 
 	if($result==TRUE)
-		echo $_SESSION['lang']['form_modif_ok']." !<br><br> \n";
+		echo  _('form_modif_ok') ." !<br><br> \n";
 	else
-		echo $_SESSION['lang']['form_modif_not_ok']." !<br><br> \n";
+		echo  _('form_modif_not_ok') ." !<br><br> \n";
 
 	/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
 	echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=admin_index.php?session=$session&onglet=admin-group\">";

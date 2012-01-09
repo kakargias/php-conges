@@ -132,11 +132,11 @@ function cacher(id)
 		echo "<tr>\n";
 		echo "   <td align=\"center\"><img src=\"img/shim.gif\" width=\"200\" height=\"10\" border=\"0\" vspace=\"0\" hspace=\"0\"></td>\n";
 		echo "   <td align=\"center\">\n";
-	//	echo "   <H2>".$_SESSION['lang']['calendrier_titre']."</H2>\n";
-		echo "   <H3>".$_SESSION['lang']['calendrier_titre'];
+	//	echo "   <H2>". _('calendrier_titre') ."</H2>\n";
+		echo "   <H3>". _('calendrier_titre') ;
 //		if( ($_SESSION['config']['gestion_groupes']==TRUE) && ($select_groupe!="") )
 		if( ($_SESSION['config']['gestion_groupes']==TRUE) && ($select_groupe!=0) )
-			echo "   (".$_SESSION['lang']['divers_groupe']." : ".get_group_name_from_id($select_groupe, $DEBUG).")\n";
+			echo "   (". _('divers_groupe') ." : ".get_group_name_from_id($select_groupe, $DEBUG).")\n";
 		echo "   </H3>\n";
 		echo "   </td>\n";
 		// AFFICHAGE DE LA SELECTION D'UN GROUPE A AFFICHER
@@ -208,8 +208,8 @@ function cacher(id)
 		if($printable!=1) // si version ecran :
 		{
 			echo "      <br><a href=\"$PHP_SELF?session=$session&printable=1&year=$year&mois=$mois&first_jour=$first_jour&select_groupe=$select_groupe\" target=\"_blank\" method=\"post\">\n";
-			echo "		<img src=\"img/fileprint_4_22x22.png\" width=\"22\" height=\"22\" border=\"0\" title=\"".$_SESSION['lang']['calendrier_imprimable']."\" alt=\"".$_SESSION['lang']['calendrier_imprimable']."\">\n";
-			echo "      ".$_SESSION['lang']['calendrier_imprimable']."\n";
+			echo "		<img src=\"img/fileprint_4_22x22.png\" width=\"22\" height=\"22\" border=\"0\" title=\"". _('calendrier_imprimable') ."\" alt=\"". _('calendrier_imprimable') ."\">\n";
+			echo "      ". _('calendrier_imprimable') ."\n";
 			echo "      </a>\n";
 		}
 		else  // si version imprimable
@@ -261,7 +261,7 @@ if (typeof(window.print) != 'undefined') {
 	else // sinon (version ecran et session authentifiée
 	{
 		echo "<form action=\"\" method=\"POST\">\n";
-		echo "<center><input type=\"button\" value=\"".$_SESSION['lang']['form_close_window']."\" onClick=\"javascript:window.close();\"></center>\n";
+		echo "<center><input type=\"button\" value=\"". _('form_close_window') ."\" onClick=\"javascript:window.close();\"></center>\n";
 		echo "</form>\n";
 //		//tentative de reload de la page pour eviter le bug d'affichage de firefox avec les div en positions relatives ....
 //		if($first_load=="Y")
@@ -316,16 +316,16 @@ function affichage_boutons_defilement($first_jour, $mois, $year, $select_groupe,
 		echo "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"90%\" >\n";
 		echo "<tr>\n";
 		echo "<td align=\"left\">
-				<a href=\"$PHP_SELF?session=$session&first_jour=1&mois=$prev_mois&year=$prev_year&select_groupe=$select_groupe\" method=\"POST\"> << ".$_SESSION['lang']['divers_mois_precedent_maj_1']." </a>
+				<a href=\"$PHP_SELF?session=$session&first_jour=1&mois=$prev_mois&year=$prev_year&select_groupe=$select_groupe\" method=\"POST\"> << ". _('divers_mois_precedent_maj_1') ." </a>
 			</td>\n";
 		echo "<td align=\"left\">
-				<a href=\"$PHP_SELF?session=$session&first_jour=$prev_first_jour&mois=$prev_first_jour_mois&year=$prev_first_jour_year&select_groupe=$select_groupe\" method=\"POST\"> << ".$_SESSION['lang']['calendrier_jour_precedent']." </a>
+				<a href=\"$PHP_SELF?session=$session&first_jour=$prev_first_jour&mois=$prev_first_jour_mois&year=$prev_first_jour_year&select_groupe=$select_groupe\" method=\"POST\"> << ". _('calendrier_jour_precedent') ." </a>
 			</td>\n";
 		echo "<td align=\"right\">
-				<a href=\"$PHP_SELF?session=$session&first_jour=$next_first_jour&mois=$next_first_jour_mois&year=$next_first_jour_year&select_groupe=$select_groupe\" method=\"POST\"> ".$_SESSION['lang']['calendrier_jour_suivant']." >> </a>
+				<a href=\"$PHP_SELF?session=$session&first_jour=$next_first_jour&mois=$next_first_jour_mois&year=$next_first_jour_year&select_groupe=$select_groupe\" method=\"POST\"> ". _('calendrier_jour_suivant') ." >> </a>
 			</td>\n";
 		echo "<td align=\"right\">
-				<a href=\"$PHP_SELF?session=$session&first_jour=1&mois=$next_mois&year=$next_year&select_groupe=$select_groupe\" method=\"POST\"> ".$_SESSION['lang']['divers_mois_suivant_maj_1']." >> </a>
+				<a href=\"$PHP_SELF?session=$session&first_jour=1&mois=$next_mois&year=$next_year&select_groupe=$select_groupe\" method=\"POST\"> ". _('divers_mois_suivant_maj_1') ." >> </a>
 			</td>\n";
 		echo "</tr></table>\n";
 		echo "<br>\n";
@@ -372,8 +372,8 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 
 		// affichage nom prenom quotité
 		$nb_colonnes=3;
-		echo "	<td class=\"cal-user\" rowspan=\"2\">".$_SESSION['lang']['divers_nom_maj']."</td>\n\n";
-		echo "	<td class=\"cal-user\" rowspan=\"2\">".$_SESSION['lang']['divers_prenom_maj']."</td>\n\n";
+		echo "	<td class=\"cal-user\" rowspan=\"2\">". _('divers_nom_maj') ."</td>\n\n";
+		echo "	<td class=\"cal-user\" rowspan=\"2\">". _('divers_prenom_maj') ."</td>\n\n";
 		echo "	<td class=\"cal-user\" rowspan=\"2\">%</td>";
 
 		// affichage des semaines
@@ -392,13 +392,13 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 			if($j==$first_jour)
 			{
 				$colspan=8-$j_num_jour_semaine;
-				echo "<td class=\"cal-day-first\" colspan=\"$colspan\" >".$_SESSION['lang']['divers_semaine']." $j_num_semaine</td>\n";
+				echo "<td class=\"cal-day-first\" colspan=\"$colspan\" >". _('divers_semaine') ." $j_num_semaine</td>\n";
 			}
 			else
 			{
 				// on affiche que les lundi
 				if($j_num_jour_semaine==1)
-					echo "<td class=\"cal-day\" colspan=\"7\" >".$_SESSION['lang']['divers_semaine']." $j_num_semaine</td>\n";
+					echo "<td class=\"cal-day\" colspan=\"7\" >". _('divers_semaine') ." $j_num_semaine</td>\n";
 			}
 
 		}
@@ -433,13 +433,13 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 				if($j==$first_jour)
 				{
 					$colspan=8-$j_num_jour_semaine;
-					echo "<td class=\"cal-day-first\" colspan=\"$colspan\" >".$_SESSION['lang']['divers_semaine']." $j_num_semaine</td>\n";
+					echo "<td class=\"cal-day-first\" colspan=\"$colspan\" >". _('divers_semaine') ." $j_num_semaine</td>\n";
 				}
 				else
 				{
 					// on affiche que les lundi
 					if($j_num_jour_semaine==1)
-						echo "<td class=\"cal-day\" colspan=\"7\" >".$_SESSION['lang']['divers_semaine']." $j_num_semaine</td>\n";
+						echo "<td class=\"cal-day\" colspan=\"7\" >". _('divers_semaine') ." $j_num_semaine</td>\n";
 				}
 			}
 		}
@@ -451,7 +451,7 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 			// affichage des libellé des conges
 			foreach($tab_type_cong as $id => $libelle)
 			{
-					echo "<td class=\"cal-user\" rowspan=\"2\">".$_SESSION['lang']['divers_solde']." $libelle</td>\n";
+					echo "<td class=\"cal-user\" rowspan=\"2\">". _('divers_solde') ." $libelle</td>\n";
 					$nb_colonnes=$nb_colonnes+1;
 			}
 			
@@ -460,7 +460,7 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 			{
 				foreach($tab_type_cong_excep as $id => $libelle)
 				{
-					echo "<td class=\"cal-user\" rowspan=\"2\">".$_SESSION['lang']['divers_solde']." $libelle</td>\n";
+					echo "<td class=\"cal-user\" rowspan=\"2\">". _('divers_solde') ." $libelle</td>\n";
 					$nb_colonnes=$nb_colonnes+1;
 				}
 			}
@@ -505,7 +505,7 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 				$cal_day="cal-day";
 
 			// on affiche le titre -date (la date du jour)
-			echo "<td class=\"$cal_day $td_second_class\" title=\"$j_date_fr / ".$_SESSION['lang']['divers_semaine']." $j_num_semaine\">$text_titre_date</td>";
+			echo "<td class=\"$cal_day $td_second_class\" title=\"$j_date_fr / ". _('divers_semaine') ." $j_num_semaine\">$text_titre_date</td>";
 		}
 
 		// ... si le premier jour voulu n'etait pas le premier du mois, on va jusqu'à la meme date du mois suivant.
@@ -533,9 +533,9 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 
 				// on affiche en gras le jour d'aujourd'hui
 				if($j_timestamp==$timestamp_today)
-					echo "<td class=\"cal-day $td_second_class\" title=\"$j_date_fr / ".$_SESSION['lang']['divers_semaine']." $j_num_semaine\"><b>$j_name $j/$mois_select</b></td>";
+					echo "<td class=\"cal-day $td_second_class\" title=\"$j_date_fr / ". _('divers_semaine') ." $j_num_semaine\"><b>$j_name $j/$mois_select</b></td>";
 				else
-					echo "<td class=\"cal-day $td_second_class\" title=\"$j_date_fr / ".$_SESSION['lang']['divers_semaine']." $j_num_semaine\">$j_name $j/$mois_select</td>";
+					echo "<td class=\"cal-day $td_second_class\" title=\"$j_date_fr / ". _('divers_semaine') ." $j_num_semaine\">$j_name $j/$mois_select</td>";
 			}
 		}
 		
@@ -911,7 +911,7 @@ function affiche_cellule_jour_user($sql_login, $j_timestamp, $year_select, $mois
 				echo "	$text_am $text_pm ";
 
 				// affiche l'info-bulle (affichée grace au javascript)
-				//$texte_info_bulle=" $j_date_fr / ".$_SESSION['lang']['divers_semaine']." $j_num_semaine <br>$text_bulle_type_abs<br>periode";
+				//$texte_info_bulle=" $j_date_fr / ". _('divers_semaine') ." $j_num_semaine <br>$text_bulle_type_abs<br>periode";
 				$texte_info_bulle=" $j_date_fr <br>$text_bulle_type_abs";
 				echo "	<div class=\"cal-bulles\" align=\"center\" id='$sql_login-$j_timestamp' name='$sql_login-$j_timestamp' >
 						$sql_login<br>
@@ -946,28 +946,28 @@ function affiche_legende($DEBUG=FALSE)
 	echo "      </tr>\n" ;
 	echo "      <tr align=\"center\">\n" ;
 	echo "         <td bgcolor=\"".$_SESSION['config']['week_end_bgcolor']."\" class=\"cal-legende\"> - </td>\n" ;
-	echo "         <td class=\"cal-legende\"> ".$_SESSION['lang']['calendrier_legende_we']."</td>\n" ;
+	echo "         <td class=\"cal-legende\"> ". _('calendrier_legende_we') ."</td>\n" ;
 	echo "      </tr>\n" ;
 	echo "      <tr align=\"center\">\n" ;
 	echo "         <td bgcolor=\"".$_SESSION['config']['conges_bgcolor']."\" class=\"cal-legende\">abs</td>\n" ;
-	echo "         <td class=\"cal-legende\"> ".$_SESSION['lang']['calendrier_legende_conges']."</td>\n" ;
+	echo "         <td class=\"cal-legende\"> ". _('calendrier_legende_conges') ."</td>\n" ;
 	echo "      </tr>\n" ;
 	echo "      <tr align=\"center\">\n" ;
 	echo "         <td bgcolor=\"".$_SESSION['config']['demande_conges_bgcolor']."\" class=\"cal-legende\">abs</td>\n" ;
-	echo "         <td class=\"cal-legende\"> ".$_SESSION['lang']['calendrier_legende_demande']."</td>\n" ;
+	echo "         <td class=\"cal-legende\"> ". _('calendrier_legende_demande') ."</td>\n" ;
 	echo "      </tr>\n" ;
 	echo "      <tr align=\"center\">\n" ;
 //	echo "         <td bgcolor=\"".$_SESSION['config']['temps_partiel_bgcolor']."\" class=\"cal-legende\">abs</td>\n" ;
 	echo "         <td bgcolor=\"".$_SESSION['config']['temps_partiel_bgcolor']."\" class=\"cal-legende\"> - </td>\n" ;
-	echo "         <td class=\"cal-legende\"> ".$_SESSION['lang']['calendrier_legende_part_time']."</td>\n" ;
+	echo "         <td class=\"cal-legende\"> ". _('calendrier_legende_part_time') ."</td>\n" ;
 	echo "      </tr>\n" ;
 	echo "      <tr align=\"center\">\n" ;
 	echo "         <td bgcolor=\"".$_SESSION['config']['absence_autre_bgcolor']."\" class=\"cal-legende\">abs</td>\n" ;
-	echo "         <td class=\"cal-legende\"> ".$_SESSION['lang']['calendrier_legende_abs']."</td>\n" ;
+	echo "         <td class=\"cal-legende\"> ". _('calendrier_legende_abs') ."</td>\n" ;
 	echo "      </tr>\n" ;
 	echo "      <tr align=\"center\">\n" ;
 	echo "         <td bgcolor=\"".$_SESSION['config']['fermeture_bgcolor']."\" class=\"cal-legende\">abs</td>\n" ;
-	echo "         <td class=\"cal-legende\"> ".$_SESSION['lang']['divers_fermeture']."</td>\n" ;
+	echo "         <td class=\"cal-legende\"> ". _('divers_fermeture') ."</td>\n" ;
 	echo "      </tr>\n" ;
 	echo "      </table>\n" ;
 }
@@ -1129,7 +1129,7 @@ function affiche_select_groupe($select_groupe, $selected, $printable, $year, $mo
 
 	echo "<form action=\"$PHP_SELF?session=$session&printable=$printable&selected=$selected&year=$year&mois=$mois&first_jour=$first_jour\" method=\"POST\">\n";
 	$tab_groupes=array_unique(explode(",", $list_groupes));
-	echo $_SESSION['lang']['calendrier_afficher_groupe']." : ";
+	echo  _('calendrier_afficher_groupe') ." : ";
 	echo "<select name=select_groupe>\n";
 
 	$tmp = false;
@@ -1146,9 +1146,9 @@ function affiche_select_groupe($select_groupe, $selected, $printable, $year, $mo
 	}
 	//option pour retour a l'affichage normal ...
 	if ($tmp)
-		echo "<option value=\"0\">".$_SESSION['lang']['divers_normal_maj_1']."</option>\n";
+		echo "<option value=\"0\">". _('divers_normal_maj_1') ."</option>\n";
 	else
-		echo "<option value=\"0\" selected=\"selected\">".$_SESSION['lang']['divers_normal_maj_1']."</option>\n";
+		echo "<option value=\"0\" selected=\"selected\">". _('divers_normal_maj_1') ."</option>\n";
 
 	echo "</select>\n";
 	echo "<input type=\"submit\" value=\"ok\">\n";

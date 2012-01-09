@@ -40,14 +40,16 @@ if($DEBUG==TRUE) { echo "_SESSION = <br>\n"; print_r($_SESSION); echo "<br>\n"; 
 if($DEBUG==TRUE) { echo "_GET = <br>\n"; print_r($_GET); echo "<br>\n"; }
 if($DEBUG==TRUE) { echo "_POST = <br>\n"; print_r($_POST); echo "<br>\n"; }
 
+	// => html avec menu
+	
 echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 echo "<html>\n";
 echo "<head>\n";
 
-echo "<TITLE> PHP_CONGES : ". _('user') ." ".$_SESSION['userlogin']."</TITLE>\n";
-echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-echo "<link href=\"../style.css\" rel=\"stylesheet\" type=\"text/css\" />";
+	echo "<TITLE> PHP_CONGES : ". _('user') ." ".$_SESSION['userlogin']."</TITLE>\n";
+	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
+	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+	echo "<link href=\"../style.css\" rel=\"stylesheet\" type=\"text/css\" />";
 echo "</head>\n";
 $info="user";
 include("../menu.php");

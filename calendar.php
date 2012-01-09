@@ -34,7 +34,8 @@ include("INCLUDE.PHP/session.php");
 $DEBUG=FALSE;
 //$DEBUG=TRUE ;
 
-
+	// => html sans menu
+	
 echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 echo "<html>\n";
 echo "<head>\n";

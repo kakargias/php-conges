@@ -92,12 +92,14 @@ function saisie($year_calendrier_saisie, $DEBUG=FALSE)
 	}
 	if($DEBUG==TRUE) { echo "tab_year = "; print_r($tab_year); echo "<br>\n"; }
 
+	// => html sans menu
+
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 	echo "<html>\n";
 	echo "<head>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-	echo "<title>PHP_CONGES :</title>\n";
+		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
+		echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<title>PHP_CONGES :</title>\n";
 	echo "</head>\n";
 
 	echo "<body>\n";
@@ -365,12 +367,14 @@ function confirm_saisie($tab_checkbox_j_chome, $DEBUG=FALSE)
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
+	// => html sans menu
+	
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 	echo "<html>\n";
 	echo "<head>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-	echo "<title>PHP_CONGES :</title>\n";
+		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
+		echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<title>PHP_CONGES :</title>\n";
 	echo "</head>\n";
 
 	echo "<body>\n";
@@ -414,12 +418,14 @@ function commit_saisie($tab_checkbox_j_chome,$DEBUG=FALSE)
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
+	// => html sans menu
+	
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 	echo "<html>\n";
 	echo "<head>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-	echo "<title>PHP_CONGES :</title>\n";
+		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
+		echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<title>PHP_CONGES :</title>\n";
 	echo "</head>\n";
 
 	echo "<body>\n";

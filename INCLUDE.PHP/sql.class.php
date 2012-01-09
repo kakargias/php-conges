@@ -84,6 +84,11 @@ class SQL
 	public function __call($name, $args) {
 		return call_user_func_array(array(self::$pdo_obj, $name), $args);
 	}
+	
+	// call on the warped obj
+	public static function getVar($name) {
+		return self::$pdo_obj->$name;
+	}
 }
 
 

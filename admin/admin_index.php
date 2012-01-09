@@ -39,17 +39,21 @@ $DEBUG = FALSE ;
 // verif des droits du user à afficher la page
 verif_droits_user($session, "is_admin", $DEBUG);
 
+// => html avec menu
+
 echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 echo "<html>\n";
 echo "<head>\n";
-echo"<meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\" />";
-echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-echo "<link href=\"../style.css\" rel=\"stylesheet\" type=\"text/css\" />";
-echo "<TITLE> ".$_SESSION['config']['titre_admin_index']." </TITLE>\n";
-include("../fonctions_javascript.php") ;
+	echo"<meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\" />";
+	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
+	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+	echo "<link href=\"../style.css\" rel=\"stylesheet\" type=\"text/css\" />";
+	echo "<TITLE> ".$_SESSION['config']['titre_admin_index']." </TITLE>\n";
+	include("../fonctions_javascript.php") ;
 echo "</head>\n";
 
+	$info="admin";
+	include("../menu.php");
 
 	/*** initialisation des variables ***/
 	/*************************************/
@@ -176,10 +180,6 @@ echo "</head>\n";
 		echo "tab_new_jours_an = "; print_r($tab_new_jours_an) ; echo "<br>\n";
 		echo "tab_new_solde = "; print_r($tab_new_solde) ; echo "<br>\n";
 	}
-
-
-	$info="admin";
-	include("../menu.php");
 	
 
 	/*******************************************************/
@@ -1032,7 +1032,7 @@ function ajout_groupe($new_group_name, $new_group_libelle, $new_group_double_val
 		$sql1 = "INSERT INTO conges_groupe SET g_groupename='$new_group_name', g_comment='$new_group_libelle', g_double_valid ='$new_group_double_valid' " ;
 		$result = SQL::query($sql1);
 
-		$new_gid=SQL::insert_id;
+		$new_gid=SQL::getVar('insert_id');
 		// par défaut le responsable virtuel est resp de tous les groupes !!!
 		// $sql2 = "INSERT INTO conges_groupe_resp SET gr_gid=$new_gid, gr_login='conges' " ;
 		// $result = SQL::query($sql2);

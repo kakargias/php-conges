@@ -28,7 +28,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 // site et numero de version de PHP_CONGES
 // ne pas toucher ces variables SVP ;-)
 $config_php_conges_version="1.6.0";
-$config_url_site_web_php_conges="http://www.ced.univ-montp2.fr/php_conges";
+$config_url_site_web_php_conges="http://code.google.com/p/php-conges/";
 // ne pas toucher ces variables SVP ;-)
 
 

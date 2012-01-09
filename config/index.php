@@ -59,11 +59,13 @@ function propose_config( $DEBUG=FALSE)
 {
 	$session=session_id();
 	
+	// => html sans menu
+	
 	echo "<html>\n<head>\n";
-	echo "<TITLE> PHP_CONGES : Installation : </TITLE>\n</head>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";	
-	echo "<link href=\"../style_basic.css\" rel=\"stylesheet\" type=\"text/css\">\n";
-include("../fonctions_javascript.php") ;
+		echo "<TITLE> PHP_CONGES : Installation : </TITLE>\n</head>\n";
+		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";	
+		echo "<link href=\"../style_basic.css\" rel=\"stylesheet\" type=\"text/css\">\n";
+		include("../fonctions_javascript.php") ;
 	echo "</head>\n";
 				
 	echo "<body text=\"#000000\" bgcolor=\"#597c98\" link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\" >\n";

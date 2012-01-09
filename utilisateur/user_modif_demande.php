@@ -34,6 +34,8 @@ include("../INCLUDE.PHP/session.php");
 include("../fonctions_calcul.php");
 
 
+	// => html avec menu
+	
 echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 echo "<html>\n";
 echo "<head>\n";

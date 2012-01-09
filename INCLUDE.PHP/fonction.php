@@ -158,24 +158,25 @@ function session_saisie_user_password($erreur, $session_username, $session_passw
 	else
 		$config_dir=FALSE;
 
-
-	echo "<html>\n<head>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";	
-	echo "<link href=\"".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-	echo "<TITLE> PHP_CONGES : </TITLE>\n";
-	// test que le navigateur accepte les cookies et le javascript
-	echo "<script language=\"JavaScript\" type=\"text/javascript\">\n";
-	echo "<!--\n";
-	echo "// Les cookies sont obligatoires\n";
-	echo "if (! navigator.cookieEnabled) {\n";
-	echo "	document.write(\"<font color='#FF0000'><br><br><center>". _('cookies_obligatoires') ."</center></font><br><br>\");\n";
-	echo "}\n";
-	echo "//-->\n";
-	echo "</script>\n";
-	echo "<noscript>\n";
-	echo "		<font color=\"#FF0000\"><br><br><center>". _('javascript_obligatoires') ."</center></font><br><br>\n";
-	echo "</noscript>\n";
+	// => html sans menu
 	
+	echo "<html>\n<head>\n";
+		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";	
+		echo "<link href=\"".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<TITLE> PHP_CONGES : </TITLE>\n";
+		// test que le navigateur accepte les cookies et le javascript
+		echo "<script language=\"JavaScript\" type=\"text/javascript\">\n";
+		echo "<!--\n";
+		echo "// Les cookies sont obligatoires\n";
+		echo "if (! navigator.cookieEnabled) {\n";
+		echo "	document.write(\"<font color='#FF0000'><br><br><center>". _('cookies_obligatoires') ."</center></font><br><br>\");\n";
+		echo "}\n";
+		echo "//-->\n";
+		echo "</script>\n";
+		echo "<noscript>\n";
+		echo "		<font color=\"#FF0000\"><br><br><center>". _('javascript_obligatoires') ."</center></font><br><br>\n";
+		echo "</noscript>\n";
+		
 	echo "</head>\n";
 	echo "<body class=\"login\">\n";
 	

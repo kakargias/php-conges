@@ -39,14 +39,15 @@ $DEBUG=FALSE;
 // verif des droits du user à afficher la page
 verif_droits_user($session, "is_admin", $DEBUG);
 
+	// => html avec menu
 
 echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 echo "<html>\n";
-echo "<head>\n";
-echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-echo "<link href=\"../style.css\" rel=\"stylesheet\" type=\"text/css\" />";
-echo "<TITLE> ".$_SESSION['config']['titre_admin_index']." </TITLE>\n";
+	echo "<head>\n";
+	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
+	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+	echo "<link href=\"../style.css\" rel=\"stylesheet\" type=\"text/css\" />";
+	echo "<TITLE> ".$_SESSION['config']['titre_admin_index']." </TITLE>\n";
 echo "</head>\n";
 
 	$info="user_modif";

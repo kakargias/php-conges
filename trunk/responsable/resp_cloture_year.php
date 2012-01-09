@@ -79,7 +79,7 @@ echo "<CENTER>\n";
 	$tab_type_cong = ( recup_tableau_types_conges( $DEBUG) + recup_tableau_types_conges_exceptionnels( $DEBUG)  );
 
 	// titre
-	echo "<H2>".$_SESSION['lang']['resp_cloture_exercice_titre']."</H2>\n\n";
+	echo "<H2>". _('resp_cloture_exercice_titre') ."</H2>\n\n";
 		
 	if($cloture_users=="TRUE")
 	{
@@ -148,11 +148,11 @@ function saisie_cloture( $tab_type_conges,  $DEBUG)
 		
 	}
 	else
-	 echo $_SESSION['lang']['resp_etat_aucun_user']."<br>\n";
+	 echo  _('resp_etat_aucun_user') ."<br>\n";
 	
 	/* FERMETURE FENETRE */
 	echo " <form action=\"\" method=\"POST\"> \n";
-	echo "<input type=\"button\" value=\"".$_SESSION['lang']['form_close_window']."\" onClick=\"javascript:window.close();\">\n";
+	echo "<input type=\"button\" value=\"". _('form_close_window') ."\" onClick=\"javascript:window.close();\">\n";
 	echo " </form> \n";
 
 }
@@ -173,7 +173,7 @@ function affichage_cloture_user_par_user($tab_type_conges, $tab_all_users_du_res
 		echo "<tr>\n";
 		echo "<td align=\"center\">\n";
 		echo "<fieldset class=\"cal_saisie\">\n";
-		echo "<legend class=\"boxlogin\">".$_SESSION['lang']['resp_cloture_exercice_users']."</legend>\n";
+		echo "<legend class=\"boxlogin\">". _('resp_cloture_exercice_users') ."</legend>\n";
 		echo "	<table>\n";
 		echo "	<tr>\n";
 		echo "	<td align=\"center\">\n";
@@ -181,15 +181,15 @@ function affichage_cloture_user_par_user($tab_type_conges, $tab_all_users_du_res
 		// AFFICHAGE TITRES TABLEAU
 		echo "	<table cellpadding=\"2\" class=\"tablo\" width=\"700\">\n";
 		echo "	<tr align=\"center\">\n";
-		echo "	<td class=\"titre\">".$_SESSION['lang']['divers_nom_maj_1']."</td>\n";
-		echo "	<td class=\"titre\">".$_SESSION['lang']['divers_prenom_maj_1']."</td>\n";
-		echo "	<td class=\"titre\">".$_SESSION['lang']['divers_quotite_maj_1']."</td>\n";
+		echo "	<td class=\"titre\">". _('divers_nom_maj_1') ."</td>\n";
+		echo "	<td class=\"titre\">". _('divers_prenom_maj_1') ."</td>\n";
+		echo "	<td class=\"titre\">". _('divers_quotite_maj_1') ."</td>\n";
 		foreach($tab_type_conges as $id_conges => $libelle)
 		{
-			echo "	<td class=\"titre\">$libelle<br><i>(".$_SESSION['lang']['divers_solde'].")</i></td>\n";
+			echo "	<td class=\"titre\">$libelle<br><i>(". _('divers_solde') .")</i></td>\n";
 		}
-		echo "	<td class=\"titre\">".$_SESSION['lang']['divers_cloturer_maj_1']."<br></td>\n" ;
-		echo "	<td class=\"titre\">".$_SESSION['lang']['divers_comment_maj_1']."<br></td>\n" ;
+		echo "	<td class=\"titre\">". _('divers_cloturer_maj_1') ."<br></td>\n" ;
+		echo "	<td class=\"titre\">". _('divers_comment_maj_1') ."<br></td>\n" ;
 		echo "	</tr>\n";
 		
 		// AFFICHAGE LIGNES TABLEAU
@@ -204,7 +204,7 @@ function affichage_cloture_user_par_user($tab_type_conges, $tab_all_users_du_res
 		if( ($_SESSION['config']['double_validation_conges']==TRUE) && ($_SESSION['config']['grand_resp_ajout_conges']==TRUE) )
 		{
 			$nb_colspan=50;
-			echo " <tr align=\"center\"><td class=\"histo\" colspan=\"$nb_colspan\"><i>".$_SESSION['lang']['resp_etat_users_titre_double_valid']."</i></td></tr>\n";
+			echo " <tr align=\"center\"><td class=\"histo\" colspan=\"$nb_colspan\"><i>". _('resp_etat_users_titre_double_valid') ."</i></td></tr>\n";
 
 			foreach($tab_all_users_du_grand_resp as $current_login => $tab_current_user)
 			{		
@@ -217,7 +217,7 @@ function affichage_cloture_user_par_user($tab_type_conges, $tab_all_users_du_res
 		echo "	</tr>\n";
 		echo "	<tr>\n";
 		echo "	<td align=\"center\">\n";
-		echo "	<input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">\n";
+		echo "	<input type=\"submit\" value=\"". _('form_submit') ."\">\n";
 		echo "	</td>\n";
 		echo "	</tr>\n";
 		echo "	</table>\n";
@@ -253,7 +253,7 @@ function affiche_ligne_du_user($current_login, $tab_type_conges, $tab_current_us
 	else
 		echo "	<td align=\"center\" class=\"histo\"><img src=\"../img/stop.png\" width=\"16\" height=\"16\" border=\"0\" ></td>\n";
 			
-	$comment_cloture = $_SESSION['lang']['resp_cloture_exercice_commentaire']." ".date("m/Y");
+	$comment_cloture =  _('resp_cloture_exercice_commentaire') ." ".date("m/Y");
 	echo "	<td align=\"center\" class=\"histo\"><input type=\"text\" name=\"tab_commentaire_saisie[$current_login]\" size=\"20\" maxlength=\"200\" value=\"$comment_cloture\"></td>\n";
 	echo " 	</tr>\n";
 }
@@ -271,14 +271,14 @@ function affichage_cloture_globale_pour_tous($tab_type_conges,  $DEBUG=FALSE)
 	echo "<table>\n";
 	echo "<tr><td align=\"center\">\n";
 	echo "	<fieldset class=\"cal_saisie\">\n";
-	echo "	<legend class=\"boxlogin\">".$_SESSION['lang']['resp_cloture_exercice_all']."</legend>\n";
+	echo "	<legend class=\"boxlogin\">". _('resp_cloture_exercice_all') ."</legend>\n";
 	echo "	<table>\n";
 	echo "	<tr>\n";
-	echo "		<td class=\"big\">&nbsp;&nbsp;&nbsp;".$_SESSION['lang']['resp_cloture_exercice_for_all_text_confirmer']." &nbsp;&nbsp;&nbsp;</td>\n";
+	echo "		<td class=\"big\">&nbsp;&nbsp;&nbsp;". _('resp_cloture_exercice_for_all_text_confirmer') ." &nbsp;&nbsp;&nbsp;</td>\n";
 	echo "	</tr>\n";
 	// bouton valider
 	echo "	<tr>\n";
-	echo "		<td colspan=\"5\" align=\"center\"><input type=\"submit\" value=\"".$_SESSION['lang']['form_valid_cloture_global']."\"></td>\n";
+	echo "		<td colspan=\"5\" align=\"center\"><input type=\"submit\" value=\"". _('form_valid_cloture_global') ."\"></td>\n";
 	echo "	</tr>\n";
 	echo "	</table>\n";
 	echo "	</fieldset>\n";
@@ -325,7 +325,7 @@ function affichage_cloture_globale_groupe($tab_type_conges,  $DEBUG=FALSE)
 		echo "<table>\n";
 		echo "<tr><td align=\"center\">\n";
 		echo "	<fieldset class=\"cal_saisie\">\n";
-		echo "	<legend class=\"boxlogin\">".$_SESSION['lang']['resp_cloture_exercice_groupe']."</legend>\n";
+		echo "	<legend class=\"boxlogin\">". _('resp_cloture_exercice_groupe') ."</legend>\n";
 		
 		echo "	<table>\n";
 		echo "	<tr>\n";
@@ -343,14 +343,14 @@ function affichage_cloture_globale_groupe($tab_type_conges,  $DEBUG=FALSE)
 			}
 			$text_choix_group=$text_choix_group."</select>" ;
 
-		echo "		<td class=\"big\">".$_SESSION['lang']['resp_ajout_conges_choix_groupe']." : $text_choix_group</td>\n";
+		echo "		<td class=\"big\">". _('resp_ajout_conges_choix_groupe') ." : $text_choix_group</td>\n";
 		
 		echo "	</tr>\n";
 		echo "	<tr>\n";
-		echo "		<td class=\"big\">".$_SESSION['lang']['resp_cloture_exercice_for_groupe_text_confirmer']." </td>\n";
+		echo "		<td class=\"big\">". _('resp_cloture_exercice_for_groupe_text_confirmer') ." </td>\n";
 		echo "	</tr>\n";
 		echo "	<tr>\n";
-		echo "		<td align=\"center\"><input type=\"submit\" value=\"".$_SESSION['lang']['form_valid_cloture_group']."\"></td>\n";
+		echo "		<td align=\"center\"><input type=\"submit\" value=\"". _('form_valid_cloture_group') ."\"></td>\n";
 		echo "	</tr>\n";
 		echo "	</table>\n";
 		
@@ -416,12 +416,12 @@ function cloture_users($tab_type_conges, $tab_cloture_users, $tab_commentaire_sa
 	{
 		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
 		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_ok']."\">\n";
+		echo "<input type=\"submit\" value=\"". _('form_ok') ."\">\n";
 		echo "</form>\n" ;
 	}
 	else
 	{
-		echo " ".$_SESSION['lang']['form_modif_ok']." <br><br> \n";
+		echo " ". _('form_modif_ok') ." <br><br> \n";
 		/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
 		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=$PHP_SELF?session=$session\">";
 	}
@@ -549,7 +549,7 @@ function cloture_globale($tab_type_conges,  $DEBUG=FALSE)
 	if($DEBUG==TRUE) { echo "tab_all_users_du_grand_resp =<br>\n"; print_r($tab_all_users_du_grand_resp); echo "<br>\n"; }
 	if($DEBUG==TRUE) { echo "tab_type_conges =<br>\n"; print_r($tab_type_conges); echo "<br>\n"; }
 	
-	$comment_cloture = $_SESSION['lang']['resp_cloture_exercice_commentaire']." ".date("m/Y");
+	$comment_cloture =  _('resp_cloture_exercice_commentaire') ." ".date("m/Y");
 
 	if( (count($tab_all_users_du_resp)!=0) || (count($tab_all_users_du_grand_resp)!=0) )
 	{
@@ -572,12 +572,12 @@ function cloture_globale($tab_type_conges,  $DEBUG=FALSE)
 	{
 		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
 		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_ok']."\">\n";
+		echo "<input type=\"submit\" value=\"". _('form_ok') ."\">\n";
 		echo "</form>\n" ;
 	}
 	else
 	{
-		echo " ".$_SESSION['lang']['form_modif_ok']." <br><br> \n";
+		echo " ". _('form_modif_ok') ." <br><br> \n";
 		/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
 		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=$PHP_SELF?session=$session\">";
 	}
@@ -595,7 +595,7 @@ function cloture_globale_groupe($group_id, $tab_type_conges,  $DEBUG=FALSE)
 	if($DEBUG==TRUE) { echo "tab_all_users_du_groupe =<br>\n"; print_r($tab_all_users_du_groupe); echo "<br>\n"; }
 	if($DEBUG==TRUE) { echo "tab_type_conges =<br>\n"; print_r($tab_type_conges); echo "<br>\n"; }
 	
-	$comment_cloture = $_SESSION['lang']['resp_cloture_exercice_commentaire']." ".date("m/Y");
+	$comment_cloture =  _('resp_cloture_exercice_commentaire') ." ".date("m/Y");
 
 	if(count($tab_all_users_du_groupe)!=0)
 	{
@@ -610,12 +610,12 @@ function cloture_globale_groupe($group_id, $tab_type_conges,  $DEBUG=FALSE)
 	{
 		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
 		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_ok']."\">\n";
+		echo "<input type=\"submit\" value=\"". _('form_ok') ."\">\n";
 		echo "</form>\n" ;
 	}
 	else
 	{
-		echo " ".$_SESSION['lang']['form_modif_ok']." <br><br> \n";
+		echo " ". _('form_modif_ok') ." <br><br> \n";
 		/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
 		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=$PHP_SELF?session=$session\">";
 	}

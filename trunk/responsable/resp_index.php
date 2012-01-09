@@ -115,10 +115,10 @@ verif_droits_user($session, "is_resp", $DEBUG);
 		$ReqLog1 = SQL::query($sql1);
 		$resultat1 = $ReqLog1->fetch_array(); 
 		
-		echo "<H1>".$_SESSION['lang']['resp_menu_titre']." ".$resultat1["u_prenom"]." ".$resultat1["u_nom"]."</H1>\n\n";
+		echo "<H1>". _('resp_menu_titre') ." ".$resultat1["u_prenom"]." ".$resultat1["u_nom"]."</H1>\n\n";
 	}
 	else
-		echo "<H1>".$_SESSION['lang']['divers_responsable_maj_1']."</H1>\n\n";
+		echo "<H1>". _('divers_responsable_maj_1') ."</H1>\n\n";
 
 
 	/************************************/
@@ -132,9 +132,9 @@ verif_droits_user($session, "is_resp", $DEBUG);
 		/* ONGLET RETOUR MAIN */
 		/**********************/
 		if($onglet!="page_principale")
-			echo "<td class=\"onglet\" width=\"200\"><a href=\"$PHP_SELF?session=$session&onglet=page_principale\" class=\"bouton-onglet\"> ".$_SESSION['lang']['resp_menu_button_retour_main']." </a></td>\n";
+			echo "<td class=\"onglet\" width=\"200\"><a href=\"$PHP_SELF?session=$session&onglet=page_principale\" class=\"bouton-onglet\"> ". _('resp_menu_button_retour_main') ." </a></td>\n";
 		else
-			echo "<td class=\"current-onglet\" width=\"200\"><a href=\"$PHP_SELF?session=$session&onglet=page_principale\" class=\"bouton-current-onglet\"> ".$_SESSION['lang']['resp_menu_button_retour_main']." </a></td>\n";
+			echo "<td class=\"current-onglet\" width=\"200\"><a href=\"$PHP_SELF?session=$session&onglet=page_principale\" class=\"bouton-current-onglet\"> ". _('resp_menu_button_retour_main') ." </a></td>\n";
 
 		/**************************/
 		/* ONGLET TRAITE DEMANDES */
@@ -142,9 +142,9 @@ verif_droits_user($session, "is_resp", $DEBUG);
 		if($_SESSION['config']['user_saisie_demande']==TRUE) 
 		{
 			if($onglet!="traitement_demandes")
-				echo "<td class=\"onglet\" width=\"220\"><a href=\"$PHP_SELF?session=$session&onglet=traitement_demandes\" class=\"bouton-onglet\"> ".$_SESSION['lang']['resp_menu_button_traite_demande']." </a></td>\n";
+				echo "<td class=\"onglet\" width=\"220\"><a href=\"$PHP_SELF?session=$session&onglet=traitement_demandes\" class=\"bouton-onglet\"> ". _('resp_menu_button_traite_demande') ." </a></td>\n";
 			else
-				echo "<td class=\"current-onglet\" width=\"220\"><a href=\"$PHP_SELF?session=$session&onglet=traitement_demandes\" class=\"bouton-current-onglet\"> ".$_SESSION['lang']['resp_menu_button_traite_demande']." </a></td>\n";
+				echo "<td class=\"current-onglet\" width=\"220\"><a href=\"$PHP_SELF?session=$session&onglet=traitement_demandes\" class=\"bouton-current-onglet\"> ". _('resp_menu_button_traite_demande') ." </a></td>\n";
 		}
 
 		/***********************/
@@ -153,9 +153,9 @@ verif_droits_user($session, "is_resp", $DEBUG);
 		if($_SESSION['config']['resp_ajoute_conges']==TRUE)  // si le resp peut ajouter des conges
 		{
 			if($onglet!="ajout_conges")
-				echo "<td class=\"onglet\" width=\"150\"><a href=\"$PHP_SELF?session=$session&onglet=ajout_conges\" class=\"bouton-onglet\"> ".$_SESSION['lang']['resp_ajout_conges_titre']." </a></td>\n";
+				echo "<td class=\"onglet\" width=\"150\"><a href=\"$PHP_SELF?session=$session&onglet=ajout_conges\" class=\"bouton-onglet\"> ". _('resp_ajout_conges_titre') ." </a></td>\n";
 			else
-				echo "<td class=\"current-onglet\" width=\"150\"><a href=\"$PHP_SELF?session=$session&onglet=ajout_conges\" class=\"bouton-current-onglet\"> ".$_SESSION['lang']['resp_ajout_conges_titre']." </a></td>\n";
+				echo "<td class=\"current-onglet\" width=\"150\"><a href=\"$PHP_SELF?session=$session&onglet=ajout_conges\" class=\"bouton-current-onglet\"> ". _('resp_ajout_conges_titre') ." </a></td>\n";
 		}
 
 		echo "</tr>\n";
@@ -191,7 +191,7 @@ verif_droits_user($session, "is_resp", $DEBUG);
 	{
 		
 		// titre
-		echo "<H2>".$_SESSION['lang']['resp_traite_demandes_titre']."</H2>\n\n";
+		echo "<H2>". _('resp_traite_demandes_titre') ."</H2>\n\n";
 
 		
 		// si le tableau des bouton radio des demandes est vide , on affiche les demandes en cours
@@ -208,7 +208,7 @@ verif_droits_user($session, "is_resp", $DEBUG);
 		
 		
 		// titre
-		echo "<H2>".$_SESSION['lang']['resp_ajout_conges_titre']."</H2>\n\n";
+		echo "<H2>". _('resp_ajout_conges_titre') ."</H2>\n\n";
 		//connexion mysql
 		
 		if($ajout_conges=="TRUE")
@@ -274,20 +274,20 @@ function page_principale($session, $tab_type_cong, $tab_type_conges_exceptionnel
 	
         /***********************************/
 	// AFFICHAGE TABLEAU (premiere ligne)
-	echo "<H2>".$_SESSION['lang']['resp_traite_user_etat_conges']."</H2>\n\n";
+	echo "<H2>". _('resp_traite_user_etat_conges') ."</H2>\n\n";
 	
 	echo "<TABLE cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 	
 	echo "<tr align=\"center\">\n";
-	echo "<td class=\"titre\">".$_SESSION['lang']['divers_nom_maj']."</td>\n";
-	echo "<td class=\"titre\">".$_SESSION['lang']['divers_prenom_maj']."</td>\n";
-	echo "<td class=\"titre\">".$_SESSION['lang']['divers_quotite_maj_1']."</td>" ;
+	echo "<td class=\"titre\">". _('divers_nom_maj') ."</td>\n";
+	echo "<td class=\"titre\">". _('divers_prenom_maj') ."</td>\n";
+	echo "<td class=\"titre\">". _('divers_quotite_maj_1') ."</td>" ;
 	$nb_colonnes = 3;
 	foreach($tab_type_cong as $id_conges => $libelle)
 	{
 		// cas d'une absence ou d'un congé
-		echo "<td class=\"titre\"> $libelle"." / ".$_SESSION['lang']['divers_an_maj']."</td>\n";
-		echo "<td class=\"titre\">".$_SESSION['lang']['divers_solde_maj']." ".$libelle ."</td>";
+		echo "<td class=\"titre\"> $libelle"." / ". _('divers_an_maj') ."</td>\n";
+		echo "<td class=\"titre\">". _('divers_solde_maj') ." ".$libelle ."</td>";
 		$nb_colonnes += 2;
 	}
 	// conges exceptionnels
@@ -295,7 +295,7 @@ function page_principale($session, $tab_type_cong, $tab_type_conges_exceptionnel
 	{
 		foreach($tab_type_conges_exceptionnels as $id_type_cong => $libelle)
 		{
-			echo "<td class=\"titre\">".$_SESSION['lang']['divers_solde_maj']." $libelle</td>\n";
+			echo "<td class=\"titre\">". _('divers_solde_maj') ." $libelle</td>\n";
 			$nb_colonnes += 1;
 		}
 	}
@@ -319,7 +319,7 @@ function page_principale($session, $tab_type_cong, $tab_type_conges_exceptionnel
 	if($DEBUG==TRUE) {echo "tab_all_users :<br>\n";  print_r($tab_all_users); echo "<br>\n"; }
 
 	if(count($tab_all_users)==0) // si le tableau est vide (resp sans user !!) on affiche une alerte !
-		echo "<tr align=\"center\"><td class=\"histo\" colspan=\"".$nb_colonnes."\">".$_SESSION['lang']['resp_etat_aucun_user']."</td></tr>\n" ;
+		echo "<tr align=\"center\"><td class=\"histo\" colspan=\"".$nb_colonnes."\">". _('resp_etat_aucun_user') ."</td></tr>\n" ;
 	else
 	{
 		foreach($tab_all_users as $current_login => $tab_current_user)
@@ -327,8 +327,8 @@ function page_principale($session, $tab_type_cong, $tab_type_conges_exceptionnel
 			//tableau de tableaux les nb et soldes de conges d'un user (indicé par id de conges)
 			$tab_conges=$tab_current_user['conges']; 
 	
-			$text_affich_user="<a href=\"resp_index.php?session=$session&onglet=resp_traite_user&user_login=$current_login\">".$_SESSION['lang']['resp_etat_users_afficher']."</a>" ;
-			$text_edit_papier="<a href=\"../edition/edit_user.php?session=$session&user_login=$current_login\" target=\"_blank\">".$_SESSION['lang']['resp_etat_users_imprim']."</a>";
+			$text_affich_user="<a href=\"resp_index.php?session=$session&onglet=resp_traite_user&user_login=$current_login\">". _('resp_etat_users_afficher') ."</a>" ;
+			$text_edit_papier="<a href=\"../edition/edit_user.php?session=$session&user_login=$current_login\" target=\"_blank\">". _('resp_etat_users_imprim') ."</a>";
 			echo "<tr align=\"center\">\n";
 			echo "<td class=\"histo\">".$tab_current_user['nom']."</td><td class=\"histo\">".$tab_current_user['prenom']."</td><td class=\"histo\">".$tab_current_user['quotite']."%</td>";
 			foreach($tab_type_cong as $id_conges => $libelle)
@@ -372,14 +372,14 @@ function page_principale($session, $tab_type_cong, $tab_type_conges_exceptionnel
 					if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
 						$nb_colspan=10;
 					
-					echo "<tr align=\"center\"><td class=\"histo\" colspan=\"$nb_colspan\"><i>".$_SESSION['lang']['resp_etat_users_titre_double_valid']."</i></td></tr>\n";
+					echo "<tr align=\"center\"><td class=\"histo\" colspan=\"$nb_colspan\"><i>". _('resp_etat_users_titre_double_valid') ."</i></td></tr>\n";
 				}
 					
 				//tableau de tableaux les nb et soldes de conges d'un user (indicé par id de conges)
 				$tab_conges_2=$tab_current_user_2['conges']; 
 		
-				$text_affich_user="<a href=\"resp_index.php?session=$session&onglet=resp_traite_user&user_login=$current_login_2\">".$_SESSION['lang']['resp_etat_users_afficher']."</a>" ;
-				$text_edit_papier="<a href=\"../edition/edit_user.php?session=$session&user_login=$current_login_2\" target=\"_blank\">".$_SESSION['lang']['resp_etat_users_imprim']."</a>";
+				$text_affich_user="<a href=\"resp_index.php?session=$session&onglet=resp_traite_user&user_login=$current_login_2\">". _('resp_etat_users_afficher') ."</a>" ;
+				$text_edit_papier="<a href=\"../edition/edit_user.php?session=$session&user_login=$current_login_2\" target=\"_blank\">". _('resp_etat_users_imprim') ."</a>";
 				echo "<tr align=\"center\">\n";
 				echo "<td class=\"histo\">".$tab_current_user_2['nom']."</td><td class=\"histo\">".$tab_current_user_2['prenom']."</td><td class=\"histo\">".$tab_current_user_2['quotite']."%</td>";
 				foreach($tab_type_cong as $id_conges => $libelle)

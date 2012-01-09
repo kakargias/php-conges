@@ -95,21 +95,21 @@ function form_saisie($user, $date_debut, $date_fin, $DEBUG=FALSE)
 	echo "</head>\n";
 	echo "<body>\n";
 	echo "<center>\n";
-	echo "<h1>".$_SESSION['lang']['export_cal_titre']."</h1>\n";
+	echo "<h1>". _('export_cal_titre') ."</h1>\n";
 
 	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n";
 	echo "<table>\n";
 	// saisie des dates
 	echo "<tr>\n";
 		echo "<td align=\"center\">\n";
-		echo "<b>".$_SESSION['lang']['export_cal_from_date']."</b> <input type=\"text\" name=\"date_debut\" size=\"10\" maxlength=\"10\" value=\"$date_debut\" style=\"background-color: #D4D4D4; \" readonly=\"readonly\"> \n";
+		echo "<b>". _('export_cal_from_date') ."</b> <input type=\"text\" name=\"date_debut\" size=\"10\" maxlength=\"10\" value=\"$date_debut\" style=\"background-color: #D4D4D4; \" readonly=\"readonly\"> \n";
 		echo "<a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('calendar.php?session=$session&champ_date=date_debut','calendardebut',250,220);\">\n";
-		echo "<img src=\"img/1day.png\" border=\"0\" title=\"".$_SESSION['lang']['export_cal_saisir_debut']."\" alt=\"".$_SESSION['lang']['export_cal_saisir_debut']."\"></a>\n";
+		echo "<img src=\"img/1day.png\" border=\"0\" title=\"". _('export_cal_saisir_debut') ."\" alt=\"". _('export_cal_saisir_debut') ."\"></a>\n";
 		echo "</td>\n";
 		echo "<td align=\"center\">\n";
-		echo "<b>".$_SESSION['lang']['export_cal_to_date']."</b> <input type=\"text\" name=\"date_fin\" size=\"10\" maxlength=\"10\" value=\"$date_fin\" style=\"background-color: #D4D4D4; \" readonly=\"readonly\"> \n";
+		echo "<b>". _('export_cal_to_date') ."</b> <input type=\"text\" name=\"date_fin\" size=\"10\" maxlength=\"10\" value=\"$date_fin\" style=\"background-color: #D4D4D4; \" readonly=\"readonly\"> \n";
 		echo "<a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('calendar.php?session=$session&champ_date=date_fin','calendarfin',250,220);\">\n";
-		echo "<img src=\"img/1day.png\" border=\"0\" title=\"".$_SESSION['lang']['export_cal_saisir_fin']."\" alt=\"".$_SESSION['lang']['export_cal_saisir_fin']."\"></a>\n";
+		echo "<img src=\"img/1day.png\" border=\"0\" title=\"". _('export_cal_saisir_fin') ."\" alt=\"". _('export_cal_saisir_fin') ."\"></a>\n";
 		echo "</td>\n";
 	echo "</tr>\n";
 	// ligne vide
@@ -121,7 +121,7 @@ function form_saisie($user, $date_debut, $date_fin, $DEBUG=FALSE)
 	echo "<tr>\n";
 	echo "<td colspan=\"2\">\n";
 		echo "<table align=\"center\"><tr>\n";
-		echo "<td><b>".$_SESSION['lang']['export_cal_format']."</b> : </td>\n";
+		echo "<td><b>". _('export_cal_format') ."</b> : </td>\n";
 		echo "<td align=\"left\"><b>ical</b><input type=\"radio\" name=\"choix_format\" value=\"ical\" checked> </td>\n";
 		echo "<td align=\"right\"> <b>vcal</b><input type=\"radio\" name=\"choix_format\" value=\"vcal\"></td>\n";
 		echo "</tr></table>\n";
@@ -132,12 +132,12 @@ function form_saisie($user, $date_debut, $date_fin, $DEBUG=FALSE)
 	echo "<tr>\n";
 	echo "<td colspan=\"2\" align=\"center\">\n";
 	echo "	<input type=\"hidden\" name=\"action\" value=\"export\">\n";
-	echo "	<input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">\n";
+	echo "	<input type=\"submit\" value=\"". _('form_submit') ."\">\n";
 	echo "</td>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
 	echo "<td colspan=\"2\" align=\"center\">\n";
-	echo "	<input type=\"button\" value=\"".$_SESSION['lang']['form_close_window']."\" onClick=\"javascript:window.close();\">\n";
+	echo "	<input type=\"button\" value=\"". _('form_close_window') ."\" onClick=\"javascript:window.close();\">\n";
 	echo "</td>\n";
 	echo "</tr>\n";
 	echo "</table>\n";

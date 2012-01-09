@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-include_once __DIR__ .'/sql.class.php';
+include_once __DIR__ .'/get_text.php';
 
 //
 // MAIN
@@ -66,8 +66,8 @@ if ($session != "") //  UNE SESSION EXISTE
 		$_SESSION['config']=init_config_tab();  // on recrée le tableau de config pour l'url du lien
 		
 		echo "<center>\n";
-		echo $_SESSION['lang']['session_pas_session_ouverte']."<br>\n";
-		echo $_SESSION['lang']['divers_veuillez']." <a href='".$_SESSION['config']['URL_ACCUEIL_CONGES']."/index.php' target='_top'> ".$_SESSION['lang']['divers_vous_authentifier']."</a>\n";
+		echo  _('session_pas_session_ouverte') ."<br>\n";
+		echo  _('divers_veuillez') ." <a href='".$_SESSION['config']['URL_ACCUEIL_CONGES']."/index.php' target='_top'> ". _('divers_vous_authentifier') ."</a>\n";
 		echo "</center>\n";
 
 		exit;
@@ -101,8 +101,8 @@ else    //  PAS DE SESSION   ($session == "")
 		else //dans ce cas l'utilisateur n'a pas encore été enregistré dans la base de données db_conges
 		{
 		   echo "<center>\n";
-			echo $_SESSION['lang']['session_pas_de_compte_dans_dbconges']."<br>\n";
-			echo $_SESSION['lang']['session_contactez_admin']."\n";
+			echo  _('session_pas_de_compte_dans_dbconges') ."<br>\n";
+			echo  _('session_contactez_admin') ."\n";
 		   echo "</center>\n";
            $URL_ACCUEIL_CONGES=$_SESSION['config']['URL_ACCUEIL_CONGES'];
            deconnexion_CAS($URL_ACCUEIL_CONGES);

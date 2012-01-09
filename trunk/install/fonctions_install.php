@@ -25,6 +25,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
+include_once( __DIR__ . '/../INCLUDE.PHP/sql.class.php');
+include_once( __DIR__ . '/../INCLUDE.PHP/get_text.php');
+
 // teste le fichier config.php 
 //renvoit TRUE si ok, et FALSE sinon
 function test_config_file($DEBUG=FALSE)
@@ -58,9 +61,7 @@ function test_old_config_file($DEBUG=FALSE)
 // teste l'existance et la conexion à la database
 //renvoit TRUE si ok, et FALSE sinon
 function test_database($DEBUG=FALSE)
-{
-	include_once( __DIR__ . '/../INCLUDE.PHP/sql.class.php');
-	
+{	
 	if( empty($mysql_serveur) || empty($mysql_user) || empty($mysql_pass) || empty($mysql_database)  )
 		return false;
 	

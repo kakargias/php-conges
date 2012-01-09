@@ -111,20 +111,20 @@ function choix_save_restore($DEBUG=FALSE)
 
 	echo "<body>\n";
 	echo "<center>\n";
-	echo "<h1>".$_SESSION['lang']['admin_sauve_db_titre']."</h1>\n";
+	echo "<h1>". _('admin_sauve_db_titre') ."</h1>\n";
 
 	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n";
 	echo "<table>\n";
 	echo "<tr>\n";
-	echo "<th colspan=\"2\">".$_SESSION['lang']['admin_sauve_db_choisissez']." :</th>\n";
+	echo "<th colspan=\"2\">". _('admin_sauve_db_choisissez') ." :</th>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
 	echo "<td><input type=\"radio\" name=\"choix_action\" value=\"sauvegarde\" checked></td>\n";
-	echo "<td><b> ".$_SESSION['lang']['admin_sauve_db_sauve']."</b></td>\n";
+	echo "<td><b> ". _('admin_sauve_db_sauve') ."</b></td>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
 	echo "<td><input type=\"radio\" name=\"choix_action\" value=\"restaure\" /></td>\n";
-	echo "<td><b> ".$_SESSION['lang']['admin_sauve_db_restaure']."</b></td>\n";
+	echo "<td><b> ". _('admin_sauve_db_restaure') ."</b></td>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
 	echo "<td colspan=\"2\" align=\"center\">\n";
@@ -133,12 +133,12 @@ function choix_save_restore($DEBUG=FALSE)
 	echo "</tr>\n";
 	echo "<tr>\n";
 	echo "<td colspan=\"2\" align=\"center\">\n";
-	echo "	<input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">\n";
+	echo "	<input type=\"submit\" value=\"". _('form_submit') ."\">\n";
 	echo "</td>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
 	echo "<td colspan=\"2\" align=\"center\">\n";
-	echo "	<input type=\"button\" value=\"".$_SESSION['lang']['form_cancel']."\" onClick=\"javascript:window.close();\">\n";
+	echo "	<input type=\"button\" value=\"". _('form_cancel') ."\" onClick=\"javascript:window.close();\">\n";
 	echo "</td>\n";
 	echo "</tr>\n";
 	echo "</table>\n";
@@ -167,16 +167,16 @@ function choix_sauvegarde($DEBUG=FALSE)
 
 	echo "<body>\n";
 	echo "<center>\n";
-	echo "<h1>".$_SESSION['lang']['admin_sauve_db_titre']."</h1>\n";
+	echo "<h1>". _('admin_sauve_db_titre') ."</h1>\n";
 
 	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n";
 	echo "<table>\n";
 	echo "<tr>\n";
-	echo "<th colspan=\"2\">".$_SESSION['lang']['admin_sauve_db_options']."</th>\n";
+	echo "<th colspan=\"2\">". _('admin_sauve_db_options') ."</th>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
 	echo "	<td><input type=\"radio\" name=\"type_sauvegarde\" value=\"all\" checked></td>\n";
-	echo "	<td>".$_SESSION['lang']['admin_sauve_db_complete']."</td>\n";
+	echo "	<td>". _('admin_sauve_db_complete') ."</td>\n";
 	echo "</tr>\n";
 /*	echo "<tr>\n";
 	echo "	<td><input type=\"radio\" name=\"type_sauvegarde\" value=\"structure\"></td>\n";
@@ -185,7 +185,7 @@ function choix_sauvegarde($DEBUG=FALSE)
 */
 	echo "<tr>\n";
 	echo "	<td><input type=\"radio\" name=\"type_sauvegarde\" value=\"data\"></td>\n";
-	echo "	<td>".$_SESSION['lang']['admin_sauve_db_data_only']."</td>\n";
+	echo "	<td>". _('admin_sauve_db_data_only') ."</td>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
 	echo "<td colspan=\"2\" align=\"center\">\n";
@@ -195,12 +195,12 @@ function choix_sauvegarde($DEBUG=FALSE)
 	echo "<tr>\n";
 	echo "	<td colspan=\"2\" align=\"center\">\n";
 	echo "		<input type=\"hidden\" name=\"choix_action\" value=\"sauvegarde\">\n";
-	echo "		<input type=\"submit\" value=\"".$_SESSION['lang']['admin_sauve_db_do_sauve']."\">\n";
+	echo "		<input type=\"submit\" value=\"". _('admin_sauve_db_do_sauve') ."\">\n";
 	echo "	</td>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
 	echo "<td colspan=\"2\" align=\"center\">\n";
-	echo "	<input type=\"button\" value=\"".$_SESSION['lang']['form_cancel']."\" onClick=\"javascript:window.close();\">\n";
+	echo "	<input type=\"button\" value=\"". _('form_cancel') ."\" onClick=\"javascript:window.close();\">\n";
 	echo "</td>\n";
 	echo "</tr>\n";
 	echo "</table>\n";
@@ -229,16 +229,16 @@ function sauve($type_sauvegarde, $DEBUG=FALSE)
 	echo "</head>\n";
 	echo "<body>\n";
 	echo "<center>\n";
-	echo "<h1>".$_SESSION['lang']['admin_sauve_db_titre']."</h1>\n";
+	echo "<h1>". _('admin_sauve_db_titre') ."</h1>\n";
 
 	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n";
 	echo "<table>\n";
 	echo "<tr>\n";
-	echo "<th colspan=\"2\">".$_SESSION['lang']['admin_sauve_db_save_ok']." ...</th>\n";
+	echo "<th colspan=\"2\">". _('admin_sauve_db_save_ok') ." ...</th>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
 	echo "<td colspan=\"2\" align=\"center\">\n";
-	echo "	<input type=\"button\" value=\"".$_SESSION['lang']['form_close_window']."\" onClick=\"javascript:window.close();\">\n";
+	echo "	<input type=\"button\" value=\"". _('form_close_window') ."\" onClick=\"javascript:window.close();\">\n";
 	echo "</td>\n";
 	echo "</tr>\n";
 	echo "</table>\n";
@@ -308,13 +308,13 @@ function choix_restaure($DEBUG=FALSE)
 
 	echo "<body>\n";
 	echo "<center>\n";
-	echo "<h1>".$_SESSION['lang']['admin_sauve_db_titre']."</h1>\n";
+	echo "<h1>". _('admin_sauve_db_titre') ."</h1>\n";
 
 //	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n";
 	echo "<form enctype=\"multipart/form-data\" action=\"$PHP_SELF?session=$session\" method=\"POST\">\n";
 	echo "<table>\n";
 	echo "<tr>\n";
-	echo "<th>".$_SESSION['lang']['admin_sauve_db_restaure']."<br>".$_SESSION['lang']['admin_sauve_db_file_to_restore']." :</th>\n";
+	echo "<th>". _('admin_sauve_db_restaure') ."<br>". _('admin_sauve_db_file_to_restore') ." :</th>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
 //	echo "<td> <input type=\"file\" name=\"fichier_restaure\" size=\"30\"> </td>\n";
@@ -324,7 +324,7 @@ function choix_restaure($DEBUG=FALSE)
 	echo "<td align=\"center\">&nbsp;</td>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
-	echo "<td align=\"center\"> <font color=\"red\">".$_SESSION['lang']['admin_sauve_db_warning']." !</font> </td>\n";
+	echo "<td align=\"center\"> <font color=\"red\">". _('admin_sauve_db_warning') ." !</font> </td>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
 	echo "<td align=\"center\">&nbsp;</td>\n";
@@ -332,12 +332,12 @@ function choix_restaure($DEBUG=FALSE)
 	echo "<tr>\n";
 	echo "	<td align=\"center\">\n";
 	echo "		<input type=\"hidden\" name=\"choix_action\" value=\"restaure\">\n";
-	echo "		<input type=\"submit\" value=\"".$_SESSION['lang']['admin_sauve_db_do_restaure']."\">\n";
+	echo "		<input type=\"submit\" value=\"". _('admin_sauve_db_do_restaure') ."\">\n";
 	echo "	</td>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
 	echo "<td align=\"center\">\n";
-	echo "	<input type=\"button\" value=\"".$_SESSION['lang']['form_cancel']."\" onClick=\"javascript:window.close();\">\n";
+	echo "	<input type=\"button\" value=\"". _('form_cancel') ."\" onClick=\"javascript:window.close();\">\n";
 	echo "</td>\n";
 	echo "</tr>\n";
 	echo "</table>\n";
@@ -365,7 +365,7 @@ function restaure($fichier_restaure_name, $fichier_restaure_tmpname, $fichier_re
 
 	echo "<body>\n";
 	echo "<center>\n";
-	echo "<h1>".$_SESSION['lang']['admin_sauve_db_titre']."</h1>\n";
+	echo "<h1>". _('admin_sauve_db_titre') ."</h1>\n";
 
 	if( ($fichier_restaure_error!=0)||($fichier_restaure_size==0) ) // s'il y a eu une erreur dans le telechargement OU taille==0
 	//(cf code erreur dans fichier features.file-upload.errors.html de la doc php)
@@ -375,17 +375,17 @@ function restaure($fichier_restaure_name, $fichier_restaure_tmpname, $fichier_re
 		echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n";
 		echo "<table>\n";
 		echo "<tr>\n";
-		echo "<th> ".$_SESSION['lang']['admin_sauve_db_bad_file']." : <br>$fichier_restaure_name</th>\n";
+		echo "<th> ". _('admin_sauve_db_bad_file') ." : <br>$fichier_restaure_name</th>\n";
 		echo "</tr>\n";
 		echo "<tr>\n";
 		echo "<td align=\"center\">\n";
 		echo "	<input type=\"hidden\" name=\"choix_action\" value=\"restaure\">\n";
-		echo "	<input type=\"submit\" value=\"".$_SESSION['lang']['form_redo']."\">\n";
+		echo "	<input type=\"submit\" value=\"". _('form_redo') ."\">\n";
 		echo "</td>\n";
 		echo "</tr>\n";
 		echo "<tr>\n";
 		echo "<td align=\"center\">\n";
-		echo "	<input type=\"button\" value=\"".$_SESSION['lang']['form_cancel']."\" onClick=\"javascript:window.close();\">\n";
+		echo "	<input type=\"button\" value=\"". _('form_cancel') ."\" onClick=\"javascript:window.close();\">\n";
 		echo "</td>\n";
 		echo "</tr>\n";
 		echo "</table>\n";
@@ -426,14 +426,14 @@ function restaure($fichier_restaure_name, $fichier_restaure_tmpname, $fichier_re
 		echo "<form action=\"\" method=\"POST\">\n";
 		echo "<table>\n";
 		echo "<tr>\n";
-		echo "<th>".$_SESSION['lang']['admin_sauve_db_restaure_ok']." !</th>\n";
+		echo "<th>". _('admin_sauve_db_restaure_ok') ." !</th>\n";
 		echo "</tr>\n";
 		echo "<tr>\n";
 		echo "<td align=\"center\">&nbsp;</td>\n";
 		echo "</tr>\n";
 		echo "<tr>\n";
 		echo "<td align=\"center\">\n";
-		echo "	<input type=\"button\" value=\"".$_SESSION['lang']['form_close_window']."\" onClick=\"javascript:window.close();\">\n";
+		echo "	<input type=\"button\" value=\"". _('form_close_window') ."\" onClick=\"javascript:window.close();\">\n";
 		echo "</td>\n";
 		echo "</tr>\n";
 		echo "</table>\n";

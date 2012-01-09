@@ -184,7 +184,7 @@ echo "</head>\n";
 
 	/*******************************************************/
 
-	echo "<H1>".$_SESSION['lang']['admin_titre']."</H1>";
+	echo "<H1>". _('admin_titre') ."</H1>";
 	echo '<table cellpadding="1" cellspacing="2" border="1">';
 	echo "<tr>\n";
 	
@@ -252,33 +252,33 @@ function affichage($onglet, $new_group_name, $new_group_libelle, $choix_group, $
 	echo "<!-- affichage des onglets -->\n";
 	
 		if($onglet!="admin-users")
-			echo "<td class=\"onglet\" width=\"170\"><a href=\"$PHP_SELF?session=$session&onglet=admin-users\" class=\"bouton-onglet\"> ".$_SESSION['lang']['admin_onglet_gestion_user']." </a></td>\n";
+			echo "<td class=\"onglet\" width=\"170\"><a href=\"$PHP_SELF?session=$session&onglet=admin-users\" class=\"bouton-onglet\"> ". _('admin_onglet_gestion_user') ." </a></td>\n";
 		else
-			echo "<td class=\"current-onglet\" width=\"170\"><a href=\"$PHP_SELF?session=$session&onglet=admin-users\" class=\"bouton-current-onglet\"> ".$_SESSION['lang']['admin_onglet_gestion_user']." </a></td>\n";
+			echo "<td class=\"current-onglet\" width=\"170\"><a href=\"$PHP_SELF?session=$session&onglet=admin-users\" class=\"bouton-current-onglet\"> ". _('admin_onglet_gestion_user') ." </a></td>\n";
 
 		if($onglet!="ajout-user")
-			echo "<td class=\"onglet\" width=\"170\"><a href=\"$PHP_SELF?session=$session&onglet=ajout-user\" class=\"bouton-onglet\"> ".$_SESSION['lang']['admin_onglet_add_user']." </a></td>\n";
+			echo "<td class=\"onglet\" width=\"170\"><a href=\"$PHP_SELF?session=$session&onglet=ajout-user\" class=\"bouton-onglet\"> ". _('admin_onglet_add_user') ." </a></td>\n";
 		else
-			echo "<td class=\"current-onglet\" width=\"170\"><a href=\"$PHP_SELF?session=$session&onglet=ajout-user\" class=\"bouton-current-onglet\"> ".$_SESSION['lang']['admin_onglet_add_user']." </a></td>\n";
+			echo "<td class=\"current-onglet\" width=\"170\"><a href=\"$PHP_SELF?session=$session&onglet=ajout-user\" class=\"bouton-current-onglet\"> ". _('admin_onglet_add_user') ." </a></td>\n";
 
 	if($_SESSION['config']['gestion_groupes']==TRUE)
 	{
 			if($onglet!="admin-group")
-				echo "<td class=\"onglet\" width=\"170\"><a href=\"$PHP_SELF?session=$session&onglet=admin-group\" class=\"bouton-onglet\"> ".$_SESSION['lang']['admin_onglet_gestion_groupe']." </a></td>\n";
+				echo "<td class=\"onglet\" width=\"170\"><a href=\"$PHP_SELF?session=$session&onglet=admin-group\" class=\"bouton-onglet\"> ". _('admin_onglet_gestion_groupe') ." </a></td>\n";
 			else
-				echo "<td class=\"current-onglet\" width=\"170\"><a href=\"$PHP_SELF?session=$session&onglet=admin-group\" class=\"bouton-current-onglet\"> ".$_SESSION['lang']['admin_onglet_gestion_groupe']." </a></td>\n";
+				echo "<td class=\"current-onglet\" width=\"170\"><a href=\"$PHP_SELF?session=$session&onglet=admin-group\" class=\"bouton-current-onglet\"> ". _('admin_onglet_gestion_groupe') ." </a></td>\n";
 
 			if($onglet!="admin-group-users")
-				echo "<td class=\"onglet\" width=\"250\"><a href=\"$PHP_SELF?session=$session&onglet=admin-group-users\" class=\"bouton-onglet\"> ".$_SESSION['lang']['admin_onglet_groupe_user']." </a></td>\n";
+				echo "<td class=\"onglet\" width=\"250\"><a href=\"$PHP_SELF?session=$session&onglet=admin-group-users\" class=\"bouton-onglet\"> ". _('admin_onglet_groupe_user') ." </a></td>\n";
 			else
-				echo "<td class=\"current-onglet\" width=\"250\"><a href=\"$PHP_SELF?session=$session&onglet=admin-group-users\" class=\"bouton-current-onglet\"> ".$_SESSION['lang']['admin_onglet_groupe_user']." </a></td>\n";
+				echo "<td class=\"current-onglet\" width=\"250\"><a href=\"$PHP_SELF?session=$session&onglet=admin-group-users\" class=\"bouton-current-onglet\"> ". _('admin_onglet_groupe_user') ." </a></td>\n";
 
 			if($_SESSION['config']['responsable_virtuel']==FALSE)
 			{
 				if($onglet!="admin-group-responsables")
-					echo "<td class=\"onglet\" width=\"250\"><a href=\"$PHP_SELF?session=$session&onglet=admin-group-responsables\" class=\"bouton-onglet\"> ".$_SESSION['lang']['admin_onglet_groupe_resp']." </a></td>\n";
+					echo "<td class=\"onglet\" width=\"250\"><a href=\"$PHP_SELF?session=$session&onglet=admin-group-responsables\" class=\"bouton-onglet\"> ". _('admin_onglet_groupe_resp') ." </a></td>\n";
 				else
-					echo "<td class=\"current-onglet\" width=\"250\"><a href=\"$PHP_SELF?session=$session&onglet=admin-group-responsables\" class=\"bouton-current-onglet\"> ".$_SESSION['lang']['admin_onglet_groupe_resp']." </a></td>\n";
+					echo "<td class=\"current-onglet\" width=\"250\"><a href=\"$PHP_SELF?session=$session&onglet=admin-group-responsables\" class=\"bouton-current-onglet\"> ". _('admin_onglet_groupe_resp') ." </a></td>\n";
 			}
 		echo "</tr>\n";
 		echo "</table>\n" ;
@@ -444,16 +444,16 @@ function ajout_user(&$tab_new_user, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, 
 		/*****************************/
 
 		if($result1==TRUE && $result2==TRUE && $result3==TRUE && $result4==TRUE)
-			echo $_SESSION['lang']['form_modif_ok']."<br><br> \n";
+			echo  _('form_modif_ok') ."<br><br> \n";
 		else
-			echo $_SESSION['lang']['form_modif_not_ok']."<br><br> \n";
+			echo  _('form_modif_not_ok') ."<br><br> \n";
 
 		$comment_log = "ajout_user : ".$tab_new_user['login']." / ".addslashes($tab_new_user['nom'])." ".addslashes($tab_new_user['prenom'])." (".$tab_new_user['quotite']." %)" ;
 		log_action(0, "", $tab_new_user['login'], $comment_log, $DEBUG);
 
 		/* APPEL D'UNE AUTRE PAGE */
 		echo " <form action=\"$PHP_SELF?session=$session&onglet=admin-users\" method=\"POST\"> \n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_retour']."\">\n";
+		echo "<input type=\"submit\" value=\"". _('form_retour') ."\">\n";
 		echo " </form> \n";
 	}
 }
@@ -497,7 +497,7 @@ function verif_new_param(&$tab_new_user, &$tab_new_jours_an, &$tab_new_solde, $D
 		)
 		)
 	{
-		echo "<H3><font color=\"red\"> ".$_SESSION['lang']['admin_verif_param_invalides']." </font></H3>\n"  ;
+		echo "<H3><font color=\"red\"> ". _('admin_verif_param_invalides') ." </font></H3>\n"  ;
 		// affichage des param :
 		echo $tab_new_user['login']."---".$tab_new_user['nom']."---".$tab_new_user['prenom']."---".$tab_new_user['quotite']."---".$tab_new_user['is_resp']."---".$tab_new_user['resp_login']."<br>\n";
 		//echo $tab_new_user['jours_an']."---".$tab_new_user['solde_jours']."---".$tab_new_user['rtt_an']."---".$tab_new_user['solde_rtt']."<br>\n";
@@ -524,7 +524,7 @@ function verif_new_param(&$tab_new_user, &$tab_new_jours_an, &$tab_new_solde, $D
 		}
 
 		echo "<input type=\"hidden\" name=\"saisie_user\" value=\"faux\">\n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_redo']."\">\n";
+		echo "<input type=\"submit\" value=\"". _('form_redo') ."\">\n";
 		echo"</form>\n" ;
 
 		return 1;
@@ -537,7 +537,7 @@ function verif_new_param(&$tab_new_user, &$tab_new_jours_an, &$tab_new_solde, $D
 		$num_verif = $ReqLog_verif->num_rows;
 		if ($num_verif!=0)
 		{
-			echo "<H3><font color=\"red\"> ".$_SESSION['lang']['admin_verif_login_exist']." </font></H3>\n"  ;
+			echo "<H3><font color=\"red\"> ". _('admin_verif_login_exist') ." </font></H3>\n"  ;
 			echo "<form action=\"$PHP_SELF?session=$session&onglet=ajout-user\" method=\"POST\">\n"  ;
 			echo "<input type=\"hidden\" name=\"new_login\" value=\"".$tab_new_user['login']."\">\n";
 			echo "<input type=\"hidden\" name=\"new_nom\" value=\"".$tab_new_user['nom']."\">\n";
@@ -556,14 +556,14 @@ function verif_new_param(&$tab_new_user, &$tab_new_jours_an, &$tab_new_solde, $D
 			}
 
 			echo "<input type=\"hidden\" name=\"saisie_user\" value=\"faux\">\n";
-			echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_redo']."\">\n";
+			echo "<input type=\"submit\" value=\"". _('form_redo') ."\">\n";
 			echo "</form>\n" ;
 
 			return 1;
 		}
 		elseif($_SESSION['config']['where_to_find_user_email'] == "dbconges" && strrchr($tab_new_user['email'], "@")==FALSE)
 		{
-			echo "<H3> ".$_SESSION['lang']['admin_verif_bad_mail']." </H3>\n" ;
+			echo "<H3> ". _('admin_verif_bad_mail') ." </H3>\n" ;
 			echo "<form action=\"$PHP_SELF?session=$session&onglet=ajout-user\" method=\"POST\">\n" ;
 			echo "<input type=\"hidden\" name=\"new_login\" value=\"".$tab_new_user['login']."\">\n";
 			echo "<input type=\"hidden\" name=\"new_nom\" value=\"".$tab_new_user['nom']."\">\n";
@@ -582,7 +582,7 @@ function verif_new_param(&$tab_new_user, &$tab_new_jours_an, &$tab_new_solde, $D
 			}
 
 			echo "<input type=\"hidden\" name=\"saisie_user\" value=\"faux\">\n";
-			echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_redo']."\">\n";
+			echo "<input type=\"submit\" value=\"". _('form_redo') ."\">\n";
 			echo "</form>\n" ;
 
 			return 1;
@@ -599,7 +599,7 @@ function affiche_gestion_utilisateurs($DEBUG=FALSE)
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
-	echo "<H2> ".$_SESSION['lang']['admin_onglet_gestion_user']." :</H2>\n\n";
+	echo "<H2> ". _('admin_onglet_gestion_user') ." :</H2>\n\n";
 	
 	/*********************/
 	/* Etat Utilisateurs */
@@ -614,33 +614,33 @@ function affiche_gestion_utilisateurs($DEBUG=FALSE)
 	}
 
 	// AFFICHAGE TABLEAU
-	// echo "<h3><font color=\"red\">".$_SESSION['lang']['admin_users_titre']." :</font></h3>\n";
+	// echo "<h3><font color=\"red\">". _('admin_users_titre') ." :</font></h3>\n";
 
 	echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%%\">\n";
 	echo "<tr>\n";
-	echo "<td class=\"titre\">".$_SESSION['lang']['divers_nom_maj_1']."</td>\n";
-	echo "<td class=\"titre\">".$_SESSION['lang']['divers_prenom_maj_1']."</td>\n";
-	echo "<td class=\"titre\">".$_SESSION['lang']['divers_login_maj_1']."</td>\n";
-	echo "<td class=\"titre\">".$_SESSION['lang']['divers_quotite_maj_1']."</td>\n";
+	echo "<td class=\"titre\">". _('divers_nom_maj_1') ."</td>\n";
+	echo "<td class=\"titre\">". _('divers_prenom_maj_1') ."</td>\n";
+	echo "<td class=\"titre\">". _('divers_login_maj_1') ."</td>\n";
+	echo "<td class=\"titre\">". _('divers_quotite_maj_1') ."</td>\n";
 	foreach($tab_type_conges as $id_type_cong => $libelle)
 	{
-		echo "<td class=\"titre\">$libelle / ".$_SESSION['lang']['divers_an']."</td>\n";
-		echo "<td class=\"titre\">".$_SESSION['lang']['divers_solde']." $libelle</td>\n";
+		echo "<td class=\"titre\">$libelle / ". _('divers_an') ."</td>\n";
+		echo "<td class=\"titre\">". _('divers_solde') ." $libelle</td>\n";
 	}
 
 	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) {
 	  foreach($tab_type_conges_exceptionnels as $id_type_cong => $libelle)
 	  {
-	    echo "<td class=\"titre\">".$_SESSION['lang']['divers_solde']." $libelle</td>\n";
+	    echo "<td class=\"titre\">". _('divers_solde') ." $libelle</td>\n";
 	  }
 	}
-	echo "<td class=\"titre\">".$_SESSION['lang']['admin_users_is_resp']."</td>\n";
-	echo "<td class=\"titre\">".$_SESSION['lang']['admin_users_resp_login']."</td>\n";
-	echo "<td class=\"titre\">".$_SESSION['lang']['admin_users_is_admin']."</td>\n";
-	echo "<td class=\"titre\">".$_SESSION['lang']['admin_users_is_hr']."</td>\n";
-	echo "<td class=\"titre\">".$_SESSION['lang']['admin_users_see_all']."</td>\n";
+	echo "<td class=\"titre\">". _('admin_users_is_resp') ."</td>\n";
+	echo "<td class=\"titre\">". _('admin_users_resp_login') ."</td>\n";
+	echo "<td class=\"titre\">". _('admin_users_is_admin') ."</td>\n";
+	echo "<td class=\"titre\">". _('admin_users_is_hr') ."</td>\n";
+	echo "<td class=\"titre\">". _('admin_users_see_all') ."</td>\n";
 	if($_SESSION['config']['where_to_find_user_email']=="dbconges")
-		echo "<td class=\"titre\">".$_SESSION['lang']['admin_users_mail']."</td>\n";
+		echo "<td class=\"titre\">". _('admin_users_mail') ."</td>\n";
 	echo "<td></td>\n";
 	echo "<td></td>\n";
 	if($_SESSION['config']['admin_change_passwd']==TRUE)
@@ -661,9 +661,9 @@ function affiche_gestion_utilisateurs($DEBUG=FALSE)
 	{
 
 		
-		$admin_modif_user="<a href=\"admin_modif_user.php?session=$session&u_login=$current_login\">"."<img src=\"../img/edition-22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"".$_SESSION['lang']['form_modif']."\" alt=\"".$_SESSION['lang']['form_modif']."\"></a>" ;
-		$admin_suppr_user="<a href=\"admin_suppr_user.php?session=$session&u_login=$current_login\">"."<img src=\"../img/stop.png\" width=\"17\" height=\"17\" border=\"0\" title=\"".$_SESSION['lang']['form_supprim']."\" alt=\"".$_SESSION['lang']['form_supprim']."\"></a>" ;
-		$admin_chg_pwd_user="<a href=\"admin_chg_pwd_user.php?session=$session&u_login=$current_login\">"."<img src=\"../img/password.png\" width=\"17\" height=\"17\" border=\"0\" title=\"".$_SESSION['lang']['form_password']."\" alt=\"".$_SESSION['lang']['form_password']."\"></a>" ;
+		$admin_modif_user="<a href=\"admin_modif_user.php?session=$session&u_login=$current_login\">"."<img src=\"../img/edition-22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('form_modif') ."\" alt=\"". _('form_modif') ."\"></a>" ;
+		$admin_suppr_user="<a href=\"admin_suppr_user.php?session=$session&u_login=$current_login\">"."<img src=\"../img/stop.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('form_supprim') ."\" alt=\"". _('form_supprim') ."\"></a>" ;
+		$admin_chg_pwd_user="<a href=\"admin_chg_pwd_user.php?session=$session&u_login=$current_login\">"."<img src=\"../img/password.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('form_password') ."\" alt=\"". _('form_password') ."\"></a>" ;
 
 
 		echo "<tr>\n";
@@ -740,7 +740,7 @@ function affiche_formulaire_ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab
 
 	echo"<br><br><br><hr align=\"center\" size=\"2\" width=\"90%\"> \n";
 	// TITRE
-	echo "<H3><u>".$_SESSION['lang']['admin_new_users_titre']."</u></H3>\n\n";
+	echo "<H3><u>". _('admin_new_users_titre') ."</u></H3>\n\n";
 
 	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n"  ;
 
@@ -750,26 +750,26 @@ function affiche_formulaire_ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab
 	echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 	echo "<tr>\n";
 	if ($_SESSION['config']['export_users_from_ldap'] == TRUE)
-	   	echo "<td class=\"histo\">".$_SESSION['lang']['divers_nom_maj_1']." ".$_SESSION['lang']['divers_prenom_maj_1']."</td>\n";
+	   	echo "<td class=\"histo\">". _('divers_nom_maj_1') ." ". _('divers_prenom_maj_1') ."</td>\n";
 	else
 	{
-		echo "<td class=\"histo\">".$_SESSION['lang']['divers_login_maj_1']."</td>\n";
-		echo "<td class=\"histo\">".$_SESSION['lang']['divers_nom_maj_1']."</td>\n";
-		echo "<td class=\"histo\">".$_SESSION['lang']['divers_prenom_maj_1']."</td>\n";
+		echo "<td class=\"histo\">". _('divers_login_maj_1') ."</td>\n";
+		echo "<td class=\"histo\">". _('divers_nom_maj_1') ."</td>\n";
+		echo "<td class=\"histo\">". _('divers_prenom_maj_1') ."</td>\n";
 	}
-	echo "<td class=\"histo\">".$_SESSION['lang']['divers_quotite_maj_1']."</td>\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['admin_new_users_is_resp']."</td>\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['divers_responsable_maj_1']."</td>\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['admin_new_users_is_admin']."</td>\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['admin_new_users_is_hr']."</td>\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['admin_new_users_see_all']."</td>\n";
+	echo "<td class=\"histo\">". _('divers_quotite_maj_1') ."</td>\n";
+	echo "<td class=\"histo\">". _('admin_new_users_is_resp') ."</td>\n";
+	echo "<td class=\"histo\">". _('divers_responsable_maj_1') ."</td>\n";
+	echo "<td class=\"histo\">". _('admin_new_users_is_admin') ."</td>\n";
+	echo "<td class=\"histo\">". _('admin_new_users_is_hr') ."</td>\n";
+	echo "<td class=\"histo\">". _('admin_new_users_see_all') ."</td>\n";
 	if ($_SESSION['config']['export_users_from_ldap'] == FALSE)
 	//if($_SESSION['config']['where_to_find_user_email']=="dbconges")
-		echo "<td class=\"histo\">".$_SESSION['lang']['admin_users_mail']."</td>\n";
+		echo "<td class=\"histo\">". _('admin_users_mail') ."</td>\n";
 	if ($_SESSION['config']['how_to_connect_user'] == "dbconges")
 	{
-		echo "<td class=\"histo\">".$_SESSION['lang']['admin_new_users_password']."</td>\n";
-		echo "<td class=\"histo\">".$_SESSION['lang']['admin_new_users_password']."</td>\n";
+		echo "<td class=\"histo\">". _('admin_new_users_password') ."</td>\n";
+		echo "<td class=\"histo\">". _('admin_new_users_password') ."</td>\n";
 	}
 	echo "</tr>\n";
 
@@ -866,8 +866,8 @@ function affiche_formulaire_ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab
 	// ligne de titres
 	echo "<tr>\n";
 	echo "<td class=\"histo\"></td>\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['admin_new_users_nb_par_an']."</td>\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['divers_solde']."</td>\n";
+	echo "<td class=\"histo\">". _('admin_new_users_nb_par_an') ."</td>\n";
+	echo "<td class=\"histo\">". _('divers_solde') ."</td>\n";
 	echo "</tr>\n";
 	// ligne de saisie des valeurs
 	foreach($tab_type_conges as $id_type_cong => $libelle)
@@ -912,11 +912,11 @@ function affiche_formulaire_ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab
 
 	echo "<br>\n";
 	echo "<input type=\"hidden\" name=\"saisie_user\" value=\"ok\">\n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_submit') ."\">\n";
 	echo "</form>\n" ;
 
 	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n" ;
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_annul']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_annul') ."\">\n";
 	echo "</form>\n" ;
 }
 
@@ -927,7 +927,7 @@ function affiche_gestion_groupes($new_group_name, $new_group_libelle, $DEBUG=FAL
    $PHP_SELF=$_SERVER['PHP_SELF'];
    $session=session_id();
 
-   echo "<H3>".$_SESSION['lang']['admin_onglet_gestion_groupe']."</H3>\n\n";
+   echo "<H3>". _('admin_onglet_gestion_groupe') ."</H3>\n\n";
 
    /*********************/
    /* Etat Groupes      */
@@ -936,14 +936,14 @@ function affiche_gestion_groupes($new_group_name, $new_group_libelle, $DEBUG=FAL
    $sql_gr = "SELECT g_gid, g_groupename, g_comment, g_double_valid FROM conges_groupe ORDER BY g_groupename"  ;
 
    // AFFICHAGE TABLEAU
-   echo "<h3>".$_SESSION['lang']['admin_gestion_groupe_etat']." :</h3>\n";
+   echo "<h3>". _('admin_gestion_groupe_etat') ." :</h3>\n";
    echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%%\">\n";
    echo "<tr>\n";
-   echo "    <td class=\"titre\">".$_SESSION['lang']['admin_groupes_groupe']."</td>\n";
-   echo "    <td class=\"titre\">".$_SESSION['lang']['admin_groupes_libelle']."</td>\n";
-   echo "    <td class=\"titre\">".$_SESSION['lang']['admin_groupes_nb_users']."</td>\n";
+   echo "    <td class=\"titre\">". _('admin_groupes_groupe') ."</td>\n";
+   echo "    <td class=\"titre\">". _('admin_groupes_libelle') ."</td>\n";
+   echo "    <td class=\"titre\">". _('admin_groupes_nb_users') ."</td>\n";
    if($_SESSION['config']['double_validation_conges']==TRUE)
-       echo "    <td class=\"titre\">".$_SESSION['lang']['admin_groupes_double_valid']."</td>\n";
+       echo "    <td class=\"titre\">". _('admin_groupes_double_valid') ."</td>\n";
    echo "    <td></td>\n";
    echo "    <td></td>\n";
    echo "</tr>\n";
@@ -958,8 +958,8 @@ function affiche_gestion_groupes($new_group_name, $new_group_libelle, $DEBUG=FAL
        $sql_double_valid=$resultat_gr["g_double_valid"] ;
        $nb_users_groupe = get_nb_users_du_groupe($sql_gid, $DEBUG);
 
-       $admin_modif_group="<a href=\"admin_modif_group.php?session=$session&group=$sql_gid\">".$_SESSION['lang']['form_modif']."</a>" ;
-       $admin_suppr_group="<a href=\"admin_suppr_group.php?session=$session&group=$sql_gid\">".$_SESSION['lang']['form_supprim']."</a>" ;
+       $admin_modif_group="<a href=\"admin_modif_group.php?session=$session&group=$sql_gid\">". _('form_modif') ."</a>" ;
+       $admin_suppr_group="<a href=\"admin_suppr_group.php?session=$session&group=$sql_gid\">". _('form_supprim') ."</a>" ;
 
        echo "<tr>\n";
        echo "<td class=\"histo\"><b>$sql_group</b></td>\n";
@@ -980,16 +980,16 @@ function affiche_gestion_groupes($new_group_name, $new_group_libelle, $DEBUG=FAL
 
    echo "<br><br><br><hr align=\"center\" size=\"2\" width=\"90%\"> \n";
    // TITRE
-   echo "<H3><u>".$_SESSION['lang']['admin_groupes_new_groupe']."</u></H3>\n\n";
+   echo "<H3><u>". _('admin_groupes_new_groupe') ."</u></H3>\n\n";
 
    echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n" ;
 
    echo "<table cellpadding=\"2\" class=\"tablo\">\n";
    echo "<tr>\n";
-   echo "<td class=\"histo\"><b>".$_SESSION['lang']['admin_groupes_groupe']."</b></td>\n";
-   echo "<td class=\"histo\">".$_SESSION['lang']['admin_groupes_libelle']." / ".$_SESSION['lang']['divers_comment_maj_1']."</td>\n";
+   echo "<td class=\"histo\"><b>". _('admin_groupes_groupe') ."</b></td>\n";
+   echo "<td class=\"histo\">". _('admin_groupes_libelle') ." / ". _('divers_comment_maj_1') ."</td>\n";
    if($_SESSION['config']['double_validation_conges']==TRUE)
-       echo "    <td class=\"histo\">".$_SESSION['lang']['admin_groupes_double_valid']."</td>\n";
+       echo "    <td class=\"histo\">". _('admin_groupes_double_valid') ."</td>\n";
    echo "</tr>\n";
 
    $text_groupname="<input type=\"text\" name=\"new_group_name\" size=\"30\" maxlength=\"50\" value=\"".$new_group_name."\">" ;
@@ -1008,11 +1008,11 @@ function affiche_gestion_groupes($new_group_name, $new_group_libelle, $DEBUG=FAL
 
    echo "<br>\n";
    echo "<input type=\"hidden\" name=\"saisie_group\" value=\"ok\">\n";
-   echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">\n";
+   echo "<input type=\"submit\" value=\"". _('form_submit') ."\">\n";
    echo "</form>\n" ;
 
    echo "<form action=\"$PHP_SELF?session=$session&onglet=admin-group\" method=\"POST\">\n" ;
-   echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_cancel']."\">\n";
+   echo "<input type=\"submit\" value=\"". _('form_cancel') ."\">\n";
    echo "</form>\n" ;
 }
 
@@ -1038,16 +1038,16 @@ function ajout_groupe($new_group_name, $new_group_libelle, $new_group_double_val
 		// $result = SQL::query($sql2);
 
 		if($result==TRUE)
-			echo $_SESSION['lang']['form_modif_ok']."<br><br> \n";
+			echo  _('form_modif_ok') ."<br><br> \n";
 		else
-			echo $_SESSION['lang']['form_modif_not_ok']."<br><br> \n";
+			echo  _('form_modif_not_ok') ."<br><br> \n";
 
 		$comment_log = "ajout_groupe : $new_gid / $new_group_name / $new_group_libelle (double_validation : $new_group_double_valid)" ;
 		log_action(0, "", "", $comment_log, $DEBUG);
 
 		/* APPEL D'UNE AUTRE PAGE */
 		echo " <form action=\"$PHP_SELF?session=$session&onglet=admin-group\" method=\"POST\"> \n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_retour']."\">\n";
+		echo "<input type=\"submit\" value=\"". _('form_retour') ."\">\n";
 		echo " </form> \n";
 	}
 }
@@ -1061,14 +1061,14 @@ function verif_new_param_group($new_group_name, $new_group_libelle, $DEBUG=FALSE
 
 	// verif des parametres reçus :
 	if(strlen($new_group_name)==0) {
-		echo "<H3> ".$_SESSION['lang']['admin_verif_param_invalides']." </H3>\n" ;
+		echo "<H3> ". _('admin_verif_param_invalides') ." </H3>\n" ;
 		echo "$new_group_name --- $new_group_libelle<br>\n";
 		echo "<form action=\"$PHP_SELF?session=$session&onglet=admin-group\" method=\"POST\">\n" ;
 		echo "<input type=\"hidden\" name=\"new_group_name\" value=\"$new_group_name\">\n";
 		echo "<input type=\"hidden\" name=\"new_group_libelle\" value=\"$new_group_libelle\">\n";
 
 		echo "<input type=\"hidden\" name=\"saisie_group\" value=\"faux\">\n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_redo']."\">\n";
+		echo "<input type=\"submit\" value=\"". _('form_redo') ."\">\n";
 		echo "</form>\n" ;
 
 		return 1;
@@ -1080,13 +1080,13 @@ function verif_new_param_group($new_group_name, $new_group_libelle, $DEBUG=FALSE
 		$num_verif = $ReqLog_verif->num_rows;
 		if ($num_verif!=0)
 		{
-			echo "<H3> ".$_SESSION['lang']['admin_verif_groupe_invalide']." </H3>\n" ;
+			echo "<H3> ". _('admin_verif_groupe_invalide') ." </H3>\n" ;
 			echo "<form action=\"$PHP_SELF?session=$session&onglet=admin-group\" method=\"POST\">\n" ;
 			echo "<input type=\"hidden\" name=\"new_group_name\" value=\"$new_group_name\">\n";
 			echo "<input type=\"hidden\" name=\"new_group_libelle\" value=\"$new_group_libelle\">\n";
 
 			echo "<input type=\"hidden\" name=\"saisie_group\" value=\"faux\">\n";
-			echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_redo']."\">\n";
+			echo "<input type=\"submit\" value=\"". _('form_redo') ."\">\n";
 			echo "</form>\n" ;
 
 			return 1;
@@ -1135,7 +1135,7 @@ function affiche_choix_groupes_users($DEBUG=FALSE)
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
-	echo "<H3>".$_SESSION['lang']['admin_onglet_groupe_user'].":</H3>\n\n";
+	echo "<H3>". _('admin_onglet_groupe_user') .":</H3>\n\n";
 
 
 	/********************/
@@ -1145,11 +1145,11 @@ function affiche_choix_groupes_users($DEBUG=FALSE)
 	$sql_gr = "SELECT g_gid, g_groupename, g_comment FROM conges_groupe ORDER BY g_groupename"  ;
 
 	// AFFICHAGE TABLEAU
-	echo "<h3>".$_SESSION['lang']['admin_aff_choix_groupe_titre']." :</h3>\n";
+	echo "<h3>". _('admin_aff_choix_groupe_titre') ." :</h3>\n";
 	echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 	echo "<tr>\n";
-	echo "	<td class=\"titre\">&nbsp;".$_SESSION['lang']['admin_groupes_groupe']."&nbsp;</td>\n";
-	echo "	<td class=\"titre\">&nbsp;".$_SESSION['lang']['admin_groupes_libelle']."&nbsp;</td>\n";
+	echo "	<td class=\"titre\">&nbsp;". _('admin_groupes_groupe') ."&nbsp;</td>\n";
+	echo "	<td class=\"titre\">&nbsp;". _('admin_groupes_libelle') ."&nbsp;</td>\n";
 	echo "</tr>\n";
 
 	$ReqLog_gr = SQL::query($sql_gr);
@@ -1178,7 +1178,7 @@ function affiche_gestion_groupes_users($choix_group, $DEBUG=FALSE)
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
-	echo "<H3>".$_SESSION['lang']['admin_onglet_groupe_user'].":</H3>\n\n";
+	echo "<H3>". _('admin_onglet_groupe_user') .":</H3>\n\n";
 
 
 	/************************/
@@ -1199,12 +1199,12 @@ function affiche_gestion_groupes_users($choix_group, $DEBUG=FALSE)
 
 	// affichage TITRE
 	echo "<tr align=\"center\">\n";
-	echo "	<td colspan=3><h3>".$_SESSION['lang']['admin_gestion_groupe_users_membres']." &nbsp;<b>$sql_group&nbsp;:</b>&nbsp;$sql_comment&nbsp;</h3></td>\n";
+	echo "	<td colspan=3><h3>". _('admin_gestion_groupe_users_membres') ." &nbsp;<b>$sql_group&nbsp;:</b>&nbsp;$sql_comment&nbsp;</h3></td>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
 	echo "	<td class=\"titre\">&nbsp;</td>\n";
-	echo "	<td class=\"titre\">&nbsp;".$_SESSION['lang']['divers_personne_maj_1']."&nbsp;:</td>\n";
-	echo "	<td class=\"titre\">&nbsp;".$_SESSION['lang']['divers_login']."&nbsp;:</td>\n";
+	echo "	<td class=\"titre\">&nbsp;". _('divers_personne_maj_1') ."&nbsp;:</td>\n";
+	echo "	<td class=\"titre\">&nbsp;". _('divers_login') ."&nbsp;:</td>\n";
 	echo "</tr>\n";
 
 	// affichage des users
@@ -1263,11 +1263,11 @@ function affiche_gestion_groupes_users($choix_group, $DEBUG=FALSE)
 
 	echo "<input type=\"hidden\" name=\"change_group_users\" value=\"ok\">\n";
 	echo "<input type=\"hidden\" name=\"choix_group\" value=\"$choix_group\">\n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_submit') ."\">\n";
 	echo "</form>\n" ;
 
 	echo "<form action=\"$PHP_SELF?session=$session&onglet=admin-group-users\" method=\"POST\">\n" ;
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_annul']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_annul') ."\">\n";
 	echo "</form>\n" ;
 
 }
@@ -1296,16 +1296,16 @@ function modif_group_users($choix_group, &$checkbox_group_users,  $DEBUG=FALSE)
 		$result_insert=TRUE;
 
 	if($result_insert==TRUE)
-		echo $_SESSION['lang']['form_modif_ok']."<br><br> \n";
+		echo  _('form_modif_ok') ."<br><br> \n";
 	else
-		echo $_SESSION['lang']['form_modif_not_ok']."<br><br> \n";
+		echo  _('form_modif_not_ok') ."<br><br> \n";
 
 	$comment_log = "mofification_users_du_groupe : $choix_group" ;
 	log_action(0, "", "", $comment_log,  $DEBUG);
 
 	/* APPEL D'UNE AUTRE PAGE */
 	echo " <form action=\"$PHP_SELF?session=$session&onglet=admin-group-users\" method=\"POST\"> \n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_retour']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_retour') ."\">\n";
 	echo " </form> \n";
 
 }
@@ -1317,7 +1317,7 @@ function affiche_choix_user_groupes( $DEBUG=FALSE)
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
-	echo "<H3>".$_SESSION['lang']['admin_onglet_user_groupe'].":</H3>\n\n";
+	echo "<H3>". _('admin_onglet_user_groupe') .":</H3>\n\n";
 
 
 	/********************/
@@ -1327,11 +1327,11 @@ function affiche_choix_user_groupes( $DEBUG=FALSE)
 	$sql_user = "SELECT u_login, u_nom, u_prenom FROM conges_users WHERE u_login!='conges' AND u_login!='admin' ORDER BY u_nom, u_prenom"  ;
 
 	// AFFICHAGE TABLEAU
-	echo "<h3>".$_SESSION['lang']['admin_aff_choix_user_titre']." :</h3>\n";
+	echo "<h3>". _('admin_aff_choix_user_titre') ." :</h3>\n";
 	echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 	echo "<tr>\n";
-	echo "<td class=\"titre\">&nbsp;".$_SESSION['lang']['divers_nom_maj_1']."  ".$_SESSION['lang']['divers_prenom_maj_1']."&nbsp;</td>\n";
-	echo "<td class=\"titre\">&nbsp;".$_SESSION['lang']['divers_login_maj_1']."&nbsp;</td>\n";
+	echo "<td class=\"titre\">&nbsp;". _('divers_nom_maj_1') ."  ". _('divers_prenom_maj_1') ."&nbsp;</td>\n";
+	echo "<td class=\"titre\">&nbsp;". _('divers_login_maj_1') ."&nbsp;</td>\n";
 	echo "</tr>\n";
 
 	$ReqLog_user = SQL::query($sql_user);
@@ -1360,7 +1360,7 @@ function affiche_gestion_user_groupes($choix_user,  $DEBUG=FALSE)
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
-	echo "<H3>".$_SESSION['lang']['admin_onglet_user_groupe'].":</H3>\n\n";
+	echo "<H3>". _('admin_onglet_user_groupe') .":</H3>\n\n";
 
 
 	/************************/
@@ -1382,11 +1382,11 @@ function affiche_gestion_user_groupes($choix_user,  $DEBUG=FALSE)
 
 	echo "<input type=\"hidden\" name=\"change_user_groups\" value=\"ok\">\n";
 	echo "<input type=\"hidden\" name=\"choix_user\" value=\"$choix_user\">\n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_submit') ."\">\n";
 	echo "</form>\n" ;
 
 	echo "<form action=\"$PHP_SELF?session=$session&onglet=admin-group-users\" method=\"POST\">\n" ;
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_annul']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_annul') ."\">\n";
 	echo "</form>\n" ;
 
 }
@@ -1402,16 +1402,16 @@ function affiche_tableau_affectation_user_groupes($choix_user,  $DEBUG=FALSE)
 	// affichage TITRE
 	echo "<tr align=\"center\">\n";
 	if($choix_user=="")
-		echo "	<td colspan=3><h3>".$_SESSION['lang']['admin_gestion_groupe_users_group_of_new_user']." :</h3></td>\n";
+		echo "	<td colspan=3><h3>". _('admin_gestion_groupe_users_group_of_new_user') ." :</h3></td>\n";
 	else
-		echo "	<td colspan=3><h3>".$_SESSION['lang']['admin_gestion_groupe_users_group_of_user']." <b> $choix_user </b> :</h3></td>\n";
+		echo "	<td colspan=3><h3>". _('admin_gestion_groupe_users_group_of_user') ." <b> $choix_user </b> :</h3></td>\n";
 
 	echo "</tr>\n";
 
 	echo "<tr>\n";
 	echo "	<td class=\"titre\">&nbsp;</td>\n";
-	echo "	<td class=\"titre\">&nbsp;".$_SESSION['lang']['admin_groupes_groupe']."&nbsp;:</td>\n";
-	echo "	<td class=\"titre\">&nbsp;".$_SESSION['lang']['admin_groupes_libelle']."&nbsp;:</td>\n";
+	echo "	<td class=\"titre\">&nbsp;". _('admin_groupes_groupe') ."&nbsp;:</td>\n";
+	echo "	<td class=\"titre\">&nbsp;". _('admin_groupes_libelle') ."&nbsp;:</td>\n";
 	echo "</tr>\n";
 
 	// affichage des groupes
@@ -1484,16 +1484,16 @@ function modif_user_groups($choix_user, &$checkbox_user_groups,  $DEBUG=FALSE)
 	$result_insert=commit_modif_user_groups($choix_user, $checkbox_user_groups,  $DEBUG);
 
 	if($result_insert==TRUE)
-		echo $_SESSION['lang']['form_modif_ok']." !<br><br> \n";
+		echo  _('form_modif_ok') ." !<br><br> \n";
 	else
-		echo $_SESSION['lang']['form_modif_not_ok']." !<br><br> \n";
+		echo  _('form_modif_not_ok') ." !<br><br> \n";
 
 	$comment_log = "mofification_des groupes auxquels $choix_user appartient" ;
 	log_action(0, "", $choix_user, $comment_log,  $DEBUG);
 
 	/* APPEL D'UNE AUTRE PAGE */
 	echo " <form action=\"$PHP_SELF?session=$session&onglet=admin-group-users\" method=\"POST\"> \n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_retour']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_retour') ."\">\n";
 	echo " </form> \n";
 
 }
@@ -1565,7 +1565,7 @@ function affiche_choix_groupes_responsables( $DEBUG=FALSE)
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
-	echo "<H3>".$_SESSION['lang']['admin_onglet_groupe_resp'].":</H3>\n\n";
+	echo "<H3>". _('admin_onglet_groupe_resp') .":</H3>\n\n";
 
 	/********************/
 	/* Choix Groupe     */
@@ -1574,11 +1574,11 @@ function affiche_choix_groupes_responsables( $DEBUG=FALSE)
 	$sql_gr = "SELECT g_gid, g_groupename, g_comment FROM conges_groupe ORDER BY g_groupename"  ;
 
 	// AFFICHAGE TABLEAU
-	echo "<h3>".$_SESSION['lang']['admin_aff_choix_groupe_titre']." :</h3>\n";
+	echo "<h3>". _('admin_aff_choix_groupe_titre') ." :</h3>\n";
 	echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 	echo "<tr>\n";
-	echo "	<td class=\"titre\">&nbsp;".$_SESSION['lang']['admin_groupes_groupe']."&nbsp;</td>\n";
-	echo "	<td class=\"titre\">&nbsp;".$_SESSION['lang']['admin_groupes_libelle']."&nbsp;</td>\n";
+	echo "	<td class=\"titre\">&nbsp;". _('admin_groupes_groupe') ."&nbsp;</td>\n";
+	echo "	<td class=\"titre\">&nbsp;". _('admin_groupes_libelle') ."&nbsp;</td>\n";
 	echo "</tr>\n";
 
 	$ReqLog_gr = SQL::query($sql_gr);
@@ -1608,7 +1608,7 @@ function affiche_gestion_groupes_responsables($choix_group, $DEBUG=FALSE)
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
-	echo "<H3>".$_SESSION['lang']['admin_onglet_groupe_resp'].":</H3>\n";
+	echo "<H3>". _('admin_onglet_groupe_resp') .":</H3>\n";
 
 
 	/***********************/
@@ -1653,12 +1653,12 @@ function affiche_gestion_groupes_responsables($choix_group, $DEBUG=FALSE)
 
 		// affichage TITRE
 		echo "<tr align=\"center\">\n";
-		echo "	<td colspan=3><h3>".$_SESSION['lang']['admin_gestion_groupe_resp_responsables']."</h3></td>\n";
+		echo "	<td colspan=3><h3>". _('admin_gestion_groupe_resp_responsables') ."</h3></td>\n";
 		echo "</tr>\n";
 		echo "<tr>\n";
 		echo "	<td class=\"titre\">&nbsp;</td>\n";
-		echo "	<td class=\"titre\">&nbsp;".$_SESSION['lang']['divers_personne_maj_1']."&nbsp;:</td>\n";
-		echo "	<td class=\"titre\">&nbsp;".$_SESSION['lang']['divers_login']."&nbsp;:</td>\n";
+		echo "	<td class=\"titre\">&nbsp;". _('divers_personne_maj_1') ."&nbsp;:</td>\n";
+		echo "	<td class=\"titre\">&nbsp;". _('divers_login') ."&nbsp;:</td>\n";
 		echo "</tr>\n";
 
 		// on rempli un autre tableau des responsables du groupe
@@ -1712,12 +1712,12 @@ function affiche_gestion_groupes_responsables($choix_group, $DEBUG=FALSE)
 
 			// affichage TITRE
 			echo "<tr align=\"center\">\n";
-			echo "	<td colspan=3><h3>".$_SESSION['lang']['admin_gestion_groupe_grand_resp_responsables']."</h3></td>\n";
+			echo "	<td colspan=3><h3>". _('admin_gestion_groupe_grand_resp_responsables') ."</h3></td>\n";
 			echo "</tr>\n";
 			echo "<tr>\n";
 			echo "	<td class=\"titre\">&nbsp;</td>\n";
-			echo "	<td class=\"titre\">&nbsp;".$_SESSION['lang']['divers_personne_maj_1']."&nbsp;:</td>\n";
-			echo "	<td class=\"titre\">&nbsp;".$_SESSION['lang']['divers_login']."&nbsp;:</td>\n";
+			echo "	<td class=\"titre\">&nbsp;". _('divers_personne_maj_1') ."&nbsp;:</td>\n";
+			echo "	<td class=\"titre\">&nbsp;". _('divers_login') ."&nbsp;:</td>\n";
 			echo "</tr>\n";
 
 			// on rempli un autre tableau des grands responsables du groupe
@@ -1766,11 +1766,11 @@ function affiche_gestion_groupes_responsables($choix_group, $DEBUG=FALSE)
 
 	echo "<input type=\"hidden\" name=\"change_group_responsables\" value=\"ok\">\n";
 	echo "<input type=\"hidden\" name=\"choix_group\" value=\"$choix_group\">\n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_submit') ."\">\n";
 	echo "</form>\n" ;
 
 	echo "<form action=\"$PHP_SELF?session=$session&onglet=admin-group-responsables&choix_gestion_groupes_responsables=group-resp\" method=\"POST\">\n" ;
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_annul']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_annul') ."\">\n";
 	echo "</form>\n" ;
 
 }
@@ -1817,16 +1817,16 @@ function modif_group_responsables($choix_group, &$checkbox_group_resp, &$checkbo
 	}
 
 	if( ($result_insert==TRUE) && ($result_insert_2==TRUE) )
-		echo $_SESSION['lang']['form_modif_ok']." !<br><br> \n";
+		echo  _('form_modif_ok') ." !<br><br> \n";
 	else
-		echo $_SESSION['lang']['form_modif_not_ok']." !<br><br> \n";
+		echo  _('form_modif_not_ok') ." !<br><br> \n";
 
 	$comment_log = "mofification_responsables_du_groupe : $choix_group" ;
 	log_action(0, "", "", $comment_log,  $DEBUG);
 
 	/* APPEL D'UNE AUTRE PAGE */
 	echo " <form action=\"$PHP_SELF?session=$session&onglet=admin-group-responsables&choix_gestion_groupes_responsables=group-resp\" method=\"POST\"> \n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_retour']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_retour') ."\">\n";
 	echo " </form> \n";
 
 }
@@ -1838,7 +1838,7 @@ function affiche_choix_responsable_groupes( $DEBUG=FALSE)
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
-	echo "<H3>".$_SESSION['lang']['admin_onglet_resp_groupe'].":</H3>\n\n";
+	echo "<H3>". _('admin_onglet_resp_groupe') .":</H3>\n\n";
 
 
 	// Récuperation des informations :
@@ -1849,11 +1849,11 @@ function affiche_choix_responsable_groupes( $DEBUG=FALSE)
 	/* Choix Responsable     */
 	/*************************/
 	// AFFICHAGE TABLEAU
-	echo "<h3>".$_SESSION['lang']['admin_aff_choix_resp_titre']." :</h3>\n";
+	echo "<h3>". _('admin_aff_choix_resp_titre') ." :</h3>\n";
 	echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 	echo "<tr>\n";
-	echo "	<td class=\"titre\">&nbsp;".$_SESSION['lang']['divers_responsable_maj_1']."&nbsp;</td>\n";
-	echo "	<td class=\"titre\">&nbsp;".$_SESSION['lang']['divers_login']."&nbsp;</td>\n";
+	echo "	<td class=\"titre\">&nbsp;". _('divers_responsable_maj_1') ."&nbsp;</td>\n";
+	echo "	<td class=\"titre\">&nbsp;". _('divers_login') ."&nbsp;</td>\n";
 	echo "</tr>\n";
 
 	while ($resultat_resp = $ReqLog_resp->fetch_array())
@@ -1882,7 +1882,7 @@ function affiche_gestion_responsable_groupes($choix_resp, $DEBUG=FALSE)
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
-	echo "<H3>".$_SESSION['lang']['admin_onglet_resp_groupe'].":</H3>\n\n";
+	echo "<H3>". _('admin_onglet_resp_groupe') .":</H3>\n\n";
 
 	//echo "resp = $choix_resp<br>\n";
 	/****************************/
@@ -1940,12 +1940,12 @@ function affiche_gestion_responsable_groupes($choix_resp, $DEBUG=FALSE)
 
 		// affichage TITRE
 		echo "<tr align=\"center\">\n";
-		echo "	<td colspan=3><h3>".$_SESSION['lang']['divers_responsable_maj_1']."</h3></td>\n";
+		echo "	<td colspan=3><h3>". _('divers_responsable_maj_1') ."</h3></td>\n";
 		echo "</tr>\n";
 		echo "<tr>\n";
 		echo "	<td class=\"titre\">&nbsp;</td>\n";
-		echo "	<td class=\"titre\">&nbsp;".$_SESSION['lang']['admin_groupes_groupe']."&nbsp;:</td>\n";
-		echo "	<td class=\"titre\">&nbsp;".$_SESSION['lang']['admin_groupes_libelle']."&nbsp;:</td>\n";
+		echo "	<td class=\"titre\">&nbsp;". _('admin_groupes_groupe') ."&nbsp;:</td>\n";
+		echo "	<td class=\"titre\">&nbsp;". _('admin_groupes_libelle') ."&nbsp;:</td>\n";
 		echo "</tr>\n";
 
 		// on rempli un autre tableau des groupes dont resp est responsables
@@ -2000,12 +2000,12 @@ function affiche_gestion_responsable_groupes($choix_resp, $DEBUG=FALSE)
 
 			// affichage TITRE
 			echo "<tr align=\"center\">\n";
-			echo "	<td colspan=3><h3>".$_SESSION['lang']['divers_grand_responsable_maj_1']."</h3></td>\n";
+			echo "	<td colspan=3><h3>". _('divers_grand_responsable_maj_1') ."</h3></td>\n";
 			echo "</tr>\n";
 			echo "<tr>\n";
 			echo "	<td class=\"titre\">&nbsp;</td>\n";
-			echo "	<td class=\"titre\">&nbsp;".$_SESSION['lang']['admin_groupes_groupe']."&nbsp;:</td>\n";
-			echo "	<td class=\"titre\">&nbsp;".$_SESSION['lang']['admin_groupes_libelle']."&nbsp;:</td>\n";
+			echo "	<td class=\"titre\">&nbsp;". _('admin_groupes_groupe') ."&nbsp;:</td>\n";
+			echo "	<td class=\"titre\">&nbsp;". _('admin_groupes_libelle') ."&nbsp;:</td>\n";
 			echo "</tr>\n";
 
 			// on rempli un autre tableau des groupes dont resp est GRAND responsables
@@ -2055,11 +2055,11 @@ function affiche_gestion_responsable_groupes($choix_resp, $DEBUG=FALSE)
 
 	echo "<input type=\"hidden\" name=\"change_responsable_group\" value=\"ok\">\n";
 	echo "<input type=\"hidden\" name=\"choix_resp\" value=\"$choix_resp\">\n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_submit') ."\">\n";
 	echo "</form>\n" ;
 
 	echo "<form action=\"$PHP_SELF?session=$session&onglet=admin-group-responsables&choix_gestion_groupes_responsables=resp-group\" method=\"POST\">\n"  ;
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_annul']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_annul') ."\">\n";
 	echo "</form>\n" ;
 
 }
@@ -2106,16 +2106,16 @@ function modif_resp_groupes($choix_resp, &$checkbox_resp_group, &$checkbox_grd_r
 	}
 
 	if(($result_insert==TRUE) && ($result_insert_2==TRUE) )
-		echo $_SESSION['lang']['form_modif_ok']." !<br><br> \n";
+		echo  _('form_modif_ok') ." !<br><br> \n";
 	else
-		echo $_SESSION['lang']['form_modif_not_ok']." !<br><br> \n";
+		echo  _('form_modif_not_ok') ." !<br><br> \n";
 
 	$comment_log = "mofification groupes dont $choix_resp est responsable ou grand responsable" ;
 	log_action(0, "", $choix_resp, $comment_log,  $DEBUG);
 
 	/* APPEL D'UNE AUTRE PAGE */
 	echo " <form action=\"$PHP_SELF?session=$session&onglet=admin-group-responsables&choix_gestion_groupes_responsables=resp-group\" method=\"POST\"> \n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_retour']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_retour') ."\">\n";
 	echo " </form> \n";
 
 }

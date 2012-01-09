@@ -68,7 +68,6 @@ $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST[
 	elseif(test_dbconnect_file($DEBUG)!=TRUE)
 	{
 		$_SESSION['langue']=$lang;      // sert ensuite pour mettre la langue dans la table config
-		inculde_lang_file($lang, $DEBUG);
 //		$tab_lang_file = glob("lang/lang_".$lang."_*.php");
 //		include($tab_lang_file[0]) ;
 //		include($lang_file) ;
@@ -77,15 +76,14 @@ $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST[
 		echo "<body>\n";
 		echo "<center>\n";
 		echo "<br><br>\n";
-		echo $_SESSION['lang']['install_le_fichier']." <b>\"dbconnect.php\"</b> ".$_SESSION['lang']['install_bad_fichier'].".<br> \n";
-		echo $_SESSION['lang']['install_read_the_file']." INSTALL.txt<br>\n";
-		echo "<br><a href=\"$PHP_SELF?session=$session\">".$_SESSION['lang']['install_reload_page']." ....</a><br>\n";
+		echo  _('install_le_fichier') ." <b>\"dbconnect.php\"</b> ". _('install_bad_fichier') .".<br> \n";
+		echo  _('install_read_the_file') ." INSTALL.txt<br>\n";
+		echo "<br><a href=\"$PHP_SELF?session=$session\">". _('install_reload_page') ." ....</a><br>\n";
 		echo "</center>\n";
 		echo "</body>\n</html>\n";
 	}
 	else
 	{
-		inculde_lang_file($lang, $DEBUG);
 		include '../dbconnect.php';
 		include '../version.php';
 
@@ -95,11 +93,11 @@ $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST[
 			echo "<body>\n";
 			echo "<center>\n";
 			echo "<br><br>\n";
-			echo "<b>".$_SESSION['lang']['install_db_inaccessible']." ... <br><br>\n";
-			echo $_SESSION['lang']['install_verifiez_param_file']." dbconnect.php .<br>\n";
-			echo "(".$_SESSION['lang']['install_verifiez_priv_mysql'].")<br><br>\n";
-			echo "<i>".$_SESSION['lang']['install_read_the_file']." INSTALL.txt</i><br>\n";
-			echo "<br><a href=\"$PHP_SELF?session=$session\">".$_SESSION['lang']['install_reload_page']." ....</a><br>\n";
+			echo "<b>". _('install_db_inaccessible') ." ... <br><br>\n";
+			echo  _('install_verifiez_param_file') ." dbconnect.php .<br>\n";
+			echo "(". _('install_verifiez_priv_mysql') .")<br><br>\n";
+			echo "<i>". _('install_read_the_file') ." INSTALL.txt</i><br>\n";
+			echo "<br><a href=\"$PHP_SELF?session=$session\">". _('install_reload_page') ." ....</a><br>\n";
 			echo "</b></center>\n";
 			echo "</body>\n</html>\n";
 		}
@@ -152,34 +150,34 @@ function install($lang,  $DEBUG=FALSE)
 
 	// affichage du titre
 	echo "<center>\n";
-	echo "<br><H1><img src=\"../img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"".$_SESSION['lang']['install_install_phpconges']."\" alt=\"".$_SESSION['lang']['install_install_phpconges']."\"> ".$_SESSION['lang']['install_index_titre']."</H1>\n";
+	echo "<br><H1><img src=\"../img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"". _('install_install_phpconges') ."\" alt=\"". _('install_install_phpconges') ."\"> ". _('install_index_titre') ."</H1>\n";
 	echo "<br><br>\n";
 
 	echo "<table border=\"0\">\n";
 	echo "<tr align=\"center\">\n";
-	echo "<td colspan=\"3\"><h2>".$_SESSION['lang']['install_no_prev_version_found'].".<br>".$_SESSION['lang']['install_indiquez']." ...</h2><br><br></td>\n";
+	echo "<td colspan=\"3\"><h2>". _('install_no_prev_version_found') .".<br>". _('install_indiquez') ." ...</h2><br><br></td>\n";
 	echo "</tr>\n";
 	echo "<tr align=\"center\">\n";
 	echo "<td valign=top>\n";
 	echo "\n";
-	echo "<h3>... ".$_SESSION['lang']['install_nouvelle_install']."</h3>\n";
+	echo "<h3>... ". _('install_nouvelle_install') ."</h3>\n";
 	echo "<br>\n";
 
 	// Formulaire : lance install.php
 	echo "<form action=\"install.php\" method=\"POST\">\n";
 	echo "<input type=\"hidden\" name=\"lang\" value=\"$lang\">\n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_start']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_start') ."\">\n";
 	echo "</form>\n";
 	echo "</td>\n";
 	echo "<td><img src=\"../img/shim.gif\" width=\"100\" height=\"10\" border=\"0\" vspace=\"0\" hspace=\"0\"></td>\n";
 	echo "<td valign=top>\n";
-	echo "<h3>... ".$_SESSION['lang']['install_mise_a_jour']."</h3><b>".$_SESSION['lang']['install_indiquez_pre_version']." :</b><br><br>\n";
+	echo "<h3>... ". _('install_mise_a_jour') ."</h3><b>". _('install_indiquez_pre_version') ." :</b><br><br>\n";
 
 	// Formulaire : lance mise_a_jour.php
 	echo "<form action=\"mise_a_jour.php\" method=\"POST\">\n";
 	// affichage de la liste des versions ...
 	echo "<select name=\"version\">\n";
-	echo "<option value=\"0\">".$_SESSION['lang']['install_installed_version']."</option>\n";
+	echo "<option value=\"0\">". _('install_installed_version') ."</option>\n";
 	echo "<option value=\"1.0\">v1.0.x</option>\n";
 	echo "<option value=\"0.10\">v0.10.x</option>\n";
 	echo "<option value=\"0.9\">v0.9.x</option>\n";
@@ -191,7 +189,7 @@ function install($lang,  $DEBUG=FALSE)
 	echo "</select>\n";
 	echo "<br>\n";
 	echo "<input type=\"hidden\" name=\"lang\" value=\"$lang\">\n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_start']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_start') ."\">\n";
 	echo "</form>\n";
 	echo "</td>\n";
 	echo "</tr>\n";

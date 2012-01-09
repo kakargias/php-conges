@@ -98,7 +98,7 @@ echo "<CENTER>\n";
 	elseif($u_login_to_update!="")
 		$login_titre = $u_login_to_update;
 
-	echo "<H1>".$_SESSION['lang']['admin_modif_user_titre']." : $login_titre .</H1>\n\n";
+	echo "<H1>". _('admin_modif_user_titre') ." : $login_titre .</H1>\n\n";
 
 
 	if($u_login!="")
@@ -170,17 +170,17 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $DEBUG=F
 	// AFFICHAGE TABLEAU DES INFOS
 	echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 	echo "<tr align=\"center\">\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['divers_nom_maj_1']."</td>\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['divers_prenom_maj_1']."</td>\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['divers_login_maj_1']."</td>\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['divers_quotite_maj_1']."</td>\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['admin_users_is_resp']."</td>\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['admin_users_resp_login']."</td>\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['admin_users_is_admin']."</td>\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['admin_users_is_hr']."</td>\n";
- 	echo "<td class=\"histo\">".$_SESSION['lang']['admin_users_see_all']."</td>\n";
+	echo "<td class=\"histo\">". _('divers_nom_maj_1') ."</td>\n";
+	echo "<td class=\"histo\">". _('divers_prenom_maj_1') ."</td>\n";
+	echo "<td class=\"histo\">". _('divers_login_maj_1') ."</td>\n";
+	echo "<td class=\"histo\">". _('divers_quotite_maj_1') ."</td>\n";
+	echo "<td class=\"histo\">". _('admin_users_is_resp') ."</td>\n";
+	echo "<td class=\"histo\">". _('admin_users_resp_login') ."</td>\n";
+	echo "<td class=\"histo\">". _('admin_users_is_admin') ."</td>\n";
+	echo "<td class=\"histo\">". _('admin_users_is_hr') ."</td>\n";
+ 	echo "<td class=\"histo\">". _('admin_users_see_all') ."</td>\n";
 	if($_SESSION['config']['where_to_find_user_email']=="dbconges")
-		echo "<td class=\"histo\">".$_SESSION['lang']['admin_users_mail']."</td>\n";
+		echo "<td class=\"histo\">". _('admin_users_mail') ."</td>\n";
 	echo "</tr>\n";
 
 	// AFICHAGE DE LA LIGNE DES VALEURS ACTUELLES A MOFIDIER
@@ -265,13 +265,13 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $DEBUG=F
 	echo "<table cellpadding=\"2\" class=\"tablo\" >\n";
 	echo "<tr align=\"center\">\n";
 	echo "<td class=\"histo\"></td>\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['admin_modif_nb_jours_an']." </td>\n";
+	echo "<td class=\"histo\">". _('admin_modif_nb_jours_an') ." </td>\n";
 	echo "<td class=\"histo\"></td>\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['divers_solde']."</td>\n";
+	echo "<td class=\"histo\">". _('divers_solde') ."</td>\n";
 	echo "<td class=\"histo\"></td>\n";
 	if($_SESSION['config']['autorise_reliquats_exercice']==TRUE)
 	{
-		echo "<td class=\"histo\">".$_SESSION['lang']['divers_reliquat']."</td>\n";
+		echo "<td class=\"histo\">". _('divers_reliquat') ."</td>\n";
 		echo "<td class=\"histo\"></td>\n";
 	}
 	echo "</tr>\n";
@@ -364,11 +364,11 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $DEBUG=F
 	// saisie des jours d'abscence RTT ou temps partiel:
 	saisie_jours_absence_temps_partiel($u_login,$DEBUG);
 
-	echo "<br><input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">\n";
+	echo "<br><input type=\"submit\" value=\"". _('form_submit') ."\">\n";
 	echo "</form>\n" ;
 
 	echo "<form action=\"admin_index.php?session=$session&onglet=admin-users\" method=\"POST\">\n" ;
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_cancel']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_cancel') ."\">\n";
 	echo "</form>\n" ;
 
 }
@@ -660,15 +660,15 @@ function commit_update($u_login_to_update, &$tab_new_user, &$tab_new_jours_an, &
 		log_action(0, "", $u_login_to_update, $comment_log,  $DEBUG);
 
 		if($result==TRUE)
-			echo $_SESSION['lang']['form_modif_ok']." !<br><br> \n";
+			echo  _('form_modif_ok') ." !<br><br> \n";
 		else
-			echo $_SESSION['lang']['form_modif_not_ok']." !<br><br> \n";
+			echo  _('form_modif_not_ok') ." !<br><br> \n";
 
 	}
 	// en cas d'erreur de saisie
 	else
 	{
-		echo $_SESSION['lang']['form_modif_not_ok']." !<br><br> \n";
+		echo  _('form_modif_not_ok') ." !<br><br> \n";
 	}
 
 	if($DEBUG==TRUE)

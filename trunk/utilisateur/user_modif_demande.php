@@ -38,7 +38,7 @@ echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 echo "<html>\n";
 echo "<head>\n";
 
-	echo "<TITLE> PHP_CONGES : ".$_SESSION['lang']['user']." ".$_SESSION['userlogin']."</TITLE>\n";
+	echo "<TITLE> PHP_CONGES : ". _('user') ." ".$_SESSION['userlogin']."</TITLE>\n";
 	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
 	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 	echo "<link href=\"../style.css\" rel=\"stylesheet\" type=\"text/css\" />";
@@ -79,7 +79,7 @@ echo "<head>\n";
 	/*************************************/
 
 	// TITRE
-	echo "<H1>".$_SESSION['lang']['user_modif_demande_titre']."</H1>\n\n";
+	echo "<H1>". _('user_modif_demande_titre') ."</H1>\n\n";
 	echo "<br><br>\n";
 
 	if($p_num!="")
@@ -121,10 +121,10 @@ function confirmer($p_num, $onglet, $DEBUG=FALSE)
 	echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n" ;
 	// affichage première ligne : titres
 	echo "<tr align=\"center\">\n";
-	echo "<td class=\"titre\">".$_SESSION['lang']['divers_debut_maj_1']."</td>\n";
-	echo "<td class=\"titre\">".$_SESSION['lang']['divers_fin_maj_1']."</td>\n";
-	echo "<td class=\"titre\">".$_SESSION['lang']['divers_nb_jours_maj_1']."</td>\n";
-	echo "<td class=\"titre\">".$_SESSION['lang']['divers_comment_maj_1']."</td>\n";
+	echo "<td class=\"titre\">". _('divers_debut_maj_1') ."</td>\n";
+	echo "<td class=\"titre\">". _('divers_fin_maj_1') ."</td>\n";
+	echo "<td class=\"titre\">". _('divers_nb_jours_maj_1') ."</td>\n";
+	echo "<td class=\"titre\">". _('divers_comment_maj_1') ."</td>\n";
 	echo "</tr>\n" ;
 	// affichage 2ieme ligne : valeurs actuelles
 	echo "<tr align=\"center\">\n" ;
@@ -133,15 +133,15 @@ function confirmer($p_num, $onglet, $DEBUG=FALSE)
 		$sql_date_deb=eng_date_to_fr($resultat1["p_date_deb"]);
 		$sql_demi_jour_deb = $resultat1["p_demi_jour_deb"];
 		if($sql_demi_jour_deb=="am")
-			$demi_j_deb=$_SESSION['lang']['divers_am_short'];
+			$demi_j_deb= _('divers_am_short') ;
 		else
-			$demi_j_deb=$_SESSION['lang']['divers_pm_short'];
+			$demi_j_deb= _('divers_pm_short') ;
 		$sql_date_fin=eng_date_to_fr($resultat1["p_date_fin"]);
 		$sql_demi_jour_fin = $resultat1["p_demi_jour_fin"];
 		if($sql_demi_jour_fin=="am")
-			$demi_j_fin=$_SESSION['lang']['divers_am_short'];
+			$demi_j_fin= _('divers_am_short') ;
 		else
-			$demi_j_fin=$_SESSION['lang']['divers_pm_short'];
+			$demi_j_fin= _('divers_pm_short') ;
 		$sql_nb_jours=$resultat1["p_nb_jours"];
 		$aff_nb_jours=affiche_decimal($sql_nb_jours);
 		$sql_commentaire=$resultat1["p_commentaire"];
@@ -152,24 +152,24 @@ function confirmer($p_num, $onglet, $DEBUG=FALSE)
 		$text_debut="<input type=\"text\" name=\"new_debut\" size=\"10\" maxlength=\"30\" value=\"$sql_date_deb\">" ;
 		if($sql_demi_jour_deb=="am")
 		{
-			$radio_deb_am="<input type=\"radio\" name=\"new_demi_jour_deb\" value=\"am\" checked>".$_SESSION['lang']['form_am'];
-			$radio_deb_pm="<input type=\"radio\" name=\"new_demi_jour_deb\" value=\"pm\">".$_SESSION['lang']['form_pm'];
+			$radio_deb_am="<input type=\"radio\" name=\"new_demi_jour_deb\" value=\"am\" checked>". _('form_am') ;
+			$radio_deb_pm="<input type=\"radio\" name=\"new_demi_jour_deb\" value=\"pm\">". _('form_pm') ;
 		}
 		else
 		{
-			$radio_deb_am="<input type=\"radio\" name=\"new_demi_jour_deb\" value=\"am\">".$_SESSION['lang']['form_am'];
-			$radio_deb_pm="<input type=\"radio\" name=\"new_demi_jour_deb\" value=\"pm\" checked>".$_SESSION['lang']['form_pm'];
+			$radio_deb_am="<input type=\"radio\" name=\"new_demi_jour_deb\" value=\"am\">". _('form_am') ;
+			$radio_deb_pm="<input type=\"radio\" name=\"new_demi_jour_deb\" value=\"pm\" checked>". _('form_pm') ;
 		}
 		$text_fin="<input type=\"text\" name=\"new_fin\" size=\"10\" maxlength=\"30\" value=\"$sql_date_fin\">" ;
 		if($sql_demi_jour_fin=="am")
 		{
-			$radio_fin_am="<input type=\"radio\" name=\"new_demi_jour_fin\" value=\"am\" checked>".$_SESSION['lang']['form_am'];
-			$radio_fin_pm="<input type=\"radio\" name=\"new_demi_jour_fin\" value=\"pm\">".$_SESSION['lang']['form_pm'];
+			$radio_fin_am="<input type=\"radio\" name=\"new_demi_jour_fin\" value=\"am\" checked>". _('form_am') ;
+			$radio_fin_pm="<input type=\"radio\" name=\"new_demi_jour_fin\" value=\"pm\">". _('form_pm') ;
 		}
 		else
 		{
-			$radio_fin_am="<input type=\"radio\" name=\"new_demi_jour_fin\" value=\"am\">".$_SESSION['lang']['form_am'];
-			$radio_fin_pm="<input type=\"radio\" name=\"new_demi_jour_fin\" value=\"pm\" checked>".$_SESSION['lang']['form_pm'];
+			$radio_fin_am="<input type=\"radio\" name=\"new_demi_jour_fin\" value=\"am\">". _('form_am') ;
+			$radio_fin_pm="<input type=\"radio\" name=\"new_demi_jour_fin\" value=\"pm\" checked>". _('form_pm') ;
 		}
 		if($_SESSION['config']['disable_saise_champ_nb_jours_pris']==TRUE)
 			$text_nb_jours="<input type=\"text\" name=\"new_nb_jours\" size=\"5\" maxlength=\"30\" value=\"$sql_nb_jours\" style=\"background-color: #D4D4D4; \" readonly=\"readonly\">" ;
@@ -191,11 +191,11 @@ function confirmer($p_num, $onglet, $DEBUG=FALSE)
 	echo "<input type=\"hidden\" name=\"p_etat\" value=\"$sql_etat\">\n" ;
 	echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n" ;
 	echo "<input type=\"hidden\" name=\"onglet\" value=\"$onglet\">\n" ;
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">\n" ;
+	echo "<input type=\"submit\" value=\"". _('form_submit') ."\">\n" ;
 	echo "</form>\n" ;
 
 	echo "<form action=\"user_index.php?session=$session&onglet=$onglet\" method=\"POST\">\n" ;
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_cancel']."\">\n" ;
+	echo "<input type=\"submit\" value=\"". _('form_cancel') ."\">\n" ;
 	echo "</form>\n" ;
 }
 
@@ -222,10 +222,10 @@ function modifier($p_num_to_update, $new_debut, $new_demi_jour_deb, $new_fin, $n
 	log_action($p_num_to_update, "$p_etat", $_SESSION['userlogin'], $comment_log, $DEBUG);
 
 
-	echo $_SESSION['lang']['form_modif_ok']."<br><br> \n" ;
+	echo  _('form_modif_ok') ."<br><br> \n" ;
 	/* APPEL D'UNE AUTRE PAGE */
 	echo " <form action=\"user_index.php?session=$session&onglet=$onglet\" method=\"POST\"> \n" ;
-	echo " <input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">\n" ;
+	echo " <input type=\"submit\" value=\"". _('form_submit') ."\">\n" ;
 	echo " </form> \n" ;
 
 }

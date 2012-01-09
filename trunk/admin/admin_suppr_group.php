@@ -63,7 +63,7 @@ echo "</head>\n";
 	/*************************************/
 
 	// TITRE
-	echo "<H1>".$_SESSION['lang']['admin_suppr_groupe_titre']."</H1>\n";
+	echo "<H1>". _('admin_suppr_groupe_titre') ."</H1>\n";
 
 
 	if($group!="")
@@ -110,10 +110,10 @@ function confirmer($group, $DEBUG=FALSE)
 	echo "<form action=\"$PHP_SELF?session=$session&group_to_delete=$group\" method=\"POST\">\n"  ;
 	echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 	echo "<tr align=\"center\">\n";
-	echo "<td class=\"histo\"><b>".$_SESSION['lang']['admin_groupes_groupe']."</b></td>\n";
-	echo "<td class=\"histo\"><b>".$_SESSION['lang']['admin_groupes_libelle']." / ".$_SESSION['lang']['divers_comment_maj_1']."</b></td>\n";
+	echo "<td class=\"histo\"><b>". _('admin_groupes_groupe') ."</b></td>\n";
+	echo "<td class=\"histo\"><b>". _('admin_groupes_libelle') ." / ". _('divers_comment_maj_1') ."</b></td>\n";
 	if($_SESSION['config']['double_validation_conges']==TRUE)
-		echo "	<td class=\"histo\"><b>".$_SESSION['lang']['admin_groupes_double_valid']."</b></td>\n";
+		echo "	<td class=\"histo\"><b>". _('admin_groupes_double_valid') ."</b></td>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
 	while ($resultat1 = $ReqLog1->fetch_array()) {
@@ -127,11 +127,11 @@ function confirmer($group, $DEBUG=FALSE)
 	}
 	echo "</tr>\n";
 	echo "</table><br>\n\n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_supprim']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_supprim') ."\">\n";
 	echo "</form>\n" ;
 
 	echo "<form action=\"admin_index.php?session=$session&onglet=admin-group\" method=\"POST\">\n" ;
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_cancel']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_cancel') ."\">\n";
 	echo "</form>\n" ;
 
 }
@@ -161,9 +161,9 @@ function suppression_group($group_to_delete,  $DEBUG=FALSE)
 	log_action(0, "", "", $comment_log,  $DEBUG);
 
 	if($result==TRUE)
-		echo $_SESSION['lang']['form_modif_ok']." !<br><br> \n";
+		echo  _('form_modif_ok') ." !<br><br> \n";
 	else
-		echo $_SESSION['lang']['form_modif_not_ok']." !<br><br> \n";
+		echo  _('form_modif_not_ok') ." !<br><br> \n";
 
 	/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
 	echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=admin_index.php?session=$session&onglet=admin-group\">";

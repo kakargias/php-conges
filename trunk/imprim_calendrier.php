@@ -80,19 +80,19 @@ function form_saisie($action, $new_mois, $new_year, $DEBUG=FALSE)
 
 	
 	echo "<center>\n";
-	echo "<h3>".$_SESSION['lang']['imprim_calendrier_titre']."</h3>\n";
+	echo "<h3>". _('imprim_calendrier_titre') ."</h3>\n";
 
 	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n";
 	echo "<table>\n";
 	// choix du mois et annee
 	echo "<tr>\n";
 		echo "<td align=\"center\">\n";
-		echo "<b>".$_SESSION['lang']['divers_mois']." : </b>\n";
+		echo "<b>". _('divers_mois') ." : </b>\n";
 		$mois_default=date("m");
 		affiche_selection_new_mois($mois_default);  // la variable est $new_mois
 		echo "</td>\n";
 		echo "<td align=\"center\">\n";
-		echo "<b>".$_SESSION['lang']['divers_annee']." : </b>\n";
+		echo "<b>". _('divers_annee') ." : </b>\n";
 		$year_default=date("Y");
 		affiche_selection_new_year($year_default-5, $year_default+5, $year_default );  // la variable est $new_year
 		echo "</td>\n";
@@ -105,12 +105,12 @@ function form_saisie($action, $new_mois, $new_year, $DEBUG=FALSE)
 	echo "<tr>\n";
 	echo "<td colspan=\"2\" align=\"center\">\n";
 	echo "	<input type=\"hidden\" name=\"action\" value=\"imprim\">\n";
-	echo "	<input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">\n";
+	echo "	<input type=\"submit\" value=\"". _('form_submit') ."\">\n";
 	echo "</td>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
 	echo "<td colspan=\"2\" align=\"center\">\n";
-	echo "	<input type=\"button\" value=\"".$_SESSION['lang']['form_close_window']."\" onClick=\"javascript:window.close();\">\n";
+	echo "	<input type=\"button\" value=\"". _('form_close_window') ."\" onClick=\"javascript:window.close();\">\n";
 	echo "</td>\n";
 	echo "</tr>\n";
 	echo "</table>\n";

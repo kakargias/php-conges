@@ -29,6 +29,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 include_once __DIR__ .'/INCLUDE.PHP/sql.class.php';
+include_once __DIR__ .'/INCLUDE.PHP/get_text.php';
 
 // affichage du calendrier avec les case à cocher, du mois du début du congés
 function  affiche_calendrier_saisie_date_debut($user_login, $year, $mois,  $DEBUG=FALSE)
@@ -49,13 +50,13 @@ function  affiche_calendrier_saisie_date_debut($user_login, $year, $mois,  $DEBU
 	/* affichage  2 premieres lignes */
 	echo '	<tr align="center" bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'"><td colspan=7 class="titre"> '.$mois_name.' '.$year.' </td></tr>' ;
 	echo '	<tr bgcolor=\"'.$_SESSION['config']['light_grey_bgcolor'].'\">';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['lundi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['mardi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['mercredi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['jeudi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['vendredi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['samedi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['dimanche_1c'].'</td>';
+	echo '		<td class="cal-saisie2">'. _('lundi_1c') .'</td>';
+	echo '		<td class="cal-saisie2">'. _('mardi_1c') .'</td>';
+	echo '		<td class="cal-saisie2">'. _('mercredi_1c') .'</td>';
+	echo '		<td class="cal-saisie2">'. _('jeudi_1c') .'</td>';
+	echo '		<td class="cal-saisie2">'. _('vendredi_1c') .'</td>';
+	echo '		<td class="cal-saisie2">'. _('samedi_1c') .'</td>';
+	echo '		<td class="cal-saisie2">'. _('dimanche_1c') .'</td>';
 	echo '	</tr>' ;
 
 	/* affichage ligne 1 du mois*/
@@ -174,13 +175,13 @@ function  affiche_calendrier_saisie_date_fin($user_login, $year, $mois, $DEBUG=F
 	/* affichage  2 premieres lignes */
 	echo '	<tr align="center" bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'"><td colspan=7 class="titre"> '.$mois_name.' '.$year.' </td></tr>' ;
 	echo '	<tr align="center"  bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'">' ;
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['lundi_1c'].'</td>' ;
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['mardi_1c'].'</td>' ;
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['mercredi_1c'].'</td>' ;
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['jeudi_1c'].'</td>' ;
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['vendredi_1c'].'</td>' ;
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['samedi_1c'].'</td>' ;
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['dimanche_1c'].'</td>' ;
+	echo '		<td class="cal-saisie2">'. _('lundi_1c') .'</td>' ;
+	echo '		<td class="cal-saisie2">'. _('mardi_1c') .'</td>' ;
+	echo '		<td class="cal-saisie2">'. _('mercredi_1c') .'</td>' ;
+	echo '		<td class="cal-saisie2">'. _('jeudi_1c') .'</td>' ;
+	echo '		<td class="cal-saisie2">'. _('vendredi_1c') .'</td>' ;
+	echo '		<td class="cal-saisie2">'. _('samedi_1c') .'</td>' ;
+	echo '		<td class="cal-saisie2">'. _('dimanche_1c') .'</td>' ;
 	echo '	</tr>' ;
 
 
@@ -300,13 +301,13 @@ function  affiche_calendrier_saisie_jour_absence($user_login, $year, $mois, $DEB
 	/* affichage  2 premieres lignes */
 	echo '	<tr align="center" bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'"><td colspan=7 class="titre"> '.$mois_name.' '.$year.' </td></tr>' ;
 	echo '	<tr bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'">';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['lundi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['mardi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['mercredi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['jeudi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['vendredi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['samedi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['dimanche_1c'].'</td>';
+	echo '		<td class="cal-saisie2">'. _('lundi_1c') .'</td>';
+	echo '		<td class="cal-saisie2">'. _('mardi_1c') .'</td>';
+	echo '		<td class="cal-saisie2">'. _('mercredi_1c') .'</td>';
+	echo '		<td class="cal-saisie2">'. _('jeudi_1c') .'</td>';
+	echo '		<td class="cal-saisie2">'. _('vendredi_1c') .'</td>';
+	echo '		<td class="cal-saisie2">'. _('samedi_1c') .'</td>';
+	echo '		<td class="cal-saisie2">'. _('dimanche_1c') .'</td>';
 	echo '	</tr>' ;
 
 	/* affichage ligne 1 du mois*/
@@ -532,13 +533,13 @@ function  affiche_calendrier_saisie_jour_presence($user_login, $year, $mois, $DE
 	/* affichage  2 premieres lignes */
 	echo '	<tr align="center" bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'"><td colspan=7 class="titre"> '.$mois_name.' '.$year.' </td></tr>' ;
 	echo '	<tr bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'">';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['lundi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['mardi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['mercredi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['jeudi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['vendredi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['samedi_1c'].'</td>';
-	echo '		<td class="cal-saisie2">'.$_SESSION['lang']['dimanche_1c'].'</td>';
+	echo '		<td class="cal-saisie2">'. _('lundi_1c') .'</td>';
+	echo '		<td class="cal-saisie2">'. _('mardi_1c') .'</td>';
+	echo '		<td class="cal-saisie2">'. _('mercredi_1c') .'</td>';
+	echo '		<td class="cal-saisie2">'. _('jeudi_1c') .'</td>';
+	echo '		<td class="cal-saisie2">'. _('vendredi_1c') .'</td>';
+	echo '		<td class="cal-saisie2">'. _('samedi_1c') .'</td>';
+	echo '		<td class="cal-saisie2">'. _('dimanche_1c') .'</td>';
 	echo '	</tr>' ;
 
 
@@ -831,12 +832,12 @@ function saisie_jours_absence_temps_partiel($login,  $DEBUG=FALSE)
 	}
 
 
-	echo '<h4>'.$_SESSION['lang']['admin_temps_partiel_titre'].' :</h4>';
+	echo '<h4>'. _('admin_temps_partiel_titre') .' :</h4>';
 	echo '<table cellpadding="0" cellspacing="0" border="0">';
 	echo '<tr>';
 	echo '<td>';
 		//tableau semaines impaires
-		echo '<b><u>'.$_SESSION['lang']['admin_temps_partiel_sem_impaires'].' :</u></b><br>';
+		echo '<b><u>'. _('admin_temps_partiel_sem_impaires') .' :</u></b><br>';
 		$tab_checkbox_sem_imp=array();
 		$imp_lu_am='<input type="checkbox" name="tab_checkbox_sem_imp[sem_imp_lu_am]" value="Y" '.$checked_option_sem_imp_lu_am.'>';
 		$imp_lu_pm='<input type="checkbox" name="tab_checkbox_sem_imp[sem_imp_lu_pm]" value="Y" '.$checked_option_sem_imp_lu_pm.'>';
@@ -862,18 +863,18 @@ function saisie_jours_absence_temps_partiel($login,  $DEBUG=FALSE)
 		echo '<table cellpadding="1" class="tablo">';
 		echo '<tr align="center">';
 			echo '<td></td>';
-			echo '<td class="histo">'.$_SESSION['lang']['lundi'].'</td>';
-			echo '<td class="histo">'.$_SESSION['lang']['mardi'].'</td>';
-			echo '<td class="histo">'.$_SESSION['lang']['mercredi'].'</td>';
-			echo '<td class="histo">'.$_SESSION['lang']['jeudi'].'</td>';
-			echo '<td class="histo">'.$_SESSION['lang']['vendredi'].'</td>';
+			echo '<td class="histo">'. _('lundi') .'</td>';
+			echo '<td class="histo">'. _('mardi') .'</td>';
+			echo '<td class="histo">'. _('mercredi') .'</td>';
+			echo '<td class="histo">'. _('jeudi') .'</td>';
+			echo '<td class="histo">'. _('vendredi') .'</td>';
 			if($_SESSION['config']['samedi_travail']==TRUE)
-				echo '<td class="histo">'.$_SESSION['lang']['samedi'].'</td>';
+				echo '<td class="histo">'. _('samedi') .'</td>';
 			if($_SESSION['config']['dimanche_travail']==TRUE)
-				echo '<td class="histo">'.$_SESSION['lang']['dimanche'].'</td>';
+				echo '<td class="histo">'. _('dimanche') .'</td>';
 		echo '</tr>';
 		echo '<tr align="center">';
-			echo '<td class="histo">'.$_SESSION['lang']['admin_temps_partiel_am'].'</td>';
+			echo '<td class="histo">'. _('admin_temps_partiel_am') .'</td>';
 			echo '<td class="histo">'.$imp_lu_am.'</td>';
 			echo '<td class="histo">'.$imp_ma_am.'</td>';
 			echo '<td class="histo">'.$imp_me_am.'</td>';
@@ -885,7 +886,7 @@ function saisie_jours_absence_temps_partiel($login,  $DEBUG=FALSE)
 				echo '<td class="histo">'.$imp_di_am.'</td>';
 		echo '</tr>';
 		echo '<tr align="center">';
-			echo '<td class="histo">'.$_SESSION['lang']['admin_temps_partiel_pm'].'</td>';
+			echo '<td class="histo">'. _('admin_temps_partiel_pm') .'</td>';
 			echo '<td class="histo">'.$imp_lu_pm.'</td>';
 			echo '<td class="histo">'.$imp_ma_pm.'</td>';
 			echo '<td class="histo">'.$imp_me_pm.'</td>';
@@ -903,7 +904,7 @@ function saisie_jours_absence_temps_partiel($login,  $DEBUG=FALSE)
 	echo ' <td>';
 
 		//tableau semaines paires
-		echo '<b><u>'.$_SESSION['lang']['admin_temps_partiel_sem_paires'].':</u></b><br>';
+		echo '<b><u>'. _('admin_temps_partiel_sem_paires') .':</u></b><br>';
 		$tab_checkbox_sem_p=array();
 		$p_lu_am='<input type="checkbox" name="tab_checkbox_sem_p[sem_p_lu_am]" value="Y" '.$checked_option_sem_p_lu_am.'>';
 		$p_lu_pm='<input type="checkbox" name="tab_checkbox_sem_p[sem_p_lu_pm]" value="Y" '.$checked_option_sem_p_lu_pm.'>';
@@ -923,18 +924,18 @@ function saisie_jours_absence_temps_partiel($login,  $DEBUG=FALSE)
 		echo '<table cellpadding="1"  class="tablo">';
 		echo '<tr align="center">';
 			echo '<td></td>';
-			echo '<td class="histo">'.$_SESSION['lang']['lundi'].'</td>';
-			echo '<td class="histo">'.$_SESSION['lang']['mardi'].'</td>';
-			echo '<td class="histo">'.$_SESSION['lang']['mercredi'].'</td>';
-			echo '<td class="histo">'.$_SESSION['lang']['jeudi'].'</td>';
-			echo '<td class="histo">'.$_SESSION['lang']['vendredi'].'</td>';
+			echo '<td class="histo">'. _('lundi') .'</td>';
+			echo '<td class="histo">'. _('mardi') .'</td>';
+			echo '<td class="histo">'. _('mercredi') .'</td>';
+			echo '<td class="histo">'. _('jeudi') .'</td>';
+			echo '<td class="histo">'. _('vendredi') .'</td>';
 			if($_SESSION['config']['samedi_travail']==TRUE)
-				echo '<td class="histo">'.$_SESSION['lang']['samedi'].'</td>';
+				echo '<td class="histo">'. _('samedi') .'</td>';
 			if($_SESSION['config']['dimanche_travail']==TRUE)
-				echo '<td class="histo">'.$_SESSION['lang']['dimanche'].'</td>';
+				echo '<td class="histo">'. _('dimanche') .'</td>';
 		echo '</tr>';
 		echo '<tr align="center">';
-			echo '<td class="histo">'.$_SESSION['lang']['admin_temps_partiel_am'].'</td>';
+			echo '<td class="histo">'. _('admin_temps_partiel_am') .'</td>';
 			echo '<td class="histo">'.$p_lu_am.'</td>';
 			echo '<td class="histo">'.$p_ma_am.'</td>';
 			echo '<td class="histo">'.$p_me_am.'</td>';
@@ -946,7 +947,7 @@ function saisie_jours_absence_temps_partiel($login,  $DEBUG=FALSE)
 				echo '<td class="histo">'.$p_di_am.'</td>';
 		echo '</tr>';
 		echo '<tr align="center">';
-			echo '<td class="histo">'.$_SESSION['lang']['admin_temps_partiel_pm'].'</td>';
+			echo '<td class="histo">'. _('admin_temps_partiel_pm') .'</td>';
 			echo '<td class="histo">'.$p_lu_pm.'</td>';
 			echo '<td class="histo">'.$p_ma_pm.'</td>';
 			echo '<td class="histo">'.$p_me_pm.'</td>';
@@ -965,7 +966,7 @@ function saisie_jours_absence_temps_partiel($login,  $DEBUG=FALSE)
 		$jour_default=date('d');
 		$mois_default=date('m');
 		$year_default=date('Y');
-		echo '<br>'.$_SESSION['lang']['admin_temps_partiel_date_valid'].' :';
+		echo '<br>'. _('admin_temps_partiel_date_valid') .' :';
 		affiche_selection_new_jour($jour_default);  // la variable est $new_jour
 		affiche_selection_new_mois($mois_default);  // la variable est $new_mois
 		affiche_selection_new_year($year_default-2, $year_default+10, $year_default );  // la variable est $new_year
@@ -1036,11 +1037,11 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 								// recul du mois saisie début
 								echo '<td align="center" class="big">';
 								echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut_prec.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut_prec.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin.'&user_login='.$user_login.'&onglet='.$onglet.'">';
-								echo ' <img src="../img/simfirs.gif" width="16" height="16" border="0" alt="'.$_SESSION['lang']['divers_mois_precedent'].'" title="'.$_SESSION['lang']['divers_mois_precedent'].'"> ';
+								echo ' <img src="../img/simfirs.gif" width="16" height="16" border="0" alt="'. _('divers_mois_precedent') .'" title="'. _('divers_mois_precedent') .'"> ';
 								echo '</a>';
 								echo '</td>';
 
-								echo '<td align="center" class="big">'.$_SESSION['lang']['divers_debut_maj'].' :</td>';
+								echo '<td align="center" class="big">'. _('divers_debut_maj') .' :</td>';
 
 								// affichage des boutons de défilement
 								// avance du mois saisie début
@@ -1052,7 +1053,7 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 									$lien_mois_debut_suivant = $PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut_suiv.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut_suiv.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin.'&user_login='.$user_login.'&onglet='.$onglet ;
 								echo '<td align="center" class="big">';
 								echo '<a href="'.$lien_mois_debut_suivant.'">';
-								echo ' <img src="../img/simlast.gif" width="16" height="16" border="0" alt="'.$_SESSION['lang']['divers_mois_suivant'].'" title="'.$_SESSION['lang']['divers_mois_suivant'].'"> ';
+								echo ' <img src="../img/simlast.gif" width="16" height="16" border="0" alt="'. _('divers_mois_suivant') .'" title="'. _('divers_mois_suivant') .'"> ';
 								echo '</a>';
 								echo '</td>';
 
@@ -1074,7 +1075,7 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 									else
 										echo 'onChange="compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return false;"' ;
 								}
-								echo 'value="am" checked><b><u>'.$_SESSION['lang']['form_am'].'</u></b><br><br>';
+								echo 'value="am" checked><b><u>'. _('form_am') .'</u></b><br><br>';
 
 								echo '<input type="radio" name="new_demi_jour_deb" ';
 								if($_SESSION['config']['rempli_auto_champ_nb_jours_pris']==TRUE)
@@ -1084,7 +1085,7 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 									else
 										echo 'onChange="compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return false;"' ;
 								}
-								echo 'value="pm"><b><u>'.$_SESSION['lang']['form_pm'].'</u></b><br><br>';
+								echo 'value="pm"><b><u>'. _('form_pm') .'</u></b><br><br>';
 							echo '</td>';
 							/**************************************************/
 						echo '</tr>';
@@ -1119,17 +1120,17 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 									$lien_mois_fin_precedent = ''.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin_prec.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin_prec.'&user_login='.$user_login.'&onglet='.$onglet;
 								echo '<td align="center" class="big">';
 								echo '<a href="'.$lien_mois_fin_precedent.'">';
-								echo ' <img src="../img/simfirs.gif" width="16" height="16" border="0" alt="'.$_SESSION['lang']['divers_mois_precedent'].'" title="'.$_SESSION['lang']['divers_mois_precedent'].'">';
+								echo ' <img src="../img/simfirs.gif" width="16" height="16" border="0" alt="'. _('divers_mois_precedent') .'" title="'. _('divers_mois_precedent') .'">';
 								echo ' </a>';
 								echo '</td>';
 
-								echo '<td align="center" class="big">'.$_SESSION['lang']['divers_fin_maj'].' :</td>';
+								echo '<td align="center" class="big">'. _('divers_fin_maj') .' :</td>';
 
 								// affichage des boutons de défilement
 								// avance du mois saisie fin
 								echo '<td align="center" class="big">';
 								echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin_suiv.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin_suiv.'&user_login='.$user_login.'&onglet='.$onglet.'">';
-								echo ' <img src="../img/simlast.gif" width="16" height="16" border="0" alt="'.$_SESSION['lang']['divers_mois_suivant'].'" title="'.$_SESSION['lang']['divers_mois_suivant'].'"> ';
+								echo ' <img src="../img/simlast.gif" width="16" height="16" border="0" alt="'. _('divers_mois_suivant') .'" title="'. _('divers_mois_suivant') .'"> ';
 								echo '</a>';
 								echo '</td>';
 								echo '</tr>';
@@ -1149,7 +1150,7 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 									else
 										echo 'onChange="compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return false;"' ;
 								}
-								echo 'value="am"><b><u>'.$_SESSION['lang']['form_am'].'</u></b><br><br>';
+								echo 'value="am"><b><u>'. _('form_am') .'</u></b><br><br>';
 
 								echo '<input type="radio" name="new_demi_jour_fin"  ';
 								if($_SESSION['config']['rempli_auto_champ_nb_jours_pris']==TRUE)
@@ -1159,7 +1160,7 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 									else
 										echo 'onChange="compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return false;"' ;
 								}
-								echo 'value="pm" checked><b><u>'.$_SESSION['lang']['form_pm'].'</u></b><br><br>';
+								echo 'value="pm" checked><b><u>'. _('form_pm') .'</u></b><br><br>';
 							echo '</td>';
 							/**************************************************/
 						echo '</tr>';
@@ -1186,11 +1187,11 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 					if($_SESSION['config']['affiche_bouton_calcul_nb_jours_pris']==TRUE)
 					{
 						echo '<tr><td colspan="2">';
-							echo '<input type="button" onclick="compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return false;" value="'.$_SESSION['lang']['saisie_conges_compter_jours'].'">';
+							echo '<input type="button" onclick="compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return false;" value="'. _('saisie_conges_compter_jours') .'">';
 						echo '</td></tr>';
 					}
 					// zones de texte
-					echo '<tr align="center"><td><b>'.$_SESSION['lang']['saisie_conges_nb_jours'].'</b></td><td><b>'.$_SESSION['lang']['divers_comment_maj_1'].'</b></td></tr>';
+					echo '<tr align="center"><td><b>'. _('saisie_conges_nb_jours') .'</b></td><td><b>'. _('divers_comment_maj_1') .'</b></td></tr>';
 
 					if($_SESSION['config']['disable_saise_champ_nb_jours_pris']==TRUE)  // zone de texte en readonly et grisée
 						$text_nb_jours ='<input type="text" name="new_nb_jours" size="10" maxlength="30" value="" style="background-color: #D4D4D4; " readonly="readonly">' ;
@@ -1207,7 +1208,7 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 						echo '<input type="hidden" name="user_login" value="'.$user_login.'">';
 						echo '<input type="hidden" name="new_demande_conges" value=1>';
 						// boutons du formulaire
-						echo '<input type="submit" value="'.$_SESSION['lang']['form_submit'].'">   <input type="reset" value="'.$_SESSION['lang']['form_cancel'].'">';
+						echo '<input type="submit" value="'. _('form_submit') .'">   <input type="reset" value="'. _('form_cancel') .'">';
 					echo '</td>';
 					echo '</tr>';
 					echo '</table>';
@@ -1230,7 +1231,7 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 				    (($_SESSION['config']['user_saisie_demande']==FALSE)&&($user_login!=$_SESSION['userlogin'])) )
 				{
 					// congés
-					echo '<b><i><u>'.$_SESSION['lang']['divers_conges'].' :</u></i></b><br>';
+					echo '<b><i><u>'. _('divers_conges') .' :</u></i></b><br>';
 					foreach($tab_type_conges as $id => $libelle)
 					{
 						if($id==1)
@@ -1248,7 +1249,7 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 				{
 					echo '<br>';
 					// absences
-					echo '<b><i><u>'.$_SESSION['lang']['divers_absences'].' :</u></i></b><br>';
+					echo '<b><i><u>'. _('divers_absences') .' :</u></i></b><br>';
 					foreach($tab_type_absence as $id => $libelle)
 					{
 						echo '<input type="radio" name="new_type" value="'.$id.'"> '.$libelle.'<br>';
@@ -1262,7 +1263,7 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 				{
 					echo '<br>';
 					// congés exceptionnels
-					echo '<b><i><u>'.$_SESSION['lang']['divers_conges_exceptionnels'].' :</u></i></b><br>';
+					echo '<b><i><u>'. _('divers_conges_exceptionnels') .' :</u></i></b><br>';
 					 foreach($tab_type_conges_exceptionnels as $id => $libelle)
 					{
 						 if($id==1)
@@ -1316,18 +1317,18 @@ function saisie_echange_rtt($user_login, $year_calendrier_saisie_debut, $mois_ca
 					// recul du mois saisie debut
 					echo '<td align="center" class="big">';
 					echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut_prec.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut_prec.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin.'&user_login='.$user_login.'&onglet='.$onglet.'">';
-					echo ' <img src="../img/simfirs.gif" width="16" height="16" border="0" alt="'.$_SESSION['lang']['divers_mois_precedent'].'" title="'.$_SESSION['lang']['divers_mois_precedent'].'"> ';
+					echo ' <img src="../img/simfirs.gif" width="16" height="16" border="0" alt="'. _('divers_mois_precedent') .'" title="'. _('divers_mois_precedent') .'"> ';
 					echo '</a>';
 					echo '</td>';
 
 					// titre du calendrier de saisie du jour d'absence
-					echo '<td align="center" class="big">'.$_SESSION['lang']['saisie_echange_titre_calendrier_1'].' :</td>';
+					echo '<td align="center" class="big">'. _('saisie_echange_titre_calendrier_1') .' :</td>';
 
 					// affichage des boutons de défilement
 					// avance du mois saisie debut
 					echo '<td align="center" class="big">';
 					echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut_suiv.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut_suiv.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin.'&user_login='.$user_login.'&onglet='.$onglet.'">';
-					echo ' <img src="../img/simlast.gif" width="16" height="16" border="0" alt="'.$_SESSION['lang']['divers_mois_suivant'].'" title="'.$_SESSION['lang']['divers_mois_suivant'].'"> ';
+					echo ' <img src="../img/simlast.gif" width="16" height="16" border="0" alt="'. _('divers_mois_suivant') .'" title="'. _('divers_mois_suivant') .'"> ';
 					echo '</a>';
 					echo '</td>';
 				echo '</tr>';
@@ -1338,9 +1339,9 @@ function saisie_echange_rtt($user_login, $year_calendrier_saisie_debut, $mois_ca
 
 			// cellule 2 : boutons radio 1/2 journée ou jour complet
 			echo '<td>';
-				echo '<input type="radio" name="moment_absence_ordinaire" value="a"><b><u>'.$_SESSION['lang']['form_am'].'</u></b><input type="radio" name="moment_absence_souhaitee" value="a"><br><br>';
-				echo '<input type="radio" name="moment_absence_ordinaire" value="p"><b><u>'.$_SESSION['lang']['form_pm'].'</u></b><input type="radio" name="moment_absence_souhaitee" value="p"><br><br>';
-				echo '<input type="radio" name="moment_absence_ordinaire" value="j" checked><b><u>'.$_SESSION['lang']['form_day'].'</u></b><input type="radio" name="moment_absence_souhaitee" value="j" checked><br>';
+				echo '<input type="radio" name="moment_absence_ordinaire" value="a"><b><u>'. _('form_am') .'</u></b><input type="radio" name="moment_absence_souhaitee" value="a"><br><br>';
+				echo '<input type="radio" name="moment_absence_ordinaire" value="p"><b><u>'. _('form_pm') .'</u></b><input type="radio" name="moment_absence_souhaitee" value="p"><br><br>';
+				echo '<input type="radio" name="moment_absence_ordinaire" value="j" checked><b><u>'. _('form_day') .'</u></b><input type="radio" name="moment_absence_souhaitee" value="j" checked><br>';
 			echo '</td>';
 
 			// cellule 3 : calendrier de saisie du jour d'absence
@@ -1354,18 +1355,18 @@ function saisie_echange_rtt($user_login, $year_calendrier_saisie_debut, $mois_ca
 					// recul du mois saisie fin
 					echo '<td align="center" class="big">';
 					echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin_prec.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin_prec.'&user_login='.$user_login.'&onglet='.$onglet.'">';
-					echo ' <img src="../img/simfirs.gif" width="16" height="16" border="0" alt="'.$_SESSION['lang']['divers_mois_precedent'].'" title="'.$_SESSION['lang']['divers_mois_precedent'].'"> ';
+					echo ' <img src="../img/simfirs.gif" width="16" height="16" border="0" alt="'. _('divers_mois_precedent') .'" title="'. _('divers_mois_precedent') .'"> ';
 					echo '</a>';
 					echo '</td>';
 
 					// titre du ecalendrier de saisie du jour d'absence
-					echo '<td align="center" class="big">'.$_SESSION['lang']['saisie_echange_titre_calendrier_2'].' :</td>';
+					echo '<td align="center" class="big">'. _('saisie_echange_titre_calendrier_2') .' :</td>';
 
 					// affichage des boutons de défilement
 					// avance du mois saisie fin
 					echo '<td align="center" class="big">';
 					echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin_suiv.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin_suiv.'&user_login='.$user_login.'&onglet='.$onglet.'">';
-					echo ' <img src="../img/simlast.gif" width="16" height="16" border="0" alt="'.$_SESSION['lang']['divers_mois_suivant'].'" title="'.$_SESSION['lang']['divers_mois_suivant'].'"> ';
+					echo ' <img src="../img/simlast.gif" width="16" height="16" border="0" alt="'. _('divers_mois_suivant') .'" title="'. _('divers_mois_suivant') .'"> ';
 					echo '</a>';
 					echo '</td>';
 				echo '</tr>';
@@ -1384,7 +1385,7 @@ function saisie_echange_rtt($user_login, $year_calendrier_saisie_debut, $mois_ca
 				/***  formulaire ***/
 					echo '<table cellpadding="2" cellspacing="3" border="0" >';
 					echo '<tr align="center">';
-						echo '<td><b>'.$_SESSION['lang']['divers_comment_maj_1'].' : </b></td>';
+						echo '<td><b>'. _('divers_comment_maj_1') .' : </b></td>';
 						$text_commentaire ='<input type="text" name="new_comment" size="25" maxlength="30" value="">' ;
 						echo '<td>'.$text_commentaire.'</td>';
 					echo '</tr>';
@@ -1395,7 +1396,7 @@ function saisie_echange_rtt($user_login, $year_calendrier_saisie_debut, $mois_ca
 						echo '<td colspan=2>';
 							echo '<input type="hidden" name="user_login" value="'.schars($user_login).'">';
 							echo '<input type="hidden" name="new_echange_rtt" value=1>';
-							echo '<input type="submit" value="'.$_SESSION['lang']['form_submit'].'">   <input type="reset" value="'.$_SESSION['lang']['form_cancel'].'">';
+							echo '<input type="submit" value="'. _('form_submit') .'">   <input type="reset" value="'. _('form_cancel') .'">';
 						echo '</td>';
 					echo '</tr>';
 					echo '</table>';
@@ -1487,13 +1488,13 @@ function verif_saisie_new_demande($new_debut, $new_demi_jour_deb, $new_fin, $new
 
 	// leur champs doivent etre renseignés dans le formulaire
 	if( ($new_debut=='') || ($new_fin=='') || ($new_nb_jours=='') ) {
-		echo '<br>'.$_SESSION['lang']['verif_saisie_erreur_valeur_manque'].'<br>';
+		echo '<br>'. _('verif_saisie_erreur_valeur_manque') .'<br>';
 		$verif=FALSE ;
 	}
 
 	if ( !preg_match('/([0-9]+)([\.\,]*[0-9]{1,2})*$/', $new_nb_jours) ) 
 	{
-		echo '<br>'.$_SESSION['lang']['verif_saisie_erreur_nb_jours_bad'].'<br>';
+		echo '<br>'. _('verif_saisie_erreur_nb_jours_bad') .'<br>';
 		$verif=FALSE ;
 	}
 	else 
@@ -1504,13 +1505,13 @@ function verif_saisie_new_demande($new_debut, $new_demi_jour_deb, $new_fin, $new
 
 	// si la date de fin est antéreieure à la date debut
 	if(strnatcmp($new_debut, $new_fin)>0) {
-		echo '<br>'.$_SESSION['lang']['verif_saisie_erreur_fin_avant_debut'].'<br>';
+		echo '<br>'. _('verif_saisie_erreur_fin_avant_debut') .'<br>';
 		$verif=FALSE ;
 	}
 
 	// si la date debut et fin = même jour mais début=après midi et fin=matin !!
 	if((strnatcmp($new_debut, $new_fin)==0)&&($new_demi_jour_deb=="pm")&&($new_demi_jour_fin=="am") ) {
-		echo '<br>'.$_SESSION['lang']['verif_saisie_erreur_debut_apres_fin'].'<br>';
+		echo '<br>'. _('verif_saisie_erreur_debut_apres_fin') .'<br>';
 		$verif=FALSE ;
 	}
 
@@ -1541,8 +1542,8 @@ function   bouton_deconnexion($DEBUG=FALSE)
    $session=session_id();
 
 	echo '<a href="../deconnexion.php?session='.$session.'" target="_top">' .
-			'<img src="../img/exit.png" width="22" height="22" border="0" title="'.$_SESSION['lang']['button_deconnect'].'" alt="'.$_SESSION['lang']['button_deconnect'].'">' .
-			$_SESSION['lang']['button_deconnect'].'</a>';
+			'<img src="../img/exit.png" width="22" height="22" border="0" title="'. _('button_deconnect') .'" alt="'. _('button_deconnect') .'">' .
+			 _('button_deconnect') .'</a>';
 
 }
 
@@ -1553,8 +1554,8 @@ function bouton_actualiser($onglet, $DEBUG=FALSE)
 	$session=session_id();
 
 	echo '<a href="'.$PHP_SELF.'?session='.$session.'&onglet='.$onglet.'">';
-	echo '<img src="../img/reload_page.png" width="22" height="22" border="0" title="'.$_SESSION['lang']['button_refresh'].'" alt="'.$_SESSION['lang']['button_refresh'].'">';
-	echo $_SESSION['lang']['button_refresh'].'</a>';
+	echo '<img src="../img/reload_page.png" width="22" height="22" border="0" title="'. _('button_refresh') .'" alt="'. _('button_refresh') .'">';
+	echo  _('button_refresh') .'</a>';
 }
 
 
@@ -1714,7 +1715,7 @@ function verif_saisie_decimal(&$nombre, $DEBUG=FALSE)
 
 	if ( !preg_match('/^-?([0-9]+)([\.\,]?[0-9]?[0-9]?)$/', $nombre) ) 
 	{
-		echo "<br>".$_SESSION['lang']['verif_saisie_erreur_nb_bad']." ($nombre)<br>\n";
+		echo "<br>". _('verif_saisie_erreur_nb_bad') ." ($nombre)<br>\n";
 		$verif=FALSE ;
 	}
 	else
@@ -1733,14 +1734,14 @@ function verif_saisie_decimal(&$nombre, $DEBUG=FALSE)
 // donne la date en francais (dans la langue voulue)(meme formats que la fonction PHP date() cf manuel php)
 function date_fr($code, $timestmp)
 {
-	$les_mois_longs  = array("pas_de_zero", $_SESSION['lang']['janvier'], $_SESSION['lang']['fevrier'], $_SESSION['lang']['mars'], $_SESSION['lang']['avril'],
-								$_SESSION['lang']['mai'], $_SESSION['lang']['juin'], $_SESSION['lang']['juillet'], $_SESSION['lang']['aout'],
-								$_SESSION['lang']['septembre'], $_SESSION['lang']['octobre'], $_SESSION['lang']['novembre'], $_SESSION['lang']['decembre']);
+	$les_mois_longs  = array("pas_de_zero",  _('janvier') ,  _('fevrier') ,  _('mars') ,  _('avril') ,
+								 _('mai') ,  _('juin') ,  _('juillet') ,  _('aout') ,
+								 _('septembre') ,  _('octobre') ,  _('novembre') ,  _('decembre') );
 
-	$les_jours_longs  = array($_SESSION['lang']['dimanche'], $_SESSION['lang']['lundi'], $_SESSION['lang']['mardi'], $_SESSION['lang']['mercredi'],
-								$_SESSION['lang']['jeudi'], $_SESSION['lang']['vendredi'], $_SESSION['lang']['samedi']);
-	$les_jours_courts = array($_SESSION['lang']['dimanche_short'], $_SESSION['lang']['lundi_short'], $_SESSION['lang']['mardi_short'],
-								$_SESSION['lang']['mercredi_short'], $_SESSION['lang']['jeudi_short'], $_SESSION['lang']['vendredi_short'], $_SESSION['lang']['samedi_short']);
+	$les_jours_longs  = array( _('dimanche') ,  _('lundi') ,  _('mardi') ,  _('mercredi') ,
+								 _('jeudi') ,  _('vendredi') ,  _('samedi') );
+	$les_jours_courts = array( _('dimanche_short') ,  _('lundi_short') ,  _('mardi_short') ,
+								 _('mercredi_short') ,  _('jeudi_short') ,  _('vendredi_short') ,  _('samedi_short') );
 
 	switch ($code) {
 		case "F":
@@ -1779,7 +1780,7 @@ function alerte_mail($login_expediteur, $destinataire, $num_periode, $objet,  $D
 	// verif si la librairie phpmailer est présente
 	if(!is_readable($phpmailer_filename))
 	{
-		echo $_SESSION['lang']['phpmailer_not_valid']."<br> !";
+		echo  _('phpmailer_not_valid') ."<br> !";
 	}
 	else
 	{
@@ -3096,12 +3097,6 @@ function init_config_tab($DEBUG=FALSE)
 		$tab[$key] = $value;
 	}
 
-	/******************************************/
-	// recup du nom du fichier de langue ...
-	// on verifie si on est dans le répertoire "install" ou ailleurs ...
-
-	inculde_lang_file($tab['lang'], $DEBUG);
-
 
 	/******************************************/
 	//  recup des mails dans  la table conges_mail
@@ -3357,14 +3352,14 @@ function affiche_tableau_bilan_conges_user($login, $DEBUG=FALSE)
 	$taille_tableau_bilan=100 + (150 * count($tab_cong_user));
 
 	echo "<table cellpadding=\"2\" width=\"$taille_tableau_bilan\" class=\"tablo\">\n";
-	echo "<tr align=\"center\"><td class=\"titre\">".$_SESSION['lang']['divers_quotite']."</td>" ;
+	echo "<tr align=\"center\"><td class=\"titre\">". _('divers_quotite') ."</td>" ;
 
 	foreach($tab_cong_user as $id => $val)
 	{
 		if (($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) && ((in_array($id,$tab_type_conges_exceptionnels))))
-			echo "<td class=\"titre\">".$_SESSION['lang']['divers_solde_maj']." ".$id."</td>" ;
+			echo "<td class=\"titre\">". _('divers_solde_maj') ." ".$id."</td>" ;
 		else
-			echo "<td class=\"titre\">".$id."/ ".$_SESSION['lang']['divers_an_maj']."</td><td class=\"titre\">".$_SESSION['lang']['divers_solde_maj']." ".$id."</td>" ;
+			echo "<td class=\"titre\">".$id."/ ". _('divers_an_maj') ."</td><td class=\"titre\">". _('divers_solde_maj') ." ".$id."</td>" ;
 	}
 	echo "</tr>\n";
 
@@ -3635,11 +3630,11 @@ function affiche_bouton_retour($session, $DEBUG=FALSE)
 	// Bouton de retour : différent suivant si on vient des pages d'install ou de l'appli
 	// $_SESSION['from_config'] est initialisée dans install/index
 	if(isset($_SESSION['from_config']) && ($_SESSION['from_config']==TRUE))
-		echo "<center><a href=\"".$_SESSION['config']['URL_ACCUEIL_CONGES']."/config/?session=$session\">".$_SESSION['lang']['form_retour']."</a></center>\n";
+		echo "<center><a href=\"".$_SESSION['config']['URL_ACCUEIL_CONGES']."/config/?session=$session\">". _('form_retour') ."</a></center>\n";
 	else
 	{
 		echo "<form action=\"\" method=\"POST\">\n";
-		echo "<center><input type=\"button\" value=\"".$_SESSION['lang']['form_close_window']."\" onClick=\"javascript:window.close();\"></center>\n";
+		echo "<center><input type=\"button\" value=\"". _('form_close_window') ."\" onClick=\"javascript:window.close();\"></center>\n";
 		echo "</form>\n";
 	}
 }
@@ -3662,10 +3657,10 @@ function verif_droits_user($session, $niveau_droits, $DEBUG=FALSE)
         // on recupere les variable utiles pour le suite :
         $url_accueil_conges = $_SESSION['config']['URL_ACCUEIL_CONGES'] ;
 
-        $lang_divers_acces_page_interdit = $_SESSION['lang']['divers_acces_page_interdit'];
-        $lang_divers_user_disconnected   = $_SESSION['lang']['divers_user_disconnected'];
-        $lang_divers_veuillez            = $_SESSION['lang']['divers_veuillez'];
-        $lang_divers_vous_authentifier   = $_SESSION['lang']['divers_vous_authentifier'];
+        $lang_divers_acces_page_interdit =  _('divers_acces_page_interdit') ;
+        $lang_divers_user_disconnected   =  _('divers_user_disconnected') ;
+        $lang_divers_veuillez            =  _('divers_veuillez') ;
+        $lang_divers_vous_authentifier   =  _('divers_vous_authentifier') ;
 
         // on delete la session et on renvoit sur l'authentification (page d'accueil)
         session_delete($session);
@@ -3744,37 +3739,6 @@ function log_action($num_periode, $etat_periode, $login_pour, $comment, $DEBUG=F
 	$result = SQL::query($sql1);
 
 	return $result;
-}
-
-
-
-// fonction qui determine le fichier de langue et fait un include de ce fichier quelque soit l'endroit où on se trouve (chemin)
-// le parametre $lang est "fr" ou "es", etc ...
-// on utilise plus la fonction php "glob()" qui ne fonctionne pas chez certains hebergeurs (free.fr)
-function inculde_lang_file($lang, $DEBUG=FALSE)
-{
-	if($DEBUG==TRUE) { echo "fonction inculde_lang_file() : lang : $file<br> \n";}
-	$lang="fr"; //Parametre de la langue selectionnée
-	// test si on est dans "install"
-	if(is_dir("lang"))  // test si on est dans "install"
-		$dir= "lang/";
-	elseif(is_dir("install/lang"))   // test si on est à la racine
-		$dir= "install/lang/";
-	else    // alors on est dans un autre répertoire ...
-		$dir= "../install/lang/";
-
-
-    if($dh=opendir($dir))
-    {
-	    while(($file = readdir($dh)) !== false)
-	    {
-			if($DEBUG==TRUE) { echo "file : $file<br> \n";}
-	        if(preg_match('/lang_'.$lang.'_.+.php$/', $file))
-	        	$lang_file=$dir.$file;
-	    }
-    }
-    if($DEBUG==TRUE) { echo "lang_file : $lang_file<br> \n";}
-	include($lang_file);
 }
 
 

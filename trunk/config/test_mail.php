@@ -126,7 +126,7 @@ function affichage($tab_new_values,  $session, $DEBUG=FALSE)
 	/**************************************/
 
 	echo "<form action=\"\" method=\"POST\">\n";
-	echo "<center><input type=\"button\" value=\"".$_SESSION['lang']['form_close_window']."\" onClick=\"javascript:window.close();\"></center>\n";
+	echo "<center><input type=\"button\" value=\"". _('form_close_window') ."\" onClick=\"javascript:window.close();\"></center>\n";
 	echo "</form>\n";
 
 	// affichage de la liste des type d'absence existants
@@ -164,7 +164,7 @@ function affichage($tab_new_values,  $session, $DEBUG=FALSE)
 	echo "<br><br>\n";
 
 	echo "<form action=\"\" method=\"POST\">\n";
-	echo "<center><input type=\"button\" value=\"".$_SESSION['lang']['form_close_window']."\" onClick=\"javascript:window.close();\"></center>\n";
+	echo "<center><input type=\"button\" value=\"". _('form_close_window') ."\" onClick=\"javascript:window.close();\"></center>\n";
 	echo "</form>\n";
 
 }
@@ -254,7 +254,7 @@ function test_mail_direct($tab_new_values,  $session, $DEBUG=FALSE)
 			echo "Message has been sent.<br><br>\n";
 	}
 
-	echo "<br><br><a href=\"$PHP_SELF?session=$session\" method=\"POST\">".$_SESSION['lang']['form_retour']."</a><br>\n" ;
+	echo "<br><br><a href=\"$PHP_SELF?session=$session\" method=\"POST\">". _('form_retour') ."</a><br>\n" ;
 
 }
 
@@ -361,7 +361,7 @@ function test_mail_smtp($tab_new_values,  $session, $DEBUG=FALSE)
 			echo "Message has been sent<br>\n";
 	}
 
-	echo "<br><br><a href=\"$PHP_SELF?session=$session\" method=\"POST\">".$_SESSION['lang']['form_retour']."</a><br>\n" ;
+	echo "<br><br><a href=\"$PHP_SELF?session=$session\" method=\"POST\">". _('form_retour') ."</a><br>\n" ;
 
 }
 

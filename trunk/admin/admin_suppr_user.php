@@ -73,7 +73,7 @@ echo "</head>\n";
 	elseif($u_login_to_delete!="")
 		$login_titre = $u_login_to_delete;
 
-	echo "<H1>".$_SESSION['lang']['admin_suppr_user_titre']." : $login_titre .</H1>\n\n";
+	echo "<H1>". _('admin_suppr_user_titre') ." : $login_titre .</H1>\n\n";
 
 	
 	if($u_login!="")
@@ -133,9 +133,9 @@ function confirmer($u_login, $DEBUG=FALSE)
 	echo "<form action=\"$PHP_SELF?session=$session&u_login_to_delete=$u_login\" method=\"POST\">\n"  ;
 	echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 	echo "<tr align=\"center\">\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['divers_login_maj_1']."</td>\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['divers_nom_maj_1']."</td>\n";
-	echo "<td class=\"histo\">".$_SESSION['lang']['divers_prenom_maj_1']."</td>\n";
+	echo "<td class=\"histo\">". _('divers_login_maj_1') ."</td>\n";
+	echo "<td class=\"histo\">". _('divers_nom_maj_1') ."</td>\n";
+	echo "<td class=\"histo\">". _('divers_prenom_maj_1') ."</td>\n";
 	echo "</tr>\n";
 
 	// Récupération des informations
@@ -151,11 +151,11 @@ function confirmer($u_login, $DEBUG=FALSE)
 	}
 	echo "</tr>\n";
 	echo "</table><br>\n\n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_supprim']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_supprim') ."\">\n";
 	echo "</form>\n" ;
 
 	echo "<form action=\"admin_index.php?session=$session&onglet=admin-users\" method=\"POST\">\n"  ;
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_cancel']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_cancel') ."\">\n";
 	echo "</form>\n" ;
 
 }
@@ -193,13 +193,13 @@ function suppression($u_login_to_delete, $DEBUG=FALSE)
 	log_action(0, "", $u_login_to_delete, $comment_log, $DEBUG);
 
 	if($result==TRUE)
-		echo $_SESSION['lang']['form_modif_ok']." !<br><br> \n" ;
+		echo  _('form_modif_ok') ." !<br><br> \n" ;
 	else
-		echo $_SESSION['lang']['form_modif_not_ok']." !<br><br> \n";
+		echo  _('form_modif_not_ok') ." !<br><br> \n";
 
 	if($DEBUG==TRUE)
 	{
-		echo "<a href=\"admin_index.php?session=$session&onglet=admin-users\">".$_SESSION['lang']['form_retour']."</a>\n" ;
+		echo "<a href=\"admin_index.php?session=$session&onglet=admin-users\">". _('form_retour') ."</a>\n" ;
 	}
 	else
 	{

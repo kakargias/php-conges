@@ -125,7 +125,7 @@ function edition($login, $edit_id,  $DEBUG=FALSE)
 	echo "\n<!-- affichage du TITRE -->\n";
 	echo "<H1>".$tab_info_user['nom']."  ".$tab_info_user['prenom']."</H1>\n\n";
 	$tab_date=explode("-", $tab_info_edition['date']);
-	echo "<H2>".$_SESSION['lang']['editions_bilan_au']." $tab_date[2] / $tab_date[1] / $tab_date[0]</H2>\n\n";
+	echo "<H2>". _('editions_bilan_au') ." $tab_date[2] / $tab_date[1] / $tab_date[0]</H2>\n\n";
 
 
 	/****************************/
@@ -135,7 +135,7 @@ function edition($login, $edit_id,  $DEBUG=FALSE)
 	affiche_tableau_bilan_conges_user_edition($tab_info_user, $tab_info_edition, $tab_type_cong, $tab_type_conges_exceptionnels,  $DEBUG);
 
 	$quotite=$tab_info_user['quotite'];
-	echo "<h3> ".$_SESSION['lang']['divers_quotite']."&nbsp; : &nbsp;$quotite % </h3>\n" ;
+	echo "<h3> ". _('divers_quotite') ."&nbsp; : &nbsp;$quotite % </h3>\n" ;
 	echo "<br><br><br>\n";
 	
 
@@ -144,7 +144,7 @@ function edition($login, $edit_id,  $DEBUG=FALSE)
 	else
 		echo "<table cellpadding=\"0\" cellspacing=\"0\" border=\"1\" width=\"770\">\n" ;
 	echo "<tr align=\"center\">\n";
-	echo "<td><h3>".$_SESSION['lang']['editions_historique']." :</h3></td>\n";
+	echo "<td><h3>". _('editions_historique') ." :</h3></td>\n";
 	echo "</tr>\n";
 	
 	/*********************************************/
@@ -165,7 +165,7 @@ function edition($login, $edit_id,  $DEBUG=FALSE)
 		$count2=$ReqLog2->num_rows;
 		if($count2==0)
 		{
-			echo "<b>".$_SESSION['lang']['editions_aucun_conges']."</b><br>\n";
+			echo "<b>". _('editions_aucun_conges') ."</b><br>\n";
 		}
 		else
 		{
@@ -183,17 +183,17 @@ function edition($login, $edit_id,  $DEBUG=FALSE)
 			echo "<td colspan=\"5\">\n";
 			$edition_precedente_id=get_id_edition_precedente_user($login, $edit_id,  $DEBUG);
 			if($edition_precedente_id==0)
-				echo "<b>".$_SESSION['lang']['editions_soldes_precedents_inconnus']." !... ";
+				echo "<b>". _('editions_soldes_precedents_inconnus') ." !... ";
 			else
 			{
 				$tab_edition_precedente=recup_info_edition($edition_precedente_id,  $DEBUG);
 				foreach($tab_type_cong as $id_abs => $libelle)
 				{
-					echo $_SESSION['lang']['editions_solde_precedent']." <b>$libelle : ".$tab_edition_precedente['conges'][$id_abs]."</b><br>\n";
+					echo  _('editions_solde_precedent') ." <b>$libelle : ".$tab_edition_precedente['conges'][$id_abs]."</b><br>\n";
 				}
 				foreach($tab_type_conges_exceptionnels as $id_abs => $libelle)
 				{
-					echo $_SESSION['lang']['editions_solde_precedent']." <b>$libelle : ".$tab_edition_precedente['conges'][$id_abs]."</b><br>\n";
+					echo  _('editions_solde_precedent') ." <b>$libelle : ".$tab_edition_precedente['conges'][$id_abs]."</b><br>\n";
 				}
 			}
 			
@@ -206,15 +206,15 @@ function edition($login, $edit_id,  $DEBUG=FALSE)
 			/*************************************/
 			echo "\n<!-- affichage lignes de l'edition -->\n";
 			echo "<tr>\n";
-			echo " <td class=\"titre-edit\">".$_SESSION['lang']['divers_type_maj_1']."</td>\n";
-			echo " <td class=\"titre-edit\">".$_SESSION['lang']['divers_etat_maj_1']."</td>\n";
-			echo " <td class=\"titre-edit\">".$_SESSION['lang']['divers_nb_jours_maj_1']."</td>\n";
-			echo " <td class=\"titre-edit\">".$_SESSION['lang']['divers_debut_maj_1']."</td>\n";
-			echo " <td class=\"titre-edit\">".$_SESSION['lang']['divers_fin_maj_1']."</td>\n";
-			echo " <td class=\"titre-edit\">".$_SESSION['lang']['divers_comment_maj_1']."</td>\n";
+			echo " <td class=\"titre-edit\">". _('divers_type_maj_1') ."</td>\n";
+			echo " <td class=\"titre-edit\">". _('divers_etat_maj_1') ."</td>\n";
+			echo " <td class=\"titre-edit\">". _('divers_nb_jours_maj_1') ."</td>\n";
+			echo " <td class=\"titre-edit\">". _('divers_debut_maj_1') ."</td>\n";
+			echo " <td class=\"titre-edit\">". _('divers_fin_maj_1') ."</td>\n";
+			echo " <td class=\"titre-edit\">". _('divers_comment_maj_1') ."</td>\n";
 			if($_SESSION['config']['affiche_date_traitement']==TRUE)
 			{
-				echo "<td class=\"titre-edit\">".$_SESSION['lang']['divers_date_traitement']."</td>\n" ;
+				echo "<td class=\"titre-edit\">". _('divers_date_traitement') ."</td>\n" ;
 			}
 			echo "</tr>\n";
 			
@@ -222,15 +222,15 @@ function edition($login, $edit_id,  $DEBUG=FALSE)
 					$sql_p_date_deb = eng_date_to_fr($resultat2["p_date_deb"]);
 					$sql_p_demi_jour_deb = $resultat2["p_demi_jour_deb"];
 					if($sql_p_demi_jour_deb=="am")
-						$demi_j_deb = $_SESSION['lang']['divers_am_short'];
+						$demi_j_deb =  _('divers_am_short') ;
 					else
-						$demi_j_deb = $_SESSION['lang']['divers_pm_short'];
+						$demi_j_deb =  _('divers_pm_short') ;
 					$sql_p_date_fin = eng_date_to_fr($resultat2["p_date_fin"]);
 					$sql_p_demi_jour_fin = $resultat2["p_demi_jour_fin"];
 					if($sql_p_demi_jour_fin=="am")
-						$demi_j_fin = $_SESSION['lang']['divers_am_short'];
+						$demi_j_fin =  _('divers_am_short') ;
 					else
-						$demi_j_fin = $_SESSION['lang']['divers_pm_short'];
+						$demi_j_fin =  _('divers_pm_short') ;
 					$sql_p_nb_jours = $resultat2["p_nb_jours"];
 					$sql_p_commentaire = $resultat2["p_commentaire"];
 					$sql_p_type = $resultat2["p_type"];
@@ -242,9 +242,9 @@ function edition($login, $edit_id,  $DEBUG=FALSE)
 					echo "<td class=\"histo-edit\">".$tab_type_all_cong[$sql_p_type]['libelle']."</td>\n" ;
 					echo "<td class=\"histo-edit\">";
 					if($sql_p_etat=="refus")
-						echo $_SESSION['lang']['divers_refuse'];
+						echo  _('divers_refuse') ;
 					elseif($sql_p_etat=="annul")
-						echo $_SESSION['lang']['divers_annule'];
+						echo  _('divers_annule') ;
 					else
 						echo "$sql_p_etat";
 					echo "</td>\n" ;
@@ -261,9 +261,9 @@ function edition($login, $edit_id,  $DEBUG=FALSE)
 				if($_SESSION['config']['affiche_date_traitement']==TRUE)
 				{
 					if($sql_p_date_demande == NULL)
-						echo "<td class=\"histo-left\">".$_SESSION['lang']['divers_demande']." : $sql_p_date_demande<br>".$_SESSION['lang']['divers_traitement']." : $sql_p_date_traitement</td>\n" ;
+						echo "<td class=\"histo-left\">". _('divers_demande') ." : $sql_p_date_demande<br>". _('divers_traitement') ." : $sql_p_date_traitement</td>\n" ;
 					else
-						echo "<td class=\"histo-left\">".$_SESSION['lang']['divers_demande']." : $sql_p_date_demande<br>".$_SESSION['lang']['divers_traitement']." : pas traité</td>\n" ;
+						echo "<td class=\"histo-left\">". _('divers_demande') ." : $sql_p_date_demande<br>". _('divers_traitement') ." : pas traité</td>\n" ;
 				}
 					echo "</tr>\n";
 			}
@@ -276,7 +276,7 @@ function edition($login, $edit_id,  $DEBUG=FALSE)
 			echo "<td colspan=\"5\">\n";
 				foreach($tab_type_cong as $id_abs => $libelle)
 				{
-					echo $_SESSION['lang']['editions_nouveau_solde']." <b>$libelle : ".$tab_info_edition['conges'][$id_abs]."</b><br>\n";
+					echo  _('editions_nouveau_solde') ." <b>$libelle : ".$tab_info_edition['conges'][$id_abs]."</b><br>\n";
 				}
 			echo "<td>\n";
 			echo "</tr>\n";
@@ -300,11 +300,11 @@ function edition($login, $edit_id,  $DEBUG=FALSE)
 	echo "<tr align=\"center\">\n";
 	echo "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>\n";
 	echo "<td align=\"left\">\n" ;
-		echo "<b>".$_SESSION['lang']['editions_date']." : <br>".$_SESSION['lang']['editions_signature_1']." :</b><br><br><br><br><br><br><br><br><br><br>\n" ;
+		echo "<b>". _('editions_date') ." : <br>". _('editions_signature_1') ." :</b><br><br><br><br><br><br><br><br><br><br>\n" ;
 	echo "</td>\n";
 	echo "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>\n";
 	echo "<td align=\"left\">\n" ;
-		echo "<b>".$_SESSION['lang']['editions_date']." : <br>".$_SESSION['lang']['editions_signature_2']." :</b><br><i>(".$_SESSION['lang']['editions_cachet_etab'].")</i><br><br><br><br><br><br><br><br><br>\n" ;
+		echo "<b>". _('editions_date') ." : <br>". _('editions_signature_2') ." :</b><br><i>(". _('editions_cachet_etab') .")</i><br><br><br><br><br><br><br><br><br>\n" ;
 	echo "</td>\n";
 	echo "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>\n";
 	echo "</tr>\n";
@@ -350,8 +350,8 @@ function affiche_tableau_bilan_conges_user_edition($tab_info_user, $tab_info_edi
 //	echo "<tr align=\"center\"><td class=\"titre\" colspan=\"3\"> quotité &nbsp; : &nbsp; $quotite % </td></tr>\n" ;
 	echo "<tr>\n";
 	echo "	<td class=\"titre\"></td>\n";
-	echo "	<td class=\"titre\"> ".$_SESSION['lang']['editions_jours_an']." </td>\n";
-	echo "	<td class=\"titre\"> ".$_SESSION['lang']['divers_solde_maj']."</td>\n";
+	echo "	<td class=\"titre\"> ". _('editions_jours_an') ." </td>\n";
+	echo "	<td class=\"titre\"> ". _('divers_solde_maj') ."</td>\n";
 	echo "	</tr>\n" ;
 	
 	foreach($tab_type_cong as $id_abs => $libelle)

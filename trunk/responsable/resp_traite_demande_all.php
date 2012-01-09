@@ -117,33 +117,33 @@ function affiche_all_demandes_en_cours($tab_type_conges,  $DEBUG=FALSE)
 		{
 			// AFFICHAGE TABLEAU DES DEMANDES EN COURS
 			
-			echo "<h3>".$_SESSION['lang']['resp_traite_demandes_titre_tableau_1']."</h3>\n" ;
+			echo "<h3>". _('resp_traite_demandes_titre_tableau_1') ."</h3>\n" ;
 			
 			echo "<table cellpadding=\"2\" class=\"tablo\">\n" ;
 			echo "<tr>\n" ;
-			echo "<td class=\"titre\">".$_SESSION['lang']['divers_nom_maj_1']."<br>".$_SESSION['lang']['divers_prenom_maj_1']."</td>\n" ;
-			echo "<td class=\"titre\">".$_SESSION['lang']['divers_quotite_maj_1']."</td>" ;
-			echo "<td class=\"titre\">".$_SESSION['lang']['divers_debut_maj_1']."</td>\n" ;
-			echo "<td class=\"titre\">".$_SESSION['lang']['divers_fin_maj_1']."</td>\n" ;
-			echo "<td class=\"titre\">".$_SESSION['lang']['divers_comment_maj_1']."</td>\n" ;
-			echo "<td class=\"titre\">".$_SESSION['lang']['resp_traite_demandes_nb_jours']."</td>";
+			echo "<td class=\"titre\">". _('divers_nom_maj_1') ."<br>". _('divers_prenom_maj_1') ."</td>\n" ;
+			echo "<td class=\"titre\">". _('divers_quotite_maj_1') ."</td>" ;
+			echo "<td class=\"titre\">". _('divers_debut_maj_1') ."</td>\n" ;
+			echo "<td class=\"titre\">". _('divers_fin_maj_1') ."</td>\n" ;
+			echo "<td class=\"titre\">". _('divers_comment_maj_1') ."</td>\n" ;
+			echo "<td class=\"titre\">". _('resp_traite_demandes_nb_jours') ."</td>";
 			foreach($tab_type_conges as $id_conges => $libelle)
 			{
-				echo "<td class=\"titre\">".$_SESSION['lang']['divers_solde_maj_1']."<br>$libelle</td>" ;
+				echo "<td class=\"titre\">". _('divers_solde_maj_1') ."<br>$libelle</td>" ;
 			}
 			if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
 			foreach($tab_type_conges_exceptionnels as $id_conges => $libelle)
 			{
-				echo "<td class=\"titre\">".$_SESSION['lang']['divers_solde_maj_1']."<br>$libelle</td>" ;
+				echo "<td class=\"titre\">". _('divers_solde_maj_1') ."<br>$libelle</td>" ;
 			}			
-			echo "<td class=\"titre\">".$_SESSION['lang']['divers_type_maj_1']."</td>\n" ;
-			echo "<td class=\"titre\">".$_SESSION['lang']['divers_accepter_maj_1']."</td>\n" ;
-			echo "<td class=\"titre\">".$_SESSION['lang']['divers_refuser_maj_1']."</td>\n" ;
-			echo "<td class=\"titre\">".$_SESSION['lang']['resp_traite_demandes_attente']."</td>\n" ;
-			echo "<td class=\"titre\">".$_SESSION['lang']['resp_traite_demandes_motif_refus']."</td>\n" ;
+			echo "<td class=\"titre\">". _('divers_type_maj_1') ."</td>\n" ;
+			echo "<td class=\"titre\">". _('divers_accepter_maj_1') ."</td>\n" ;
+			echo "<td class=\"titre\">". _('divers_refuser_maj_1') ."</td>\n" ;
+			echo "<td class=\"titre\">". _('resp_traite_demandes_attente') ."</td>\n" ;
+			echo "<td class=\"titre\">". _('resp_traite_demandes_motif_refus') ."</td>\n" ;
 			if($_SESSION['config']['affiche_date_traitement']==TRUE)
 			{
-				echo "<td class=\"titre\">".$_SESSION['lang']['divers_date_traitement']."</td>\n" ;
+				echo "<td class=\"titre\">". _('divers_date_traitement') ."</td>\n" ;
 			}
 			echo "</tr>\n";
 			
@@ -209,9 +209,9 @@ function affiche_all_demandes_en_cours($tab_type_conges,  $DEBUG=FALSE)
 				if($_SESSION['config']['affiche_date_traitement']==TRUE)
 				{
 					if($sql_p_date_demande == NULL)
-						echo "<td class=\"histo-left\">".$_SESSION['lang']['divers_demande']." : $sql_p_date_demande<br>".$_SESSION['lang']['divers_traitement']." : $sql_p_date_traitement</td>\n" ;
+						echo "<td class=\"histo-left\">". _('divers_demande') ." : $sql_p_date_demande<br>". _('divers_traitement') ." : $sql_p_date_traitement</td>\n" ;
 					else
-						echo "<td class=\"histo-left\">".$_SESSION['lang']['divers_demande']." : $sql_p_date_demande<br>".$_SESSION['lang']['divers_traitement']." : pas traité</td>\n" ;
+						echo "<td class=\"histo-left\">". _('divers_demande') ." : $sql_p_date_demande<br>". _('divers_traitement') ." : pas traité</td>\n" ;
 				}
 				
 				echo "</tr>\n" ;
@@ -245,28 +245,28 @@ function affiche_all_demandes_en_cours($tab_type_conges,  $DEBUG=FALSE)
 			{
 				// AFFICHAGE TABLEAU DES DEMANDES EN COURS POUR DEUXIEME VALIDATION
 				
-				echo "<h3>".$_SESSION['lang']['resp_traite_demandes_titre_tableau_2']."</h3>\n" ;
+				echo "<h3>". _('resp_traite_demandes_titre_tableau_2') ."</h3>\n" ;
 			
 				echo "<table cellpadding=\"2\" class=\"tablo\">\n" ;
 				echo "<tr>\n" ;
-				echo "<td class=\"titre\"><b>".$_SESSION['lang']['divers_nom_maj_1']."</b><br>".$_SESSION['lang']['divers_prenom_maj_1']."</td>\n" ;
-				echo "<td class=\"titre\">".$_SESSION['lang']['divers_quotite_maj_1']."</td>" ;
-				echo "<td class=\"titre\">".$_SESSION['lang']['divers_debut_maj_1']."</td>\n" ;
-				echo "<td class=\"titre\">".$_SESSION['lang']['divers_fin_maj_1']."</td>\n" ;
-				echo "<td class=\"titre\">".$_SESSION['lang']['divers_comment_maj_1']."</td>\n" ;
-				echo "<td class=\"titre\">".$_SESSION['lang']['resp_traite_demandes_nb_jours']."</td>";
+				echo "<td class=\"titre\"><b>". _('divers_nom_maj_1') ."</b><br>". _('divers_prenom_maj_1') ."</td>\n" ;
+				echo "<td class=\"titre\">". _('divers_quotite_maj_1') ."</td>" ;
+				echo "<td class=\"titre\">". _('divers_debut_maj_1') ."</td>\n" ;
+				echo "<td class=\"titre\">". _('divers_fin_maj_1') ."</td>\n" ;
+				echo "<td class=\"titre\">". _('divers_comment_maj_1') ."</td>\n" ;
+				echo "<td class=\"titre\">". _('resp_traite_demandes_nb_jours') ."</td>";
 				foreach($tab_type_conges as $id_conges => $libelle)
 				{
-					echo "<td class=\"titre\">".$_SESSION['lang']['divers_solde_maj_1']."<br>$libelle</td>" ;
+					echo "<td class=\"titre\">". _('divers_solde_maj_1') ."<br>$libelle</td>" ;
 				}
-				echo "<td class=\"titre\">".$_SESSION['lang']['divers_type_maj_1']."</td>\n" ;
-				echo "<td class=\"titre\">".$_SESSION['lang']['divers_accepter_maj_1']."</td>\n" ;
-				echo "<td class=\"titre\">".$_SESSION['lang']['divers_refuser_maj_1']."</td>\n" ;
-				echo "<td class=\"titre\">".$_SESSION['lang']['resp_traite_demandes_attente']."</td>\n" ;
-				echo "<td class=\"titre\">".$_SESSION['lang']['resp_traite_demandes_motif_refus']."</td>\n" ;
+				echo "<td class=\"titre\">". _('divers_type_maj_1') ."</td>\n" ;
+				echo "<td class=\"titre\">". _('divers_accepter_maj_1') ."</td>\n" ;
+				echo "<td class=\"titre\">". _('divers_refuser_maj_1') ."</td>\n" ;
+				echo "<td class=\"titre\">". _('resp_traite_demandes_attente') ."</td>\n" ;
+				echo "<td class=\"titre\">". _('resp_traite_demandes_motif_refus') ."</td>\n" ;
 				if($_SESSION['config']['affiche_date_traitement']==TRUE)
 				{
-					echo "<td class=\"titre\">".$_SESSION['lang']['divers_date_traitement']."</td>\n" ;
+					echo "<td class=\"titre\">". _('divers_date_traitement') ."</td>\n" ;
 				}
 				echo "</tr>\n";
 				
@@ -315,7 +315,7 @@ function affiche_all_demandes_en_cours($tab_type_conges,  $DEBUG=FALSE)
 					echo "<td class=\"histo\">$boutonradio1</td><td class=\"histo\">$boutonradio2</td><td class=\"histo\">$boutonradio3</td><td class=\"histo\">$text_refus</td>\n";
 					if($_SESSION['config']['affiche_date_traitement']==TRUE)
 					{
-						echo "<td class=\"histo-left\">".$_SESSION['lang']['divers_demande']." : $sql_p_date_demande<br>".$_SESSION['lang']['divers_traitement']." : $sql_p_date_traitement</td>\n" ;
+						echo "<td class=\"histo-left\">". _('divers_demande') ." : $sql_p_date_demande<br>". _('divers_traitement') ." : $sql_p_date_traitement</td>\n" ;
 					}
 					
 					echo "</tr>\n" ;
@@ -328,9 +328,9 @@ function affiche_all_demandes_en_cours($tab_type_conges,  $DEBUG=FALSE)
 	echo "<br>\n";
 
 	if(($count1==0) && ($count2==0))
-		echo "<b>".$_SESSION['lang']['resp_traite_demandes_aucune_demande']."</b><br><br><br>\n";		
+		echo "<b>". _('resp_traite_demandes_aucune_demande') ."</b><br><br><br>\n";		
 	else
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">\n" ;
+		echo "<input type=\"submit\" value=\"". _('form_submit') ."\">\n" ;
 		
 	echo " </form> \n" ;
 	
@@ -339,7 +339,7 @@ function affiche_all_demandes_en_cours($tab_type_conges,  $DEBUG=FALSE)
 	
 	/* APPEL D'UNE AUTRE PAGE */
 	echo " <form action=\"resp_index.php?session=$session\" method=\"POST\"> \n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_retour']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_retour') ."\">\n";
 	echo " </form> \n";
 }
 
@@ -423,12 +423,12 @@ function traite_all_demande_en_cours( $tab_bt_radio, $tab_text_refus, $DEBUG=FAL
 	{
 		echo "<form action=\"$PHP_SELF?sesssion=$session&onglet=traitement_demande\" method=\"POST\">\n" ;
 		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-		echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_ok']."\">\n";
+		echo "<input type=\"submit\" value=\"". _('form_ok') ."\">\n";
 		echo "</form>\n" ;
 	}
 	else
 	{
-		echo $_SESSION['lang']['form_modif_ok']."<br><br> \n";
+		echo  _('form_modif_ok') ."<br><br> \n";
 		/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
 		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=$PHP_SELF?session=$session&onglet=traitement_demandes\">";
 	}

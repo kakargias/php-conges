@@ -109,8 +109,8 @@ function affichage($tab_new_values, $session, $DEBUG=FALSE)
 
 	/**************************************/
 	// affichage du titre
-	echo "<H1> ".$_SESSION['lang']['config_mail_titre']."</H1>\n";
-	echo "<i> ".$_SESSION['lang']['config_mail_alerte_config']."</i>\n";
+	echo "<H1> ". _('config_mail_titre') ."</H1>\n";
+	echo "<i> ". _('config_mail_alerte_config') ."</i>\n";
 	echo "<br><br>\n";
 	/**************************************/
 
@@ -132,7 +132,7 @@ function affichage($tab_new_values, $session, $DEBUG=FALSE)
 		$legend =$mail_nom ;
 		// echo $mail_nom ;
 		$key = $mail_nom."_comment";
-		$comment = $_SESSION['lang'][$key] ;
+		$comment =  _($key)  ;
 
 		echo "<br>\n";
 		echo "<table>\n";
@@ -142,25 +142,25 @@ function affichage($tab_new_values, $session, $DEBUG=FALSE)
 		echo "    <i>$comment</i><br><br>\n";
 		echo "    <table cellpadding=\"2\" class=\"tablo-config\" >\n";
 		echo "    <tr>\n";
-		echo "    	<td class=\"config\" valign=\"top\"><b>".$_SESSION['lang']['config_mail_subject']."</b></td>\n";
+		echo "    	<td class=\"config\" valign=\"top\"><b>". _('config_mail_subject') ."</b></td>\n";
 		echo "    	<td class=\"config\"><input type=\"text\" size=\"80\" name=\"tab_new_values[$mail_nom][subject]\" value=\"$mail_subject\"></td>\n";
 		echo "    </tr>\n";
 		echo "    <tr>\n";
-		echo "    	<td class=\"config\" valign=\"top\"><b>".$_SESSION['lang']['config_mail_body']."</b></td>\n";
+		echo "    	<td class=\"config\" valign=\"top\"><b>". _('config_mail_body') ."</b></td>\n";
 		echo "    	<td class=\"config\"><textarea rows=\"6\" cols=\"80\" name=\"tab_new_values[$mail_nom][body]\" value=\"$mail_body\">$mail_body</textarea></td>\n";
 		echo "    </tr>\n";
 		echo "    <tr>\n";
 		echo "    	<td class=\"config\">&nbsp;</td>\n";
 		echo "    	<td class=\"config\">\n";
-		echo "    		<i>".$_SESSION['lang']['mail_remplace_url_accueil_comment']."<br>\n";
-		echo "    		".$_SESSION['lang']['mail_remplace_sender_name_comment']."<br>\n";
-		echo "    		".$_SESSION['lang']['mail_remplace_destination_name_comment']."<br>\n";
-		echo "    		".$_SESSION['lang']['mail_remplace_nb_jours']."<br>\n";
-		echo "    		".$_SESSION['lang']['mail_remplace_date_debut']."<br>\n";
-		echo "    		".$_SESSION['lang']['mail_remplace_date_fin']."<br>\n";
-		echo "    		".$_SESSION['lang']['mail_remplace_commentaire']."<br>\n";
-		echo "    		".$_SESSION['lang']['mail_remplace_type_absence']."<br>\n";
-		echo "    		".$_SESSION['lang']['mail_remplace_retour_ligne_comment']."</i>\n";
+		echo "    		<i>". _('mail_remplace_url_accueil_comment') ."<br>\n";
+		echo "    		". _('mail_remplace_sender_name_comment') ."<br>\n";
+		echo "    		". _('mail_remplace_destination_name_comment') ."<br>\n";
+		echo "    		". _('mail_remplace_nb_jours') ."<br>\n";
+		echo "    		". _('mail_remplace_date_debut') ."<br>\n";
+		echo "    		". _('mail_remplace_date_fin') ."<br>\n";
+		echo "    		". _('mail_remplace_commentaire') ."<br>\n";
+		echo "    		". _('mail_remplace_type_absence') ."<br>\n";
+		echo "    		". _('mail_remplace_retour_ligne_comment') ."</i>\n";
 		echo "    	</td>\n";
 		echo "    </tr>\n";
 
@@ -170,7 +170,7 @@ function affichage($tab_new_values, $session, $DEBUG=FALSE)
 	}
 
 	echo "    <input type=\"hidden\" name=\"action\" value=\"modif\">\n";
-	echo "    <input type=\"submit\"  value=\"".$_SESSION['lang']['form_save_modif']."\"><br>\n";
+	echo "    <input type=\"submit\"  value=\"". _('form_save_modif') ."\"><br>\n";
 	echo "    </form>\n";
 
 	// Bouton de retour : différent suivant si on vient des pages d'install ou de l'appli
@@ -198,13 +198,13 @@ function commit_modif($tab_new_values, $session, $DEBUG=FALSE)
 		$req_update='UPDATE conges_mail SET mail_subject=\''.$subject.'\', mail_body=\''.$body.'\' WHERE mail_nom=\''.SQL::quote($nom_mail).'\' ';
 		$result1 = SQL::query($req_update);
 	}
-	echo "<span class = \"messages\">".$_SESSION['lang']['form_modif_ok']."</span><br>";
+	echo "<span class = \"messages\">". _('form_modif_ok') ."</span><br>";
 
 	$comment_log = "configuration des mails d\'alerte";
 	log_action(0, "", "", $comment_log, $DEBUG);
 
 	if($DEBUG==TRUE)
-		echo "<a href=\"$URL\" method=\"POST\">".$_SESSION['lang']['form_retour']."</a><br>\n" ;
+		echo "<a href=\"$URL\" method=\"POST\">". _('form_retour') ."</a><br>\n" ;
 	else
 		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=$URL\">";
 

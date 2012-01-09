@@ -34,7 +34,7 @@ function compter($user, $date_debut, $date_fin, $opt_debut, $opt_fin, &$comment,
 	// ou si meme jour mais debut l'appres mide et fin le matin
 	if( (strtotime($date_debut) > strtotime($date_fin)) || ( ($date_debut==$date_fin) && ($opt_debut=="pm") && ($opt_fin=="am") ) )
 	{
-		$comment = $_SESSION['lang']['calcul_nb_jours_commentaire_bad_date'];
+		$comment =  _('calcul_nb_jours_commentaire_bad_date') ;
 		return 0 ;
 	}
 
@@ -46,7 +46,7 @@ function compter($user, $date_debut, $date_fin, $opt_debut, $opt_fin, &$comment,
 		if( (verif_jours_feries_saisis($date_debut,  $DEBUG, $num_update)==FALSE)
 		    || (verif_jours_feries_saisis($date_fin,  $DEBUG, $num_update)==FALSE) )
 		{
-			$comment = $_SESSION['lang']['calcul_impossible']."<br>\n".$_SESSION['lang']['jours_feries_non_saisis']."<br>\n".$_SESSION['lang']['contacter_admin']."<br>\n" ;
+			$comment =  _('calcul_impossible') ."<br>\n". _('jours_feries_non_saisis') ."<br>\n". _('contacter_admin') ."<br>\n" ;
 			//
 			return 0 ;
 		}
@@ -298,9 +298,9 @@ function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $ta
 					{
 						// pas la peine d'aller + loin, on chevauche une periode de conges !!!
 						if($sql_p_etat=="demande")
-							$comment = $_SESSION['lang']['calcul_nb_jours_commentaire_impossible'];
+							$comment =  _('calcul_nb_jours_commentaire_impossible') ;
 						else
-							$comment = $_SESSION['lang']['calcul_nb_jours_commentaire'];
+							$comment =  _('calcul_nb_jours_commentaire') ;
 
 						if($DEBUG==TRUE) { echo "tab_periode_deja_prise :<br>\n"; print_r($tab_periode_deja_prise); echo "<br>\n"; }
 						return TRUE ;
@@ -355,9 +355,9 @@ function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $ta
 				{
 					// pas la peine d'aller + loin, on chevauche une periode de conges !!!
 					if($tab_periode_deja_prise[$current_day]['am']=="demande")
-						$comment = $_SESSION['lang']['calcul_nb_jours_commentaire_impossible'];
+						$comment =  _('calcul_nb_jours_commentaire_impossible') ;
 					else
-						$comment = $_SESSION['lang']['calcul_nb_jours_commentaire'];
+						$comment =  _('calcul_nb_jours_commentaire') ;
 
 					if($DEBUG==TRUE) { echo "tab_periode_deja_prise :<br>\n"; print_r($tab_periode_deja_prise); echo "<br>\n"; }
 					return TRUE ;
@@ -366,9 +366,9 @@ function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $ta
 				{
 					// pas la peine d'aller + loin, on chevauche une periode de conges !!!
 					if($tab_periode_deja_prise[$current_day]['pm']=="demande")
-						$comment = $_SESSION['lang']['calcul_nb_jours_commentaire_impossible'];
+						$comment =  _('calcul_nb_jours_commentaire_impossible') ;
 					else
-						$comment = $_SESSION['lang']['calcul_nb_jours_commentaire'];
+						$comment =  _('calcul_nb_jours_commentaire') ;
 
 					if($DEBUG==TRUE) { echo "tab_periode_deja_prise :<br>\n"; print_r($tab_periode_deja_prise); echo "<br>\n"; }
 					return TRUE ;

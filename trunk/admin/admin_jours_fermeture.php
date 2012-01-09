@@ -160,7 +160,7 @@ verif_droits_user($session, "is_admin", $DEBUG);
 
 	echo "<body>\n";
 	echo "<center>\n";
-	echo "<h1>".$_SESSION['lang']['admin_jours_fermeture_titre']."  $year</h1>\n";
+	echo "<h1>". _('admin_jours_fermeture_titre') ."  $year</h1>\n";
 
 
 	if($choix_action=="saisie_groupe")
@@ -212,7 +212,7 @@ function saisie_groupe_fermeture( $DEBUG=FALSE)
 		echo "<table cellpadding=\"2\" cellspacing=\"3\" border=\"0\" >\n";
 			echo "<tr align=\"center\">\n";
 			echo "<td valign=\"top\">\n";
-			echo "<b>".$_SESSION['lang']['admin_jours_fermeture_fermeture_pour_tous']." !</b><br>&nbsp;\n";
+			echo "<b>". _('admin_jours_fermeture_fermeture_pour_tous') ." !</b><br>&nbsp;\n";
 			echo "</td>\n";
 			echo "</tr>\n";
 
@@ -226,7 +226,7 @@ function saisie_groupe_fermeture( $DEBUG=FALSE)
 			echo "<td>\n";
 				echo "<input type=\"hidden\" name=\"groupe_id\" value=\"0\">\n";
 				echo "<input type=\"hidden\" name=\"choix_action\" value=\"saisie_dates\">\n";
-				echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">  \n";
+				echo "<input type=\"submit\" value=\"". _('form_submit') ."\">  \n";
 			echo "</td>\n";
 			echo "</tr>\n";
 		echo "</table>\n";
@@ -246,7 +246,7 @@ function saisie_groupe_fermeture( $DEBUG=FALSE)
 		echo "<table cellpadding=\"2\" cellspacing=\"3\" border=\"0\" >\n";
 			echo "<tr align=\"center\">\n";
 			echo "<td valign=\"top\">\n";
-			echo "<b>".$_SESSION['lang']['admin_jours_fermeture_fermeture_par_groupe'].".</b><br>".$_SESSION['lang']['resp_ajout_conges_choix_groupe']."\n";
+			echo "<b>". _('admin_jours_fermeture_fermeture_par_groupe') .".</b><br>". _('resp_ajout_conges_choix_groupe') ."\n";
 			echo "</td>\n";
 			echo "</tr>\n";
 
@@ -269,7 +269,7 @@ function saisie_groupe_fermeture( $DEBUG=FALSE)
 			echo "<tr align=\"center\">\n";
 			echo "<td>\n";
 				echo "<input type=\"hidden\" name=\"choix_action\" value=\"saisie_dates\">\n";
-				echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">  \n";
+				echo "<input type=\"submit\" value=\"". _('form_submit') ."\">  \n";
 			echo "</td>\n";
 			echo "</tr>\n";
 		echo "</table>\n";
@@ -280,7 +280,7 @@ function saisie_groupe_fermeture( $DEBUG=FALSE)
 
 	echo "<br>\n" ;
 	echo "<form action=\"\" method=\"POST\">\n" ;
-	echo "<input type=\"button\" value=\"".$_SESSION['lang']['form_cancel']."\" onClick=\"javascript:window.close();\">\n";
+	echo "<input type=\"button\" value=\"". _('form_cancel') ."\" onClick=\"javascript:window.close();\">\n";
 	echo "</form>\n" ;
 
 }
@@ -319,31 +319,31 @@ function saisie_dates_fermeture($year, $groupe_id, $new_date_debut, $new_date_fi
 	// on verifie que $new_date_debut est anterieure a $new_date_fin
 //	if($timestamp_date_debut > $timestamp_date_fin)
 	if($code_erreur==2)
-		echo "<br><center><h3><font color=\"red\">".$_SESSION['lang']['admin_jours_fermeture_dates_incompatibles'].".</font></h3></center><br><br>\n";
+		echo "<br><center><h3><font color=\"red\">". _('admin_jours_fermeture_dates_incompatibles') .".</font></h3></center><br><br>\n";
 	// on verifie que ce ne sont pas des dates passées
 //	if($timestamp_date_debut < $timestamp_today)
 	if($code_erreur==3)
-		echo "<br><center><h3><font color=\"red\">".$_SESSION['lang']['admin_jours_fermeture_date_passee_error'].".</font></h3></center><br><br>\n";
+		echo "<br><center><h3><font color=\"red\">". _('admin_jours_fermeture_date_passee_error') .".</font></h3></center><br><br>\n";
 	// on verifie si les jours fériés de l'annee de la periode saisie sont enregistrés : sinon BUG au calcul des soldes des users !
 //	if( (verif_jours_feries_saisis($date_debut_yyyy_mm_dd,  $DEBUG)==FALSE)
 //	    && (verif_jours_feries_saisis($date_fin_yyyy_mm_dd,  $DEBUG)==FALSE) )
 	if($code_erreur==1)
-		echo "<br><center><h3><font color=\"red\">".$_SESSION['lang']['admin_jours_fermeture_annee_non_saisie'].".</font></h3></center><br><br>\n";
+		echo "<br><center><h3><font color=\"red\">". _('admin_jours_fermeture_annee_non_saisie') .".</font></h3></center><br><br>\n";
 
 	// on verifie si la periode saisie ne chevauche pas une :
 	// fabrication et initialisation du tableau des demi-jours de la date_debut à la date_fin
 //	if( ($timestamp_date_debut!=$timestamp_today) || ($timestamp_date_fin!=$timestamp_today) )  // on ne verifie QUE si date_debut ou date_finc sont !=  d'aujourd'hui
 ////	{
-////		echo "<br><center><h3><font color=\"red\">".$_SESSION['lang']['admin_jours_fermeture_fermeture_aujourd_hui'].".</font></h3></center><br><br>\n";
+////		echo "<br><center><h3><font color=\"red\">". _('admin_jours_fermeture_fermeture_aujourd_hui') .".</font></h3></center><br><br>\n";
 	if($code_erreur==4)
-		echo "<br><center><h3><font color=\"red\">".$_SESSION['lang']['admin_jours_fermeture_fermeture_aujourd_hui'].".</font></h3></center><br><br>\n";
+		echo "<br><center><h3><font color=\"red\">". _('admin_jours_fermeture_fermeture_aujourd_hui') .".</font></h3></center><br><br>\n";
 ////	}
 ////	else
 //	{
 //		$tab_periode_calcul = make_tab_demi_jours_periode($date_debut_yyyy_mm_dd, $date_fin_yyyy_mm_dd, "am", "pm", $DEBUG);
 //		if(verif_periode_chevauche_periode_groupe($date_debut_yyyy_mm_dd, $date_fin_yyyy_mm_dd, $tab_periode_calcul, $groupe_id,  $DEBUG) == TRUE)
 	if($code_erreur==5)
-			echo "<br><center><h3><font color=\"red\">".$_SESSION['lang']['admin_jours_fermeture_chevauche_periode'].".</font></h3></center><br><br>\n";
+			echo "<br><center><h3><font color=\"red\">". _('admin_jours_fermeture_chevauche_periode') .".</font></h3></center><br><br>\n";
 //	}
 
 
@@ -355,12 +355,12 @@ function saisie_dates_fermeture($year, $groupe_id, $new_date_debut, $new_date_fi
 	// cellulle de gauche : bouton annee precedente
 	echo "<td align=\"left\">\n";
 		$annee_precedente=$year-1;
-		echo '<a href="'.schars($PHP_SELF).'?session='.schars($session).'&year='.schars($annee_precedente).'&groupe_id='.schars($groupe_id).'"> << '.schars($_SESSION['lang']['admin_jours_chomes_annee_precedente']).'</a>'."\n";
+		echo '<a href="'.schars($PHP_SELF).'?session='.schars($session).'&year='.schars($annee_precedente).'&groupe_id='.schars($groupe_id).'"> << '.schars( _('admin_jours_chomes_annee_precedente') ).'</a>'."\n";
 	echo "</td>\n";
 	// cellulle centrale : saisie d'une fermeture
 	echo "<td width=\"450\">\n";
 	echo "<fieldset class=\"cal_saisie\">\n";
-	echo "<legend class=\"boxlogin\">".$_SESSION['lang']['admin_jours_fermeture_new_fermeture']."</legend>\n";
+	echo "<legend class=\"boxlogin\">". _('admin_jours_fermeture_new_fermeture') ."</legend>\n";
 	
 	/************************************************/
 	// FORMULAIRE
@@ -376,7 +376,7 @@ function saisie_dates_fermeture($year, $groupe_id, $new_date_debut, $new_date_fi
 			echo "<table cellpadding=\"2\" cellspacing=\"2\" border=\"0\">\n";
 			echo "<tr align=\"center\">\n";
 				echo "<td>\n";
-				echo $_SESSION['lang']['divers_date_debut']." : <input type=\"text\" name=\"new_date_debut\" class=\"calendrier DatePicker_trigger\" value=\"$new_date_debut\" />\n" ;
+				echo  _('divers_date_debut') ." : <input type=\"text\" name=\"new_date_debut\" class=\"calendrier DatePicker_trigger\" value=\"$new_date_debut\" />\n" ;
 				echo "</td>\n";
 			echo "</tr>\n";
 			echo "</table>\n";
@@ -389,7 +389,7 @@ function saisie_dates_fermeture($year, $groupe_id, $new_date_debut, $new_date_fi
 			// ligne des boutons de défilement
 			echo "<tr align=\"center\">\n";
 				echo "<td>\n";
-				echo $_SESSION['lang']['divers_date_fin']." : <input type=\"text\" name=\"new date_fin\" class=\"calendrier DatePicker_trigger\" value=\"$new_date_fin\"  />\n" ;
+				echo  _('divers_date_fin') ." : <input type=\"text\" name=\"new date_fin\" class=\"calendrier DatePicker_trigger\" value=\"$new_date_fin\"  />\n" ;
 				echo "</td>\n";
 			echo "</tr>\n";
 			echo "</table>\n";
@@ -402,7 +402,7 @@ function saisie_dates_fermeture($year, $groupe_id, $new_date_debut, $new_date_fi
 	// SELECTION DU TYPE DE CONGES AUQUEL AFFECTER CETTE FERMETURE
 	echo "<br>\n";
 	// Affichage d'un SELECT de formulaire pour choix d'un type d'absence
-	echo $_SESSION['lang']['admin_jours_fermeture_affect_type_conges'];
+	echo  _('admin_jours_fermeture_affect_type_conges') ;
 	affiche_select_conges_id( $DEBUG);
 
 	
@@ -413,8 +413,8 @@ function saisie_dates_fermeture($year, $groupe_id, $new_date_debut, $new_date_fi
 	echo "<td>\n";
 	echo "<input type=\"hidden\" name=\"groupe_id\" value=\"$groupe_id\">\n";
 	echo "<input type=\"hidden\" name=\"choix_action\" value=\"commit_new_fermeture\">\n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_submit']."\">  \n";
-	echo "<input type=\"button\" value=\"".$_SESSION['lang']['form_cancel']."\" onClick=\"javascript:window.close();\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_submit') ."\">  \n";
+	echo "<input type=\"button\" value=\"". _('form_cancel') ."\" onClick=\"javascript:window.close();\">\n";
 	echo "</td>\n";
 	echo "</tr>\n";
 	echo "</table>\n";
@@ -427,7 +427,7 @@ function saisie_dates_fermeture($year, $groupe_id, $new_date_debut, $new_date_fi
 	// cellulle de droite : bouton annee suivante
 	echo "<td align=\"right\">\n";
 		$annee_suivante=$year+1;
-		echo "<a href=\"$PHP_SELF?session=$session&year=$annee_suivante&groupe_id=$groupe_id\">".$_SESSION['lang']['admin_jours_chomes_annee_suivante']." >> </a>\n";
+		echo "<a href=\"$PHP_SELF?session=$session&year=$annee_suivante&groupe_id=$groupe_id\">". _('admin_jours_chomes_annee_suivante') ." >> </a>\n";
 	echo "</td>\n";
 	echo "</tr>\n";
 	echo "</table>\n";
@@ -444,7 +444,7 @@ function saisie_dates_fermeture($year, $groupe_id, $new_date_debut, $new_date_fi
 		echo "<tr align=\"center\">\n";
 		echo "<td>\n";
 		echo "<fieldset class=\"cal_saisie\">\n";
-		echo "<legend class=\"boxlogin\">".$_SESSION['lang']['admin_jours_fermeture_enregistrees']."</legend>\n";
+		echo "<legend class=\"boxlogin\">". _('admin_jours_fermeture_enregistrees') ."</legend>\n";
 		// tableau contenant saisie de date (avec javascript pour afficher les calendriers)
 		echo "<table class=\"histo\">\n";
 		foreach($tab_periodes_fermeture as $tab_periode)
@@ -455,10 +455,10 @@ function saisie_dates_fermeture($year, $groupe_id, $new_date_debut, $new_date_fi
 
 			echo "<tr align=\"center\">\n";
 			echo "<td>\n";
-			echo $_SESSION['lang']['divers_du']." <b>$date_affiche_1</b> ".$_SESSION['lang']['divers_au']." <b>$date_affiche_2</b>  (id $fermeture_id)\n";
+			echo  _('divers_du') ." <b>$date_affiche_1</b> ". _('divers_au') ." <b>$date_affiche_2</b>  (id $fermeture_id)\n";
 			echo "</td>\n";
 			echo "<td>\n";
-			echo "<a href=\"$PHP_SELF?session=$session&choix_action=annul_fermeture&fermeture_id=$fermeture_id&fermeture_date_debut=$date_affiche_1&fermeture_date_fin=$date_affiche_2\">".$_SESSION['lang']['admin_annuler_fermeture']."</a>\n";
+			echo "<a href=\"$PHP_SELF?session=$session&choix_action=annul_fermeture&fermeture_id=$fermeture_id&fermeture_date_debut=$date_affiche_1&fermeture_date_fin=$date_affiche_2\">". _('admin_annuler_fermeture') ."</a>\n";
 			echo "</td>\n";
 			echo "</tr>\n";
 		}
@@ -547,13 +547,13 @@ function  affiche_calendrier_fermeture_mois($year, $mois, $tab_year, $DEBUG=FALS
 	/* affichage  2 premieres lignes */
 	echo "	<tr align=\"center\" bgcolor=\"".$_SESSION['config']['light_grey_bgcolor']."\"><td colspan=7 class=\"titre\"> $mois_name $year </td></tr>\n" ;
 	echo "	<tr bgcolor=\"".$_SESSION['config']['light_grey_bgcolor']."\">\n";
-	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['lundi_1c']."</td>\n";
-	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['mardi_1c']."</td>\n";
-	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['mercredi_1c']."</td>\n";
-	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['jeudi_1c']."</td>\n";
-	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['vendredi_1c']."</td>\n";
-	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['samedi_1c']."</td>\n";
-	echo "		<td class=\"cal-saisie2\">".$_SESSION['lang']['dimanche_1c']."</td>\n";
+	echo "		<td class=\"cal-saisie2\">". _('lundi_1c') ."</td>\n";
+	echo "		<td class=\"cal-saisie2\">". _('mardi_1c') ."</td>\n";
+	echo "		<td class=\"cal-saisie2\">". _('mercredi_1c') ."</td>\n";
+	echo "		<td class=\"cal-saisie2\">". _('jeudi_1c') ."</td>\n";
+	echo "		<td class=\"cal-saisie2\">". _('vendredi_1c') ."</td>\n";
+	echo "		<td class=\"cal-saisie2\">". _('samedi_1c') ."</td>\n";
+	echo "		<td class=\"cal-saisie2\">". _('dimanche_1c') ."</td>\n";
 	echo "	</tr>\n" ;
 
 	/* affichage ligne 1 du mois*/
@@ -748,7 +748,7 @@ function commit_new_fermeture($new_date_debut, $new_date_fin, $groupe_id, $id_ty
 		if ($DEBUG) echo "<br>user_login : " . $current_login . " nbjours : " . $nb_jours . "<br>\n";
 
 		// on ne met à jour la table conges_periode .
-		$commentaire = $_SESSION['lang']['divers_fermeture'];
+		$commentaire =  _('divers_fermeture') ;
 		$etat = "ok" ;
 		$num_periode = insert_dans_periode($current_login, $date_debut, $opt_debut, $date_fin, $opt_fin, $nb_jours, $commentaire, $id_type_conges, $etat, $new_fermeture_id, $DEBUG) ;
 
@@ -764,9 +764,9 @@ function commit_new_fermeture($new_date_debut, $new_date_fin, $groupe_id, $id_ty
 	init_tab_jours_fermeture($_SESSION['userlogin'],  $DEBUG);
 	
 	if($result==TRUE)
-		echo "<br>".$_SESSION['lang']['form_modif_ok'].".<br><br>\n";
+		echo "<br>". _('form_modif_ok') .".<br><br>\n";
 	else
-		echo "<br>".$_SESSION['lang']['form_modif_not_ok']." !<br><br>\n";
+		echo "<br>". _('form_modif_not_ok') ." !<br><br>\n";
 
 	$comment_log = "saisie des jours de fermeture de $date_debut a $date_fin" ;
 	log_action(0, "", "", $comment_log,  $DEBUG);
@@ -774,8 +774,8 @@ function commit_new_fermeture($new_date_debut, $new_date_fin, $groupe_id, $id_ty
 	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n";
 	echo "<table>\n";
 	echo "<tr><td align=\"center\">\n";
-//	echo "	<input type=\"button\" value=\"".$_SESSION['lang']['form_close_window']."\" onClick=\"javascript:window.close();\">\n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_ok']."\">\n";
+//	echo "	<input type=\"button\" value=\"". _('form_close_window') ."\" onClick=\"javascript:window.close();\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_ok') ."\">\n";
 	echo "</td></tr>\n";
 	echo "</table>\n";
 	echo "</form>\n";
@@ -793,8 +793,8 @@ function confirm_annul_fermeture($fermeture_id, $fermeture_date_debut, $fermetur
 	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n";
 	echo "<tr>\n";
 	echo "<td colspan=\"2\" align=\"center\">\n";
-	echo $_SESSION['lang']['divers_fermeture_du']."  <b>$fermeture_date_debut</b> ".$_SESSION['lang']['divers_au']." <b>$fermeture_date_fin</b>.<br>\n";
-	echo "<b>".$_SESSION['lang']['admin_annul_fermeture_confirm'].".</b><br>\n";
+	echo  _('divers_fermeture_du') ."  <b>$fermeture_date_debut</b> ". _('divers_au') ." <b>$fermeture_date_fin</b>.<br>\n";
+	echo "<b>". _('admin_annul_fermeture_confirm') .".</b><br>\n";
 	echo "<input type=\"hidden\" name=\"fermeture_id\" value=\"$fermeture_id\">\n";
 	echo "<input type=\"hidden\" name=\"fermeture_date_debut\" value=\"$fermeture_date_debut\">\n";
 	echo "<input type=\"hidden\" name=\"fermeture_date_fin\" value=\"$fermeture_date_fin\">\n";
@@ -808,13 +808,13 @@ function confirm_annul_fermeture($fermeture_id, $fermeture_date_debut, $fermetur
 	echo "</tr>\n";
 	echo "<tr>\n";
 	echo "<td width=\"100\" align=\"center\">\n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_continuer']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_continuer') ."\">\n";
 	echo "</form>\n";
 	echo "</td>\n";
 
 	echo "<td width=\"100\" align=\"center\">\n";
 	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n";
-	echo "<input type=\"submit\" value=\"".$_SESSION['lang']['form_cancel']."\">\n";
+	echo "<input type=\"submit\" value=\"". _('form_cancel') ."\">\n";
 	echo "</form>\n";
 	echo "</td>\n";
 
@@ -878,9 +878,9 @@ function commit_annul_fermeture($fermeture_id, $groupe_id,  $DEBUG=FALSE)
 	}
 
 	if($result==TRUE)
-		echo "<br>".$_SESSION['lang']['form_modif_ok'].".<br><br>\n";
+		echo "<br>". _('form_modif_ok') .".<br><br>\n";
 	else
-		echo "<br>".$_SESSION['lang']['form_modif_not_ok']." !<br><br>\n";
+		echo "<br>". _('form_modif_not_ok') ." !<br><br>\n";
 
 	// on enregistre cette action dan les logs
 	if($groupe_id==0)  // fermeture pour tous !
@@ -892,8 +892,8 @@ function commit_annul_fermeture($fermeture_id, $groupe_id,  $DEBUG=FALSE)
 	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n";
 	echo "<table>\n";
 	echo "<tr><td align=\"center\">\n";
-	echo "	<input type=\"submit\" value=\"".$_SESSION['lang']['form_ok']."\">\n";
-//	echo "	<input type=\"button\" value=\"".$_SESSION['lang']['form_close_window']."\" onClick=\"javascript:window.close();\">\n";
+	echo "	<input type=\"submit\" value=\"". _('form_ok') ."\">\n";
+//	echo "	<input type=\"button\" value=\"". _('form_close_window') ."\" onClick=\"javascript:window.close();\">\n";
 	echo "</td></tr>\n";
 	echo "</table>\n";
 	echo "</form>\n";

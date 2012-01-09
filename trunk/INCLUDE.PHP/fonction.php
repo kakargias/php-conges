@@ -27,6 +27,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 include_once  __DIR__ .'/sql.class.php';
+include_once  __DIR__ .'/get_text.php';
 
 
 function schars( $htmlspec )
@@ -167,12 +168,12 @@ function session_saisie_user_password($erreur, $session_username, $session_passw
 	echo "<!--\n";
 	echo "// Les cookies sont obligatoires\n";
 	echo "if (! navigator.cookieEnabled) {\n";
-	echo "	document.write(\"<font color='#FF0000'><br><br><center>".$_SESSION['lang']['cookies_obligatoires']."</center></font><br><br>\");\n";
+	echo "	document.write(\"<font color='#FF0000'><br><br><center>". _('cookies_obligatoires') ."</center></font><br><br>\");\n";
 	echo "}\n";
 	echo "//-->\n";
 	echo "</script>\n";
 	echo "<noscript>\n";
-	echo "		<font color=\"#FF0000\"><br><br><center>".$_SESSION['lang']['javascript_obligatoires']."</center></font><br><br>\n";
+	echo "		<font color=\"#FF0000\"><br><br><center>". _('javascript_obligatoires') ."</center></font><br><br>\n";
 	echo "</noscript>\n";
 	
 	echo "</head>\n";
@@ -180,9 +181,9 @@ function session_saisie_user_password($erreur, $session_username, $session_passw
 	
 	echo "<CENTER>\n";
 	if($erreur=="login_passwd_incorrect")
-		echo "<H3>".$_SESSION['lang']['login_passwd_incorrect']."</H3><BR>\n";
+		echo "<H3>". _('login_passwd_incorrect') ."</H3><BR>\n";
 	elseif($erreur=="login_non_connu")
-		echo "<H3>".$_SESSION['lang']['login_non_connu']."</H3><BR>\n";
+		echo "<H3>". _('login_non_connu') ."</H3><BR>\n";
 	echo "</CENTER>\n";
 	
 	echo "<CENTER>\n";
@@ -209,14 +210,14 @@ function session_saisie_user_password($erreur, $session_username, $session_passw
 		echo "<FORM METHOD='post' ACTION='$PHP_SELF'>\n";
 		
 		echo "<fieldset class=\"boxlogin\">\n";
-		echo "<legend class=\"boxlogin\">".$_SESSION['lang']['login_fieldset']."</legend>\n";
+		echo "<legend class=\"boxlogin\">". _('login_fieldset') ."</legend>\n";
 		echo "<TABLE class=\"ident\">\n";
 		echo "<TR>\n";
-		echo "	<TD class=\"login\">".$_SESSION['lang']['divers_login_maj_1']." :</TD>\n";
+		echo "	<TD class=\"login\">". _('divers_login_maj_1') ." :</TD>\n";
 		echo "	<TD><INPUT TYPE='text'     NAME='session_username' SIZE=32 maxlength=99  VALUE='$session_username'></TD>\n";
 		echo "</TR>\n";
 		echo "<TR>\n";
-		echo "	<TD class=\"login\">".$_SESSION['lang']['password']." :</TD>\n";
+		echo "	<TD class=\"login\">". _('password') ." :</TD>\n";
 		echo "	<TD><INPUT TYPE='password' NAME='session_password' SIZE=32 maxlength=32 VALUE='$session_password'></TD>\n";
 		echo "</TR>\n";
 		echo "</TABLE>\n";
@@ -224,7 +225,7 @@ function session_saisie_user_password($erreur, $session_username, $session_passw
 		
 		echo "<TABLE BORDER='0'>\n";
 		echo "<TR>\n";
-		echo "	<TD COLSPAN='2'><CENTER><INPUT TYPE='submit' VALUE='".$_SESSION['lang']['form_submit']."'></CENTER></TD>\n";
+		echo "	<TD COLSPAN='2'><CENTER><INPUT TYPE='submit' VALUE='". _('form_submit') ."'></CENTER></TD>\n";
 		echo "</TR>\n";
 		echo "</TABLE>\n";
 		echo "</FORM>\n";
@@ -234,8 +235,8 @@ function session_saisie_user_password($erreur, $session_username, $session_passw
 	{
 		echo "<tr><td align=\"center\">\n";
 		echo "<a href=\"calendrier.php\">" .
-				"<img src=\"img/1day.png\" width=\"24\" height=\"24\" border=\"0\" title=\"".$_SESSION['lang']['button_calendar']."\" alt=\"".$_SESSION['lang']['button_calendar']."\">" .
-				" ".$_SESSION['lang']['button_calendar']."</a>\n";
+				"<img src=\"img/1day.png\" width=\"24\" height=\"24\" border=\"0\" title=\"". _('button_calendar') ."\" alt=\"". _('button_calendar') ."\">" .
+				" ". _('button_calendar') ."</a>\n";
 		echo "</td></tr>\n";
 	}
 	echo "</table>\n";
@@ -247,7 +248,7 @@ function session_saisie_user_password($erreur, $session_username, $session_passw
 		{
 			echo "<tr><td align=\"center\">";
 			echo "<img src=\"img/attention.png\" width=\"22\" height=\"22\" border=\"0\"/>";
-			echo "&nbsp;".$_SESSION['lang']['msie_alert'] ;
+			echo "&nbsp;". _('msie_alert')  ;
 			echo "</td></tr>\n";
 		}
 		echo "<tr><td align=\"right\">\n";

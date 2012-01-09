@@ -46,10 +46,12 @@ include($tab_lang_file[0]) ;
 if($DEBUG==TRUE) { echo "SESSION = <br>\n"; print_r($_SESSION); echo "<br><br>\n"; }
 
 	
+	// => html sans menu
+	
 	echo "<html>\n<head>\n";
-	echo "<TITLE> PHP_CONGES : Installation : </TITLE>\n</head>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";	
-	echo "<link href=\"../style_basic.css\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<TITLE> PHP_CONGES : Installation : </TITLE>\n</head>\n";
+		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";	
+		echo "<link href=\"../style_basic.css\" rel=\"stylesheet\" type=\"text/css\">\n";
 	echo "</head>\n";
 		
 	echo "<body text=\"#000000\" bgcolor=\"#597c98\" link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\" >\n";

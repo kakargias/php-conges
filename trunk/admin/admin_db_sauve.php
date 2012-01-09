@@ -101,12 +101,14 @@ function choix_save_restore($DEBUG=FALSE)
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
+	// => html sans menu
+
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 	echo "<html>\n";
 	echo "<head>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-	echo "<title>PHP_CONGES :</title>\n";
+		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
+		echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<title>PHP_CONGES :</title>\n";
 	echo "</head>\n";
 
 	echo "<body>\n";
@@ -157,12 +159,14 @@ function choix_sauvegarde($DEBUG=FALSE)
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
+	// => html sans menu
+
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 	echo "<html>\n";
 	echo "<head>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-	echo "<title>PHP_CONGES :</title>\n";
+		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
+		echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<title>PHP_CONGES :</title>\n";
 	echo "</head>\n";
 
 	echo "<body>\n";
@@ -217,15 +221,16 @@ function sauve($type_sauvegarde, $DEBUG=FALSE)
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
+	// => html sans menu
 
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 	echo "<html>\n";
 	echo "<head>\n";
-	// on renvoit immédiatement sur la meme page qui va lancer la sauvegarde ...
-	echo "<meta http-equiv=\"refresh\" content=\"0;url=$PHP_SELF?session=$session&choix_action=sauvegarde&type_sauvegarde=$type_sauvegarde&commit=ok\">\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-	echo "<title>PHP_CONGES :</title>\n";
+		// on renvoit immédiatement sur la meme page qui va lancer la sauvegarde ...
+		echo "<meta http-equiv=\"refresh\" content=\"0;url=$PHP_SELF?session=$session&choix_action=sauvegarde&type_sauvegarde=$type_sauvegarde&commit=ok\">\n";
+		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
+		echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<title>PHP_CONGES :</title>\n";
 	echo "</head>\n";
 	echo "<body>\n";
 	echo "<center>\n";
@@ -298,12 +303,14 @@ function choix_restaure($DEBUG=FALSE)
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
+	// => html sans menu
+
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 	echo "<html>\n";
 	echo "<head>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-	echo "<title>PHP_CONGES :</title>\n";
+		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
+		echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<title>PHP_CONGES :</title>\n";
 	echo "</head>\n";
 
 	echo "<body>\n";
@@ -355,12 +362,15 @@ function restaure($fichier_restaure_name, $fichier_restaure_tmpname, $fichier_re
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
+	
+	// => html sans menu
+
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 	echo "<html>\n";
 	echo "<head>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-	echo "<title>PHP_CONGES :</title>\n";
+		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
+		echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<title>PHP_CONGES :</title>\n";
 	echo "</head>\n";
 
 	echo "<body>\n";

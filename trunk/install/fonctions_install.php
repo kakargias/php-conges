@@ -66,7 +66,7 @@ function test_database($DEBUG=FALSE)
 		return false;
 	
 
-	return (SQL::connect_errno == 0 );
+	return (SQL::getVar('connect_errno') == 0 );
 }
 
 

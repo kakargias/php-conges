@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //appel de PHP-IDS que si version de php > 5.1.2
 // if(phpversion() > "5.1.2") { include("controle_ids.php") ;}
 
+	// => html sans menu
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
 <html>

@@ -53,6 +53,7 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	/*************************************/
 
 
+// => html sans menu
 
 echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 echo "<html>\n";

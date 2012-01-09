@@ -62,11 +62,13 @@ if($DEBUG==TRUE) { echo "SESSION = <br>\n"; print_r($_SESSION); echo "<br><br>\n
 			echo "<a href=\"index.php?lang=$lang\">". _('install_version_non_choisie') ."</a><br>\n";
 		exit;
 	}
+	
+	// => html sans menu
 
 	echo "<html>\n<head>\n";
-	echo "<TITLE> PHP_CONGES : ". _('install_maj_titre_1') ." : </TITLE>\n</head>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-	echo "<link href=\"../style_basic.css\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<TITLE> PHP_CONGES : ". _('install_maj_titre_1') ." : </TITLE>\n</head>\n";
+		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
+		echo "<link href=\"../style_basic.css\" rel=\"stylesheet\" type=\"text/css\">\n";
 	echo "</head>\n";
 
 	echo "<body text=\"#000000\" bgcolor=\"#597c98\" link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\" >\n";

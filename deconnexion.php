@@ -2,7 +2,7 @@
 
 
 define('_PHP_CONGES', 1);
-define('ROOT_PATH', '/');
+define('ROOT_PATH', '');
 include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 

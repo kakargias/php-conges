@@ -82,21 +82,9 @@ function affichage($session, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 
-	// => html sans menu
 	
-	// Affichage du panneau principal
-	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
-	echo "<html>\n";
-	echo "<head>\n";
-		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-		echo "<TITLE> CONGES : Configuration </TITLE>\n";
-	echo "</head>\n";
-
-	//$bgimage=$_SESSION['config']['URL_ACCUEIL_CONGES']."/".$_SESSION['config']['bgimage'];
-	//echo "<body text=\"#000000\" bgcolor=".$_SESSION['config']['bgcolor']." link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\" background=\"$bgimage\">\n";
-	echo "<body text=\"#000000\" bgcolor=".$_SESSION['config']['bgcolor']." link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\" >\n";
-
+	header_popup('CONGES : Configuration');	
+	
 	/**************************************/
 	// affichage du titre
 	echo "<br><center><H1><img src=\"". TEMPLATE_PATH . "img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"". _('config_appli_titre_2') ."\" alt=\"". _('config_appli_titre_2') ."\"> ". _('config_appli_titre_1') ."</H1></center>\n";

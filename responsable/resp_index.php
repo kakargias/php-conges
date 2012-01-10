@@ -108,7 +108,7 @@ verif_droits_user($session, "is_resp", $DEBUG);
 
 	
 	$info="responsable";
-	include TEMPLATE_PATH .'menu.php';
+	include TEMPLATE_PATH .'menu_header.php';
 
 	/***********************************/
 	// TITRE
@@ -260,7 +260,7 @@ verif_droits_user($session, "is_resp", $DEBUG);
 	echo "</td></tr></table>";
 	
 
-	include TEMPLATE_PATH .'bottom.php';
+	include TEMPLATE_PATH .'menu_bottom.php';
 	
 
 

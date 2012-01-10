@@ -50,8 +50,7 @@ $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST[
 
 	if($lang=="")
 	{
-		affiche_entete();
-		echo "<body>\n";
+		header_popup();
 		echo "<center>\n";
 		echo "<br><br>\n";
 		echo "Choisissez votre langue :<br> \n";
@@ -74,8 +73,7 @@ $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST[
 //		include$tab_lang_file[0] ;
 //		include$lang_file ;
 
-		affiche_entete();
-		echo "<body>\n";
+		header_popup();
 		echo "<center>\n";
 		echo "<br><br>\n";
 		echo  _('install_le_fichier') ." <b>\"dbconnect.php\"</b> ". _('install_bad_fichier') .".<br> \n";
@@ -91,8 +89,7 @@ $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST[
 
 		if(test_database($DEBUG)!=TRUE)
 		{
-			affiche_entete();
-			echo "<body>\n";
+			header_popup();
 			echo "<center>\n";
 			echo "<br><br>\n";
 			echo "<b>". _('install_db_inaccessible') ." ... <br><br>\n";
@@ -141,16 +138,8 @@ $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST[
 function install($lang,  $DEBUG=FALSE)
 {
 	// soit, c'est une install complète , soit c'est une mise à jour d'une version non déterminée
-
-	// => html sans menu
 	
-	echo "<html>\n<head>\n";
-		echo "<TITLE> PHP_CONGES : Installation : </TITLE>\n</head>\n";
-		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-		echo "<link href=\"". TEMPLATE_PATH ."style_basic.css\" rel=\"stylesheet\" type=\"text/css\">\n";
-	echo "</head>\n";
-
-	echo "<body text=\"#000000\" bgcolor=\"#597c98\" link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\" >\n";
+	header_popup('PHP_CONGES : Installation');
 
 	// affichage du titre
 	echo "<center>\n";
@@ -204,16 +193,4 @@ function install($lang,  $DEBUG=FALSE)
 	echo "</body>\n</html>\n";
 }
 
-// affiche les entetes html ...
-function affiche_entete()
-{
-	// => html sans menu
-	
-	echo "<html>\n";
-	echo "<head>\n";
-		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-	//	echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-	include ROOT_PATH .'fonctions_javascript.php' ;
-	echo "</head>\n";
-}
 

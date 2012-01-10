@@ -150,7 +150,7 @@
 					if( $info != "user")
 					{
 						echo '<div style="float: right;">';
-						echo "<a href=\"../utilisateur/user_index.php?session=$session\" method=\"POST\">" .
+						echo "<a href=\"". ROOT_PATH ."utilisateur/user_index.php?session=$session\" method=\"POST\">" .
 								"<img src=\"". TEMPLATE_PATH ."img/user_4_22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('resp_menu_button_mode_user') ."\" alt=\"". _('resp_menu_button_mode_user') ."\">" .
 								 _('resp_menu_button_mode_user') ."</a>\n";
 						echo '</div>';

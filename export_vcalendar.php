@@ -86,18 +86,9 @@ function form_saisie($user, $date_debut, $date_fin, $DEBUG=FALSE)
 	if($date_fin=="")
 		$date_fin=$date_today;
 
-	// => html sans menu
+	header_popup();
 	
-	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
-	echo "<html>\n";
-	echo "<head>\n";
-		include ROOT_PATH .'fonctions_javascript.php';
-
-		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-		echo "<title>PHP_CONGES : </title>\n";
-	echo "</head>\n";
-	echo "<body>\n";
+	
 	echo "<center>\n";
 	echo "<h1>". _('export_cal_titre') ."</h1>\n";
 

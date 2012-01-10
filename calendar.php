@@ -34,18 +34,6 @@ include INCLUDE_PATH .'session.php';
 $DEBUG=FALSE;
 //$DEBUG=TRUE ;
 
-	// => html sans menu
-	
-echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
-echo "<html>\n";
-echo "<head>\n";
-
-
-	echo "<TITLE>calendar</TITLE>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-	echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-
-	echo "</head>\n";
 
 	/*************************************/
 	// recup des parametres reçus :
@@ -62,10 +50,15 @@ echo "<head>\n";
 	
 // ATTENTION ne pas mettre cet appel avant les include car plantage sous windows !!!
 
-echo "<script language=\"javascript\">\n";
-echo "function envoi_date(valeur)\n";
-echo "{window.opener.document.forms[0].$champ_date.value=valeur; window.close()}\n";
-echo "</Script>\n";
+
+$script = '<script language="javascript">
+function envoi_date(valeur)
+{
+	window.opener.document.forms[0].'.$champ_date.'.value=valeur; window.close()
+}
+</script>';
+	header_popup('calendar',$script);
+
 
 		
 	echo "<body>\n";

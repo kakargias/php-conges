@@ -30,14 +30,51 @@ include_once   INCLUDE_PATH .'sql.class.php';
 include_once   INCLUDE_PATH .'get_text.php';
 
 
-function schars( $htmlspec )
-{
+function schars( $htmlspec ) {
 	return htmlspecialchars( $htmlspec );
 }
 
+function redirect($url , $auto_exit = true) {
+	// $url = urlencode($url);
+	if (headers_sent()) {	
+		echo '<html>';
+			echo '<head>';
+				echo '<meta HTTP-EQUIV="REFRESH" CONTENT="0; URL='.$url.'">';
+				echo '<script language=javascript>
+						function redirection(page){
+							window.location=page;
+						}
+						setTimeout(\'redirection("'.$url.'")\',100);
+					</script>';
+			echo '</head>';
+		echo '</html>';
+	}
+	else {
+	    header('Location: '.$url);
+	}
+	if ($auto_exit)
+		exit;
+}
 
+function header_popup($title = 'PHP CONGES' , $additional_head = '' ) {
+	global $type_bottom;
+	$type_bottom = 'popup';
+	
+	include TEMPLATE_PATH . 'popup_header.php';
+}
 
+function header_menu($title = 'PHP CONGES') {
+	global $type_bottom;
+	$type_bottom = 'menu';
+	
+	include TEMPLATE_PATH . 'menu_header.php';
+}
 
+function bottom($title = 'PHP CONGES') {
+	global $type_bottom;
+	
+	include TEMPLATE_PATH . $type_bottom .'_menu_bottom.php';
+}
 
 
 
@@ -158,27 +195,19 @@ function session_saisie_user_password($erreur, $session_username, $session_passw
 	else
 		$config_dir=FALSE;
 
-	// => html sans menu
-	
-	echo "<html>\n<head>\n";
-		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";	
-		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-		echo "<TITLE> PHP_CONGES : </TITLE>\n";
-		// test que le navigateur accepte les cookies et le javascript
-		echo "<script language=\"JavaScript\" type=\"text/javascript\">\n";
-		echo "<!--\n";
-		echo "// Les cookies sont obligatoires\n";
-		echo "if (! navigator.cookieEnabled) {\n";
-		echo "	document.write(\"<font color='#FF0000'><br><br><center>". _('cookies_obligatoires') ."</center></font><br><br>\");\n";
-		echo "}\n";
-		echo "//-->\n";
-		echo "</script>\n";
-		echo "<noscript>\n";
-		echo "		<font color=\"#FF0000\"><br><br><center>". _('javascript_obligatoires') ."</center></font><br><br>\n";
-		echo "</noscript>\n";
+	$add = '<script language="JavaScript" type="text/javascript">
+<!--
+// Les cookies sont obligatoires
+if (! navigator.cookieEnabled) {
+	document.write("<font color=\'#FF0000\'><br><br><center>'. _('cookies_obligatoires') .'</center></font><br><br>");
+}
+//-->
+</script>
+<noscript>
+		<font color="#FF0000"><br><br><center>'. _('javascript_obligatoires') .'</center></font><br><br>
+</noscript>';
 		
-	echo "</head>\n";
-	echo "<body class=\"login\">\n";
+	header_popup('PHP CONGES', $add);
 	
 	echo "<CENTER>\n";
 	if($erreur=="login_passwd_incorrect")

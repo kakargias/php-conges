@@ -103,17 +103,8 @@ function choix_save_restore($DEBUG=FALSE)
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
-	// => html sans menu
+	header_popup();	
 
-	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
-	echo "<html>\n";
-	echo "<head>\n";
-		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-		echo "<title>PHP_CONGES :</title>\n";
-	echo "</head>\n";
-
-	echo "<body>\n";
 	echo "<center>\n";
 	echo "<h1>". _('admin_sauve_db_titre') ."</h1>\n";
 
@@ -161,17 +152,9 @@ function choix_sauvegarde($DEBUG=FALSE)
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
-	// => html sans menu
-
-	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
-	echo "<html>\n";
-	echo "<head>\n";
-		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-		echo "<title>PHP_CONGES :</title>\n";
-	echo "</head>\n";
-
-	echo "<body>\n";
+	
+	header_popup();	
+	
 	echo "<center>\n";
 	echo "<h1>". _('admin_sauve_db_titre') ."</h1>\n";
 
@@ -223,18 +206,10 @@ function sauve($type_sauvegarde, $DEBUG=FALSE)
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
-	// => html sans menu
-
-	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
-	echo "<html>\n";
-	echo "<head>\n";
-		// on renvoit immédiatement sur la meme page qui va lancer la sauvegarde ...
-		echo "<meta http-equiv=\"refresh\" content=\"0;url=$PHP_SELF?session=$session&choix_action=sauvegarde&type_sauvegarde=$type_sauvegarde&commit=ok\">\n";
-		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-		echo "<title>PHP_CONGES :</title>\n";
-	echo "</head>\n";
-	echo "<body>\n";
+	redirect(ROOT_PATH .'admin/admin_db_sauve.php?session='.$session.'&choix_action=sauvegarde&type_sauvegarde='.$type_sauvegarde.'&commit=ok', false);
+	
+	header_popup();	
+	
 	echo "<center>\n";
 	echo "<h1>". _('admin_sauve_db_titre') ."</h1>\n";
 
@@ -305,17 +280,8 @@ function choix_restaure($DEBUG=FALSE)
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
-	// => html sans menu
-
-	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
-	echo "<html>\n";
-	echo "<head>\n";
-		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-		echo "<title>PHP_CONGES :</title>\n";
-	echo "</head>\n";
-
-	echo "<body>\n";
+	header_popup();	
+	
 	echo "<center>\n";
 	echo "<h1>". _('admin_sauve_db_titre') ."</h1>\n";
 
@@ -365,17 +331,8 @@ function restaure($fichier_restaure_name, $fichier_restaure_tmpname, $fichier_re
 	$session=session_id();
 
 	
-	// => html sans menu
-
-	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
-	echo "<html>\n";
-	echo "<head>\n";
-		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-		echo "<title>PHP_CONGES :</title>\n";
-	echo "</head>\n";
-
-	echo "<body>\n";
+	header_popup();	
+	
 	echo "<center>\n";
 	echo "<h1>". _('admin_sauve_db_titre') ."</h1>\n";
 

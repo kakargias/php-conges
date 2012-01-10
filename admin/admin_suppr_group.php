@@ -42,18 +42,8 @@ $DEBUG=FALSE;
 verif_droits_user($session, "is_admin", $DEBUG);
 
 
-	// => html sans menu
+	header_popup();	
 	
-echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
-echo "<html>\n";
-echo "<head>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-	echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-	echo "<TITLE> ".$_SESSION['config']['titre_admin_index']." </TITLE>\n";
-echo "</head>\n";
-
-	$bgimage=$_SESSION['config']['URL_ACCUEIL_CONGES']."/".$_SESSION['config']['bgimage'];
-	echo "<body text=\"#000000\" bgcolor=".$_SESSION['config']['bgcolor']." link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\" background=\"$bgimage\">\n";
 	echo "<CENTER>\n";
 
 	/*************************************/
@@ -81,7 +71,7 @@ echo "</head>\n";
 	else
 	{
 		// renvoit sur la page principale .
-		header("Location: admin_index.php?session=$session&onglet=admin-group");
+		redirect( ROOT_PATH .'admin/admin_index.php?session='.$session.'&onglet=admin-group', false);
 	}
 
 

@@ -53,15 +53,7 @@ $DEBUG=FALSE;
 
 if($DEBUG==TRUE) { echo "lang_file=".$_SESSION['config']['lang_file']."<br>\n";  echo "_SESSION =<br>\n"; print_r($_SESSION); echo "<br><br>\n"; }
 
-	// => html sans menu
-	
-echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
-echo "<html>\n";
-echo "<head>\n";
-
-?>
-<script language=javascript>
-// Fonction permettant d'afficher ou de cacher le tableau correspondant à l'id passé en paramètre
+$script = '<script language=javascript>
 function afficher(id)
 {
 	el = document.getElementById(id);
@@ -73,14 +65,10 @@ function cacher(id)
 	el = document.getElementById(id);
 	el.style.display = "none";
 }
-</script>
+</script>';
 
-<?php
+header_popup($_SESSION['config']['titre_calendrier'] , $script);
 
-	echo "<TITLE> ".$_SESSION['config']['titre_calendrier']." </TITLE>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-	echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-	echo "</head>\n";
 
 	/*************************************/
 	// recup des parametres reçus :

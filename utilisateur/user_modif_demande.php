@@ -48,7 +48,7 @@ echo "<head>\n";
 	echo "<link href=\"". TEMPLATE_PATH ."style.css\" rel=\"stylesheet\" type=\"text/css\" />";
 	echo "</head>\n";
 	$info="user";
-	include TEMPLATE_PATH .'menu.php';
+	include TEMPLATE_PATH .'menu_header.php';
 
 	/*************************************/
 	// recup des parametres reçus :
@@ -99,11 +99,11 @@ echo "<head>\n";
 		else
 		{
 			// renvoit sur la page principale .
-			header('Location: user_index.php');
+			redirect( ROOT_PATH .'utilisateur/user_index.php', false );
 		}
 	}
 
-	include TEMPLATE_PATH .'bottom.php';
+	include TEMPLATE_PATH .'menu_bottom.php';
 
 /********************************************************************************************************/
 /********************************************************************************************************/

@@ -24,21 +24,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
 
-
-
-	// => html sans menu
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
-<html>
-
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<?php 
-	echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-	echo "</head>\n";
+	header_popup();
 	
-	$bgimage=$_SESSION['config']['URL_ACCUEIL_CONGES']."/".$_SESSION['config']['bgimage'];
-	echo "<body text=#000000 bgcolor=".$_SESSION['config']['bgcolor']." link=#000080 vlink=#800080 alink=#FF0000 background=\"$bgimage\">\n";
 	echo "<CENTER>\n";
 	
 	printf("<H1>ERREUR !</H1>\n");
@@ -52,12 +39,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 			break;
 
 		case 3 :   // autre
-			header('Location: index.php');
+			redirect( ROOT_PATH .'index.php', false);
 			break;
 
 		default:	
 			// sinon :
-			header('Location: index.php');
+			redirect( ROOT_PATH .'index.php', false);
 			break;
 	}	// END SWITCH
 ?>

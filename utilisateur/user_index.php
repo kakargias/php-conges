@@ -110,7 +110,7 @@ if($DEBUG==TRUE) { echo "lang_file=".$_SESSION['config']['lang_file']."<br>\n"; 
 	echo "</head>\n";
 
 	$info="user";
-	include TEMPLATE_PATH .'menu.php';
+	include TEMPLATE_PATH .'menu_header.php';
 
 	/*************************************/
 	/*** affichage "deconnexion" et "actualiser page" et "mode administrateur" et "affichage calendrier" ***/
@@ -139,7 +139,7 @@ if($DEBUG==TRUE) { echo "lang_file=".$_SESSION['config']['lang_file']."<br>\n"; 
 	}
 
 
-	include TEMPLATE_PATH .'bottom.php';
+	include TEMPLATE_PATH .'menu_bottom.php';
 
 
 

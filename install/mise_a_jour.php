@@ -58,23 +58,11 @@ if($DEBUG==TRUE) { echo "SESSION = <br>\n"; print_r($_SESSION); echo "<br><br>\n
 
 	if($version == 0)  // la version à mettre à jour dans le formulaire de index.php n'a pas été choisie : renvoit sur le formulaire
 	{
-		if($DEBUG==FALSE)
-			echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=index.php?lang=$lang\">";
-		else
-			echo "<a href=\"index.php?lang=$lang\">". _('install_version_non_choisie') ."</a><br>\n";
-		exit;
+		redirect( ROOT_PATH . 'install/index.php?lang='.$lang)
 	}
 	
-	// => html sans menu
-
-	echo "<html>\n<head>\n";
-		echo "<TITLE> PHP_CONGES : ". _('install_maj_titre_1') ." : </TITLE>\n</head>\n";
-		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-		echo "<link href=\"". TEMPLATE_PATH ."style_basic.css\" rel=\"stylesheet\" type=\"text/css\">\n";
-	echo "</head>\n";
-
-	echo "<body text=\"#000000\" bgcolor=\"#597c98\" link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\" >\n";
-
+	header_popup(' PHP_CONGES : '. _('install_maj_titre_1') );
+	
 	// affichage du titre
 	echo "<center>\n";
 	echo "<br><H1><img src=\"". TEMPLATE_PATH ."img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"". _('install_install_phpconges') ."\" alt=\"". _('install_install_phpconges') ."\"> ". _('install_maj_titre_2') ."</H1>\n";

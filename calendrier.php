@@ -1118,9 +1118,9 @@ function affiche_select_groupe($select_groupe, $selected, $printable, $year, $mo
 	// quelle liste de groupes recuperer ?
 	//if( ($_SESSION['config']['consult_calendrier_sans_auth']==TRUE) && (!isset($_SESSION['userlogin'])) )
 	if( is_hr($_SESSION['userlogin'], $DEBUG) )
-		$list_groupes=get_list_all_groupes( $DEBUG);
+		$list_groupes=get_list_all_groupes( $DEBUG );
 	elseif($_SESSION['config']['calendrier_select_all_groups']==TRUE)
-		$list_groupes=get_list_all_groupes( $DEBUG);
+		$list_groupes=get_list_all_groupes( $DEBUG );
 	elseif(is_resp($_SESSION['userlogin'],  $DEBUG)==TRUE)
 	{
 		// on propose la liste des groupes dont user est resp + groupes dont user est membre
@@ -1132,7 +1132,11 @@ function affiche_select_groupe($select_groupe, $selected, $printable, $year, $mo
 		$list_groupes=get_list_groupes_du_user($_SESSION['userlogin'],  $DEBUG);
 
 	echo "<form action=\"$PHP_SELF?session=$session&printable=$printable&selected=$selected&year=$year&mois=$mois&first_jour=$first_jour\" method=\"POST\">\n";
-	$tab_groupes=array_unique(explode(",", $list_groupes));
+	if (trim($list_groupes) == '')
+		$tab_groupes=array();
+	else
+		$tab_groupes=array_unique(explode(",", $list_groupes));
+
 	echo  _('calendrier_afficher_groupe') ." : ";
 	echo "<select name=select_groupe>\n";
 

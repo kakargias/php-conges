@@ -56,8 +56,6 @@ verif_droits_user($session, "is_admin", $DEBUG);
 
 	header_popup($_SESSION['config']['titre_admin_index']);
 
-	echo "<CENTER>\n";
-
 
 	if($u_login!="")
 	{
@@ -76,11 +74,7 @@ verif_droits_user($session, "is_admin", $DEBUG);
 		}
 	}
 
-echo "<hr align=\"center\" size=\"2\" width=\"95%\">\n";
-
-echo "</CENTER>\n";
-echo "</body>\n";
-echo "</html>\n";
+bottom();
 
 
 /*********************************************************************************/

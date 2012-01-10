@@ -155,7 +155,6 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	
 	header_popup();	
 	
-	echo "<center>\n";
 	echo "<h1>". _('admin_jours_fermeture_titre') ."  $year</h1>\n";
 
 
@@ -177,9 +176,7 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	        commit_annul_fermeture($fermeture_id, $groupe_id, $DEBUG);
 
 
-	echo "</center>\n";
-	echo "</body>\n";
-	echo "</html>\n";
+	bottom();
 
 
 

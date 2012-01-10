@@ -2,7 +2,17 @@
 	
 	defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-	$bgimage=$_SESSION['config']['URL_ACCUEIL_CONGES']."/".$_SESSION['config']['bgimage'];
+
+echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
+echo "<html>\n";
+	echo "<head>\n";
+		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
+		echo "<title> ".$title." </TITLE>\n";
+		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<link href=\"". TEMPLATE_PATH ."style.css\" rel=\"stylesheet\" type=\"text/css\" />";
+		include ROOT_PATH .'fonctions_javascript.php' ;
+		echo $additional_head;
+	echo "</head>\n";
 	echo '<body>';
 	
 
@@ -157,7 +167,7 @@
 					}
 					
 					/*** bouton mode responsable  ***/
-					if(is_resp($_SESSION['userlogin'],  $DEBUG) && $info != "responsable")
+					if(is_resp($_SESSION['userlogin']) && $info != "responsable")
 					{
 						echo '<div style="float: right;">';
 						echo "<a href=\"../responsable/resp_index.php?session=$session\" method=\"POST\">" .
@@ -167,7 +177,7 @@
 					}
 					
 					 /*** bouton mode HR ***/ 
-					if(is_hr($_SESSION['userlogin'], $DEBUG) && $info != "hr")
+					if(is_hr($_SESSION['userlogin']) && $info != "hr")
 					{
 					echo '<div style="float: right;">';
 					echo "<a href=\"../hr/hr_index.php?session=$session\" method=\"POST\">" .
@@ -177,7 +187,7 @@
 					}
 	
 					/*** bouton mode administrateur  ***/
-					if(is_admin($_SESSION['userlogin'],  $DEBUG) && $info != "admin")
+					if(is_admin($_SESSION['userlogin']) && $info != "admin")
 					{
 						echo '<div style="float: right;">';
 						echo "<a href=\"../admin/admin_index.php?session=$session\" method=\"POST\">" .
@@ -201,9 +211,9 @@
 					{
 						echo '<div style="float: right; ">';
 						if($onglet  == "resp_traite_user")
-							bouton_actualiser("resp_traite_user&user_login=$user_login", $DEBUG);  // on ajoute le user_login en paramètre à passer dans le lien ...
+							bouton_actualiser("resp_traite_user&user_login=$user_login");  // on ajoute le user_login en paramètre à passer dans le lien ...
 						else
-							bouton_actualiser($onglet, $DEBUG);
+							bouton_actualiser($onglet);
 						echo '</div>';
 					}
 					

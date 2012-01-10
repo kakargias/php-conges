@@ -138,9 +138,7 @@ function form_saisie($user, $date_debut, $date_fin, $DEBUG=FALSE)
 	echo "</table>\n";
 	echo "</form>\n";
 
-	echo "</center>\n";
-	echo "</body>\n";
-	echo "</html>\n";
+	bottom();
 
 }
 

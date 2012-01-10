@@ -96,22 +96,7 @@ verif_droits_user($session, "is_hr", $DEBUG);
     $year_affichage = getpost_variable("year_affichage" , date("Y") );
     /*************************************/
 
-
-	// => html avec menu
-
-echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
-echo "<html>\n";
-echo "<head>\n";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";    
-	echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-	echo "<title> Mode RH </title>\n";
-	echo "<link href=\"". TEMPLATE_PATH ."style.css\" rel=\"stylesheet\" type=\"text/css\" />";
-	include ROOT_PATH .'fonctions_javascript.php' ;
-echo "</head>\n";
-
-$info="hr";
-include TEMPLATE_PATH .'menu_header.php';
-
+	header_menu('hr','Mode RH');
     
     /***********************************/
     // TITRE
@@ -268,7 +253,7 @@ include TEMPLATE_PATH .'menu_header.php';
     echo "</td>\n";
     echo "</tr>\n";
     echo "</table>\n";
-	include TEMPLATE_PATH .'menu_bottom.php';
+	bottom();
     
 
 

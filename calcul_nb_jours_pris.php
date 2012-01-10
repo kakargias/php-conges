@@ -91,7 +91,6 @@ function affichage($user, $date_debut, $date_fin, $opt_debut, $opt_fin, $DEBUG=F
 
 	header_popup();	
 	
-	echo "<center>\n";
 	echo "<h1>$user</h1>\n";
 
 	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n";
@@ -127,9 +126,7 @@ function affichage($user, $date_debut, $date_fin, $opt_debut, $opt_fin, $DEBUG=F
 			echo "<script>envoi($nb_jours)</script>";
 	}
 
-	echo "</center>\n";
-	echo "</body>\n";
-	echo "</html>\n";
+	bottom();
 
 }
 

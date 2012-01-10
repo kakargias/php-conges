@@ -96,14 +96,6 @@ header_popup($_SESSION['config']['titre_calendrier'] , $script);
 	// renvoit un tableau de tableau contenant les infos des types de conges et absences
 	$tab_type_absence=recup_tableau_tout_types_abs($DEBUG);
 
-// echo "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\">\n";
-	if($printable!=1)  // si version écran :
-	
-		echo "<body text=\"#000000\" link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\" background=".$_SESSION['config']['bgimage'].">\n";
-	else               // si version imprimable :
-		echo "<body text=\"#000000\" link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\" class=\"edit\">\n";
-
-	echo "<CENTER>\n";
 
 //	echo "<hr align=\"center\" size=\"2\" width=\"90%\"> \n";
 
@@ -263,9 +255,7 @@ if (typeof(window.print) != 'undefined') {
 //		}
 	}
 
-	echo "</center>\n";
-	echo "</body>\n";
-	echo "</html>\n";
+	bottom();
 
 
 /*******************************************************************************/

@@ -87,7 +87,7 @@ function affichage($session, $DEBUG=FALSE)
 	
 	/**************************************/
 	// affichage du titre
-	echo "<br><center><H1><img src=\"". TEMPLATE_PATH . "img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"". _('config_appli_titre_2') ."\" alt=\"". _('config_appli_titre_2') ."\"> ". _('config_appli_titre_1') ."</H1></center>\n";
+	echo "<H1><img src=\"". TEMPLATE_PATH . "img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"". _('config_appli_titre_2') ."\" alt=\"". _('config_appli_titre_2') ."\"> ". _('config_appli_titre_1') ."</H1></center>\n";
 	echo "<br>\n";
 	/**************************************/
 
@@ -195,9 +195,7 @@ function affichage($session, $DEBUG=FALSE)
 	affiche_bouton_retour($session);
 	echo "<br><br>\n";
 
-
-	echo "</body>";
-	echo "</html>";
+	bottom();
 }
 
 

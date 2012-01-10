@@ -63,8 +63,7 @@ $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST[
 			echo "<br>\n";
 			echo "<input type=\"submit\" value=\"OK\">\n";
 			echo "</form>\n";
-		echo "</center>\n";
-		echo "</body>\n</html>\n";
+		bottom();
 	}
 	elseif(test_dbconnect_file($DEBUG)!=TRUE)
 	{
@@ -79,8 +78,7 @@ $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST[
 		echo  _('install_le_fichier') ." <b>\"dbconnect.php\"</b> ". _('install_bad_fichier') .".<br> \n";
 		echo  _('install_read_the_file') ." INSTALL.txt<br>\n";
 		echo "<br><a href=\"$PHP_SELF?session=$session\">". _('install_reload_page') ." ....</a><br>\n";
-		echo "</center>\n";
-		echo "</body>\n</html>\n";
+		bottom();
 	}
 	else
 	{
@@ -97,8 +95,8 @@ $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST[
 			echo "(". _('install_verifiez_priv_mysql') .")<br><br>\n";
 			echo "<i>". _('install_read_the_file') ." INSTALL.txt</i><br>\n";
 			echo "<br><a href=\"$PHP_SELF?session=$session\">". _('install_reload_page') ." ....</a><br>\n";
-			echo "</b></center>\n";
-			echo "</body>\n</html>\n";
+			echo "</b>\n";
+			bottom();
 		}
 		else
 		{
@@ -187,10 +185,8 @@ function install($lang,  $DEBUG=FALSE)
 	echo "</td>\n";
 	echo "</tr>\n";
 	echo "</table>\n";
-
-	echo "<center>\n";
-
-	echo "</body>\n</html>\n";
+	
+	bottom();
 }
 
 

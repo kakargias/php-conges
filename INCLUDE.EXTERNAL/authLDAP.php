@@ -27,10 +27,8 @@ class authLDAP
 
   function servers()
   {
-	if(is_readable("config_ldap.php"))
-		include ("config_ldap.php");
-	else
-		include ("../config_ldap.php");
+ 
+	include CONFIG_PATH .'config_ldap.php';
 
     $this->searchdn[0]    = $config_searchdn;
     $this->basedn[0]      = $config_basedn;

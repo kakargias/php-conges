@@ -24,17 +24,19 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
 define('_PHP_CONGES', 1);
+define('ROOT_PATH', '../');
+include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
 
-include("../fonctions_conges.php") ;
-include("../INCLUDE.PHP/fonction.php");
+include ROOT_PATH .'fonctions_conges.php' ;
+include INCLUDE_PATH .'fonction.php';
 
 $_SESSION['config']=init_config_tab();      // on initialise le tableau des variables de config
-include("../INCLUDE.PHP/session.php");
+include INCLUDE_PATH .'session.php';
 
-//include("fonctions_install.php") ;
+//include'fonctions_install.php' ;
 	
 $PHP_SELF=$_SERVER['PHP_SELF'];
 
@@ -65,7 +67,7 @@ function propose_config( $DEBUG=FALSE)
 		echo "<TITLE> PHP_CONGES : Installation : </TITLE>\n</head>\n";
 		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";	
 		echo "<link href=\"../style_basic.css\" rel=\"stylesheet\" type=\"text/css\">\n";
-		include("../fonctions_javascript.php") ;
+		include ROOT_PATH .'fonctions_javascript.php' ;
 	echo "</head>\n";
 				
 	echo "<body text=\"#000000\" bgcolor=\"#597c98\" link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\" >\n";

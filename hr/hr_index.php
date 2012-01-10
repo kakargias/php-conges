@@ -24,17 +24,19 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
 define('_PHP_CONGES', 1);
+define('ROOT_PATH', '../');
+include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
 
-include("../fonctions_conges.php") ;
-include("../INCLUDE.PHP/fonction.php");
-include("../INCLUDE.PHP/session.php");
-include("hr_ajout_conges_all.php");
-include("hr_traite_demande_all.php");
-include("hr_traite_user.php");
-include("../fonctions_calcul.php");
+include ROOT_PATH .'fonctions_conges.php' ;
+include INCLUDE_PATH .'fonction.php';
+include INCLUDE_PATH .'session.php';
+include'hr_ajout_conges_all.php';
+include'hr_traite_demande_all.php';
+include'hr_traite_user.php';
+include ROOT_PATH .'fonctions_calcul.php';
 
 $DEBUG = FALSE ;
 //$DEBUG = TRUE ;
@@ -104,11 +106,11 @@ echo "<head>\n";
 	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 	echo "<title> Mode RH </title>\n";
 	echo "<link href=\"../style.css\" rel=\"stylesheet\" type=\"text/css\" />";
-	include("../fonctions_javascript.php") ;
+	include ROOT_PATH .'fonctions_javascript.php' ;
 echo "</head>\n";
 
 $info="hr";
-include("../menu.php");
+include ROOT_PATH .'menu.php';
 
     
     /***********************************/
@@ -266,7 +268,7 @@ include("../menu.php");
     echo "</td>\n";
     echo "</tr>\n";
     echo "</table>\n";
-	include '../bottom.php';
+	include ROOT_PATH .'bottom.php';
     
 
 

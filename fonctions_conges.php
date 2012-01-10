@@ -28,8 +28,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-include_once __DIR__ .'/INCLUDE.PHP/sql.class.php';
-include_once __DIR__ .'/INCLUDE.PHP/get_text.php';
+include_once  INCLUDE_PATH .'sql.class.php';
+include_once  INCLUDE_PATH .'get_text.php';
 
 // affichage du calendrier avec les case à cocher, du mois du début du congés
 function  affiche_calendrier_saisie_date_debut($user_login, $year, $mois,  $DEBUG=FALSE)
@@ -1776,7 +1776,7 @@ function alerte_mail($login_expediteur, $destinataire, $num_periode, $objet,  $D
 {
 //$DEBUG=TRUE;
 
-	$phpmailer_filename = $_SESSION['config']['php_conges_phpmailer_include_path']."/phpmailer/class.phpmailer.php";
+	$phpmailer_filename = LIBRARY_PATH .'phpmailer/class.phpmailer.php';
 	// verif si la librairie phpmailer est présente
 	if(!is_readable($phpmailer_filename))
 	{
@@ -1901,7 +1901,7 @@ function constuct_and_send_mail($objet, $mail_sender_name, $mail_sender_addr, $m
 		}
 
 		// initialisation du langage utilisé par php_mailer
-		$mail->SetLanguage("fr", $_SESSION['config']['php_conges_phpmailer_include_path']."/phpmailer/language/");
+		$mail->SetLanguage("fr", LIBRARY_PATH ."phpmailer/language/");
 
 		if( $DEBUG==TRUE )
 			echo "FROM = $mail_sender_name : $mail_sender_addr<br>\n";
@@ -2012,7 +2012,6 @@ function find_email_adress_for_user($login, $DEBUG=FALSE)
 
 	if($_SESSION['config']['where_to_find_user_email']=="ldap") // recherche du mail du user dans un annuaire LDAP
 	{
-//		include('config_ldap.php');
 		// cnx à l'annuaire ldap :
 		$ds = ldap_connect($_SESSION['config']['ldap_server']);
 		if($_SESSION['config']['ldap_protocol_version'] != 0)
@@ -3033,23 +3032,12 @@ function est_chome($timestamp)
 // initialise le tableau des variables de config (renvoit un tableau)
 function init_config_tab($DEBUG=FALSE)
 {
-	include 'dbconnect.php';
-	include 'version.php';
-	include 'config_ldap.php';
-	include 'config_CAS.php';
+	include ROOT_PATH .'version.php';
+	include CONFIG_PATH .'dbconnect.php';
+	include CONFIG_PATH .'config_ldap.php';
+	include CONFIG_PATH .'config_CAS.php';
 	$tab =array();
 
-
-	/******************************************/
-	//  recup des variables du SERVEUR
-	if(substr(dirname ($_SERVER["SCRIPT_FILENAME"]), -7, 7) == "install")   // si on est dans le repertoire install
-		$config_php_conges_document_root = substr(dirname ($_SERVER["SCRIPT_FILENAME"]), 0, strlen(dirname ($_SERVER["SCRIPT_FILENAME"]))-8) ;
-	elseif(substr(dirname ($_SERVER["SCRIPT_FILENAME"]), -6, 6) == "config") // si on est dans le repertoire config
-		$config_php_conges_document_root = substr(dirname ($_SERVER["SCRIPT_FILENAME"]), 0, strlen(dirname ($_SERVER["SCRIPT_FILENAME"]))-7) ;
-	else
-		$config_php_conges_document_root = dirname ($_SERVER["SCRIPT_FILENAME"]) ;
-
-	$tab['php_conges_include_path']=$config_php_conges_document_root."/INCLUDE.PHP" ;
 
 
 	/******************************************/
@@ -3091,7 +3079,7 @@ function init_config_tab($DEBUG=FALSE)
 			$value = TRUE;
 		}
 		elseif($type == "path") {
-			$value = $config_php_conges_document_root."/".$value ;
+			$value =  ROOT_PATH ."/".$value ;
 		}
 
 		$tab[$key] = $value;
@@ -3680,43 +3668,7 @@ function verif_droits_user($session, $niveau_droits, $DEBUG=FALSE)
 // on lit le contenu du répertoire lang et on parse les nom de ficher (ex lang_fr_francais.php)
 function affiche_select_from_lang_directory($select_name="lang")
 {
-	if(is_dir("lang"))
-		$lang_dir = "lang/";
-	elseif(is_dir("../install/lang"))
-		$lang_dir = "../install/lang/";
-	else
-		$lang_dir = "install/lang/";
-
-
-	$php_vers= (int) substr(phpversion(), 0, 1); // recup version de php
-	if($php_vers>=5)
-	{
-		$tab_files = scandir($lang_dir);
-	}
-	else
-	{
-		$dh  = opendir($lang_dir);
-		while (false !== ($filename = readdir($dh)))
-		    $tab_files[] = $filename;
-		sort($tab_files);
-	}
-
-	echo "<select name=$select_name>\n";
-
-//	if($DEBUG==TRUE) { print_r($tab_files); echo "<br>\n"; }
-	foreach($tab_files as $file)
-	{
-		if(preg_match('/^lang_.+_.+.php$/i', $file))
-		{
-			$chaine_1=explode(".", $file);
-			$chaine_2=explode("_", $chaine_1[0]);
-			if($chaine_2[1]=="fr")
-				echo "<option value=\"".$chaine_2[1]."\" selected >".$chaine_2[1]." / ".$chaine_2[2]."</option>\n";
-			else
-				echo "<option value=\"".$chaine_2[1]."\">".$chaine_2[1]." / ".$chaine_2[2]."</option>\n";
-		}
-	}
-	echo "</select>\n";
+	echo 'TODO';
 }
 
 // on insert les logs des periodes de conges
@@ -3847,8 +3799,8 @@ function soustrait_solde_et_reliquat_user($user_login, $user_nb_jours_pris, $typ
 			else
 			{
 				include 'fonctions_calcul.php' ;
-				//include_once("fonctions_calcul.php"):
-				//require_once("fonctions_calcul.php"):
+				//include_once('fonctions_calcul.php'):
+				//require_once('fonctions_calcul.php'):
 				$nb_reliquats_a_deduire = compter($user_login, $date_deb, $_SESSION['config']['date_limite_reliquats'], $demi_jour_deb, "pm", null ,  $DEBUG);
 				
 				if($nb_reliquats_a_deduire>$user_nb_jours_pris)

@@ -24,16 +24,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
 define('_PHP_CONGES', 1);
+define('ROOT_PATH', '../');
+include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : "") ) ;
 
-include("../config_ldap.php");
-include("../fonctions_conges.php") ;
-include("../INCLUDE.PHP/fonction.php");
+include CONFIG_PATH .'config_ldap.php';
+include ROOT_PATH .'fonctions_conges.php' ;
+include INCLUDE_PATH .'fonction.php';
 if(!isset($_SESSION['config']))
 	$_SESSION['config']=init_config_tab();      // on initialise le tableau des variables de config
-include("../INCLUDE.PHP/session.php");
+include INCLUDE_PATH .'session.php';
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : "") ) ;
 
 
@@ -188,11 +190,11 @@ function test_mail_direct($tab_new_values,  $session, $DEBUG=FALSE)
 	echo "<b>MAIL:</b><br>From = from@example.com<br>To = $destination, $destination_2<br><br>\n";
 
 	// preparation du test de mail
-	require("../INCLUDE.EXTERNAL/phpmailer/class.phpmailer.php");
+	require( LIBRARY_PATH .'phpmailer/class.phpmailer.php');
 
 	$mail = new PHPMailer();
 
-	$mail->SetLanguage("fr", "../INCLUDE.EXTERNAL/phpmailer/language/");
+	$mail->SetLanguage("fr",  LIBRARY_PATH ."phpmailer/language/");
 
 	$mail->From = "from@example.com";
 	$mail->FromName = "PHP_CONGES";
@@ -297,11 +299,11 @@ function test_mail_smtp($tab_new_values,  $session, $DEBUG=FALSE)
 	}
 
 	// preparation du test de mail
-	require("../INCLUDE.EXTERNAL/phpmailer/class.phpmailer.php");
+	require( LIBRARY_PATH .'phpmailer/class.phpmailer.php');
 
 	$mail = new PHPMailer();
 
-	$mail->SetLanguage("fr", "../INCLUDE.EXTERNAL/phpmailer/language/");
+	$mail->SetLanguage("fr",  LIBRARY_PATH ."phpmailer/language/");
 
 	$mail->From = "from@example.com";
 	$mail->FromName = "PHP_CONGES";

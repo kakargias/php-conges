@@ -24,19 +24,21 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
 define('_PHP_CONGES', 1);
+define('ROOT_PATH', '/');
+include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 // test si dbconnect.php est présent !
-if (!is_readable("dbconnect.php"))
+if (!is_readable(CONFIG_PATH .'dbconnect.php'))
 {
 	echo "connexion a la database impossible, consultez le fichier INSTALL.txt !<br>\n"; 
 	exit;
 }
 
 
-include("fonctions_conges.php") ;
+include ROOT_PATH .'fonctions_conges.php';
 $_SESSION['config']=init_config_tab();      // on initialise le tableau des variables de config
-include("INCLUDE.PHP/fonction.php");
+include INCLUDE_PATH .'fonction.php';
 
 
 /***** DEBUT DU PROG *****/
@@ -68,7 +70,7 @@ if($_SESSION['config']['auth']==FALSE)    // si pas d'autentification (cf config
 }
 else 
 {
-	include("INCLUDE.PHP/session.php");  // qui va appeler la fenetre d'authentificatioon si besoin
+	include INCLUDE_PATH .'session.php';  // qui va appeler la fenetre d'authentificatioon si besoin
 }
 
 /*****************************************************************/
@@ -80,7 +82,7 @@ if(isset($_SESSION['userlogin']))
 	$rs = SQL::query($request );
 	if($rs->num_rows <= 0)
 	{
-		header("Location: index.php");
+		header('Location: index.php');
 	}
 	else
 	{

@@ -24,23 +24,25 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
 define('_PHP_CONGES', 1);
+define('ROOT_PATH', '../');
+include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
 
-include("../fonctions_conges.php") ;
-include("../INCLUDE.PHP/fonction.php");
-include("../INCLUDE.PHP/session.php");
-include("../fonctions_calcul.php");
-// include_once __DIR__ .'../INCLUDE.PHP/sql.class.php';
+include ROOT_PATH .'fonctions_conges.php' ;
+include INCLUDE_PATH .'fonction.php';
+include INCLUDE_PATH .'session.php';
+include ROOT_PATH .'fonctions_calcul.php';
+// include_once  INCLUDE_PATH .'sql.class.php';
 
-//include($_SESSION['config']['lang_file']) ;
+//include$_SESSION['config']['lang_file'] ;
 
 $DEBUG=FALSE;
 //$DEBUG=TRUE;
 
 
-if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include("../config_ldap.php");}
+if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH .'config_ldap.php';}
 
 if($DEBUG==TRUE) { echo "lang_file=".$_SESSION['config']['lang_file']."<br>\n";  echo "_SESSION =<br>\n"; print_r($_SESSION); echo "<br><br>\n"; }
 
@@ -104,11 +106,11 @@ if($DEBUG==TRUE) { echo "lang_file=".$_SESSION['config']['lang_file']."<br>\n"; 
 		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
 		echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 		echo "<link href=\"../style.css\" rel=\"stylesheet\" type=\"text/css\" />";
-		include("../fonctions_javascript.php") ;
+		include ROOT_PATH .'fonctions_javascript.php' ;
 	echo "</head>\n";
 
 	$info="user";
-	include("../menu.php");
+	include ROOT_PATH .'menu.php';
 
 	/*************************************/
 	/*** affichage "deconnexion" et "actualiser page" et "mode administrateur" et "affichage calendrier" ***/
@@ -137,7 +139,7 @@ if($DEBUG==TRUE) { echo "lang_file=".$_SESSION['config']['lang_file']."<br>\n"; 
 	}
 
 
-	include ("../bottom.php");
+	include ROOT_PATH . 'bottom.php';
 
 
 

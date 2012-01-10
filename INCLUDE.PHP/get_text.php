@@ -38,5 +38,5 @@
 	
 	$nomDesFichiersDeLangue = 'php-conges'; // Le nom de nos fichiers .mo
 	
-	bindtextdomain($nomDesFichiersDeLangue, "./locale"); // On indique le chemin vers les fichiers .mo
+	bindtextdomain($nomDesFichiersDeLangue, LOCALE_PATH ); // On indique le chemin vers les fichiers .mo
 	textdomain($nomDesFichiersDeLangue); // Le nom du domaine par défaut

@@ -147,14 +147,14 @@ function install($lang,  $DEBUG=FALSE)
 	echo "<html>\n<head>\n";
 		echo "<TITLE> PHP_CONGES : Installation : </TITLE>\n</head>\n";
 		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-		echo "<link href=\"../style_basic.css\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<link href=\"". TEMPLATE_PATH ."style_basic.css\" rel=\"stylesheet\" type=\"text/css\">\n";
 	echo "</head>\n";
 
 	echo "<body text=\"#000000\" bgcolor=\"#597c98\" link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\" >\n";
 
 	// affichage du titre
 	echo "<center>\n";
-	echo "<br><H1><img src=\"../img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"". _('install_install_phpconges') ."\" alt=\"". _('install_install_phpconges') ."\"> ". _('install_index_titre') ."</H1>\n";
+	echo "<br><H1><img src=\"". TEMPLATE_PATH ."img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"". _('install_install_phpconges') ."\" alt=\"". _('install_install_phpconges') ."\"> ". _('install_index_titre') ."</H1>\n";
 	echo "<br><br>\n";
 
 	echo "<table border=\"0\">\n";
@@ -173,7 +173,7 @@ function install($lang,  $DEBUG=FALSE)
 	echo "<input type=\"submit\" value=\"". _('form_start') ."\">\n";
 	echo "</form>\n";
 	echo "</td>\n";
-	echo "<td><img src=\"../img/shim.gif\" width=\"100\" height=\"10\" border=\"0\" vspace=\"0\" hspace=\"0\"></td>\n";
+	echo "<td><img src=\"". TEMPLATE_PATH ."img/shim.gif\" width=\"100\" height=\"10\" border=\"0\" vspace=\"0\" hspace=\"0\"></td>\n";
 	echo "<td valign=top>\n";
 	echo "<h3>... ". _('install_mise_a_jour') ."</h3><b>". _('install_indiquez_pre_version') ." :</b><br><br>\n";
 
@@ -212,7 +212,7 @@ function affiche_entete()
 	echo "<html>\n";
 	echo "<head>\n";
 		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-	//	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+	//	echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 	include ROOT_PATH .'fonctions_javascript.php' ;
 	echo "</head>\n";
 }

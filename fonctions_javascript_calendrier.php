@@ -637,7 +637,7 @@ window.onload = init_evenement;
 }
 /* pour l'image de fond (calendrier) du champ de saisie */
 input.DatePicker_trigger{
-	background-image:url(../img/DatePicker.gif);
+	background-image:url(../template/img/DatePicker.gif);
 	background-position:100% 50%;
 	background-repeat:no-repeat;
 	cursor:pointer;

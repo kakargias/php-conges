@@ -94,7 +94,7 @@ function form_saisie($user, $date_debut, $date_fin, $DEBUG=FALSE)
 		include ROOT_PATH .'fonctions_javascript.php';
 
 		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-		echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 		echo "<title>PHP_CONGES : </title>\n";
 	echo "</head>\n";
 	echo "<body>\n";
@@ -108,12 +108,12 @@ function form_saisie($user, $date_debut, $date_fin, $DEBUG=FALSE)
 		echo "<td align=\"center\">\n";
 		echo "<b>". _('export_cal_from_date') ."</b> <input type=\"text\" name=\"date_debut\" size=\"10\" maxlength=\"10\" value=\"$date_debut\" style=\"background-color: #D4D4D4; \" readonly=\"readonly\"> \n";
 		echo "<a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('calendar.php?session=$session&champ_date=date_debut','calendardebut',250,220);\">\n";
-		echo "<img src=\"img/1day.png\" border=\"0\" title=\"". _('export_cal_saisir_debut') ."\" alt=\"". _('export_cal_saisir_debut') ."\"></a>\n";
+		echo "<img src=\"". TEMPLATE_PATH . "img/1day.png\" border=\"0\" title=\"". _('export_cal_saisir_debut') ."\" alt=\"". _('export_cal_saisir_debut') ."\"></a>\n";
 		echo "</td>\n";
 		echo "<td align=\"center\">\n";
 		echo "<b>". _('export_cal_to_date') ."</b> <input type=\"text\" name=\"date_fin\" size=\"10\" maxlength=\"10\" value=\"$date_fin\" style=\"background-color: #D4D4D4; \" readonly=\"readonly\"> \n";
 		echo "<a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('calendar.php?session=$session&champ_date=date_fin','calendarfin',250,220);\">\n";
-		echo "<img src=\"img/1day.png\" border=\"0\" title=\"". _('export_cal_saisir_fin') ."\" alt=\"". _('export_cal_saisir_fin') ."\"></a>\n";
+		echo "<img src=\"". TEMPLATE_PATH . "img/1day.png\" border=\"0\" title=\"". _('export_cal_saisir_fin') ."\" alt=\"". _('export_cal_saisir_fin') ."\"></a>\n";
 		echo "</td>\n";
 	echo "</tr>\n";
 	// ligne vide

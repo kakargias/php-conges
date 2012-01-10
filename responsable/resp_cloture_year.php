@@ -62,7 +62,7 @@ echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 echo "<html>\n";
 echo "<head>\n";
 	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";	
-	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+	echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 	echo "<title> ".$_SESSION['config']['titre_resp_index']." </title>\n";
 	//include ROOT_PATH .'fonctions_javascript.php' ;
 echo "</head>\n";
@@ -254,7 +254,7 @@ function affiche_ligne_du_user($current_login, $tab_type_conges, $tab_current_us
 	if($tab_current_user['num_exercice'] < $_SESSION['config']['num_exercice'])
 		echo "	<td align=\"center\" class=\"histo\"><input type=\"checkbox\" name=\"tab_cloture_users[$current_login]\" value=\"TRUE\" checked></td>\n";
 	else
-		echo "	<td align=\"center\" class=\"histo\"><img src=\"../img/stop.png\" width=\"16\" height=\"16\" border=\"0\" ></td>\n";
+		echo "	<td align=\"center\" class=\"histo\"><img src=\"". TEMPLATE_PATH ."img/stop.png\" width=\"16\" height=\"16\" border=\"0\" ></td>\n";
 			
 	$comment_cloture =  _('resp_cloture_exercice_commentaire') ." ".date("m/Y");
 	echo "	<td align=\"center\" class=\"histo\"><input type=\"text\" name=\"tab_commentaire_saisie[$current_login]\" size=\"20\" maxlength=\"200\" value=\"$comment_cloture\"></td>\n";

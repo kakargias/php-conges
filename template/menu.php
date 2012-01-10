@@ -27,7 +27,7 @@
 								echo '<div style="float: right;">';
 									echo "<a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('../calendrier.php?session=$session','calendrier',1050,600);\">" .
 									//echo "<a href=\"../calendrier.php?session=$session\">" .
-									 "<img src=\"../img/rebuild.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('button_calendar') ."\" alt=\"". _('button_calendar') ."\">" .
+									 "<img src=\"". TEMPLATE_PATH ."img/rebuild.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('button_calendar') ."\" alt=\"". _('button_calendar') ."\">" .
 									  _('button_calendar') ."</a>\n";
 								echo '</div>';
 							}
@@ -36,7 +36,7 @@
 							echo '<div style="float: right;">';
 								echo "<a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('../imprim_calendrier.php?session=$session','imprimcal',300,210);\">" .
 								//echo "<a href=\"../calendrier.php?session=$session\">" .
-								 "<img src=\"../img/fileprint_4_22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('button_imprim_calendar') ."\" alt=\"". _('button_imprim_calendar') ."\">" .
+								 "<img src=\"". TEMPLATE_PATH ."img/fileprint_4_22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('button_imprim_calendar') ."\" alt=\"". _('button_imprim_calendar') ."\">" .
 								  _('button_imprim_calendar') ."</a>\n";
 							echo '</div>';
 							
@@ -45,7 +45,7 @@
 						/*** bouton changement exercice ***/ 
 						echo '<div style="float: right;">';
 							echo "<a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('resp_cloture_year.php?session=$session','cloture_exercice',800,600);\">" .
-							 "<img src=\"../img/reload3.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('button_cloture') ."\" alt=\"". _('button_calendar') ."\">" .
+							 "<img src=\"". TEMPLATE_PATH ."img/reload3.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('button_cloture') ."\" alt=\"". _('button_calendar') ."\">" .
 							  _('button_cloture') ."</a>\n";
 						echo '</div>';
 						
@@ -57,21 +57,21 @@
 						/* bouton db_sauvegarde  ***/
 						echo '<div style="float: right;">';
 						echo " <a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('admin_db_sauve.php?session=$session','sauvedb',400,300);\">\n";
-							echo " <img src=\"../img/floppy_22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('admin_button_save_db_1') ."\" alt=\"". _('admin_button_save_db_1') ."\">\n";
+							echo " <img src=\"". TEMPLATE_PATH ."img/floppy_22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('admin_button_save_db_1') ."\" alt=\"". _('admin_button_save_db_1') ."\">\n";
 							echo " ". _('admin_button_save_db_2') ."\n";
 						echo '</a></div>';
 				
 						/* bouton jours fermeture  ***/
 						echo '<div style="float: right;">';
 						echo " <a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('admin_jours_fermeture.php?session=$session','fermeture',1080,690);\">\n";
-							echo " <img src=\"../img/jours_fermeture_22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('admin_button_jours_fermeture_1') ."\" alt=\"". _('admin_button_jours_fermeture_1') ."\">\n";
+							echo " <img src=\"". TEMPLATE_PATH ."img/jours_fermeture_22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('admin_button_jours_fermeture_1') ."\" alt=\"". _('admin_button_jours_fermeture_1') ."\">\n";
 							echo " ". _('admin_button_jours_fermeture_2') ."\n";
 						echo '</a></div>';
 						
 						/* bouton jours chômés  ***/
 						echo '<div style="float: right;">';
 						echo " <a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('admin_jours_chomes.php?session=$session','jourschomes',1080,610);\">\n";
-							echo " <img src=\"../img/jours_feries_22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('admin_button_jours_chomes_1') ."\" alt=\"". _('admin_button_jours_chomes_1') ."\">\n";
+							echo " <img src=\"". TEMPLATE_PATH ."img/jours_feries_22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('admin_button_jours_chomes_1') ."\" alt=\"". _('admin_button_jours_chomes_1') ."\">\n";
 							echo " ". _('admin_button_jours_chomes_2') ."\n";
 						echo '</a></div>';
 				
@@ -80,7 +80,7 @@
 						{
 							echo '<div style="float: right;">';
 							echo " <a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('../config/config_mail.php?session=$session','configmail',800,600);\">\n";
-							echo " <img src=\"../img/tux_config_22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('admin_button_config_mail_1') ."\" alt=\"". _('admin_button_config_mail_1') ."\">\n";
+							echo " <img src=\"". TEMPLATE_PATH ."img/tux_config_22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('admin_button_config_mail_1') ."\" alt=\"". _('admin_button_config_mail_1') ."\">\n";
 							echo " ". _('admin_button_config_mail_2') ."\n";
 							echo '</a></div>';
 						}
@@ -90,7 +90,7 @@
 						{
 							echo '<div style="float: right;">';
 							echo " <a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('../config/config_type_absence.php?session=$session','configabs',800,600);\">\n";
-							echo " <img src=\"../img/tux_config_22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('admin_button_config_abs_1') ."\" alt=\"". _('admin_button_config_abs_1') ."\">\n";
+							echo " <img src=\"". TEMPLATE_PATH ."img/tux_config_22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('admin_button_config_abs_1') ."\" alt=\"". _('admin_button_config_abs_1') ."\">\n";
 							echo " ". _('admin_button_config_abs_2') ."\n";
 							echo '</a></div>';
 						}
@@ -101,7 +101,7 @@
 						{
 							echo '<div style="float: right;">';
 							echo " <a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('../config/configure.php?session=$session','config',800,600);\">\n";
-							echo " <img src=\"../img/tux_config_22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('admin_button_config_1') ."\" alt=\"". _('admin_button_config_1') ."\">\n";
+							echo " <img src=\"". TEMPLATE_PATH ."img/tux_config_22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('admin_button_config_1') ."\" alt=\"". _('admin_button_config_1') ."\">\n";
 							echo " ". _('admin_button_config_2') ."\n";
 							echo '</a></div>';
 						}
@@ -116,7 +116,7 @@
 							echo '<div style="float: right;">';
 							// affichage dans un popup
 							echo "<a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('../calendrier.php?session=$session','calendrier',1450,550);\">" .
-									"<img src=\"../img/rebuild.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('button_calendar') ."\" alt=\"". _('button_calendar') ."\">" .
+									"<img src=\"". TEMPLATE_PATH ."img/rebuild.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('button_calendar') ."\" alt=\"". _('button_calendar') ."\">" .
 									 _('button_calendar') ."</a>\n";
 							echo '</div>';
 						}
@@ -127,7 +127,7 @@
 							echo '<div style="float: right;">';
 							echo "<a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('../export_vcalendar.php?session=$session&user_login=".$_SESSION['userlogin']."','icalvcal',457,280);\">" .
 							// echo "<a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('../export_vcalendar.php?session=$session&&user_login=".$_SESSION['userlogin']."','icalvcal',457,280);\">" .
-									"<img src=\"../img/export-22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('button_export_2') ."\" alt=\"". _('button_export_2') ."\">" .
+									"<img src=\"". TEMPLATE_PATH ."img/export-22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('button_export_2') ."\" alt=\"". _('button_export_2') ."\">" .
 									 _('button_export_1') ."</a>\n";
 							echo '</div>';
 						}
@@ -137,7 +137,7 @@
 						{
 							echo '<div style="float: right;">';
 							echo "<a href=\"../edition/edit_user.php?session=$session&user_login=".$_SESSION['userlogin']."\" target=\"_blank\">" .
-									"<img src=\"../img/edition-22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('button_editions') ."\" alt=\"". _('button_editions') ."\">" .
+									"<img src=\"". TEMPLATE_PATH ."img/edition-22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('button_editions') ."\" alt=\"". _('button_editions') ."\">" .
 									 _('button_editions') ."</a>\n";
 							echo '</div>';
 						}
@@ -151,7 +151,7 @@
 					{
 						echo '<div style="float: right;">';
 						echo "<a href=\"../utilisateur/user_index.php?session=$session\" method=\"POST\">" .
-								"<img src=\"../img/user_4_22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('resp_menu_button_mode_user') ."\" alt=\"". _('resp_menu_button_mode_user') ."\">" .
+								"<img src=\"". TEMPLATE_PATH ."img/user_4_22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('resp_menu_button_mode_user') ."\" alt=\"". _('resp_menu_button_mode_user') ."\">" .
 								 _('resp_menu_button_mode_user') ."</a>\n";
 						echo '</div>';
 					}
@@ -161,7 +161,7 @@
 					{
 						echo '<div style="float: right;">';
 						echo "<a href=\"../responsable/resp_index.php?session=$session\" method=\"POST\">" .
-								"<img src=\"../img/user_3_22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('resp_menu_button_mode_responsable') ."\" alt=\"". _('button_responsable_mode') ."\">" .
+								"<img src=\"". TEMPLATE_PATH ."img/user_3_22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('resp_menu_button_mode_responsable') ."\" alt=\"". _('button_responsable_mode') ."\">" .
 								 _('button_responsable_mode') ."</a>\n";
 						echo '</div>';
 					}
@@ -171,7 +171,7 @@
 					{
 					echo '<div style="float: right;">';
 					echo "<a href=\"../hr/hr_index.php?session=$session\" method=\"POST\">" .
-							"<img src=\"../img/user-rh.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('resp_menu_button_mode_hr') ."\" alt=\"". _('resp_menu_button_mode_hr') ."\">" .
+							"<img src=\"". TEMPLATE_PATH ."img/user-rh.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('resp_menu_button_mode_hr') ."\" alt=\"". _('resp_menu_button_mode_hr') ."\">" .
 							 _('resp_menu_button_mode_hr') ."</a>\n";
 					echo "</div>\n";
 					}
@@ -181,7 +181,7 @@
 					{
 						echo '<div style="float: right;">';
 						echo "<a href=\"../admin/admin_index.php?session=$session\" method=\"POST\">" .
-								"<img src=\"../img/admin-tools-22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('button_admin_mode') ."\" alt=\"". _('button_admin_mode') ."\">" .
+								"<img src=\"". TEMPLATE_PATH ."img/admin-tools-22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('button_admin_mode') ."\" alt=\"". _('button_admin_mode') ."\">" .
 								 _('button_admin_mode') ."</a>\n";
 						echo '</div>';
 					}
@@ -211,7 +211,7 @@
 					
 					echo "</div>";
 					echo "<div id=\"header_menu\">";
-					echo '<div style="float: left; margin:-90px; margin-left:20px"><img src="../img/logo_adex.png"/></div>';	
+					echo '<div style="float: left; margin:-90px; margin-left:20px"><img src="'. TEMPLATE_PATH .'img/logo_adex.png"/></div>';	
 				echo "</div>";
 			
 			// FIN AFFICHAGE DES BOUTONS ...

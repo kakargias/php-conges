@@ -160,7 +160,7 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	echo "<html>\n";
 		echo "<head>\n";
 		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-		echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 		echo "<title>PHP_CONGES :</title>\n";
 	echo "</head>\n";
 

@@ -162,7 +162,7 @@ function session_saisie_user_password($erreur, $session_username, $session_passw
 	
 	echo "<html>\n<head>\n";
 		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";	
-		echo "<link href=\"".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 		echo "<TITLE> PHP_CONGES : </TITLE>\n";
 		// test que le navigateur accepte les cookies et le javascript
 		echo "<script language=\"JavaScript\" type=\"text/javascript\">\n";
@@ -236,7 +236,7 @@ function session_saisie_user_password($erreur, $session_username, $session_passw
 	{
 		echo "<tr><td align=\"center\">\n";
 		echo "<a href=\"calendrier.php\">" .
-				"<img src=\"img/1day.png\" width=\"24\" height=\"24\" border=\"0\" title=\"". _('button_calendar') ."\" alt=\"". _('button_calendar') ."\">" .
+				"<img src=\"". TEMPLATE_PATH . "img/1day.png\" width=\"24\" height=\"24\" border=\"0\" title=\"". _('button_calendar') ."\" alt=\"". _('button_calendar') ."\">" .
 				" ". _('button_calendar') ."</a>\n";
 		echo "</td></tr>\n";
 	}
@@ -248,7 +248,7 @@ function session_saisie_user_password($erreur, $session_username, $session_passw
 		if( (isset($_SERVER["HTTP_USER_AGENT"])) && (stristr($_SERVER["HTTP_USER_AGENT"], "MSIE")!=FALSE) )
 		{
 			echo "<tr><td align=\"center\">";
-			echo "<img src=\"img/attention.png\" width=\"22\" height=\"22\" border=\"0\"/>";
+			echo "<img src=\"". TEMPLATE_PATH . "img/attention.png\" width=\"22\" height=\"22\" border=\"0\"/>";
 			echo "&nbsp;". _('msie_alert')  ;
 			echo "</td></tr>\n";
 		}

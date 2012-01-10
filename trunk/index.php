@@ -24,12 +24,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
 define('_PHP_CONGES', 1);
-define('ROOT_PATH', '/');
+define('ROOT_PATH', '');
 include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 // test si dbconnect.php est présent !
-if (!is_readable(CONFIG_PATH .'dbconnect.php'))
+if (!is_readable( CONFIG_PATH .'dbconnect.php'))
 {
 	echo "connexion a la database impossible, consultez le fichier INSTALL.txt !<br>\n"; 
 	exit;

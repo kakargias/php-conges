@@ -23,8 +23,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-//appel de PHP-IDS que si version de php > 5.1.2
-// if(phpversion() > "5.1.2") { include("controle_ids.php") ;}
+
+
 
 	// => html sans menu
 ?>
@@ -52,12 +52,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 			break;
 
 		case 3 :   // autre
-			header("Location: index.php");
+			header('Location: index.php');
 			break;
 
 		default:	
 			// sinon :
-			header("Location: index.php");
+			header('Location: index.php');
 			break;
 	}	// END SWITCH
 ?>

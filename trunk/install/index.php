@@ -24,13 +24,15 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
 define('_PHP_CONGES', 1);
+define('ROOT_PATH', '../');
+include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-//include("../fonctions_conges.php") ;
-//include("../INCLUDE.PHP/fonction.php");
+//include ROOT_PATH .'fonctions_conges.php' ;
+//include INCLUDE_PATH .'fonction.php';
 
-include("fonctions_install.php") ;
-include("../fonctions_conges.php") ;
+include'fonctions_install.php' ;
+include ROOT_PATH .'fonctions_conges.php' ;
 
 $PHP_SELF=$_SERVER['PHP_SELF'];
 
@@ -68,9 +70,9 @@ $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST[
 	elseif(test_dbconnect_file($DEBUG)!=TRUE)
 	{
 		$_SESSION['langue']=$lang;      // sert ensuite pour mettre la langue dans la table config
-//		$tab_lang_file = glob("lang/lang_".$lang."_*.php");
-//		include($tab_lang_file[0]) ;
-//		include($lang_file) ;
+//		$tab_lang_file = glob("lang/lang_".$lang.'_*.php');
+//		include$tab_lang_file[0] ;
+//		include$lang_file ;
 
 		affiche_entete();
 		echo "<body>\n";
@@ -84,8 +86,8 @@ $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST[
 	}
 	else
 	{
-		include '../dbconnect.php';
-		include '../version.php';
+		include CONFIG_PATH .'dbconnect.php';
+		include ROOT_PATH .'version.php';
 
 		if(test_database($DEBUG)!=TRUE)
 		{
@@ -211,7 +213,7 @@ function affiche_entete()
 	echo "<head>\n";
 		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
 	//	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-	include("../fonctions_javascript.php") ;
+	include ROOT_PATH .'fonctions_javascript.php' ;
 	echo "</head>\n";
 }
 

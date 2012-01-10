@@ -1,8 +1,4 @@
 <?php
-
-//appel de PHP-IDS que si version de php > 5.1.2
-// if(phpversion() > "5.1.2") { include("controle_ids.php") ;}
-
 /**
 **	@author Benjamin Husson
 **

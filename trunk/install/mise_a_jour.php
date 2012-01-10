@@ -24,12 +24,14 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
 define('_PHP_CONGES', 1);
+define('ROOT_PATH', '../');
+include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-include("../fonctions_conges.php") ;
-include("../INCLUDE.PHP/fonction.php");
-include("fonctions_install.php") ;
-include("../version.php") ;
+include ROOT_PATH .'fonctions_conges.php' ;
+include INCLUDE_PATH .'fonction.php';
+include'fonctions_install.php' ;
+include ROOT_PATH .'version.php' ;
 
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 
@@ -39,9 +41,9 @@ $DEBUG=FALSE;
 //recup de la langue
 $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST['lang'] : "") ) ;
 /*
-$tab_lang_file = glob("lang/lang_".$lang."_*.php");
+$tab_lang_file = glob("lang/lang_".$lang.'_*.php');
 if($DEBUG==TRUE) { echo "lang = $lang # fichier de langue = ".$tab_lang_file[0]."<br>\n"; }
-include($tab_lang_file[0]) ;
+include$tab_lang_file[0] ;
 */
 
 if($DEBUG==TRUE) { echo "SESSION = <br>\n"; print_r($_SESSION); echo "<br><br>\n"; }
@@ -78,7 +80,7 @@ if($DEBUG==TRUE) { echo "SESSION = <br>\n"; print_r($_SESSION); echo "<br><br>\n
 	echo "<br><H1><img src=\"../img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"". _('install_install_phpconges') ."\" alt=\"". _('install_install_phpconges') ."\"> ". _('install_maj_titre_2') ."</H1>\n";
 	echo "<br><br>\n";
 
-	// $config_php_conges_version est fourni par include("../version.php") ;
+	// $config_php_conges_version est fourni par include ROOT_PATH .'version.php' ;
 	lance_maj($lang, $version, $config_php_conges_version, $etape, $DEBUG);
 
 	echo "<br><br>";
@@ -98,7 +100,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 	if($DEBUG==TRUE) { echo " lang = $lang  ##  etape = $etape ## version = $installed_version<br>\n";}
 
 	$PHP_SELF=$_SERVER['PHP_SELF'];
-	include("../dbconnect.php") ;
+	include CONFIG_PATH .'dbconnect.php' ;
 
 
 	//*** ETAPE 0
@@ -250,70 +252,70 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 		//on lance l'execution (include) des scripts d'upgrade l'un après l'autre jusqu a la version voulue ($config_php_conges_version) ..
 		if($start_version=="1.0")
 		{
-			$file_upgrade="upgrade_from_v1.0.php";
+			$file_upgrade='upgrade_from_v1.0.php';
 			$new_installed_version="1.1";
 			// execute le script php d'upgrade de la version1.0 (vers la suivante (1.1))
 			echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$file_upgrade?version=$new_installed_version&lang=$lang\">";
 		}
 		elseif($start_version=="1.1")
 		{
-			$file_upgrade="upgrade_from_v1.1.php";
+			$file_upgrade='upgrade_from_v1.1.php';
 			$new_installed_version="1.1.1";
 			// execute le script php d'upgrade de la version1.1 (vers la suivante (1.1.1))
 			echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$file_upgrade?version=$new_installed_version&lang=$lang\">";
 		}
 		elseif($start_version=="1.1.1")
 		{
-			$file_upgrade="upgrade_from_v1.1.1.php";
+			$file_upgrade='upgrade_from_v1.1.1.php';
 			$new_installed_version="1.2";
 			// execute le script php d'upgrade de la version1.1.1 (vers la suivante (1.2))
 			echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$file_upgrade?version=$new_installed_version&lang=$lang\">";
 		}
 		elseif($start_version=="1.2")
 		{
-			$file_upgrade="upgrade_from_v1.2.php";
+			$file_upgrade='upgrade_from_v1.2.php';
 			$new_installed_version="1.2.1";
 			// execute le script php d'upgrade de la version1.2 (vers la suivante (1.2.1))
 			echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$file_upgrade?version=$new_installed_version&lang=$lang\">";
 		}
 		elseif($start_version=="1.2.1")
 		{
-			$file_upgrade="upgrade_from_v1.2.1.php";
+			$file_upgrade='upgrade_from_v1.2.1.php';
 			$new_installed_version="1.3.0";
 			// execute le script php d'upgrade de la version1.2.1 (vers la suivante (1.3.0))
 			echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$file_upgrade?version=$new_installed_version&lang=$lang\">";
 		}
 		elseif($start_version=="1.3.0")
 		{
-			$file_upgrade="upgrade_from_v1.3.0.php";
+			$file_upgrade='upgrade_from_v1.3.0.php';
 			$new_installed_version="1.3.1";
 			// execute le script php d'upgrade de la version1.3.0 (vers la suivante (1.3.1))
 			echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$file_upgrade?version=$new_installed_version&lang=$lang\">";
 		}
 		elseif($start_version=="1.3.1")
 		{
-			$file_upgrade="upgrade_from_v1.3.1.php";
+			$file_upgrade='upgrade_from_v1.3.1.php';
 			$new_installed_version="1.3.2";
 			// execute le script php d'upgrade de la version1.3.1 (vers la suivante (1.3.2))
 			echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$file_upgrade?version=$new_installed_version&lang=$lang\">";
 		}
 		elseif($start_version=="1.3.2")
 		{
-			$file_upgrade="upgrade_from_v1.3.2.php";
+			$file_upgrade='upgrade_from_v1.3.2.php';
 			$new_installed_version="1.4.0";
 			// execute le script php d'upgrade de la version1.3.1.2 (vers la suivante (1.4.0))
 			echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$file_upgrade?version=$new_installed_version&lang=$lang\">";
 		}
 		elseif($start_version=="1.4.0")
 		{
-			$file_upgrade="upgrade_from_v1.4.0.php";
+			$file_upgrade='upgrade_from_v1.4.0.php';
 			$new_installed_version="1.4.1";
 			// execute le script php d'upgrade de la version1.4.0 (vers la suivante (1.4.1))
 			echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$file_upgrade?version=$new_installed_version&lang=$lang\">";
 		}
 		elseif(($start_version=="1.4.1")||($start_version=="1.4.2"))
 		{
-			$file_upgrade="upgrade_from_v1.4.2.php";
+			$file_upgrade='upgrade_from_v1.4.2.php';
 			$new_installed_version="1.5.0";
 			// execute le script php d'upgrade de la version1.4.2 (vers la suivante (1.5.0))
 			echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$file_upgrade?version=$new_installed_version&lang=$lang\">";

@@ -24,11 +24,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
 define('_PHP_CONGES', 1);
+define('ROOT_PATH', '../');
+include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-include("../fonctions_conges.php") ;
-include("../INCLUDE.PHP/fonction.php");
-include("fonctions_install.php") ;
+include ROOT_PATH .'fonctions_conges.php' ;
+include INCLUDE_PATH .'fonction.php';
+include'fonctions_install.php' ;
 	
 $PHP_SELF=$_SERVER['PHP_SELF'];
 
@@ -38,9 +40,9 @@ $DEBUG=FALSE;
 //recup de la langue
 $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST['lang'] : "") ) ;
 /*
-$tab_lang_file = glob("lang/lang_".$lang."_*.php");  
+$tab_lang_file = glob("lang/lang_".$lang.'_*.php');  
 if($DEBUG==TRUE) { echo "lang = $lang # fichier de langue = ".$tab_lang_file[0]."<br>\n"; }
-include($tab_lang_file[0]) ;
+include$tab_lang_file[0] ;
 */
 
 if($DEBUG==TRUE) { echo "SESSION = <br>\n"; print_r($_SESSION); echo "<br><br>\n"; }
@@ -78,8 +80,8 @@ function lance_install($lang, $DEBUG=FALSE)
 
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	
-	include("../dbconnect.php") ;
-	include("../version.php") ;
+	include CONFIG_PATH .'dbconnect.php' ;
+	include ROOT_PATH .'version.php' ;
 	
 	//verif si create / alter table possible !!!
 	if(test_create_table( $DEBUG) == FALSE)

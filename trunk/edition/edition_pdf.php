@@ -24,14 +24,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
 define('_PHP_CONGES', 1);
+define('ROOT_PATH', '../');
+include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
 
-include("fonctions_edition.php") ;
-include("../fonctions_conges.php") ;
-include("../INCLUDE.PHP/fonction.php");
-include("../INCLUDE.PHP/session.php");
+include'fonctions_edition.php' ;
+include ROOT_PATH .'fonctions_conges.php' ;
+include INCLUDE_PATH .'fonction.php';
+include INCLUDE_PATH .'session.php';
 
 //$DEBUG = TRUE ;
 $DEBUG = FALSE ;
@@ -65,8 +67,7 @@ $DEBUG = FALSE ;
 
 function edition_pdf($login, $edit_id,  $DEBUG=FALSE)
 {
-	//$fpdf_filename = $_SESSION['config']['php_conges_fpdf_include_path']."/fpdf/fpdf.php";
-	$fpdf_filename = '../INCLUDE.EXTERNAL/tcpdf/tcpdf.php';
+	$fpdf_filename = LIBRARY_PATH .'tcpdf/tcpdf.php';
 	// verif si la librairie fpdf est présente 
 	if (!is_readable($fpdf_filename))
 	{
@@ -76,7 +77,7 @@ function edition_pdf($login, $edit_id,  $DEBUG=FALSE)
 	{
 		 //require_once($fpdf_filename);
 		 //define('FPDF_FONTPATH','font/');
-		include '../INCLUDE.EXTERNAL/tcpdf/tcpdf.php';
+		include LIBRARY_PATH .'tcpdf/tcpdf.php';
 		
 		class PDF extends TCPDF
 		{

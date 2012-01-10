@@ -24,14 +24,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
 define('_PHP_CONGES', 1);
+define('ROOT_PATH', '../');
+include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 /*******************************************************************/
 // SCRIPT DE MIGRATION DE LA VERSION 1.2 vers 1.2.1
 /*******************************************************************/
-include("../fonctions_conges.php") ;
-include("../INCLUDE.PHP/fonction.php");
-include("fonctions_install.php") ;
+include ROOT_PATH .'fonctions_conges.php' ;
+include INCLUDE_PATH .'fonction.php';
+include'fonctions_install.php' ;
 	
 $PHP_SELF=$_SERVER['PHP_SELF'];
 
@@ -45,7 +47,7 @@ $lang = (isset($_GET['lang']) ? $_GET['lang'] : (isset($_POST['lang']) ? $_POST[
 	// 1 : mise à jour de la table conges_config
 	// 2 : Ajout de paramètres dans  conges_config
 	
-	include("../dbconnect.php") ;
+	include CONFIG_PATH .'dbconnect.php' ;
 	
 	if($DEBUG==FALSE)
 	{
@@ -90,10 +92,7 @@ function e1_maj_table_conges_config( $DEBUG=FALSE)
 	
 	// mise à jour des param 00_version
 	$sql_update=" UPDATE conges_config SET `conf_groupe` = '14_Presentation'  WHERE `conf_groupe` LIKE '14_Pr%' " ;
-	if($DEBUG==FALSE)
-		$result_update = SQL::query($sql_update);
-	else
-		$result_update = SQL::query($sql_update)  ;
+	$result_update = SQL::query($sql_update);
 		
 
 }
@@ -106,10 +105,7 @@ function e2_insert_into_conges_config( $DEBUG=FALSE)
 {
 
 	$sql_insert="INSERT INTO `conges_config` VALUES ('affiche_soldes_calendrier', 'TRUE', '13_Divers', 'boolean', 'config_comment_affiche_soldes_calendrier')";
-	if($DEBUG==FALSE)
-		$result_insert = SQL::query($sql_insert);
-	else
-		$result_insert = SQL::query($sql_insert)  ;
+	$result_insert = SQL::query($sql_insert);
 	
 }
 

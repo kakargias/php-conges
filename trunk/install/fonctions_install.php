@@ -25,15 +25,15 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-include_once( __DIR__ . '/../INCLUDE.PHP/sql.class.php');
-include_once( __DIR__ . '/../INCLUDE.PHP/get_text.php');
+include_once(  INCLUDE_PATH .'sql.class.php');
+include_once(  INCLUDE_PATH .'get_text.php');
 
 // teste le fichier config.php 
 //renvoit TRUE si ok, et FALSE sinon
 function test_config_file($DEBUG=FALSE)
 {
-	// verif si le fichier "config.php" existe et est lisible ....
-	$filename = '../config.php';
+	// verif si le fichier 'config.php' existe et est lisible ....
+	$filename = CONFIG_PATH .'config.php';
 	return is_readable($filename);
 }
 
@@ -42,8 +42,8 @@ function test_config_file($DEBUG=FALSE)
 //renvoit TRUE si ok, et FALSE sinon
 function test_dbconnect_file($DEBUG=FALSE)
 {
-	// verif si le fichier "dbconnect.php" existe et est lisible ....
-	$filename = '../dbconnect.php';
+	// verif si le fichier 'dbconnect.php' existe et est lisible ....
+	$filename = CONFIG_PATH .'dbconnect.php';
 	return (is_readable($filename)) ;
 }
 
@@ -52,7 +52,7 @@ function test_dbconnect_file($DEBUG=FALSE)
 //renvoit TRUE si ok, et FALSE sinon
 function test_old_config_file($DEBUG=FALSE)
 {
-	// verif si le fichier "config_old.php" existe et est lisible ....
+	// verif si le fichier 'config_old.php' existe et est lisible ....
 	$filename = 'config_old.php';
 	return (is_readable($filename)) ;
 }

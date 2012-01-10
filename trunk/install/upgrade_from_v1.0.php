@@ -24,15 +24,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
 define('_PHP_CONGES', 1);
+define('ROOT_PATH', '../');
+include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 /*******************************************************************/
 // SCRIPT DE MIGRATION DE LA VERSION 1.0 vers 1.1
 /*******************************************************************/
 
-include("../fonctions_conges.php") ;
-include("../INCLUDE.PHP/fonction.php");
-include("fonctions_install.php") ;
+include ROOT_PATH .'fonctions_conges.php' ;
+include INCLUDE_PATH .'fonction.php';
+include'fonctions_install.php' ;
 	
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 
@@ -57,7 +59,7 @@ $lang = (isset($_GET['lang']) ? $_GET['lang'] : (isset($_POST['lang']) ? $_POST[
 	// 12 : Migration de données de la table conges_edition_papier vers `conges_solde_edition`
 	// 13 : Mise à jour de la table `conges_edition_papier`
 	
-	include("../config.php") ;
+	include CONFIG_PATH .'config.php' ;
 	
 	if($DEBUG==FALSE)
 	{
@@ -134,17 +136,11 @@ function e1_maj_1_table_conges_users( $DEBUG=FALSE)
 
 	// ajout du champ dans le table
 	$sql_alter="ALTER TABLE `conges_users` ADD `u_see_all` ENUM( 'Y', 'N' ) DEFAULT 'N' NOT NULL AFTER `u_is_admin` " ;
-	if($DEBUG==FALSE)
-		$result_alter = SQL::query($sql_alter);
-	else
-		$result_alter = SQL::query($sql_alter)  ;
+	$result_alter = SQL::query($sql_alter);
 
 	// mise à jour des users
 	$sql_update=" UPDATE `conges_users` SET `u_see_all` = 'Y' WHERE `u_login` = 'conges' " ;
-	if($DEBUG==FALSE)
-		$result_update = SQL::query($sql_update);
-	else
-		$result_update = SQL::query($sql_update)  ;
+	$result_update = SQL::query($sql_update);
 		
 
 }
@@ -167,10 +163,7 @@ function e2_create_table_conges_config( $DEBUG=FALSE)
   				`conf_commentaire` text NOT NULL default '',
  				 PRIMARY KEY  (`conf_nom`)
 				);" ;
-	if($DEBUG==FALSE)
-		$result_create = SQL::query($sql_create);
-	else
-		$result_create = SQL::query($sql_create)  ;
+	$result_create = SQL::query($sql_create);
 }
 		
 
@@ -205,17 +198,14 @@ function e4_maj_table_conges_config( $DEBUG=FALSE)
 		/*********************************************/
 		// Mise a jour de la table `conges_config` avec les param de l'ancien fichier de config
 		
-		// verif si le fichier "config_old.php" existe et est lisible ....
+		// verif si le fichier 'config_old.php' existe et est lisible ....
 		// la verif a du etre faite en debut de la procedure d'install ...
 		// on lit l'ancien fichier de config
-		include("config_old.php") ;
+		include'config_old.php' ;
 				
 		// on update la table conges_config 
 		$sql1 = "UPDATE `conges_config` SET `conf_valeur` = '$URL_ACCUEIL_CONGES' WHERE `conf_nom` = 'URL_ACCUEIL_CONGES' ;";
-		if($DEBUG==FALSE)
-			$result = SQL::query($sql1);
-		else
-			$result = SQL::query($sql1)  ;
+		$result = SQL::query($sql1);
 		// si debug on ne teste pas tous les result mais seulement le premier ....
 		
 		
@@ -373,37 +363,22 @@ function e6_insert_into_conges_type_absence( $DEBUG=FALSE)
 {
 	// ajout des types d'absence de base dans la table `conges_type_absence`
 	$sql_insert="INSERT INTO `conges_type_absence` VALUES (1, 'conges', 'congés payés', 'cp');" ;
-	if($DEBUG==FALSE)
-		$result_insert = SQL::query($sql_insert);
-	else
-		$result_insert = SQL::query($sql_insert)  ;
+	$result_insert = SQL::query($sql_insert);
 
 	if(is_rtt_comme_conges()==TRUE)
 	{
 		$sql_insert="INSERT INTO `conges_type_absence` VALUES (2, 'conges', 'rtt', 'rtt');";
-		if($DEBUG==FALSE)
-			$result_insert = SQL::query($sql_insert);
-		else
-			$result_insert = SQL::query($sql_insert)  ;
+		$result_insert = SQL::query($sql_insert);
 	}
 
 	$sql_insert="INSERT INTO `conges_type_absence` VALUES (3, 'absence', 'formation', 'fo');";
-	if($DEBUG==FALSE)
-		$result_insert = SQL::query($sql_insert);
-	else
-		$result_insert = SQL::query($sql_insert)  ;
+	$result_insert = SQL::query($sql_insert);
 
 	$sql_insert="INSERT INTO `conges_type_absence` VALUES (4, 'absence', 'misson', 'mi');" ;
-	if($DEBUG==FALSE)
-		$result_insert = SQL::query($sql_insert);
-	else
-		$result_insert = SQL::query($sql_insert)  ;
+	$result_insert = SQL::query($sql_insert);
 
 	$sql_insert="INSERT INTO `conges_type_absence` VALUES (5, 'absence', 'autre', 'ab');";
-	if($DEBUG==FALSE)
-		$result_insert = SQL::query($sql_insert);
-	else
-		$result_insert = SQL::query($sql_insert)  ;
+	$result_insert = SQL::query($sql_insert);
 
 }
 
@@ -415,82 +390,43 @@ function e7_maj_table_conges_periode( $DEBUG=FALSE)
 	// modif de la table conges_periode existante avec les types d'absence !
 
 	$sql_alter1="ALTER TABLE `conges_periode` ADD `new_type` INT( 2 ) UNSIGNED NOT NULL " ;
-	if($DEBUG==FALSE)
-		$result_alter1 = SQL::query($sql_alter1);
-	else
-		$result_alter1 = SQL::query($sql_alter1)  ;
+	$result_alter1 = SQL::query($sql_alter1);
 
 	$sql_update1="UPDATE `conges_periode` SET `new_type` = '1' WHERE `p_type` = 'conges' " ;
-	if($DEBUG==FALSE)
-		$result_update1 = SQL::query($sql_update1);
-	else
-		$result_update1 = SQL::query($sql_update1)  ;
+	$result_update1 = SQL::query($sql_update1);
 	
 	$sql_update1="UPDATE `conges_periode` SET `new_type` = '2' WHERE `p_type` = 'rtt' " ;
-	if($DEBUG==FALSE)
-		$result_update1 = SQL::query($sql_update1);
-	else
-		$result_update1 = SQL::query($sql_update1)  ;
+	$result_update1 = SQL::query($sql_update1);
 	
 	$sql_update1="UPDATE `conges_periode` SET `new_type` = '3' WHERE `p_type` = 'formation' " ;
-	if($DEBUG==FALSE)
-		$result_update1 = SQL::query($sql_update1);
-	else
-		$result_update1 = SQL::query($sql_update1)  ;
+	$result_update1 = SQL::query($sql_update1);
 
 	$sql_update1="UPDATE `conges_periode` SET `new_type` = '4' WHERE `p_type` = 'mission' " ;
-	if($DEBUG==FALSE)
-		$result_update1 = SQL::query($sql_update1);
-	else
-		$result_update1 = SQL::query($sql_update1)  ;
+	$result_update1 = SQL::query($sql_update1);
 
 	$sql_update1="UPDATE `conges_periode` SET `new_type` = '5' WHERE `p_type` = 'autre' ";
-	if($DEBUG==FALSE)
-		$result_update1 = SQL::query($sql_update1);
-	else
-		$result_update1 = SQL::query($sql_update1)  ;
+	$result_update1 = SQL::query($sql_update1);
 
 	$sql_alter2="ALTER TABLE `conges_periode` CHANGE `p_type` `p_type` INT( 2 ) UNSIGNED DEFAULT '1' NOT NULL  ";
-	if($DEBUG==FALSE)
-		$result_alter2 = SQL::query($sql_alter2);
-	else
-		$result_alter2 = SQL::query($sql_alter2)  ;
+	$result_alter2 = SQL::query($sql_alter2);
 
 	$sql_update2="UPDATE `conges_periode` SET `p_type` = 1 WHERE `new_type` = 1 " ;
-	if($DEBUG==FALSE)
-		$result_update2 = SQL::query($sql_update2);
-	else
-		$result_update2 = SQL::query($sql_update2)  ;
+	$result_update2 = SQL::query($sql_update2);
 	
 	$sql_update2="UPDATE `conges_periode` SET `p_type` = 2 WHERE `new_type` = 2 " ;
-	if($DEBUG==FALSE)
-		$result_update2 = SQL::query($sql_update2);
-	else
-		$result_update2 = SQL::query($sql_update2)  ;
+	$result_update2 = SQL::query($sql_update2);
 
 	$sql_update2="UPDATE `conges_periode` SET `p_type` = 3 WHERE `new_type` = 3 " ;
-	if($DEBUG==FALSE)
-		$result_update2 = SQL::query($sql_update2);
-	else
-		$result_update2 = SQL::query($sql_update2)  ;
+	$result_update2 = SQL::query($sql_update2);
 
 	$sql_update2="UPDATE `conges_periode` SET `p_type` = 4 WHERE `new_type` = 4 " ;
-	if($DEBUG==FALSE)
-		$result_update2 = SQL::query($sql_update2);
-	else
-		$result_update2 = SQL::query($sql_update2)  ;
+	$result_update2 = SQL::query($sql_update2);
 
 	$sql_update2="UPDATE `conges_periode` SET `p_type` = 5 WHERE `new_type` = 5 ";
-	if($DEBUG==FALSE)
-		$result_update2 = SQL::query($sql_update2);
-	else
-		$result_update2 = SQL::query($sql_update2)  ;
+	$result_update2 = SQL::query($sql_update2);
 
 	$sql_alter3="ALTER TABLE `conges_periode` DROP `new_type`  ";
-	if($DEBUG==FALSE)
-		$result_alter3 = SQL::query($sql_alter3);
-	else
-		$result_alter3 = SQL::query($sql_alter3)  ;
+	$result_alter3 = SQL::query($sql_alter3);
 
 }
 
@@ -507,10 +443,7 @@ function e8_create_table_conges_solde_user( $DEBUG=FALSE)
 				  `su_nb_an` decimal(4,2) NOT NULL default '0.00',
 				  `su_solde` decimal(4,2) NOT NULL default '0.00'
 				);" ;
-	if($DEBUG==FALSE)
-		$result_create = SQL::query($sql_create);
-	else
-		$result_create = SQL::query($sql_create)  ;
+	$result_create = SQL::query($sql_create);
 
 }	
 
@@ -538,18 +471,12 @@ function e9_insert_into_conges_solde_user( $DEBUG=FALSE)
 		// pour chaque user : insert du type conges (nb_an et solde) et insert du type rtt (nb_an et solde) (si rtt_comme conges)
 		$sql_insert_cong="INSERT INTO conges_solde_user (su_login, su_abs_id, su_nb_an, su_solde) VALUES ('$sql_login', $id_conges, $sql_nb_jours_an, $sql_solde_jours) ";
 		//echo "$sql_insert_cong<br>\n";
-		if($DEBUG==FALSE)
-			$result_insert_cong = SQL::query($sql_insert_cong);
-		else
-			$result_insert_cong = SQL::query($sql_insert_cong)  ;
+		$result_insert_cong = SQL::query($sql_insert_cong);
 		
 		if(is_rtt_comme_conges()==TRUE)
 		{
 			$sql_insert_rtt="INSERT INTO conges_solde_user (su_login, su_abs_id, su_nb_an, su_solde) VALUES ('$sql_login', $id_rtt, $sql_nb_rtt_an, $sql_solde_rtt) ";
-			if($DEBUG==FALSE)
-				$result_insert_rtt = SQL::query($sql_insert_rtt);
-			else
-				$result_insert_rtt = SQL::query($sql_insert_rtt)  ;
+			$result_insert_rtt = SQL::query($sql_insert_rtt);
 		}
 	}
 
@@ -563,28 +490,16 @@ function e10_maj_2_table_conges_users( $DEBUG=FALSE)
 {
 	// suppr des champs nb_an et solde pour conges et rtt de conges_users 
 	$sql_alter1="ALTER TABLE conges_users DROP u_nb_jours_an  ";
-	if($DEBUG==FALSE)
-		$result_alter1 = SQL::query($sql_alter1);
-	else
-		$result_alter1 = SQL::query($sql_alter1)  ;
+	$result_alter1 = SQL::query($sql_alter1);
 
 	$sql_alter2="ALTER TABLE conges_users DROP u_solde_jours  ";
-	if($DEBUG==FALSE)
-		$result_alter2 = SQL::query($sql_alter2);
-	else
-		$result_alter2 = SQL::query($sql_alter2)  ;
+	$result_alter2 = SQL::query($sql_alter2);
 
 	$sql_alter3="ALTER TABLE conges_users DROP u_nb_rtt_an  ";
-	if($DEBUG==FALSE)
-		$result_alter3 = SQL::query($sql_alter3);
-	else
-		$result_alter3 = SQL::query($sql_alter3)  ;
+	$result_alter3 = SQL::query($sql_alter3);
 
 	$sql_alter4="ALTER TABLE conges_users DROP u_solde_rtt  ";
-	if($DEBUG==FALSE)
-		$result_alter4 = SQL::query($sql_alter4);
-	else
-		$result_alter4 = SQL::query($sql_alter4)  ;
+	$result_alter4 = SQL::query($sql_alter4);
 
 }
 
@@ -600,10 +515,7 @@ function e11_create_table_conges_solde_edition( $DEBUG=FALSE)
 		`se_id_absence` INT( 2 ) NOT NULL ,
 		`se_solde` DECIMAL( 4, 2 ) NOT NULL
 		);" ;
-	if($DEBUG==FALSE)
-		$result_create = SQL::query($sql_create);
-	else
-		$result_create = SQL::query($sql_create)  ;
+	$result_create = SQL::query($sql_create);
 
 }	
 
@@ -629,18 +541,12 @@ function e12_insert_into_conges_solde_edition( $DEBUG=FALSE)
 		// pour chaque edition : insert du solde conges et insert du solde rtt (si rtt_comme conges)
 		$sql_insert_cong="INSERT INTO conges_solde_edition (se_id_edition, se_id_absence, se_solde) VALUES ($sql_ep_id, $id_conges, $sql_ep_solde_jours) ";
 		//echo "$sql_insert_cong<br>\n";
-		if($DEBUG==FALSE)
-			$result_insert_cong = SQL::query($sql_insert_cong);
-		else
-			$result_insert_cong = SQL::query($sql_insert_cong)  ;
+		$result_insert_cong = SQL::query($sql_insert_cong);
 
 		if(is_rtt_comme_conges()==TRUE)
 		{
 			$sql_insert_rtt="INSERT INTO conges_solde_edition (se_id_edition, se_id_absence, se_solde) VALUES ($sql_ep_id, $id_rtt, $sql_ep_solde_rtt) ";
-			if($DEBUG==FALSE)
-				$result_insert_rtt = SQL::query($sql_insert_rtt);
-			else
-				$result_insert_rtt = SQL::query($sql_insert_rtt)  ;
+			$result_insert_rtt = SQL::query($sql_insert_rtt);
 		}
 	}
 
@@ -653,16 +559,10 @@ function e13_maj_table_conges_edition_papier( $DEBUG=FALSE)
 {
 	// suppr des champs solde pour conges et rtt de conges_edition_papier 
 	$sql_alter1="ALTER TABLE conges_edition_papier DROP ep_solde_jours  ";
-	if($DEBUG==FALSE)
-		$result_alter1 = SQL::query($sql_alter1);
-	else
-		$result_alter1 = SQL::query($sql_alter1)  ;
+	$result_alter1 = SQL::query($sql_alter1);
 
 	$sql_alter2="ALTER TABLE conges_edition_papier DROP ep_solde_rtt  ";
-	if($DEBUG==FALSE)
-		$result_alter2 = SQL::query($sql_alter2);
-	else
-		$result_alter2 = SQL::query($sql_alter2)  ;
+	$result_alter2 = SQL::query($sql_alter2);
 
 }
 

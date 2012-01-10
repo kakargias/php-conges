@@ -26,8 +26,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-include_once  __DIR__ .'/sql.class.php';
-include_once  __DIR__ .'/get_text.php';
+include_once   INCLUDE_PATH .'sql.class.php';
+include_once   INCLUDE_PATH .'get_text.php';
 
 
 function schars( $htmlspec )
@@ -290,7 +290,7 @@ function autentification_passwd_conges($username,$password)
 //
 function authentification_ldap_conges($username,$password)
 {
-	require_once ($_SESSION['config']['php_conges_authldap_include_path']."/authLDAP.php");
+	require_once ( LIBRARY_PATH .'authLDAP.php');
 
 	$a = new authLDAP();
 	//$a->DEBUG = 1;
@@ -312,7 +312,7 @@ function authentification_ldap_conges($username,$password)
 function authentification_passwd_conges_CAS()
 {
 	// import de la librairie CAS
-	include_once($_SESSION['config']['php_conges_cas_include_path']."/CAS/CAS.php");
+	include_once( LIBRARY_PATH .'CAS/CAS.php');
 	// import des paramètres du serveur CAS
 	
 	$config_CAS_host       =$_SESSION['config']['CAS_host'];
@@ -359,7 +359,7 @@ function authentification_passwd_conges_CAS()
 function deconnexion_CAS($url="")
 {
     // import de la librairie CAS
-    include_once($_SESSION['config']['php_conges_cas_include_path']."/CAS/CAS.php");
+    include_once( LIBRARY_PATH .'CAS/CAS.php');
     // import des parametres du serveur CAS
     
     $config_CAS_host       =$_SESSION['config']['CAS_host'];

@@ -24,15 +24,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
 define('_PHP_CONGES', 1);
+define('ROOT_PATH', '../');
+include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
 
-include("../config_ldap.php");
-include("../fonctions_conges.php") ;
-include("../INCLUDE.PHP/fonction.php");
-include("../INCLUDE.PHP/session.php");
-include("../fonctions_calcul.php");
+include CONFIG_PATH .'config_ldap.php';
+include ROOT_PATH .'fonctions_conges.php' ;
+include INCLUDE_PATH .'fonction.php';
+include INCLUDE_PATH .'session.php';
+include ROOT_PATH .'fonctions_calcul.php';
 
 
 $DEBUG=FALSE;
@@ -171,7 +173,7 @@ verif_droits_user($session, "is_admin", $DEBUG);
          	saisie_groupe_fermeture($DEBUG);
 	elseif($choix_action=="saisie_dates")
 	{
-			include("../fonctions_javascript_calendrier.php");
+			include ROOT_PATH .'fonctions_javascript_calendrier.php';
 			affiche_javascript_et_css_des_calendriers();
 			if($groupe_id=="")     // choix du groupe n'a pas été fait ($_SESSION['config']['fermeture_par_groupe']==FALSE)
 				$groupe_id=0;

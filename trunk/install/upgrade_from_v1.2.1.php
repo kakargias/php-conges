@@ -24,14 +24,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
 define('_PHP_CONGES', 1);
+define('ROOT_PATH', '../');
+include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 /*******************************************************************/
 // SCRIPT DE MIGRATION DE LA VERSION 1.2.1 vers 1.3.0
 /*******************************************************************/
-include("../fonctions_conges.php") ;
-include("../INCLUDE.PHP/fonction.php");
-include("fonctions_install.php") ;
+include ROOT_PATH .'fonctions_conges.php' ;
+include INCLUDE_PATH .'fonction.php';
+include'fonctions_install.php' ;
 	
 $PHP_SELF=$_SERVER['PHP_SELF'];
 
@@ -47,7 +49,7 @@ $lang = (isset($_GET['lang']) ? $_GET['lang'] : (isset($_POST['lang']) ? $_POST[
 	// 3 : creation de la table conges_historique_ajout
 	// 4 : Creation de la table conges_logs
 	
-	include("../dbconnect.php") ;
+	include CONFIG_PATH .'dbconnect.php' ;
 	
 	if($DEBUG==FALSE)
 	{
@@ -96,24 +98,15 @@ function e1_maj_table_conges_type_absence( $DEBUG=FALSE)
 	
 	# on permet l'ajout d'un type "absences"
 	$sql_alter_1=" ALTER TABLE `conges_type_absence` CHANGE `ta_type` `ta_type` enum ('conges', 'conges_exceptionnels', 'absence', 'absences') ";
-	if($DEBUG==FALSE)
-		$result_alter_1 = SQL::query($sql_alter_1);
-	else
-		$result_update = SQL::query($sql_alter_1)  ;
+	$result_alter_1 = SQL::query($sql_alter_1);
 
 	# on modifie le type "absence" en "absences"
 	$sql_update=" UPDATE `conges_type_absence` SET `ta_type` = 'absences' where `ta_type` = 'absence'";
-	if($DEBUG==FALSE)
-		$result_update = SQL::query($sql_update);
-	else
-		$result_update = SQL::query($sql_update)  ;
+	$result_update = SQL::query($sql_update);
 
 	# on supprime la possibilité d'avoir un type "absence"
 	$sql_alter_2=" ALTER TABLE `conges_type_absence` CHANGE `ta_type` `ta_type` enum ('conges', 'conges_exceptionnels', 'absences')";
-	if($DEBUG==FALSE)
-		$result_alter_2 = SQL::query($sql_alter_2);
-	else
-		$result_alter_2 = SQL::query($sql_alter_2)  ;		
+	$result_alter_2 = SQL::query($sql_alter_2);	
 
 }
 
@@ -125,22 +118,13 @@ function e2_insert_into_conges_config( $DEBUG=FALSE)
 {
 
 	$sql_insert="INSERT INTO `conges_config` VALUES ('gestion_conges_exceptionnels', 'FALSE', '12_Fonctionnement de l\'Etablissement', 'boolean', 'config_comment_gestion_conges_exceptionnels')";
-	if($DEBUG==FALSE)
-		$result_insert = SQL::query($sql_insert);
-	else
-		$result_insert = SQL::query($sql_insert)  ;
+	$result_insert = SQL::query($sql_insert);
 	
 	$sql_insert_2="INSERT INTO `conges_config` VALUES ('grand_resp_ajout_conges', 'FALSE', '12_Fonctionnement de l\'Etablissement', 'boolean', 'config_comment_grand_resp_ajout_conges')";
-	if($DEBUG==FALSE)
-		$result_insert_2 = SQL::query($sql_insert_2);
-	else
-		$result_insert_2 = SQL::query($sql_insert_2)  ;
+	$result_insert_2 = SQL::query($sql_insert_2)  ;
 	
 	$sql_insert_3="INSERT INTO `conges_config` VALUES ('interdit_saisie_periode_date_passee', 'FALSE', '13_Divers', 'boolean', 'config_comment_interdit_saisie_periode_date_passee')";
-	if($DEBUG==FALSE)
-		$result_insert_3 = SQL::query($sql_insert_3);
-	else
-		$result_insert_3 = SQL::query($sql_insert_3)  ;
+	$result_insert_3 = SQL::query($sql_insert_3)  ;
 	
 }
 
@@ -159,10 +143,7 @@ function e3_create_table_conges_historique_ajout( $DEBUG=FALSE)
 					`ha_commentaire` VARCHAR(200) NOT NULL,
 					 PRIMARY KEY (`ha_login`, `ha_date`, `ha_abs_id` )
 					) DEFAULT CHARSET=latin1 ";
-	if($DEBUG==FALSE)
-		$result_create = SQL::query($sql_create);
-	else
-		$result_create = SQL::query($sql_create)  ;
+	$result_create = SQL::query($sql_create);
 	
 }
 
@@ -183,10 +164,7 @@ function e4_create_table_conges_logs( $DEBUG=FALSE)
 				   `log_date` TIMESTAMP NOT NULL, 
 				   PRIMARY KEY  (`log_id`)
 					) DEFAULT CHARSET=latin1 ";
-	if($DEBUG==FALSE)
-		$result_create_logs = SQL::query($sql_create_logs);
-	else
-		$result_create_logs = SQL::query($sql_create_logs)  ;
+	$result_create_logs = SQL::query($sql_create_logs)  ;
 	
 }
 					

@@ -27,9 +27,9 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
 
-include("fonctions_conges.php") ;
-include("INCLUDE.PHP/fonction.php");
-include("INCLUDE.PHP/session.php");
+include ROOT_PATH .'fonctions_conges.php';
+include INCLUDE_PATH .'fonction.php';
+include INCLUDE_PATH .'session.php';
 
 $DEBUG=FALSE;
 //$DEBUG=TRUE ;

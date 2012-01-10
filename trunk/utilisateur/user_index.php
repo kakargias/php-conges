@@ -96,28 +96,9 @@ if($DEBUG==TRUE) { echo "lang_file=".$_SESSION['config']['lang_file']."<br>\n"; 
 	/*************************************/
 	/***  debut de la page             ***/
 
-	// => html avec menu
+	header_menu('user',$titre);
 	
-	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
-	echo "<html>\n";
-	echo "<head>\n";
-		$titre=$_SESSION['config']['titre_user_index']." ".$_SESSION['userlogin'];
-		echo "<TITLE> $titre</TITLE>\n";
-		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-		echo "<link href=\"". TEMPLATE_PATH ."style.css\" rel=\"stylesheet\" type=\"text/css\" />";
-		include ROOT_PATH .'fonctions_javascript.php' ;
-	echo "</head>\n";
-
-	$info="user";
-	include TEMPLATE_PATH .'menu_header.php';
-
-	/*************************************/
-	/*** affichage "deconnexion" et "actualiser page" et "mode administrateur" et "affichage calendrier" ***/
-	/*************************************/
-
-
-
+	
 	/*************************************/
 	/***  suite de la page             ***/
 	/*************************************/
@@ -139,7 +120,7 @@ if($DEBUG==TRUE) { echo "lang_file=".$_SESSION['config']['lang_file']."<br>\n"; 
 	}
 
 
-	include TEMPLATE_PATH .'menu_bottom.php';
+	bottom();
 
 
 

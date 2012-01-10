@@ -83,8 +83,6 @@ function propose_config( $DEBUG=FALSE)
 		
 		bouton_deconnexion($DEBUG);
 
-	echo "</center>\n";
-				
-	echo "</body>\n</html>\n";
+	bottom();
 }
 

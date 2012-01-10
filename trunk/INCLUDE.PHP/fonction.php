@@ -58,22 +58,24 @@ function redirect($url , $auto_exit = true) {
 
 function header_popup($title = 'PHP CONGES' , $additional_head = '' ) {
 	global $type_bottom;
+	global $session;
 	$type_bottom = 'popup';
 	
 	include TEMPLATE_PATH . 'popup_header.php';
 }
 
-function header_menu($title = 'PHP CONGES') {
+function header_menu( $info ,$title = 'PHP CONGES' , $additional_head = '' ) {
 	global $type_bottom;
+	global $session;
 	$type_bottom = 'menu';
 	
 	include TEMPLATE_PATH . 'menu_header.php';
 }
 
-function bottom($title = 'PHP CONGES') {
+function bottom() {
 	global $type_bottom;
 	
-	include TEMPLATE_PATH . $type_bottom .'_menu_bottom.php';
+	include TEMPLATE_PATH . $type_bottom .'_bottom.php';
 }
 
 
@@ -288,8 +290,7 @@ if (! navigator.cookieEnabled) {
 		echo "</table>\n";
 	}
 
-	echo "</CENTER>\n";
-	echo "</body>\n</html>\n";
+	bottom();
 }
 
 

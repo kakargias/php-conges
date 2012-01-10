@@ -52,15 +52,9 @@ $DEBUG = FALSE ;
 
 	header_popup( _('editions_titre') .' : '.$user_login);
 
-	echo "<CENTER>\n";
-
 	affichage($user_login, $DEBUG);
 
-	echo "</CENTER>\n";
-
-
-echo "</body>\n";
-echo "</html>\n";
+	bottom();
 
 
 

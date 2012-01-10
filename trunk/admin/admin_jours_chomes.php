@@ -96,7 +96,6 @@ function saisie($year_calendrier_saisie, $DEBUG=FALSE)
 
 	header_popup();	
 	
-	echo "<center>\n";
 	echo "<h1>". _('admin_jours_chomes_titre') ."</h1>\n";
 
 	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n" ;
@@ -193,10 +192,7 @@ function saisie($year_calendrier_saisie, $DEBUG=FALSE)
 
 	echo "</form>\n" ;
 
-	echo "</center>\n";
-	echo "</body>\n";
-	echo "</html>\n";
-
+	bottom();
 }
 
 
@@ -362,7 +358,6 @@ function confirm_saisie($tab_checkbox_j_chome, $DEBUG=FALSE)
 
 	header_popup();	
 	
-	echo "<center>\n";
 	echo "<h1>". _('admin_jours_chomes_titre') ."</h1>\n";
 
 	//echo "tab_checkbox_j_chome : <br>\n";
@@ -391,9 +386,7 @@ function confirm_saisie($tab_checkbox_j_chome, $DEBUG=FALSE)
 	echo "</table>\n";
 	echo "</form>\n";
 
-	echo "</center>\n";
-	echo "</body>\n";
-	echo "</html>\n";
+	bottom();
 
 }
 
@@ -404,7 +397,6 @@ function commit_saisie($tab_checkbox_j_chome,$DEBUG=FALSE)
 
 	header_popup();	
 	
-	echo "<center>\n";
 	echo "<h1>". _('admin_jours_chomes_titre') ."</h1>\n";
 
 	if($DEBUG==TRUE) { echo "tab_checkbox_j_chome : <br>\n"; print_r($tab_checkbox_j_chome); echo "<br>\n"; }
@@ -437,9 +429,7 @@ function commit_saisie($tab_checkbox_j_chome,$DEBUG=FALSE)
 	echo "</table>\n";
 	echo "</form>\n";
 
-	echo "</center>\n";
-	echo "</body>\n";
-	echo "</html>\n";
+	bottom();
 
 }
 

@@ -60,9 +60,6 @@ function envoi_date(valeur)
 	header_popup('calendar',$script);
 
 
-		
-	echo "<body>\n";
-	echo "<CENTER>\n";
 					
 	$jour_today=date("j");
 	
@@ -337,8 +334,4 @@ function affiche_calendar($year, $mois, $DEBUG=FALSE)
 	echo "</table>\n";
 }
 
-?>
-
-</CENTER>
-</body>
-</html>
+bottom();

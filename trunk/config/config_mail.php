@@ -66,8 +66,6 @@ verif_droits_user($session, "is_admin", $DEBUG);
 
 	header_popup( 'CONGES : Configuration' );
 	
-	echo "<center>";
-
 	/*********************************/
 	/*********************************/
 
@@ -78,11 +76,8 @@ verif_droits_user($session, "is_admin", $DEBUG);
 
 	/*********************************/
 	/*********************************/
-
-	// affichage fin page
-	echo "</center>";
-	echo "</body>";
-	echo "</html>";
+	
+	bottom();
 
 
 

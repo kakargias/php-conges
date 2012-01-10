@@ -41,21 +41,7 @@ $DEBUG = FALSE ;
 // verif des droits du user à afficher la page
 verif_droits_user($session, "is_admin", $DEBUG);
 
-// => html avec menu
-
-echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
-echo "<html>\n";
-echo "<head>\n";
-	echo"<meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\" />";
-	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-	echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-	echo "<link href=\"". TEMPLATE_PATH ."style.css\" rel=\"stylesheet\" type=\"text/css\" />";
-	echo "<TITLE> ".$_SESSION['config']['titre_admin_index']." </TITLE>\n";
-	include ROOT_PATH .'fonctions_javascript.php' ;
-echo "</head>\n";
-
-	$info="admin";
-	include TEMPLATE_PATH .'menu_header.php';
+	header_menu('admin', $_SESSION['config']['titre_admin_index']);
 
 	/*** initialisation des variables ***/
 	/*************************************/
@@ -238,7 +224,7 @@ echo "</head>\n";
 	
 	echo "</tr></table>\n";
 	
-	include TEMPLATE_PATH .'menu_bottom.php';
+	bottom();
 
 
 /*********************************************************************************/

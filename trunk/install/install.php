@@ -57,10 +57,7 @@ if($DEBUG==TRUE) { echo "SESSION = <br>\n"; print_r($_SESSION); echo "<br><br>\n
 		
 	lance_install($lang, $DEBUG); 
 	
-	echo "<br><br>";
-	echo "<center>\n";
-	
-	echo "</body>\n</html>\n";
+	bottom();
 
 
 /*****************************************************************************/

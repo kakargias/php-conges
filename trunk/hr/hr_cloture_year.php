@@ -91,12 +91,7 @@ verif_droits_user($session, "is_hr", $DEBUG);
 
 	
 	
-/***********************************/
-/***  fin de la page             ***/
-echo "</CENTER>\n";
-	
-echo "</body>\n";
-echo "</html>\n";
+	bottom();
 	
 
 

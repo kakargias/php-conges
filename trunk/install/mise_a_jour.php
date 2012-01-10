@@ -71,10 +71,7 @@ if($DEBUG==TRUE) { echo "SESSION = <br>\n"; print_r($_SESSION); echo "<br><br>\n
 	// $config_php_conges_version est fourni par include ROOT_PATH .'version.php' ;
 	lance_maj($lang, $version, $config_php_conges_version, $etape, $DEBUG);
 
-	echo "<br><br>";
-	echo "<center>\n";
-
-	echo "</body>\n</html>\n";
+	bottom();
 
 
 /*****************************************************************************/

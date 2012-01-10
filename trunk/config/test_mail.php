@@ -91,10 +91,7 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	/*********************************/
 	/*********************************/
 
-	// affichage fin page
-	echo "</center>";
-	echo "</body>";
-	echo "</html>";
+	bottom();
 
 
 

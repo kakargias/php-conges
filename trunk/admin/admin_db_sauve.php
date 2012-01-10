@@ -105,7 +105,6 @@ function choix_save_restore($DEBUG=FALSE)
 
 	header_popup();	
 
-	echo "<center>\n";
 	echo "<h1>". _('admin_sauve_db_titre') ."</h1>\n";
 
 	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n";
@@ -138,10 +137,8 @@ function choix_save_restore($DEBUG=FALSE)
 	echo "</tr>\n";
 	echo "</table>\n";
 	echo "</form>\n";
-
-	echo "</center>\n";
-	echo "</body>\n";
-	echo "</html>\n";
+	
+	bottom();
 
 }
 
@@ -155,7 +152,6 @@ function choix_sauvegarde($DEBUG=FALSE)
 	
 	header_popup();	
 	
-	echo "<center>\n";
 	echo "<h1>". _('admin_sauve_db_titre') ."</h1>\n";
 
 	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n";
@@ -195,9 +191,7 @@ function choix_sauvegarde($DEBUG=FALSE)
 	echo "</table>\n";
 	echo "</form>\n";
 
-	echo "</center>\n";
-	echo "</body>\n";
-	echo "</html>\n";
+	bottom();
 
 }
 
@@ -210,7 +204,6 @@ function sauve($type_sauvegarde, $DEBUG=FALSE)
 	
 	header_popup();	
 	
-	echo "<center>\n";
 	echo "<h1>". _('admin_sauve_db_titre') ."</h1>\n";
 
 	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n";
@@ -226,9 +219,7 @@ function sauve($type_sauvegarde, $DEBUG=FALSE)
 	echo "</table>\n";
 	echo "</form>\n";
 
-	echo "</center>\n";
-	echo "</body>\n";
-	echo "</html>\n";
+	bottom();
 }
 
 function commit_sauvegarde($type_sauvegarde, $DEBUG=FALSE)
@@ -282,7 +273,6 @@ function choix_restaure($DEBUG=FALSE)
 
 	header_popup();	
 	
-	echo "<center>\n";
 	echo "<h1>". _('admin_sauve_db_titre') ."</h1>\n";
 
 //	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n";
@@ -318,9 +308,7 @@ function choix_restaure($DEBUG=FALSE)
 	echo "</table>\n";
 	echo "</form>\n";
 
-	echo "</center>\n";
-	echo "</body>\n";
-	echo "</html>\n";
+	bottom();
 
 }
 
@@ -333,7 +321,6 @@ function restaure($fichier_restaure_name, $fichier_restaure_tmpname, $fichier_re
 	
 	header_popup();	
 	
-	echo "<center>\n";
 	echo "<h1>". _('admin_sauve_db_titre') ."</h1>\n";
 
 	if( ($fichier_restaure_error!=0)||($fichier_restaure_size==0) ) // s'il y a eu une erreur dans le telechargement OU taille==0
@@ -410,9 +397,7 @@ function restaure($fichier_restaure_name, $fichier_restaure_tmpname, $fichier_re
 
 	}
 
-	echo "</center>\n";
-	echo "</body>\n";
-	echo "</html>\n";
+	bottom();
 
 
 }

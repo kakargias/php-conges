@@ -62,10 +62,7 @@ $DEBUG = FALSE ;
 	log_action(0, "", $user_login, $comment_log,  $DEBUG);
 	
 	
-
-	echo "</CENTER>\n";
-	echo "</body>\n";
-	echo "</html>\n";
+	bottom();
 	
 	
 	
@@ -330,10 +327,9 @@ if (typeof(window.print) != 'undefined') {
 }
 //-->
 </script>
-</body>
-</html>
-
 <?php
+
+bottom();
 
 /************************************************************************/
 /*   FONCTIONS   */

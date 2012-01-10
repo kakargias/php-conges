@@ -8,3 +8,4 @@
 		<?php echo $additional_head; ?>
 	</head>
 	<body>
+		<center>

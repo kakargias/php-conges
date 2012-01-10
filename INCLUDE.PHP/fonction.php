@@ -56,18 +56,24 @@ function redirect($url , $auto_exit = true) {
 		exit;
 }
 
-function header_popup($title = 'PHP CONGES' , $additional_head = '' ) {
+function header_popup($title = '' , $additional_head = '' ) {
 	global $type_bottom;
 	global $session;
 	$type_bottom = 'popup';
 	
+	if (empty($title))
+		$title = 'PHP CONGES';
+		
 	include TEMPLATE_PATH . 'popup_header.php';
 }
 
-function header_menu( $info ,$title = 'PHP CONGES' , $additional_head = '' ) {
+function header_menu( $info ,$title = '' , $additional_head = '' ) {
 	global $type_bottom;
 	global $session;
 	$type_bottom = 'menu';
+	
+	if (empty($title))
+		$title = 'PHP CONGES';
 	
 	include TEMPLATE_PATH . 'menu_header.php';
 }
@@ -209,7 +215,7 @@ if (! navigator.cookieEnabled) {
 		<font color="#FF0000"><br><br><center>'. _('javascript_obligatoires') .'</center></font><br><br>
 </noscript>';
 		
-	header_popup('PHP CONGES', $add);
+	header_popup('', $add);
 	
 	echo "<CENTER>\n";
 	if($erreur=="login_passwd_incorrect")

@@ -246,5 +246,5 @@ echo "<html>\n";
 	// echo "<div id=\"content-center\">";
 
 	echo "<div id=\"content\">";	
-	echo"<div id=\"content-center\";>";
-	echo "<CENTER>\n";
+		echo "<div id=\"content-center\";>";
+			echo "<center>\n";

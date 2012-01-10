@@ -89,7 +89,7 @@ function affichage($session, $DEBUG=FALSE)
 	echo "<html>\n";
 	echo "<head>\n";
 		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-		echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 		echo "<TITLE> CONGES : Configuration </TITLE>\n";
 	echo "</head>\n";
 
@@ -99,7 +99,7 @@ function affichage($session, $DEBUG=FALSE)
 
 	/**************************************/
 	// affichage du titre
-	echo "<br><center><H1><img src=\"../img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"". _('config_appli_titre_2') ."\" alt=\"". _('config_appli_titre_2') ."\"> ". _('config_appli_titre_1') ."</H1></center>\n";
+	echo "<br><center><H1><img src=\"". TEMPLATE_PATH . "img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"". _('config_appli_titre_2') ."\" alt=\"". _('config_appli_titre_2') ."\"> ". _('config_appli_titre_1') ."</H1></center>\n";
 	echo "<br>\n";
 	/**************************************/
 

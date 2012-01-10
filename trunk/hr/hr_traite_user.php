@@ -418,9 +418,9 @@ function affiche_etat_conges_user_for_resp($user_login, $year_affichage, $tri_da
 		echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 		echo "<tr align=\"center\">\n";
 		echo " <td class=\"titre\">\n";
-		echo " <a href=\"$PHP_SELF?session=$session&user_login=$user_login&tri_date=descendant\"><img src=\"../img/1downarrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
+		echo " <a href=\"$PHP_SELF?session=$session&user_login=$user_login&tri_date=descendant\"><img src=\"". TEMPLATE_PATH ."img/1downarrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
 		echo " ". _('divers_debut_maj_1') ." \n";
-		echo " <a href=\"$PHP_SELF?session=$session&user_login=$user_login&tri_date=ascendant\"><img src=\"../img/1uparrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
+		echo " <a href=\"$PHP_SELF?session=$session&user_login=$user_login&tri_date=ascendant\"><img src=\"". TEMPLATE_PATH ."img/1uparrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
 		echo " </td>\n";
 		echo " <td class=\"titre\">". _('divers_fin_maj_1') ."</td>\n";
 		echo " <td class=\"titre\">". _('divers_nb_jours_pris_maj_1') ."</td>\n";

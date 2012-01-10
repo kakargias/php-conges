@@ -100,7 +100,7 @@ function saisie($year_calendrier_saisie, $DEBUG=FALSE)
 	echo "<html>\n";
 	echo "<head>\n";
 		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-		echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 		echo "<title>PHP_CONGES :</title>\n";
 	echo "</head>\n";
 
@@ -124,7 +124,7 @@ function saisie($year_calendrier_saisie, $DEBUG=FALSE)
 					// recul d'un an
 					echo "<td align=\"center\" class=\"big\">\n";
 					echo "<a href=\"$PHP_SELF?session=$session&year_calendrier_saisie=$year_calendrier_saisie_prec\"> \n";
-					echo "<img src=\"../img/simfirs.gif\" width=\"16\" height=\"16\" border=\"0\" alt=\"". _('admin_jours_chomes_annee_precedente') ."\" title=\"". _('admin_jours_chomes_annee_precedente') ."\"> \n";
+					echo "<img src=\"". TEMPLATE_PATH . "img/simfirs.gif\" width=\"16\" height=\"16\" border=\"0\" alt=\"". _('admin_jours_chomes_annee_precedente') ."\" title=\"". _('admin_jours_chomes_annee_precedente') ."\"> \n";
 					echo "</a>\n";
 					echo "</td>\n";
 					echo "<td colspan=\"2\" align=\"center\" class=\"big\">$year_calendrier_saisie</td>\n";
@@ -132,7 +132,7 @@ function saisie($year_calendrier_saisie, $DEBUG=FALSE)
 					// avance d'un an
 					echo "<td align=\"center\" class=\"big\">\n";
 					echo "<a href=\"$PHP_SELF?session=$session&year_calendrier_saisie=$year_calendrier_saisie_suiv\"> \n";
-					echo "<img src=\"../img/simlast.gif\" width=\"16\" height=\"16\" border=\"0\" alt=\"". _('admin_jours_chomes_annee_suivante') ."\" title=\"". _('admin_jours_chomes_annee_suivante') ."\"> \n";
+					echo "<img src=\"". TEMPLATE_PATH . "img/simlast.gif\" width=\"16\" height=\"16\" border=\"0\" alt=\"". _('admin_jours_chomes_annee_suivante') ."\" title=\"". _('admin_jours_chomes_annee_suivante') ."\"> \n";
 					echo "</a>\n";
 					echo "</td>\n";
 
@@ -375,7 +375,7 @@ function confirm_saisie($tab_checkbox_j_chome, $DEBUG=FALSE)
 	echo "<html>\n";
 	echo "<head>\n";
 		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-		echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 		echo "<title>PHP_CONGES :</title>\n";
 	echo "</head>\n";
 
@@ -426,7 +426,7 @@ function commit_saisie($tab_checkbox_j_chome,$DEBUG=FALSE)
 	echo "<html>\n";
 	echo "<head>\n";
 		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-		echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 		echo "<title>PHP_CONGES :</title>\n";
 	echo "</head>\n";
 

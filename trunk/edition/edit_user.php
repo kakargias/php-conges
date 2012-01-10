@@ -57,7 +57,7 @@ echo "<html>\n";
 echo "<head>\n";
 	echo "<TITLE> ". _('editions_titre') ." : $user_login</TITLE>\n";
 	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+	echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 echo "</head>\n";
 
 	//connexion mysql
@@ -213,13 +213,13 @@ function affiche_nouvelle_edition($login,  $DEBUG=FALSE)
 		echo "<tr align=\"center\">\n";
 		echo " <td width=\"200\">\n";
 			echo "<a href=\"edition_papier.php?session=$session&user_login=$login&edit_id=0\">\n";
-			echo "<img src=\"../img/fileprint_2.png\" width=\"22\" height=\"22\" border=\"0\" title=\"". _('editions_lance_edition') ."\" alt=\"". _('editions_lance_edition') ."\">\n";
+			echo "<img src=\"". TEMPLATE_PATH . "img/fileprint_2.png\" width=\"22\" height=\"22\" border=\"0\" title=\"". _('editions_lance_edition') ."\" alt=\"". _('editions_lance_edition') ."\">\n";
 			echo "<b> ". _('editions_lance_edition') ." </b>\n";
 			echo "</a>\n";
 		echo "</td>\n";
 		echo " <td width=\"200\">\n";
 			echo "<a href=\"edition_pdf.php?session=$session&user_login=$login&edit_id=0\">\n";
-			echo "<img src=\"../img/pdf_22x22_2.png\" width=\"22\" height=\"22\" border=\"0\" title=\"". _('editions_pdf_edition') ."\" alt=\"". _('editions_pdf_edition') ."\">\n";
+			echo "<img src=\"". TEMPLATE_PATH . "img/pdf_22x22_2.png\" width=\"22\" height=\"22\" border=\"0\" title=\"". _('editions_pdf_edition') ."\" alt=\"". _('editions_pdf_edition') ."\">\n";
 			echo "<b> ". _('editions_pdf_edition') ." </b>\n";
 			echo "</a>\n";
 		echo "</td>\n";
@@ -276,11 +276,11 @@ function affiche_anciennes_editions($login,  $DEBUG=FALSE)
 		{
 			//$text_edit_a_nouveau="<a href=\"edition_papier.php?session=$session&user_login=$login&edit_id=$sql_id\">Editer à nouveau</a>" ;
 			$text_edit_a_nouveau="<a href=\"edition_papier.php?session=$session&user_login=$login&edit_id=$id_edition\">" .
-					"<img src=\"../img/fileprint_16x16_2.png\" width=\"16\" height=\"16\" border=\"0\" title=\"". _('editions_edit_again') ."\" alt=\"". _('editions_edit_again') ."\">" .
+					"<img src=\"". TEMPLATE_PATH . "img/fileprint_16x16_2.png\" width=\"16\" height=\"16\" border=\"0\" title=\"". _('editions_edit_again') ."\" alt=\"". _('editions_edit_again') ."\">" .
 					" ". _('editions_edit_again')  .
 					"</a>\n";
 			$text_edit_pdf_a_nouveau="<a href=\"edition_pdf.php?session=$session&user_login=$login&edit_id=$id_edition\">" .
-					"<img src=\"../img/pdf_16x16_2.png\" width=\"16\" height=\"16\" border=\"0\" title=\"". _('editions_edit_again_pdf') ."\" alt=\"". _('editions_edit_again_pdf') ."\">" .
+					"<img src=\"". TEMPLATE_PATH . "img/pdf_16x16_2.png\" width=\"16\" height=\"16\" border=\"0\" title=\"". _('editions_edit_again_pdf') ."\" alt=\"". _('editions_edit_again_pdf') ."\">" .
 					" ". _('editions_edit_again_pdf')  .
 					"</a>\n";
 

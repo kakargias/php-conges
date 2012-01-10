@@ -900,7 +900,7 @@ function saisie_jours_absence_temps_partiel($login,  $DEBUG=FALSE)
 		echo '</table>';
 
 	echo '</td>';
-	echo ' <td><img src="../img/shim.gif" width="15" height="2" border="0" vspace="0" hspace="0"></td>';
+	echo ' <td><img src="'. TEMPLATE_PATH . 'img/shim.gif" width="15" height="2" border="0" vspace="0" hspace="0"></td>';
 	echo ' <td>';
 
 		//tableau semaines paires
@@ -1037,7 +1037,7 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 								// recul du mois saisie début
 								echo '<td align="center" class="big">';
 								echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut_prec.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut_prec.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin.'&user_login='.$user_login.'&onglet='.$onglet.'">';
-								echo ' <img src="../img/simfirs.gif" width="16" height="16" border="0" alt="'. _('divers_mois_precedent') .'" title="'. _('divers_mois_precedent') .'"> ';
+								echo ' <img src="'. TEMPLATE_PATH . 'img/simfirs.gif" width="16" height="16" border="0" alt="'. _('divers_mois_precedent') .'" title="'. _('divers_mois_precedent') .'"> ';
 								echo '</a>';
 								echo '</td>';
 
@@ -1053,7 +1053,7 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 									$lien_mois_debut_suivant = $PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut_suiv.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut_suiv.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin.'&user_login='.$user_login.'&onglet='.$onglet ;
 								echo '<td align="center" class="big">';
 								echo '<a href="'.$lien_mois_debut_suivant.'">';
-								echo ' <img src="../img/simlast.gif" width="16" height="16" border="0" alt="'. _('divers_mois_suivant') .'" title="'. _('divers_mois_suivant') .'"> ';
+								echo ' <img src="'. TEMPLATE_PATH . 'img/simlast.gif" width="16" height="16" border="0" alt="'. _('divers_mois_suivant') .'" title="'. _('divers_mois_suivant') .'"> ';
 								echo '</a>';
 								echo '</td>';
 
@@ -1094,7 +1094,7 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 					echo '</td>';
 				echo '</tr>';
 				echo '<tr align="center">';
-					echo '<td><img src="../img/shim.gif" width="15" height="10" border="0" vspace="0" hspace="0"></td>';
+					echo '<td><img src="'. TEMPLATE_PATH . 'img/shim.gif" width="15" height="10" border="0" vspace="0" hspace="0"></td>';
 				echo '</tr>';
 				echo '<tr align="center">';
 					echo '<td>';
@@ -1120,7 +1120,7 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 									$lien_mois_fin_precedent = ''.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin_prec.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin_prec.'&user_login='.$user_login.'&onglet='.$onglet;
 								echo '<td align="center" class="big">';
 								echo '<a href="'.$lien_mois_fin_precedent.'">';
-								echo ' <img src="../img/simfirs.gif" width="16" height="16" border="0" alt="'. _('divers_mois_precedent') .'" title="'. _('divers_mois_precedent') .'">';
+								echo ' <img src="'. TEMPLATE_PATH . 'img/simfirs.gif" width="16" height="16" border="0" alt="'. _('divers_mois_precedent') .'" title="'. _('divers_mois_precedent') .'">';
 								echo ' </a>';
 								echo '</td>';
 
@@ -1130,7 +1130,7 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 								// avance du mois saisie fin
 								echo '<td align="center" class="big">';
 								echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin_suiv.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin_suiv.'&user_login='.$user_login.'&onglet='.$onglet.'">';
-								echo ' <img src="../img/simlast.gif" width="16" height="16" border="0" alt="'. _('divers_mois_suivant') .'" title="'. _('divers_mois_suivant') .'"> ';
+								echo ' <img src="'. TEMPLATE_PATH . 'img/simlast.gif" width="16" height="16" border="0" alt="'. _('divers_mois_suivant') .'" title="'. _('divers_mois_suivant') .'"> ';
 								echo '</a>';
 								echo '</td>';
 								echo '</tr>';
@@ -1170,7 +1170,7 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 				echo '</tr>';
 				echo '</table>';
 			echo '</td>';
-			echo '<td><img src="../img/shim.gif" width="15" height="2" border="0" vspace="0" hspace="0"></td>';
+			echo '<td><img src="'. TEMPLATE_PATH . 'img/shim.gif" width="15" height="2" border="0" vspace="0" hspace="0"></td>';
 			echo '<td>';
 
 				/*******************/
@@ -1202,7 +1202,7 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 					echo '<tr align="center">';
 					echo '<td>'.($text_nb_jours).'</td><td>'.($text_commentaire).'</td>';
 					echo '</tr>';
-					echo '<tr align="center"><td><img src="../img/shim.gif" width="15" height="10" border="0" vspace="0" hspace="0"></td><td></td></tr>';
+					echo '<tr align="center"><td><img src="'. TEMPLATE_PATH . 'img/shim.gif" width="15" height="10" border="0" vspace="0" hspace="0"></td><td></td></tr>';
 					echo '<tr align="center">';
 					echo '<td colspan=2>';
 						echo '<input type="hidden" name="user_login" value="'.$user_login.'">';
@@ -1317,7 +1317,7 @@ function saisie_echange_rtt($user_login, $year_calendrier_saisie_debut, $mois_ca
 					// recul du mois saisie debut
 					echo '<td align="center" class="big">';
 					echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut_prec.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut_prec.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin.'&user_login='.$user_login.'&onglet='.$onglet.'">';
-					echo ' <img src="../img/simfirs.gif" width="16" height="16" border="0" alt="'. _('divers_mois_precedent') .'" title="'. _('divers_mois_precedent') .'"> ';
+					echo ' <img src="'. TEMPLATE_PATH . 'img/simfirs.gif" width="16" height="16" border="0" alt="'. _('divers_mois_precedent') .'" title="'. _('divers_mois_precedent') .'"> ';
 					echo '</a>';
 					echo '</td>';
 
@@ -1328,7 +1328,7 @@ function saisie_echange_rtt($user_login, $year_calendrier_saisie_debut, $mois_ca
 					// avance du mois saisie debut
 					echo '<td align="center" class="big">';
 					echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut_suiv.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut_suiv.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin.'&user_login='.$user_login.'&onglet='.$onglet.'">';
-					echo ' <img src="../img/simlast.gif" width="16" height="16" border="0" alt="'. _('divers_mois_suivant') .'" title="'. _('divers_mois_suivant') .'"> ';
+					echo ' <img src="'. TEMPLATE_PATH . 'img/simlast.gif" width="16" height="16" border="0" alt="'. _('divers_mois_suivant') .'" title="'. _('divers_mois_suivant') .'"> ';
 					echo '</a>';
 					echo '</td>';
 				echo '</tr>';
@@ -1355,7 +1355,7 @@ function saisie_echange_rtt($user_login, $year_calendrier_saisie_debut, $mois_ca
 					// recul du mois saisie fin
 					echo '<td align="center" class="big">';
 					echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin_prec.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin_prec.'&user_login='.$user_login.'&onglet='.$onglet.'">';
-					echo ' <img src="../img/simfirs.gif" width="16" height="16" border="0" alt="'. _('divers_mois_precedent') .'" title="'. _('divers_mois_precedent') .'"> ';
+					echo ' <img src="'. TEMPLATE_PATH . 'img/simfirs.gif" width="16" height="16" border="0" alt="'. _('divers_mois_precedent') .'" title="'. _('divers_mois_precedent') .'"> ';
 					echo '</a>';
 					echo '</td>';
 
@@ -1366,7 +1366,7 @@ function saisie_echange_rtt($user_login, $year_calendrier_saisie_debut, $mois_ca
 					// avance du mois saisie fin
 					echo '<td align="center" class="big">';
 					echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin_suiv.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin_suiv.'&user_login='.$user_login.'&onglet='.$onglet.'">';
-					echo ' <img src="../img/simlast.gif" width="16" height="16" border="0" alt="'. _('divers_mois_suivant') .'" title="'. _('divers_mois_suivant') .'"> ';
+					echo ' <img src="'. TEMPLATE_PATH . 'img/simlast.gif" width="16" height="16" border="0" alt="'. _('divers_mois_suivant') .'" title="'. _('divers_mois_suivant') .'"> ';
 					echo '</a>';
 					echo '</td>';
 				echo '</tr>';
@@ -1390,7 +1390,7 @@ function saisie_echange_rtt($user_login, $year_calendrier_saisie_debut, $mois_ca
 						echo '<td>'.$text_commentaire.'</td>';
 					echo '</tr>';
 					echo '<tr align="center">';
-						echo '<td colspan=2><img src="../img/shim.gif" width="15" height="10" border="0" vspace="0" hspace="0"></td>';
+						echo '<td colspan=2><img src="". TEMPLATE_PATH . "img/shim.gif" width="15" height="10" border="0" vspace="0" hspace="0"></td>';
 					echo '</tr>';
 					echo '<tr align="center">';
 						echo '<td colspan=2>';
@@ -1542,7 +1542,7 @@ function   bouton_deconnexion($DEBUG=FALSE)
    $session=session_id();
 
 	echo '<a href="../deconnexion.php?session='.$session.'" target="_top">' .
-			'<img src="../img/exit.png" width="22" height="22" border="0" title="'. _('button_deconnect') .'" alt="'. _('button_deconnect') .'">' .
+			'<img src="'. TEMPLATE_PATH . 'img/exit.png" width="22" height="22" border="0" title="'. _('button_deconnect') .'" alt="'. _('button_deconnect') .'">' .
 			 _('button_deconnect') .'</a>';
 
 }
@@ -1554,7 +1554,7 @@ function bouton_actualiser($onglet, $DEBUG=FALSE)
 	$session=session_id();
 
 	echo '<a href="'.$PHP_SELF.'?session='.$session.'&onglet='.$onglet.'">';
-	echo '<img src="../img/reload_page.png" width="22" height="22" border="0" title="'. _('button_refresh') .'" alt="'. _('button_refresh') .'">';
+	echo '<img src="'. TEMPLATE_PATH . 'img/reload_page.png" width="22" height="22" border="0" title="'. _('button_refresh') .'" alt="'. _('button_refresh') .'">';
 	echo  _('button_refresh') .'</a>';
 }
 

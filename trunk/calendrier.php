@@ -79,7 +79,7 @@ function cacher(id)
 
 	echo "<TITLE> ".$_SESSION['config']['titre_calendrier']." </TITLE>\n";
 	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-	echo "<link href=\"".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+	echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 	echo "</head>\n";
 
 	/*************************************/
@@ -134,7 +134,7 @@ function cacher(id)
 	echo "   <td align=\"center\">\n";
 		echo "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\">\n";
 		echo "<tr>\n";
-		echo "   <td align=\"center\"><img src=\"img/shim.gif\" width=\"200\" height=\"10\" border=\"0\" vspace=\"0\" hspace=\"0\"></td>\n";
+		echo "   <td align=\"center\"><img src=\"". TEMPLATE_PATH . "img/shim.gif\" width=\"200\" height=\"10\" border=\"0\" vspace=\"0\" hspace=\"0\"></td>\n";
 		echo "   <td align=\"center\">\n";
 	//	echo "   <H2>". _('calendrier_titre') ."</H2>\n";
 		echo "   <H3>". _('calendrier_titre') ;
@@ -151,7 +151,7 @@ function cacher(id)
 				affiche_select_groupe($select_groupe, $selected, $printable, $year, $mois, $first_jour, $DEBUG) ;
 			}
 			else
-				echo "   <img src=\"img/shim.gif\" width=\"200\" height=\"10\" border=\"0\" vspace=\"0\" hspace=\"0\">\n";
+				echo "   <img src=\"". TEMPLATE_PATH . "img/shim.gif\" width=\"200\" height=\"10\" border=\"0\" vspace=\"0\" hspace=\"0\">\n";
 		echo "   </td>\n";
 		echo "</tr>\n";
 		echo "</table>\n";
@@ -198,7 +198,7 @@ function cacher(id)
 	}
 
 	echo "<tr>\n";
-	echo "   <td><img src=\"img/shim.gif\" width=\"200\" height=\"10\" border=\"0\" vspace=\"0\" hspace=\"0\"></td>\n";
+	echo "   <td><img src=\"". TEMPLATE_PATH . "img/shim.gif\" width=\"200\" height=\"10\" border=\"0\" vspace=\"0\" hspace=\"0\"></td>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
 	echo "   <td align=\"center\">\n";
@@ -212,12 +212,12 @@ function cacher(id)
 		if($printable!=1) // si version ecran :
 		{
 			echo "      <br><a href=\"$PHP_SELF?session=$session&printable=1&year=$year&mois=$mois&first_jour=$first_jour&select_groupe=$select_groupe\" target=\"_blank\" method=\"post\">\n";
-			echo "		<img src=\"img/fileprint_4_22x22.png\" width=\"22\" height=\"22\" border=\"0\" title=\"". _('calendrier_imprimable') ."\" alt=\"". _('calendrier_imprimable') ."\">\n";
+			echo "		<img src=\"". TEMPLATE_PATH . "img/fileprint_4_22x22.png\" width=\"22\" height=\"22\" border=\"0\" title=\"". _('calendrier_imprimable') ."\" alt=\"". _('calendrier_imprimable') ."\">\n";
 			echo "      ". _('calendrier_imprimable') ."\n";
 			echo "      </a>\n";
 		}
 		else  // si version imprimable
-			echo "      <img src=\"img/shim.gif\" width=\"25\" height=\"25\" border=\"0\" vspace=\"0\" hspace=\"0\">\n";
+			echo "      <img src=\"". TEMPLATE_PATH . "img/shim.gif\" width=\"25\" height=\"25\" border=\"0\" vspace=\"0\" hspace=\"0\">\n";
 		echo "   </td>\n";
 		echo "   <td valign=\"top\" align=\"right\">\n";
 		echo "      <h4>légende :</h4>\n";

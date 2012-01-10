@@ -70,14 +70,14 @@ if($DEBUG==TRUE) { echo "SESSION = <br>\n"; print_r($_SESSION); echo "<br><br>\n
 	echo "<html>\n<head>\n";
 		echo "<TITLE> PHP_CONGES : ". _('install_maj_titre_1') ." : </TITLE>\n</head>\n";
 		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-		echo "<link href=\"../style_basic.css\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<link href=\"". TEMPLATE_PATH ."style_basic.css\" rel=\"stylesheet\" type=\"text/css\">\n";
 	echo "</head>\n";
 
 	echo "<body text=\"#000000\" bgcolor=\"#597c98\" link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\" >\n";
 
 	// affichage du titre
 	echo "<center>\n";
-	echo "<br><H1><img src=\"../img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"". _('install_install_phpconges') ."\" alt=\"". _('install_install_phpconges') ."\"> ". _('install_maj_titre_2') ."</H1>\n";
+	echo "<br><H1><img src=\"". TEMPLATE_PATH ."img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"". _('install_install_phpconges') ."\" alt=\"". _('install_install_phpconges') ."\"> ". _('install_maj_titre_2') ."</H1>\n";
 	echo "<br><br>\n";
 
 	// $config_php_conges_version est fourni par include ROOT_PATH .'version.php' ;

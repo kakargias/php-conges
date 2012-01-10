@@ -48,14 +48,14 @@ echo "<html>\n";
 echo "<head>\n";
 	echo"<meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\" />";
 	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-	echo "<link href=\"../style.css\" rel=\"stylesheet\" type=\"text/css\" />";
+	echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+	echo "<link href=\"". TEMPLATE_PATH ."style.css\" rel=\"stylesheet\" type=\"text/css\" />";
 	echo "<TITLE> ".$_SESSION['config']['titre_admin_index']." </TITLE>\n";
 	include ROOT_PATH .'fonctions_javascript.php' ;
 echo "</head>\n";
 
 	$info="admin";
-	include ROOT_PATH .'menu.php';
+	include TEMPLATE_PATH .'menu.php';
 
 	/*** initialisation des variables ***/
 	/*************************************/
@@ -238,7 +238,7 @@ echo "</head>\n";
 	
 	echo "</tr></table>\n";
 	
-	include ROOT_PATH .'bottom.php';
+	include TEMPLATE_PATH .'bottom.php';
 
 
 /*********************************************************************************/
@@ -663,9 +663,9 @@ function affiche_gestion_utilisateurs($DEBUG=FALSE)
 	{
 
 		
-		$admin_modif_user="<a href=\"admin_modif_user.php?session=$session&u_login=$current_login\">"."<img src=\"../img/edition-22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('form_modif') ."\" alt=\"". _('form_modif') ."\"></a>" ;
-		$admin_suppr_user="<a href=\"admin_suppr_user.php?session=$session&u_login=$current_login\">"."<img src=\"../img/stop.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('form_supprim') ."\" alt=\"". _('form_supprim') ."\"></a>" ;
-		$admin_chg_pwd_user="<a href=\"admin_chg_pwd_user.php?session=$session&u_login=$current_login\">"."<img src=\"../img/password.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('form_password') ."\" alt=\"". _('form_password') ."\"></a>" ;
+		$admin_modif_user="<a href=\"admin_modif_user.php?session=$session&u_login=$current_login\">"."<img src=\"". TEMPLATE_PATH . "img/edition-22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('form_modif') ."\" alt=\"". _('form_modif') ."\"></a>" ;
+		$admin_suppr_user="<a href=\"admin_suppr_user.php?session=$session&u_login=$current_login\">"."<img src=\"". TEMPLATE_PATH . "img/stop.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('form_supprim') ."\" alt=\"". _('form_supprim') ."\"></a>" ;
+		$admin_chg_pwd_user="<a href=\"admin_chg_pwd_user.php?session=$session&u_login=$current_login\">"."<img src=\"". TEMPLATE_PATH . "img/password.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('form_password') ."\" alt=\"". _('form_password') ."\"></a>" ;
 
 
 		echo "<tr>\n";

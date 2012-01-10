@@ -109,7 +109,7 @@ function choix_save_restore($DEBUG=FALSE)
 	echo "<html>\n";
 	echo "<head>\n";
 		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-		echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 		echo "<title>PHP_CONGES :</title>\n";
 	echo "</head>\n";
 
@@ -167,7 +167,7 @@ function choix_sauvegarde($DEBUG=FALSE)
 	echo "<html>\n";
 	echo "<head>\n";
 		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-		echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 		echo "<title>PHP_CONGES :</title>\n";
 	echo "</head>\n";
 
@@ -231,7 +231,7 @@ function sauve($type_sauvegarde, $DEBUG=FALSE)
 		// on renvoit immédiatement sur la meme page qui va lancer la sauvegarde ...
 		echo "<meta http-equiv=\"refresh\" content=\"0;url=$PHP_SELF?session=$session&choix_action=sauvegarde&type_sauvegarde=$type_sauvegarde&commit=ok\">\n";
 		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-		echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 		echo "<title>PHP_CONGES :</title>\n";
 	echo "</head>\n";
 	echo "<body>\n";
@@ -311,7 +311,7 @@ function choix_restaure($DEBUG=FALSE)
 	echo "<html>\n";
 	echo "<head>\n";
 		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-		echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 		echo "<title>PHP_CONGES :</title>\n";
 	echo "</head>\n";
 
@@ -371,7 +371,7 @@ function restaure($fichier_restaure_name, $fichier_restaure_tmpname, $fichier_re
 	echo "<html>\n";
 	echo "<head>\n";
 		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-		echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 		echo "<title>PHP_CONGES :</title>\n";
 	echo "</head>\n";
 

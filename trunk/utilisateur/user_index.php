@@ -104,13 +104,13 @@ if($DEBUG==TRUE) { echo "lang_file=".$_SESSION['config']['lang_file']."<br>\n"; 
 		$titre=$_SESSION['config']['titre_user_index']." ".$_SESSION['userlogin'];
 		echo "<TITLE> $titre</TITLE>\n";
 		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-		echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-		echo "<link href=\"../style.css\" rel=\"stylesheet\" type=\"text/css\" />";
+		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<link href=\"". TEMPLATE_PATH ."style.css\" rel=\"stylesheet\" type=\"text/css\" />";
 		include ROOT_PATH .'fonctions_javascript.php' ;
 	echo "</head>\n";
 
 	$info="user";
-	include ROOT_PATH .'menu.php';
+	include TEMPLATE_PATH .'menu.php';
 
 	/*************************************/
 	/*** affichage "deconnexion" et "actualiser page" et "mode administrateur" et "affichage calendrier" ***/
@@ -139,7 +139,7 @@ if($DEBUG==TRUE) { echo "lang_file=".$_SESSION['config']['lang_file']."<br>\n"; 
 	}
 
 
-	include ROOT_PATH . 'bottom.php';
+	include TEMPLATE_PATH .'bottom.php';
 
 
 
@@ -748,9 +748,9 @@ function affichage_demandes_en_cours($tri_date, $onglet,  $DEBUG=FALSE)
 		echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n" ;
 		echo "<tr>\n";
 		echo "<td class=\"titre\">";
-		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=descendant\"><img src=\"../img/1downarrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>";
+		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=descendant\"><img src=\"". TEMPLATE_PATH ."img/1downarrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>";
 		echo  _('divers_debut_maj_1')  ;
-		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=ascendant\"><img src=\"../img/1uparrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>";
+		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=ascendant\"><img src=\"". TEMPLATE_PATH ."img/1uparrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>";
 		echo "</td>\n";
 		echo "<td class=\"titre\">". _('divers_fin_maj_1') ."</td>" ;
 		echo "<td class=\"titre\">". _('divers_type_maj_1') ."</td>" ;
@@ -864,9 +864,9 @@ function affichage_historique_conges($tri_date, $year_affichage, $onglet,  $DEBU
 		echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 		echo "<tr>\n";
 		echo " <td class=\"titre\">\n";
-		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=descendant\"><img src=\"../img/1downarrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
+		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=descendant\"><img src=\"". TEMPLATE_PATH ."img/1downarrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
 		echo  _('divers_debut_maj_1')  ;
-		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=ascendant\"><img src=\"../img/1uparrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
+		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=ascendant\"><img src=\"". TEMPLATE_PATH ."img/1uparrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
 		echo " </td>\n";
 		echo " <td class=\"titre\">". _('divers_fin_maj_1') ."</td>\n";
 		echo " <td class=\"titre\">". _('divers_nb_jours_maj_1') ."</td>\n";
@@ -998,9 +998,9 @@ function affichage_historique_absences($tri_date, $year_affichage, $onglet,  $DE
 		echo "<table cellpadding=\"2\"  class=\"tablo\" width=\"80%\">\n";
 		echo "<tr>\n";
 		echo "<td class=\"titre\">\n";
-		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=descendant\"><img src=\"../img/1downarrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
+		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=descendant\"><img src=\"". TEMPLATE_PATH ."img/1downarrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
 		echo  _('divers_debut_maj_1')  ;
-		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=ascendant\"><img src=\"../img/1uparrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
+		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=ascendant\"><img src=\"". TEMPLATE_PATH ."img/1uparrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
 		echo "</td>\n";
 		echo "<td class=\"titre\">". _('divers_fin_maj_1') ."</td>\n";
 		echo "<td class=\"titre\">". _('divers_nb_jours_maj_1') ."</td>\n";

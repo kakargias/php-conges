@@ -66,7 +66,7 @@ function propose_config( $DEBUG=FALSE)
 	echo "<html>\n<head>\n";
 		echo "<TITLE> PHP_CONGES : Installation : </TITLE>\n</head>\n";
 		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";	
-		echo "<link href=\"../style_basic.css\" rel=\"stylesheet\" type=\"text/css\">\n";
+		echo "<link href=\"". TEMPLATE_PATH ."style_basic.css\" rel=\"stylesheet\" type=\"text/css\">\n";
 		include ROOT_PATH .'fonctions_javascript.php' ;
 	echo "</head>\n";
 				
@@ -74,7 +74,7 @@ function propose_config( $DEBUG=FALSE)
 			
 	// affichage du titre
 	echo "<center>\n";
-	echo "<br><H1><img src=\"../img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"". _('install_install_phpconges') ."\" alt=\"". _('install_install_phpconges') ."\"> ". _('install_index_titre') ."</H1>\n";
+	echo "<br><H1><img src=\"". TEMPLATE_PATH . "img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"". _('install_install_phpconges') ."\" alt=\"". _('install_install_phpconges') ."\"> ". _('install_index_titre') ."</H1>\n";
 	echo "<br><br>\n";
 	
 		echo "<h2>". _('install_configuration') ." :</h2>\n";

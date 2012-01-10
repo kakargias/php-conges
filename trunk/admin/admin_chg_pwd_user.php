@@ -62,7 +62,7 @@ echo "<html>\n";
 echo "<head>\n";
 echo "<TITLE> ".$_SESSION['config']['titre_admin_index']." </TITLE>\n";
 echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 echo "</head>\n";
 
 

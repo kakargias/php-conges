@@ -96,7 +96,7 @@ if($DEBUG==TRUE) { echo "lang_file=".$_SESSION['config']['lang_file']."<br>\n"; 
 	/*************************************/
 	/***  debut de la page             ***/
 
-	header_menu('user',$titre);
+	header_menu('user');
 	
 	
 	/*************************************/

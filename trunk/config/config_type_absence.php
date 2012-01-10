@@ -67,18 +67,7 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	}
 
 
-	// => html sans menu
-	
-	// affichage début page
-	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
-	echo "<html>\n";
-	echo "<head>\n";
-		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-		echo "<TITLE> CONGES : Configuration </TITLE>\n";
-	echo "</head>\n";
-
-	echo "<body text=\"#000000\" bgcolor=".$_SESSION['config']['bgcolor']." link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\">\n";
+	header_popup( 'CONGES : Configuration' );
 
 	/*********************************/
 	/*********************************/

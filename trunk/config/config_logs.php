@@ -61,15 +61,7 @@ if($DEBUG==TRUE) { echo "SESSION = "; print_r($_SESSION); echo "<br>\n";}
 
 	/*************************************/
 
-	// => html sans menu
-
-	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
-	echo "<html>\n";
-	echo "<head>\n";
-		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-		echo "<TITLE> CONGES : Configuration </TITLE>\n";
-	echo "</head>\n";
+	header_popup('CONGES : Configuration');
 
 
 	if($action=="suppr_logs")
@@ -207,9 +199,9 @@ function commit_vider_table_logs($session, $DEBUG=FALSE)
 
 	echo "<span class = \"messages\">". _('form_modif_ok') ."</span><br>";
 	if($session=="")
-		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"1; URL=$PHP_SELF?\">";
+		redirect( ROOT_PATH .'config/config_logs.php' );
 	else
-		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"1; URL=$PHP_SELF?session=$session\">";
+		redirect( ROOT_PATH .'config/config_logs.php?session='.$session );
 
 
 }

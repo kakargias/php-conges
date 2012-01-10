@@ -48,16 +48,8 @@ $DEBUG = FALSE ;
 
 	/************************************/
 
-	// => html sans menu
+	header_popup('Impression Etat Conges : '.$user_login);
 	
-	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
-	echo "<html>\n";
-	echo "<head>\n";
-		echo "<TITLE> Impression Etat Conges : $user_login</TITLE>\n";
-		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";	
-		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-	echo "</head>\n";
-	echo "\n<body class=\"edit\">\n";
 	echo "<CENTER>\n";
 
 	

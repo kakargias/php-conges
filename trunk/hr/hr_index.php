@@ -110,7 +110,7 @@ echo "<head>\n";
 echo "</head>\n";
 
 $info="hr";
-include TEMPLATE_PATH .'menu.php';
+include TEMPLATE_PATH .'menu_header.php';
 
     
     /***********************************/
@@ -268,7 +268,7 @@ include TEMPLATE_PATH .'menu.php';
     echo "</td>\n";
     echo "</tr>\n";
     echo "</table>\n";
-	include TEMPLATE_PATH .'bottom.php';
+	include TEMPLATE_PATH .'menu_bottom.php';
     
 
 

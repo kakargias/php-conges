@@ -740,7 +740,8 @@ class CASClient
     {
       phpCAS::traceBegin();
       $cas_url = $this->getServerLoginURL($gateway);
-      header('Location: '.$cas_url);
+	  redirect($cas_url);
+	  
       $this->printHTMLHeader($this->getString(CAS_STR_AUTHENTICATION_WANTED));
       printf('<p>'.$this->getString(CAS_STR_SHOULD_HAVE_BEEN_REDIRECTED).'</p>',$cas_url);
       $this->printHTMLFooter();
@@ -762,7 +763,7 @@ class CASClient
       if ( $url != "" ) {
         $url = '?service=' . $url;
       }
-      header('Location: '.$cas_url . $url);
+	  redirect($cas_url . $url);
       session_unset();
       session_destroy();
       $this->printHTMLHeader($this->getString(CAS_STR_LOGOUT));

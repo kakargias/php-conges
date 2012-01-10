@@ -55,7 +55,7 @@ echo "<head>\n";
 echo "</head>\n";
 
 	$info="admin";
-	include TEMPLATE_PATH .'menu.php';
+	include TEMPLATE_PATH .'menu_header.php';
 
 	/*** initialisation des variables ***/
 	/*************************************/
@@ -238,7 +238,7 @@ echo "</head>\n";
 	
 	echo "</tr></table>\n";
 	
-	include TEMPLATE_PATH .'bottom.php';
+	include TEMPLATE_PATH .'menu_bottom.php';
 
 
 /*********************************************************************************/

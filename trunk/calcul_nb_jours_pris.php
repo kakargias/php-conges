@@ -89,17 +89,8 @@ function affichage($user, $date_debut, $date_fin, $opt_debut, $opt_fin, $DEBUG=F
 
 	$comment="&nbsp;" ;
 
-	// => html sans menu
-
-	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
-	echo "<html>\n";
-	echo "<head>\n";
-
-		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
-		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
-		echo "<title>PHP_CONGES : </title>\n";
-	echo "</head>\n";
-	echo "<body>\n";
+	header_popup();	
+	
 	echo "<center>\n";
 	echo "<h1>$user</h1>\n";
 

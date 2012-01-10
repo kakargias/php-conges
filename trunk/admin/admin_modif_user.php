@@ -53,7 +53,7 @@ echo "<html>\n";
 echo "</head>\n";
 
 	$info="user_modif";
-	include TEMPLATE_PATH .'menu.php';
+	include TEMPLATE_PATH .'menu_header.php';
 
 $bgimage=$_SESSION['config']['URL_ACCUEIL_CONGES']."/".$_SESSION['config']['bgimage'];
 echo "<body text=\"#000000\" bgcolor=".$_SESSION['config']['bgcolor']." link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\" background=\"$bgimage\">\n";
@@ -115,7 +115,7 @@ echo "<CENTER>\n";
 	else
 	{
 		// renvoit sur la page principale .
-		header("Location: admin_index.php?session=$session&onglet=admin-users");
+		redirect( ROOT_PATH .'admin/admin_index.php?session='.$session.'&onglet=admin-users', false);
 	}
 
 echo "<hr align=\"center\" size=\"2\" width=\"90%\">\n";

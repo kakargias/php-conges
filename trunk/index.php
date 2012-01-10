@@ -56,7 +56,7 @@ if($_SESSION['config']['auth']==FALSE)    // si pas d'autentification (cf config
      $login=getpost_variable("login");
 	if($login=="") 
 	{
-		header("Location: erreur.php?error_num=1");
+	    redirect( ROOT_PATH .'erreur.php?error_num=1' , false);
 	}
 	else 
 	{
@@ -82,7 +82,7 @@ if(isset($_SESSION['userlogin']))
 	$rs = SQL::query($request );
 	if($rs->num_rows <= 0)
 	{
-		header('Location: index.php');
+	    redirect( ROOT_PATH .'index.php', false );
 	}
 	else
 	{
@@ -98,14 +98,12 @@ if(isset($_SESSION['userlogin']))
 		if ( (($is_resp=="Y")&&($_SESSION['config']['responsable_virtuel']==FALSE)) || (($_SESSION['config']['responsable_virtuel']==TRUE)&&($session_username=="conges")) )
 		{
 			// redirection vers responsable/resp_index.php
-			header("Location: responsable/resp_index.php?session=$session");
-			exit;
+			redirect( ROOT_PATH .'responsable/resp_index.php?session=' . $session );
 		}
 		else
 		{
 			// redirection vers utilisateur/user_index.php
-			header("Location: utilisateur/user_index.php?session=$session");
-			exit;
+			redirect( ROOT_PATH . 'utilisateur/user_index.php?session=' . $session );
 		}
 
 	}

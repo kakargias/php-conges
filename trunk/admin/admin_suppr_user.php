@@ -54,7 +54,7 @@ echo "<head>\n";
 echo "</head>\n";
 
 	$info="user_supp";
-	include TEMPLATE_PATH .'menu.php';
+	include TEMPLATE_PATH .'menu_header.php';
 
 
 	$bgimage=$_SESSION['config']['URL_ACCUEIL_CONGES']."/".$_SESSION['config']['bgimage'];
@@ -90,7 +90,7 @@ echo "</head>\n";
 	else
 	{
 		// renvoit sur la page principale .
-		header("Location: admin_index.php?session=$session&onglet=admin-users");
+		redirect( ROOT_PATH .'admin/admin_index.php?session='.$session.'&onglet=admin-users', false);
 	}
 
 

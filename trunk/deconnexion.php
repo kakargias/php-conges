@@ -43,12 +43,5 @@ session_delete($session);
 $session="";
 $session_username="";
 $session_password="";
-    
-    
-	// => html refresh
-	
-echo "<HTML>\n";
-echo "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"0; URL=$URL_ACCUEIL_CONGES\">";
-echo "</HTML>\n";
 
-
+redirect( $URL_ACCUEIL_CONGES );

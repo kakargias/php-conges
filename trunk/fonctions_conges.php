@@ -2895,19 +2895,37 @@ connecter alors qu'il n'a pas de compte dans
 
 // verifie si un user est responasble ou pas
 // renvoit TRUE si le login est responsable dans la table conges_users, FALSE sinon.
-function is_resp($login,  $DEBUG=FALSE)
+function is_resp($login)
 {
+	static $sql_is_resp = array();
+	if (!isset($sql_is_resp[$login])) {
+		// recup de qq infos sur le user
+		$select_info='SELECT u_is_resp FROM conges_users WHERE u_login=\''.SQL::quote($login).'\'';
+		$ReqLog_info = SQL::query($select_info);
 
-	// recup de qq infos sur le user
-	$select_info='SELECT u_is_resp FROM conges_users WHERE u_login=\''.SQL::quote($login).'\'';
-	$ReqLog_info = SQL::query($select_info);
+		$resultat_info = $ReqLog_info->fetch_array();
+		$sql_is_resp[$login]=$resultat_info["u_is_resp"];
+	}
 
-	$resultat_info = $ReqLog_info->fetch_array();
-	$sql_is_resp=$resultat_info["u_is_resp"];
-
-	return ($sql_is_resp=='Y');
+	return ($sql_is_resp[$login]=='Y');
 }
 
+// verifie si un user est HR ou pas
+// renvoit TRUE si le login est HR dans la table conges_users, FALSE sinon.
+function is_hr($login,  $DEBUG=FALSE)
+{
+	static $sql_is_hr = array();
+	if (!isset($sql_is_hr[$login])) {
+		// recup de qq infos sur le user
+		$select_info="SELECT u_is_hr FROM conges_users WHERE u_login='$login' ";
+		$ReqLog_info = SQL::query($select_info);
+
+		$resultat_info = $ReqLog_info->fetch_array();
+		$sql_is_hr[$login]=$resultat_info["u_is_hr"];
+	}
+
+	return ($sql_is_hr[$login]=='Y');
+}
 
 // verifie si un user est responasble d'un secon user
 // renvoit TRUE si le $resp_login est responsable du $user_login, FALSE sinon.
@@ -2929,15 +2947,17 @@ function is_resp_of_user($resp_login, $user_login,  $DEBUG=FALSE)
 // renvoit TRUE si le login est administrateur dans la table conges_users, FALSE sinon.
 function is_admin($login, $DEBUG=FALSE)
 {
+	static $sql_is_admin = array();
+	if (!isset($sql_is_admin[$login])) {
+		// recup de qq infos sur le user
+		$select_info='SELECT u_is_admin FROM conges_users WHERE u_login=\''.SQL::quote($login).'\'';
+		$ReqLog_info = SQL::query($select_info);
 
-	// recup de qq infos sur le user
-	$select_info='SELECT u_is_admin FROM conges_users WHERE u_login=\''.SQL::quote($login).'\'';
-	$ReqLog_info = SQL::query($select_info);
+		$resultat_info = $ReqLog_info->fetch_array();
+		$sql_is_admin[$login]=$resultat_info["u_is_admin"];
+	}
 
-	$resultat_info = $ReqLog_info->fetch_array();
-	$sql_is_admin=$resultat_info["u_is_admin"];
-
-	return ($sql_is_admin=='Y');
+	return ($sql_is_admin[$login]=='Y');
 }
 
 
@@ -2945,15 +2965,17 @@ function is_admin($login, $DEBUG=FALSE)
 // renvoit TRUE si le login est responsable dans la table conges_users, FALSE sinon.
 function admin_is_responsable($login, $DEBUG=FALSE)
 {
+	static $sql_is_resp = array();
+	if (!isset($sql_is_resp[$login])) {
+		// recup de qq infos sur le responsable
+		$select_info='SELECT u_is_resp FROM conges_users WHERE u_login=\''.SQL::quote($login).'\'';
+		$ReqLog_info = SQL::query($select_info);
 
-	// recup de qq infos sur le responsable
-	$select_info='SELECT u_is_resp FROM conges_users WHERE u_login=\''.SQL::quote($login).'\'';
-	$ReqLog_info = SQL::query($select_info);
+		$resultat_info = $ReqLog_info->fetch_array();
+		$sql_is_resp[$login]=$resultat_info["u_is_resp"];
+	}
 
-	$resultat_info = $ReqLog_info->fetch_array();
-	$sql_is_resp=$resultat_info["u_is_resp"];
-
-	return ($sql_is_resp=='Y');
+	return ($sql_is_resp[$login]=='Y');
 }
 
 
@@ -3834,20 +3856,6 @@ function soustrait_solde_et_reliquat_user($user_login, $user_nb_jours_pris, $typ
 
 
 
-
-// verifie si un user est HR ou pas
-// renvoit TRUE si le login est HR dans la table conges_users, FALSE sinon.
-function is_hr($login,  $DEBUG=FALSE)
-{
-    // recup de qq infos sur le user
-    $select_info="SELECT u_is_hr FROM conges_users WHERE u_login='$login' ";
-    $ReqLog_info = SQL::query($select_info);
-
-    $resultat_info = $ReqLog_info->fetch_array();
-    $sql_is_hr=$resultat_info["u_is_hr"];
-
-    return ($sql_is_hr=='Y');
-}
 
 // renvoit un tableau de tableau contenant les informations de tous les users dont $login est HR responsable
 function recup_infos_all_users_du_hr($login, $DEBUG=FALSE)

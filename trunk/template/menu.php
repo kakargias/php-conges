@@ -211,7 +211,15 @@
 					
 					echo "</div>";
 					echo "<div id=\"header_menu\">";
-					echo '<div style="float: left; margin:-90px; margin-left:20px"><img src="'. TEMPLATE_PATH .'img/logo_adex.png"/></div>';	
+					
+					if ( is_resp($_SESSION['userlogin']) ) {
+						$home = 'responsable/resp_index.php?session='.$session;
+					}
+					else {
+						$home = 'utilisateur/user_index.php?session='.$session;
+					}
+					
+					echo '<div style="float: left; margin:-90px; margin-left:20px"><a href="'. ROOT_PATH . $home .'"><img src="'. TEMPLATE_PATH .'img/logo_adex.png"/></a></div>';	
 				echo "</div>";
 			
 			// FIN AFFICHAGE DES BOUTONS ...

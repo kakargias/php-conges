@@ -35,7 +35,7 @@
 				</div>
 				<div class="password">
 					<label for="session_password"><?php echo _('password'); ?></label>
-					<input type="password" id="session_password" name="session_password" size="32" maxlength="99"  value="<?php echo $session_password; ?>"/>
+					<input type="password" id="session_password" name="session_password" size="32" maxlength="99"  value="<?php //echo $session_password; ?>"/>
 				</div>
 				<div>
 					<button type="submit" class="submit">Login</button>
@@ -59,5 +59,3 @@
 	<script type="text/javascript">
 		$('#login_form .submit').button();
 	</script>
-
-

@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 	header_popup();
 	
-	echo "<CENTER>\n";
-	
 	printf("<H1>ERREUR !</H1>\n");
 	switch ( $error_num ) {
 		case 1: 	// authentification Error

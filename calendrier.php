@@ -40,9 +40,7 @@ if(substr($session, 0, 9)!="phpconges")
 	$_SESSION['config']=init_config_tab();      // on initialise le tableau des variables de config
 	if($_SESSION['config']['consult_calendrier_sans_auth']==FALSE)
 	{
-		//INTERDIT ! on renvoit à la racine du site
-		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=/\">";
-		exit;
+		redirect( ROOT_PATH );
 	}
 }
 else

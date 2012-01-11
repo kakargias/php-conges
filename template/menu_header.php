@@ -21,15 +21,139 @@ echo "<html>\n";
 
 	/*****************************************************************************/
 	// DEBUT AFFICHAGE DU MENU
-	echo "<div id=\"header\">";
-		echo "<div class=\"ui-corner-bottom-8\" style=\"background-color: #C11A22; padding: 2px; margin: 10px;\">";
-			echo "<div class=\"ui-corner-bottom\" style=\"background-color: white; padding: 2px; \">";
+	echo '<div id="header" class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all">';
 
 			/*****************************************************************************/
 			// DEBUT AFFICHAGE DES BOUTONS ...
 	
-				echo "<div id=\"header_menu\">";
+				echo '<div id=\"header_menu\" style="overflow: hidden;">';
 				
+					if ( is_resp($_SESSION['userlogin']) ) {
+						$home = 'responsable/resp_index.php?session='.$session;
+					}
+					else {
+						$home = 'utilisateur/user_index.php?session='.$session;
+					}
+					
+					$user_mode = '';
+					$tmp = dirname($_SERVER['PHP_SELF']);
+					$tmp = explode('/',$tmp);
+					$tmp = array_pop($tmp);
+					if (in_array($tmp, array('utilisateur','admin','responsable','rh')))
+						$user_mode = $tmp;
+					else
+						$user_mode = '';
+					
+					echo '<div style="float: left;"><a href="'. ROOT_PATH . $home .'"><img src="'. TEMPLATE_PATH .'img/logo_adex.png"/></a></div>';	
+					
+					?>
+					<style>
+						#header{ background-image: url(<?php echo TEMPLATE_PATH; ?>ui-bg_highlight-header.png);}
+						
+						.button_div{ float:right;margin: 5px 10px 5px 10px; padding: 6px; width:90px;}
+						.button_div.active{ float:right; margin:5px 10px 5px 10px; padding: 4px;border:1px solid black;}
+						.button_div span{ display: block;text-decoration: none;font: 10px verdana; margin-top: -2px;}
+						
+						#mode_and_user_info{ float: right; margin: 10px  50px  0px  0px; color: grey;}
+					
+					</style>
+					<?php
+					
+					function bouton($name, $icon ,$link, $active = false)
+					{
+						$name = str_replace('"','\\"',$name);
+						$icon = str_replace('"','\\"',$icon);
+						$link = str_replace('"','\\"',$link);
+						echo '<div class="button_div'.($active?' active':'').'">
+								<a href="'. $link .'">
+									<img src="'. TEMPLATE_PATH .'img/'.$icon.'" title="'.$name.'" alt="'.$name.'">
+									<span>'.$name.'</span>
+								</a>
+							</div>';
+					}
+					
+					function bouton_popup($name, $icon ,$link, $popup_name, $size_x, $size_y, $active = false)
+					{
+						$name = str_replace('"','\\"',$name);
+						
+						echo '<div class="button_div'.($active?' active':'').'">
+								<a href="javascript:void(0);" onClick="javascript:OpenPopUp(\''. $link .'\',\''.$popup_name.'\','.$size_x.','.$size_y.');">
+									<img src="'. TEMPLATE_PATH .'img/'.$icon.'" title="'.$name.'" alt="'.$name.'">
+									<span>'.$name.'</span>
+								</a>
+							</div>';
+					}
+					
+					
+					if (is_admin($_SESSION['userlogin']))
+						bouton('Administration'	,'tools.png'			,ROOT_PATH .'admin/admin_index.php?session='.$session, $user_mode == 'admin');
+					if (is_resp($_SESSION['userlogin']))
+						bouton('Responsable'	,'user-responsable.png'	,ROOT_PATH .'responsable/resp_index.php?session='.$session, $user_mode == 'responsable');
+					if (is_hr($_SESSION['userlogin']))
+						bouton('RH'				,'user-rh.png'			,ROOT_PATH .'hr/hr_index.php?session='.$session, $user_mode == 'hr');
+					bouton('Utilisateur'	,'user.png'				,ROOT_PATH .'utilisateur/user_index.php?session='.$session, $user_mode == 'utilisateur');
+					
+					
+							
+					echo '<div id="mode_and_user_info" >Mode '.$user_mode.': '.$_SESSION['userlogin'].'</div>';
+					echo '<div style="clear: right; margin : 0;"></div>';
+
+
+
+					
+					if($_SESSION['config']['auth']==TRUE)
+						bouton('Déconexion'		,'exit.png'		,ROOT_PATH .'deconnexion.php?session='.$session);
+					
+					$PHP_SELF=$_SERVER['PHP_SELF'];
+					$session=session_id();
+					$onglet = getpost_variable('onglet');
+					bouton('Actualiser'		,'refresh.png'	,$PHP_SELF.'?session='.$session.'&onglet='.$onglet);
+		
+					if($_SESSION['config']['user_affiche_calendrier']==TRUE)
+						bouton_popup('Calendrier','calendar.png',ROOT_PATH . 'calendrier.php?session='.$session , 'calendrier', 1280, 1024);
+					
+
+
+					
+					echo '<div style="float: left;">';
+					
+					switch($user_mode)
+					{
+						case 'admin':
+						
+							bouton_popup( _('admin_button_save_db_2') ,'floppy_22x22.png',ROOT_PATH . 'admin/admin_db_sauve.php?session='.$session , 'sauvedb', 400, 300);
+							bouton_popup( _('admin_button_jours_fermeture_2') ,'jours_fermeture_22x22.png',ROOT_PATH . 'admin/admin_jours_fermeture.php?session='.$session , 'fermeture', 1080, 690);
+							bouton_popup( _('admin_button_jours_chomes_2') ,'jours_feries_22x22.png',ROOT_PATH . 'admin/admin_jours_chomes.php?session='.$session , 'jourschomes', 1080, 610);
+							
+							if (false)
+							{
+								if($_SESSION['config']['affiche_bouton_config_mail_pour_admin']==TRUE)
+									bouton_popup( _('admin_button_config_mail_2') ,'tux_config_22x22.png',ROOT_PATH . 'config/config_mail.php?session='.$session , 'configmail', 800, 600);
+									
+								if($_SESSION['config']['affiche_bouton_config_absence_pour_admin']==TRUE)
+									bouton_popup( _('admin_button_config_abs_2') ,'tux_config_22x22.png',ROOT_PATH . 'config/config_type_absence.php?session='.$session , 'configabs', 800, 600);
+
+								if($_SESSION['config']['affiche_bouton_config_pour_admin'] == TRUE)
+									bouton_popup( _('admin_button_config_2') ,'tux_config_22x22.png',ROOT_PATH . 'config/configure.php?session='.$session , 'config', 800, 600);
+							}
+							
+							bouton( 'All config' ,'tux_config_22x22.png',ROOT_PATH . 'config/index.php?session='.$session );
+							
+							break;
+						case 'utilisateur':
+							if($_SESSION['config']['export_ical_vcal']==TRUE) 
+								bouton_popup( _('button_export_1') ,'export-22x22.png',ROOT_PATH . 'export_vcalendar.php?session='.$session.'&user_login='.$_SESSION['userlogin'] , 'icalvcal', 457, 280);
+					
+					
+							if($_SESSION['config']['editions_papier']==TRUE)
+								bouton(_('button_editions')	,'edition-22x22.png'	,ROOT_PATH .'edition/edit_user.php?session='.$session );
+							break;
+					}
+					
+					echo '</div>';
+				
+				if (false)
+				{
 					if($info=="responsable")
 					{
 						if($_SESSION['config']['resp_affiche_calendrier']==TRUE)
@@ -154,91 +278,17 @@ echo "<html>\n";
 									 _('button_editions') ."</a>\n";
 							echo '</div>';
 						}
-				
 					}
 					
-				echo '<div style="clear: right;  margin : -6;"></div>';						
+				}
 					
-					/*** bouton mode utilisateur  ***/
-					if( $info != "user")
-					{
-						echo '<div style="float: right;">';
-						echo "<a href=\"". ROOT_PATH ."utilisateur/user_index.php?session=$session\" method=\"POST\">" .
-								"<img src=\"". TEMPLATE_PATH ."img/user_4_22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('resp_menu_button_mode_user') ."\" alt=\"". _('resp_menu_button_mode_user') ."\">" .
-								 _('resp_menu_button_mode_user') ."</a>\n";
-						echo '</div>';
-					}
 					
-					/*** bouton mode responsable  ***/
-					if(is_resp($_SESSION['userlogin']) && $info != "responsable")
-					{
-						echo '<div style="float: right;">';
-						echo "<a href=\"../responsable/resp_index.php?session=$session\" method=\"POST\">" .
-								"<img src=\"". TEMPLATE_PATH ."img/user_3_22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('resp_menu_button_mode_responsable') ."\" alt=\"". _('button_responsable_mode') ."\">" .
-								 _('button_responsable_mode') ."</a>\n";
-						echo '</div>';
-					}
-					
-					 /*** bouton mode HR ***/ 
-					if(is_hr($_SESSION['userlogin']) && $info != "hr")
-					{
-					echo '<div style="float: right;">';
-					echo "<a href=\"../hr/hr_index.php?session=$session\" method=\"POST\">" .
-							"<img src=\"". TEMPLATE_PATH ."img/user-rh.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('resp_menu_button_mode_hr') ."\" alt=\"". _('resp_menu_button_mode_hr') ."\">" .
-							 _('resp_menu_button_mode_hr') ."</a>\n";
-					echo "</div>\n";
-					}
-	
-					/*** bouton mode administrateur  ***/
-					if(is_admin($_SESSION['userlogin']) && $info != "admin")
-					{
-						echo '<div style="float: right;">';
-						echo "<a href=\"../admin/admin_index.php?session=$session\" method=\"POST\">" .
-								"<img src=\"". TEMPLATE_PATH ."img/admin-tools-22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('button_admin_mode') ."\" alt=\"". _('button_admin_mode') ."\">" .
-								 _('button_admin_mode') ."</a>\n";
-						echo '</div>';
-					}
-						
-					echo '<div style="clear: right; margin : -6; "></div>';
-					
-					// bouton deconnexion
-					if($_SESSION['config']['auth']==TRUE)
-					{
-						echo '<div style="float: right;">';
-						bouton_deconnexion();
-						echo '</div>';
-					}
-					
-					// bouton actualiser
-					if (isset($onglet) )
-					{
-						echo '<div style="float: right; ">';
-						if($onglet  == "resp_traite_user")
-							bouton_actualiser("resp_traite_user&user_login=$user_login");  // on ajoute le user_login en paramètre à passer dans le lien ...
-						else
-							bouton_actualiser($onglet);
-						echo '</div>';
-					}
-					
-					echo '<div style="clear: right; margin : 0;"></div>';
-					
-					echo "</div>";
-					echo "<div id=\"header_menu\">";
-					
-					if ( is_resp($_SESSION['userlogin']) ) {
-						$home = 'responsable/resp_index.php?session='.$session;
-					}
-					else {
-						$home = 'utilisateur/user_index.php?session='.$session;
-					}
-					
-					echo '<div style="float: left; margin:-90px; margin-left:20px"><a href="'. ROOT_PATH . $home .'"><img src="'. TEMPLATE_PATH .'img/logo_adex.png"/></a></div>';	
 				echo "</div>";
 			
 			// FIN AFFICHAGE DES BOUTONS ...
 			/*****************************************************************************/
-			echo "</div>";
-		echo "</div>";
+			// echo "</div>";
+		// echo "</div>";
 	echo "</div>";
 	
 	// FIN AFFICHAGE DU MENU

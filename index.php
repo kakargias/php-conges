@@ -23,8 +23,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-define('_PHP_CONGES', 1);
-define('ROOT_PATH', '');
+@define('_PHP_CONGES', 1);
+@define('ROOT_PATH', '');
 include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
@@ -221,7 +221,15 @@ if(isset($_SESSION['userlogin']))
 
 		// si le login est celui d'un responsable ET on est pas en mode "responsable virtuel"
 		// OU on est en mode "responsable virtuel" avec login= celui du resp virtuel
-		if ( (($is_resp=="Y")&&($_SESSION['config']['responsable_virtuel']==FALSE)) || (($_SESSION['config']['responsable_virtuel']==TRUE)&&($session_username=="conges")) )
+		$return_url = getpost_variable('return_url');
+		if (!empty($return_url))
+		{
+			if (strpos($return_url,'?'))
+				redirect( ROOT_PATH . $return_url .'&session=' . $session );
+			else
+				redirect( ROOT_PATH .$return_url . '?session=' . $session );
+		}
+		elseif ( (($is_resp=="Y")&&($_SESSION['config']['responsable_virtuel']==FALSE)) || (($_SESSION['config']['responsable_virtuel']==TRUE)&&($session_username=="conges")) )
 		{
 			// redirection vers responsable/resp_index.php
 			redirect( ROOT_PATH .'responsable/resp_index.php?session=' . $session );

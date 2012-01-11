@@ -26,12 +26,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 define('_PHP_CONGES', 1);
 define('ROOT_PATH', '../');
 include ROOT_PATH . 'define.php';
+include INCLUDE_PATH . 'fonction.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-$session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
+$session =(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
+
+if (empty($session)) {
+	redirect(ROOT_PATH . 'index.php?return_url=config/index.php');
+}
+
 
 include ROOT_PATH .'fonctions_conges.php' ;
-include INCLUDE_PATH .'fonction.php';
 
 $_SESSION['config']=init_config_tab();      // on initialise le tableau des variables de config
 include INCLUDE_PATH .'session.php';
@@ -40,16 +45,13 @@ include INCLUDE_PATH .'session.php';
 	
 $PHP_SELF=$_SERVER['PHP_SELF'];
 
-$DEBUG=FALSE;
-//$DEBUG=TRUE;
-
 $session=session_id();
 
 // verif des droits du user à afficher la page
-verif_droits_user($session, "is_admin", $DEBUG);
+verif_droits_user($session, "is_admin");
 
 $_SESSION['from_config']=TRUE;  // initialise ce flag pour changer le bouton de retour des popup
-propose_config($DEBUG);
+propose_config();
 
 
 
@@ -57,7 +59,7 @@ propose_config($DEBUG);
 /*   FONCTIONS   */
 
 
-function propose_config( $DEBUG=FALSE)
+function propose_config()
 {
 	$session=session_id();
 	
@@ -81,7 +83,7 @@ function propose_config( $DEBUG=FALSE)
 		echo "</table>\n";
 		echo "</h3><br><br>\n";
 		
-		bouton_deconnexion($DEBUG);
+		bouton_deconnexion();
 
 	bottom();
 }

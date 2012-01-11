@@ -36,7 +36,7 @@ if (!is_readable( CONFIG_PATH .'dbconnect.php'))
 }
 
 
-include ROOT_PATH .'fonctions_conges.php';
+include ROOT_PATH .'fonctions_conges.php'; // for init_config_tab()
 $_SESSION['config']=init_config_tab();      // on initialise le tableau des variables de config
 include INCLUDE_PATH .'fonction.php';
 
@@ -46,17 +46,34 @@ include INCLUDE_PATH .'fonction.php';
 /*** initialisation des variables ***/
 /************************************/
 
-// DEBUG
-//print_r($_SESSION); echo "<br><br>\n";echo "session= $session<br><br>\n";
 
-// connexion database :
+if($err = getpost_variable('error', false))
+{
+	switch ($err) {
+		case 'session-invalid':
+			header_popup();
+			echo  _('session_pas_session_ouverte') ."<br>\n";
+			echo  _('divers_veuillez') ." <a href='".$_SESSION['config']['URL_ACCUEIL_CONGES']."/index.php' target='_top'> ". _('divers_vous_authentifier') ."</a>\n";
+			bottom();
+			exit();
+			break;
+	}
+}
 
 if($_SESSION['config']['auth']==FALSE)    // si pas d'autentification (cf config de php_conges)
 {
-     $login=getpost_variable("login");
-	if($login=="") 
+	$login=getpost_variable("login");
+	if(empty($login)) 
 	{
-	    redirect( ROOT_PATH .'erreur.php?error_num=1' , false);
+	    // redirect( ROOT_PATH .'erreur.php?error_num=1');
+		
+		header_popup();
+		printf("<H1>ERREUR !</H1>\n");
+		// authentification Error
+		echo  _('erreur_user') .".<br> ". _('erreur_login_password') .".<br>\n" ;
+		bottom();
+		
+		exit();
 	}
 	else 
 	{
@@ -70,7 +87,116 @@ if($_SESSION['config']['auth']==FALSE)    // si pas d'autentification (cf config
 }
 else 
 {
-	include INCLUDE_PATH .'session.php';  // qui va appeler la fenetre d'authentificatioon si besoin
+	$session_username = isset($_POST['session_username']) ? $_POST['session_username'] : '';
+	$session_password = isset($_POST['session_password']) ? $_POST['session_password'] : '';
+
+	if(session_id()!="")
+		session_destroy();
+					
+	// en CAS il n'y a pas de formulaire ?
+	if ( ($_SESSION['config']['how_to_connect_user'] == "CAS") && ($session_username != "admin") )
+	{		
+		$usernameCAS = authentification_passwd_conges_CAS();
+		if($usernameCAS != "")
+		{
+			session_create($usernameCAS);
+		}
+		else //dans ce cas l'utilisateur n'a pas encore été enregistré dans la base de données db_conges
+		{
+			header_popup();
+
+			echo  _('session_pas_de_compte_dans_dbconges') ."<br>\n";
+			echo  _('session_contactez_admin') ."\n";
+
+			$URL_ACCUEIL_CONGES=$_SESSION['config']['URL_ACCUEIL_CONGES'];
+			deconnexion_CAS($URL_ACCUEIL_CONGES);
+			bottom();
+			exit;
+		}
+	}
+	else
+	{
+		if (($session_username == "") || ($session_password == "")) // si login et passwd non saisis
+		{
+			header_popup();
+			
+				//  SAISIE LOGIN / PASSWORD :
+				session_saisie_user_password("", "", ""); // appel du formulaire d'intentification (login/password)
+			
+			bottom();
+			exit;
+		}
+		else
+		{
+			//  AUTHENTIFICATION :
+
+			// le user doit etre authentifié dans la table conges (login + passwd) ou dans le ldap.
+			// si on a trouve personne qui correspond au couple user/password
+
+			if ( ($_SESSION['config']['how_to_connect_user'] == "ldap") && ($session_username != "admin") )
+			{
+				
+				$username_ldap = authentification_ldap_conges($session_username,$session_password);
+				if ( $username_ldap != $session_username)
+				{
+					$session="";
+					$session_username="";
+					$session_password="";
+
+					header_popup();
+					
+						$erreur="login_passwd_incorrect";
+						// appel du formulaire d'intentification (login/password)
+						session_saisie_user_password($erreur, $session_username, $session_password);
+					
+					bottom();
+					exit;
+				}
+				else
+				{
+					if (valid_ldap_user($session_username)==TRUE) // LDAP ok, on vérifie ici que le compte existe dans la base de données des congés.
+					{
+						// on initialise la nouvelle session
+						session_create($session_username);
+					}
+					else//dans ce cas l'utilisateur n'a pas encore été enregistré dans la base de données db_conges
+					{
+						header_popup();
+
+							echo  _('session_pas_de_compte_dans_dbconges') ."<br>\n";
+							echo  _('session_contactez_admin') ."\n";
+						
+						bottom();
+						exit;
+					}
+				}
+			} // fin du if test avec ldap
+			elseif ( ($_SESSION['config']['how_to_connect_user'] == "dbconges") || ($session_username == "admin") )
+			{				
+				$username_conges = autentification_passwd_conges($session_username,$session_password);
+				if ( $username_conges != $session_username)
+				{
+					$session="";
+					$session_username="";
+					$session_password="";
+
+					header_popup();
+					
+						$erreur="login_passwd_incorrect";
+						// appel du formulaire d'intentification (login/password)
+						session_saisie_user_password($erreur, $session_username, $session_password);
+					
+					bottom();
+					exit;
+				}
+				else
+				{
+					// on initialise la nouvelle session
+					session_create($session_username);
+				}
+			}
+		}
+	}
 }
 
 /*****************************************************************/
@@ -78,11 +204,11 @@ else
 if(isset($_SESSION['userlogin']))
 {
 
-	$request= "SELECT u_nom, u_passwd, u_prenom, u_is_resp FROM conges_users where u_login = '".$_SESSION['userlogin']."' " ;
+	$request= "SELECT u_nom, u_passwd, u_prenom, u_is_resp FROM conges_users where u_login = '".SQL::quote($_SESSION['userlogin'])."' " ;
 	$rs = SQL::query($request );
-	if($rs->num_rows <= 0)
+	if($rs->num_rows != 1)
 	{
-	    redirect( ROOT_PATH .'index.php', false );
+	    redirect( ROOT_PATH .'index.php' );
 	}
 	else
 	{

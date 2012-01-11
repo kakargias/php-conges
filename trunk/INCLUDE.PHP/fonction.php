@@ -104,18 +104,14 @@ function session_is_valid($session)
       session_start();
    }
 
-	$is_valid=FALSE;
-
 	if( (isset($_SESSION['timestamp_last'])) && (isset($_SESSION['config'])) )
 	{
 		$difference = time() - $_SESSION['timestamp_last'];
 		if ( ($session==session_id()) && ($difference < $_SESSION['config']['duree_session']) )
-		{
-			$is_valid=TRUE;
-		}
+			return true;
 	}
 
-	return $is_valid;
+	return false;
 }
 
 //
@@ -144,10 +140,11 @@ function session_create($username)
 		$session="";
 	}
 
+	$comment_log = 'Connexion de '.$username;
+	log_action(0, "", $username, $comment_log);
+				
 	return   $session;
 }
-
-
 
 //
 // mise a jour d'une session
@@ -160,8 +157,6 @@ function session_update($session)
 		$_SESSION['timestamp_last']=$maintenant;
    }
 }
-
-
 
 //
 // destruction d'une session
@@ -192,8 +187,7 @@ function session_saisie_user_password($erreur, $session_username, $session_passw
 	$config_img_login               =$_SESSION['config']['img_login'];
 	$config_texte_img_login         =$_SESSION['config']['texte_img_login'];
 	$config_texte_page_login        =$_SESSION['config']['texte_page_login'];
-//	$config_php_conges_version      =$_SESSION['config']['php_conges_version'];
-	$config_php_conges_version      =$_SESSION['config']['installed_version'];
+	$config_php_conges_version      =$_SESSION['config']['php_conges_version'];
 	$config_url_site_web_php_conges =$_SESSION['config']['url_site_web_php_conges'];
 	$config_stylesheet_file         =$_SESSION['config']['stylesheet_file'];
 
@@ -202,7 +196,7 @@ function session_saisie_user_password($erreur, $session_username, $session_passw
 		$config_dir=TRUE;
 	else
 		$config_dir=FALSE;
-
+		
 	$add = '<script language="JavaScript" type="text/javascript">
 <!--
 // Les cookies sont obligatoires
@@ -217,86 +211,10 @@ if (! navigator.cookieEnabled) {
 		
 	header_popup('', $add);
 	
-	echo "<CENTER>\n";
-	if($erreur=="login_passwd_incorrect")
-		echo "<H3>". _('login_passwd_incorrect') ."</H3><BR>\n";
-	elseif($erreur=="login_non_connu")
-		echo "<H3>". _('login_non_connu') ."</H3><BR>\n";
-	echo "</CENTER>\n";
-	
-	echo "<CENTER>\n";
-	echo "<table>\n";
-	
-	if(!$config_dir) // si on est dans le repertoire config on affiche pas les liens
-	{
-		echo "<tr><td align=\"center\">\n";
-			echo "<a href=\"$config_lien_img_login\" target=\"_parent\">";
-			echo "<img src=\"$config_img_login\" alt=\"$config_texte_img_login\" title=\"$config_texte_img_login\"/>";
-			echo "</a>";
-			if($config_texte_page_login != "")
-			{
-				echo "<br><br>\n";
-				echo "</td></tr>\n";
-				echo "<tr><td align=\"center\">\n";
-					echo "$config_texte_page_login";
-			}
-			echo "<br><br><br>\n";
-		echo "</td></tr>\n";
-	}
-	
-	echo "<tr><td align=\"center\">\n";
-		echo "<FORM METHOD='post' ACTION='$PHP_SELF'>\n";
+		include TEMPLATE_PATH . 'login_form.php';
 		
-		echo "<fieldset class=\"boxlogin\">\n";
-		echo "<legend class=\"boxlogin\">". _('login_fieldset') ."</legend>\n";
-		echo "<TABLE class=\"ident\">\n";
-		echo "<TR>\n";
-		echo "	<TD class=\"login\">". _('divers_login_maj_1') ." :</TD>\n";
-		echo "	<TD><INPUT TYPE='text'     NAME='session_username' SIZE=32 maxlength=99  VALUE='$session_username'></TD>\n";
-		echo "</TR>\n";
-		echo "<TR>\n";
-		echo "	<TD class=\"login\">". _('password') ." :</TD>\n";
-		echo "	<TD><INPUT TYPE='password' NAME='session_password' SIZE=32 maxlength=32 VALUE='$session_password'></TD>\n";
-		echo "</TR>\n";
-		echo "</TABLE>\n";
-		echo "</fieldset>\n";
-		
-		echo "<TABLE BORDER='0'>\n";
-		echo "<TR>\n";
-		echo "	<TD COLSPAN='2'><CENTER><INPUT TYPE='submit' VALUE='". _('form_submit') ."'></CENTER></TD>\n";
-		echo "</TR>\n";
-		echo "</TABLE>\n";
-		echo "</FORM>\n";
-	echo "</td></tr>\n";
-	
-	if( (!$config_dir) && ($_SESSION['config']['consult_calendrier_sans_auth']==TRUE) ) // si on est pas dans le repertoire config ET acces calendrier sans login actif
-	{
-		echo "<tr><td align=\"center\">\n";
-		echo "<a href=\"calendrier.php\">" .
-				"<img src=\"". TEMPLATE_PATH . "img/1day.png\" width=\"24\" height=\"24\" border=\"0\" title=\"". _('button_calendar') ."\" alt=\"". _('button_calendar') ."\">" .
-				" ". _('button_calendar') ."</a>\n";
-		echo "</td></tr>\n";
-	}
-	echo "</table>\n";
-	
-	if(!$config_dir) // si on est dans le repertoire config on affiche pas les liens
-	{
-		echo "<table width=\"100%\">\n";
-		if( (isset($_SERVER["HTTP_USER_AGENT"])) && (stristr($_SERVER["HTTP_USER_AGENT"], "MSIE")!=FALSE) )
-		{
-			echo "<tr><td align=\"center\">";
-			echo "<img src=\"". TEMPLATE_PATH . "img/attention.png\" width=\"22\" height=\"22\" border=\"0\"/>";
-			echo "&nbsp;". _('msie_alert')  ;
-			echo "</td></tr>\n";
-		}
-		echo "<tr><td align=\"right\">\n";
-			echo "<br><br>";
-			echo "<a href=\"$config_url_site_web_php_conges/\">PHP_CONGES v $config_php_conges_version</a>\n";
-		echo "</td></tr>\n";
-		echo "</table>\n";
-	}
-
 	bottom();
+	exit;
 }
 
 

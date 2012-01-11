@@ -49,7 +49,7 @@ function  affiche_calendrier_saisie_date_debut($user_login, $year, $mois,  $DEBU
 	echo '<table cellpadding="0" cellspacing="0" border="1" width="250" bgcolor="'.$_SESSION['config']['semaine_bgcolor'].'">';
 	/* affichage  2 premieres lignes */
 	echo '	<tr align="center" bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'"><td colspan=7 class="titre"> '.$mois_name.' '.$year.' </td></tr>' ;
-	echo '	<tr bgcolor=\"'.$_SESSION['config']['light_grey_bgcolor'].'\">';
+	echo '	<tr bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'">';
 	echo '		<td class="cal-saisie2">'. _('lundi_1c') .'</td>';
 	echo '		<td class="cal-saisie2">'. _('mardi_1c') .'</td>';
 	echo '		<td class="cal-saisie2">'. _('mercredi_1c') .'</td>';
@@ -3052,125 +3052,132 @@ function est_chome($timestamp)
 
 
 // initialise le tableau des variables de config (renvoit un tableau)
-function init_config_tab($DEBUG=FALSE)
+function init_config_tab()
 {
-	include ROOT_PATH .'version.php';
-	include CONFIG_PATH .'dbconnect.php';
-	include CONFIG_PATH .'config_ldap.php';
-	include CONFIG_PATH .'config_CAS.php';
-	$tab =array();
+	static $userlogin = null;
+	static $result = null;
+	if ($result === null || $user_login != $_SESSION['userlogin']) {
+		
+		include ROOT_PATH .'version.php';
+		include CONFIG_PATH .'dbconnect.php';
+		include CONFIG_PATH .'config_ldap.php';
+		include CONFIG_PATH .'config_CAS.php';
+		$tab =array();
 
 
 
-	/******************************************/
-	//  recup des variables de version.php
-	if(isset($config_php_conges_version)) {$tab['php_conges_version']=$config_php_conges_version ;}
-	if(isset($config_url_site_web_php_conges)) {$tab['url_site_web_php_conges']=$config_url_site_web_php_conges ;}
+		/******************************************/
+		//  recup des variables de version.php
+		if(isset($config_php_conges_version)) {$tab['php_conges_version']=$config_php_conges_version ;}
+		if(isset($config_url_site_web_php_conges)) {$tab['url_site_web_php_conges']=$config_url_site_web_php_conges ;}
 
-	
-	/******************************************/
-	//  recup des variables de la table conges_appli
-	$sql_appli = "SELECT appli_variable, appli_valeur FROM conges_appli";
+		
+		/******************************************/
+		//  recup des variables de la table conges_appli
+		$sql_appli = "SELECT appli_variable, appli_valeur FROM conges_appli";
 
-	$req_appli = SQL::query($sql_appli) ;
+		$req_appli = SQL::query($sql_appli) ;
 
-	while ($data_appli = $req_appli->fetch_array())
-	{
-		$key=$data_appli[0];
-		$value=$data_appli[1];
-
-		$tab[$key] = $value;
-	}
-
-	/******************************************/
-	//  recup des variables de la table conges_config
-
-	$sql_config = "SELECT conf_nom, conf_valeur, conf_type FROM conges_config";
-	$req_config = SQL::query($sql_config) ;
-
-	while ($data = $req_config->fetch_array())
-	{
-		$key=$data[0];
-		$value=$data[1];
-		$type=$data[2];
-
-		if($value == "FALSE") {
-			$value = FALSE;
-		}
-		elseif($value == "TRUE") {
-			$value = TRUE;
-		}
-		elseif($type == "path") {
-			$value =  ROOT_PATH ."/".$value ;
-		}
-
-		$tab[$key] = $value;
-	}
-
-
-	/******************************************/
-	//  recup des mails dans  la table conges_mail
-	$sql_mail = "SELECT mail_nom, mail_subject, mail_body FROM conges_mail";
-	$req_mail = SQL::query($sql_mail) ;
-
-	while ($data_mail = $req_mail->fetch_array())
-	{
-		$mail_nom=$data_mail[0];
-		$key1=$mail_nom."_sujet";
-		$key2=$mail_nom."_contenu";
-		$sujet=$data_mail[1];
-		$corps=$data_mail[2];
-
-		$tab[$key1]=$sujet ;
-		$tab[$key2]=$corps ;
-	}
-
-	/******************************************/
-	//  config_ldap.php
-	if(isset($config_ldap_server)) {$tab['ldap_server']=$config_ldap_server ;}
-	if(isset($config_ldap_protocol_version)) {$tab['ldap_protocol_version']=$config_ldap_protocol_version ;}
-		else {$tab['ldap_protocol_version']=0 ;}
-	if(isset($config_ldap_bupsvr)) {$tab['ldap_bupsvr']=$config_ldap_bupsvr ;}
-	if(isset($config_basedn)) {$tab['basedn']=$config_basedn ;}
-	if(isset($config_ldap_user)) {$tab['ldap_user']=$config_ldap_user ;}
-	if(isset($config_ldap_pass)) {$tab['ldap_pass']=$config_ldap_pass ;}
-	if(isset($config_searchdn)) {$tab['searchdn']=$config_searchdn ;}
-
-	if(isset($config_ldap_prenom)) {$tab['ldap_prenom']=$config_ldap_prenom ;}
-	if(isset($config_ldap_nom)) {$tab['ldap_nom']=$config_ldap_nom ;}
-	if(isset($config_ldap_mail)) {$tab['ldap_mail']=$config_ldap_mail ;}
-	if(isset($config_ldap_login)) {$tab['ldap_login']=$config_ldap_login ;}
-	if(isset($config_ldap_nomaff)) {$tab['ldap_nomaff']=$config_ldap_nomaff ;}
-	if(isset($config_ldap_filtre)) {$tab['ldap_filtre']=$config_ldap_filtre ;}
-	if(isset($config_ldap_filrech)) {$tab['ldap_filrech']=$config_ldap_filrech ;}
-
-	if(isset($config_ldap_filtre_complet)) {$tab['ldap_filtre_complet']=$config_ldap_filtre_complet ;}
-
-	/******************************************/
-	//  config_CAS.php
-	if(isset($config_CAS_host)) {$tab['CAS_host']=$config_CAS_host ;}
-	if(isset($config_CAS_portNumber)) {$tab['CAS_portNumber']=$config_CAS_portNumber ;}
-	if(isset($config_CAS_URI)) {$tab['CAS_URI']=$config_CAS_URI ;}
-
-
-	/******************************************/
-	//  recup de qq infos sur le user
-	if(isset($_SESSION['userlogin']))
-	{
-		$sql_user = "SELECT u_is_resp, u_is_admin , u_is_hr FROM conges_users WHERE u_login='".$_SESSION['userlogin']."' ";
-		$req_user = SQL::query($sql_user) ;
-
-		if($data_user = $req_user->fetch_array())
+		while ($data_appli = $req_appli->fetch_array())
 		{
-			$_SESSION['is_resp']=$data_user[0] ;
-			$_SESSION['is_admin']=$data_user[1] ;
-			$_SESSION['is_hr']=$data_user[2] ;
+			$key=$data_appli[0];
+			$value=$data_appli[1];
+
+			$tab[$key] = $value;
 		}
+
+		/******************************************/
+		//  recup des variables de la table conges_config
+
+		$sql_config = "SELECT conf_nom, conf_valeur, conf_type FROM conges_config";
+		$req_config = SQL::query($sql_config) ;
+
+		while ($data = $req_config->fetch_array())
+		{
+			$key=$data[0];
+			$value=$data[1];
+			$type=$data[2];
+
+			if($value == "FALSE") {
+				$value = FALSE;
+			}
+			elseif($value == "TRUE") {
+				$value = TRUE;
+			}
+			elseif($type == "path") {
+				$value =  ROOT_PATH ."/".$value ;
+			}
+
+			$tab[$key] = $value;
+		}
+
+
+		/******************************************/
+		//  recup des mails dans  la table conges_mail
+		$sql_mail = "SELECT mail_nom, mail_subject, mail_body FROM conges_mail";
+		$req_mail = SQL::query($sql_mail) ;
+
+		while ($data_mail = $req_mail->fetch_array())
+		{
+			$mail_nom=$data_mail[0];
+			$key1=$mail_nom."_sujet";
+			$key2=$mail_nom."_contenu";
+			$sujet=$data_mail[1];
+			$corps=$data_mail[2];
+
+			$tab[$key1]=$sujet ;
+			$tab[$key2]=$corps ;
+		}
+
+		/******************************************/
+		//  config_ldap.php
+		if(isset($config_ldap_server)) {$tab['ldap_server']=$config_ldap_server ;}
+		if(isset($config_ldap_protocol_version)) {$tab['ldap_protocol_version']=$config_ldap_protocol_version ;}
+			else {$tab['ldap_protocol_version']=0 ;}
+		if(isset($config_ldap_bupsvr)) {$tab['ldap_bupsvr']=$config_ldap_bupsvr ;}
+		if(isset($config_basedn)) {$tab['basedn']=$config_basedn ;}
+		if(isset($config_ldap_user)) {$tab['ldap_user']=$config_ldap_user ;}
+		if(isset($config_ldap_pass)) {$tab['ldap_pass']=$config_ldap_pass ;}
+		if(isset($config_searchdn)) {$tab['searchdn']=$config_searchdn ;}
+
+		if(isset($config_ldap_prenom)) {$tab['ldap_prenom']=$config_ldap_prenom ;}
+		if(isset($config_ldap_nom)) {$tab['ldap_nom']=$config_ldap_nom ;}
+		if(isset($config_ldap_mail)) {$tab['ldap_mail']=$config_ldap_mail ;}
+		if(isset($config_ldap_login)) {$tab['ldap_login']=$config_ldap_login ;}
+		if(isset($config_ldap_nomaff)) {$tab['ldap_nomaff']=$config_ldap_nomaff ;}
+		if(isset($config_ldap_filtre)) {$tab['ldap_filtre']=$config_ldap_filtre ;}
+		if(isset($config_ldap_filrech)) {$tab['ldap_filrech']=$config_ldap_filrech ;}
+
+		if(isset($config_ldap_filtre_complet)) {$tab['ldap_filtre_complet']=$config_ldap_filtre_complet ;}
+
+		/******************************************/
+		//  config_CAS.php
+		if(isset($config_CAS_host)) {$tab['CAS_host']=$config_CAS_host ;}
+		if(isset($config_CAS_portNumber)) {$tab['CAS_portNumber']=$config_CAS_portNumber ;}
+		if(isset($config_CAS_URI)) {$tab['CAS_URI']=$config_CAS_URI ;}
+
+
+		/******************************************/
+		//  recup de qq infos sur le user
+		if(isset($_SESSION['userlogin']))
+		{
+			$sql_user = "SELECT u_is_resp, u_is_admin , u_is_hr FROM conges_users WHERE u_login='".$_SESSION['userlogin']."' ";
+			$req_user = SQL::query($sql_user) ;
+
+			if($data_user = $req_user->fetch_array())
+			{
+				$_SESSION['is_resp']=$data_user[0] ;
+				$_SESSION['is_admin']=$data_user[1] ;
+				$_SESSION['is_hr']=$data_user[2] ;
+			}
+		}
+
+		/******************************************/
+		$result = $tab;
+		if (isset($_SESSION['userlogin']))
+			$user_login = $_SESSION['userlogin'];
 	}
-
-	/******************************************/
-
-	return $tab;
+	return $result;
 }
 
 

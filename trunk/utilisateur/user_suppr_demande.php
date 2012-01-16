@@ -23,37 +23,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-define('_PHP_CONGES', 1);
-define('ROOT_PATH', '../');
-include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-$session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
 
-include ROOT_PATH .'fonctions_conges.php';
-include INCLUDE_PATH .'fonction.php';
-include INCLUDE_PATH .'session.php';
-
-$DEBUG=FALSE;
-//$DEBUG=TRUE;
-
-
-if($DEBUG==TRUE) { echo "_SESSION = <br>\n"; print_r($_SESSION); echo "<br>\n"; }
-if($DEBUG==TRUE) { echo "_GET = <br>\n"; print_r($_GET); echo "<br>\n"; }
-if($DEBUG==TRUE) { echo "_POST = <br>\n"; print_r($_POST); echo "<br>\n"; }
-
-	header_menu('user','PHP_CONGES : '. _('user') .' '.$_SESSION['userlogin']);
-
-	/*************************************/
-	// recup des parametres reçus :
-	// SERVER
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-	// GET / POST
 	$p_num           = getpost_variable("p_num");
 	$onglet          = getpost_variable("onglet");
 	$p_num_to_delete = getpost_variable("p_num_to_delete");
 	/*************************************/
-	if($DEBUG==TRUE) { echo "p_num = $p_num<br>\np_num_to_delete = $p_num_to_delete<br>\n"; }
 
 	// TITRE
 	echo "<H1>". _('user_suppr_demande_titre') ."</H1>\n\n";
@@ -76,8 +52,6 @@ if($DEBUG==TRUE) { echo "_POST = <br>\n"; print_r($_POST); echo "<br>\n"; }
 		}
 	}
 
-
-	bottom();
 	
 /************************************************************************************************/
 /*** fonctions    ***/

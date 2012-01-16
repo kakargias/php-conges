@@ -5,37 +5,33 @@
 
 }
 
-#header{
-	margin-top: 15px;	
-}
 
-/* TODO CHACHOUX */
-#header_menu div{
-	margin: 5px;
-	width: 170px;
-	height:10px;
-}
+#header{ background-image: url( ui-bg_highlight-header.png); margin-top: 15px; text-align: center;}
+#header .button_div{ float:right;margin: 5px 10px 5px 10px; padding: 6px; width:90px;}
+#header .button_div.active{ float:right; margin:5px 10px 5px 10px; padding: 4px;border:1px solid black;}
+#header .button_div span{ display: block;text-decoration: none;font: 10px verdana; margin-top: -2px;}
+#header .mode_and_user_info{ float: right; margin: 10px  50px  0px  0px; color: grey;}
 
-#header_menu img{
-	margin-right: 5px;
-}
 
-#header_menu a:hover{
-	color: #C11A22;
-}
-
-#header_menu a{
-	font-weight:bold;
-	color:#000000;
-	font-variant:small-caps;
-	font-size:14px;
-}
-
-#bottom{
-	margin-top: 30px
-}
-
-#content-center {
+#content {
 	margin-top:10px;
+	margin-bottom:10px;
 	min-height:560px;
 }
+
+#bottom {
+	text-align: center;
+	padding: 2px;
+}
+
+img{
+	border: 0px;
+}
+
+
+.bilan_conges_user { width: 70%; }
+.bilan_conges_user { text-align: center; }
+.bilan_conges_user thead{ background-color: #CCC; font-weight: bold; }
+.bilan_conges_user tbody{ background-color: #EAEAEA; }
+.bilan_conges_user tbody .solde{ color: red; }
+.bilan_conges_user tbody td{ font-weight: bold; }

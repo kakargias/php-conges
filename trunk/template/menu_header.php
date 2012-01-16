@@ -8,8 +8,8 @@ echo "<html>\n";
 	echo "<head>\n";
 		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
 		echo "<title> ".$title." </TITLE>\n";
-		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 		echo "<link href=\"". TEMPLATE_PATH ."style.css\" rel=\"stylesheet\" type=\"text/css\" />";
+		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 		echo '<link type="text/css" href="'. TEMPLATE_PATH .'jquery/css/custom-theme/jquery-ui-1.8.17.custom.css" rel="stylesheet" />';
 		echo '<script type="text/javascript" src="'. TEMPLATE_PATH .'jquery/js/jquery-1.7.1.min.js"></script>';
 		echo '<script type="text/javascript" src="'. TEMPLATE_PATH .'jquery/js/jquery-ui-1.8.17.custom.min.js"></script>';
@@ -21,7 +21,7 @@ echo "<html>\n";
 
 	/*****************************************************************************/
 	// DEBUT AFFICHAGE DU MENU
-	echo '<div id="header" class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all">';
+	echo '<div id="header" class="ui-widget-header ui-helper-clearfix ui-corner-all">';
 
 			/*****************************************************************************/
 			// DEBUT AFFICHAGE DES BOUTONS ...
@@ -39,25 +39,13 @@ echo "<html>\n";
 					$tmp = dirname($_SERVER['PHP_SELF']);
 					$tmp = explode('/',$tmp);
 					$tmp = array_pop($tmp);
-					if (in_array($tmp, array('utilisateur','admin','responsable','rh')))
+					if (in_array($tmp, array('utilisateur','admin','responsable','hr')))
 						$user_mode = $tmp;
 					else
 						$user_mode = '';
 					
 					echo '<div style="float: left;"><a href="'. ROOT_PATH . $home .'"><img src="'. TEMPLATE_PATH .'img/logo_adex.png"/></a></div>';	
 					
-					?>
-					<style>
-						#header{ background-image: url(<?php echo TEMPLATE_PATH; ?>ui-bg_highlight-header.png);}
-						
-						.button_div{ float:right;margin: 5px 10px 5px 10px; padding: 6px; width:90px;}
-						.button_div.active{ float:right; margin:5px 10px 5px 10px; padding: 4px;border:1px solid black;}
-						.button_div span{ display: block;text-decoration: none;font: 10px verdana; margin-top: -2px;}
-						
-						#mode_and_user_info{ float: right; margin: 10px  50px  0px  0px; color: grey;}
-					
-					</style>
-					<?php
 					
 					function bouton($name, $icon ,$link, $active = false)
 					{
@@ -95,7 +83,7 @@ echo "<html>\n";
 					
 					
 							
-					echo '<div id="mode_and_user_info" >Mode '.$user_mode.': '.$_SESSION['userlogin'].'</div>';
+					echo '<div class="mode_and_user_info" >Mode '.$user_mode.': '.$_SESSION['u_prenom'].' '.$_SESSION['u_nom'].' ('.$_SESSION['userlogin'].')</div>';
 					echo '<div style="clear: right; margin : 0;"></div>';
 
 
@@ -296,8 +284,5 @@ echo "<html>\n";
 	
 	
 	
-	// echo "<div id=\"content-center\">";
-
-	echo "<div id=\"content\">";	
-		echo "<div id=\"content-center\";>";
-			echo "<center>\n";
+	echo "<div id=\"content\">";
+		echo "<center>\n";

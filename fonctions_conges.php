@@ -3027,16 +3027,17 @@ function insert_dans_periode($login, $date_deb, $demi_jour_deb, $date_fin, $demi
 
 
 // remplit le tableau global des jours feries a partir de la database
-function init_tab_jours_feries($DEBUG=FALSE)
+function init_tab_jours_feries()
 {
-	$_SESSION["tab_j_feries"]=array();
+	if (empty($_SESSION['tab_j_feries'])) {
+		$_SESSION['tab_j_feries']=array();
 
-	$sql_select="SELECT jf_date FROM conges_jours_feries ";
-	$res_select = SQL::query($sql_select);
+		$sql_select='SELECT jf_date FROM conges_jours_feries;';
+		$res_select = SQL::query($sql_select);
 
-	while( $row = $res_select->fetch_array())
-	{
-		$_SESSION["tab_j_feries"][]=$row["jf_date"];
+		while( $row = $res_select->fetch_array()) {
+			$_SESSION['tab_j_feries'][]=$row['jf_date'];
+		}
 	}
 }
 
@@ -3161,14 +3162,16 @@ function init_config_tab()
 		//  recup de qq infos sur le user
 		if(isset($_SESSION['userlogin']))
 		{
-			$sql_user = "SELECT u_is_resp, u_is_admin , u_is_hr FROM conges_users WHERE u_login='".$_SESSION['userlogin']."' ";
+			$sql_user = "SELECT u_nom, u_prenom, u_is_resp, u_is_admin , u_is_hr FROM conges_users WHERE u_login='".$_SESSION['userlogin']."' ";
 			$req_user = SQL::query($sql_user) ;
 
 			if($data_user = $req_user->fetch_array())
 			{
-				$_SESSION['is_resp']=$data_user[0] ;
-				$_SESSION['is_admin']=$data_user[1] ;
-				$_SESSION['is_hr']=$data_user[2] ;
+				$_SESSION['u_nom']=$data_user[0] ;
+				$_SESSION['u_prenom']=$data_user[1] ;
+				$_SESSION['is_resp']=$data_user[2] ;
+				$_SESSION['is_admin']=$data_user[3] ;
+				$_SESSION['is_hr']=$data_user[4] ;
 			}
 		}
 
@@ -3342,57 +3345,43 @@ function affiche_tableau_bilan_conges_user($login, $DEBUG=FALSE)
 {
 	
 
-	$sql_1 = 'SELECT u_quotite FROM conges_users where u_login = \''.SQL::quote($login).'\'';
-	$ReqLog_1 = SQL::query($sql_1) ;
+	$request = 'SELECT u_quotite FROM conges_users where u_login = \''.SQL::quote($login).'\';';
+	$ReqLog = SQL::query($request) ;
 
-	$resultat_1 = $ReqLog_1->fetch_array();
-	$sql_quotite=$resultat_1["u_quotite"];
+	$resultat = $ReqLog->fetch_array();
+	$sql_quotite=$resultat['u_quotite'];
 
 	// recup dans un tableau de tableaux les nb et soldes de conges d'un user
 	$tab_cong_user = recup_tableau_conges_for_user($login, true ,$DEBUG);
-	if($DEBUG==TRUE) { echo"tab_cong_user =<br>\n"; print_r($tab_cong_user); echo "<br>\n"; }
 
 	// recup du tableau des types de conges exceptionnels (seulement les conges exceptionnels)
-	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
+	if ($_SESSION['config']['gestion_conges_exceptionnels'])
 		$tab_type_conges_exceptionnels=recup_tableau_types_conges_exceptionnels($DEBUG);
-		
-	if($DEBUG==TRUE)
-	{
-		echo"tab_type_conges_exceptionnels =<br>\n";
-		print_r($tab_type_conges_exceptionnels);
-		echo "<br>\n";
-	}
 	
-	// $tab_type_conges_exceptionnels=array();
-
-	// taille du tableau à afficher
-	$taille_tableau_bilan=100 + (150 * count($tab_cong_user));
-
-	echo "<table cellpadding=\"2\" width=\"$taille_tableau_bilan\" class=\"tablo\">\n";
-	echo "<tr align=\"center\"><td class=\"titre\">". _('divers_quotite') ."</td>" ;
-
-	foreach($tab_cong_user as $id => $val)
-	{
-		if (($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) && ((in_array($id,$tab_type_conges_exceptionnels))))
-			echo "<td class=\"titre\">". _('divers_solde_maj') ." ".$id."</td>" ;
-		else
-			echo "<td class=\"titre\">".$id."/ ". _('divers_an_maj') ."</td><td class=\"titre\">". _('divers_solde_maj') ." ".$id."</td>" ;
-	}
-	echo "</tr>\n";
-
-	echo "<tr align=\"center\">\n";
-	echo "<td>$sql_quotite%</td>\n";
-
-	foreach($tab_cong_user as $id => $val)
-	{
-		if (($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) && ((in_array($id,$tab_type_conges_exceptionnels))))
-			echo "<td bgcolor=\"#FF9191\"><b>".$val['solde']."</b></td>\n";
-		else
-			echo "<td><b>".$val['nb_an']."</b></td><td bgcolor=\"#FF9191\"><b>".$val['solde']."</b></td>\n";
-	}
-
-	echo "</tr>\n";
-	echo "</table>\n";
+	echo '<table class="bilan_conges_user">';
+		echo '<thead>';
+			echo '<tr>';
+				echo '<td class="titre">'. _('divers_quotite') .'</td>';
+				foreach($tab_cong_user as $id => $val) {
+					if ($_SESSION['config']['gestion_conges_exceptionnels'] && in_array($id,$tab_type_conges_exceptionnels))
+						echo '<td class="solde">'. _('divers_solde_maj') .' '.$id.'</td>';
+					else
+						echo '<td class="annuel">'.$id.' / '. _('divers_an_maj') .'</td><td class="solde">'. _('divers_solde_maj') .' '.$id.'</td>';
+				}
+			echo '</tr>';
+		echo '</thead>';
+		echo '<tbody>';
+			echo '<tr>';
+				echo '<td class="quotite">'.$sql_quotite.'%</td>';
+				foreach($tab_cong_user as $id => $val){
+					if ($_SESSION['config']['gestion_conges_exceptionnels']  && in_array($id,$tab_type_conges_exceptionnels))
+						echo '<td class="solde">'.$val['solde'].'</td>';
+					else
+						echo '<td class="annuel">'.$val['nb_an'].'</td><td class="solde">'.$val['solde'].'</td>';
+				}
+			echo '</tr>';
+		echo '</tbody>';
+	echo '</table>';
 }
 
 

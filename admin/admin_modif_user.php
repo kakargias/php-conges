@@ -498,7 +498,7 @@ function commit_update($u_login_to_update, &$tab_new_user, &$tab_new_jours_an, &
 
 			// on regarde si la grille artt a deja été modifiée aujourd'hui :
 			$sql_grille='SELECT a_date_fin_grille FROM conges_artt
-					WHERE a_login=\''.SQL::quote($u_login_to_update).'\' AND a_date_debut_grille=\''.SQL::quote($new_date_deb_grille);
+					WHERE a_login=\''.SQL::quote($u_login_to_update).'\' AND a_date_debut_grille=\''.SQL::quote($new_date_deb_grille).'\';';
 			$result_grille = SQL::query($sql_grille);
 
 			$count_grille=$result_grille->num_rows;

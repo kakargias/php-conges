@@ -19,6 +19,8 @@
 	min-height:560px;
 }
 
+#onglet_menu { margin-bottom: 20px; }
+
 #bottom {
 	text-align: center;
 	padding: 2px;
@@ -28,6 +30,10 @@ img{
 	border: 0px;
 }
 
+.tablo { text-align: center; border-spacing: 0px;}
+.tablo thead{ background-color: #CCC;}
+.tablo tbody{ background-color: #EAEAEA;}
+.tablo thead td, .tablo tbody td{ border: 1px solid gray; border-collapse: separate; border-style: inset; }
 
 .bilan_conges_user { width: 70%; }
 .bilan_conges_user { text-align: center; }
@@ -35,3 +41,9 @@ img{
 .bilan_conges_user tbody{ background-color: #EAEAEA; }
 .bilan_conges_user tbody .solde{ color: red; }
 .bilan_conges_user tbody td{ font-weight: bold; }
+
+
+.calendrier_saisie_date_debut { width: 320px; text-align: center; }
+.calendrier_saisie_date_debut td{ border:1px solid gray; border-collapse: separate; border-style: inset; font-size: 16px; padding: 2px;}
+.calendrier_saisie_date_debut .weekend{ background-color: #BFBFBF; }
+

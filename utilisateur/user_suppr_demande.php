@@ -32,7 +32,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 	/*************************************/
 
 	// TITRE
-	echo "<H1>". _('user_suppr_demande_titre') ."</H1>\n\n";
+	echo '<h1>'. _('user_suppr_demande_titre') .' :</h1>';
 	echo "<br> \n";
 
 	if($p_num!="")
@@ -72,6 +72,7 @@ function confirmer($p_num, $onglet, $DEBUG=FALSE)
 	// AFFICHAGE TABLEAU
 	echo "<form action=\"$PHP_SELF\" method=\"POST\">\n"  ;
 	echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
+	echo "<thead>\n";
 	echo "<tr align=\"center\">\n";
 	echo "<td class=\"titre\">". _('divers_debut_maj_1') ."</td>\n";
 	echo "<td class=\"titre\">". _('divers_fin_maj_1') ."</td>\n";
@@ -79,6 +80,8 @@ function confirmer($p_num, $onglet, $DEBUG=FALSE)
 	echo "<td class=\"titre\">". _('divers_comment_maj_1') ."</td>\n";
 	echo "<td class=\"titre\">". _('divers_type_maj_1') ."</td>\n";
 	echo "</tr>\n";
+	echo "</thead>\n";
+	echo "<tbody>\n";
 	echo "<tr align=\"center\">\n";
 	while ($resultat1 = $ReqLog1->fetch_array())
 	{
@@ -108,15 +111,12 @@ function confirmer($p_num, $onglet, $DEBUG=FALSE)
 		echo "<td class=\"histo\">$sql_type</td>\n";
 	}
 	echo "</tr>\n";
+	echo "</tbody>\n";
 	echo "</table><br>\n\n";
 	echo "<input type=\"hidden\" name=\"p_num_to_delete\" value=\"$p_num\">\n";
 	echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
 	echo "<input type=\"hidden\" name=\"onglet\" value=\"$onglet\">\n";
 	echo "<input type=\"submit\" value=\"". _('form_supprim') ."\">\n";
-	echo "</form>\n" ;
-
-	echo "<form action=\"user_index.php?session=$session&onglet=$onglet\" method=\"POST\">\n" ;
-	echo "<input type=\"submit\" value=\"". _('form_cancel') ."\">\n";
 	echo "</form>\n" ;
 
 }
@@ -142,9 +142,9 @@ function suppression($p_num_to_delete, $onglet, $DEBUG=FALSE)
 		echo  _('form_modif_not_ok') ."<br><br> \n";
 
 	/* APPEL D'UNE AUTRE PAGE */
-	echo " <form action=\"user_index.php?session=$session&onglet=$onglet\" method=\"POST\"> \n";
-	echo "	<input type=\"submit\" value=\"". _('form_retour') ."\">\n";
-	echo " </form> \n";
+	echo '<form action="'.ROOT_PATH .'utilisateur/user_index.php?session='.$session.'" method="POST">';
+		echo '<input type="submit" value="'. _('form_submit') .'">';
+	echo '</form>';
 
 }
 

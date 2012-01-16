@@ -33,25 +33,7 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 	$tri_date = getpost_variable("tri_date", "ascendant");
 	$year_affichage = getpost_variable("year_affichage" , date("Y") );
 	
-	echo "<h3>". _('user_historique_abs') ." :</h3>\n";
-
-	//affiche le tableau de l'hitorique des absences
-	affichage_historique_absences($tri_date, $year_affichage, $onglet, $DEBUG);	
-
-
-
-/**************************************************************************************/
-/********  FONCTIONS      ******/
-/**************************************************************************************/
-
-
-
-//affiche le tableau de l'hitorique des absences
-function affichage_historique_absences($tri_date, $year_affichage, $onglet,  $DEBUG=FALSE)
-{
-
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-	$session=session_id();
+	echo '<h1>'. _('user_historique_abs') .' :</h1>';
 
 	// affichage de l'année et des boutons de défilement
 	$year_affichage_prec = $year_affichage-1 ;
@@ -88,6 +70,7 @@ function affichage_historique_absences($tri_date, $year_affichage, $onglet,  $DE
 	{
 		// AFFICHAGE TABLEAU
 		echo "<table cellpadding=\"2\"  class=\"tablo\" width=\"80%\">\n";
+		echo "<thead>\n";
 		echo "<tr>\n";
 		echo "<td class=\"titre\">\n";
 		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=descendant\"><img src=\"". TEMPLATE_PATH ."img/1downarrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
@@ -95,9 +78,9 @@ function affichage_historique_absences($tri_date, $year_affichage, $onglet,  $DE
 		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=ascendant\"><img src=\"". TEMPLATE_PATH ."img/1uparrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
 		echo "</td>\n";
 		echo "<td class=\"titre\">". _('divers_fin_maj_1') ."</td>\n";
+		echo "<td class=\"titre\">". _('user_abs_type') ."</td>\n";
 		echo "<td class=\"titre\">". _('divers_nb_jours_maj_1') ."</td>\n";
 		echo "<td class=\"titre\">". _('divers_comment_maj_1') ."</td>\n";
-		echo "<td class=\"titre\">". _('user_abs_type') ."</td>\n";
 		echo "<td class=\"titre\">". _('divers_etat_maj_1') ."</td>\n";
 		echo "<td></td><td></td>\n";
 		if($_SESSION['config']['affiche_date_traitement']==TRUE)
@@ -105,6 +88,8 @@ function affichage_historique_absences($tri_date, $year_affichage, $onglet,  $DE
 			echo "<td class=\"titre\">". _('divers_date_traitement') ."</td>\n" ;
 		}
 		echo "</tr>\n";
+		echo "</thead>\n";
+		echo "<tbody>\n";
 
 		while ($resultat4 = $ReqLog4->fetch_array())
 		{
@@ -138,43 +123,45 @@ function affichage_historique_absences($tri_date, $year_affichage, $onglet,  $DE
 			}
 
 			echo "<tr>\n";
-			echo '<td class="histo">'.schars($sql_date_deb).' _ '.schars($demi_j_deb).'</td>'."\n";
-			echo '<td class="histo">'.schars($sql_date_fin).' _ '.schars($demi_j_fin).'</td>'."\n";
-			echo '<td class="histo">'.schars($sql_nb_jours).'</td>'."\n";
-			echo '<td class="histo">'.schars($sql_commentaire);
-			if($sql_etat=="refus")
-			{
-				if($sql_motif_refus=="")
-					$sql_motif_refus= _('divers_inconnu') ;
-				echo '<br><i>".'.schars( _('divers_motif_refus') ).'." : '.schars($sql_motif_refus).'</i>';
-			}
-			elseif($sql_etat=="annul")
-			{
-				if($sql_motif_refus=="")
-					$sql_motif_refus= _('divers_inconnu') ;
-				echo '<br><i>".'.schars( _('divers_motif_annul') ).'." : '.schars($sql_motif_refus).'</i>';
-			}
-			echo "</td>\n";
-			echo '<td class="histo">'.schars($sql_type).'</td>'."\n";
-			echo "<td class=\"histo\">";
-			if($sql_etat=="refus")
-				echo  _('divers_refuse') ;
-			elseif($sql_etat=="annul")
-				echo  _('divers_annule') ;
-			else
-				echo schars($sql_etat);
-			echo "</td>\n";
-			echo '<td class="histo">'.($user_modif_mission).'</td>'."\n";
-			echo '<td class="histo">'.($user_suppr_mission).'</td>'."\n";
-			if($_SESSION['config']['affiche_date_traitement']==TRUE)
-			{
-				echo '<td class="histo-left">'.schars( _('divers_demande') ).' : '.schars($sql_date_demande).'<br>'.schars( _('divers_traitement') ).' : '.schars($sql_date_traitement).'</td>'."\n" ;
-			}
+				echo '<td class="histo">'.schars($sql_date_deb).' _ '.schars($demi_j_deb).'</td>';
+				echo '<td class="histo">'.schars($sql_date_fin).' _ '.schars($demi_j_fin).'</td>' ;
+				echo '<td class="histo">'.schars($sql_type).'</td>' ;
+				echo '<td class="histo">'.affiche_decimal($sql_nb_jours).'</td>' ;
+				echo '<td class="histo">'.schars($sql_commentaire).'</td>' ;
+				
+				if($sql_etat=="refus")
+				{
+					if($sql_motif_refus=="")
+						$sql_motif_refus= _('divers_inconnu') ;
+					echo '<br><i>".'.schars( _('divers_motif_refus') ).'." : '.schars($sql_motif_refus).'</i>';
+				}
+				elseif($sql_etat=="annul")
+				{
+					if($sql_motif_refus=="")
+						$sql_motif_refus= _('divers_inconnu') ;
+					echo '<br><i>".'.schars( _('divers_motif_annul') ).'." : '.schars($sql_motif_refus).'</i>';
+				}
+				echo "</td>\n";
+				echo "<td class=\"histo\">";
+				if($sql_etat=="refus")
+					echo  _('divers_refuse') ;
+				elseif($sql_etat=="annul")
+					echo  _('divers_annule') ;
+				else
+					echo schars($sql_etat);
+				echo "</td>\n";
+				echo '<td class="histo">'.($user_modif_mission).'</td>'."\n";
+				echo '<td class="histo">'.($user_suppr_mission).'</td>'."\n";
+				if($_SESSION['config']['affiche_date_traitement']==TRUE)
+				{
+					echo '<td class="histo-left">'.schars( _('divers_demande') ).' : '.schars($sql_date_demande).'<br>'.schars( _('divers_traitement') ).' : '.schars($sql_date_traitement).'</td>'."\n" ;
+				}
 			echo "</tr>\n";
 		}
+		echo "</tbody>\n\n";
 		echo "</table>\n\n";
 	}
 	echo "<br><br>\n";
-}
+
 
 

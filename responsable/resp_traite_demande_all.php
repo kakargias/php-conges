@@ -404,7 +404,7 @@ function traite_all_demande_en_cours( $tab_bt_radio, $tab_text_refus, $DEBUG=FAL
 		{
 			// recup du motif de refus
 			$motif_refus=addslashes($tab_text_refus[$numero_int]);
-			$sql1 = 'UPDATE conges_periode SET p_etat=\"refus\", p_motif_refus=\''.$motif_refus.'\', p_date_traitement=NOW() WHERE p_num=\''.SQL::quote($numero_int).'\' ';
+			$sql1 = 'UPDATE conges_periode SET p_etat=\'refus\', p_motif_refus=\''.$motif_refus.'\', p_date_traitement=NOW() WHERE p_num=\''.SQL::quote($numero_int).'\' ';
 			//echo "$sql1<br>\n");
 			
 			// Log de l'action

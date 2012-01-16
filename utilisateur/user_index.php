@@ -93,7 +93,7 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 	/*   AFFICHAGE DES ONGLETS...  */
 	/*********************************/
 	
-	echo '<div id="onglet_menu" class="ui-widget-header ui-helper-clearfix ui-corner-top">';
+	echo '<div id="onglet_menu" class="ui-widget-header ui-helper-clearfix ui-corner-all">';
 	foreach($onglets as $key => $title) {
 		echo '<div class="onglet '.($onglet == $key ? ' active': '').'" >
 			<a href="'.$PHP_SELF.'?session='.$session.'&onglet='.$key.'">'. $title .'</a>
@@ -105,13 +105,17 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 	/*********************************/
 	/*   AFFICHAGE DU RECAP ...    */
 	/*********************************/
-	
-	echo '<H1>'.$_SESSION['userlogin'].' : '.$_SESSION['u_prenom'].' '.$_SESSION['u_nom'].'</H1>';
 
+	echo '<h3>'._('Tableau récapitulatif :').'</h3>';
 	affiche_tableau_bilan_conges_user( $_SESSION['userlogin'] );
 
+	/*********************************/
+	/*   AFFICHAGE DE L'ONGLET ...    */
+	/*********************************/
 	
-	include ROOT_PATH . 'utilisateur/user_'.$onglet.'.php';
+	echo '<div class="'.$onglet.'">';
+		include ROOT_PATH . 'utilisateur/user_'.$onglet.'.php';
+	echo '</div>';
 	
 	/*********************************/
 	/*   AFFICHAGE DU BOTTOM ...   */

@@ -91,6 +91,7 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 		echo "</thead>\n";
 		echo "<tbody>\n";
 
+		$i = true;
 		while ($resultat4 = $ReqLog4->fetch_array())
 		{
 			$sql_login= $resultat4["p_login"];
@@ -122,7 +123,7 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 				$user_suppr_mission=" - " ;
 			}
 
-			echo "<tr>\n";
+			echo '<tr class="'.($i?'i':'p').'">';
 				echo '<td class="histo">'.schars($sql_date_deb).' _ '.schars($demi_j_deb).'</td>';
 				echo '<td class="histo">'.schars($sql_date_fin).' _ '.schars($demi_j_fin).'</td>' ;
 				echo '<td class="histo">'.schars($sql_type).'</td>' ;
@@ -157,6 +158,7 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 					echo '<td class="histo-left">'.schars( _('divers_demande') ).' : '.schars($sql_date_demande).'<br>'.schars( _('divers_traitement') ).' : '.schars($sql_date_traitement).'</td>'."\n" ;
 				}
 			echo "</tr>\n";
+			$i = !$i;
 		}
 		echo "</tbody>\n\n";
 		echo "</table>\n\n";

@@ -73,7 +73,7 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 	if( $_SESSION['config']['auth'] && $_SESSION['config']['user_ch_passwd'] )
 		$onglets['changer_mot_de_passe'] = _('user_onglet_change_passwd');
 	
-	if ( empty($onglets[ $onglet ]) && !in_array($onglet, array('modif_demande','suppr_demande')))
+	if ( !isset($onglets[ $onglet ]) && !in_array($onglet, array('modif_demande','suppr_demande')))
 		$onglet = 'nouvelle_absence';
 	
 	/*********************************/

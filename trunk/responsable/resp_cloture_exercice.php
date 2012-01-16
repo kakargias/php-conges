@@ -23,30 +23,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-define('_PHP_CONGES', 1);
-define('ROOT_PATH', '../');
-include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-$session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
 
-include ROOT_PATH .'fonctions_conges.php' ;
-include INCLUDE_PATH .'fonction.php';
-include INCLUDE_PATH .'session.php';
-
-$DEBUG = FALSE ;
-//$DEBUG = TRUE ;
-//echo "exercice = ".$_SESSION['config']['num_exercice']." </br>\n";
-
-// verif des droits du user à afficher la page
-verif_droits_user($session, "is_resp", $DEBUG);
-
-
-	/*************************************/
-	// recup des parametres reçus :
-	// SERVER
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-	// GET / POST
 	$choix_groupe            = getpost_variable("choix_groupe");
 	$cloture_users           = getpost_variable("cloture_users");
 	$cloture_globale         = getpost_variable("cloture_globale");
@@ -166,6 +145,7 @@ function affichage_cloture_user_par_user($tab_type_conges, $tab_all_users_du_res
 
 		// AFFICHAGE TITRES TABLEAU
 		echo "	<table cellpadding=\"2\" class=\"tablo\" width=\"700\">\n";
+		echo "	<thead>\n";
 		echo "	<tr align=\"center\">\n";
 		echo "	<td class=\"titre\">". _('divers_nom_maj_1') ."</td>\n";
 		echo "	<td class=\"titre\">". _('divers_prenom_maj_1') ."</td>\n";
@@ -177,6 +157,8 @@ function affichage_cloture_user_par_user($tab_type_conges, $tab_all_users_du_res
 		echo "	<td class=\"titre\">". _('divers_cloturer_maj_1') ."<br></td>\n" ;
 		echo "	<td class=\"titre\">". _('divers_comment_maj_1') ."<br></td>\n" ;
 		echo "	</tr>\n";
+		echo "	</thead>\n";
+		echo "	<tbody>\n";
 		
 		// AFFICHAGE LIGNES TABLEAU
 
@@ -190,13 +172,14 @@ function affichage_cloture_user_par_user($tab_type_conges, $tab_all_users_du_res
 		if( ($_SESSION['config']['double_validation_conges']==TRUE) && ($_SESSION['config']['grand_resp_ajout_conges']==TRUE) )
 		{
 			$nb_colspan=50;
-			echo " <tr align=\"center\"><td class=\"histo\" colspan=\"$nb_colspan\"><i>". _('resp_etat_users_titre_double_valid') ."</i></td></tr>\n";
+			echo "<tr align=\"center\"><td class=\"histo\" style=\"background-color: #CCC;\" colspan=\"$nb_colspan\"><i>". _('resp_etat_users_titre_double_valid') ."</i></td></tr>\n";
 
 			foreach($tab_all_users_du_grand_resp as $current_login => $tab_current_user)
 			{		
 				affiche_ligne_du_user($current_login, $tab_type_conges, $tab_current_user);
 			}
 		}	
+		echo "	</tbody>\n";
 		echo "	</table>\n\n";
 
 		echo "	</td>\n";

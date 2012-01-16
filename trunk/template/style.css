@@ -33,6 +33,8 @@ img{
 .tablo { text-align: center; border-spacing: 0px;}
 .tablo thead{ background-color: #CCC;}
 .tablo tbody{ background-color: #EAEAEA;}
+.tablo tbody tr:hover{ background-color: #FFC;}
+.tablo tbody .i{ background-color: #F4F4F4;}
 .tablo thead td, .tablo tbody td{ border: 1px solid gray; border-collapse: separate; border-style: inset; }
 
 .bilan_conges_user { width: 70%; }

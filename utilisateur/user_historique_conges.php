@@ -97,6 +97,7 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 		echo "</thead>\n";
 		echo "<tbody>\n";
 
+		$i = true;
 		while ($resultat2 = $ReqLog2->fetch_array())
 		{
 			$sql_p_date_deb = eng_date_to_fr($resultat2["p_date_deb"], $DEBUG);
@@ -114,7 +115,7 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 			$sql_p_date_demande = $resultat2["p_date_demande"];
 			$sql_p_date_traitement = $resultat2["p_date_traitement"];
 
-			echo "<tr>\n";
+			echo '<tr class="'.($i?'i':'p').'">';
 				echo '<td class="histo">'.schars($sql_p_date_deb).' _ '.schars($demi_j_deb).'</td>';
 				echo '<td class="histo">'.schars($sql_p_date_fin).' _ '.schars($demi_j_fin).'</td>' ;
 				echo '<td class="histo">'.schars($sql_p_type).'</td>' ;
@@ -158,7 +159,8 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 					echo schars( _($text_lang_a_afficher) ).' : '.schars($sql_p_date_traitement).'</td>'."\n" ;
 				}
 			
-				echo "</tr>\n";
+			echo '</tr>';
+			$i = !$i;
 		}
 		echo "</tbody>\n\n";
 		echo "</table>\n\n";

@@ -75,10 +75,10 @@ echo "<html>\n";
 					
 					if (is_admin($_SESSION['userlogin']))
 						bouton('Administration'	,'tools.png'			,ROOT_PATH .'admin/admin_index.php?session='.$session, $user_mode == 'admin');
-					if (is_resp($_SESSION['userlogin']))
-						bouton('Responsable'	,'user-responsable.png'	,ROOT_PATH .'responsable/resp_index.php?session='.$session, $user_mode == 'responsable');
 					if (is_hr($_SESSION['userlogin']))
 						bouton('RH'				,'user-rh.png'			,ROOT_PATH .'hr/hr_index.php?session='.$session, $user_mode == 'hr');
+					if (is_resp($_SESSION['userlogin']))
+						bouton('Responsable'	,'user-responsable.png'	,ROOT_PATH .'responsable/resp_index.php?session='.$session, $user_mode == 'responsable');
 					bouton('Utilisateur'	,'user.png'				,ROOT_PATH .'utilisateur/user_index.php?session='.$session, $user_mode == 'utilisateur');
 					
 					
@@ -130,7 +130,7 @@ echo "<html>\n";
 							break;
 						case 'utilisateur':
 							if($_SESSION['config']['export_ical_vcal']==TRUE) 
-								bouton_popup( _('button_export_1') ,'export-22x22.png',ROOT_PATH . 'export_vcalendar.php?session='.$session.'&user_login='.$_SESSION['userlogin'] , 'icalvcal', 457, 280);
+								bouton_popup( _('Exporter cal') ,'export-22x22.png',ROOT_PATH . 'export_vcalendar.php?session='.$session.'&user_login='.$_SESSION['userlogin'] , 'icalvcal', 457, 280);
 					
 					
 							if($_SESSION['config']['editions_papier']==TRUE)

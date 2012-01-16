@@ -134,23 +134,32 @@ verif_droits_user($session, "is_hr", $DEBUG);
 		/**************************/
 		/* ONGLET TRAITE DEMANDES */
 		/**************************/
-/*		if($_SESSION['config']['user_saisie_demande']==TRUE) 
+		if($_SESSION['config']['user_saisie_demande']==TRUE) 
 		{
 			if($onglet!="traitement_demandes")
 				echo "<td class=\"onglet\" width=\"220\"><a href=\"$PHP_SELF?session=$session&onglet=traitement_demandes\" class=\"bouton-onglet\"> ". _('resp_menu_button_traite_demande') ." </a></td>\n";
 			else
 				echo "<td class=\"current-onglet\" width=\"220\"><a href=\"$PHP_SELF?session=$session&onglet=traitement_demandes\" class=\"bouton-current-onglet\"> ". _('resp_menu_button_traite_demande') ." </a></td>\n";
 		}
- */
+
 		/***********************/
 		/* ONGLET AJOUT CONGES */
 		/***********************/
-		if($_SESSION['config']['resp_ajoute_conges']==TRUE)  // si le resp peut ajouter des conges
+		// if($_SESSION['config']['resp_ajoute_conges']==TRUE)  // si le resp peut ajouter des conges
 		{
 			if($onglet!="ajout_conges")
 				echo "<td class=\"onglet\" width=\"150\"><a href=\"$PHP_SELF?session=$session&onglet=ajout_conges\" class=\"bouton-onglet\"> ". _('resp_ajout_conges_titre') ." </a></td>\n";
 			else
 				echo "<td class=\"current-onglet\" width=\"150\"><a href=\"$PHP_SELF?session=$session&onglet=ajout_conges\" class=\"bouton-current-onglet\"> ". _('resp_ajout_conges_titre') ." </a></td>\n";
+		}
+		
+		
+		{
+			echo "<td class=\"onglet\" width=\"150\"><a href=\"hr_cloture_year.php?session=$session&onglet=hr_cloture_year\" class=\"bouton-onglet\"> ". _('hr_cloture_year') ." </a></td>\n";
+			if($onglet!="hr_cloture_year")
+				echo "<td class=\"onglet\" width=\"150\"><a href=\"$PHP_SELF?session=$session&onglet=hr_cloture_year\" class=\"bouton-onglet\"> ". _('hr_cloture_year') ." </a></td>\n";
+			else
+				echo "<td class=\"current-onglet\" width=\"150\"><a href=\"$PHP_SELF?session=$session&onglet=hr_cloture_year\" class=\"bouton-current-onglet\"> ". _('hr_cloture_year') ." </a></td>\n";
 		}
 
 		echo "</tr>\n";

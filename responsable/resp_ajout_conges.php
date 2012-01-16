@@ -25,6 +25,48 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
+
+
+	//var pour resp_ajout_conges_all.php
+	$ajout_conges            = getpost_variable("ajout_conges");
+	$tab_champ_saisie        = getpost_variable("tab_champ_saisie");
+	$tab_commentaire_saisie        = getpost_variable("tab_commentaire_saisie");
+	//$tab_champ_saisie_rtt    = getpost_variable("tab_champ_saisie_rtt") ;
+	$ajout_global            = getpost_variable("ajout_global");
+	$ajout_groupe            = getpost_variable("ajout_groupe");
+	$choix_groupe            = getpost_variable("choix_groupe");
+	$tab_new_nb_conges_all   = getpost_variable("tab_new_nb_conges_all");
+	$tab_calcul_proportionnel = getpost_variable("tab_calcul_proportionnel");
+	$tab_new_comment_all     = getpost_variable("tab_new_comment_all");
+	
+	
+	if($DEBUG==TRUE) { echo "tab_new_nb_conges_all = <br>"; print_r($tab_new_nb_conges_all); echo "<br>\n" ;}
+	if($DEBUG==TRUE) { echo "tab_calcul_proportionnel = <br>"; print_r($tab_calcul_proportionnel); echo "<br>\n" ;}
+	
+	
+	// titre
+	echo "<H2>". _('resp_ajout_conges_titre') ."</H2>\n\n";
+	//connexion mysql
+	
+	if($ajout_conges=="TRUE")
+	{
+		ajout_conges($tab_champ_saisie, $tab_commentaire_saisie, $DEBUG);
+	}
+	elseif($ajout_global=="TRUE")
+	{
+		ajout_global($tab_new_nb_conges_all, $tab_calcul_proportionnel, $tab_new_comment_all,  $DEBUG);
+	}
+	elseif($ajout_groupe=="TRUE")
+	{
+		ajout_global_groupe($choix_groupe, $tab_new_nb_conges_all, $tab_calcul_proportionnel, $tab_new_comment_all,  $DEBUG);
+	}
+	else
+	{
+		saisie_ajout($tab_type_cong, $DEBUG);
+	}
+
+
+
 /************************************************************************/
 /*** FONCTIONS ***/
 
@@ -103,6 +145,7 @@ function affichage_saisie_user_par_user($tab_type_conges, $tab_type_conges_excep
 	{
 		// AFFICHAGE TITRES TABLEAU
 		echo "<table cellpadding=\"2\" class=\"tablo\" width=\"700\">\n";
+		echo "<thead>\n";
 		echo "<tr align=\"center\">\n";
 		echo "<td class=\"titre\">". _('divers_nom_maj_1') ."</td>\n";
 		echo "<td class=\"titre\">". _('divers_prenom_maj_1') ."</td>\n";
@@ -122,15 +165,18 @@ function affichage_saisie_user_par_user($tab_type_conges, $tab_type_conges_excep
 		}
 		echo "<td class=\"titre\">". _('divers_comment_maj_1') ."<br></td>\n" ;
 		echo"</tr>\n";
+		echo "</thead>\n";
+		echo "<tbody>\n";
 		
 		// AFFICHAGE LIGNES TABLEAU
 		$cpt_lignes=0 ;
 		$tab_champ_saisie_conges=array();
 		
+		$i = true;
 		// affichage des users dont on est responsable :
 		foreach($tab_all_users_du_resp as $current_login => $tab_current_user)
 		{		
-			echo "<tr align=\"center\">\n";
+			echo '<tr class="'.($i?'i':'p').'">';
 			//tableau de tableaux les nb et soldes de conges d'un user (indicé par id de conges)
 			$tab_conges=$tab_current_user['conges']; 
 	
@@ -159,17 +205,19 @@ function affichage_saisie_user_par_user($tab_type_conges, $tab_type_conges_excep
 			echo "<td align=\"center\" class=\"histo\"><input type=\"text\" name=\"tab_commentaire_saisie[$current_login]\" size=\"30\" maxlength=\"200\" value=\"\"></td>\n";
 			echo "</tr>\n";
 			$cpt_lignes++ ;
+			$i = !$i;
 		}
 		
 		// affichage des users dont on est grand responsable :
 		if( ($_SESSION['config']['double_validation_conges']==TRUE) && ($_SESSION['config']['grand_resp_ajout_conges']==TRUE) )
 		{
 			$nb_colspan=50;
-			echo "<tr align=\"center\"><td class=\"histo\" colspan=\"$nb_colspan\"><i>". _('resp_etat_users_titre_double_valid') ."</i></td></tr>\n";
+			echo "<tr align=\"center\"><td class=\"histo\" style=\"background-color: #CCC;\" colspan=\"$nb_colspan\"><i>". _('resp_etat_users_titre_double_valid') ."</i></td></tr>\n";
 
+			$i = true;
 			foreach($tab_all_users_du_grand_resp as $current_login => $tab_current_user)
 			{		
-				echo "<tr align=\"center\">\n";
+				echo '<tr class="'.($i?'i':'p').'">';
 				//tableau de tableaux les nb et soldes de conges d'un user (indicé par id de conges)
 				$tab_conges=$tab_current_user['conges']; 
 		
@@ -198,9 +246,11 @@ function affichage_saisie_user_par_user($tab_type_conges, $tab_type_conges_excep
 				echo "<td align=\"center\" class=\"histo\"><input type=\"text\" name=\"tab_commentaire_saisie[$current_login]\" size=\"30\" maxlength=\"200\" value=\"\"></td>\n";
 				echo "</tr>\n";
 				$cpt_lignes++ ;
+			$i = !$i;
 			}
 		}
 		
+		echo "</tbody>\n";
 		echo "</table>\n\n";
 	
 		echo "<input type=\"hidden\" name=\"ajout_conges\" value=\"TRUE\">\n";

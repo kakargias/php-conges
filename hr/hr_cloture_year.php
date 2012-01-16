@@ -624,7 +624,7 @@ function set_nouvelle_date_limite_reliquat($DEBUG=FALSE)
 			if($_SESSION['config']['date_limite_reliquats'] < $new_date_limite)
 			{
 				/* Modification de la table conges_appli */
-				$sql_update= 'UPDATE conges_appli SET appli_valeur = \''.$new_date_limite.'\' WHERE appli_variable='date_limite_reliquats' ';
+				$sql_update= 'UPDATE conges_appli SET appli_valeur = \''.$new_date_limite.'\' WHERE appli_variable=\'date_limite_reliquats\';';
 				$ReqLog_update = SQL::query($sql_update) ;
 				
 			}

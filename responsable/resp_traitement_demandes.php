@@ -25,6 +25,22 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
+	//var pour resp_traite_demande_all.php
+	$tab_bt_radio   = getpost_variable("tab_bt_radio");
+	$tab_text_refus = getpost_variable("tab_text_refus");
+	
+	
+	// titre
+	echo "<h1>". _('resp_traite_demandes_titre') ."</h1>";
+
+
+	// si le tableau des bouton radio des demandes est vide , on affiche les demandes en cours
+	if($tab_bt_radio=="")
+		affiche_all_demandes_en_cours($tab_type_cong,  $DEBUG);
+	else
+		traite_all_demande_en_cours( $tab_bt_radio, $tab_text_refus, $DEBUG);
+
+
 /********************************************/
 /*   FONCTIONS   */
 
@@ -52,7 +68,7 @@ function affiche_all_demandes_en_cours($tab_type_conges,  $DEBUG=FALSE)
 	if($DEBUG==TRUE) { echo "tab_all_users_du_resp :<br>\n"; print_r($tab_all_users_du_resp); echo "<br><br>\n";}
 	
 	// si tableau des users du resp n'est pas vide
-	if( count($tab_all_users_du_resp)!=0 )
+	if( count($tab_all_users_du_resp) !=0 )
 	{
 		// constitution de la liste (séparé par des virgules) des logins ...
 		$list_users_du_resp="";
@@ -67,7 +83,7 @@ function affiche_all_demandes_en_cours($tab_type_conges,  $DEBUG=FALSE)
 
 
 	// Récup dans un tableau de tableau des informations de tous les users dont $_SESSION['userlogin'] est GRAND responsable
-	if($_SESSION['config']['double_validation_conges']==TRUE)
+	if( $_SESSION['config']['double_validation_conges'] )
 	{
 		$tab_all_users_du_grand_resp=recup_infos_all_users_du_grand_resp($_SESSION['userlogin'],  $DEBUG);
 
@@ -120,6 +136,7 @@ function affiche_all_demandes_en_cours($tab_type_conges,  $DEBUG=FALSE)
 			echo "<h3>". _('resp_traite_demandes_titre_tableau_1') ."</h3>\n" ;
 			
 			echo "<table cellpadding=\"2\" class=\"tablo\">\n" ;
+			echo "<thead>\n" ;
 			echo "<tr>\n" ;
 			echo "<td class=\"titre\">". _('divers_nom_maj_1') ."<br>". _('divers_prenom_maj_1') ."</td>\n" ;
 			echo "<td class=\"titre\">". _('divers_quotite_maj_1') ."</td>" ;
@@ -146,7 +163,10 @@ function affiche_all_demandes_en_cours($tab_type_conges,  $DEBUG=FALSE)
 				echo "<td class=\"titre\">". _('divers_date_traitement') ."</td>\n" ;
 			}
 			echo "</tr>\n";
+			echo "</thead>\n" ;
+			echo "<tbody>\n" ;
 			
+			$i = true;			
 			$tab_bt_radio=array();
 			while ($resultat1 = $ReqLog1->fetch_array()) 
 			{
@@ -191,7 +211,7 @@ function affiche_all_demandes_en_cours($tab_type_conges,  $DEBUG=FALSE)
 	
 				$text_refus="<input type=\"text\" name=\"tab_text_refus[$sql_p_num]\" size=\"20\" max=\"100\">";
 				
-				echo "<tr>\n" ;
+				echo '<tr class="'.($i?'i':'p').'">';
 				echo "<td class=\"histo\"><b>".$tab_all_users_du_resp[$sql_p_login]['nom']."</b><br>".$tab_all_users_du_resp[$sql_p_login]['prenom']."</td><td class=\"histo\">".$tab_all_users_du_resp[$sql_p_login]['quotite']."%</td>";
 				echo "<td class=\"histo\">$sql_p_date_deb_fr _ $demi_j_deb</td><td class=\"histo\">$sql_p_date_fin_fr _ $demi_j_fin</td><td class=\"histo\">$sql_p_commentaire</td><td class=\"histo\"><b>$sql_p_nb_jours</b></td>";
 				$tab_conges=$tab_all_users_du_resp[$sql_p_login]['conges']; 
@@ -215,7 +235,9 @@ function affiche_all_demandes_en_cours($tab_type_conges,  $DEBUG=FALSE)
 				}
 				
 				echo "</tr>\n" ;
+				$i = !$i;
 			} // while
+			echo "<tbody>\n" ;
 			echo "</table>\n\n" ;
 		} //if($count1!=0)
 	} //if( count($tab_all_users_du_resp)!=0 )

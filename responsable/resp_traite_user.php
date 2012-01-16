@@ -24,7 +24,58 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
+
+
+	//var pour resp_traite_user.php
+	$user_login   = getpost_variable("user_login") ;
+	$year_calendrier_saisie_debut = getpost_variable("year_calendrier_saisie_debut", 0) ;
+	$mois_calendrier_saisie_debut = getpost_variable("mois_calendrier_saisie_debut", 0) ;
+	$year_calendrier_saisie_fin = getpost_variable("year_calendrier_saisie_fin", 0) ;
+	$mois_calendrier_saisie_fin = getpost_variable("mois_calendrier_saisie_fin", 0) ;
+	$tri_date = getpost_variable("tri_date", "ascendant") ;
+	$tab_checkbox_annule = getpost_variable("tab_checkbox_annule") ;
+	$tab_radio_traite_demande = getpost_variable("tab_radio_traite_demande") ;
+	$tab_text_refus = getpost_variable("tab_text_refus") ;
+	$tab_text_annul = getpost_variable("tab_text_annul") ;
+	$new_demande_conges = getpost_variable("new_demande_conges", 0) ;
+	$new_debut = getpost_variable("new_debut") ;
+	$new_demi_jour_deb = getpost_variable("new_demi_jour_deb") ;
+	$new_fin = getpost_variable("new_fin") ;
+	$new_demi_jour_fin = getpost_variable("new_demi_jour_fin") ;
+	if($_SESSION['config']['disable_saise_champ_nb_jours_pris']==TRUE)  // zone de texte en readonly et grisée
+	{ 
+		$new_nb_jours = compter($user_login, $new_debut,  $new_fin, $new_demi_jour_deb, $new_demi_jour_fin, $comment,  $DEBUG);
+	}
+	else
+    { 
+		$new_nb_jours = getpost_variable("new_nb_jours") ; 
+	}
+	$new_comment = getpost_variable("new_comment") ;
+	$new_type = getpost_variable("new_type") ;
+	$year_affichage = getpost_variable("year_affichage" , date("Y") );
 	
+
+	// si une annulation de conges a été selectionée :
+	if($tab_checkbox_annule!="")
+	{
+		annule_conges($user_login, $tab_checkbox_annule, $tab_text_annul,  $DEBUG);
+	}
+	// si le traitement des demandes a été selectionée :
+	elseif($tab_radio_traite_demande!="")
+	{
+		traite_demandes($user_login, $tab_radio_traite_demande, $tab_text_refus,  $DEBUG);
+	}
+	// si un nouveau conges ou absence a été saisi pour un user :
+	elseif($new_demande_conges==1)
+	{
+		new_conges($user_login, $new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin, $new_nb_jours, $new_comment, $new_type,  $DEBUG);
+	}
+	else 
+	{
+		affichage($user_login,  $year_affichage, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $tri_date,  $DEBUG);
+	}
+
+
 /*************************************/
 /***   FONCTIONS   ***/
 /*************************************/
@@ -95,7 +146,7 @@ function affichage($user_login,  $year_affichage, $year_calendrier_saisie_debut,
 		echo "<H3>". _('resp_traite_user_new_conges') ."</H3>\n\n";
 		
 		//affiche le formulaire de saisie d'une nouvelle demande de conges ou d'un  nouveau conges
-		$onglet = "resp_traite_user";
+		$onglet = "traite_user";
 		saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $onglet);
 
 		echo "<hr align=\"center\" size=\"2\" width=\"90%\"> \n";
@@ -181,7 +232,7 @@ function affiche_etat_demande_user_for_resp($user_login, $tab_user, $tab_grd_res
 		$tab_type_all_abs = recup_tableau_tout_types_abs();
 
 		// AFFICHAGE TABLEAU
-		echo " <form action=\"$PHP_SELF?session=$session&onglet=resp_traite_user\" method=\"POST\"> \n";
+		echo " <form action=\"$PHP_SELF?session=$session&onglet=traite_user\" method=\"POST\"> \n";
 		//echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 		echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 		echo "<tr align=\"center\">\n";
@@ -297,7 +348,7 @@ function affiche_etat_demande_2_valid_user_for_resp($user_login,  $DEBUG=FALSE)
 			$tab_type_all_abs = recup_tableau_tout_types_abs();
 	
 			// AFFICHAGE TABLEAU
-			echo " <form action=\"$PHP_SELF?session=$session&onglet=resp_traite_user\" method=\"POST\"> \n";
+			echo " <form action=\"$PHP_SELF?session=$session&onglet=traite_user\" method=\"POST\"> \n";
 			//echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 			echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 			echo "<tr align=\"center\">\n";
@@ -387,9 +438,9 @@ function affiche_etat_conges_user_for_resp($user_login, $year_affichage, $tri_da
 	$year_affichage_suiv = $year_affichage+1 ;
 	
 	echo "<b>";
-	echo "<a href=\"$PHP_SELF?session=$session&onglet=resp_traite_user&user_login=$user_login&year_affichage=$year_affichage_prec\"><<</a>";
+	echo "<a href=\"$PHP_SELF?session=$session&onglet=traite_user&user_login=$user_login&year_affichage=$year_affichage_prec\"><<</a>";
 	echo "&nbsp&nbsp&nbsp  $year_affichage &nbsp&nbsp&nbsp";
-	echo "<a href=\"$PHP_SELF?session=$session&onglet=resp_traite_user&user_login=$user_login&year_affichage=$year_affichage_suiv\">>></a>";
+	echo "<a href=\"$PHP_SELF?session=$session&onglet=traite_user&user_login=$user_login&year_affichage=$year_affichage_suiv\">>></a>";
 	echo "</b><br><br>\n";
 
 
@@ -417,9 +468,10 @@ function affiche_etat_conges_user_for_resp($user_login, $year_affichage, $tri_da
 		$tab_types_abs = recup_tableau_tout_types_abs( $DEBUG) ;
 		
 		// AFFICHAGE TABLEAU
-		echo "<form action=\"$PHP_SELF?session=$session&onglet=resp_traite_user\" method=\"POST\"> \n";
+		echo "<form action=\"$PHP_SELF?session=$session&onglet=traite_user\" method=\"POST\"> \n";
 		//echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 		echo "<table cellpadding=\"2\" class=\"tablo\">\n";
+		echo "<thead>";
 		echo "<tr align=\"center\">\n";
 		echo " <td class=\"titre\">\n";
 		echo " <a href=\"$PHP_SELF?session=$session&user_login=$user_login&tri_date=descendant\"><img src=\"". TEMPLATE_PATH ."img/1downarrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
@@ -438,7 +490,10 @@ function affiche_etat_conges_user_for_resp($user_login, $year_affichage, $tri_da
 			echo "<td class=\"titre\">". _('divers_date_traitement') ."</td>\n" ;
 		}
 		echo "</tr>\n";
+		echo "</thead>";
+		echo "<tbody>";
 		$tab_checkbox=array();
+		$i = true;
 		while ($resultat3 = $ReqLog3->fetch_array()) 
 		{
 				$sql_login=$resultat3["p_login"] ;
@@ -491,7 +546,7 @@ function affiche_etat_conges_user_for_resp($user_login, $year_affichage, $tri_da
 					$text_annul="<input type=\"text\" name=\"tab_text_annul[$sql_num]\" size=\"20\" max=\"100\">";
 				}
 
-				echo "<tr align=\"center\">\n";
+				echo '<tr class="'.($i?'i':'p').'>';
 					echo "<td class=\"histo\">$sql_date_deb _ $demi_j_deb</td>\n";
 					echo "<td class=\"histo\">$sql_date_fin _ $demi_j_fin</td>\n";
 					echo "<td class=\"histo\">$sql_nb_jours</td>\n";
@@ -515,7 +570,9 @@ function affiche_etat_conges_user_for_resp($user_login, $year_affichage, $tri_da
 							echo "<td class=\"histo-left\">". _('divers_demande') ." : $sql_p_date_demande<br>". _('divers_traitement') ." : $sql_p_date_traitement</td>\n" ;
 					}
 					echo "</tr>\n";
+				$i = !$i;
 			}
+		echo "</tbody>";
 		echo "</table>\n\n";
 
 		echo "<input type=\"hidden\" name=\"user_login\" value=\"$user_login\">\n";
@@ -574,7 +631,7 @@ function annule_conges($user_login, $tab_checkbox_annule, $tab_text_annul,  $DEB
 	{
 		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
 		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-		echo "<input type=\"hidden\" name=\"onglet\" value=\"resp_traite_user\">\n";
+		echo "<input type=\"hidden\" name=\"onglet\" value=\"traite_user\">\n";
 		echo "<input type=\"hidden\" name=\"user_login\" value=\"$user_login\">\n";
 		echo "<input type=\"submit\" value=\"". _('form_ok') ."\">\n";
 		echo "</form>\n" ;
@@ -673,7 +730,7 @@ function traite_demandes($user_login, $tab_radio_traite_demande, $tab_text_refus
 	{
 		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
 		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-		echo "<input type=\"hidden\" name=\"onglet\" value=\"resp_traite_user\">\n";
+		echo "<input type=\"hidden\" name=\"onglet\" value=\"traite_user\">\n";
 		echo "<input type=\"hidden\" name=\"user_login\" value=\"$user_login\">\n";
 		echo "<input type=\"submit\" value=\"". _('form_ok') ."\">\n";
 		echo "</form>\n" ;
@@ -712,7 +769,7 @@ function new_conges($user_login, $new_debut, $new_demi_jour_deb, $new_fin, $new_
 		/* UPDATE table "conges_solde_user" (jours restants) */
 		// on retranche les jours seulement pour des conges pris (pas pour les absences)
 		// donc seulement si le type de l'absence qu'on annule est un "conges"
-		if($tab_tout_type_abs[$new_type_id]['type']=="conges")
+		if(isset($tab_tout_type_abs[$new_type_id]['type']) && $tab_tout_type_abs[$new_type_id]['type']=="conges")
 		{
 			$user_nb_jours_pris_float=(float) $new_nb_jours ;
 //			soustrait_solde_user($user_login, $user_nb_jours_pris_float, $new_type_id,  $DEBUG);
@@ -733,7 +790,7 @@ function new_conges($user_login, $new_debut, $new_demi_jour_deb, $new_fin, $new_
 	}
 
 	/* APPEL D'UNE AUTRE PAGE */
-	echo "<form action=\"$PHP_SELF?session=$session&onglet=resp_traite_user&user_login=$user_login\" method=\"POST\"> \n";
+	echo "<form action=\"$PHP_SELF?session=$session&onglet=traite_user&user_login=$user_login\" method=\"POST\"> \n";
 	echo "<input type=\"submit\" value=\"". _('form_retour') ."\">\n";
 	echo "</form> \n";
 	

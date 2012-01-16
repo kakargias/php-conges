@@ -77,6 +77,7 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 		echo '</thead>';
 		echo '<tbody>';
 
+		$i = true;
 		while ($resultat3 = $ReqLog3->fetch_array()) {
 		
 			$sql_p_date_deb				= eng_date_to_fr($resultat3["p_date_deb"], $DEBUG);
@@ -111,7 +112,7 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 					$user_modif_demande="<a href=\"user_index.php?session=$session&p_num=$sql_p_num&onglet=modif_demande\">". _('form_modif') ."</a>" ;
 			}
 			$user_suppr_demande="<a href=\"user_index.php?session=$session&p_num=$sql_p_num&onglet=suppr_demande\">". _('form_supprim') ."</a>" ;
-			echo '<tr>';
+			echo '<tr class="'.($i?'i':'p').'">';
 				echo '<td class="histo">'.schars($sql_p_date_deb).' _ '.schars($demi_j_deb).'</td>';
 				echo '<td class="histo">'.schars($sql_p_date_fin).' _ '.schars($demi_j_fin).'</td>' ;
 				echo '<td class="histo">'.schars($sql_p_type).'</td>' ;
@@ -129,6 +130,7 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 						echo '<td class="histo-left">'. _('divers_demande') .' : '.$sql_p_date_demande.'<br>'. _('divers_traitement') .' : pas traité</td>';
 				}
 			echo '</tr>';
+			$i = !$i;
 		}
 		echo '</tbody>';
 		echo '</table>' ;

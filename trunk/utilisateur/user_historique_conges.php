@@ -33,25 +33,10 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 	$year_affichage = getpost_variable("year_affichage" , date("Y") );
 	
 
-	echo "<h3>". _('user_historique_conges') ." :</h3>\n";
+	echo '<h1>'. _('user_historique_conges') .' :</h1>';
 
 	//affiche le tableau de l'hitorique des conges
-	affichage_historique_conges($tri_date, $year_affichage, $onglet, $DEBUG);
 
-
-
-
-/**************************************************************************************/
-/********  FONCTIONS      ******/
-/**************************************************************************************/
-
-
-//affiche le tableau de l'hitorique des conges
-function affichage_historique_conges($tri_date, $year_affichage, $onglet,  $DEBUG=FALSE)
-{
-//$DEBUG=TRUE;
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-	$session=session_id();
 	
 	// affichage de l'année et des boutons de défilement
 	$year_affichage_prec = $year_affichage-1 ;
@@ -90,6 +75,7 @@ function affichage_historique_conges($tri_date, $year_affichage, $onglet,  $DEBU
 	{
 		// AFFICHAGE TABLEAU
 		echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
+		echo "<thead>\n";
 		echo "<tr>\n";
 		echo " <td class=\"titre\">\n";
 		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=descendant\"><img src=\"". TEMPLATE_PATH ."img/1downarrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
@@ -97,9 +83,9 @@ function affichage_historique_conges($tri_date, $year_affichage, $onglet,  $DEBU
 		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=ascendant\"><img src=\"". TEMPLATE_PATH ."img/1uparrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
 		echo " </td>\n";
 		echo " <td class=\"titre\">". _('divers_fin_maj_1') ."</td>\n";
+		echo " <td class=\"titre\">". _('divers_type_maj_1') ."</td>\n";
 		echo " <td class=\"titre\">". _('divers_nb_jours_maj_1') ."</td>\n";
 		echo " <td class=\"titre\">". _('divers_comment_maj_1') ."</td>\n";
-		echo " <td class=\"titre\">". _('divers_type_maj_1') ."</td>\n";
 		echo " <td class=\"titre\">". _('divers_etat_maj_1') ."</td>\n";
 		echo " <td class=\"titre\">". _('divers_motif_refus') ."</td>\n";
 		if($_SESSION['config']['affiche_date_traitement']==TRUE)
@@ -108,6 +94,8 @@ function affichage_historique_conges($tri_date, $year_affichage, $onglet,  $DEBU
 		}
 
 		echo "</tr>\n";
+		echo "</thead>\n";
+		echo "<tbody>\n";
 
 		while ($resultat2 = $ReqLog2->fetch_array())
 		{
@@ -127,11 +115,12 @@ function affichage_historique_conges($tri_date, $year_affichage, $onglet,  $DEBU
 			$sql_p_date_traitement = $resultat2["p_date_traitement"];
 
 			echo "<tr>\n";
-				echo '<td class="histo">'.schars($sql_p_date_deb).' _ '.schars($demi_j_deb).'</td>'."\n";
-				echo '<td class="histo">'.schars($sql_p_date_fin).' _ '.schars($demi_j_fin).'</td>'."\n";
-				echo '<td class="histo">'.schars($sql_p_nb_jours).'</td>'."\n";
-				echo '<td class="histo">'.schars($sql_p_commentaire).'</td>'."\n";
-				echo "<td class=\"histo\">$sql_p_type</td>\n";
+				echo '<td class="histo">'.schars($sql_p_date_deb).' _ '.schars($demi_j_deb).'</td>';
+				echo '<td class="histo">'.schars($sql_p_date_fin).' _ '.schars($demi_j_fin).'</td>' ;
+				echo '<td class="histo">'.schars($sql_p_type).'</td>' ;
+				echo '<td class="histo">'.affiche_decimal($sql_p_nb_jours).'</td>' ;
+				echo '<td class="histo">'.schars($sql_p_commentaire).'</td>' ;
+
 				
 				echo "<td class=\"histo\">";
 				if($sql_p_etat=="refus")
@@ -143,29 +132,25 @@ function affichage_historique_conges($tri_date, $year_affichage, $onglet,  $DEBU
 				echo "</td>\n" ;
 				
 				
-				if($sql_p_etat=="refus")
-				{
+				if($sql_p_etat=="refus") {
 					if($sql_p_motif_refus=="")
 						$sql_p_motif_refus= _('divers_inconnu') ;
 					echo '<td class="histo">'.schars($sql_p_motif_refus).'</td>'."\n";
-//					echo "<br><i>motif : $sql_p_motif_refus</i>";
 				}
 				elseif($sql_p_etat=="annul")
 				{
 					if($sql_p_motif_refus=="")
 						$sql_p_motif_refus= _('divers_inconnu') ;
 					echo'<td class="histo">'.schars($sql_p_motif_refus).'</td>'."\n";
-//					echo "<br><i>motif : $sql_p_motif_refus</i>";
 				}
 				elseif($sql_p_etat=="ok")
 				{
 					if($sql_p_motif_refus=="")
 						$sql_p_motif_refus=" ";
 					echo'<td class="histo">'.schars($sql_p_motif_refus).'</td>'."\n";
-//					echo "<br><i>motif : $sql_p_motif_refus</i>";
 				}
 				echo "</td>\n";
-
+				
 				if($_SESSION['config']['affiche_date_traitement']==TRUE)
 				{
 					echo '<td class="histo-left">'.schars( _('divers_demande') ).' : '.schars($sql_p_date_demande).'<br>'."\n";
@@ -175,8 +160,8 @@ function affichage_historique_conges($tri_date, $year_affichage, $onglet,  $DEBU
 			
 				echo "</tr>\n";
 		}
+		echo "</tbody>\n\n";
 		echo "</table>\n\n";
 	}
 	echo "<br><br>\n" ;
-}
 

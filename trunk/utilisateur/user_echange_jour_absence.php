@@ -48,8 +48,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 		$year_calendrier_saisie_fin		= getpost_variable('year_calendrier_saisie_fin'		, date('Y'));
 		$mois_calendrier_saisie_fin		= getpost_variable('mois_calendrier_saisie_fin'		, date('m'));
 		
-
-		echo '<H3>'. _('user_echange_rtt') .' :</H3>';
+		echo '<h1>'. _('user_echange_rtt') .' :</h1>';
 
 		//affiche le formulaire de saisie d'une nouvelle demande de conges
 		saisie_echange_rtt($_SESSION['userlogin'], $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $onglet,  $DEBUG);
@@ -63,6 +62,129 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 /**************************************************************************************/
 /********  FONCTIONS      ******/
 /**************************************************************************************/
+
+
+//affiche le formulaire d'échange d'un jour de rtt-temps partiel / jour travaillé
+function saisie_echange_rtt($user_login, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $onglet,  $DEBUG=FALSE)
+{
+	$PHP_SELF=$_SERVER['PHP_SELF'];
+	$session=session_id();
+	$mois_calendrier_saisie_debut_prec=0; $year_calendrier_saisie_debut_prec=0;
+	$mois_calendrier_saisie_debut_suiv=0; $year_calendrier_saisie_debut_suiv=0;
+	$mois_calendrier_saisie_fin_prec=0; $year_calendrier_saisie_fin_prec=0;
+	$mois_calendrier_saisie_fin_suiv=0; $year_calendrier_saisie_fin_suiv=0;
+
+	if($DEBUG==TRUE) { echo 'param = '.$user_login.', '.$year_calendrier_saisie_debut.', '.$mois_calendrier_saisie_debut.', '.$year_calendrier_saisie_fin.', '.$mois_calendrier_saisie_fin.' <br>' ; }
+
+	echo '<form action="'.$PHP_SELF.'?session='.$session.'&&onglet='.$onglet.'" method="POST">' ;
+
+			echo '<table cellpadding="0" cellspacing="5" border="0">';
+			echo '<tr align="center">';
+
+			// cellule 1 : calendrier de saisie du jour d'absence
+			echo '<td>';
+				echo '<table cellpadding="0" cellspacing="0" width="250">';
+				echo '<tr>';
+					init_var_navigation_mois_year($mois_calendrier_saisie_debut, $year_calendrier_saisie_debut,
+								$mois_calendrier_saisie_debut_prec, $year_calendrier_saisie_debut_prec,
+								$mois_calendrier_saisie_debut_suiv, $year_calendrier_saisie_debut_suiv,
+								$mois_calendrier_saisie_fin, $year_calendrier_saisie_fin,
+								$mois_calendrier_saisie_fin_prec, $year_calendrier_saisie_fin_prec,
+								$mois_calendrier_saisie_fin_suiv, $year_calendrier_saisie_fin_suiv );
+
+					// affichage des boutons de défilement
+					// recul du mois saisie debut
+					echo '<td align="center" class="big">';
+					echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut_prec.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut_prec.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin.'&user_login='.$user_login.'&onglet='.$onglet.'">';
+					echo ' <img src="'. TEMPLATE_PATH . 'img/simfirs.gif" width="16" height="16" border="0" alt="'. _('divers_mois_precedent') .'" title="'. _('divers_mois_precedent') .'"> ';
+					echo '</a>';
+					echo '</td>';
+
+					// titre du calendrier de saisie du jour d'absence
+					echo '<td align="center" class="big">'. _('saisie_echange_titre_calendrier_1') .' :</td>';
+
+					// affichage des boutons de défilement
+					// avance du mois saisie debut
+					echo '<td align="center" class="big">';
+					echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut_suiv.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut_suiv.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin.'&user_login='.$user_login.'&onglet='.$onglet.'">';
+					echo ' <img src="'. TEMPLATE_PATH . 'img/simlast.gif" width="16" height="16" border="0" alt="'. _('divers_mois_suivant') .'" title="'. _('divers_mois_suivant') .'"> ';
+					echo '</a>';
+					echo '</td>';
+				echo '</tr>';
+				echo '</table>';
+				//*** calendrier saisie date debut ***/
+				affiche_calendrier_saisie_jour_absence($user_login, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut);
+			echo '</td>';
+
+			// cellule 2 : boutons radio 1/2 journée ou jour complet
+			echo '<td>';
+				echo '<input type="radio" name="moment_absence_ordinaire" value="a"><b><u>'. _('form_am') .'</u></b><input type="radio" name="moment_absence_souhaitee" value="a"><br><br>';
+				echo '<input type="radio" name="moment_absence_ordinaire" value="p"><b><u>'. _('form_pm') .'</u></b><input type="radio" name="moment_absence_souhaitee" value="p"><br><br>';
+				echo '<input type="radio" name="moment_absence_ordinaire" value="j" checked><b><u>'. _('form_day') .'</u></b><input type="radio" name="moment_absence_souhaitee" value="j" checked><br>';
+			echo '</td>';
+
+			// cellule 3 : calendrier de saisie du jour d'absence
+			echo '<td>';
+				echo '<table cellpadding="0" cellspacing="0" width="250">';
+				echo '<tr>';
+					$mois_calendrier_saisie_fin_prec = $mois_calendrier_saisie_fin==1 ? 12 : $mois_calendrier_saisie_fin-1 ;
+					$mois_calendrier_saisie_fin_suiv = $mois_calendrier_saisie_fin==12 ? 1 : $mois_calendrier_saisie_fin+1 ;
+
+					// affichage des boutons de défilement
+					// recul du mois saisie fin
+					echo '<td align="center" class="big">';
+					echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin_prec.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin_prec.'&user_login='.$user_login.'&onglet='.$onglet.'">';
+					echo ' <img src="'. TEMPLATE_PATH . 'img/simfirs.gif" width="16" height="16" border="0" alt="'. _('divers_mois_precedent') .'" title="'. _('divers_mois_precedent') .'"> ';
+					echo '</a>';
+					echo '</td>';
+
+					// titre du ecalendrier de saisie du jour d'absence
+					echo '<td align="center" class="big">'. _('saisie_echange_titre_calendrier_2') .' :</td>';
+
+					// affichage des boutons de défilement
+					// avance du mois saisie fin
+					echo '<td align="center" class="big">';
+					echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin_suiv.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin_suiv.'&user_login='.$user_login.'&onglet='.$onglet.'">';
+					echo ' <img src="'. TEMPLATE_PATH . 'img/simlast.gif" width="16" height="16" border="0" alt="'. _('divers_mois_suivant') .'" title="'. _('divers_mois_suivant') .'"> ';
+					echo '</a>';
+					echo '</td>';
+				echo '</tr>';
+				echo '</table>';
+
+				//*** calendrier saisie date fin ***/
+				affiche_calendrier_saisie_jour_presence($user_login, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin);
+			echo '</td>';
+
+			echo '</tr>';
+			echo '<tr align="center">';
+
+			// cellule 1 : champs texte et boutons (valider/cancel)
+			echo '<td colspan=3>';
+
+				/***  formulaire ***/
+					echo '<table cellpadding="2" cellspacing="3" border="0" >';
+					echo '<tr align="center">';
+						echo '<td><b>'. _('divers_comment_maj_1') .' : </b></td>';
+						$text_commentaire ='<input type="text" name="new_comment" size="25" maxlength="30" value="">' ;
+						echo '<td>'.$text_commentaire.'</td>';
+					echo '</tr>';
+					echo '<tr align="center">';
+						echo '<td colspan=2>';
+							echo '<input type="hidden" name="user_login" value="'.schars($user_login).'">';
+							echo '<input type="hidden" name="new_echange_rtt" value=1>';
+							echo '<input type="submit" value="'. _('form_submit') .'">   <input type="reset" value="'. _('form_cancel') .'">';
+						echo '</td>';
+					echo '</tr>';
+					echo '</table>';
+
+
+			echo '</td>';
+			echo '</tr>';
+			echo '</table>';
+
+		echo '</form>' ;
+}
+
 
 
 function echange_absence_rtt($onglet, $new_debut_string, $new_fin_string, $new_comment, $moment_absence_ordinaire, $moment_absence_souhaitee, $DEBUG=FALSE)
@@ -291,7 +413,7 @@ function echange_absence_rtt($onglet, $new_debut_string, $new_fin_string, $new_c
 		// insert du jour d'absence ordinaire (qui n'en sera plus un ou qu'a moitie ...)
 		// e_presence = N (non) , J (jour entier) , M (matin) ou A (apres-midi)
 		// verif si le couple user/date1 existe dans conges_echange_rtt ...
-		$sql_verif_echange1='SELECT e_absence, e_presence from conges_echange_rtt WHERE e_login=\''.SQL::quote($_SESSION['userlogin']).'\' AND e_date_jour=\''.SQL::quote($new_debut);
+		$sql_verif_echange1='SELECT e_absence, e_presence from conges_echange_rtt WHERE e_login=\''.SQL::quote($_SESSION['userlogin']).'\' AND e_date_jour=\''.SQL::quote($new_debut).'\';';
 		$result_verif_echange1 = SQL::query($sql_verif_echange1) ;
 
 		$count_verif_echange1=$result_verif_echange1->num_rows;
@@ -316,7 +438,7 @@ function echange_absence_rtt($onglet, $new_debut_string, $new_fin_string, $new_c
 		// insert du jour d'absence souhaité (qui en devient un)
 		// e_absence = N (non) , J (jour entier) , M (matin) ou A (apres-midi)
 		// verif si le couple user/date2 existe dans conges_echange_rtt ...
-		$sql_verif_echange2='SELECT e_absence, e_presence from conges_echange_rtt WHERE e_login=\''.SQL::quote($_SESSION['userlogin']).'\' AND e_date_jour=\''.SQL::quote($new_fin);
+		$sql_verif_echange2='SELECT e_absence, e_presence from conges_echange_rtt WHERE e_login=\''.SQL::quote($_SESSION['userlogin']).'\' AND e_date_jour=\''.SQL::quote($new_fin).'\';';
 		$result_verif_echange2 = SQL::query($sql_verif_echange2);
 
 		$count_verif_echange2=$result_verif_echange2->num_rows;

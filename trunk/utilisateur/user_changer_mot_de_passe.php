@@ -45,22 +45,29 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 
 	
 	
-		echo '<H3>'. _('user_change_password') .' :</H3>';
+		echo '<h1>'. _('user_change_password') .' :</h1>';
 
 		echo '<form action="'.$PHP_SELF.'?session='.$session.'&onglet='.$onglet.'" method="POST">';
-		echo "<table cellpadding=\"2\" class=\"tablo\" width=\"500\">\n";
-		echo "<tr><td class=\"titre\">". _('user_passwd_saisie_1') ."</td><td class=\"titre\">". _('user_passwd_saisie_2') ."</td></tr>\n";
-
-		$text_passwd1="<input type=\"password\" name=\"new_passwd1\" size=\"10\" maxlength=\"20\" value=\"\">" ;
-		$text_passwd2="<input type=\"password\" name=\"new_passwd2\" size=\"10\" maxlength=\"20\" value=\"\">" ;
-		echo "<tr align=\"center\">\n";
+		echo '<table cellpadding="2" class="tablo" width="500">';
+		echo '<thead>';
+		echo '<tr>
+				<td class="titre">'. _('user_passwd_saisie_1') .'</td>
+				<td class="titre">'. _('user_passwd_saisie_2') .'</td>
+			</tr>';
+		echo '</thead>';
+		echo '<tbody>';
+		
+		$text_passwd1	= '<input type="password" name="new_passwd1" size="10" maxlength="20" value="">';
+		$text_passwd2	= '<input type="password" name="new_passwd2" size="10" maxlength="20" value="">';
+		echo '<tr>';
 		echo '<td>'.($text_passwd1).'</td><td>'.($text_passwd2).'</td>'."\n";
-		echo "</tr>\n";
+		echo '</tr>';
 
-		echo "</table><br>\n";
-		echo "<input type=\"hidden\" name=\"change_passwd\" value=1>\n";
+		echo '</tbody>';
+		echo '</table><br>';
+		echo '<input type="hidden" name="change_passwd" value=1>';
 		echo '<input type="submit" value="'. _('form_submit') .'">';
-		echo "</form>\n" ;
+		echo '</form>';
 	}
 
 

@@ -32,257 +32,70 @@ include_once  INCLUDE_PATH .'sql.class.php';
 include_once  INCLUDE_PATH .'get_text.php';
 
 // affichage du calendrier avec les case à cocher, du mois du début du congés
-function  affiche_calendrier_saisie_date_debut($user_login, $year, $mois,  $DEBUG=FALSE)
+function  affiche_calendrier_saisie_date($user_login, $year, $mois, $type_debut_fin , $DEBUG=FALSE)
 {
 
 	$jour_today=date("j");
 	$jour_today_name=date("D");
 
-	$first_jour_mois_timestamp=mktime (0,0,0,$mois,1,$year);
-//	$mois_name=date("F", $first_jour_mois_timestamp);
+	$first_jour_mois_timestamp	=mktime (0,0,0,$mois,1,$year);
+	$last_jour_mois_timestamp	=mktime (0,0,0,$mois +1 , -1,$year);
+	
 	$mois_name=date_fr("F", $first_jour_mois_timestamp);
-	//$first_jour_mois_name=date("D", $first_jour_mois_timestamp);
-	$first_jour_mois_rang=date("w", $first_jour_mois_timestamp);      // jour de la semaine en chiffre (0=dim , 6=sam)
-	if($first_jour_mois_rang==0)
+	
+	$first_jour_mois_rang	=date("w", $first_jour_mois_timestamp);      // jour de la semaine en chiffre (0=dim , 6=sam)
+	$last_jour_mois_rang	=date("w", $last_jour_mois_timestamp);      // jour de la semaine en chiffre (0=dim , 6=sam)
+	$nb_jours_mois = ( $last_jour_mois_timestamp - $first_jour_mois_timestamp ) / (24 * 60 * 60);
+	
+	if( $first_jour_mois_rang == 0 )
 		$first_jour_mois_rang=7 ;    // jour de la semaine en chiffre (1=lun , 7=dim)
+		
+	if( $last_jour_mois_rang == 0 )
+		$last_jour_mois_rang=7 ;    // jour de la semaine en chiffre (1=lun , 7=dim)
 
-	echo '<table cellpadding="0" cellspacing="0" border="1" width="250" bgcolor="'.$_SESSION['config']['semaine_bgcolor'].'">';
-	/* affichage  2 premieres lignes */
-	echo '	<tr align="center" bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'"><td colspan=7 class="titre"> '.$mois_name.' '.$year.' </td></tr>' ;
-	echo '	<tr bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'">';
-	echo '		<td class="cal-saisie2">'. _('lundi_1c') .'</td>';
-	echo '		<td class="cal-saisie2">'. _('mardi_1c') .'</td>';
-	echo '		<td class="cal-saisie2">'. _('mercredi_1c') .'</td>';
-	echo '		<td class="cal-saisie2">'. _('jeudi_1c') .'</td>';
-	echo '		<td class="cal-saisie2">'. _('vendredi_1c') .'</td>';
-	echo '		<td class="cal-saisie2">'. _('samedi_1c') .'</td>';
-	echo '		<td class="cal-saisie2">'. _('dimanche_1c') .'</td>';
-	echo '	</tr>' ;
+	echo '<table class="calendrier_saisie_date_debut" cellpadding="0" cellspacing="0">';
+		echo '<thead>
+				<tr align="center" bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'">
+						<td colspan=7 class="titre"> '.$mois_name.' '.$year.' </td>
+				</tr>
+				<tr bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'">
+					<td class="cal-saisie2">'. _('lundi_1c') .'</td>
+					<td class="cal-saisie2">'. _('mardi_1c') .'</td>
+					<td class="cal-saisie2">'. _('mercredi_1c') .'</td>
+					<td class="cal-saisie2">'. _('jeudi_1c') .'</td>
+					<td class="cal-saisie2">'. _('vendredi_1c') .'</td>
+					<td class="cal-saisie2">'. _('samedi_1c') .'</td>
+					<td class="cal-saisie2">'. _('dimanche_1c') .'</td>
+				</tr>
+			</thead>';
+		echo '<tbody>';
 
-	/* affichage ligne 1 du mois*/
-	echo '<tr>';
-	// affichage des cellules vides jusqu'au 1 du mois ...
-	for($i=1; $i<$first_jour_mois_rang; $i++)
-	{
-		if( (($i==6)&&($_SESSION['config']['samedi_travail']==FALSE)) || (($i==7)&&($_SESSION['config']['dimanche_travail']==FALSE)) )
-			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
-		else
-			$bgcolor=$_SESSION['config']['semaine_bgcolor'];
-		echo '<td bgcolor='.$bgcolor.' class="cal-saisie2">-</td>';
-	}
-	// affichage des cellules cochables du 1 du mois à la fin de la ligne ...
-	for($i=$first_jour_mois_rang; $i<8; $i++)
-	{
-		$j=$i-$first_jour_mois_rang+1 ;
-		$j_timestamp=mktime (0,0,0,$mois,$j,$year);
-		$td_second_class=get_td_class_of_the_day_in_the_week($j_timestamp);
+			$start_nb_day_before = $first_jour_mois_rang -1;
+			$stop_nb_day_before = 7 - $last_jour_mois_rang ;
+			
+			
+			for ( $i = - $start_nb_day_before; $i <= $nb_jours_mois + $stop_nb_day_before; $i ++) {
+				if ( ($i + $start_nb_day_before ) % 7 == 0)
+					echo '<tr>';
+					
+				$j_timestamp=mktime (0,0,0,$mois, $i +1 ,$year);
+				$td_second_class = get_td_class_of_the_day_in_the_week($j_timestamp);
 
-		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, 'new_debut', $DEBUG);
-	}
-	echo '</tr>';
+				
+				if ($i < 0 || $i > $nb_jours_mois) {
+					echo '<td class="'.$td_second_class.'">-</td>';
+				}
+				else {
+					affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, $type_debut_fin , $DEBUG);
+				}
+					
+				if ( ($i + $start_nb_day_before ) % 7 == 6)
+					echo '<tr>';
+			}
 
-	/* affichage ligne 2 du mois*/
-	echo '<tr>';
-	for($i=8-$first_jour_mois_rang+1; $i<15-$first_jour_mois_rang+1; $i++) {
-		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
-		$td_second_class=get_td_class_of_the_day_in_the_week($j_timestamp);
-
-		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, 'new_debut', $DEBUG);
-	}
-	echo '</tr>';
-
-	/* affichage ligne 3 du mois*/
-	echo '<tr>';
-	for($i=15-$first_jour_mois_rang+1; $i<22-$first_jour_mois_rang+1; $i++)
-	{
-		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
-		$td_second_class=get_td_class_of_the_day_in_the_week($j_timestamp);
-
-		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, 'new_debut', $DEBUG);
-	}
-	echo '</tr>';
-
-	/* affichage ligne 4 du mois*/
-	echo '<tr>';
-	for($i=22-$first_jour_mois_rang+1; $i<29-$first_jour_mois_rang+1; $i++) {
-		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
-		$td_second_class=get_td_class_of_the_day_in_the_week($j_timestamp);
-
-		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, 'new_debut', $DEBUG);
-	}
-	echo '</tr>';
-
-	/* affichage ligne 5 du mois (peut etre la derniere ligne) */
-	echo '<tr>';
-	for($i=29-$first_jour_mois_rang+1; $i<36-$first_jour_mois_rang+1 && checkdate($mois, $i, $year); $i++)
-	{
-		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
-		$td_second_class=get_td_class_of_the_day_in_the_week($j_timestamp);
-
-		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, 'new_debut', $DEBUG);
-	}
-	for($i; $i<36-$first_jour_mois_rang+1; $i++) {
-		if( (($i==35-$first_jour_mois_rang)&&($_SESSION['config']['samedi_travail']==FALSE))
-			|| (($i==36-$first_jour_mois_rang)&&($_SESSION['config']['dimanche_travail']==FALSE)) )
-			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
-		else
-			$bgcolor=$_SESSION['config']['semaine_bgcolor'];
-		echo '<td bgcolor='.$bgcolor.' class="cal-saisie2">-</td>';
-	}
-	echo '</tr>';
-
-	/* affichage ligne 6 du mois (derniere ligne)*/
-	echo '<tr>';
-	for($i=36-$first_jour_mois_rang+1; checkdate($mois, $i, $year); $i++)
-	{
-		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
-		$td_second_class=get_td_class_of_the_day_in_the_week($j_timestamp);
-
-		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, 'new_debut', $DEBUG);
-	}
-	for($i; $i<43-$first_jour_mois_rang+1; $i++)
-	{
-		if( (($i==42-$first_jour_mois_rang)&&($_SESSION['config']['samedi_travail']==FALSE))
-			|| (($i==43-$first_jour_mois_rang)&&($_SESSION['config']['dimanche_travail']==FALSE)))
-			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
-		else
-			$bgcolor=$_SESSION['config']['semaine_bgcolor'];
-		echo '<td bgcolor='.$bgcolor.' class="cal-saisie2">-</td>';
-	}
-	echo '</tr>';
-
+		echo '</tbody>';
 	echo '</table>';
 }
-
-
-// affichage du calendrier avec les case à cocher, du mois de fin du congés
-function  affiche_calendrier_saisie_date_fin($user_login, $year, $mois, $DEBUG=FALSE)
-{
-
-
-	$jour_today=date('j');
-	$jour_today_name=date('D');
-
-	$first_jour_mois_timestamp=mktime (0,0,0,$mois,1,$year);
-//	$mois_name=date('F', $first_jour_mois_timestamp);
-	$mois_name=date_fr('F', $first_jour_mois_timestamp);
-	//$first_jour_mois_name=date('D', $first_jour_mois_timestamp);
-	$first_jour_mois_rang=date('w', $first_jour_mois_timestamp);      // jour de la semaine en chiffre (0=dim , 6=sam)
-	if($first_jour_mois_rang==0)
-		$first_jour_mois_rang=7 ;    // jour de la semaine en chiffre (1=lun , 7=dim)
-
-	echo '<table cellpadding="0" cellspacing="0" border="1" width="250" bgcolor="'.$_SESSION['config']['semaine_bgcolor'].'">';
-	/* affichage  2 premieres lignes */
-	echo '	<tr align="center" bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'"><td colspan=7 class="titre"> '.$mois_name.' '.$year.' </td></tr>' ;
-	echo '	<tr align="center"  bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'">' ;
-	echo '		<td class="cal-saisie2">'. _('lundi_1c') .'</td>' ;
-	echo '		<td class="cal-saisie2">'. _('mardi_1c') .'</td>' ;
-	echo '		<td class="cal-saisie2">'. _('mercredi_1c') .'</td>' ;
-	echo '		<td class="cal-saisie2">'. _('jeudi_1c') .'</td>' ;
-	echo '		<td class="cal-saisie2">'. _('vendredi_1c') .'</td>' ;
-	echo '		<td class="cal-saisie2">'. _('samedi_1c') .'</td>' ;
-	echo '		<td class="cal-saisie2">'. _('dimanche_1c') .'</td>' ;
-	echo '	</tr>' ;
-
-
-	/* affichage ligne 1 du mois*/
-	echo '<tr>';
-	// affichage des cellules vides jusqu'au 1 du mois ...
-	for($i=1; $i<$first_jour_mois_rang; $i++)
-	{
-		if( (($i==6)&&($_SESSION['config']['samedi_travail']==FALSE)) || (($i==7)&&($_SESSION['config']['dimanche_travail']==FALSE)) )
-			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
-		else
-			$bgcolor=$_SESSION['config']['semaine_bgcolor'];
-		echo '<td bgcolor='.$bgcolor.' class="cal-saisie2">-</td>';
-	}
-	// affichage des cellules cochables du 1 du mois à la fin de la ligne ...
-	for($i=$first_jour_mois_rang; $i<8; $i++) {
-		$j=$i-$first_jour_mois_rang+1 ;
-		$j_timestamp=mktime (0,0,0,$mois,$j,$year);
-		$td_second_class=get_td_class_of_the_day_in_the_week($j_timestamp);
-
-		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, 'new_fin', $DEBUG);
-	}
-	echo '</tr>';
-
-	/* affichage ligne 2 du mois*/
-	echo '<tr>';
-	for($i=8-$first_jour_mois_rang+1; $i<15-$first_jour_mois_rang+1; $i++)
-	{
-		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
-		$td_second_class=get_td_class_of_the_day_in_the_week($j_timestamp);
-
-		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, 'new_fin', $DEBUG);
-	}
-	echo '</tr>';
-
-	/* affichage ligne 3 du mois*/
-	echo '<tr>';
-	for($i=15-$first_jour_mois_rang+1; $i<22-$first_jour_mois_rang+1; $i++)
-	{
-		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
-		$td_second_class=get_td_class_of_the_day_in_the_week($j_timestamp);
-
-		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, 'new_fin', $DEBUG);
-	}
-	echo '</tr>';
-
-	/* affichage ligne 4 du mois*/
-	echo '<tr>';
-	for($i=22-$first_jour_mois_rang+1; $i<29-$first_jour_mois_rang+1; $i++) {
-		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
-		$td_second_class=get_td_class_of_the_day_in_the_week($j_timestamp);
-
-		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, 'new_fin', $DEBUG);
-	}
-	echo '</tr>';
-
-	/* affichage ligne 5 du mois (peut etre la derniere ligne)*/
-	echo '<tr>';
-	for($i=29-$first_jour_mois_rang+1; $i<36-$first_jour_mois_rang+1 && checkdate($mois, $i, $year); $i++)
-	{
-		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
-		$td_second_class=get_td_class_of_the_day_in_the_week($j_timestamp);
-
-		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, 'new_fin', $DEBUG);
-	}
-	for($i; $i<36-$first_jour_mois_rang+1; $i++)
-	{
-		if( (($i==35-$first_jour_mois_rang)&&($_SESSION['config']['samedi_travail']==FALSE))
-			|| (($i==36-$first_jour_mois_rang)&&($_SESSION['config']['dimanche_travail']==FALSE)) )
-			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
-		else
-			$bgcolor=$_SESSION['config']['semaine_bgcolor'];
-		echo '<td bgcolor='.$bgcolor.' class="cal-saisie2">-</td>';
-	}
-	echo '</tr>';
-
-	/* affichage ligne 6 du mois (derniere ligne)*/
-	echo '<tr>';
-	for($i=36-$first_jour_mois_rang+1; checkdate($mois, $i, $year); $i++)
-	{
-		$j_timestamp=mktime (0,0,0,$mois,$i,$year);
-		$td_second_class=get_td_class_of_the_day_in_the_week($j_timestamp);
-
-		affiche_cellule_jour_cal_saisie($user_login, $j_timestamp, $td_second_class, 'new_fin', $DEBUG);
-	}
-	for($i; $i<43-$first_jour_mois_rang+1; $i++)
-	{
-		if( (($i==42-$first_jour_mois_rang)&&($_SESSION['config']['samedi_travail']==FALSE))
-			|| (($i==43-$first_jour_mois_rang)&&($_SESSION['config']['dimanche_travail']==FALSE)) )
-			$bgcolor=$_SESSION['config']['week_end_bgcolor'];
-		else
-			$bgcolor=$_SESSION['config']['semaine_bgcolor'];
-		echo '<td bgcolor='.$bgcolor.' class="cal-saisie2">-</td>';
-	}
-	echo '</tr>';
-
-	echo '</table>';
-}
-
-
-
 
 // affichage du calendrier du mois avec les case à cocher sur les jour d'absence
 function  affiche_calendrier_saisie_jour_absence($user_login, $year, $mois, $DEBUG=FALSE)
@@ -1061,7 +874,7 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 								echo '</tr>';
 								echo '</table>';
 								/*** calendrier saisie date debut ***/
-								affiche_calendrier_saisie_date_debut($user_login, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut,  $DEBUG);
+								affiche_calendrier_saisie_date($user_login, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, 'new_debut', $DEBUG);
 							echo '</td>';
 							/**************************************************/
 							/* cellule 2 : boutons radio matin ou après midi */
@@ -1136,7 +949,7 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 								echo '</tr>';
 								echo '</table>';
 								/*** calendrier saisie date fin ***/
-								affiche_calendrier_saisie_date_fin($user_login, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin,  $DEBUG);
+								affiche_calendrier_saisie_date($user_login, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, 'new_fin',  $DEBUG);
 							echo '</td>';
 							/**************************************************/
 							/* cellule 2 : boutons radio matin ou après midi */
@@ -1276,131 +1089,6 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 				echo '</td>';
 				echo '</tr>';
 				echo '</table>';
-
-			echo '</td>';
-			echo '</tr>';
-			echo '</table>';
-
-		echo '</form>' ;
-}
-
-
-//affiche le formulaire d'échange d'un jour de rtt-temps partiel / jour travaillé
-function saisie_echange_rtt($user_login, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $onglet,  $DEBUG=FALSE)
-{
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-	$session=session_id();
-	$mois_calendrier_saisie_debut_prec=0; $year_calendrier_saisie_debut_prec=0;
-	$mois_calendrier_saisie_debut_suiv=0; $year_calendrier_saisie_debut_suiv=0;
-	$mois_calendrier_saisie_fin_prec=0; $year_calendrier_saisie_fin_prec=0;
-	$mois_calendrier_saisie_fin_suiv=0; $year_calendrier_saisie_fin_suiv=0;
-
-	if($DEBUG==TRUE) { echo 'param = '.$user_login.', '.$year_calendrier_saisie_debut.', '.$mois_calendrier_saisie_debut.', '.$year_calendrier_saisie_fin.', '.$mois_calendrier_saisie_fin.' <br>' ; }
-
-	echo '<form action="'.$PHP_SELF.'?session='.$session.'&&onglet='.$onglet.'" method="POST">' ;
-
-			echo '<table cellpadding="0" cellspacing="5" border="0">';
-			echo '<tr align="center">';
-
-			// cellule 1 : calendrier de saisie du jour d'absence
-			echo '<td>';
-				echo '<table cellpadding="0" cellspacing="0" width="250">';
-				echo '<tr>';
-					init_var_navigation_mois_year($mois_calendrier_saisie_debut, $year_calendrier_saisie_debut,
-								$mois_calendrier_saisie_debut_prec, $year_calendrier_saisie_debut_prec,
-								$mois_calendrier_saisie_debut_suiv, $year_calendrier_saisie_debut_suiv,
-								$mois_calendrier_saisie_fin, $year_calendrier_saisie_fin,
-								$mois_calendrier_saisie_fin_prec, $year_calendrier_saisie_fin_prec,
-								$mois_calendrier_saisie_fin_suiv, $year_calendrier_saisie_fin_suiv );
-
-					// affichage des boutons de défilement
-					// recul du mois saisie debut
-					echo '<td align="center" class="big">';
-					echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut_prec.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut_prec.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin.'&user_login='.$user_login.'&onglet='.$onglet.'">';
-					echo ' <img src="'. TEMPLATE_PATH . 'img/simfirs.gif" width="16" height="16" border="0" alt="'. _('divers_mois_precedent') .'" title="'. _('divers_mois_precedent') .'"> ';
-					echo '</a>';
-					echo '</td>';
-
-					// titre du calendrier de saisie du jour d'absence
-					echo '<td align="center" class="big">'. _('saisie_echange_titre_calendrier_1') .' :</td>';
-
-					// affichage des boutons de défilement
-					// avance du mois saisie debut
-					echo '<td align="center" class="big">';
-					echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut_suiv.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut_suiv.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin.'&user_login='.$user_login.'&onglet='.$onglet.'">';
-					echo ' <img src="'. TEMPLATE_PATH . 'img/simlast.gif" width="16" height="16" border="0" alt="'. _('divers_mois_suivant') .'" title="'. _('divers_mois_suivant') .'"> ';
-					echo '</a>';
-					echo '</td>';
-				echo '</tr>';
-				echo '</table>';
-				//*** calendrier saisie date debut ***/
-				affiche_calendrier_saisie_jour_absence($user_login, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut);
-			echo '</td>';
-
-			// cellule 2 : boutons radio 1/2 journée ou jour complet
-			echo '<td>';
-				echo '<input type="radio" name="moment_absence_ordinaire" value="a"><b><u>'. _('form_am') .'</u></b><input type="radio" name="moment_absence_souhaitee" value="a"><br><br>';
-				echo '<input type="radio" name="moment_absence_ordinaire" value="p"><b><u>'. _('form_pm') .'</u></b><input type="radio" name="moment_absence_souhaitee" value="p"><br><br>';
-				echo '<input type="radio" name="moment_absence_ordinaire" value="j" checked><b><u>'. _('form_day') .'</u></b><input type="radio" name="moment_absence_souhaitee" value="j" checked><br>';
-			echo '</td>';
-
-			// cellule 3 : calendrier de saisie du jour d'absence
-			echo '<td>';
-				echo '<table cellpadding="0" cellspacing="0" width="250">';
-				echo '<tr>';
-					$mois_calendrier_saisie_fin_prec = $mois_calendrier_saisie_fin==1 ? 12 : $mois_calendrier_saisie_fin-1 ;
-					$mois_calendrier_saisie_fin_suiv = $mois_calendrier_saisie_fin==12 ? 1 : $mois_calendrier_saisie_fin+1 ;
-
-					// affichage des boutons de défilement
-					// recul du mois saisie fin
-					echo '<td align="center" class="big">';
-					echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin_prec.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin_prec.'&user_login='.$user_login.'&onglet='.$onglet.'">';
-					echo ' <img src="'. TEMPLATE_PATH . 'img/simfirs.gif" width="16" height="16" border="0" alt="'. _('divers_mois_precedent') .'" title="'. _('divers_mois_precedent') .'"> ';
-					echo '</a>';
-					echo '</td>';
-
-					// titre du ecalendrier de saisie du jour d'absence
-					echo '<td align="center" class="big">'. _('saisie_echange_titre_calendrier_2') .' :</td>';
-
-					// affichage des boutons de défilement
-					// avance du mois saisie fin
-					echo '<td align="center" class="big">';
-					echo '<a href="'.$PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin_suiv.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin_suiv.'&user_login='.$user_login.'&onglet='.$onglet.'">';
-					echo ' <img src="'. TEMPLATE_PATH . 'img/simlast.gif" width="16" height="16" border="0" alt="'. _('divers_mois_suivant') .'" title="'. _('divers_mois_suivant') .'"> ';
-					echo '</a>';
-					echo '</td>';
-				echo '</tr>';
-				echo '</table>';
-
-				//*** calendrier saisie date fin ***/
-				affiche_calendrier_saisie_jour_presence($user_login, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin);
-			echo '</td>';
-
-			echo '</tr>';
-			echo '<tr align="center">';
-
-			// cellule 1 : champs texte et boutons (valider/cancel)
-			echo '<td colspan=3>';
-
-				/***  formulaire ***/
-					echo '<table cellpadding="2" cellspacing="3" border="0" >';
-					echo '<tr align="center">';
-						echo '<td><b>'. _('divers_comment_maj_1') .' : </b></td>';
-						$text_commentaire ='<input type="text" name="new_comment" size="25" maxlength="30" value="">' ;
-						echo '<td>'.$text_commentaire.'</td>';
-					echo '</tr>';
-					echo '<tr align="center">';
-						echo '<td colspan=2><img src="". TEMPLATE_PATH . "img/shim.gif" width="15" height="10" border="0" vspace="0" hspace="0"></td>';
-					echo '</tr>';
-					echo '<tr align="center">';
-						echo '<td colspan=2>';
-							echo '<input type="hidden" name="user_login" value="'.schars($user_login).'">';
-							echo '<input type="hidden" name="new_echange_rtt" value=1>';
-							echo '<input type="submit" value="'. _('form_submit') .'">   <input type="reset" value="'. _('form_cancel') .'">';
-						echo '</td>';
-					echo '</tr>';
-					echo '</table>';
-
 
 			echo '</td>';
 			echo '</tr>';
@@ -1564,6 +1252,7 @@ function bouton_actualiser($onglet, $DEBUG=FALSE)
 // attention : les param $val_matin et $val_aprem sont passées par référence (avec &) car on change leur valeur
 function recup_infos_artt_du_jour($sql_login, $j_timestamp, &$val_matin, &$val_aprem,  $DEBUG=FALSE)
 {
+
 
 	$num_semaine=date('W', $j_timestamp);
 	$jour_name_fr_2c=get_j_name_fr_2c($j_timestamp); // nom du jour de la semaine en francais sur 2 caracteres
@@ -2318,64 +2007,64 @@ function eng_date_to_fr($une_date, $DEBUG=FALSE)
 // affichage de la cellule correspondant au jour dans les calendrier de saisie (demande de conges, etc ...)
 function affiche_cellule_jour_cal_saisie($login, $j_timestamp, $td_second_class, $result,  $DEBUG=FALSE)
 {
-	$session=session_id();
+	$date_j=date('Y-m-d', $j_timestamp);
+	$j=date('d', $j_timestamp);
 
-	//echo "$j_timestamp, $year, $mois, $j, $td_second_class<br>\n";
-	$date_j=date("Y-m-d", $j_timestamp);
-	$j=date("d", $j_timestamp);
+	$class_am='travail_am';
+	$class_pm='travail_pm';
 
-	$class_am="travail_am";
-	$class_pm="travail_pm";
-
-	$val_matin="";
-	$val_aprem="";
+	$val_matin='';
+	$val_aprem='';
+	
 	// recup des infos ARTT ou Temps Partiel :
 	// la fonction suivante change les valeurs de $val_matin $val_aprem ....
 	recup_infos_artt_du_jour($login, $j_timestamp, $val_matin, $val_aprem,  $DEBUG);
 
 	//## AFICHAGE ##
-	if($val_matin=="Y")
-	{
-		$class_am="rtt_am";
+	if($val_matin=='Y') {
+		$class_am='rtt_am';
 	}
-	if($val_aprem=="Y")
-	{
-		$class_pm = "rtt_pm";
+	if($val_aprem=='Y') {
+		$class_pm = 'rtt_pm';
 	}
 
 
-	$jour_today=date("j");
-	$mois_today=date("m");
-	$year_today=date("Y");
+	$jour_today=date('j');
+	$mois_today=date('m');
+	$year_today=date('Y');
 	$timestamp_today = mktime (0,0,0,$mois_today,$jour_today,$year_today);
 	// si la saisie de conges pour une periode passée est interdite : pas de case à cocher dans les dates avant aujourd'hui
-	if( ($_SESSION['config']['interdit_saisie_periode_date_passee']==TRUE) && ($j_timestamp<$timestamp_today) )
-		echo "<td  class=\"cal-saisie $td_second_class $class_am $class_pm\">$j</td>";
+	if( $_SESSION['config']['interdit_saisie_periode_date_passee']  && $j_timestamp < $timestamp_today )
+		echo '<td  class="cal-saisie '.$td_second_class.' '.$class_am.' '.$class_pm.'">'.$j.'</td>';
 	else
 	{
 		// Si le client est sous IE, on affiche pas les jours de rtt (car IE ne gère pas les appels standart de classe de feuille e style)
-		if( (isset($_SERVER["HTTP_USER_AGENT"])) && (stristr($_SERVER["HTTP_USER_AGENT"], "MSIE")!=FALSE) )
-		{
-			echo "<td  class=\"cal-saisie\">$j<input type=\"radio\" name=\"$result\" ";
+		// if( (isset($_SERVER["HTTP_USER_AGENT"])) && (stristr($_SERVER["HTTP_USER_AGENT"], "MSIE")!=FALSE) )
+		// {
+			// echo "<td  class=\"cal-saisie\">$j<input type=\"radio\" name=\"$result\" ";
+			// if($_SESSION['config']['rempli_auto_champ_nb_jours_pris']==TRUE)
+			// {
+				// attention : IE6 : bug avec les "OnChange" sur les boutons radio!!! (on remplace par OnClick)
+				// if( (isset($_SERVER["HTTP_USER_AGENT"])) && (stristr($_SERVER["HTTP_USER_AGENT"], "MSIE")!=FALSE) )
+					// echo "onClick=\"compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return true;\"" ;
+				// else
+					// echo "onChange=\"compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return false;\"" ;
+			// }
+			// echo " value=\"$date_j\"></td>";
+		// }
+		// else
+		// {
+			echo '<td  class="cal-saisie '.$td_second_class.' '.$class_am.' '.$class_pm.'">'.$j.'<input type="radio" name="'.$result.'" ';
 			if($_SESSION['config']['rempli_auto_champ_nb_jours_pris']==TRUE)
 			{
 				// attention : IE6 : bug avec les "OnChange" sur les boutons radio!!! (on remplace par OnClick)
-				if( (isset($_SERVER["HTTP_USER_AGENT"])) && (stristr($_SERVER["HTTP_USER_AGENT"], "MSIE")!=FALSE) )
-					echo "onClick=\"compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return true;\"" ;
+				if( (isset($_SERVER['HTTP_USER_AGENT'])) && (stristr($_SERVER['HTTP_USER_AGENT'], 'MSIE')!=FALSE) )
+					echo 'onClick="compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return true;"';
 				else
-					echo "onChange=\"compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return false;\"" ;
+					echo 'onChange="compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return false;"';
 			}
-			echo " value=\"$date_j\"></td>";
-		}
-		else
-		{
-			echo "<td  class=\"cal-saisie $td_second_class $class_am $class_pm\">$j<input type=\"radio\" name=\"$result\" ";
-			if($_SESSION['config']['rempli_auto_champ_nb_jours_pris']==TRUE)
-			{
-				echo "onChange=\"compter_jours(new_debut, new_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return false;\"" ;
-			}
-			echo " value=\"$date_j\"></td>";
-		}
+			echo ' value="'.$date_j.'"></td>';
+		// }
 	}
 
 }

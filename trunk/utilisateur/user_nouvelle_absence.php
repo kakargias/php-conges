@@ -66,7 +66,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 		/* Nouvelle Demande */
 		/**************************/
 		
-		echo '<H1>'. _('divers_nouvelle_absence') .' :</H3>';
+		echo '<h1>'. _('divers_nouvelle_absence') .' :</h1>';
 
 		//affiche le formulaire de saisie d'une nouvelle demande de conges
 		saisie_nouveau_conges($_SESSION['userlogin'], $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $onglet, $DEBUG);
@@ -117,9 +117,9 @@ function new_demande($new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fi
 	}
 
 	/* RETOUR PAGE PRINCIPALE */
-	echo " <form action=\"$PHP_SELF?session=$session&onglet=demandes_en_cours\" method=\"POST\"> \n";
-	echo "<input type=\"submit\" value=\"". _('form_retour') ."\">\n";
-	echo " </form> \n";
+	echo '<form action="'.$PHP_SELF.'?session='.$session.'" method="POST">';
+		echo '<input type="submit" value="'. _('form_retour') .'">';
+	echo '</form>';
 
 }
 

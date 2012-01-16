@@ -32,25 +32,9 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 	// on initialise le tableau global des jours fériés s'il ne l'est pas déjà :
 	init_tab_jours_feries($DEBUG);
 
-	echo "<h3>". _('user_etat_demandes') ." :</h3>\n" ;
+	echo '<h1>'. _('user_etat_demandes') .' :</h1>';
 
 	$tri_date = getpost_variable("tri_date", "ascendant");
-
-	//affiche le tableau des demandes en cours
-	affichage_demandes_en_cours($tri_date, $onglet, $DEBUG);
-
-		
-/**************************************************************************************/
-/********  FONCTIONS      ******/
-/**************************************************************************************/
-
-
-//affiche le tableau des demandes en cours
-function affichage_demandes_en_cours($tri_date, $onglet,  $DEBUG=FALSE)
-{
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-	$session=session_id();
-	
 
 
 	// Récupération des informations
@@ -69,43 +53,54 @@ function affichage_demandes_en_cours($tri_date, $onglet,  $DEBUG=FALSE)
 
 	$count3=$ReqLog3->num_rows;
 	if($count3==0) {
-		echo "<b>". _('user_demandes_aucune_demande') ."</b><br>\n";
+		echo '<b>'. _('user_demandes_aucune_demande') .'</b>';
 	}
 	else {
 		// AFFICHAGE TABLEAU
-		echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n" ;
-		echo "<tr>\n";
-		echo "<td class=\"titre\">";
-		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=descendant\"><img src=\"". TEMPLATE_PATH ."img/1downarrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>";
-		echo  _('divers_debut_maj_1')  ;
-		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=ascendant\"><img src=\"". TEMPLATE_PATH ."img/1uparrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>";
-		echo "</td>\n";
-		echo "<td class=\"titre\">". _('divers_fin_maj_1') ."</td>" ;
-		echo "<td class=\"titre\">". _('divers_type_maj_1') ."</td>" ;
-		echo "<td class=\"titre\">". _('divers_nb_jours_pris_maj_1') ."</td>" ;
-		echo "<td class=\"titre\">". _('divers_comment_maj_1') ."</td>" ;
-		echo "<td></td><td></td>" ;
-		if( $_SESSION['config']['affiche_date_traitement'] ) {
-			echo "<td class=\"titre\">". _('divers_date_traitement') ."</td>\n" ;
-		}
-		echo "</tr>\n" ;
+		echo '<table class="tablo" width="80%">';
+		echo '<thead>';
+			echo '<tr>';
+				echo '<td>';
+				echo  '<a href="'.$PHP_SELF.'?session='.$session.'&onglet='.$onglet.'&tri_date=descendant"><img src="'. TEMPLATE_PATH .'img/1downarrow-16x16.png" width="16" height="16" border="0" title="trier"></a>';
+				echo  _('divers_debut_maj_1')  ;
+				echo  '<a href="'.$PHP_SELF.'?session='.$session.'&onglet='.$onglet.'&tri_date=ascendant"><img src="'. TEMPLATE_PATH .'img/1uparrow-16x16.png" width="16" height="16" border="0" title="trier"></a>';
+				echo '</td>';
+				echo '<td>'. _('divers_fin_maj_1') .'</td>';
+				echo '<td>'. _('divers_type_maj_1') .'</td>';
+				echo '<td>'. _('divers_nb_jours_pris_maj_1') .'</td>';
+				echo '<td>'. _('divers_comment_maj_1') .'</td>';
+				echo '<td></td><td></td>' ;
+				if( $_SESSION['config']['affiche_date_traitement'] ) {
+					echo '<td >'. _('divers_date_traitement') .'</td>';
+				}
+			echo '</tr>';
+		echo '</thead>';
+		echo '<tbody>';
 
 		while ($resultat3 = $ReqLog3->fetch_array()) {
 		
-			$sql_p_date_deb = eng_date_to_fr($resultat3["p_date_deb"], $DEBUG);
-			$sql_p_demi_jour_deb = $resultat3["p_demi_jour_deb"];
-			if($sql_p_demi_jour_deb=="am") $demi_j_deb="mat";  else $demi_j_deb="aprm";
-			$sql_p_date_fin = eng_date_to_fr($resultat3["p_date_fin"], $DEBUG);
-			$sql_p_demi_jour_fin = $resultat3["p_demi_jour_fin"];
-			if($sql_p_demi_jour_fin=="am") $demi_j_fin="mat";  else $demi_j_fin="aprm";
-			$sql_p_nb_jours = $resultat3["p_nb_jours"];
-			$sql_p_commentaire = $resultat3["p_commentaire"];
-			//$sql_p_type = $resultat3["p_type"];
-			$sql_p_type = $resultat3["ta_libelle"];
-			$sql_p_etat = $resultat3["p_etat"];
-			$sql_p_date_demande = $resultat3["p_date_demande"];
-			$sql_p_date_traitement = $resultat3["p_date_traitement"];
-			$sql_p_num = $resultat3["p_num"];
+			$sql_p_date_deb				= eng_date_to_fr($resultat3["p_date_deb"], $DEBUG);
+			$sql_p_date_fin				= eng_date_to_fr($resultat3["p_date_fin"], $DEBUG);
+			$sql_p_demi_jour_deb		= $resultat3["p_demi_jour_deb"];
+			$sql_p_demi_jour_fin		= $resultat3["p_demi_jour_fin"];
+			
+			if($sql_p_demi_jour_deb=="am") 
+				$demi_j_deb="mat";  
+			else 
+				$demi_j_deb="aprm";
+				
+			if($sql_p_demi_jour_fin=="am")
+				$demi_j_fin="mat";
+			else
+				$demi_j_fin="aprm";
+				
+			$sql_p_nb_jours			= $resultat3["p_nb_jours"];
+			$sql_p_commentaire		= $resultat3["p_commentaire"];
+			$sql_p_type				= $resultat3["ta_libelle"];
+			$sql_p_etat				= $resultat3["p_etat"];
+			$sql_p_date_demande		= $resultat3["p_date_demande"];
+			$sql_p_date_traitement	= $resultat3["p_date_traitement"];
+			$sql_p_num				= $resultat3["p_num"];
 
 			// si on peut modifier une demande :on defini le lien à afficher
 			if($_SESSION['config']['interdit_modif_demande']==FALSE) {
@@ -116,27 +111,25 @@ function affichage_demandes_en_cours($tri_date, $onglet,  $DEBUG=FALSE)
 					$user_modif_demande="<a href=\"user_index.php?session=$session&p_num=$sql_p_num&onglet=modif_demande\">". _('form_modif') ."</a>" ;
 			}
 			$user_suppr_demande="<a href=\"user_index.php?session=$session&p_num=$sql_p_num&onglet=suppr_demande\">". _('form_supprim') ."</a>" ;
-			echo "<tr>\n" ;
-			echo '<td class="histo">'.($sql_p_date_deb).' _ '.($demi_j_deb).'</td><td class="histo">'.($sql_p_date_fin).' _ '.($demi_j_fin).'</td>' ;
-			echo '<td class="histo">'.schars($sql_p_type).'</td>' ;
-			echo "<td class=\"histo\">".affiche_decimal($sql_p_nb_jours, $DEBUG)."</td>" ;
-			echo '<td class="histo">'.schars($sql_p_commentaire).'</td>' ;
-			if($_SESSION['config']['interdit_modif_demande']==FALSE) {
-				echo '<td class="histo">'.($user_modif_demande).'</td>' ;
-			}
-			echo '<td class="histo">'.($user_suppr_demande).'</td>'."\n" ;
-			
-			if( $_SESSION['config']['affiche_date_traitement'] ) {
-				if($sql_p_date_demande == NULL)
-					echo "<td class=\"histo-left\">". _('divers_demande') ." : $sql_p_date_demande<br>". _('divers_traitement') ." : $sql_p_date_traitement</td>\n" ;
-				else
-					echo "<td class=\"histo-left\">". _('divers_demande') ." : $sql_p_date_demande<br>". _('divers_traitement') ." : pas traité</td>\n" ;
-			}
+			echo '<tr>';
+				echo '<td class="histo">'.schars($sql_p_date_deb).' _ '.schars($demi_j_deb).'</td>';
+				echo '<td class="histo">'.schars($sql_p_date_fin).' _ '.schars($demi_j_fin).'</td>' ;
+				echo '<td class="histo">'.schars($sql_p_type).'</td>' ;
+				echo '<td class="histo">'.affiche_decimal($sql_p_nb_jours).'</td>' ;
+				echo '<td class="histo">'.schars($sql_p_commentaire).'</td>' ;
+				if($_SESSION['config']['interdit_modif_demande']==FALSE) {
+					echo '<td class="histo">'.($user_modif_demande).'</td>' ;
+				}
+				echo '<td class="histo">'.($user_suppr_demande).'</td>'."\n" ;
 				
-			echo "</tr>\n" ;
+				if( $_SESSION['config']['affiche_date_traitement'] ) {
+					if($sql_p_date_demande == NULL)
+						echo '<td class="histo-left">'. _('divers_demande') .' : '.$sql_p_date_demande.'<br>'. _('divers_traitement') .' : '.$sql_p_date_traitement.'</td>';
+					else
+						echo '<td class="histo-left">'. _('divers_demande') .' : '.$sql_p_date_demande.'<br>'. _('divers_traitement') .' : pas traité</td>';
+				}
+			echo '</tr>';
 		}
-		echo "</table>\n" ;
+		echo '</tbody>';
+		echo '</table>' ;
 	}
-	echo "<br><br>\n\n" ;
-}
-

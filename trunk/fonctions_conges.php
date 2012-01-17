@@ -674,7 +674,8 @@ function saisie_jours_absence_temps_partiel($login,  $DEBUG=FALSE)
 		}
 
 		echo '<table cellpadding="1" class="tablo">';
-		echo '<tr align="center">';
+		echo '<thead>';
+		echo '<tr>';
 			echo '<td></td>';
 			echo '<td class="histo">'. _('lundi') .'</td>';
 			echo '<td class="histo">'. _('mardi') .'</td>';
@@ -686,6 +687,8 @@ function saisie_jours_absence_temps_partiel($login,  $DEBUG=FALSE)
 			if($_SESSION['config']['dimanche_travail']==TRUE)
 				echo '<td class="histo">'. _('dimanche') .'</td>';
 		echo '</tr>';
+		echo '</thead>';
+		echo '<tbody>';
 		echo '<tr align="center">';
 			echo '<td class="histo">'. _('admin_temps_partiel_am') .'</td>';
 			echo '<td class="histo">'.$imp_lu_am.'</td>';
@@ -710,6 +713,7 @@ function saisie_jours_absence_temps_partiel($login,  $DEBUG=FALSE)
 			if($_SESSION['config']['dimanche_travail']==TRUE)
 				echo '<td class="histo">'.$imp_di_pm.'</td>';
 		echo '</tr>';
+		echo '</tbody>';
 		echo '</table>';
 
 	echo '</td>';
@@ -735,7 +739,8 @@ function saisie_jours_absence_temps_partiel($login,  $DEBUG=FALSE)
 		$p_di_pm='<input type="checkbox" name="tab_checkbox_sem_p[sem_p_di_pm]" value="Y" '.$checked_option_sem_p_di_pm.'>';
 
 		echo '<table cellpadding="1"  class="tablo">';
-		echo '<tr align="center">';
+		echo '<thead>';
+		echo '<tr>';
 			echo '<td></td>';
 			echo '<td class="histo">'. _('lundi') .'</td>';
 			echo '<td class="histo">'. _('mardi') .'</td>';
@@ -747,6 +752,8 @@ function saisie_jours_absence_temps_partiel($login,  $DEBUG=FALSE)
 			if($_SESSION['config']['dimanche_travail']==TRUE)
 				echo '<td class="histo">'. _('dimanche') .'</td>';
 		echo '</tr>';
+		echo '</thead>';
+		echo '<tbody>';
 		echo '<tr align="center">';
 			echo '<td class="histo">'. _('admin_temps_partiel_am') .'</td>';
 			echo '<td class="histo">'.$p_lu_am.'</td>';
@@ -771,6 +778,7 @@ function saisie_jours_absence_temps_partiel($login,  $DEBUG=FALSE)
 			if($_SESSION['config']['dimanche_travail']==TRUE)
 				echo '<td class="histo">'.$p_di_pm.'</td>';
 		echo '</tr>';
+		echo '</tbody>';
 		echo '</table>';
 	echo '</td>';
 	echo '</tr>';

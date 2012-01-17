@@ -23,55 +23,15 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-define('_PHP_CONGES', 1);
-define('ROOT_PATH', '../');
-include ROOT_PATH . 'define.php';
+
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
-
-$session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
-
-include ROOT_PATH .'fonctions_conges.php' ;
-include INCLUDE_PATH .'fonction.php';
-include INCLUDE_PATH .'session.php';
-
-
-$DEBUG=FALSE;
-//$DEBUG=TRUE ;
-
-// verif des droits du user à afficher la page
-verif_droits_user($session, "is_admin", $DEBUG);
-
-	header_menu('admin', $_SESSION['config']['titre_admin_index']);
-
 
 	/*************************************/
 	// init des variables:
 //	$tab_checkbox_sem_imp=array();
 //	$tab_checkbox_sem_p=array();
 	// recup des parametres reçus :
-	// SERVER
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-	// GET / POST
-	$u_login = getpost_variable('u_login') ;
-	$u_login_to_update = getpost_variable('u_login_to_update') ;
-	$tab_new_user['login'] = getpost_variable('new_login') ;
-	$tab_new_user['nom'] = getpost_variable('new_nom') ;
-	$tab_new_user['prenom']  = getpost_variable('new_prenom') ;
-	$tab_new_user['quotite']   = getpost_variable('new_quotite') ;
-	$tab_new_user['is_resp'] = getpost_variable('new_is_resp') ;
-	$tab_new_user['resp_login'] = getpost_variable('new_resp_login') ;
-	$tab_new_user['is_admin'] = getpost_variable('new_is_admin') ;
-	$tab_new_user['is_hr'] = getpost_variable('new_is_hr') ;
-	$tab_new_user['see_all']    = getpost_variable('new_see_all') ;
-	$tab_new_user['email'] = getpost_variable('new_email') ;
-	$tab_new_user['jour'] = getpost_variable('new_jour') ;
-	$tab_new_user['mois'] = getpost_variable('new_mois') ;
-	$tab_new_user['year'] = getpost_variable('new_year') ;
-	$tab_new_jours_an = getpost_variable('tab_new_jours_an') ;
-	$tab_new_solde    = getpost_variable('tab_new_solde') ;
-	$tab_new_reliquat = getpost_variable('tab_new_reliquat') ;
-	$tab_checkbox_sem_imp = getpost_variable('tab_checkbox_sem_imp') ;
-	$tab_checkbox_sem_p = getpost_variable('tab_checkbox_sem_p') ;
+	
 
 /*	if(isset($_POST['new_nb_j_an'])) { $tab_new_user['nb_j_an']=$_POST['new_nb_j_an']; }
 	if(isset($_POST['new_solde_jours'])) { $tab_new_user['solde_jours']=$_POST['new_solde_jours']; }
@@ -79,6 +39,11 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	if(isset($_POST['new_solde_rtt'])) { $tab_new_user['solde_rtt']=$_POST['new_solde_rtt']; }
 */
 	/*************************************/
+	
+	$u_login				= getpost_variable('u_login') ;
+	$u_login_to_update		= getpost_variable('u_login_to_update') ;
+	$tab_checkbox_sem_imp	= getpost_variable('tab_checkbox_sem_imp') ;
+	$tab_checkbox_sem_p		= getpost_variable('tab_checkbox_sem_p') ;
 
 	// TITRE
 	if($u_login!="")
@@ -95,38 +60,35 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	}
 	elseif($u_login_to_update!="")
 	{
+		$tab_new_jours_an 	= getpost_variable('tab_new_jours_an') ;
+		$tab_new_solde    	= getpost_variable('tab_new_solde') ;
+		$tab_new_reliquat 	= getpost_variable('tab_new_reliquat') ;
+	
+		$tab_new_user['login']		= getpost_variable('new_login') ;
+		$tab_new_user['nom']		= getpost_variable('new_nom') ;
+		$tab_new_user['prenom']		= getpost_variable('new_prenom') ;
+		$tab_new_user['quotite']	= getpost_variable('new_quotite') ;
+		$tab_new_user['is_resp']	= getpost_variable('new_is_resp') ;
+		$tab_new_user['resp_login']	= getpost_variable('new_resp_login') ;
+		$tab_new_user['is_admin']	= getpost_variable('new_is_admin') ;
+		$tab_new_user['is_hr']		= getpost_variable('new_is_hr') ;
+		$tab_new_user['see_all']	= getpost_variable('new_see_all') ;
+		$tab_new_user['email']		= getpost_variable('new_email') ;
+		$tab_new_user['jour']		= getpost_variable('new_jour') ;
+		$tab_new_user['mois']		= getpost_variable('new_mois') ;
+		$tab_new_user['year']		= getpost_variable('new_year') ;
+	
 		commit_update($u_login_to_update, $tab_new_user, $tab_new_jours_an, $tab_new_solde, $tab_new_reliquat, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $DEBUG);
+		redirect( ROOT_PATH .'admin/admin_index.php?session='.$session.'&onglet=admin-users', false);
+		exit;
+		
 	}
 	else
 	{
 		// renvoit sur la page principale .
 		redirect( ROOT_PATH .'admin/admin_index.php?session='.$session.'&onglet=admin-users', false);
+		exit;
 	}
-
-echo "<hr align=\"center\" size=\"2\" width=\"90%\">\n";
-echo "</CENTER>\n";
-
-	echo "</div>";
-	echo "</div>";
-	echo "</div>";
-	echo "</div>";
-	echo "</div>";
-	
-	echo "<div id=\"content\">";
-	
-	echo "<div class=\"ui-corner-all-8\" style=\"background-color: #C11A22; padding: 2px; margin: 10px;\">";
-	echo "<div class=\"ui-corner-all\" style=\"background-color: white; padding: 2px;\">";
-	echo "<div class=\"ui-corner-all\" style=\"background-color: #C3C3C3; padding: 7px; margin: 3px;\">";
-	
-	echo "</div>";
-	echo "</div>";
-	echo "</div>";
-	echo "</div>";
-	
-	bottom();
-
-
-
 
 /*************************************************************************************************/
 /*   FONCTIONS    */
@@ -142,10 +104,8 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $DEBUG=F
 	$tab_type_conges=recup_tableau_types_conges($DEBUG);
 
 	// recup du tableau des types de conges (seulement les conges)
-	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
-	{
+	if ( $_SESSION['config']['gestion_conges_exceptionnels'] )
 	  $tab_type_conges_exceptionnels=recup_tableau_types_conges_exceptionnels($DEBUG);
-	}
 
 	// Récupération des informations
 	$tab_user = recup_infos_du_user($u_login, "", $DEBUG);
@@ -156,33 +116,36 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $DEBUG=F
 	echo "<form action=$PHP_SELF?session=$session&u_login_to_update=$u_login method=\"POST\">\n" ;
 	// AFFICHAGE TABLEAU DES INFOS
 	echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
-	echo "<tr align=\"center\">\n";
-	echo "<td>". _('divers_nom_maj_1') ."</td>\n";
-	echo "<td>". _('divers_prenom_maj_1') ."</td>\n";
-	echo "<td>". _('divers_login_maj_1') ."</td>\n";
-	echo "<td>". _('divers_quotite_maj_1') ."</td>\n";
-	echo "<td>". _('admin_users_is_resp') ."</td>\n";
-	echo "<td>". _('admin_users_resp_login') ."</td>\n";
-	echo "<td>". _('admin_users_is_admin') ."</td>\n";
-	echo "<td>". _('admin_users_is_hr') ."</td>\n";
- 	echo "<td>". _('admin_users_see_all') ."</td>\n";
-	if($_SESSION['config']['where_to_find_user_email']=="dbconges")
-		echo "<td>". _('admin_users_mail') ."</td>\n";
-	echo "</tr>\n";
+	echo "<thead>\n";
+		echo "<tr>\n";
+			echo "<td>". _('divers_nom_maj_1') ."</td>\n";
+			echo "<td>". _('divers_prenom_maj_1') ."</td>\n";
+			echo "<td>". _('divers_login_maj_1') ."</td>\n";
+			echo "<td>". _('divers_quotite_maj_1') ."</td>\n";
+			echo "<td>". _('admin_users_is_resp') ."</td>\n";
+			echo "<td>". _('admin_users_resp_login') ."</td>\n";
+			echo "<td>". _('admin_users_is_admin') ."</td>\n";
+			echo "<td>". _('admin_users_is_hr') ."</td>\n";
+			echo "<td>". _('admin_users_see_all') ."</td>\n";
+			if($_SESSION['config']['where_to_find_user_email']=="dbconges")
+				echo "<td>". _('admin_users_mail') ."</td>\n";
+		echo "</tr>\n";
+	echo "</thead>\n";
+	echo "<tbody>\n";
 
 	// AFICHAGE DE LA LIGNE DES VALEURS ACTUELLES A MOFIDIER
 	echo "<tr>\n";
-	echo "<td>".$tab_user['nom']."</td>\n";
-	echo "<td>".$tab_user['prenom']."</td>\n";
-	echo "<td>".$tab_user['login']."</td>\n";
-	echo "<td>".$tab_user['quotite']."</td>\n";
-	echo "<td>".$tab_user['is_resp']."</td>\n";
-	echo "<td>".$tab_user['resp_login']."</td>\n";
-	echo "<td>".$tab_user['is_admin']."</td>\n";
-	echo "<td>".$tab_user['is_hr']."</td>\n";
- 	echo "<td>".$tab_user['see_all']."</td>\n";
-	if($_SESSION['config']['where_to_find_user_email']=="dbconges")
-		echo "<td>".$tab_user['email']."</td>\n";
+		echo "<td>".$tab_user['nom']."</td>\n";
+		echo "<td>".$tab_user['prenom']."</td>\n";
+		echo "<td>".$tab_user['login']."</td>\n";
+		echo "<td>".$tab_user['quotite']."</td>\n";
+		echo "<td>".$tab_user['is_resp']."</td>\n";
+		echo "<td>".$tab_user['resp_login']."</td>\n";
+		echo "<td>".$tab_user['is_admin']."</td>\n";
+		echo "<td>".$tab_user['is_hr']."</td>\n";
+		echo "<td>".$tab_user['see_all']."</td>\n";
+		if($_SESSION['config']['where_to_find_user_email']=="dbconges")
+			echo "<td>".$tab_user['email']."</td>\n";
 	echo "</tr>\n";
 
 	// contruction des champs de saisie
@@ -231,18 +194,19 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $DEBUG=F
 
 	// AFFICHAGE ligne de saisie
 	echo "<tr>\n";
-	echo "<td>$text_nom</td>\n";
-	echo "<td>$text_prenom</td>\n";
-	echo "<td>$text_login</td>\n";
-	echo "<td>$text_quotite</td>\n";
-	echo "<td>$text_is_resp</td>\n";
-	echo "<td>$text_resp_login</td>\n";
-	echo "<td>$text_is_admin</td>\n";
-	echo "<td>$text_is_hr</td>\n";
-	echo "<td>$text_see_all</td>\n";
-	if($_SESSION['config']['where_to_find_user_email']=="dbconges")
-		echo "<td>$text_email</td>\n";
+		echo "<td>$text_nom</td>\n";
+		echo "<td>$text_prenom</td>\n";
+		echo "<td>$text_login</td>\n";
+		echo "<td>$text_quotite</td>\n";
+		echo "<td>$text_is_resp</td>\n";
+		echo "<td>$text_resp_login</td>\n";
+		echo "<td>$text_is_admin</td>\n";
+		echo "<td>$text_is_hr</td>\n";
+		echo "<td>$text_see_all</td>\n";
+		if($_SESSION['config']['where_to_find_user_email']=="dbconges")
+			echo "<td>$text_email</td>\n";
 	echo "</tr>\n";
+	echo "</tbody>\n";
 
 	echo "</table><br>\n\n";
 
@@ -250,21 +214,23 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $DEBUG=F
 
 	// AFFICHAGE TABLEAU DES conges annuels et soldes
 	echo "<table cellpadding=\"2\" class=\"tablo\" >\n";
-	echo "<tr align=\"center\">\n";
-	echo "<td></td>\n";
-	echo "<td>". _('admin_modif_nb_jours_an') ." </td>\n";
-	echo "<td></td>\n";
-	echo "<td>". _('divers_solde') ."</td>\n";
-	echo "<td></td>\n";
-	if($_SESSION['config']['autorise_reliquats_exercice']==TRUE)
-	{
-		echo "<td>". _('divers_reliquat') ."</td>\n";
-		echo "<td></td>\n";
-	}
-	echo "</tr>\n";
+	echo "<thead>\n";
+		echo "<tr>\n";
+			echo "<td></td>\n";
+			echo "<td colspan=\"2\">". _('admin_modif_nb_jours_an') ." </td>\n";
+			echo "<td colspan=\"2\">". _('divers_solde') ."</td>\n";
+			if( $_SESSION['config']['autorise_reliquats_exercice'] )
+			{
+				echo "<td colspan=\"2\">". _('divers_reliquat') ."</td>\n";
+			}
+		echo "</tr>\n";
+	echo "</thead>\n";
+	echo "<tbody>\n";
+	
+	$i = true;
 	foreach($tab_type_conges as $id_type_cong => $libelle)
 	{
-		echo "<tr align=\"center\">\n";
+		echo '<tr class="'.($i?'i':'p').'">';
 		echo "<td>$libelle</td>\n";
 		// jours / an
 		
@@ -315,6 +281,7 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $DEBUG=F
 		else
 			echo "<input type=\"hidden\" name=\"tab_new_reliquat[$id_type_cong]\" value=\"0\">" ;
 		echo "</tr>\n";
+		$i = !$i;
 	}
 
 	// recup du tableau des types de conges (seulement les conges)
@@ -322,7 +289,7 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $DEBUG=F
 	{
 	  foreach($tab_type_conges_exceptionnels as $id_type_cong_exp => $libelle)
 	  {
-	    echo "<tr align=\"center\">\n";
+		echo '<tr class="'.($i?'i':'p').'">';
 	    echo "<td>$libelle</td>\n";
 		// jours / an
 		echo "<td>0</td>\n";
@@ -342,9 +309,11 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $DEBUG=F
 		else
 			echo "<input type=\"hidden\" name=\"tab_new_reliquat[$id_type_cong_exp]\" value=\"0\">" ;
 	    echo "</tr>\n";
+		$i = !$i;
 	  }
 	}
 
+	echo "</tbody>\n";
 	echo "</table><br>\n\n";
 
 	/*********************************************************/
@@ -656,16 +625,6 @@ function commit_update($u_login_to_update, &$tab_new_user, &$tab_new_jours_an, &
 	else
 	{
 		echo  _('form_modif_not_ok') ." !<br><br> \n";
-	}
-
-	if( $DEBUG )
-	{
-		echo "<a href=\"admin_index.php?session=$session&onglet=admin-users\">retour</a>";
-	}
-	else
-	{
-		/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
-		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=admin_index.php?session=$session&onglet=admin-users\">";
 	}
 
 }

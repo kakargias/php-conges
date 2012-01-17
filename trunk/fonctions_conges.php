@@ -2419,21 +2419,16 @@ function get_list_all_users($DEBUG=FALSE)
 // renvoit une liste de group_id séparés par des virgules
 function get_list_all_groupes($DEBUG=FALSE)
 {
-	$list_group="";
+	$list_group = array();
 
 	// on select dans conges_groupe_users pour ne récupérer QUE les groupes qui ont des users !!
 	$sql1="SELECT DISTINCT(gu_gid) FROM conges_groupe_users ORDER BY gu_gid";
 	$ReqLog1 = SQL::query($sql1);
 
 	while ($resultat1 = $ReqLog1->fetch_array())
-	{
-		$current_group=$resultat1["gu_gid"];
-		if($list_group=="")
-			$list_group="$current_group";
-		else
-			$list_group=$list_group.", $current_group";
-	}
-	return $list_group;
+		$list_group[] = $resultat1["gu_gid"];
+		
+	return implode(',',$list_group);
 }
 
 
@@ -2755,7 +2750,7 @@ function init_config_tab()
 {
 	static $userlogin = null;
 	static $result = null;
-	if ($result === null || $user_login != $_SESSION['userlogin']) {
+	if ($result === null || $userlogin != $_SESSION['userlogin']) {
 		
 		include ROOT_PATH .'version.php';
 		include CONFIG_PATH .'dbconnect.php';
@@ -2876,7 +2871,7 @@ function init_config_tab()
 		/******************************************/
 		$result = $tab;
 		if (isset($_SESSION['userlogin']))
-			$user_login = $_SESSION['userlogin'];
+			$userlogin = $_SESSION['userlogin'];
 	}
 	return $result;
 }

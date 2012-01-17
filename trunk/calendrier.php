@@ -428,7 +428,7 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 
 		
 
-		if( $_SESSION['config']['affiche_soldes_calendrier'] || is_hr($_SESSION['userlogin']) )
+		if( $_SESSION['config']['affiche_soldes_calendrier'] || is_resp($_SESSION['userlogin']) || is_hr($_SESSION['userlogin']) || is_admin($_SESSION['userlogin']) )
 		{
 			// affichage des libellé des conges
 			foreach($tab_type_cong as $id => $libelle)
@@ -644,7 +644,7 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 			for ($i = $last; $i <7; $i ++)
 				echo '<td></td>';
 			
-			if( $_SESSION['config']['affiche_soldes_calendrier'] || is_hr($_SESSION['userlogin']) )
+			if( $_SESSION['config']['affiche_soldes_calendrier'] || is_resp($_SESSION['userlogin']) || is_hr($_SESSION['userlogin']) || is_admin($_SESSION['userlogin']) )
 			{
 				// affichage des divers soldes
 				foreach($tab_cong_user as $id => $tab_conges)

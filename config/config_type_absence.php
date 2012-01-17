@@ -146,8 +146,8 @@ function affichage($tab_new_values,$session, $DEBUG=FALSE)
 			{
 				echo "    <table cellpadding=\"2\" class=\"tablo\" >\n";
 				echo "    <tr>\n";
-				echo "    <td class=\"titre\"><b><u>". _('config_abs_libelle') ."</b></u></td>\n";
-				echo "    <td class=\"titre\"><b><u>". _('config_abs_libelle_short') ."</b></u></td>\n";
+				echo "    <td><b><u>". _('config_abs_libelle') ."</b></u></td>\n";
+				echo "    <td><b><u>". _('config_abs_libelle_short') ."</b></u></td>\n";
 				echo "    <td></td>\n";
 				echo "    <td></td>\n";
 				echo "    </tr>\n";
@@ -169,7 +169,7 @@ function affichage($tab_new_values,$session, $DEBUG=FALSE)
 						$text_suppr="<a href=\"$PHP_SELF?session=$session&action=suppr&id_to_update=$ta_id\">". _('form_supprim') ."</a>";
 					}
 
-					echo "    <tr><td class=\"histo\"><b>$ta_libelle</b></td><td class=\"histo\">$ta_short_libelle</td><td class=\"histo\">$text_modif</td><td class=\"histo\">$text_suppr</td></tr>\n";
+					echo "    <tr><td><b>$ta_libelle</b></td><td>$ta_short_libelle</td><td>$text_modif</td><td>$text_suppr</td></tr>\n";
 				}
 
 				echo "    </table>\n";
@@ -196,9 +196,9 @@ function affichage($tab_new_values,$session, $DEBUG=FALSE)
 	echo "    ". _('config_abs_add_type_abs_comment') ."\n";
 	echo "    <table cellpadding=\"2\" >\n";
 	echo "    <tr>\n";
-	echo "    <td class=\"titre\">". _('config_abs_libelle') ."</td>\n";
-	echo "    <td class=\"titre\">". _('config_abs_libelle_short') ."</td>\n";
-	echo "    <td class=\"titre\">". _('divers_type') ."</td>\n";
+	echo "    <td>". _('config_abs_libelle') ."</td>\n";
+	echo "    <td>". _('config_abs_libelle_short') ."</td>\n";
+	echo "    <td>". _('divers_type') ."</td>\n";
 	echo "    </tr>\n";
 
 	echo "    <tr>\n";
@@ -206,9 +206,9 @@ function affichage($tab_new_values,$session, $DEBUG=FALSE)
 	$new_libelle = ( isset($tab_new_values['libelle']) ? $tab_new_values['libelle'] : "" );
 	$new_short_libelle = ( isset($tab_new_values['short_libelle']) ? $tab_new_values['short_libelle'] : "" ) ;
 	$new_type = ( isset($tab_new_values['type']) ? $tab_new_values['type'] : "" ) ;
-	echo "    <td class=\"histo\"><input type=\"text\" name=\"tab_new_values[libelle]\" size=\"20\" maxlength=\"20\" value=\"$new_libelle\" ></td>\n";
-	echo "    <td class=\"histo\"><input type=\"text\" name=\"tab_new_values[short_libelle]\" size=\"3\" maxlength=\"3\" value=\"$new_short_libelle\" ></td>\n";
-	echo "    <td class=\"histo\">\n";
+	echo "    <td><input type=\"text\" name=\"tab_new_values[libelle]\" size=\"20\" maxlength=\"20\" value=\"$new_libelle\" ></td>\n";
+	echo "    <td><input type=\"text\" name=\"tab_new_values[short_libelle]\" size=\"3\" maxlength=\"3\" value=\"$new_short_libelle\" ></td>\n";
+	echo "    <td>\n";
 
       echo "<SELECT NAME=tab_new_values[type]>\n";
 
@@ -281,12 +281,12 @@ function modifier(&$tab_new_values, $session, $id_to_update, $DEBUG=FALSE)
 	// affichage
 	echo "<table cellpadding=\"2\" class=\"tablo\" >\n";
 	echo "    <tr>\n";
-	echo "    <td class=\"titre\"><b><u>". _('config_abs_libelle') ."</b></u></td>\n";
-	echo "    <td class=\"titre\"><b><u>". _('config_abs_libelle_short') ."</b></u></td>\n";
-	echo "    <td class=\"titre\">". _('divers_type') ."</td>\n";
+	echo "    <td><b><u>". _('config_abs_libelle') ."</b></u></td>\n";
+	echo "    <td><b><u>". _('config_abs_libelle_short') ."</b></u></td>\n";
+	echo "    <td>". _('divers_type') ."</td>\n";
 	echo "    </tr>\n";
-	echo "    <tr><td class=\"histo\"><b>$sql_libelle</b></td><td class=\"histo\">$sql_short_libelle</td><td class=\"histo\">$sql_type</td></tr>\n";
-	echo "    <tr><td class=\"histo\"><b>$text_libelle</b></td><td class=\"histo\">$text_short_libelle</td><td class=\"histo\"></td></tr>\n";
+	echo "    <tr><td><b>$sql_libelle</b></td><td>$sql_short_libelle</td><td>$sql_type</td></tr>\n";
+	echo "    <tr><td><b>$text_libelle</b></td><td>$text_short_libelle</td><td></td></tr>\n";
 
 	echo "</table>\n";
 	echo "<br>\n";

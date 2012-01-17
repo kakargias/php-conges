@@ -246,7 +246,7 @@ function edition($login, $edit_id,  $DEBUG=FALSE)
 					elseif($sql_p_etat=="ajout")
 						echo "<td class=\"histo-big\"> +$sql_p_nb_jours</td>";
 					else
-						echo "<td class=\"histo\"> $sql_p_nb_jours</td>";
+						echo "<td> $sql_p_nb_jours</td>";
 					echo "<td class=\"histo-edit\">$sql_p_date_deb _ $demi_j_deb</td>";
 					echo "<td class=\"histo-edit\">$sql_p_date_fin _ $demi_j_fin</td>";
 					echo "<td class=\"histo-edit\">$sql_p_commentaire</td>";
@@ -341,21 +341,21 @@ function affiche_tableau_bilan_conges_user_edition($tab_info_user, $tab_info_edi
 	echo "<table cellpadding=\"2\" width=\"250\" class=\"tablo\">\n";
 //	echo "<tr align=\"center\"><td class=\"titre\" colspan=\"3\"> quotité &nbsp; : &nbsp; $quotite % </td></tr>\n" ;
 	echo "<tr>\n";
-	echo "	<td class=\"titre\"></td>\n";
-	echo "	<td class=\"titre\"> ". _('editions_jours_an') ." </td>\n";
-	echo "	<td class=\"titre\"> ". _('divers_solde_maj') ."</td>\n";
+	echo "	<td></td>\n";
+	echo "	<td> ". _('editions_jours_an') ." </td>\n";
+	echo "	<td> ". _('divers_solde_maj') ."</td>\n";
 	echo "	</tr>\n" ;
 	
 	foreach($tab_type_cong as $id_abs => $libelle)
 	{
-		echo "<tr><td class=\"titre\"> $libelle </td>
-				<td class=\"histo\">".$tab_info_user['conges'][$libelle]['nb_an']."</td>
+		echo "<tr><td> $libelle </td>
+				<td>".$tab_info_user['conges'][$libelle]['nb_an']."</td>
 				<td align=\"center\" bgcolor=\"#FF9191\"><b>".$tab_info_edition['conges'][$id_abs]."</b></td>";
 	}
 	foreach($tab_type_conges_exceptionnels as $id_abs => $libelle)
 	{
-		echo "<tr><td class=\"titre\"> $libelle </td>
-				<td class=\"histo\">".$tab_info_user['conges'][$libelle]['nb_an']."</td>
+		echo "<tr><td> $libelle </td>
+				<td>".$tab_info_user['conges'][$libelle]['nb_an']."</td>
 				<td align=\"center\" bgcolor=\"#FF9191\"><b>".$tab_info_edition['conges'][$id_abs]."</b></td>";
 	}
 	echo "</tr>\n";

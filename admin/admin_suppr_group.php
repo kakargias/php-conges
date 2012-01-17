@@ -99,20 +99,20 @@ function confirmer($group, $DEBUG=FALSE)
 	echo "<form action=\"$PHP_SELF?session=$session&group_to_delete=$group\" method=\"POST\">\n"  ;
 	echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 	echo "<tr align=\"center\">\n";
-	echo "<td class=\"histo\"><b>". _('admin_groupes_groupe') ."</b></td>\n";
-	echo "<td class=\"histo\"><b>". _('admin_groupes_libelle') ." / ". _('divers_comment_maj_1') ."</b></td>\n";
+	echo "<td><b>". _('admin_groupes_groupe') ."</b></td>\n";
+	echo "<td><b>". _('admin_groupes_libelle') ." / ". _('divers_comment_maj_1') ."</b></td>\n";
 	if($_SESSION['config']['double_validation_conges']==TRUE)
-		echo "	<td class=\"histo\"><b>". _('admin_groupes_double_valid') ."</b></td>\n";
+		echo "	<td><b>". _('admin_groupes_double_valid') ."</b></td>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
 	while ($resultat1 = $ReqLog1->fetch_array()) {
 		$sql_groupname=$resultat1["g_groupename"];
 		$sql_comment=$resultat1["g_comment"];
 		$sql_double_valid=$resultat1["g_double_valid"] ;
-		echo "<td class=\"histo\">&nbsp;$sql_groupname&nbsp;</td>\n"  ;
-		echo "<td class=\"histo\">&nbsp;$sql_comment&nbsp;</td>\n" ;
+		echo "<td>&nbsp;$sql_groupname&nbsp;</td>\n"  ;
+		echo "<td>&nbsp;$sql_comment&nbsp;</td>\n" ;
 		if($_SESSION['config']['double_validation_conges']==TRUE)
-			echo "<td class=\"histo\">$sql_double_valid</td>\n";
+			echo "<td>$sql_double_valid</td>\n";
 	}
 	echo "</tr>\n";
 	echo "</table><br>\n\n";

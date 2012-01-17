@@ -118,11 +118,11 @@ function affichage($login_par, $session, $DEBUG=FALSE)
 
 		// titres
 		echo "<tr>\n";
-		echo "<td class=\"titre\">". _('divers_date_maj_1') ."</td>\n";
-		echo "<td class=\"titre\">". _('divers_fait_par_maj_1') ."</td>\n";
-		echo "<td class=\"titre\">". _('divers_pour_maj_1') ."</td>\n";
-		echo "<td class=\"titre\">". _('divers_comment_maj_1') ."</td>\n";
-		echo "<td class=\"titre\">". _('divers_etat_maj_1') ."</td>\n";
+		echo "<td>". _('divers_date_maj_1') ."</td>\n";
+		echo "<td>". _('divers_fait_par_maj_1') ."</td>\n";
+		echo "<td>". _('divers_pour_maj_1') ."</td>\n";
+		echo "<td>". _('divers_comment_maj_1') ."</td>\n";
+		echo "<td>". _('divers_etat_maj_1') ."</td>\n";
 		echo "</tr>\n";
 
 		// affichage des logs
@@ -135,11 +135,11 @@ function affichage($login_par, $session, $DEBUG=FALSE)
 			$log_log_date = $data['log_date'];
 
 			echo "<tr>\n";
-			echo "<td class=\"histo\">$log_log_date</td>\n";
-			echo "<td class=\"histo\"><a href=\"$PHP_SELF?session=$session&login_par=$log_login_par\"><b>$log_login_par</b></a></td>\n";
-			echo "<td class=\"histo\">$log_login_pour</td>\n";
-			echo "<td class=\"histo\">$log_log_comment</td>\n";
-			echo "<td class=\"histo\">$log_log_etat</td>\n";
+			echo "<td>$log_log_date</td>\n";
+			echo "<td><a href=\"$PHP_SELF?session=$session&login_par=$log_login_par\"><b>$log_login_par</b></a></td>\n";
+			echo "<td>$log_login_pour</td>\n";
+			echo "<td>$log_log_comment</td>\n";
+			echo "<td>$log_log_etat</td>\n";
 			echo "</tr>\n";
 		}
 

@@ -74,11 +74,11 @@ function confirmer($p_num, $onglet, $DEBUG=FALSE)
 	echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 	echo "<thead>\n";
 	echo "<tr align=\"center\">\n";
-	echo "<td class=\"titre\">". _('divers_debut_maj_1') ."</td>\n";
-	echo "<td class=\"titre\">". _('divers_fin_maj_1') ."</td>\n";
-	echo "<td class=\"titre\">". _('divers_nb_jours_maj_1') ."</td>\n";
-	echo "<td class=\"titre\">". _('divers_comment_maj_1') ."</td>\n";
-	echo "<td class=\"titre\">". _('divers_type_maj_1') ."</td>\n";
+	echo "<td>". _('divers_debut_maj_1') ."</td>\n";
+	echo "<td>". _('divers_fin_maj_1') ."</td>\n";
+	echo "<td>". _('divers_nb_jours_maj_1') ."</td>\n";
+	echo "<td>". _('divers_comment_maj_1') ."</td>\n";
+	echo "<td>". _('divers_type_maj_1') ."</td>\n";
 	echo "</tr>\n";
 	echo "</thead>\n";
 	echo "<tbody>\n";
@@ -104,11 +104,11 @@ function confirmer($p_num, $onglet, $DEBUG=FALSE)
 
 		if($DEBUG==TRUE) { echo "$sql_date_deb _ $demi_j_deb : $sql_date_fin _ $demi_j_fin : $sql_nb_jours : $sql_comment : $sql_type<br>\n"; }
 
-		echo "<td class=\"histo\">$sql_date_deb _ $demi_j_deb</td>\n";
-		echo "<td class=\"histo\">$sql_date_fin _ $demi_j_fin</td>\n";
-		echo "<td class=\"histo\">$sql_nb_jours</td>\n";
-		echo "<td class=\"histo\">$sql_comment</td>\n";
-		echo "<td class=\"histo\">$sql_type</td>\n";
+		echo "<td>$sql_date_deb _ $demi_j_deb</td>\n";
+		echo "<td>$sql_date_fin _ $demi_j_fin</td>\n";
+		echo "<td>$sql_nb_jours</td>\n";
+		echo "<td>$sql_comment</td>\n";
+		echo "<td>$sql_type</td>\n";
 	}
 	echo "</tr>\n";
 	echo "</tbody>\n";

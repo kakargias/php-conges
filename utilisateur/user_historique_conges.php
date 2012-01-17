@@ -77,20 +77,20 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 		echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 		echo "<thead>\n";
 		echo "<tr>\n";
-		echo " <td class=\"titre\">\n";
+		echo " <td>\n";
 		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=descendant\"><img src=\"". TEMPLATE_PATH ."img/1downarrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
 		echo  _('divers_debut_maj_1')  ;
 		echo " <a href=\"$PHP_SELF?session=$session&onglet=$onglet&tri_date=ascendant\"><img src=\"". TEMPLATE_PATH ."img/1uparrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
 		echo " </td>\n";
-		echo " <td class=\"titre\">". _('divers_fin_maj_1') ."</td>\n";
-		echo " <td class=\"titre\">". _('divers_type_maj_1') ."</td>\n";
-		echo " <td class=\"titre\">". _('divers_nb_jours_maj_1') ."</td>\n";
-		echo " <td class=\"titre\">". _('divers_comment_maj_1') ."</td>\n";
-		echo " <td class=\"titre\">". _('divers_etat_maj_1') ."</td>\n";
-		echo " <td class=\"titre\">". _('divers_motif_refus') ."</td>\n";
+		echo " <td>". _('divers_fin_maj_1') ."</td>\n";
+		echo " <td>". _('divers_type_maj_1') ."</td>\n";
+		echo " <td>". _('divers_nb_jours_maj_1') ."</td>\n";
+		echo " <td>". _('divers_comment_maj_1') ."</td>\n";
+		echo " <td>". _('divers_etat_maj_1') ."</td>\n";
+		echo " <td>". _('divers_motif_refus') ."</td>\n";
 		if($_SESSION['config']['affiche_date_traitement']==TRUE)
 		{
-			echo "<td class=\"titre\">". _('divers_date_traitement') ."</td>\n" ;
+			echo "<td>". _('divers_date_traitement') ."</td>\n" ;
 		}
 
 		echo "</tr>\n";
@@ -123,7 +123,7 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 				echo '<td class="histo">'.schars($sql_p_commentaire).'</td>' ;
 
 				
-				echo "<td class=\"histo\">";
+				echo "<td>";
 				if($sql_p_etat=="refus")
 					echo  _('divers_refuse') ;
 				elseif($sql_p_etat=="annul")

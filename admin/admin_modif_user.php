@@ -157,32 +157,32 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $DEBUG=F
 	// AFFICHAGE TABLEAU DES INFOS
 	echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 	echo "<tr align=\"center\">\n";
-	echo "<td class=\"histo\">". _('divers_nom_maj_1') ."</td>\n";
-	echo "<td class=\"histo\">". _('divers_prenom_maj_1') ."</td>\n";
-	echo "<td class=\"histo\">". _('divers_login_maj_1') ."</td>\n";
-	echo "<td class=\"histo\">". _('divers_quotite_maj_1') ."</td>\n";
-	echo "<td class=\"histo\">". _('admin_users_is_resp') ."</td>\n";
-	echo "<td class=\"histo\">". _('admin_users_resp_login') ."</td>\n";
-	echo "<td class=\"histo\">". _('admin_users_is_admin') ."</td>\n";
-	echo "<td class=\"histo\">". _('admin_users_is_hr') ."</td>\n";
- 	echo "<td class=\"histo\">". _('admin_users_see_all') ."</td>\n";
+	echo "<td>". _('divers_nom_maj_1') ."</td>\n";
+	echo "<td>". _('divers_prenom_maj_1') ."</td>\n";
+	echo "<td>". _('divers_login_maj_1') ."</td>\n";
+	echo "<td>". _('divers_quotite_maj_1') ."</td>\n";
+	echo "<td>". _('admin_users_is_resp') ."</td>\n";
+	echo "<td>". _('admin_users_resp_login') ."</td>\n";
+	echo "<td>". _('admin_users_is_admin') ."</td>\n";
+	echo "<td>". _('admin_users_is_hr') ."</td>\n";
+ 	echo "<td>". _('admin_users_see_all') ."</td>\n";
 	if($_SESSION['config']['where_to_find_user_email']=="dbconges")
-		echo "<td class=\"histo\">". _('admin_users_mail') ."</td>\n";
+		echo "<td>". _('admin_users_mail') ."</td>\n";
 	echo "</tr>\n";
 
 	// AFICHAGE DE LA LIGNE DES VALEURS ACTUELLES A MOFIDIER
 	echo "<tr>\n";
-	echo "<td class=\"histo\">".$tab_user['nom']."</td>\n";
-	echo "<td class=\"histo\">".$tab_user['prenom']."</td>\n";
-	echo "<td class=\"histo\">".$tab_user['login']."</td>\n";
-	echo "<td class=\"histo\">".$tab_user['quotite']."</td>\n";
-	echo "<td class=\"histo\">".$tab_user['is_resp']."</td>\n";
-	echo "<td class=\"histo\">".$tab_user['resp_login']."</td>\n";
-	echo "<td class=\"histo\">".$tab_user['is_admin']."</td>\n";
-	echo "<td class=\"histo\">".$tab_user['is_hr']."</td>\n";
- 	echo "<td class=\"histo\">".$tab_user['see_all']."</td>\n";
+	echo "<td>".$tab_user['nom']."</td>\n";
+	echo "<td>".$tab_user['prenom']."</td>\n";
+	echo "<td>".$tab_user['login']."</td>\n";
+	echo "<td>".$tab_user['quotite']."</td>\n";
+	echo "<td>".$tab_user['is_resp']."</td>\n";
+	echo "<td>".$tab_user['resp_login']."</td>\n";
+	echo "<td>".$tab_user['is_admin']."</td>\n";
+	echo "<td>".$tab_user['is_hr']."</td>\n";
+ 	echo "<td>".$tab_user['see_all']."</td>\n";
 	if($_SESSION['config']['where_to_find_user_email']=="dbconges")
-		echo "<td class=\"histo\">".$tab_user['email']."</td>\n";
+		echo "<td>".$tab_user['email']."</td>\n";
 	echo "</tr>\n";
 
 	// contruction des champs de saisie
@@ -231,17 +231,17 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $DEBUG=F
 
 	// AFFICHAGE ligne de saisie
 	echo "<tr>\n";
-	echo "<td class=\"histo\">$text_nom</td>\n";
-	echo "<td class=\"histo\">$text_prenom</td>\n";
-	echo "<td class=\"histo\">$text_login</td>\n";
-	echo "<td class=\"histo\">$text_quotite</td>\n";
-	echo "<td class=\"histo\">$text_is_resp</td>\n";
-	echo "<td class=\"histo\">$text_resp_login</td>\n";
-	echo "<td class=\"histo\">$text_is_admin</td>\n";
-	echo "<td class=\"histo\">$text_is_hr</td>\n";
-	echo "<td class=\"histo\">$text_see_all</td>\n";
+	echo "<td>$text_nom</td>\n";
+	echo "<td>$text_prenom</td>\n";
+	echo "<td>$text_login</td>\n";
+	echo "<td>$text_quotite</td>\n";
+	echo "<td>$text_is_resp</td>\n";
+	echo "<td>$text_resp_login</td>\n";
+	echo "<td>$text_is_admin</td>\n";
+	echo "<td>$text_is_hr</td>\n";
+	echo "<td>$text_see_all</td>\n";
 	if($_SESSION['config']['where_to_find_user_email']=="dbconges")
-		echo "<td class=\"histo\">$text_email</td>\n";
+		echo "<td>$text_email</td>\n";
 	echo "</tr>\n";
 
 	echo "</table><br>\n\n";
@@ -251,49 +251,49 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $DEBUG=F
 	// AFFICHAGE TABLEAU DES conges annuels et soldes
 	echo "<table cellpadding=\"2\" class=\"tablo\" >\n";
 	echo "<tr align=\"center\">\n";
-	echo "<td class=\"histo\"></td>\n";
-	echo "<td class=\"histo\">". _('admin_modif_nb_jours_an') ." </td>\n";
-	echo "<td class=\"histo\"></td>\n";
-	echo "<td class=\"histo\">". _('divers_solde') ."</td>\n";
-	echo "<td class=\"histo\"></td>\n";
+	echo "<td></td>\n";
+	echo "<td>". _('admin_modif_nb_jours_an') ." </td>\n";
+	echo "<td></td>\n";
+	echo "<td>". _('divers_solde') ."</td>\n";
+	echo "<td></td>\n";
 	if($_SESSION['config']['autorise_reliquats_exercice']==TRUE)
 	{
-		echo "<td class=\"histo\">". _('divers_reliquat') ."</td>\n";
-		echo "<td class=\"histo\"></td>\n";
+		echo "<td>". _('divers_reliquat') ."</td>\n";
+		echo "<td></td>\n";
 	}
 	echo "</tr>\n";
 	foreach($tab_type_conges as $id_type_cong => $libelle)
 	{
 		echo "<tr align=\"center\">\n";
-		echo "<td class=\"histo\">$libelle</td>\n";
+		echo "<td>$libelle</td>\n";
 		// jours / an
 		
 		if (isset($tab_user['conges'][$libelle]))
 		{
-			echo "<td class=\"histo\">".$tab_user['conges'][$libelle]['nb_an']."</td>\n";
+			echo "<td>".$tab_user['conges'][$libelle]['nb_an']."</td>\n";
 			$text_jours_an="<input type=\"text\" name=\"tab_new_jours_an[$id_type_cong]\" size=\"5\" maxlength=\"5\" value=\"".$tab_user['conges'][$libelle]['nb_an']."\">" ;
 		}
 		else
 		{
-			echo "<td class=\"histo\">0</td>\n";
+			echo "<td>0</td>\n";
 			$text_jours_an='<input type="text" name="tab_new_jours_an['.$id_type_cong.']" size="5" maxlength="5" value="0">' ;
 		}
 			
-		echo "<td class=\"histo\">$text_jours_an</td>\n";
+		echo "<td>$text_jours_an</td>\n";
 		
 		// solde
 		if (isset($tab_user['conges'][$libelle]))
 		{
-			echo "<td class=\"histo\">".$tab_user['conges'][$libelle]['solde']."</td>\n";
+			echo "<td>".$tab_user['conges'][$libelle]['solde']."</td>\n";
 			$text_solde_jours="<input type=\"text\" name=\"tab_new_solde[$id_type_cong]\" size=\"5\" maxlength=\"5\" value=\"".$tab_user['conges'][$libelle]['solde']."\">" ;
 		}
 		else
 		{
-			echo "<td class=\"histo\">0</td>\n";
+			echo "<td>0</td>\n";
 			$text_solde_jours='<input type="text" name="tab_new_solde['.$id_type_cong.']" size="5" maxlength="5" value="0">' ;
 		}
 			
-		echo "<td class=\"histo\">$text_solde_jours</td>\n";
+		echo "<td>$text_solde_jours</td>\n";
 		
 		// reliquat
 		// si on ne les utilise pas, on initialise qd meme le tableau (<input type=\"hidden\") ...
@@ -301,16 +301,16 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $DEBUG=F
 		{
 			if (isset($tab_user['conges'][$libelle]))
 			{
-				echo "<td class=\"histo\">".$tab_user['conges'][$libelle]['reliquat']."</td>\n";
+				echo "<td>".$tab_user['conges'][$libelle]['reliquat']."</td>\n";
 				$text_reliquats_jours="<input type=\"text\" name=\"tab_new_reliquat[$id_type_cong]\" size=\"5\" maxlength=\"5\" value=\"".$tab_user['conges'][$libelle]['reliquat']."\">" ;
 
 			}
 			else
 			{
-				echo "<td class=\"histo\">0</td>\n";
+				echo "<td>0</td>\n";
 				$text_reliquats_jours='<input type="text" name="tab_new_reliquat['.$id_type_cong.']" size="5" maxlength="5" value="0">' ;
 			}	
-			echo "<td class=\"histo\">$text_reliquats_jours</td>\n";
+			echo "<td>$text_reliquats_jours</td>\n";
 		}
 		else
 			echo "<input type=\"hidden\" name=\"tab_new_reliquat[$id_type_cong]\" value=\"0\">" ;
@@ -323,21 +323,21 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $DEBUG=F
 	  foreach($tab_type_conges_exceptionnels as $id_type_cong_exp => $libelle)
 	  {
 	    echo "<tr align=\"center\">\n";
-	    echo "<td class=\"histo\">$libelle</td>\n";
+	    echo "<td>$libelle</td>\n";
 		// jours / an
-		echo "<td class=\"histo\">0</td>\n";
-		echo "<td class=\"histo\">0</td>\n";
+		echo "<td>0</td>\n";
+		echo "<td>0</td>\n";
 	    // solde
-	    echo "<td class=\"histo\">".$tab_user['conges'][$libelle]['solde']."</td>\n";
+	    echo "<td>".$tab_user['conges'][$libelle]['solde']."</td>\n";
 	    $text_solde_jours="<input type=\"text\" name=\"tab_new_solde[$id_type_cong_exp]\" size=\"5\" maxlength=\"5\" value=\"".$tab_user['conges'][$libelle]['solde']."\">" ;
-	    echo "<td class=\"histo\">$text_solde_jours</td>\n";
+	    echo "<td>$text_solde_jours</td>\n";
 		// reliquat
 		// si on ne les utilise pas, on initialise qd meme le tableau (<input type=\"hidden\") ...
 		if($_SESSION['config']['autorise_reliquats_exercice']==TRUE)
 		{
-			echo "<td class=\"histo\">".$tab_user['conges'][$libelle]['reliquat']."</td>\n";
+			echo "<td>".$tab_user['conges'][$libelle]['reliquat']."</td>\n";
 			$text_reliquats_jours="<input type=\"text\" name=\"tab_new_reliquat[$id_type_cong_exp]\" size=\"5\" maxlength=\"5\" value=\"".$tab_user['conges'][$libelle]['reliquat']."\">" ;
-			echo "<td class=\"histo\">$text_reliquats_jours</td>\n";
+			echo "<td>$text_reliquats_jours</td>\n";
 		}
 		else
 			echo "<input type=\"hidden\" name=\"tab_new_reliquat[$id_type_cong_exp]\" value=\"0\">" ;

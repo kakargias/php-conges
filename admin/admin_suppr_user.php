@@ -117,9 +117,9 @@ function confirmer($u_login, $DEBUG=FALSE)
 	echo "<form action=\"$PHP_SELF?session=$session&u_login_to_delete=$u_login\" method=\"POST\">\n"  ;
 	echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 	echo "<tr align=\"center\">\n";
-	echo "<td class=\"histo\">". _('divers_login_maj_1') ."</td>\n";
-	echo "<td class=\"histo\">". _('divers_nom_maj_1') ."</td>\n";
-	echo "<td class=\"histo\">". _('divers_prenom_maj_1') ."</td>\n";
+	echo "<td>". _('divers_login_maj_1') ."</td>\n";
+	echo "<td>". _('divers_nom_maj_1') ."</td>\n";
+	echo "<td>". _('divers_prenom_maj_1') ."</td>\n";
 	echo "</tr>\n";
 
 	// Récupération des informations
@@ -129,9 +129,9 @@ function confirmer($u_login, $DEBUG=FALSE)
 	echo "<tr align=\"center\">\n";
 	while ($resultat1 = $ReqLog1->fetch_array())
 	{
-		echo "<td class=\"histo\">".$resultat1["u_login"]."</td>\n";
-		echo "<td class=\"histo\">".$resultat1["u_nom"]."</td>\n";
-		echo "<td class=\"histo\">".$resultat1["u_prenom"]."</td>\n";
+		echo "<td>".$resultat1["u_login"]."</td>\n";
+		echo "<td>".$resultat1["u_nom"]."</td>\n";
+		echo "<td>".$resultat1["u_prenom"]."</td>\n";
 	}
 	echo "</tr>\n";
 	echo "</table><br>\n\n";

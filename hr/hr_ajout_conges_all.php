@@ -104,23 +104,23 @@ function affichage_saisie_user_par_user($tab_type_conges, $tab_type_conges_excep
 		// AFFICHAGE TITRES TABLEAU
 		echo "<table cellpadding=\"2\" class=\"tablo\" width=\"700\">\n";
 		echo "<tr align=\"center\">\n";
-		echo "<td class=\"titre\">". _('divers_nom_maj_1') ."</td>\n";
-		echo "<td class=\"titre\">". _('divers_prenom_maj_1') ."</td>\n";
-		echo "<td class=\"titre\">". _('divers_quotite_maj_1') ."</td>\n";
+		echo "<td>". _('divers_nom_maj_1') ."</td>\n";
+		echo "<td>". _('divers_prenom_maj_1') ."</td>\n";
+		echo "<td>". _('divers_quotite_maj_1') ."</td>\n";
 		foreach($tab_type_conges as $id_conges => $libelle)
 		{
-			echo "<td class=\"titre\">$libelle<br><i>(". _('divers_solde') .")</i></td>\n";
-			echo "<td class=\"titre\">$libelle<br>". _('resp_ajout_conges_nb_jours_ajout') ."</td>\n" ;
+			echo "<td>$libelle<br><i>(". _('divers_solde') .")</i></td>\n";
+			echo "<td>$libelle<br>". _('resp_ajout_conges_nb_jours_ajout') ."</td>\n" ;
 		}
 		if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
 		{
 			foreach($tab_type_conges_exceptionnels as $id_conges => $libelle)
 			{
-				echo "<td class=\"titre\">$libelle<br><i>(". _('divers_solde') .")</i></td>\n";
-				echo "<td class=\"titre\">$libelle<br>". _('resp_ajout_conges_nb_jours_ajout') ."</td>\n" ;
+				echo "<td>$libelle<br><i>(". _('divers_solde') .")</i></td>\n";
+				echo "<td>$libelle<br>". _('resp_ajout_conges_nb_jours_ajout') ."</td>\n" ;
 			}
 		}
-		echo "<td class=\"titre\">". _('divers_comment_maj_1') ."<br></td>\n" ;
+		echo "<td>". _('divers_comment_maj_1') ."<br></td>\n" ;
 		echo"</tr>\n";
 		
 		// AFFICHAGE LIGNES TABLEAU
@@ -135,15 +135,15 @@ function affichage_saisie_user_par_user($tab_type_conges, $tab_type_conges_excep
 			$tab_conges=$tab_current_user['conges']; 
 	
 			/** sur la ligne ,   **/
-			echo "<td class=\"titre\">".$tab_current_user['nom']."</td>\n";
-			echo "<td class=\"titre\">".$tab_current_user['prenom']."</td>\n";
-			echo "<td class=\"histo\">".$tab_current_user['quotite']."%</td>\n";
+			echo "<td>".$tab_current_user['nom']."</td>\n";
+			echo "<td>".$tab_current_user['prenom']."</td>\n";
+			echo "<td>".$tab_current_user['quotite']."%</td>\n";
 	
 			foreach($tab_type_conges as $id_conges => $libelle)
 			{
 				/** le champ de saisie est <input type="text" name="tab_champ_saisie[valeur de u_login][id_du_type_de_conges]" value="[valeur du nb de jours ajouté saisi]"> */
 				$champ_saisie_conges="<input type=\"text\" name=\"tab_champ_saisie[$current_login][$id_conges]\" size=\"6\" maxlength=\"6\" value=\"0\">";
-				echo "<td class=\"histo\">".$tab_conges[$libelle]['nb_an']." <i>(".$tab_conges[$libelle]['solde'].")</i></td>\n";
+				echo "<td>".$tab_conges[$libelle]['nb_an']." <i>(".$tab_conges[$libelle]['solde'].")</i></td>\n";
 				echo "<td align=\"center\" class=\"histo\">$champ_saisie_conges</td>\n" ;
 			}
 			if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
@@ -152,7 +152,7 @@ function affichage_saisie_user_par_user($tab_type_conges, $tab_type_conges_excep
 				{
 					/** le champ de saisie est <input type="text" name="tab_champ_saisie[valeur de u_login][id_du_type_de_conges]" value="[valeur du nb de jours ajouté saisi]"> */
 					$champ_saisie_conges="<input type=\"text\" name=\"tab_champ_saisie[$current_login][$id_conges]\" size=\"6\" maxlength=\"6\" value=\"0\">";
-					echo "<td class=\"histo\"><i>(".$tab_conges[$libelle]['solde'].")</i></td>\n";
+					echo "<td><i>(".$tab_conges[$libelle]['solde'].")</i></td>\n";
 					echo "<td align=\"center\" class=\"histo\">$champ_saisie_conges</td>\n" ;
 				}
 			}
@@ -174,15 +174,15 @@ function affichage_saisie_user_par_user($tab_type_conges, $tab_type_conges_excep
 				$tab_conges=$tab_current_user['conges']; 
 		
 				/** sur la ligne ,   **/
-				echo "<td class=\"titre\">".$tab_current_user['nom']."</td>\n";
-				echo "<td class=\"titre\">".$tab_current_user['prenom']."</td>\n";
-				echo "<td class=\"histo\">".$tab_current_user['quotite']."%</td>\n";
+				echo "<td>".$tab_current_user['nom']."</td>\n";
+				echo "<td>".$tab_current_user['prenom']."</td>\n";
+				echo "<td>".$tab_current_user['quotite']."%</td>\n";
 		
 				foreach($tab_type_conges as $id_conges => $libelle)
 				{
 					/** le champ de saisie est <input type="text" name="tab_champ_saisie[valeur de u_login][id_du_type_de_conges]" value="[valeur du nb de jours ajouté saisi]"> */
 					$champ_saisie_conges="<input type=\"text\" name=\"tab_champ_saisie[$current_login][$id_conges]\" size=\"6\" maxlength=\"6\" value=\"0\">";
-					echo "<td class=\"histo\">".$tab_conges[$libelle]['nb_an']." <i>(".$tab_conges[$libelle]['solde'].")</i></td>\n";
+					echo "<td>".$tab_conges[$libelle]['nb_an']." <i>(".$tab_conges[$libelle]['solde'].")</i></td>\n";
 					echo "<td align=\"center\" class=\"histo\">$champ_saisie_conges</td>\n" ;
 				}
 				if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
@@ -191,7 +191,7 @@ function affichage_saisie_user_par_user($tab_type_conges, $tab_type_conges_excep
 					{
 						/** le champ de saisie est <input type="text" name="tab_champ_saisie[valeur de u_login][id_du_type_de_conges]" value="[valeur du nb de jours ajouté saisi]"> */
 						$champ_saisie_conges="<input type=\"text\" name=\"tab_champ_saisie[$current_login][$id_conges]\" size=\"6\" maxlength=\"6\" value=\"0\">";
-						echo "<td class=\"histo\"><i>(".$tab_conges[$libelle]['solde'].")</i></td>\n";
+						echo "<td><i>(".$tab_conges[$libelle]['solde'].")</i></td>\n";
 						echo "<td align=\"center\" class=\"histo\">$champ_saisie_conges</td>\n" ;
 					}
 				}

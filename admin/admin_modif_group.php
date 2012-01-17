@@ -95,10 +95,10 @@ function modifier($group,  $DEBUG=FALSE)
 	echo "<form action=$PHP_SELF?session=$session&group_to_update=".$group." method=\"POST\">\n" ;
 	echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 	echo "<tr align=\"center\">\n";
-	echo "<td class=\"histo\">". _('admin_groupes_groupe') ."</td>\n";
-	echo "<td class=\"histo\">". _('admin_groupes_libelle') ." / ". _('divers_comment_maj_1') ."</td>\n";
+	echo "<td>". _('admin_groupes_groupe') ."</td>\n";
+	echo "<td>". _('admin_groupes_libelle') ." / ". _('divers_comment_maj_1') ."</td>\n";
 	if($_SESSION['config']['double_validation_conges']==TRUE)
-		echo "	<td class=\"histo\">". _('admin_groupes_double_valid') ."</td>\n";
+		echo "	<td>". _('admin_groupes_double_valid') ."</td>\n";
 	echo "</tr>\n";
 
 	$ReqLog1 = SQL::query($sql1);
@@ -112,10 +112,10 @@ function modifier($group,  $DEBUG=FALSE)
 
 	// AFICHAGE DE LA LIGNE DES VALEURS ACTUELLES A MOFIDIER
 	echo "<tr>\n";
-	echo "<td class=\"histo\">$sql_groupename</td>\n";
-	echo "<td class=\"histo\">$sql_comment</td>\n";
+	echo "<td>$sql_groupename</td>\n";
+	echo "<td>$sql_comment</td>\n";
 	if($_SESSION['config']['double_validation_conges']==TRUE)
-			echo "<td class=\"histo\">$sql_double_valid</td>\n";
+			echo "<td>$sql_double_valid</td>\n";
 	echo "</tr>\n";
 
 	// contruction des champs de saisie
@@ -124,8 +124,8 @@ function modifier($group,  $DEBUG=FALSE)
 
 	// AFFICHAGE ligne de saisie
 	echo "<tr>\n";
-	echo "<td class=\"histo\">$text_group</td>\n";
-	echo "<td class=\"histo\">$text_comment</td>\n";
+	echo "<td>$text_group</td>\n";
+	echo "<td>$text_comment</td>\n";
 	if($_SESSION['config']['double_validation_conges']==TRUE)
 	{
 		$text_double_valid="<select name=\"new_double_valid\" ><option value=\"N\" ";
@@ -135,7 +135,7 @@ function modifier($group,  $DEBUG=FALSE)
 		if($sql_double_valid=="Y")
 			$text_double_valid=$text_double_valid."SELECTED";
 		$text_double_valid=$text_double_valid.">Y</option></select>" ;
-		echo "<td class=\"histo\">$text_double_valid</td>\n";
+		echo "<td>$text_double_valid</td>\n";
 	}
 	echo "</tr>\n";
 

@@ -428,7 +428,7 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 
 		
 
-		if($_SESSION['config']['affiche_soldes_calendrier']==TRUE)
+		if( $_SESSION['config']['affiche_soldes_calendrier'] || is_hr($_SESSION['userlogin']) )
 		{
 			// affichage des libellé des conges
 			foreach($tab_type_cong as $id => $libelle)
@@ -644,7 +644,7 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 			for ($i = $last; $i <7; $i ++)
 				echo '<td></td>';
 			
-			if($_SESSION['config']['affiche_soldes_calendrier']==TRUE)
+			if( $_SESSION['config']['affiche_soldes_calendrier'] || is_hr($_SESSION['userlogin']) )
 			{
 				// affichage des divers soldes
 				foreach($tab_cong_user as $id => $tab_conges)
@@ -1104,7 +1104,10 @@ function affiche_select_groupe($select_groupe, $selected, $printable, $year, $mo
 		// on propose la liste des groupes dont user est resp + groupes dont user est membre
 		$list_groupes_1=get_list_groupes_du_resp($_SESSION['userlogin'],  $DEBUG);
 		$list_groupes_2=get_list_groupes_du_user($_SESSION['userlogin'],  $DEBUG);
-		$list_groupes = $list_groupes_1.",".$list_groupes_2 ;
+		if ($list_groupes_1 == '' || $list_groupes_2 == '')
+			$list_groupes = $list_groupes_1.$list_groupes_2 ;
+		else
+			$list_groupes = $list_groupes_1.",".$list_groupes_2 ;
 	}
 	else
 		$list_groupes=get_list_groupes_du_user($_SESSION['userlogin'],  $DEBUG);

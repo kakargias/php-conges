@@ -133,15 +133,15 @@ function affiche_nouvelle_edition($login,  $DEBUG=FALSE)
 		else
 			echo "<table cellpadding=\"2\" class=\"tablo\" width=\"750\">\n";
 		echo "<tr align=\"center\">\n";
-		echo " <td class=\"titre\">". _('divers_type_maj_1') ."</td>\n";
-		echo " <td class=\"titre\">". _('divers_etat_maj_1') ."</td>\n";
-		echo " <td class=\"titre\">". _('divers_nb_jours_maj_1') ."</td>\n";
-		echo " <td class=\"titre\">". _('divers_debut_maj_1') ."</td>\n";
-		echo " <td class=\"titre\">". _('divers_fin_maj_1') ."</td>\n";
-		echo " <td class=\"titre\">". _('divers_comment_maj_1') ."</td>\n";
+		echo " <td>". _('divers_type_maj_1') ."</td>\n";
+		echo " <td>". _('divers_etat_maj_1') ."</td>\n";
+		echo " <td>". _('divers_nb_jours_maj_1') ."</td>\n";
+		echo " <td>". _('divers_debut_maj_1') ."</td>\n";
+		echo " <td>". _('divers_fin_maj_1') ."</td>\n";
+		echo " <td>". _('divers_comment_maj_1') ."</td>\n";
 		if($_SESSION['config']['affiche_date_traitement']==TRUE)
 		{
-			echo "<td class=\"titre\">". _('divers_date_traitement') ."</td>\n" ;
+			echo "<td>". _('divers_date_traitement') ."</td>\n" ;
 		}
 		echo "</tr>\n";
 
@@ -160,8 +160,8 @@ function affiche_nouvelle_edition($login,  $DEBUG=FALSE)
 				$sql_p_date_traitement = $resultat2["p_date_traitement"];
 
 				echo "<tr align=\"center\">\n";
-				echo "<td class=\"histo\">$sql_p_type</td>\n" ;
-				echo "<td class=\"histo\">";
+				echo "<td>$sql_p_type</td>\n" ;
+				echo "<td>";
 				if($sql_p_etat=="refus")
 					echo  _('divers_refuse')  ;
 				elseif($sql_p_etat=="annul")
@@ -174,10 +174,10 @@ function affiche_nouvelle_edition($login,  $DEBUG=FALSE)
 				elseif($sql_p_etat=="ajout")
 					echo "<td class=\"histo-big\"> +$sql_p_nb_jours</td>";
 				else
-					echo "<td class=\"histo\"> $sql_p_nb_jours</td>";
-				echo "<td class=\"histo\">$sql_p_date_deb _ $demi_j_deb</td>";
-				echo "<td class=\"histo\">$sql_p_date_fin _ $demi_j_fin</td>";
-				echo "<td class=\"histo\">$sql_p_commentaire</td>";
+					echo "<td> $sql_p_nb_jours</td>";
+				echo "<td>$sql_p_date_deb _ $demi_j_deb</td>";
+				echo "<td>$sql_p_date_fin _ $demi_j_fin</td>";
+				echo "<td>$sql_p_commentaire</td>";
 				if($_SESSION['config']['affiche_date_traitement']==TRUE)
 				{
 					if($sql_p_date_demande == NULL)
@@ -245,15 +245,15 @@ function affiche_anciennes_editions($login,  $DEBUG=FALSE)
 		// AFFICHAGE TABLEAU
 		printf("<table cellpadding=\"2\" class=\"tablo\" width=\"750\">\n");
 		echo "<tr align=\"center\">\n";
-		echo " <td class=\"titre\">". _('editions_numero') ."</td>\n";
-		echo " <td class=\"titre\">". _('editions_date') ."</td>\n";
+		echo " <td>". _('editions_numero') ."</td>\n";
+		echo " <td>". _('editions_date') ."</td>\n";
 		foreach($tab_type_cong as $id_abs => $libelle)
 		{
-			echo " <td class=\"titre\">". _('divers_solde_maj_1') ." $libelle</td>\n";
+			echo " <td>". _('divers_solde_maj_1') ." $libelle</td>\n";
 		}
 
-		echo " <td class=\"titre\"></td>\n";
-		echo " <td class=\"titre\"></td>\n";
+		echo " <td></td>\n";
+		echo " <td></td>\n";
 		echo "</tr>\n";
 
 		foreach($tab_editions_user as $id_edition => $tab_ed)
@@ -269,15 +269,15 @@ function affiche_anciennes_editions($login,  $DEBUG=FALSE)
 					"</a>\n";
 
 			echo "<tr align=\"center\">\n";
-			echo "<td class=\"histo\">".$tab_ed['num_for_user']."</td>\n" ;
+			echo "<td>".$tab_ed['num_for_user']."</td>\n" ;
 			echo "<td class=\"histo-big\">".$tab_ed['date']."</td>";
 			foreach($tab_type_cong as $id_abs => $libelle)
 			{
-				echo "<td class=\"histo\">".$tab_ed['conges'][$id_abs]."</td>";
+				echo "<td>".$tab_ed['conges'][$id_abs]."</td>";
 			}
 
-			echo "<td class=\"histo\">$text_edit_a_nouveau</td>";
-			echo "<td class=\"histo\">$text_edit_pdf_a_nouveau</td>";
+			echo "<td>$text_edit_a_nouveau</td>";
+			echo "<td>$text_edit_pdf_a_nouveau</td>";
 			echo "</tr>\n";
 		}
 		echo "</table>\n";

@@ -96,10 +96,10 @@ function confirmer($p_num, $onglet, $DEBUG=FALSE)
 	echo '<thead>';
 	// affichage première ligne : titres
 	echo "<tr align=\"center\">\n";
-	echo "<td class=\"titre\">". _('divers_debut_maj_1') ."</td>\n";
-	echo "<td class=\"titre\">". _('divers_fin_maj_1') ."</td>\n";
-	echo "<td class=\"titre\">". _('divers_nb_jours_maj_1') ."</td>\n";
-	echo "<td class=\"titre\">". _('divers_comment_maj_1') ."</td>\n";
+	echo "<td>". _('divers_debut_maj_1') ."</td>\n";
+	echo "<td>". _('divers_fin_maj_1') ."</td>\n";
+	echo "<td>". _('divers_nb_jours_maj_1') ."</td>\n";
+	echo "<td>". _('divers_comment_maj_1') ."</td>\n";
 	echo "</tr>\n" ;
 	echo '</thead>';
 	echo '<tbody>';
@@ -124,7 +124,7 @@ function confirmer($p_num, $onglet, $DEBUG=FALSE)
 		$sql_commentaire=$resultat1["p_commentaire"];
 		$sql_etat=$resultat1["p_etat"];
 
-		echo "<td class=\"histo\">$sql_date_deb _ $demi_j_deb</td><td class=\"histo\">$sql_date_fin _ $demi_j_fin</td><td class=\"histo\">$aff_nb_jours</td><td class=\"histo\">$sql_commentaire</td>\n" ;
+		echo "<td>$sql_date_deb _ $demi_j_deb</td><td>$sql_date_fin _ $demi_j_fin</td><td>$aff_nb_jours</td><td>$sql_commentaire</td>\n" ;
 
 		$text_debut="<input type=\"text\" name=\"new_debut\" size=\"10\" maxlength=\"30\" value=\"$sql_date_deb\">" ;
 		if($sql_demi_jour_deb=="am")
@@ -160,7 +160,7 @@ function confirmer($p_num, $onglet, $DEBUG=FALSE)
 
 	// affichage 3ieme ligne : saisie des nouvelles valeurs
 	echo "<tr align=\"center\">\n" ;
-	echo "<td class=\"histo\">$text_debut<br>$radio_deb_am / $radio_deb_pm</td><td class=\"histo\">$text_fin<br>$radio_fin_am / $radio_fin_pm</td><td class=\"histo\">$text_nb_jours</td><td class=\"histo\">$text_commentaire</td>\n" ;
+	echo "<td>$text_debut<br>$radio_deb_am / $radio_deb_pm</td><td>$text_fin<br>$radio_fin_am / $radio_fin_pm</td><td>$text_nb_jours</td><td>$text_commentaire</td>\n" ;
 	echo "</tr>\n" ;
 
 	echo '</tbody>';

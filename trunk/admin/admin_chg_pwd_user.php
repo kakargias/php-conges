@@ -94,11 +94,11 @@ function modifier($u_login, $DEBUG=FALSE)
 	echo "<form action=$PHP_SELF?session=$session&u_login_to_update=".$u_login." method=\"POST\">\n"  ;
 	echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 	echo "<tr align=\"center\">\n";
-	echo "<td class=\"histo\">". _('divers_login_maj_1') ."</td>\n";
-	echo "<td class=\"histo\">". _('divers_nom_maj_1') ."</td>\n";
-	echo "<td class=\"histo\">". _('divers_prenom_maj_1') ."</td>\n";
-	echo "<td class=\"histo\">". _('admin_users_password_1') ."</td>\n";
-	echo "<td class=\"histo\">". _('admin_users_password_2') ."</td>\n";
+	echo "<td>". _('divers_login_maj_1') ."</td>\n";
+	echo "<td>". _('divers_nom_maj_1') ."</td>\n";
+	echo "<td>". _('divers_prenom_maj_1') ."</td>\n";
+	echo "<td>". _('admin_users_password_1') ."</td>\n";
+	echo "<td>". _('admin_users_password_2') ."</td>\n";
 	echo "</tr>\n";
 
 	echo "<tr align=\"center\">\n";
@@ -111,7 +111,7 @@ function modifier($u_login, $DEBUG=FALSE)
 	while ($resultat1 = $ReqLog1->fetch_array()) {
 			$text_pwd1="<input type=\"password\" name=\"new_pwd1\" size=\"10\" maxlength=\"30\" value=\"\">" ;
 			$text_pwd2="<input type=\"password\" name=\"new_pwd2\" size=\"10\" maxlength=\"30\" value=\"\">" ;
-			echo  "<td class=\"histo\">".$resultat1["u_login"]."</td><td class=\"histo\">".$resultat1["u_nom"]."</td><td class=\"histo\">".$resultat1["u_prenom"]."</td><td class=\"histo\">$text_pwd1</td><td class=\"histo\">$text_pwd2</td>\n";
+			echo  "<td>".$resultat1["u_login"]."</td><td>".$resultat1["u_nom"]."</td><td>".$resultat1["u_prenom"]."</td><td>$text_pwd1</td><td>$text_pwd2</td>\n";
 		}
 	echo "<tr>\n";
 	echo "</table>\n\n";

@@ -121,29 +121,29 @@ function affiche_all_demandes_en_cours($tab_type_conges, $DEBUG=FALSE)
 			
 			echo "<table cellpadding=\"2\" class=\"tablo\">\n" ;
 			echo "<tr>\n" ;
-			echo "<td class=\"titre\">". _('divers_nom_maj_1') ."<br>". _('divers_prenom_maj_1') ."</td>\n" ;
-			echo "<td class=\"titre\">". _('divers_quotite_maj_1') ."</td>" ;
-			echo "<td class=\"titre\">". _('divers_debut_maj_1') ."</td>\n" ;
-			echo "<td class=\"titre\">". _('divers_fin_maj_1') ."</td>\n" ;
-			echo "<td class=\"titre\">". _('divers_comment_maj_1') ."</td>\n" ;
-			echo "<td class=\"titre\">". _('resp_traite_demandes_nb_jours') ."</td>";
+			echo "<td>". _('divers_nom_maj_1') ."<br>". _('divers_prenom_maj_1') ."</td>\n" ;
+			echo "<td>". _('divers_quotite_maj_1') ."</td>" ;
+			echo "<td>". _('divers_debut_maj_1') ."</td>\n" ;
+			echo "<td>". _('divers_fin_maj_1') ."</td>\n" ;
+			echo "<td>". _('divers_comment_maj_1') ."</td>\n" ;
+			echo "<td>". _('resp_traite_demandes_nb_jours') ."</td>";
 			foreach($tab_type_conges as $id_conges => $libelle)
 			{
-				echo "<td class=\"titre\">". _('divers_solde_maj_1') ."<br>$libelle</td>" ;
+				echo "<td>". _('divers_solde_maj_1') ."<br>$libelle</td>" ;
 			}
 			if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
 			foreach($tab_type_conges_exceptionnels as $id_conges => $libelle)
 			{
-				echo "<td class=\"titre\">". _('divers_solde_maj_1') ."<br>$libelle</td>" ;
+				echo "<td>". _('divers_solde_maj_1') ."<br>$libelle</td>" ;
 			}			
-			echo "<td class=\"titre\">". _('divers_type_maj_1') ."</td>\n" ;
-			echo "<td class=\"titre\">". _('divers_accepter_maj_1') ."</td>\n" ;
-			echo "<td class=\"titre\">". _('divers_refuser_maj_1') ."</td>\n" ;
-			echo "<td class=\"titre\">". _('resp_traite_demandes_attente') ."</td>\n" ;
-			echo "<td class=\"titre\">". _('resp_traite_demandes_motif_refus') ."</td>\n" ;
+			echo "<td>". _('divers_type_maj_1') ."</td>\n" ;
+			echo "<td>". _('divers_accepter_maj_1') ."</td>\n" ;
+			echo "<td>". _('divers_refuser_maj_1') ."</td>\n" ;
+			echo "<td>". _('resp_traite_demandes_attente') ."</td>\n" ;
+			echo "<td>". _('resp_traite_demandes_motif_refus') ."</td>\n" ;
 			if($_SESSION['config']['affiche_date_traitement']==TRUE)
 			{
-				echo "<td class=\"titre\">". _('divers_date_traitement') ."</td>\n" ;
+				echo "<td>". _('divers_date_traitement') ."</td>\n" ;
 			}
 			echo "</tr>\n";
 			
@@ -192,20 +192,20 @@ function affiche_all_demandes_en_cours($tab_type_conges, $DEBUG=FALSE)
 				$text_refus="<input type=\"text\" name=\"tab_text_refus[$sql_p_num]\" size=\"20\" max=\"100\">";
 				
 				echo "<tr>\n" ;
-				echo "<td class=\"histo\"><b>".$tab_all_users_du_resp[$sql_p_login]['nom']."</b><br>".$tab_all_users_du_resp[$sql_p_login]['prenom']."</td><td class=\"histo\">".$tab_all_users_du_resp[$sql_p_login]['quotite']."%</td>";
-				echo "<td class=\"histo\">$sql_p_date_deb_fr _ $demi_j_deb</td><td class=\"histo\">$sql_p_date_fin_fr _ $demi_j_fin</td><td class=\"histo\">$sql_p_commentaire</td><td class=\"histo\"><b>$sql_p_nb_jours</b></td>";
+				echo "<td><b>".$tab_all_users_du_resp[$sql_p_login]['nom']."</b><br>".$tab_all_users_du_resp[$sql_p_login]['prenom']."</td><td>".$tab_all_users_du_resp[$sql_p_login]['quotite']."%</td>";
+				echo "<td>$sql_p_date_deb_fr _ $demi_j_deb</td><td>$sql_p_date_fin_fr _ $demi_j_fin</td><td>$sql_p_commentaire</td><td><b>$sql_p_nb_jours</b></td>";
 				$tab_conges=$tab_all_users_du_resp[$sql_p_login]['conges']; 
 				foreach($tab_type_conges as $id_conges => $libelle)
 				{
-					echo "<td class=\"histo\">".$tab_conges[$libelle]['solde']."</td>";
+					echo "<td>".$tab_conges[$libelle]['solde']."</td>";
 				}
 				if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
 				foreach($tab_type_conges_exceptionnels as $id_conges => $libelle)
 				{
-					echo "<td class=\"histo\">".$tab_conges[$libelle]['solde']."</td>";
+					echo "<td>".$tab_conges[$libelle]['solde']."</td>";
 				}			
-				echo "<td class=\"histo\">".$tab_type_all_abs[$sql_p_type]['libelle']."</td>\n";			
-				echo "<td class=\"histo\">$boutonradio1</td><td class=\"histo\">$boutonradio2</td><td class=\"histo\">$boutonradio3</td><td class=\"histo\">$text_refus</td>\n";
+				echo "<td>".$tab_type_all_abs[$sql_p_type]['libelle']."</td>\n";			
+				echo "<td>$boutonradio1</td><td>$boutonradio2</td><td>$boutonradio3</td><td>$text_refus</td>\n";
 				if($_SESSION['config']['affiche_date_traitement']==TRUE)
 				{
 					echo "<td class=\"histo-left\">". _('divers_demande') ." : $sql_p_date_demande<br>". _('divers_traitement') ." : $sql_p_date_traitement</td>\n" ;
@@ -246,24 +246,24 @@ function affiche_all_demandes_en_cours($tab_type_conges, $DEBUG=FALSE)
 			
 				echo "<table cellpadding=\"2\" class=\"tablo\">\n" ;
 				echo "<tr>\n" ;
-				echo "<td class=\"titre\"><b>". _('divers_nom_maj_1') ."</b><br>". _('divers_prenom_maj_1') ."</td>\n" ;
-				echo "<td class=\"titre\">". _('divers_quotite_maj_1') ."</td>" ;
-				echo "<td class=\"titre\">". _('divers_debut_maj_1') ."</td>\n" ;
-				echo "<td class=\"titre\">". _('divers_fin_maj_1') ."</td>\n" ;
-				echo "<td class=\"titre\">". _('divers_comment_maj_1') ."</td>\n" ;
-				echo "<td class=\"titre\">". _('resp_traite_demandes_nb_jours') ."</td>";
+				echo "<td><b>". _('divers_nom_maj_1') ."</b><br>". _('divers_prenom_maj_1') ."</td>\n" ;
+				echo "<td>". _('divers_quotite_maj_1') ."</td>" ;
+				echo "<td>". _('divers_debut_maj_1') ."</td>\n" ;
+				echo "<td>". _('divers_fin_maj_1') ."</td>\n" ;
+				echo "<td>". _('divers_comment_maj_1') ."</td>\n" ;
+				echo "<td>". _('resp_traite_demandes_nb_jours') ."</td>";
 				foreach($tab_type_conges as $id_conges => $libelle)
 				{
-					echo "<td class=\"titre\">". _('divers_solde_maj_1') ."<br>$libelle</td>" ;
+					echo "<td>". _('divers_solde_maj_1') ."<br>$libelle</td>" ;
 				}
-				echo "<td class=\"titre\">". _('divers_type_maj_1') ."</td>\n" ;
-				echo "<td class=\"titre\">". _('divers_accepter_maj_1') ."</td>\n" ;
-				echo "<td class=\"titre\">". _('divers_refuser_maj_1') ."</td>\n" ;
-				echo "<td class=\"titre\">". _('resp_traite_demandes_attente') ."</td>\n" ;
-				echo "<td class=\"titre\">". _('resp_traite_demandes_motif_refus') ."</td>\n" ;
+				echo "<td>". _('divers_type_maj_1') ."</td>\n" ;
+				echo "<td>". _('divers_accepter_maj_1') ."</td>\n" ;
+				echo "<td>". _('divers_refuser_maj_1') ."</td>\n" ;
+				echo "<td>". _('resp_traite_demandes_attente') ."</td>\n" ;
+				echo "<td>". _('resp_traite_demandes_motif_refus') ."</td>\n" ;
 				if($_SESSION['config']['affiche_date_traitement']==TRUE)
 				{
-					echo "<td class=\"titre\">". _('divers_date_traitement') ."</td>\n" ;
+					echo "<td>". _('divers_date_traitement') ."</td>\n" ;
 				}
 				echo "</tr>\n";
 				
@@ -301,15 +301,15 @@ function affiche_all_demandes_en_cours($tab_type_conges, $DEBUG=FALSE)
 					$text_refus="<input type=\"text\" name=\"tab_text_refus[$sql_p_num]\" size=\"20\" max=\"100\">";
 					
 					echo "<tr>\n" ;
-					echo "<td class=\"histo\"><b>".$tab_all_users_du_grand_resp[$sql_p_login]['nom']."</b><br>".$tab_all_users_du_grand_resp[$sql_p_login]['prenom']."</td><td class=\"histo\">".$tab_all_users_du_grand_resp[$sql_p_login]['quotite']."%</td>";
-					echo "<td class=\"histo\">$sql_p_date_deb_fr _ $demi_j_deb</td><td class=\"histo\">$sql_p_date_fin_fr _ $demi_j_fin</td><td class=\"histo\">$sql_p_commentaire</td><td class=\"histo\"><b>$sql_p_nb_jours</b></td>";
+					echo "<td><b>".$tab_all_users_du_grand_resp[$sql_p_login]['nom']."</b><br>".$tab_all_users_du_grand_resp[$sql_p_login]['prenom']."</td><td>".$tab_all_users_du_grand_resp[$sql_p_login]['quotite']."%</td>";
+					echo "<td>$sql_p_date_deb_fr _ $demi_j_deb</td><td>$sql_p_date_fin_fr _ $demi_j_fin</td><td>$sql_p_commentaire</td><td><b>$sql_p_nb_jours</b></td>";
 					$tab_conges=$tab_all_users_du_grand_resp[$sql_p_login]['conges']; 
 					foreach($tab_type_conges as $id_conges => $libelle)
 					{
-						echo "<td class=\"histo\">".$tab_conges[$libelle]['solde']."</td>";
+						echo "<td>".$tab_conges[$libelle]['solde']."</td>";
 					}
-					echo "<td class=\"histo\">".$tab_type_all_abs[$sql_p_type]['libelle']."</td>";
-					echo "<td class=\"histo\">$boutonradio1</td><td class=\"histo\">$boutonradio2</td><td class=\"histo\">$boutonradio3</td><td class=\"histo\">$text_refus</td>\n";
+					echo "<td>".$tab_type_all_abs[$sql_p_type]['libelle']."</td>";
+					echo "<td>$boutonradio1</td><td>$boutonradio2</td><td>$boutonradio3</td><td>$text_refus</td>\n";
 					if($_SESSION['config']['affiche_date_traitement']==TRUE)
 					{
 						echo "<td class=\"histo-left\">". _('divers_demande') ." : $sql_p_date_demande<br>". _('divers_traitement') ." : $sql_p_date_traitement</td>\n" ;

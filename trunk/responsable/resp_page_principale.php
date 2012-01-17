@@ -94,22 +94,22 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 			$text_affich_user="<a href=\"resp_index.php?session=$session&onglet=traite_user&user_login=$current_login\">". _('resp_etat_users_afficher') ."</a>" ;
 			$text_edit_papier="<a href=\"../edition/edit_user.php?session=$session&user_login=$current_login\" target=\"_blank\">". _('resp_etat_users_imprim') ."</a>";
 			echo '<tr class="'.($i?'i':'p').'">';
-			echo "<td class=\"histo\">".$tab_current_user['nom']."</td><td class=\"histo\">".$tab_current_user['prenom']."</td><td class=\"histo\">".$tab_current_user['quotite']."%</td>";
+			echo "<td>".$tab_current_user['nom']."</td><td>".$tab_current_user['prenom']."</td><td>".$tab_current_user['quotite']."%</td>";
 			foreach($tab_type_cong as $id_conges => $libelle)
 			{
-				echo "<td class=\"histo\">".$tab_conges[$libelle]['nb_an'].'</td>';
-				echo "<td class=\"histo\">".$tab_conges[$libelle]['solde'].'</td>';
+				echo "<td>".$tab_conges[$libelle]['nb_an'].'</td>';
+				echo "<td>".$tab_conges[$libelle]['solde'].'</td>';
 			}
 			if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
 			{
 				foreach($tab_type_conges_exceptionnels as $id_type_cong => $libelle) 
 				{
-					echo "<td class=\"histo\">".$tab_conges[$libelle]['solde'].'</td>';
+					echo "<td>".$tab_conges[$libelle]['solde'].'</td>';
 				}
 			}
-			echo "<td class=\"histo\">$text_affich_user</td>\n";
+			echo "<td>$text_affich_user</td>\n";
 			if($_SESSION['config']['editions_papier']==TRUE)
-				echo "<td class=\"histo\">$text_edit_papier</td>";
+				echo "<td>$text_edit_papier</td>";
 			echo "</tr>\n";
 			$i = !$i;
 		}
@@ -147,21 +147,21 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 				$text_affich_user="<a href=\"resp_index.php?session=$session&onglet=traite_user&user_login=$current_login_2\">". _('resp_etat_users_afficher') ."</a>" ;
 				$text_edit_papier="<a href=\"../edition/edit_user.php?session=$session&user_login=$current_login_2\" target=\"_blank\">". _('resp_etat_users_imprim') ."</a>";
 				echo '<tr class="'.($i?'i':'p').'">';
-				echo "<td class=\"histo\">".$tab_current_user_2['nom']."</td><td class=\"histo\">".$tab_current_user_2['prenom']."</td><td class=\"histo\">".$tab_current_user_2['quotite']."%</td>";
+				echo "<td>".$tab_current_user_2['nom']."</td><td>".$tab_current_user_2['prenom']."</td><td>".$tab_current_user_2['quotite']."%</td>";
 				foreach($tab_type_cong as $id_conges => $libelle)
 				{
-					echo "<td class=\"histo\">".$tab_conges_2[$libelle]['nb_an']."</td><td class=\"histo\">".$tab_conges_2[$libelle]['solde'].'</td>';
+					echo "<td>".$tab_conges_2[$libelle]['nb_an']."</td><td>".$tab_conges_2[$libelle]['solde'].'</td>';
 				}
 				if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
 				{
 					foreach($tab_type_conges_exceptionnels as $id_type_cong => $libelle) 
 					{
-						echo "<td class=\"histo\">".$tab_conges_2[$libelle]['solde'].'</td>';
+						echo "<td>".$tab_conges_2[$libelle]['solde'].'</td>';
 					}
 				}
-				echo "<td class=\"histo\">$text_affich_user</td>\n";
+				echo "<td>$text_affich_user</td>\n";
 				if($_SESSION['config']['editions_papier']==TRUE)
-					echo "<td class=\"histo\">$text_edit_papier</td>";
+					echo "<td>$text_edit_papier</td>";
 				echo "</tr>\n";
 				$i = !$i;
 			}

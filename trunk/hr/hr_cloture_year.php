@@ -167,15 +167,15 @@ function affichage_cloture_user_par_user($tab_type_conges, $tab_all_users_du_hr,
 		// AFFICHAGE TITRES TABLEAU
 		echo "	<table cellpadding=\"2\" class=\"tablo\" width=\"700\">\n";
 		echo "	<tr align=\"center\">\n";
-		echo "	<td class=\"titre\">". _('divers_nom_maj_1') ."</td>\n";
-		echo "	<td class=\"titre\">". _('divers_prenom_maj_1') ."</td>\n";
-		echo "	<td class=\"titre\">". _('divers_quotite_maj_1') ."</td>\n";
+		echo "	<td>". _('divers_nom_maj_1') ."</td>\n";
+		echo "	<td>". _('divers_prenom_maj_1') ."</td>\n";
+		echo "	<td>". _('divers_quotite_maj_1') ."</td>\n";
 		foreach($tab_type_conges as $id_conges => $libelle)
 		{
-			echo "	<td class=\"titre\">$libelle<br><i>(". _('divers_solde') .")</i></td>\n";
+			echo "	<td>$libelle<br><i>(". _('divers_solde') .")</i></td>\n";
 		}
-		echo "	<td class=\"titre\">". _('divers_cloturer_maj_1') ."<br></td>\n" ;
-		echo "	<td class=\"titre\">". _('divers_comment_maj_1') ."<br></td>\n" ;
+		echo "	<td>". _('divers_cloturer_maj_1') ."<br></td>\n" ;
+		echo "	<td>". _('divers_comment_maj_1') ."<br></td>\n" ;
 		echo "	</tr>\n";
 		
 		// AFFICHAGE LIGNES TABLEAU
@@ -224,13 +224,13 @@ function affiche_ligne_du_user($current_login, $tab_type_conges, $tab_current_us
 	$tab_conges=$tab_current_user['conges']; 
 	
 	/** sur la ligne ,   **/
-	echo " <td class=\"titre\">".$tab_current_user['nom']."</td>\n";
-	echo " <td class=\"titre\">".$tab_current_user['prenom']."</td>\n";
-	echo " <td class=\"histo\">".$tab_current_user['quotite']."%</td>\n";
+	echo " <td>".$tab_current_user['nom']."</td>\n";
+	echo " <td>".$tab_current_user['prenom']."</td>\n";
+	echo " <td>".$tab_current_user['quotite']."%</td>\n";
 	
 	foreach($tab_type_conges as $id_conges => $libelle)
 	{
-		echo " <td class=\"histo\">".$tab_conges[$libelle]['nb_an']." <i>(".$tab_conges[$libelle]['solde'].")</i></td>\n";
+		echo " <td>".$tab_conges[$libelle]['nb_an']." <i>(".$tab_conges[$libelle]['solde'].")</i></td>\n";
 	}
 			
 	// si le num d'exercice du user est < à celui de l'appli (il n'a pas encore été basculé): on peut le cocher

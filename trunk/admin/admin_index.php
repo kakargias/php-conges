@@ -606,29 +606,29 @@ function affiche_gestion_utilisateurs($DEBUG=FALSE)
 
 	echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%%\">\n";
 	echo "<tr>\n";
-	echo "<td class=\"titre\">". _('divers_nom_maj_1') ."</td>\n";
-	echo "<td class=\"titre\">". _('divers_prenom_maj_1') ."</td>\n";
-	echo "<td class=\"titre\">". _('divers_login_maj_1') ."</td>\n";
-	echo "<td class=\"titre\">". _('divers_quotite_maj_1') ."</td>\n";
+	echo "<td>". _('divers_nom_maj_1') ."</td>\n";
+	echo "<td>". _('divers_prenom_maj_1') ."</td>\n";
+	echo "<td>". _('divers_login_maj_1') ."</td>\n";
+	echo "<td>". _('divers_quotite_maj_1') ."</td>\n";
 	foreach($tab_type_conges as $id_type_cong => $libelle)
 	{
-		echo "<td class=\"titre\">$libelle / ". _('divers_an') ."</td>\n";
-		echo "<td class=\"titre\">". _('divers_solde') ." $libelle</td>\n";
+		echo "<td>$libelle / ". _('divers_an') ."</td>\n";
+		echo "<td>". _('divers_solde') ." $libelle</td>\n";
 	}
 
 	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) {
 	  foreach($tab_type_conges_exceptionnels as $id_type_cong => $libelle)
 	  {
-	    echo "<td class=\"titre\">". _('divers_solde') ." $libelle</td>\n";
+	    echo "<td>". _('divers_solde') ." $libelle</td>\n";
 	  }
 	}
-	echo "<td class=\"titre\">". _('admin_users_is_resp') ."</td>\n";
-	echo "<td class=\"titre\">". _('admin_users_resp_login') ."</td>\n";
-	echo "<td class=\"titre\">". _('admin_users_is_admin') ."</td>\n";
-	echo "<td class=\"titre\">". _('admin_users_is_hr') ."</td>\n";
-	echo "<td class=\"titre\">". _('admin_users_see_all') ."</td>\n";
+	echo "<td>". _('admin_users_is_resp') ."</td>\n";
+	echo "<td>". _('admin_users_resp_login') ."</td>\n";
+	echo "<td>". _('admin_users_is_admin') ."</td>\n";
+	echo "<td>". _('admin_users_is_hr') ."</td>\n";
+	echo "<td>". _('admin_users_see_all') ."</td>\n";
 	if($_SESSION['config']['where_to_find_user_email']=="dbconges")
-		echo "<td class=\"titre\">". _('admin_users_mail') ."</td>\n";
+		echo "<td>". _('admin_users_mail') ."</td>\n";
 	echo "<td></td>\n";
 	echo "<td></td>\n";
 	if($_SESSION['config']['admin_change_passwd']==TRUE)
@@ -655,10 +655,10 @@ function affiche_gestion_utilisateurs($DEBUG=FALSE)
 
 
 		echo "<tr>\n";
-		echo "<td class=\"histo\"><b>".$tab_current_infos['nom']."</b></td>\n";
-		echo "<td class=\"histo\"><b>".$tab_current_infos['prenom']."</b></td>\n";
-		echo "<td class=\"histo\">$current_login</td>\n";
-		echo "<td class=\"histo\">".$tab_current_infos['quotite']."%</td>\n";
+		echo "<td><b>".$tab_current_infos['nom']."</b></td>\n";
+		echo "<td><b>".$tab_current_infos['prenom']."</b></td>\n";
+		echo "<td>$current_login</td>\n";
+		echo "<td>".$tab_current_infos['quotite']."%</td>\n";
 
 		//tableau de tableaux les nb et soldes de conges d'un user (indicé par id de conges)
 		$tab_conges=$tab_current_infos['conges'];
@@ -667,13 +667,13 @@ function affiche_gestion_utilisateurs($DEBUG=FALSE)
 		{
 			if (isset($tab_conges[$libelle]))
 			{
-				echo "<td class=\"histo\">".$tab_conges[$libelle]['nb_an']."</td>\n";
-				echo "<td class=\"histo\">".$tab_conges[$libelle]['solde']."</td>\n";
+				echo "<td>".$tab_conges[$libelle]['nb_an']."</td>\n";
+				echo "<td>".$tab_conges[$libelle]['solde']."</td>\n";
 			}
 			else
 			{
-				echo "<td class=\"histo\">0</td>\n";
-				echo "<td class=\"histo\">0</td>\n";
+				echo "<td>0</td>\n";
+				echo "<td>0</td>\n";
 			}
 		}
 		if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
@@ -681,22 +681,22 @@ function affiche_gestion_utilisateurs($DEBUG=FALSE)
 			foreach($tab_type_conges_exceptionnels as $id_conges => $libelle)
 			{
 				if (isset($tab_conges[$libelle]))
-					echo "<td class=\"histo\">".$tab_conges[$libelle]['solde']."</td>\n";
+					echo "<td>".$tab_conges[$libelle]['solde']."</td>\n";
 				else
-					echo "<td class=\"histo\">0</td>\n";
+					echo "<td>0</td>\n";
 			}
 		}
-		echo "<td class=\"histo\">".$tab_current_infos['is_resp']."</td>\n";
-		echo "<td class=\"histo\">".$tab_current_infos['resp_login']."</td>\n";
-		echo "<td class=\"histo\">".$tab_current_infos['is_admin']."</td>\n";
-		echo "<td class=\"histo\">".$tab_current_infos['is_hr']."</td>\n";
-		echo "<td class=\"histo\">".$tab_current_infos['see_all']."</td>\n";
+		echo "<td>".$tab_current_infos['is_resp']."</td>\n";
+		echo "<td>".$tab_current_infos['resp_login']."</td>\n";
+		echo "<td>".$tab_current_infos['is_admin']."</td>\n";
+		echo "<td>".$tab_current_infos['is_hr']."</td>\n";
+		echo "<td>".$tab_current_infos['see_all']."</td>\n";
 		if($_SESSION['config']['where_to_find_user_email']=="dbconges")
-			echo "<td class=\"histo\">".$tab_current_infos['email']."</td>\n";
-		echo "<td class=\"histo\">$admin_modif_user</td>\n";
-		echo "<td class=\"histo\">$admin_suppr_user</td>\n";
+			echo "<td>".$tab_current_infos['email']."</td>\n";
+		echo "<td>$admin_modif_user</td>\n";
+		echo "<td>$admin_suppr_user</td>\n";
 		if(($_SESSION['config']['admin_change_passwd']==TRUE) && ($_SESSION['config']['how_to_connect_user'] == "dbconges"))
-			echo "<td class=\"histo\">$admin_chg_pwd_user</td>\n";
+			echo "<td>$admin_chg_pwd_user</td>\n";
 		echo "</tr>\n";
 	}
 	echo"</table>\n\n";
@@ -738,26 +738,26 @@ function affiche_formulaire_ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab
 	echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 	echo "<tr>\n";
 	if ($_SESSION['config']['export_users_from_ldap'] == TRUE)
-	   	echo "<td class=\"histo\">". _('divers_nom_maj_1') ." ". _('divers_prenom_maj_1') ."</td>\n";
+	   	echo "<td>". _('divers_nom_maj_1') ." ". _('divers_prenom_maj_1') ."</td>\n";
 	else
 	{
-		echo "<td class=\"histo\">". _('divers_login_maj_1') ."</td>\n";
-		echo "<td class=\"histo\">". _('divers_nom_maj_1') ."</td>\n";
-		echo "<td class=\"histo\">". _('divers_prenom_maj_1') ."</td>\n";
+		echo "<td>". _('divers_login_maj_1') ."</td>\n";
+		echo "<td>". _('divers_nom_maj_1') ."</td>\n";
+		echo "<td>". _('divers_prenom_maj_1') ."</td>\n";
 	}
-	echo "<td class=\"histo\">". _('divers_quotite_maj_1') ."</td>\n";
-	echo "<td class=\"histo\">". _('admin_new_users_is_resp') ."</td>\n";
-	echo "<td class=\"histo\">". _('divers_responsable_maj_1') ."</td>\n";
-	echo "<td class=\"histo\">". _('admin_new_users_is_admin') ."</td>\n";
-	echo "<td class=\"histo\">". _('admin_new_users_is_hr') ."</td>\n";
-	echo "<td class=\"histo\">". _('admin_new_users_see_all') ."</td>\n";
+	echo "<td>". _('divers_quotite_maj_1') ."</td>\n";
+	echo "<td>". _('admin_new_users_is_resp') ."</td>\n";
+	echo "<td>". _('divers_responsable_maj_1') ."</td>\n";
+	echo "<td>". _('admin_new_users_is_admin') ."</td>\n";
+	echo "<td>". _('admin_new_users_is_hr') ."</td>\n";
+	echo "<td>". _('admin_new_users_see_all') ."</td>\n";
 	if ($_SESSION['config']['export_users_from_ldap'] == FALSE)
 	//if($_SESSION['config']['where_to_find_user_email']=="dbconges")
-		echo "<td class=\"histo\">". _('admin_users_mail') ."</td>\n";
+		echo "<td>". _('admin_users_mail') ."</td>\n";
 	if ($_SESSION['config']['how_to_connect_user'] == "dbconges")
 	{
-		echo "<td class=\"histo\">". _('admin_new_users_password') ."</td>\n";
-		echo "<td class=\"histo\">". _('admin_new_users_password') ."</td>\n";
+		echo "<td>". _('admin_new_users_password') ."</td>\n";
+		echo "<td>". _('admin_new_users_password') ."</td>\n";
 	}
 	echo "</tr>\n";
 
@@ -817,28 +817,28 @@ function affiche_formulaire_ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab
 			$i++;
 		}
 		$lst_users .= "</select>\n";
-		echo "<td class=\"histo\">$lst_users</td>\n";
+		echo "<td>$lst_users</td>\n";
 	}
 	else
 	{
-		echo "<td class=\"histo\">$text_login</td>\n";
-		echo "<td class=\"histo\">$text_nom</td>\n";
-		echo "<td class=\"histo\">$text_prenom</td>\n";
+		echo "<td>$text_login</td>\n";
+		echo "<td>$text_nom</td>\n";
+		echo "<td>$text_prenom</td>\n";
 	}
 
-	echo "<td class=\"histo\">$text_quotite</td>\n";
-	echo "<td class=\"histo\">$text_is_resp</td>\n";
-	echo "<td class=\"histo\">$text_resp_login</td>\n";
-	echo "<td class=\"histo\">$text_is_admin</td>\n";
-	echo "<td class=\"histo\">$text_is_hr</td>\n";
-	echo "<td class=\"histo\">$text_see_all</td>\n";
+	echo "<td>$text_quotite</td>\n";
+	echo "<td>$text_is_resp</td>\n";
+	echo "<td>$text_resp_login</td>\n";
+	echo "<td>$text_is_admin</td>\n";
+	echo "<td>$text_is_hr</td>\n";
+	echo "<td>$text_see_all</td>\n";
 	//if($_SESSION['config']['where_to_find_user_email']=="dbconges")
 	if ($_SESSION['config']['export_users_from_ldap'] == FALSE)
-		echo "<td class=\"histo\">$text_email</td>\n";
+		echo "<td>$text_email</td>\n";
 	if ($_SESSION['config']['how_to_connect_user'] == "dbconges")
 	{
-		echo "<td class=\"histo\">$text_password1</td>\n";
-		echo "<td class=\"histo\">$text_password2</td>\n";
+		echo "<td>$text_password1</td>\n";
+		echo "<td>$text_password2</td>\n";
 	}
 	echo "</tr>\n";
 	echo "</table>\n";
@@ -853,9 +853,9 @@ function affiche_formulaire_ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab
 	echo "<table cellpadding=\"2\" class=\"tablo\" >\n";
 	// ligne de titres
 	echo "<tr>\n";
-	echo "<td class=\"histo\"></td>\n";
-	echo "<td class=\"histo\">". _('admin_new_users_nb_par_an') ."</td>\n";
-	echo "<td class=\"histo\">". _('divers_solde') ."</td>\n";
+	echo "<td></td>\n";
+	echo "<td>". _('admin_new_users_nb_par_an') ."</td>\n";
+	echo "<td>". _('divers_solde') ."</td>\n";
 	echo "</tr>\n";
 	// ligne de saisie des valeurs
 	foreach($tab_type_conges as $id_type_cong => $libelle)
@@ -865,9 +865,9 @@ function affiche_formulaire_ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab
 		$value_solde_jours = ( isset($tab_new_solde[$id_type_cong]) ? $tab_new_solde[$id_type_cong] : 0 );
 		$text_jours_an="<input type=\"text\" name=\"tab_new_jours_an[$id_type_cong]\" size=\"5\" maxlength=\"5\" value=\"$value_jours_an\">" ;
 		$text_solde_jours="<input type=\"text\" name=\"tab_new_solde[$id_type_cong]\" size=\"5\" maxlength=\"5\" value=\"$value_solde_jours\">" ;
-		echo "<td class=\"histo\">$libelle</td>\n";
-		echo "<td class=\"histo\">$text_jours_an</td>\n";
-		echo "<td class=\"histo\">$text_solde_jours</td>\n";
+		echo "<td>$libelle</td>\n";
+		echo "<td>$text_jours_an</td>\n";
+		echo "<td>$text_solde_jours</td>\n";
 		echo "</tr>\n";
 	}
 	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) {
@@ -877,9 +877,9 @@ function affiche_formulaire_ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab
 	    $value_solde_jours = ( isset($tab_new_solde[$id_type_cong]) ? $tab_new_solde[$id_type_cong] : 0 );
 		$text_jours_an="<input type=\"hidden\" name=\"tab_new_jours_an[$id_type_cong]\" size=\"5\" maxlength=\"5\" value=\"0\"> &nbsp; " ;
 	    $text_solde_jours="<input type=\"text\" name=\"tab_new_solde[$id_type_cong]\" size=\"5\" maxlength=\"5\" value=\"$value_solde_jours\">" ;
-	    echo "<td class=\"histo\">$libelle</td>\n";
-		echo "<td class=\"histo\">$text_jours_an</td>\n";
-	    echo "<td class=\"histo\">$text_solde_jours</td>\n";
+	    echo "<td>$libelle</td>\n";
+		echo "<td>$text_jours_an</td>\n";
+	    echo "<td>$text_solde_jours</td>\n";
 	    echo "</tr>\n";
 	  }
 	}
@@ -927,11 +927,11 @@ function affiche_gestion_groupes($new_group_name, $new_group_libelle, $DEBUG=FAL
    echo "<h3>". _('admin_gestion_groupe_etat') ." :</h3>\n";
    echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%%\">\n";
    echo "<tr>\n";
-   echo "    <td class=\"titre\">". _('admin_groupes_groupe') ."</td>\n";
-   echo "    <td class=\"titre\">". _('admin_groupes_libelle') ."</td>\n";
-   echo "    <td class=\"titre\">". _('admin_groupes_nb_users') ."</td>\n";
+   echo "    <td>". _('admin_groupes_groupe') ."</td>\n";
+   echo "    <td>". _('admin_groupes_libelle') ."</td>\n";
+   echo "    <td>". _('admin_groupes_nb_users') ."</td>\n";
    if($_SESSION['config']['double_validation_conges']==TRUE)
-       echo "    <td class=\"titre\">". _('admin_groupes_double_valid') ."</td>\n";
+       echo "    <td>". _('admin_groupes_double_valid') ."</td>\n";
    echo "    <td></td>\n";
    echo "    <td></td>\n";
    echo "</tr>\n";
@@ -950,13 +950,13 @@ function affiche_gestion_groupes($new_group_name, $new_group_libelle, $DEBUG=FAL
        $admin_suppr_group="<a href=\"admin_suppr_group.php?session=$session&group=$sql_gid\">". _('form_supprim') ."</a>" ;
 
        echo "<tr>\n";
-       echo "<td class=\"histo\"><b>$sql_group</b></td>\n";
-       echo "<td class=\"histo\">$sql_comment</td>\n";
-       echo "<td class=\"histo\">$nb_users_groupe</td>\n";
+       echo "<td><b>$sql_group</b></td>\n";
+       echo "<td>$sql_comment</td>\n";
+       echo "<td>$nb_users_groupe</td>\n";
        if($_SESSION['config']['double_validation_conges']==TRUE)
-           echo "<td class=\"histo\">$sql_double_valid</td>\n";
-       echo "<td class=\"histo\">$admin_modif_group</td>\n";
-       echo "<td class=\"histo\">$admin_suppr_group</td>\n";
+           echo "<td>$sql_double_valid</td>\n";
+       echo "<td>$admin_modif_group</td>\n";
+       echo "<td>$admin_suppr_group</td>\n";
        echo "</tr>\n";
    }
    echo "</table>\n\n";
@@ -974,22 +974,22 @@ function affiche_gestion_groupes($new_group_name, $new_group_libelle, $DEBUG=FAL
 
    echo "<table cellpadding=\"2\" class=\"tablo\">\n";
    echo "<tr>\n";
-   echo "<td class=\"histo\"><b>". _('admin_groupes_groupe') ."</b></td>\n";
-   echo "<td class=\"histo\">". _('admin_groupes_libelle') ." / ". _('divers_comment_maj_1') ."</td>\n";
+   echo "<td><b>". _('admin_groupes_groupe') ."</b></td>\n";
+   echo "<td>". _('admin_groupes_libelle') ." / ". _('divers_comment_maj_1') ."</td>\n";
    if($_SESSION['config']['double_validation_conges']==TRUE)
-       echo "    <td class=\"histo\">". _('admin_groupes_double_valid') ."</td>\n";
+       echo "    <td>". _('admin_groupes_double_valid') ."</td>\n";
    echo "</tr>\n";
 
    $text_groupname="<input type=\"text\" name=\"new_group_name\" size=\"30\" maxlength=\"50\" value=\"".$new_group_name."\">" ;
    $text_libelle="<input type=\"text\" name=\"new_group_libelle\" size=\"50\" maxlength=\"250\" value=\"".$new_group_libelle."\">" ;
 
    echo "<tr>\n";
-   echo "<td class=\"histo\">$text_groupname</td>\n";
-   echo "<td class=\"histo\">$text_libelle</td>\n";
+   echo "<td>$text_groupname</td>\n";
+   echo "<td>$text_libelle</td>\n";
    if($_SESSION['config']['double_validation_conges']==TRUE)
    {
        $text_double_valid="<select name=\"new_group_double_valid\" ><option value=\"N\">N</option><option value=\"Y\">Y</option></select>" ;
-       echo "<td class=\"histo\">$text_double_valid</td>\n";
+       echo "<td>$text_double_valid</td>\n";
    }
    echo "</tr>\n";
    echo "</table><br>\n\n";
@@ -1136,8 +1136,8 @@ function affiche_choix_groupes_users($DEBUG=FALSE)
 	echo "<h3>". _('admin_aff_choix_groupe_titre') ." :</h3>\n";
 	echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 	echo "<tr>\n";
-	echo "	<td class=\"titre\">&nbsp;". _('admin_groupes_groupe') ."&nbsp;</td>\n";
-	echo "	<td class=\"titre\">&nbsp;". _('admin_groupes_libelle') ."&nbsp;</td>\n";
+	echo "	<td>&nbsp;". _('admin_groupes_groupe') ."&nbsp;</td>\n";
+	echo "	<td>&nbsp;". _('admin_groupes_libelle') ."&nbsp;</td>\n";
 	echo "</tr>\n";
 
 	$ReqLog_gr = SQL::query($sql_gr);
@@ -1151,8 +1151,8 @@ function affiche_choix_groupes_users($DEBUG=FALSE)
 		$choix_group="<a href=\"$PHP_SELF?session=$session&onglet=admin-group-users&choix_group=$sql_gid\"><b>&nbsp;$sql_group&nbsp;</b></a>" ;
 
 		echo "<tr>\n";
-		echo "<td class=\"histo\"><b>&nbsp;$choix_group&nbsp;</b></td>\n";
-		echo "<td class=\"histo\">&nbsp;$sql_comment&nbsp;</td>\n";
+		echo "<td><b>&nbsp;$choix_group&nbsp;</b></td>\n";
+		echo "<td>&nbsp;$sql_comment&nbsp;</td>\n";
 		echo "</tr>\n";
 	}
 	echo "</table>\n\n";
@@ -1190,9 +1190,9 @@ function affiche_gestion_groupes_users($choix_group, $DEBUG=FALSE)
 	echo "	<td colspan=3><h3>". _('admin_gestion_groupe_users_membres') ." &nbsp;<b>$sql_group&nbsp;:</b>&nbsp;$sql_comment&nbsp;</h3></td>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
-	echo "	<td class=\"titre\">&nbsp;</td>\n";
-	echo "	<td class=\"titre\">&nbsp;". _('divers_personne_maj_1') ."&nbsp;:</td>\n";
-	echo "	<td class=\"titre\">&nbsp;". _('divers_login') ."&nbsp;:</td>\n";
+	echo "	<td>&nbsp;</td>\n";
+	echo "	<td>&nbsp;". _('divers_personne_maj_1') ."&nbsp;:</td>\n";
+	echo "	<td>&nbsp;". _('divers_login') ."&nbsp;:</td>\n";
 	echo "</tr>\n";
 
 	// affichage des users
@@ -1241,7 +1241,7 @@ function affiche_gestion_groupes_users($choix_group, $DEBUG=FALSE)
 		}
 
 		echo "<tr>\n";
-		echo "	<td class=\"histo\">$case_a_cocher</td>\n";
+		echo "	<td>$case_a_cocher</td>\n";
 		echo "	<td class=\"$class\">&nbsp;$nom&nbsp;&nbsp;$prenom&nbsp;</td>\n";
 		echo "	<td class=\"$class\">&nbsp;$login&nbsp;</td>\n";
 		echo "</tr>\n";
@@ -1318,8 +1318,8 @@ function affiche_choix_user_groupes( $DEBUG=FALSE)
 	echo "<h3>". _('admin_aff_choix_user_titre') ." :</h3>\n";
 	echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 	echo "<tr>\n";
-	echo "<td class=\"titre\">&nbsp;". _('divers_nom_maj_1') ."  ". _('divers_prenom_maj_1') ."&nbsp;</td>\n";
-	echo "<td class=\"titre\">&nbsp;". _('divers_login_maj_1') ."&nbsp;</td>\n";
+	echo "<td>&nbsp;". _('divers_nom_maj_1') ."  ". _('divers_prenom_maj_1') ."&nbsp;</td>\n";
+	echo "<td>&nbsp;". _('divers_login_maj_1') ."&nbsp;</td>\n";
 	echo "</tr>\n";
 
 	$ReqLog_user = SQL::query($sql_user);
@@ -1334,8 +1334,8 @@ function affiche_choix_user_groupes( $DEBUG=FALSE)
 		$choix="<a href=\"$PHP_SELF?session=$session&onglet=admin-group-users&choix_user=$sql_login\"><b>&nbsp;$sql_nom $sql_prenom&nbsp;</b></a>" ;
 
 		echo "<tr>\n";
-		echo "<td class=\"histo\">&nbsp;$choix&nbsp;</td>\n";
-		echo "<td class=\"histo\">&nbsp;$sql_login&nbsp;</td>\n";
+		echo "<td>&nbsp;$choix&nbsp;</td>\n";
+		echo "<td>&nbsp;$sql_login&nbsp;</td>\n";
 		echo "</tr>\n";
 	}
 	echo "</table>\n\n";
@@ -1397,9 +1397,9 @@ function affiche_tableau_affectation_user_groupes($choix_user,  $DEBUG=FALSE)
 	echo "</tr>\n";
 
 	echo "<tr>\n";
-	echo "	<td class=\"titre\">&nbsp;</td>\n";
-	echo "	<td class=\"titre\">&nbsp;". _('admin_groupes_groupe') ."&nbsp;:</td>\n";
-	echo "	<td class=\"titre\">&nbsp;". _('admin_groupes_libelle') ."&nbsp;:</td>\n";
+	echo "	<td>&nbsp;</td>\n";
+	echo "	<td>&nbsp;". _('admin_groupes_groupe') ."&nbsp;:</td>\n";
+	echo "	<td>&nbsp;". _('admin_groupes_libelle') ."&nbsp;:</td>\n";
 	echo "</tr>\n";
 
 	// affichage des groupes
@@ -1453,7 +1453,7 @@ function affiche_tableau_affectation_user_groupes($choix_user,  $DEBUG=FALSE)
 		}
 
 		echo "<tr>\n";
-		echo "	<td class=\"histo\">$case_a_cocher</td>\n";
+		echo "	<td>$case_a_cocher</td>\n";
 		echo "	<td class=\"$class\">&nbsp;$group&nbsp</td>\n";
 		echo "	<td class=\"$class\">&nbsp;$libelle&nbsp;</td>\n";
 		echo "</tr>\n";
@@ -1565,8 +1565,8 @@ function affiche_choix_groupes_responsables( $DEBUG=FALSE)
 	echo "<h3>". _('admin_aff_choix_groupe_titre') ." :</h3>\n";
 	echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 	echo "<tr>\n";
-	echo "	<td class=\"titre\">&nbsp;". _('admin_groupes_groupe') ."&nbsp;</td>\n";
-	echo "	<td class=\"titre\">&nbsp;". _('admin_groupes_libelle') ."&nbsp;</td>\n";
+	echo "	<td>&nbsp;". _('admin_groupes_groupe') ."&nbsp;</td>\n";
+	echo "	<td>&nbsp;". _('admin_groupes_libelle') ."&nbsp;</td>\n";
 	echo "</tr>\n";
 
 	$ReqLog_gr = SQL::query($sql_gr);
@@ -1580,8 +1580,8 @@ function affiche_choix_groupes_responsables( $DEBUG=FALSE)
 		$text_choix_group="<a href=\"$PHP_SELF?session=$session&onglet=admin-group-responsables&choix_group=$sql_gid\"><b>&nbsp;$sql_groupename&nbsp;</b></a>" ;
 
 		echo "<tr>\n";
-		echo "<td class=\"histo\">&nbsp;$text_choix_group&nbsp;</td>\n";
-		echo "<td class=\"histo\">&nbsp;$sql_comment&nbsp;</td>\n";
+		echo "<td>&nbsp;$text_choix_group&nbsp;</td>\n";
+		echo "<td>&nbsp;$sql_comment&nbsp;</td>\n";
 		echo "</tr>\n";
 	}
 	echo "</table>\n\n";
@@ -1644,9 +1644,9 @@ function affiche_gestion_groupes_responsables($choix_group, $DEBUG=FALSE)
 		echo "	<td colspan=3><h3>". _('admin_gestion_groupe_resp_responsables') ."</h3></td>\n";
 		echo "</tr>\n";
 		echo "<tr>\n";
-		echo "	<td class=\"titre\">&nbsp;</td>\n";
-		echo "	<td class=\"titre\">&nbsp;". _('divers_personne_maj_1') ."&nbsp;:</td>\n";
-		echo "	<td class=\"titre\">&nbsp;". _('divers_login') ."&nbsp;:</td>\n";
+		echo "	<td>&nbsp;</td>\n";
+		echo "	<td>&nbsp;". _('divers_personne_maj_1') ."&nbsp;:</td>\n";
+		echo "	<td>&nbsp;". _('divers_login') ."&nbsp;:</td>\n";
 		echo "</tr>\n";
 
 		// on rempli un autre tableau des responsables du groupe
@@ -1679,7 +1679,7 @@ function affiche_gestion_groupes_responsables($choix_group, $DEBUG=FALSE)
 			}
 
 			echo "<tr>\n";
-			echo "	<td class=\"histo\">$case_a_cocher</td>\n";
+			echo "	<td>$case_a_cocher</td>\n";
 			echo "	<td class=\"$class\">&nbsp;$nom&nbsp;&nbsp;$prenom&nbsp;</td>\n";
 			echo "	<td class=\"$class\">&nbsp;$login&nbsp;</td>\n";
 			echo "</tr>\n";
@@ -1703,9 +1703,9 @@ function affiche_gestion_groupes_responsables($choix_group, $DEBUG=FALSE)
 			echo "	<td colspan=3><h3>". _('admin_gestion_groupe_grand_resp_responsables') ."</h3></td>\n";
 			echo "</tr>\n";
 			echo "<tr>\n";
-			echo "	<td class=\"titre\">&nbsp;</td>\n";
-			echo "	<td class=\"titre\">&nbsp;". _('divers_personne_maj_1') ."&nbsp;:</td>\n";
-			echo "	<td class=\"titre\">&nbsp;". _('divers_login') ."&nbsp;:</td>\n";
+			echo "	<td>&nbsp;</td>\n";
+			echo "	<td>&nbsp;". _('divers_personne_maj_1') ."&nbsp;:</td>\n";
+			echo "	<td>&nbsp;". _('divers_login') ."&nbsp;:</td>\n";
 			echo "</tr>\n";
 
 			// on rempli un autre tableau des grands responsables du groupe
@@ -1738,7 +1738,7 @@ function affiche_gestion_groupes_responsables($choix_group, $DEBUG=FALSE)
 				}
 
 				echo "<tr>\n";
-				echo "	<td class=\"histo\">$case_a_cocher</td>\n";
+				echo "	<td>$case_a_cocher</td>\n";
 				echo "	<td class=\"$class\">&nbsp;$nom&nbsp;&nbsp;$prenom&nbsp;</td>\n";
 				echo "	<td class=\"$class\">&nbsp;$login&nbsp;</td>\n";
 				echo "</tr>\n";
@@ -1840,8 +1840,8 @@ function affiche_choix_responsable_groupes( $DEBUG=FALSE)
 	echo "<h3>". _('admin_aff_choix_resp_titre') ." :</h3>\n";
 	echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 	echo "<tr>\n";
-	echo "	<td class=\"titre\">&nbsp;". _('divers_responsable_maj_1') ."&nbsp;</td>\n";
-	echo "	<td class=\"titre\">&nbsp;". _('divers_login') ."&nbsp;</td>\n";
+	echo "	<td>&nbsp;". _('divers_responsable_maj_1') ."&nbsp;</td>\n";
+	echo "	<td>&nbsp;". _('divers_login') ."&nbsp;</td>\n";
 	echo "</tr>\n";
 
 	while ($resultat_resp = $ReqLog_resp->fetch_array())
@@ -1854,8 +1854,8 @@ function affiche_choix_responsable_groupes( $DEBUG=FALSE)
 		$text_choix_resp="<a href=\"$PHP_SELF?session=$session&onglet=admin-group-responsables&choix_resp=$sql_login\"><b>&nbsp;$sql_nom&nbsp;$sql_prenom&nbsp;</b></a>" ;
 
 		echo "<tr>\n";
-		echo "<td class=\"histo\">&nbsp;$text_choix_resp&nbsp;</td>\n";
-		echo "<td class=\"histo\">&nbsp;$sql_login&nbsp;</td>\n";
+		echo "<td>&nbsp;$text_choix_resp&nbsp;</td>\n";
+		echo "<td>&nbsp;$sql_login&nbsp;</td>\n";
 		echo "</tr>\n";
 	}
 	echo "</table>\n\n";
@@ -1931,9 +1931,9 @@ function affiche_gestion_responsable_groupes($choix_resp, $DEBUG=FALSE)
 		echo "	<td colspan=3><h3>". _('divers_responsable_maj_1') ."</h3></td>\n";
 		echo "</tr>\n";
 		echo "<tr>\n";
-		echo "	<td class=\"titre\">&nbsp;</td>\n";
-		echo "	<td class=\"titre\">&nbsp;". _('admin_groupes_groupe') ."&nbsp;:</td>\n";
-		echo "	<td class=\"titre\">&nbsp;". _('admin_groupes_libelle') ."&nbsp;:</td>\n";
+		echo "	<td>&nbsp;</td>\n";
+		echo "	<td>&nbsp;". _('admin_groupes_groupe') ."&nbsp;:</td>\n";
+		echo "	<td>&nbsp;". _('admin_groupes_libelle') ."&nbsp;:</td>\n";
 		echo "</tr>\n";
 
 		// on rempli un autre tableau des groupes dont resp est responsables
@@ -1966,7 +1966,7 @@ function affiche_gestion_responsable_groupes($choix_resp, $DEBUG=FALSE)
 			}
 
 			echo "<tr>\n";
-			echo "	<td class=\"histo\">$case_a_cocher</td>\n";
+			echo "	<td>$case_a_cocher</td>\n";
 			echo "	<td class=\"$class\"> $group </td>\n";
 			echo "	<td class=\"$class\"> $comment </td>\n";
 			echo "</tr>\n";
@@ -1991,9 +1991,9 @@ function affiche_gestion_responsable_groupes($choix_resp, $DEBUG=FALSE)
 			echo "	<td colspan=3><h3>". _('divers_grand_responsable_maj_1') ."</h3></td>\n";
 			echo "</tr>\n";
 			echo "<tr>\n";
-			echo "	<td class=\"titre\">&nbsp;</td>\n";
-			echo "	<td class=\"titre\">&nbsp;". _('admin_groupes_groupe') ."&nbsp;:</td>\n";
-			echo "	<td class=\"titre\">&nbsp;". _('admin_groupes_libelle') ."&nbsp;:</td>\n";
+			echo "	<td>&nbsp;</td>\n";
+			echo "	<td>&nbsp;". _('admin_groupes_groupe') ."&nbsp;:</td>\n";
+			echo "	<td>&nbsp;". _('admin_groupes_libelle') ."&nbsp;:</td>\n";
 			echo "</tr>\n";
 
 			// on rempli un autre tableau des groupes dont resp est GRAND responsables
@@ -2026,7 +2026,7 @@ function affiche_gestion_responsable_groupes($choix_resp, $DEBUG=FALSE)
 				}
 
 				echo "<tr>\n";
-				echo "	<td class=\"histo\">$case_a_cocher</td>\n";
+				echo "	<td>$case_a_cocher</td>\n";
 				echo "	<td class=\"$class\"> $group </td>\n";
 				echo "	<td class=\"$class\"> $comment </td>\n";
 				echo "</tr>\n";

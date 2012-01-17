@@ -114,7 +114,7 @@ function affichage($user_login,  $year_affichage, $year_calendrier_saisie_debut,
 	/********************/
 	/* Titre */
 	/********************/
-	echo "<H3>". _('resp_traite_user_titre') ."</H3><H2>".$tab_user['nom']." ".$tab_user['prenom'].".</H2>\n\n";
+	echo "<h2>". _('resp_traite_user_titre') ." ".$tab_user['prenom']." ".$tab_user['nom'].".</h2>\n\n";
 
 	
 	/********************/
@@ -194,7 +194,7 @@ function affichage($user_login,  $year_affichage, $year_calendrier_saisie_debut,
 	echo "<h3>". _('resp_traite_user_etat_conges') ."</h3>\n";
 	
 	//affiche l'état des conges du user (avec le formulaire pour le responsable)
-	affiche_etat_conges_user_for_resp($user_login,  $year_affichage, $tri_date,  $DEBUG);
+	affiche_etat_conges_user_for_resp($user_login,  $year_affichage, $tri_date, $onglet, $DEBUG);
 	
 	//echo "<hr align=\"center\" size=\"2\" width=\"90%\"> \n";
 	
@@ -236,17 +236,17 @@ function affiche_etat_demande_user_for_resp($user_login, $tab_user, $tab_grd_res
 		//echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 		echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 		echo "<tr align=\"center\">\n";
-		echo "<td class=\"titre\">". _('divers_debut_maj_1') ."</td>\n";
-		echo "<td class=\"titre\">". _('divers_fin_maj_1') ."</td>\n";
-		echo "<td class=\"titre\">". _('divers_nb_jours_pris_maj_1') ."</td>\n";
-		echo "<td class=\"titre\">". _('divers_comment_maj_1') ."</td>\n";
-		echo "<td class=\"titre\">". _('divers_type_maj_1') ."</td>\n";
-		echo "<td class=\"titre\">". _('divers_accepter_maj_1') ."</td>\n";
-		echo "<td class=\"titre\">". _('divers_refuser_maj_1') ."</td>\n";
-		echo "<td class=\"titre\">". _('resp_traite_user_motif_refus') ."</td>\n";
+		echo "<td>". _('divers_debut_maj_1') ."</td>\n";
+		echo "<td>". _('divers_fin_maj_1') ."</td>\n";
+		echo "<td>". _('divers_nb_jours_pris_maj_1') ."</td>\n";
+		echo "<td>". _('divers_comment_maj_1') ."</td>\n";
+		echo "<td>". _('divers_type_maj_1') ."</td>\n";
+		echo "<td>". _('divers_accepter_maj_1') ."</td>\n";
+		echo "<td>". _('divers_refuser_maj_1') ."</td>\n";
+		echo "<td>". _('resp_traite_user_motif_refus') ."</td>\n";
 		if($_SESSION['config']['affiche_date_traitement']==TRUE)
 		{
-			echo "<td class=\"titre\">". _('divers_date_traitement') ."</td>\n" ;
+			echo "<td>". _('divers_date_traitement') ."</td>\n" ;
 		}
 		echo "</tr>\n";
 		
@@ -295,15 +295,15 @@ function affiche_etat_demande_user_for_resp($user_login, $tab_user, $tab_grd_res
 			$text_refus  = "<input type=\"text\" name=\"tab_text_refus[$sql_num]\" size=\"20\" max=\"100\">";
 			
 			echo "<tr align=\"center\">\n";
-			echo "<td class=\"histo\">$sql_date_deb_fr _ $demi_j_deb</td>\n";
-			echo "<td class=\"histo\">$sql_date_fin_fr _ $demi_j_fin</td>\n";
-			echo "<td class=\"histo\">$sql_nb_jours</td>\n";
-			echo "<td class=\"histo\">$sql_commentaire</td>\n";
-			echo "<td class=\"histo\">".$tab_type_all_abs[$sql_type]['libelle']."</td>\n";			
-			echo "<td class=\"histo\">$boutonradio1</td>\n";
-			echo "<td class=\"histo\">$boutonradio2</td>\n";
-			echo "<td class=\"histo\">$text_refus</td>\n";
-			echo "<td class=\"histo\">$sql_date_demande</td>\n";
+			echo "<td>$sql_date_deb_fr _ $demi_j_deb</td>\n";
+			echo "<td>$sql_date_fin_fr _ $demi_j_fin</td>\n";
+			echo "<td>$sql_nb_jours</td>\n";
+			echo "<td>$sql_commentaire</td>\n";
+			echo "<td>".$tab_type_all_abs[$sql_type]['libelle']."</td>\n";			
+			echo "<td>$boutonradio1</td>\n";
+			echo "<td>$boutonradio2</td>\n";
+			echo "<td>$text_refus</td>\n";
+			echo "<td>$sql_date_demande</td>\n";
 		
 			if($_SESSION['config']['affiche_date_traitement']==TRUE)
 			{
@@ -351,21 +351,25 @@ function affiche_etat_demande_2_valid_user_for_resp($user_login,  $DEBUG=FALSE)
 			echo " <form action=\"$PHP_SELF?session=$session&onglet=traite_user\" method=\"POST\"> \n";
 			//echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 			echo "<table cellpadding=\"2\" class=\"tablo\">\n";
+			echo "<thead>";
 			echo "<tr align=\"center\">\n";
-			echo "<td class=\"titre\">". _('divers_debut_maj_1') ."</td>\n";
-			echo "<td class=\"titre\">". _('divers_fin_maj_1') ."</td>\n";
-			echo "<td class=\"titre\">". _('divers_nb_jours_pris_maj_1') ."</td>\n";
-			echo "<td class=\"titre\">". _('divers_comment_maj_1') ."</td>\n";
-			echo "<td class=\"titre\">". _('divers_type_maj_1') ."</td>\n";
-			echo "<td class=\"titre\">". _('divers_accepter_maj_1') ."</td>\n";
-			echo "<td class=\"titre\">". _('divers_refuser_maj_1') ."</td>\n";
-			echo "<td class=\"titre\">". _('resp_traite_user_motif_refus') ."</td>\n";
+			echo "<td>". _('divers_debut_maj_1') ."</td>\n";
+			echo "<td>". _('divers_fin_maj_1') ."</td>\n";
+			echo "<td>". _('divers_nb_jours_pris_maj_1') ."</td>\n";
+			echo "<td>". _('divers_comment_maj_1') ."</td>\n";
+			echo "<td>". _('divers_type_maj_1') ."</td>\n";
+			echo "<td>". _('divers_accepter_maj_1') ."</td>\n";
+			echo "<td>". _('divers_refuser_maj_1') ."</td>\n";
+			echo "<td>". _('resp_traite_user_motif_refus') ."</td>\n";
 			if($_SESSION['config']['affiche_date_traitement']==TRUE)
 			{
-				echo "<td class=\"titre\">". _('divers_date_traitement') ."</td>\n" ;
+				echo "<td>". _('divers_date_traitement') ."</td>\n" ;
 			}
 			echo "</tr>\n";
+			echo "</thead>";
+			echo "<tbody>";
 			
+			$i = true;
 			$tab_checkbox=array();
 			while ($resultat2 = $ReqLog2->fetch_array()) 
 			{
@@ -398,15 +402,15 @@ function affiche_etat_demande_2_valid_user_for_resp($user_login,  $DEBUG=FALSE)
 				$casecocher2 = "<input type=\"radio\" name=\"tab_radio_traite_demande[$sql_num]\" value=\"$chaine_bouton_radio--REFUSE\">";
 				$text_refus  = "<input type=\"text\" name=\"tab_text_refus[$sql_num]\" size=\"20\" max=\"100\">";
 				
-				echo "<tr align=\"center\">\n";
-				echo "<td class=\"histo\">$sql_date_deb_fr _ $demi_j_deb</td>\n";
-				echo "<td class=\"histo\">$sql_date_fin_fr _ $demi_j_fin</td>\n";
-				echo "<td class=\"histo\">$sql_nb_jours</td>\n";
-				echo "<td class=\"histo\">$sql_commentaire</td>\n";
-				echo "<td class=\"histo\">".$tab_type_all_abs[$sql_type]['libelle']."</td>\n";			
-				echo "<td class=\"histo\">$casecocher1</td>\n";
-				echo "<td class=\"histo\">$casecocher2</td>\n";
-				echo "<td class=\"histo\">$text_refus</td>\n";
+				echo '<tr class="'.($i?'i':'p').'">';
+				echo "<td>$sql_date_deb_fr _ $demi_j_deb</td>\n";
+				echo "<td>$sql_date_fin_fr _ $demi_j_fin</td>\n";
+				echo "<td>$sql_nb_jours</td>\n";
+				echo "<td>$sql_commentaire</td>\n";
+				echo "<td>".$tab_type_all_abs[$sql_type]['libelle']."</td>\n";			
+				echo "<td>$casecocher1</td>\n";
+				echo "<td>$casecocher2</td>\n";
+				echo "<td>$text_refus</td>\n";
 				if($_SESSION['config']['affiche_date_traitement']==TRUE)
 				{					
 					if(empty($sql_date_traitement))
@@ -415,7 +419,9 @@ function affiche_etat_demande_2_valid_user_for_resp($user_login,  $DEBUG=FALSE)
 						echo "<td class=\"histo-left\">". _('divers_demande') ." : $sql_date_demande<br>". _('divers_traitement') ." : $sql_date_traitement</td>\n" ;
 				}
 				echo "</tr>\n";
+				$i = !$i;
 			}
+			echo "</tbody>";
 			echo "</table>\n\n";
 	
 			echo "<input type=\"hidden\" name=\"user_login\" value=\"$user_login\">\n";
@@ -428,7 +434,7 @@ function affiche_etat_demande_2_valid_user_for_resp($user_login,  $DEBUG=FALSE)
 
 
 //affiche l'état des conges du user (avec le formulaire pour le responsable)
-function affiche_etat_conges_user_for_resp($user_login, $year_affichage, $tri_date,  $DEBUG=FALSE)
+function affiche_etat_conges_user_for_resp($user_login, $year_affichage, $tri_date, $onglet ,$DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF']; ;
 	$session=session_id() ;
@@ -473,21 +479,21 @@ function affiche_etat_conges_user_for_resp($user_login, $year_affichage, $tri_da
 		echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 		echo "<thead>";
 		echo "<tr align=\"center\">\n";
-		echo " <td class=\"titre\">\n";
-		echo " <a href=\"$PHP_SELF?session=$session&user_login=$user_login&tri_date=descendant\"><img src=\"". TEMPLATE_PATH ."img/1downarrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
+		echo " <td>\n";
+		echo " <a href=\"$PHP_SELF?session=$session&user_login=$user_login&onglet=$onglet&tri_date=descendant\"><img src=\"". TEMPLATE_PATH ."img/1downarrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
 		echo " ". _('divers_debut_maj_1') ." \n";
-		echo " <a href=\"$PHP_SELF?session=$session&user_login=$user_login&tri_date=ascendant\"><img src=\"". TEMPLATE_PATH ."img/1uparrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
+		echo " <a href=\"$PHP_SELF?session=$session&user_login=$user_login&onglet=$onglet&tri_date=ascendant\"><img src=\"". TEMPLATE_PATH ."img/1uparrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
 		echo " </td>\n";
-		echo " <td class=\"titre\">". _('divers_fin_maj_1') ."</td>\n";
-		echo " <td class=\"titre\">". _('divers_nb_jours_pris_maj_1') ."</td>\n";
-		echo " <td class=\"titre\">". _('divers_comment_maj_1') ."<br><i>". _('resp_traite_user_motif_possible') ."</i></td>\n";
-		echo " <td class=\"titre\">". _('divers_type_maj_1') ."</td>\n";
-		echo " <td class=\"titre\">". _('divers_etat_maj_1') ."</td>\n";
-		echo " <td class=\"titre\">". _('resp_traite_user_annul') ."</td>\n";
-		echo " <td class=\"titre\">". _('resp_traite_user_motif_annul') ."</td>\n";
+		echo " <td>". _('divers_fin_maj_1') ."</td>\n";
+		echo " <td>". _('divers_nb_jours_pris_maj_1') ."</td>\n";
+		echo " <td>". _('divers_comment_maj_1') ."<br><i>". _('resp_traite_user_motif_possible') ."</i></td>\n";
+		echo " <td>". _('divers_type_maj_1') ."</td>\n";
+		echo " <td>". _('divers_etat_maj_1') ."</td>\n";
+		echo " <td>". _('resp_traite_user_annul') ."</td>\n";
+		echo " <td>". _('resp_traite_user_motif_annul') ."</td>\n";
 		if($_SESSION['config']['affiche_date_traitement']==TRUE)
 		{
-			echo "<td class=\"titre\">". _('divers_date_traitement') ."</td>\n" ;
+			echo "<td>". _('divers_date_traitement') ."</td>\n" ;
 		}
 		echo "</tr>\n";
 		echo "</thead>";
@@ -546,13 +552,13 @@ function affiche_etat_conges_user_for_resp($user_login, $year_affichage, $tri_da
 					$text_annul="<input type=\"text\" name=\"tab_text_annul[$sql_num]\" size=\"20\" max=\"100\">";
 				}
 
-				echo '<tr class="'.($i?'i':'p').'>';
-					echo "<td class=\"histo\">$sql_date_deb _ $demi_j_deb</td>\n";
-					echo "<td class=\"histo\">$sql_date_fin _ $demi_j_fin</td>\n";
-					echo "<td class=\"histo\">$sql_nb_jours</td>\n";
-					echo "<td class=\"histo\">$sql_commentaire</td>\n";
-					echo "<td class=\"histo\">".$tab_types_abs[$sql_type]['libelle']."</td>\n";
-					echo "<td class=\"histo\">";
+				echo '<tr class="'.($i?'i':'p').'">';
+					echo "<td>$sql_date_deb _ $demi_j_deb</td>\n";
+					echo "<td>$sql_date_fin _ $demi_j_fin</td>\n";
+					echo "<td>$sql_nb_jours</td>\n";
+					echo "<td>$sql_commentaire</td>\n";
+					echo "<td>".$tab_types_abs[$sql_type]['libelle']."</td>\n";
+					echo "<td>";
 					if($sql_etat=="refus")
 						echo  _('divers_refuse') ;
 					elseif($sql_etat=="annul")
@@ -560,8 +566,8 @@ function affiche_etat_conges_user_for_resp($user_login, $year_affichage, $tri_da
 					else
 						echo "$sql_etat";
 					echo "</td>\n";
-					echo "<td class=\"histo\">$casecocher1</td>\n";
-					echo "<td class=\"histo\">$text_annul</td>\n";
+					echo "<td>$casecocher1</td>\n";
+					echo "<td>$text_annul</td>\n";
 					if($_SESSION['config']['affiche_date_traitement']==TRUE)
 					{
 						if(empty($sql_p_date_traitement))

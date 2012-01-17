@@ -285,15 +285,15 @@ function page_principale($session, $tab_type_cong, $tab_type_conges_exceptionnel
     echo "<TABLE cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
     
     echo "<tr align=\"center\">\n";
-    echo "<td class=\"titre\">". _('divers_nom_maj') ."</td>\n";
-    echo "<td class=\"titre\">". _('divers_prenom_maj') ."</td>\n";
-    echo "<td class=\"titre\">". _('divers_quotite_maj_1') ."</td>" ;
+    echo "<td>". _('divers_nom_maj') ."</td>\n";
+    echo "<td>". _('divers_prenom_maj') ."</td>\n";
+    echo "<td>". _('divers_quotite_maj_1') ."</td>" ;
     $nb_colonnes = 3;
     foreach($tab_type_cong as $id_conges => $libelle)
     {
         // cas d'une absence ou d'un congé
-        echo "<td class=\"titre\"> $libelle"." / ". _('divers_an_maj') ."</td>\n";
-        echo "<td class=\"titre\">". _('divers_solde_maj') ." ".$libelle ."</td>";
+        echo "<td> $libelle"." / ". _('divers_an_maj') ."</td>\n";
+        echo "<td>". _('divers_solde_maj') ." ".$libelle ."</td>";
         $nb_colonnes += 2;
     }
     // conges exceptionnels
@@ -301,15 +301,15 @@ function page_principale($session, $tab_type_cong, $tab_type_conges_exceptionnel
     {
         foreach($tab_type_conges_exceptionnels as $id_type_cong => $libelle)
         {
-            echo "<td class=\"titre\">". _('divers_solde_maj') ." $libelle</td>\n";
+            echo "<td>". _('divers_solde_maj') ." $libelle</td>\n";
             $nb_colonnes += 1;
         }
     }
-    echo "<td class=\"titre\"></td>";
+    echo "<td></td>";
     $nb_colonnes += 1;
     if($_SESSION['config']['editions_papier']==TRUE)
     {
-        echo "<td class=\"titre\"></td>";
+        echo "<td></td>";
         $nb_colonnes += 1;
     }
     echo "</tr>\n";
@@ -336,22 +336,22 @@ function page_principale($session, $tab_type_cong, $tab_type_conges_exceptionnel
             $text_affich_user="<a href=\"hr_index.php?session=$session&onglet=hr_traite_user&user_login=$current_login\">". _('resp_etat_users_afficher') ."</a>" ;
             $text_edit_papier="<a href=\"../edition/edit_user.php?session=$session&user_login=$current_login\" target=\"_blank\">". _('resp_etat_users_imprim') ."</a>";
             echo "<tr align=\"center\">\n";
-            echo "<td class=\"histo\">".$tab_current_user['nom']."</td><td class=\"histo\">".$tab_current_user['prenom']."</td><td class=\"histo\">".$tab_current_user['quotite']."%</td>";
+            echo "<td>".$tab_current_user['nom']."</td><td>".$tab_current_user['prenom']."</td><td>".$tab_current_user['quotite']."%</td>";
             foreach($tab_type_cong as $id_conges => $libelle)
             {
-                echo "<td class=\"histo\">".$tab_conges[$libelle]['nb_an']."</td>\n";
-                echo "<td class=\"histo\">".$tab_conges[$libelle]['solde']."</td>";
+                echo "<td>".$tab_conges[$libelle]['nb_an']."</td>\n";
+                echo "<td>".$tab_conges[$libelle]['solde']."</td>";
             }
             if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
             {
                 foreach($tab_type_conges_exceptionnels as $id_type_cong => $libelle) 
                 {
-                    echo "<td class=\"histo\">".$tab_conges[$libelle]['solde']."</td>\n";
+                    echo "<td>".$tab_conges[$libelle]['solde']."</td>\n";
                 }
             }
-            echo "<td class=\"histo\">$text_affich_user</td>\n";
+            echo "<td>$text_affich_user</td>\n";
             if($_SESSION['config']['editions_papier']==TRUE)
-                echo "<td class=\"histo\">$text_edit_papier</td>";
+                echo "<td>$text_edit_papier</td>";
             echo "</tr>\n";
         }
     }

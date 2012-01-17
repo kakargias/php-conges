@@ -52,26 +52,26 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET / POST
-	$u_login = getpost_variable("u_login") ;
-	$u_login_to_update = getpost_variable("u_login_to_update") ;
-	$tab_new_user['login'] = getpost_variable("new_login") ;
-	$tab_new_user['nom'] = getpost_variable("new_nom") ;
-	$tab_new_user['prenom']  = getpost_variable("new_prenom") ;
-	$tab_new_user['quotite']   = getpost_variable("new_quotite") ;
-	$tab_new_user['is_resp'] = getpost_variable("new_is_resp") ;
-	$tab_new_user['resp_login'] = getpost_variable("new_resp_login") ;
-	$tab_new_user['is_admin'] = getpost_variable("new_is_admin") ;
-	$tab_new_user['is_hr'] = getpost_variable("new_is_hr") ;
-	$tab_new_user['see_all']    = getpost_variable("new_see_all") ;
-	$tab_new_user['email'] = getpost_variable("new_email") ;
-	$tab_new_user['jour'] = getpost_variable("new_jour") ;
-	$tab_new_user['mois'] = getpost_variable("new_mois") ;
-	$tab_new_user['year'] = getpost_variable("new_year") ;
-	$tab_new_jours_an = getpost_variable("tab_new_jours_an") ;
-	$tab_new_solde    = getpost_variable("tab_new_solde") ;
-	$tab_new_reliquat = getpost_variable("tab_new_reliquat") ;
-	$tab_checkbox_sem_imp = getpost_variable("tab_checkbox_sem_imp") ;
-	$tab_checkbox_sem_p = getpost_variable("tab_checkbox_sem_p") ;
+	$u_login = getpost_variable('u_login') ;
+	$u_login_to_update = getpost_variable('u_login_to_update') ;
+	$tab_new_user['login'] = getpost_variable('new_login') ;
+	$tab_new_user['nom'] = getpost_variable('new_nom') ;
+	$tab_new_user['prenom']  = getpost_variable('new_prenom') ;
+	$tab_new_user['quotite']   = getpost_variable('new_quotite') ;
+	$tab_new_user['is_resp'] = getpost_variable('new_is_resp') ;
+	$tab_new_user['resp_login'] = getpost_variable('new_resp_login') ;
+	$tab_new_user['is_admin'] = getpost_variable('new_is_admin') ;
+	$tab_new_user['is_hr'] = getpost_variable('new_is_hr') ;
+	$tab_new_user['see_all']    = getpost_variable('new_see_all') ;
+	$tab_new_user['email'] = getpost_variable('new_email') ;
+	$tab_new_user['jour'] = getpost_variable('new_jour') ;
+	$tab_new_user['mois'] = getpost_variable('new_mois') ;
+	$tab_new_user['year'] = getpost_variable('new_year') ;
+	$tab_new_jours_an = getpost_variable('tab_new_jours_an') ;
+	$tab_new_solde    = getpost_variable('tab_new_solde') ;
+	$tab_new_reliquat = getpost_variable('tab_new_reliquat') ;
+	$tab_checkbox_sem_imp = getpost_variable('tab_checkbox_sem_imp') ;
+	$tab_checkbox_sem_p = getpost_variable('tab_checkbox_sem_p') ;
 
 /*	if(isset($_POST['new_nb_j_an'])) { $tab_new_user['nb_j_an']=$_POST['new_nb_j_an']; }
 	if(isset($_POST['new_solde_jours'])) { $tab_new_user['solde_jours']=$_POST['new_solde_jours']; }
@@ -375,7 +375,7 @@ function commit_update($u_login_to_update, &$tab_new_user, &$tab_new_jours_an, &
 	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
 		$tab_type_conges_excep=recup_tableau_types_conges_exceptionnels($DEBUG);
 
-	if($DEBUG==TRUE)
+	if( $DEBUG )
 	{
 		echo "tab_new_jours_an = <br>\n"; print_r($tab_new_jours_an); echo "<br>\n";
 		echo "tab_new_solde = <br>\n"; print_r($tab_new_solde); echo "<br>\n";
@@ -415,7 +415,7 @@ function commit_update($u_login_to_update, &$tab_new_user, &$tab_new_jours_an, &
 	else
 		$valid_3=TRUE;
 
-	if($DEBUG==TRUE)
+	if( $DEBUG )
 	{
 		echo "valid_1 = $valid_1  //  valid_2 = $valid_2  //  valid_3 = $valid_3  //  valid_reliquat = $valid_reliquat <br>\n";
 	}
@@ -658,7 +658,7 @@ function commit_update($u_login_to_update, &$tab_new_user, &$tab_new_jours_an, &
 		echo  _('form_modif_not_ok') ." !<br><br> \n";
 	}
 
-	if($DEBUG==TRUE)
+	if( $DEBUG )
 	{
 		echo "<a href=\"admin_index.php?session=$session&onglet=admin-users\">retour</a>";
 	}
@@ -711,7 +711,7 @@ function get_current_grille_rtt($u_login_to_update, $DEBUG=FALSE)
 		$tab_grille['sem_p_di_pm'] = $resultat1['sem_p_di_pm'] ;
 	}
 
-	if($DEBUG==TRUE)
+	if( $DEBUG )
 	{
 		echo "get_current_grille_rtt :<br>\n";
 		print_r($tab_grille);
@@ -753,7 +753,7 @@ function tab_grille_rtt_from_checkbox($tab_checkbox_sem_imp, $tab_checkbox_sem_p
 		}
 	}
 
-	if($DEBUG==TRUE)
+	if( $DEBUG )
 	{
 		echo "tab_grille_rtt_from_checkbox :<br>\n";
 		print_r($tab_grille);

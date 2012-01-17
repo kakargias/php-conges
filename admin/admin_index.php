@@ -49,14 +49,14 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET / POST
-	$onglet         = getpost_variable("onglet", "admin-users") ;
-	$choix_group    = getpost_variable("choix_group") ;
-	$choix_resp     = getpost_variable("choix_resp") ;
-	$choix_user     = getpost_variable("choix_user") ;
-	$choix_gestion_groupes_responsables = getpost_variable("choix_gestion_groupes_responsables") ;
-	$choix_gestion_groupes_users        = getpost_variable("choix_gestion_groupes_users") ;
-	$saisie_user     = getpost_variable("saisie_user") ;
-	$saisie_group    = getpost_variable("saisie_group") ;
+	$onglet         = getpost_variable('onglet', "admin-users") ;
+	$choix_group    = getpost_variable('choix_group') ;
+	$choix_resp     = getpost_variable('choix_resp') ;
+	$choix_user     = getpost_variable('choix_user') ;
+	$choix_gestion_groupes_responsables = getpost_variable('choix_gestion_groupes_responsables') ;
+	$choix_gestion_groupes_users        = getpost_variable('choix_gestion_groupes_users') ;
+	$saisie_user     = getpost_variable('saisie_user') ;
+	$saisie_group    = getpost_variable('saisie_group') ;
 
 	// si on recupere les users dans ldap et qu'on vient d'en créer un depuis la liste déroulante
 	if ($_SESSION['config']['export_users_from_ldap'] == TRUE && isset($_POST['new_ldap_user']))
@@ -95,80 +95,73 @@ verif_droits_user($session, "is_admin", $DEBUG);
 				if($DEBUG == TRUE) { print_r($info); echo "<br>\n"; }
 			}
 
-			$tab_new_user[$login]['quotite']    = getpost_variable("new_quotite") ;
-			$tab_new_user[$login]['is_resp']= getpost_variable("new_is_resp") ;
-			$tab_new_user[$login]['resp_login']= getpost_variable("new_resp_login") ;
-			$tab_new_user[$login]['is_admin']= getpost_variable("new_is_admin") ;
-			$tab_new_user[$login]['is_hr']= getpost_variable("new_is_hr") ;
-			$tab_new_user[$login]['see_all']    = getpost_variable("new_see_all") ;
+			$tab_new_user[$login]['quotite']    = getpost_variable('new_quotite') ;
+			$tab_new_user[$login]['is_resp']= getpost_variable('new_is_resp') ;
+			$tab_new_user[$login]['resp_login']= getpost_variable('new_resp_login') ;
+			$tab_new_user[$login]['is_admin']= getpost_variable('new_is_admin') ;
+			$tab_new_user[$login]['is_hr']= getpost_variable('new_is_hr') ;
+			$tab_new_user[$login]['see_all']    = getpost_variable('new_see_all') ;
 
 			if ($_SESSION['config']['how_to_connect_user'] == "dbconges")
 			{
-				$tab_new_user[$login]['password1']= getpost_variable("new_password1") ;
-				$tab_new_user[$login]['password2']= getpost_variable("new_password2") ;
+				$tab_new_user[$login]['password1']= getpost_variable('new_password1') ;
+				$tab_new_user[$login]['password2']= getpost_variable('new_password2') ;
 			}
-//			$tab_new_user[$login]['email']= getpost_variable("new_email") ;
-			$tab_new_jours_an= getpost_variable("tab_new_jours_an") ;
-			$tab_new_solde= getpost_variable("tab_new_solde") ;
-			$tab_checkbox_sem_imp= getpost_variable("tab_checkbox_sem_imp") ;
-			$tab_checkbox_sem_p= getpost_variable("tab_checkbox_sem_p") ;
-			$tab_new_user[$login]['new_jour']= getpost_variable("new_jour") ;
-			$tab_new_user[$login]['new_mois']= getpost_variable("new_mois") ;
-			$tab_new_user[$login]['new_year']= getpost_variable("new_year") ;
+//			$tab_new_user[$login]['email']= getpost_variable('new_email') ;
+			$tab_new_jours_an= getpost_variable('tab_new_jours_an') ;
+			$tab_new_solde= getpost_variable('tab_new_solde') ;
+			$tab_checkbox_sem_imp= getpost_variable('tab_checkbox_sem_imp') ;
+			$tab_checkbox_sem_p= getpost_variable('tab_checkbox_sem_p') ;
+			$tab_new_user[$login]['new_jour']= getpost_variable('new_jour') ;
+			$tab_new_user[$login]['new_mois']= getpost_variable('new_mois') ;
+			$tab_new_user[$login]['new_year']= getpost_variable('new_year') ;
  		}
 	}
 	else
 	{
-		$tab_new_user[0]['login']    = getpost_variable("new_login") ;
-		$tab_new_user[0]['nom']    = getpost_variable("new_nom") ;
-		$tab_new_user[0]['prenom']    = getpost_variable("new_prenom") ;
+		$tab_new_user[0]['login']    = getpost_variable('new_login') ;
+		$tab_new_user[0]['nom']    = getpost_variable('new_nom') ;
+		$tab_new_user[0]['prenom']    = getpost_variable('new_prenom') ;
 
 
-		$tab_new_user[0]['quotite']    = getpost_variable("new_quotite") ;
-		$tab_new_user[0]['is_resp']= getpost_variable("new_is_resp") ;
-		$tab_new_user[0]['resp_login']= getpost_variable("new_resp_login") ;
-		$tab_new_user[0]['is_admin']= getpost_variable("new_is_admin") ;
-		$tab_new_user[0]['is_hr']= getpost_variable("new_is_hr") ;
- 		$tab_new_user[0]['see_all']    = getpost_variable("new_see_all") ;
+		$tab_new_user[0]['quotite']    = getpost_variable('new_quotite') ;
+		$tab_new_user[0]['is_resp']= getpost_variable('new_is_resp') ;
+		$tab_new_user[0]['resp_login']= getpost_variable('new_resp_login') ;
+		$tab_new_user[0]['is_admin']= getpost_variable('new_is_admin') ;
+		$tab_new_user[0]['is_hr']= getpost_variable('new_is_hr') ;
+ 		$tab_new_user[0]['see_all']    = getpost_variable('new_see_all') ;
 
 		if ($_SESSION['config']['how_to_connect_user'] == "dbconges")
 		{
-			$tab_new_user[0]['password1']= getpost_variable("new_password1") ;
-			$tab_new_user[0]['password2']= getpost_variable("new_password2") ;
+			$tab_new_user[0]['password1']= getpost_variable('new_password1') ;
+			$tab_new_user[0]['password2']= getpost_variable('new_password2') ;
 		}
-		$tab_new_user[0]['email']= getpost_variable("new_email") ;
-		$tab_new_jours_an= getpost_variable("tab_new_jours_an") ;
-		$tab_new_solde= getpost_variable("tab_new_solde") ;
-		$tab_checkbox_sem_imp= getpost_variable("tab_checkbox_sem_imp") ;
-		$tab_checkbox_sem_p= getpost_variable("tab_checkbox_sem_p") ;
-		$tab_new_user[0]['new_jour']= getpost_variable("new_jour") ;
-		$tab_new_user[0]['new_mois']= getpost_variable("new_mois") ;
-		$tab_new_user[0]['new_year']= getpost_variable("new_year") ;
+		$tab_new_user[0]['email']= getpost_variable('new_email') ;
+		$tab_new_jours_an= getpost_variable('tab_new_jours_an') ;
+		$tab_new_solde= getpost_variable('tab_new_solde') ;
+		$tab_checkbox_sem_imp= getpost_variable('tab_checkbox_sem_imp') ;
+		$tab_checkbox_sem_p= getpost_variable('tab_checkbox_sem_p') ;
+		$tab_new_user[0]['new_jour']= getpost_variable('new_jour') ;
+		$tab_new_user[0]['new_mois']= getpost_variable('new_mois') ;
+		$tab_new_user[0]['new_year']= getpost_variable('new_year') ;
 	}
 
-	$new_group_name=addslashes( getpost_variable("new_group_name")) ;
-	$new_group_libelle=addslashes( getpost_variable("new_group_libelle")) ;
-	$new_group_double_valid= getpost_variable("new_group_double_valid") ;
-	$change_group_users= getpost_variable("change_group_users") ;
-	$checkbox_group_users= getpost_variable("checkbox_group_users") ;
-	$change_user_groups= getpost_variable("change_user_groups") ;
-	$checkbox_user_groups= getpost_variable("checkbox_user_groups") ;
-	$change_group_responsables= getpost_variable("change_group_responsables") ;
-	$checkbox_group_resp= getpost_variable("checkbox_group_resp") ;
-	$checkbox_group_grd_resp= getpost_variable("checkbox_group_grd_resp") ;
-	$change_responsable_group= getpost_variable("change_responsable_group") ;
-	$checkbox_resp_group= getpost_variable("checkbox_resp_group") ;
-	$checkbox_grd_resp_group= getpost_variable("checkbox_grd_resp_group") ;
+	$new_group_name=addslashes( getpost_variable('new_group_name')) ;
+	$new_group_libelle=addslashes( getpost_variable('new_group_libelle')) ;
+	$new_group_double_valid= getpost_variable('new_group_double_valid') ;
+	$change_group_users= getpost_variable('change_group_users') ;
+	$checkbox_group_users= getpost_variable('checkbox_group_users') ;
+	$change_user_groups= getpost_variable('change_user_groups') ;
+	$checkbox_user_groups= getpost_variable('checkbox_user_groups') ;
+	$change_group_responsables= getpost_variable('change_group_responsables') ;
+	$checkbox_group_resp= getpost_variable('checkbox_group_resp') ;
+	$checkbox_group_grd_resp= getpost_variable('checkbox_group_grd_resp') ;
+	$change_responsable_group= getpost_variable('change_responsable_group') ;
+	$checkbox_resp_group= getpost_variable('checkbox_resp_group') ;
+	$checkbox_grd_resp_group= getpost_variable('checkbox_grd_resp_group') ;
 	/* FIN de la recup des parametres    */
 	/*************************************/
 
-
-	if($DEBUG==TRUE)
-	{
-		echo "tab_new_jours_an = "; print_r($tab_new_jours_an) ; echo "<br>\n";
-		echo "tab_new_solde = "; print_r($tab_new_solde) ; echo "<br>\n";
-	}
-	
 
 	/*******************************************************/
 
@@ -179,8 +172,6 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	/*************************************/
 	/***  suite de la page             ***/
 	/*************************************/
-
-	//connexion mysql
 
 	if($saisie_user=="ok")
 	{
@@ -335,7 +326,7 @@ function ajout_user(&$tab_new_user, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, 
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
-	if($DEBUG==TRUE)
+	if( $DEBUG )
 	{
 		echo "tab_new_jours_an = "; print_r($tab_new_jours_an) ; echo "<br>\n";
 		echo "tab_new_solde = "; print_r($tab_new_solde) ; echo "<br>\n";
@@ -458,7 +449,7 @@ function verif_new_param(&$tab_new_user, &$tab_new_jours_an, &$tab_new_solde, $D
 		$valid=verif_saisie_decimal($tab_new_jours_an[$id_cong], $DEBUG);    //verif la bonne saisie du nombre décimal
 		$valid=verif_saisie_decimal($tab_new_solde[$id_cong], $DEBUG);    //verif la bonne saisie du nombre décimal
 	}
-	if($DEBUG==TRUE)
+	if( $DEBUG )
 	{
 		echo "tab_new_jours_an = "; print_r($tab_new_jours_an) ; echo "<br>\n";
 		echo "tab_new_solde = "; print_r($tab_new_solde) ; echo "<br>\n";
@@ -643,7 +634,7 @@ function affiche_gestion_utilisateurs($DEBUG=FALSE)
 	else
 		$tab_info_users = recup_infos_all_users_du_resp($_SESSION['userlogin'], $DEBUG);
 
-	if($DEBUG==TRUE) { echo "tab_info_users :<br>\n"; print_r($tab_info_users); echo "<br><br>\n";}
+	if( $DEBUG ) { echo "tab_info_users :<br>\n"; print_r($tab_info_users); echo "<br><br>\n";}
 
 	foreach($tab_info_users as $current_login => $tab_current_infos)
 	{
@@ -720,7 +711,7 @@ function affiche_formulaire_ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab
 	  $tab_type_conges_exceptionnels=recup_tableau_types_conges_exceptionnels($DEBUG);
 	}
 
-	if($DEBUG==TRUE) { echo "tab_type_conges = <br>\n"; print_r($tab_type_conges); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_type_conges = <br>\n"; print_r($tab_type_conges); echo "<br>\n"; }
 
 	/*********************/
 	/* Ajout Utilisateur */

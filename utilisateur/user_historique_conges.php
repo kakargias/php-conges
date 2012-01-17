@@ -29,8 +29,8 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH .'config_ldap.php';}
 
-	$tri_date = getpost_variable("tri_date", "ascendant");
-	$year_affichage = getpost_variable("year_affichage" , date("Y") );
+	$tri_date = getpost_variable('tri_date', "ascendant");
+	$year_affichage = getpost_variable('year_affichage' , date("Y") );
 	
 
 	echo '<h1>'. _('user_historique_conges') .' :</h1>';

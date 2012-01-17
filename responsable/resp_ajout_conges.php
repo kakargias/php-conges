@@ -28,20 +28,20 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 
 	//var pour resp_ajout_conges_all.php
-	$ajout_conges            = getpost_variable("ajout_conges");
-	$tab_champ_saisie        = getpost_variable("tab_champ_saisie");
-	$tab_commentaire_saisie        = getpost_variable("tab_commentaire_saisie");
-	//$tab_champ_saisie_rtt    = getpost_variable("tab_champ_saisie_rtt") ;
-	$ajout_global            = getpost_variable("ajout_global");
-	$ajout_groupe            = getpost_variable("ajout_groupe");
-	$choix_groupe            = getpost_variable("choix_groupe");
-	$tab_new_nb_conges_all   = getpost_variable("tab_new_nb_conges_all");
-	$tab_calcul_proportionnel = getpost_variable("tab_calcul_proportionnel");
-	$tab_new_comment_all     = getpost_variable("tab_new_comment_all");
+	$ajout_conges            = getpost_variable('ajout_conges');
+	$tab_champ_saisie        = getpost_variable('tab_champ_saisie');
+	$tab_commentaire_saisie        = getpost_variable('tab_commentaire_saisie');
+	//$tab_champ_saisie_rtt    = getpost_variable('tab_champ_saisie_rtt') ;
+	$ajout_global            = getpost_variable('ajout_global');
+	$ajout_groupe            = getpost_variable('ajout_groupe');
+	$choix_groupe            = getpost_variable('choix_groupe');
+	$tab_new_nb_conges_all   = getpost_variable('tab_new_nb_conges_all');
+	$tab_calcul_proportionnel = getpost_variable('tab_calcul_proportionnel');
+	$tab_new_comment_all     = getpost_variable('tab_new_comment_all');
 	
 	
-	if($DEBUG==TRUE) { echo "tab_new_nb_conges_all = <br>"; print_r($tab_new_nb_conges_all); echo "<br>\n" ;}
-	if($DEBUG==TRUE) { echo "tab_calcul_proportionnel = <br>"; print_r($tab_calcul_proportionnel); echo "<br>\n" ;}
+	if( $DEBUG ) { echo "tab_new_nb_conges_all = <br>"; print_r($tab_new_nb_conges_all); echo "<br>\n" ;}
+	if( $DEBUG ) { echo "tab_calcul_proportionnel = <br>"; print_r($tab_calcul_proportionnel); echo "<br>\n" ;}
 	
 	
 	// titre
@@ -80,7 +80,7 @@ function saisie_ajout( $tab_type_conges,  $DEBUG)
 	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
 	{
 	  $tab_type_conges_exceptionnels = recup_tableau_types_conges_exceptionnels();
-	  if($DEBUG==TRUE) { echo "tab_type_conges_exceptionnels = "; print_r($tab_type_conges_exceptionnels); echo "<br><br>\n";}
+	  if( $DEBUG ) { echo "tab_type_conges_exceptionnels = "; print_r($tab_type_conges_exceptionnels); echo "<br><br>\n";}
 	}
 	else
 	  $tab_type_conges_exceptionnels = array();
@@ -90,8 +90,8 @@ function saisie_ajout( $tab_type_conges,  $DEBUG)
 	// renvoit une liste de login entre quotes et séparés par des virgules
 	$tab_all_users_du_resp=recup_infos_all_users_du_resp($_SESSION['userlogin']);
 	$tab_all_users_du_grand_resp=recup_infos_all_users_du_grand_resp($_SESSION['userlogin']);
-	if($DEBUG==TRUE) { echo "tab_all_users_du_resp =<br>\n"; print_r($tab_all_users_du_resp); echo "<br>\n"; }
-	if($DEBUG==TRUE) { echo "tab_all_users_du_grand_resp =<br>\n"; print_r($tab_all_users_du_grand_resp); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_all_users_du_resp =<br>\n"; print_r($tab_all_users_du_resp); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_all_users_du_grand_resp =<br>\n"; print_r($tab_all_users_du_grand_resp); echo "<br>\n"; }
 	
 	if( (count($tab_all_users_du_resp)!=0) || (count($tab_all_users_du_grand_resp)!=0) )
 	{
@@ -399,7 +399,7 @@ function ajout_conges($tab_champ_saisie, $tab_commentaire_saisie,  $DEBUG=FALSE)
 	    if($valid==TRUE)
 	    {
 	      $user_nb_jours_ajout_float =(float) $user_nb_jours_ajout ;
-	      if($DEBUG==TRUE) {echo "$user_name --- $id_conges --- $user_nb_jours_ajout_float<br>\n";}
+	      if( $DEBUG ) {echo "$user_name --- $id_conges --- $user_nb_jours_ajout_float<br>\n";}
 
 	      if($user_nb_jours_ajout_float!=0)
 	      {
@@ -422,7 +422,7 @@ function ajout_conges($tab_champ_saisie, $tab_commentaire_saisie,  $DEBUG=FALSE)
 	  }
 	}
 
-	if($DEBUG==TRUE)
+	if( $DEBUG )
 	{
 		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
 		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
@@ -451,10 +451,10 @@ function ajout_global($tab_new_nb_conges_all, $tab_calcul_proportionnel, $tab_ne
 	// (prend en compte le resp direct, les groupes, le resp virtuel, etc ...)
 	// renvoit une liste de login entre quotes et séparés par des virgules
 	$list_users_du_resp = get_list_all_users_du_resp($_SESSION['userlogin'],  $DEBUG);
-	if($DEBUG==TRUE) { echo "list_all_users_du_resp = $list_users_du_resp<br>\n";}
+	if( $DEBUG ) { echo "list_all_users_du_resp = $list_users_du_resp<br>\n";}
 	
-	if($DEBUG==TRUE) { echo "tab_new_nb_conges_all = <br>"; print_r($tab_new_nb_conges_all); echo "<br>\n" ;}
-	if($DEBUG==TRUE) { echo "tab_calcul_proportionnel = <br>"; print_r($tab_calcul_proportionnel); echo "<br>\n" ;}
+	if( $DEBUG ) { echo "tab_new_nb_conges_all = <br>"; print_r($tab_new_nb_conges_all); echo "<br>\n" ;}
+	if( $DEBUG ) { echo "tab_calcul_proportionnel = <br>"; print_r($tab_calcul_proportionnel); echo "<br>\n" ;}
 
 	foreach($tab_new_nb_conges_all as $id_conges => $nb_jours)
 	{
@@ -503,7 +503,7 @@ function ajout_global($tab_new_nb_conges_all, $tab_calcul_proportionnel, $tab_ne
 		}
 	}
 	
-	if($DEBUG==TRUE)
+	if( $DEBUG )
 	{
 		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
 		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
@@ -514,7 +514,7 @@ function ajout_global($tab_new_nb_conges_all, $tab_calcul_proportionnel, $tab_ne
 	{
 		echo " ". _('form_modif_ok') ." <br><br> \n";
 		/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
-		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=resp_index.php?session=$session\">";
+		redirect( ROOT_PATH .'responsable/resp_index.php?session=' . $session );
 	}
 }
 
@@ -578,7 +578,7 @@ function ajout_global_groupe($choix_groupe, $tab_new_nb_conges_all, $tab_calcul_
 		}
 	}
 
-	if($DEBUG==TRUE)
+	if( $DEBUG )
 	{
 		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
 		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
@@ -588,8 +588,7 @@ function ajout_global_groupe($choix_groupe, $tab_new_nb_conges_all, $tab_calcul_
 	else
 	{
 		echo " ". _('form_modif_ok') ." <br><br> \n";
-		/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
-		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=resp_index.php?session=$session\">";
+		redirect( ROOT_PATH .'responsable/resp_index.php?session=' . $session );
 	}
 }
 

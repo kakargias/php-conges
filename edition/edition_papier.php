@@ -42,8 +42,8 @@ $DEBUG = FALSE ;
 	/*************************************/
 	// recup des parametres reçus :
 	// GET / POST
-	$user_login = getpost_variable("user_login") ;
-	$edit_id = getpost_variable("edit_id", 0) ;
+	$user_login = getpost_variable('user_login') ;
+	$edit_id = getpost_variable('edit_id', 0) ;
 	/*************************************/
 
 	/************************************/
@@ -92,7 +92,7 @@ function edition($login, $edit_id,  $DEBUG=FALSE)
 	// recup du tableau de tous les types de conges
 	$tab_type_all_cong=recup_tableau_tout_types_abs( $DEBUG);
 
-	if($DEBUG==TRUE)
+	if( $DEBUG )
 	{
 		echo "tab_info_user :<br>\n" ; print_r($tab_info_user) ; echo "<br><br>\n" ;
 		echo "tab_info_edition :<br>\n" ; print_r($tab_info_edition) ; echo "<br><br>\n" ;

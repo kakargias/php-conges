@@ -48,10 +48,10 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET
 	// POST
-	$u_login            = getpost_variable("u_login") ;
-	$u_login_to_update  = getpost_variable("u_login_to_update") ;
-	$new_pwd1           = getpost_variable("new_pwd1") ;
-	$new_pwd2           = getpost_variable("new_pwd2") ;
+	$u_login            = getpost_variable('u_login') ;
+	$u_login_to_update  = getpost_variable('u_login_to_update') ;
+	$new_pwd1           = getpost_variable('new_pwd1') ;
+	$new_pwd2           = getpost_variable('new_pwd2') ;
 	/*************************************/
 
 	header_popup($_SESSION['config']['titre_admin_index']);
@@ -145,7 +145,7 @@ function commit_update($u_login_to_update, $new_pwd1, $new_pwd2, $DEBUG=FALSE)
 		$comment_log = "admin_change_password_user : pour $u_login_to_update" ;
 		log_action(0, "", $u_login_to_update, $comment_log, $DEBUG);
 
-		if($DEBUG==TRUE)
+		if( $DEBUG )
 		{
 			echo "<form action=\"admin_index.php?session=$session&onglet=admin-users\" method=\"POST\">\n" ;
 			echo "<input type=\"submit\" value=\"". _('form_ok') ."\">\n";

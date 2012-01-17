@@ -48,9 +48,9 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET / POST
-	$choix_action    = getpost_variable("choix_action");
-	$type_sauvegarde = getpost_variable("type_sauvegarde");
-	$commit          = getpost_variable("commit");
+	$choix_action    = getpost_variable('choix_action');
+	$type_sauvegarde = getpost_variable('type_sauvegarde');
+	$commit          = getpost_variable('commit');
 
 	$fichier_restaure_name="";
 	$fichier_restaure_tmpname="";
@@ -64,7 +64,7 @@ verif_droits_user($session, "is_admin", $DEBUG);
 		$fichier_restaure_error=$_FILES['fichier_restaure']['error'];
 	}
 	/*************************************/
-	if($DEBUG==TRUE) {	echo "_FILES = <br>\n"; print_r($_FILES); echo "<br>\n"; }
+	if( $DEBUG ) {	echo "_FILES = <br>\n"; print_r($_FILES); echo "<br>\n"; }
 
 
 	if($choix_action=="")

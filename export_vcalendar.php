@@ -47,11 +47,11 @@ $DEBUG=FALSE;
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET	/ POST
-	$action     = getpost_variable("action") ;
-	$user_login = getpost_variable("user_login") ;
-	$date_debut = getpost_variable("date_debut") ;
-	$date_fin   = getpost_variable("date_fin") ;
-	$choix_format  = getpost_variable("choix_format") ;
+	$action     = getpost_variable('action') ;
+	$user_login = getpost_variable('user_login') ;
+	$date_debut = getpost_variable('date_debut') ;
+	$date_fin   = getpost_variable('date_fin') ;
+	$choix_format  = getpost_variable('choix_format') ;
 	/*************************************/
 
 
@@ -350,7 +350,7 @@ function inverse_date($date, $DEBUG=FALSE)
 	$tab=explode("-", $date);
 	$reverse_date=$tab[2]."-".$tab[1]."-".$tab[0] ;
 
-	if($DEBUG==TRUE) { echo "reverse_date : $date -> $reverse_date<br>\n" ; }
+	if( $DEBUG ) { echo "reverse_date : $date -> $reverse_date<br>\n" ; }
 
 	return $reverse_date;
 }

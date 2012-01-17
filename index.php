@@ -62,7 +62,7 @@ if($err = getpost_variable('error', false))
 
 if($_SESSION['config']['auth']==FALSE)    // si pas d'autentification (cf config de php_conges)
 {
-	$login=getpost_variable("login");
+	$login=getpost_variable('login');
 	if(empty($login)) 
 	{
 	    // redirect( ROOT_PATH .'erreur.php?error_num=1');

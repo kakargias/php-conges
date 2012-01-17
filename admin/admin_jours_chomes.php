@@ -48,12 +48,12 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET / POST
-	$choix_action 				= getpost_variable("choix_action");
-	$year_calendrier_saisie		= getpost_variable("year_calendrier_saisie", 0);
-	$tab_checkbox_j_chome		= getpost_variable("tab_checkbox_j_chome");
+	$choix_action 				= getpost_variable('choix_action');
+	$year_calendrier_saisie		= getpost_variable('year_calendrier_saisie', 0);
+	$tab_checkbox_j_chome		= getpost_variable('tab_checkbox_j_chome');
 	/*************************************/
 
-	if($DEBUG==TRUE) { echo "choix_action = $choix_action # year_calendrier_saisie = $year_calendrier_saisie<br>\n"; print_r($year_calendrier_saisie) ; echo "<br>\n"; }
+	if( $DEBUG ) { echo "choix_action = $choix_action # year_calendrier_saisie = $year_calendrier_saisie<br>\n"; print_r($year_calendrier_saisie) ; echo "<br>\n"; }
 
 
 	if($choix_action=="")
@@ -79,20 +79,20 @@ function saisie($year_calendrier_saisie, $DEBUG=FALSE)
 	// on construit le tableau des jours feries de l'année considérée
 	$tab_year=array();
 	get_tableau_jour_feries($year_calendrier_saisie, $tab_year,$DEBUG);
-	if($DEBUG==TRUE) { echo "tab_year = "; print_r($tab_year); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_year = "; print_r($tab_year); echo "<br>\n"; }
 
 	//calcul automatique des jours feries
 	if($_SESSION['config']['calcul_auto_jours_feries_france']==TRUE)
 	{
 		$tableau_jour_feries=fcListJourFeries($year_calendrier_saisie) ;
-		if($DEBUG==TRUE) { echo "tableau_jour_feries = "; print_r($tableau_jour_feries); echo "<br>\n"; }
+		if( $DEBUG ) { echo "tableau_jour_feries = "; print_r($tableau_jour_feries); echo "<br>\n"; }
 		foreach ($tableau_jour_feries as $i => $value) 
 		{
 			if(!in_array ("$value", $tab_year))
 				$tab_year[]=$value;
 		}
 	}
-	if($DEBUG==TRUE) { echo "tab_year = "; print_r($tab_year); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_year = "; print_r($tab_year); echo "<br>\n"; }
 
 	header_popup();	
 	
@@ -399,7 +399,7 @@ function commit_saisie($tab_checkbox_j_chome,$DEBUG=FALSE)
 	
 	echo "<h1>". _('admin_jours_chomes_titre') ."</h1>\n";
 
-	if($DEBUG==TRUE) { echo "tab_checkbox_j_chome : <br>\n"; print_r($tab_checkbox_j_chome); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_checkbox_j_chome : <br>\n"; print_r($tab_checkbox_j_chome); echo "<br>\n"; }
 
 	// si l'année est déja renseignée dans la database, on efface ttes les dates de l'année
 	if(verif_year_deja_saisie($tab_checkbox_j_chome, $DEBUG)==TRUE)

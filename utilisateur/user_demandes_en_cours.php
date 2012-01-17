@@ -34,7 +34,7 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 
 	echo '<h1>'. _('user_etat_demandes') .' :</h1>';
 
-	$tri_date = getpost_variable("tri_date", "ascendant");
+	$tri_date = getpost_variable('tri_date', "ascendant");
 
 
 	// Récupération des informations

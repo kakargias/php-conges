@@ -42,11 +42,11 @@ $DEBUG=FALSE;
 $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST['lang'] : "") ) ;
 /*
 $tab_lang_file = glob("lang/lang_".$lang.'_*.php');
-if($DEBUG==TRUE) { echo "lang = $lang # fichier de langue = ".$tab_lang_file[0]."<br>\n"; }
+if( $DEBUG ) { echo "lang = $lang # fichier de langue = ".$tab_lang_file[0]."<br>\n"; }
 include$tab_lang_file[0] ;
 */
 
-if($DEBUG==TRUE) { echo "SESSION = <br>\n"; print_r($_SESSION); echo "<br><br>\n"; }
+if( $DEBUG ) { echo "SESSION = <br>\n"; print_r($_SESSION); echo "<br><br>\n"; }
 
 
 	// recup des parametres
@@ -54,7 +54,7 @@ if($DEBUG==TRUE) { echo "SESSION = <br>\n"; print_r($_SESSION); echo "<br><br>\n
 	$version = (isset($_GET['version']) ? $_GET['version'] : (isset($_POST['version']) ? $_POST['version'] : "")) ;
 	$etape = (isset($_GET['etape']) ? $_GET['etape'] : (isset($_POST['etape']) ? $_POST['etape'] : 0 )) ;
 
-	if($DEBUG==TRUE) { echo "action = $action :: version = $version :: etape = $etape<br>\n";}
+	if( $DEBUG ) { echo "action = $action :: version = $version :: etape = $etape<br>\n";}
 
 	if($version == 0)  // la version à mettre à jour dans le formulaire de index.php n'a pas été choisie : renvoit sur le formulaire
 	{
@@ -82,7 +82,7 @@ if($DEBUG==TRUE) { echo "SESSION = <br>\n"; print_r($_SESSION); echo "<br><br>\n
 // la $installed_version est préalablement déterminée par get_installed_version() ou renseignée par l'utilisateur
 function lance_maj($lang, $installed_version, $config_php_conges_version, $etape, $DEBUG=FALSE)
 {
-	if($DEBUG==TRUE) { echo " lang = $lang  ##  etape = $etape ## version = $installed_version<br>\n";}
+	if( $DEBUG ) { echo " lang = $lang  ##  etape = $etape ## version = $installed_version<br>\n";}
 
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	include CONFIG_PATH .'dbconnect.php' ;
@@ -211,7 +211,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 					$j=$i+1;
 					$sql_file = "sql/upgrade_v0.".$i."_to_v0.".$j.".sql";
 				}
-				if($DEBUG==TRUE)
+				if( $DEBUG )
 					echo "sql_file = $sql_file<br>\n";
 				execute_sql_file($sql_file,  $DEBUG);
 			}

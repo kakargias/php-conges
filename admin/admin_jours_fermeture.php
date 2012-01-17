@@ -50,18 +50,18 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET / POST
-	$choix_action 				= getpost_variable("choix_action");
-	$year						= getpost_variable("year", 0);
-	$groupe_id					= getpost_variable("groupe_id");
-	$id_type_conges				= getpost_variable("id_type_conges");
-//	$new_date_debut				= getpost_variable("new_date_debut", date("d/m/Y")); // valeur par dédaut = aujourd'hui
-//	$new_date_fin  				= getpost_variable("new_date_fin", date("d/m/Y"));   // valeur par dédaut = aujourd'hui
-	$new_date_debut				= getpost_variable("new_date_debut"); // valeur par dédaut = aujourd'hui
-	$new_date_fin  				= getpost_variable("new_date_fin");   // valeur par dédaut = aujourd'hui
-	$fermeture_id  				= getpost_variable("fermeture_id", 0);
-	$fermeture_date_debut		= getpost_variable("fermeture_date_debut");
-	$fermeture_date_fin			= getpost_variable("fermeture_date_fin");
-	$code_erreur				= getpost_variable("code_erreur", 0);
+	$choix_action 				= getpost_variable('choix_action');
+	$year						= getpost_variable('year', 0);
+	$groupe_id					= getpost_variable('groupe_id');
+	$id_type_conges				= getpost_variable('id_type_conges');
+//	$new_date_debut				= getpost_variable('new_date_debut', date("d/m/Y")); // valeur par dédaut = aujourd'hui
+//	$new_date_fin  				= getpost_variable('new_date_fin', date("d/m/Y"));   // valeur par dédaut = aujourd'hui
+	$new_date_debut				= getpost_variable('new_date_debut'); // valeur par dédaut = aujourd'hui
+	$new_date_fin  				= getpost_variable('new_date_fin');   // valeur par dédaut = aujourd'hui
+	$fermeture_id  				= getpost_variable('fermeture_id', 0);
+	$fermeture_date_debut		= getpost_variable('fermeture_date_debut');
+	$fermeture_date_fin			= getpost_variable('fermeture_date_fin');
+	$code_erreur				= getpost_variable('code_erreur', 0);
 	/*************************************/
 	if($new_date_debut=="")
 	{
@@ -78,9 +78,9 @@ verif_droits_user($session, "is_admin", $DEBUG);
 			$new_date_fin=date("d/m/Y", mktime(0,0,0, date("m"), date("d"), $year) ) ;
 	}
 
-	if($DEBUG==TRUE) { echo "choix_action = $choix_action // year = $year // groupe_id = $groupe_id<br>\n"; }
-	if($DEBUG==TRUE) { echo "new_date_debut = $new_date_debut // new_date_fin = $new_date_fin<br>\n"; }
-	if($DEBUG==TRUE) { echo "fermeture_id = $fermeture_id // fermeture_date_debut = $fermeture_date_debut // fermeture_date_fin = $fermeture_date_fin<br>\n"; }
+	if( $DEBUG ) { echo "choix_action = $choix_action // year = $year // groupe_id = $groupe_id<br>\n"; }
+	if( $DEBUG ) { echo "new_date_debut = $new_date_debut // new_date_fin = $new_date_fin<br>\n"; }
+	if( $DEBUG ) { echo "fermeture_id = $fermeture_id // fermeture_date_debut = $fermeture_date_debut // fermeture_date_fin = $fermeture_date_fin<br>\n"; }
 
 
 	//connexion mysql
@@ -114,7 +114,7 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	$date_fin_yyyy_mm_dd = $tab_date_fin[2]."-".$tab_date_fin[1]."-".$tab_date_fin[0] ;
 	$timestamp_today = mktime(0,0,0, date("m"), date("d"), date("Y")) ;
 
-	if($DEBUG==TRUE) { echo "timestamp_date_debut = $timestamp_date_debut // timestamp_date_fin = $timestamp_date_fin // timestamp_today = $timestamp_today<br>\n"; }
+	if( $DEBUG ) { echo "timestamp_date_debut = $timestamp_date_debut // timestamp_date_fin = $timestamp_date_fin // timestamp_today = $timestamp_today<br>\n"; }
 
 	// on verifie si les jours fériés de l'annee de la periode saisie sont enregistrés : sinon BUG au calcul des soldes des users !
 	if( (verif_jours_feries_saisis($date_debut_yyyy_mm_dd, $DEBUG)==FALSE)
@@ -297,7 +297,7 @@ function saisie_dates_fermeture($year, $groupe_id, $new_date_debut, $new_date_fi
 	// on construit le tableau de l'année considérée
 	$tab_year=array();
 	get_tableau_jour_fermeture($year, $tab_year,  $groupe_id,  $DEBUG);
-	if($DEBUG==TRUE) { echo "tab_year = "; print_r($tab_year); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_year = "; print_r($tab_year); echo "<br>\n"; }
 
 
 	/************************************************/
@@ -689,7 +689,7 @@ function commit_new_fermeture($new_date_debut, $new_date_fin, $groupe_id, $id_ty
 	$date_debut=$tab_date_debut[2]."-".$tab_date_debut[1]."-".$tab_date_debut[0];
 	$tab_date_fin=explode("/",$new_date_fin);   // date au format d/m/Y
 	$date_fin=$tab_date_fin[2]."-".$tab_date_fin[1]."-".$tab_date_fin[0];
-	if($DEBUG==TRUE) { echo "date_debut = $date_debut  // date_fin = $date_fin<br>\n"; }
+	if( $DEBUG ) { echo "date_debut = $date_debut  // date_fin = $date_fin<br>\n"; }
 
 
 	/*****************************/
@@ -700,7 +700,7 @@ function commit_new_fermeture($new_date_debut, $new_date_fin, $groupe_id, $id_ty
 		$list_users = get_list_users_du_groupe($groupe_id,  $DEBUG);
 
 	$tab_users = explode(",", $list_users);
-	if($DEBUG==TRUE) { echo "tab_users =<br>\n"; print_r($tab_users) ; echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_users =<br>\n"; print_r($tab_users) ; echo "<br>\n"; }
 
 //******************************
 // !!!!
@@ -717,7 +717,7 @@ function commit_new_fermeture($new_date_debut, $new_date_fin, $groupe_id, $id_ty
 	{
 		$tab_fermeture[] = $current_date;
 	}
-	if($DEBUG==TRUE) { echo "tab_fermeture =<br>\n"; print_r($tab_fermeture) ; echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_fermeture =<br>\n"; print_r($tab_fermeture) ; echo "<br>\n"; }
 	// on insere les nouvelles dates saisies dans conges_jours_fermeture
 	$result=insert_year_fermeture($new_fermeture_id, $tab_fermeture, $groupe_id,  $DEBUG);
 
@@ -822,7 +822,7 @@ function commit_annul_fermeture($fermeture_id, $groupe_id,  $DEBUG=FALSE)
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
 
-	if($DEBUG==TRUE) { echo "fermeture_id = $fermeture_id <br>\n"; }
+	if( $DEBUG ) { echo "fermeture_id = $fermeture_id <br>\n"; }
 
 
 	/*****************************/
@@ -833,7 +833,7 @@ function commit_annul_fermeture($fermeture_id, $groupe_id,  $DEBUG=FALSE)
 		$list_users = get_list_users_du_groupe($groupe_id,  $DEBUG);
 
 	$tab_users = explode(",", $list_users);
-	if($DEBUG==TRUE) { echo "tab_users =<br>\n"; print_r($tab_users) ; echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_users =<br>\n"; print_r($tab_users) ; echo "<br>\n"; }
 
 	/***********************************************/
 	/** suppression des jours de fermetures   **/

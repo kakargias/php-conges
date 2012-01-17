@@ -41,9 +41,9 @@ $DEBUG=FALSE;
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$HTTP_REFERER=$_SERVER['HTTP_REFERER'] ;
 	// GET / POST
-	$year          = getpost_variable("year", date("Y")) ;
-	$mois          = getpost_variable("mois", date("n")) ;
-	$champ_date    = getpost_variable("champ_date") ;
+	$year          = getpost_variable('year', date("Y")) ;
+	$mois          = getpost_variable('mois', date("n")) ;
+	$champ_date    = getpost_variable('champ_date') ;
 	
 
 	/*************************************/

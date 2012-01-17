@@ -30,9 +30,9 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH .'config_ldap.php';}
 
 
-	$change_passwd = getpost_variable("change_passwd", 0);
-	$new_passwd1 = getpost_variable("new_passwd1");
-	$new_passwd2 = getpost_variable("new_passwd2");
+	$change_passwd = getpost_variable('change_passwd', 0);
+	$new_passwd1 = getpost_variable('new_passwd1');
+	$new_passwd2 = getpost_variable('new_passwd2');
 
 
 	

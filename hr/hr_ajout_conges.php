@@ -25,6 +25,51 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
+
+
+    //var pour resp_ajout_conges_all.php
+    $ajout_conges            = getpost_variable('ajout_conges');
+    $ajout_global            = getpost_variable('ajout_global');
+    $ajout_groupe            = getpost_variable('ajout_groupe');
+    $choix_groupe            = getpost_variable('choix_groupe');
+
+	// titre
+	echo '<h2>'. _('resp_ajout_conges_titre') ."</H2>\n\n";
+	
+	if( $ajout_conges == "TRUE" ) {
+	
+		$tab_champ_saisie			= getpost_variable('tab_champ_saisie');
+		$tab_commentaire_saisie		= getpost_variable('tab_commentaire_saisie');
+		
+		ajout_conges($tab_champ_saisie, $tab_commentaire_saisie, $DEBUG);
+		redirect( ROOT_PATH .'hr/hr_index.php?session='.$session, false);
+		exit;
+	}
+	elseif( $ajout_global == "TRUE" ) {
+	
+		$tab_new_nb_conges_all   	= getpost_variable('tab_new_nb_conges_all');
+		$tab_calcul_proportionnel	= getpost_variable('tab_calcul_proportionnel');
+		$tab_new_comment_all     	= getpost_variable('tab_new_comment_all');
+	
+		ajout_global($tab_new_nb_conges_all, $tab_calcul_proportionnel, $tab_new_comment_all, $DEBUG);
+		redirect( ROOT_PATH .'hr/hr_index.php?session='.$session, false);
+		exit;
+	}
+	elseif( $ajout_groupe == "TRUE" ) {
+	
+		$tab_new_nb_conges_all   	= getpost_variable('tab_new_nb_conges_all');
+		$tab_calcul_proportionnel	= getpost_variable('tab_calcul_proportionnel');
+		$tab_new_comment_all     	= getpost_variable('tab_new_comment_all');
+		$choix_groupe            	= getpost_variable('choix_groupe');
+		
+		ajout_global_groupe($choix_groupe, $tab_new_nb_conges_all, $tab_calcul_proportionnel, $tab_new_comment_all, $DEBUG);
+		redirect( ROOT_PATH .'hr/hr_index.php?session='.$session, false);
+		exit;
+	}
+	else {
+		saisie_ajout($tab_type_cong,$DEBUG);
+	}
+
 /************************************************************************/
 /*** FONCTIONS ***/
 
@@ -38,7 +83,7 @@ function saisie_ajout( $tab_type_conges, $DEBUG)
 	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
 	{
 	  $tab_type_conges_exceptionnels = recup_tableau_types_conges_exceptionnels();
-	  if($DEBUG==TRUE) { echo "tab_type_conges_exceptionnels = "; print_r($tab_type_conges_exceptionnels); echo "<br><br>\n";}
+	  if( $DEBUG ) { echo "tab_type_conges_exceptionnels = "; print_r($tab_type_conges_exceptionnels); echo "<br><br>\n";}
 	}
 	else
 	  $tab_type_conges_exceptionnels = array();
@@ -48,8 +93,8 @@ function saisie_ajout( $tab_type_conges, $DEBUG)
 	// renvoit une liste de login entre quotes et séparés par des virgules
 	$tab_all_users_du_hr=recup_infos_all_users_du_hr($_SESSION['userlogin']);
 	$tab_all_users_du_grand_resp=recup_infos_all_users_du_grand_resp($_SESSION['userlogin']);
-	if($DEBUG==TRUE) { echo "tab_all_users_du_hr =<br>\n"; print_r($tab_all_users_du_hr); echo "<br>\n"; }
-	if($DEBUG==TRUE) { echo "tab_all_users_du_grand_resp =<br>\n"; print_r($tab_all_users_du_grand_resp); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_all_users_du_hr =<br>\n"; print_r($tab_all_users_du_hr); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_all_users_du_grand_resp =<br>\n"; print_r($tab_all_users_du_grand_resp); echo "<br>\n"; }
 	
 	if( (count($tab_all_users_du_hr)!=0) || (count($tab_all_users_du_grand_resp)!=0) )
 	{
@@ -60,10 +105,8 @@ function saisie_ajout( $tab_type_conges, $DEBUG)
 		
 		/***********************************************************************/
 		/* SAISIE GROUPE pour tous les utilisateurs d'un groupe du responsable */
-		if( $_SESSION['config']['gestion_groupes']==TRUE )
-		{
+		if( $_SESSION['config']['gestion_groupes'] )
 			affichage_saisie_globale_groupe($tab_type_conges, $DEBUG);
-		}
 		echo "<br>\n";
 		
 		/************************************************************/
@@ -73,14 +116,8 @@ function saisie_ajout( $tab_type_conges, $DEBUG)
 		
 	}
 	else
-	 echo  _('resp_etat_aucun_user') ."<br>\n";
+		echo  _('resp_etat_aucun_user') ."<br>\n";
 	
-	/* APPEL D'UNE AUTRE PAGE */
-	echo " <form action=\"hr_index.php?session=$session\" method=\"POST\"> \n";
-	echo "<input type=\"submit\" value=\"". _('form_retour') ."\">\n";
-	echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-	echo " </form> \n";
-
 }
 
 
@@ -103,47 +140,51 @@ function affichage_saisie_user_par_user($tab_type_conges, $tab_type_conges_excep
 	{
 		// AFFICHAGE TITRES TABLEAU
 		echo "<table cellpadding=\"2\" class=\"tablo\" width=\"700\">\n";
-		echo "<tr align=\"center\">\n";
-		echo "<td>". _('divers_nom_maj_1') ."</td>\n";
-		echo "<td>". _('divers_prenom_maj_1') ."</td>\n";
-		echo "<td>". _('divers_quotite_maj_1') ."</td>\n";
-		foreach($tab_type_conges as $id_conges => $libelle)
-		{
-			echo "<td>$libelle<br><i>(". _('divers_solde') .")</i></td>\n";
-			echo "<td>$libelle<br>". _('resp_ajout_conges_nb_jours_ajout') ."</td>\n" ;
-		}
-		if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
-		{
-			foreach($tab_type_conges_exceptionnels as $id_conges => $libelle)
-			{
-				echo "<td>$libelle<br><i>(". _('divers_solde') .")</i></td>\n";
-				echo "<td>$libelle<br>". _('resp_ajout_conges_nb_jours_ajout') ."</td>\n" ;
-			}
-		}
-		echo "<td>". _('divers_comment_maj_1') ."<br></td>\n" ;
-		echo"</tr>\n";
+		echo '<thead>';
+			echo '<tr>';
+				echo '<td>'. _('divers_nom_maj_1') .'</td>';
+				echo '<td>'. _('divers_prenom_maj_1') .'</td>';
+				echo '<td>'. _('divers_quotite_maj_1') .'</td>';
+				foreach($tab_type_conges as $id_conges => $libelle)
+				{
+					echo "<td>$libelle<br><i>(". _('divers_solde') .")</i></td>\n";
+					echo "<td>$libelle<br>". _('resp_ajout_conges_nb_jours_ajout') .'</td>' ;
+				}
+				if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
+				{
+					foreach($tab_type_conges_exceptionnels as $id_conges => $libelle)
+					{
+						echo "<td>$libelle<br><i>(". _('divers_solde') .")</i></td>\n";
+						echo "<td>$libelle<br>". _('resp_ajout_conges_nb_jours_ajout') .'</td>' ;
+					}
+				}
+				echo '<td>'. _('divers_comment_maj_1') ."<br></td>\n" ;
+			echo"</tr>\n";
+		echo '</thead>';
+		echo '<tbody>';
 		
 		// AFFICHAGE LIGNES TABLEAU
 		$cpt_lignes=0 ;
 		$tab_champ_saisie_conges=array();
 		
+		$i = true;
 		// affichage des users dont on est responsable :
 		foreach($tab_all_users_du_hr as $current_login => $tab_current_user)
 		{		
-			echo "<tr align=\"center\">\n";
+			echo '<tr class="'.($i?'i':'p').'">';
 			//tableau de tableaux les nb et soldes de conges d'un user (indicé par id de conges)
 			$tab_conges=$tab_current_user['conges']; 
 	
 			/** sur la ligne ,   **/
-			echo "<td>".$tab_current_user['nom']."</td>\n";
-			echo "<td>".$tab_current_user['prenom']."</td>\n";
-			echo "<td>".$tab_current_user['quotite']."%</td>\n";
+			echo '<td>'.$tab_current_user['nom'].'</td>';
+			echo '<td>'.$tab_current_user['prenom'].'</td>';
+			echo '<td>'.$tab_current_user['quotite']."%</td>\n";
 	
 			foreach($tab_type_conges as $id_conges => $libelle)
 			{
 				/** le champ de saisie est <input type="text" name="tab_champ_saisie[valeur de u_login][id_du_type_de_conges]" value="[valeur du nb de jours ajouté saisi]"> */
 				$champ_saisie_conges="<input type=\"text\" name=\"tab_champ_saisie[$current_login][$id_conges]\" size=\"6\" maxlength=\"6\" value=\"0\">";
-				echo "<td>".$tab_conges[$libelle]['nb_an']." <i>(".$tab_conges[$libelle]['solde'].")</i></td>\n";
+				echo '<td>'.$tab_conges[$libelle]['nb_an']." <i>(".$tab_conges[$libelle]['solde'].")</i></td>\n";
 				echo "<td align=\"center\" class=\"histo\">$champ_saisie_conges</td>\n" ;
 			}
 			if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
@@ -157,32 +198,34 @@ function affichage_saisie_user_par_user($tab_type_conges, $tab_type_conges_excep
 				}
 			}
 			echo "<td align=\"center\" class=\"histo\"><input type=\"text\" name=\"tab_commentaire_saisie[$current_login]\" size=\"30\" maxlength=\"200\" value=\"\"></td>\n";
-			echo "</tr>\n";
+			echo '</tr>';
 			$cpt_lignes++ ;
+			$i = !$i;
 		}
 		
 		// affichage des users dont on est grand responsable :
 		if( ($_SESSION['config']['double_validation_conges']==TRUE) && ($_SESSION['config']['grand_resp_ajout_conges']==TRUE) )
 		{
 			$nb_colspan=50;
-			echo "<tr align=\"center\"><td class=\"histo\" colspan=\"$nb_colspan\"><i>". _('resp_etat_users_titre_double_valid') ."</i></td></tr>\n";
+			echo "<tr><td class=\"histo\" style=\"background-color: #CCC;\" colspan=\"$nb_colspan\"><i>". _('resp_etat_users_titre_double_valid') ."</i></td></tr>\n";
 
+			$i = true;
 			foreach($tab_all_users_du_grand_resp as $current_login => $tab_current_user)
 			{		
-				echo "<tr align=\"center\">\n";
+				echo '<tr class="'.($i?'i':'p').'">';
 				//tableau de tableaux les nb et soldes de conges d'un user (indicé par id de conges)
 				$tab_conges=$tab_current_user['conges']; 
 		
 				/** sur la ligne ,   **/
-				echo "<td>".$tab_current_user['nom']."</td>\n";
-				echo "<td>".$tab_current_user['prenom']."</td>\n";
-				echo "<td>".$tab_current_user['quotite']."%</td>\n";
+				echo '<td>'.$tab_current_user['nom'].'</td>';
+				echo '<td>'.$tab_current_user['prenom'].'</td>';
+				echo '<td>'.$tab_current_user['quotite']."%</td>\n";
 		
 				foreach($tab_type_conges as $id_conges => $libelle)
 				{
 					/** le champ de saisie est <input type="text" name="tab_champ_saisie[valeur de u_login][id_du_type_de_conges]" value="[valeur du nb de jours ajouté saisi]"> */
 					$champ_saisie_conges="<input type=\"text\" name=\"tab_champ_saisie[$current_login][$id_conges]\" size=\"6\" maxlength=\"6\" value=\"0\">";
-					echo "<td>".$tab_conges[$libelle]['nb_an']." <i>(".$tab_conges[$libelle]['solde'].")</i></td>\n";
+					echo '<td>'.$tab_conges[$libelle]['nb_an']." <i>(".$tab_conges[$libelle]['solde'].")</i></td>\n";
 					echo "<td align=\"center\" class=\"histo\">$champ_saisie_conges</td>\n" ;
 				}
 				if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
@@ -196,12 +239,14 @@ function affichage_saisie_user_par_user($tab_type_conges, $tab_type_conges_excep
 					}
 				}
 				echo "<td align=\"center\" class=\"histo\"><input type=\"text\" name=\"tab_commentaire_saisie[$current_login]\" size=\"30\" maxlength=\"200\" value=\"\"></td>\n";
-				echo "</tr>\n";
+				echo '</tr>';
 				$cpt_lignes++ ;
+				$i = !$i;
 			}
 		}
 		
-		echo "</table>\n\n";
+		echo '</tbody>';
+		echo '</table>';
 	
 		echo "<input type=\"hidden\" name=\"ajout_conges\" value=\"TRUE\">\n";
 		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
@@ -355,7 +400,7 @@ function ajout_conges($tab_champ_saisie, $tab_commentaire_saisie, $DEBUG=FALSE)
 	    if($valid==TRUE)
 	    {
 	      $user_nb_jours_ajout_float =(float) $user_nb_jours_ajout ;
-	      if($DEBUG==TRUE) {echo "$user_name --- $id_conges --- $user_nb_jours_ajout_float<br>\n";}
+	      if( $DEBUG ) {echo "$user_name --- $id_conges --- $user_nb_jours_ajout_float<br>\n";}
 
 	      if($user_nb_jours_ajout_float!=0)
 	      {
@@ -377,21 +422,6 @@ function ajout_conges($tab_champ_saisie, $tab_commentaire_saisie, $DEBUG=FALSE)
 	    }
 	  }
 	}
-
-	if($DEBUG==TRUE)
-	{
-		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
-		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-		echo "<input type=\"submit\" value=\"". _('form_ok') ."\">\n";
-		echo "</form>\n" ;
-	}
-	else
-	{
-		echo " ". _('form_modif_ok') ." <br><br> \n";
-		/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
-		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=$PHP_SELF?session=$session\">";
-	}
-
 }
 
 
@@ -407,10 +437,10 @@ function ajout_global($tab_new_nb_conges_all, $tab_calcul_proportionnel, $tab_ne
 	// (prend en compte le resp direct, les groupes, le resp virtuel, etc ...)
 	// renvoit une liste de login entre quotes et séparés par des virgules
 	$list_users_du_resp = get_list_all_users_du_hr($_SESSION['userlogin'], $DEBUG);
-	if($DEBUG==TRUE) { echo "list_all_users_du_hr = $list_users_du_resp<br>\n";}
+	if( $DEBUG ) { echo "list_all_users_du_hr = $list_users_du_resp<br>\n";}
 	
-	if($DEBUG==TRUE) { echo "tab_new_nb_conges_all = <br>"; print_r($tab_new_nb_conges_all); echo "<br>\n" ;}
-	if($DEBUG==TRUE) { echo "tab_calcul_proportionnel = <br>"; print_r($tab_calcul_proportionnel); echo "<br>\n" ;}
+	if( $DEBUG ) { echo "tab_new_nb_conges_all = <br>"; print_r($tab_new_nb_conges_all); echo "<br>\n" ;}
+	if( $DEBUG ) { echo "tab_calcul_proportionnel = <br>"; print_r($tab_calcul_proportionnel); echo "<br>\n" ;}
 
 	foreach($tab_new_nb_conges_all as $id_conges => $nb_jours)
 	{
@@ -457,20 +487,6 @@ function ajout_global($tab_new_nb_conges_all, $tab_calcul_proportionnel, $tab_ne
 				$comment_log = "ajout conges global ($nb_jours jour(s)) ($comment) (calcul proportionnel : Yes)";
 			log_action(0, "ajout", "tous", $comment_log, $DEBUG);
 		}
-	}
-	
-	if($DEBUG==TRUE)
-	{
-		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
-		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-		echo "<input type=\"submit\" value=\"". _('form_ok') ."\">\n";
-		echo "</form>\n" ;
-	}
-	else
-	{
-		echo " ". _('form_modif_ok') ." <br><br> \n";
-		/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
-		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=hr_index.php?session=$session\">";
 	}
 }
 
@@ -537,19 +553,6 @@ function ajout_global_groupe($choix_groupe, $tab_new_nb_conges_all, $tab_calcul_
 		}
 	}
 
-	if($DEBUG==TRUE)
-	{
-		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
-		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-		echo "<input type=\"submit\" value=\"". _('form_ok') ."\">\n";
-		echo "</form>\n" ;
-	}
-	else
-	{
-		echo " ". _('form_modif_ok') ." <br><br> \n";
-		/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
-		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=hr_index.php?session=$session\">";
-	}
 }
 
 

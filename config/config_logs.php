@@ -45,7 +45,7 @@ $DEBUG = FALSE ;
 // verif des droits du user à afficher la page
 verif_droits_user($session, "is_admin", $DEBUG);
 
-if($DEBUG==TRUE) { echo "SESSION = "; print_r($_SESSION); echo "<br>\n";}
+if( $DEBUG ) { echo "SESSION = "; print_r($_SESSION); echo "<br>\n";}
 
 
 	/*** initialisation des variables ***/
@@ -56,8 +56,8 @@ if($DEBUG==TRUE) { echo "SESSION = "; print_r($_SESSION); echo "<br>\n";}
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET / POST
-	$action         = getpost_variable("action", "") ;
-	$login_par      = getpost_variable("login_par", "") ;
+	$action         = getpost_variable('action', "") ;
+	$login_par      = getpost_variable('login_par', "") ;
 
 	/*************************************/
 

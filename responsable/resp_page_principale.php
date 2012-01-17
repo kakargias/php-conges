@@ -79,7 +79,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 	// Récup dans un tableau de tableau des informations de tous les users dont $_SESSION['userlogin'] est responsable
 	$tab_all_users=recup_infos_all_users_du_resp($_SESSION['userlogin'],  $DEBUG);
-	if($DEBUG==TRUE) {echo "tab_all_users :<br>\n";  print_r($tab_all_users); echo "<br>\n"; }
+	if( $DEBUG ) {echo "tab_all_users :<br>\n";  print_r($tab_all_users); echo "<br>\n"; }
 
 	if(count($tab_all_users)==0) // si le tableau est vide (resp sans user !!) on affiche une alerte !
 		echo "<tr align=\"center\"><td class=\"histo\" colspan=\"".$nb_colonnes."\">". _('resp_etat_aucun_user') ."</td></tr>\n" ;
@@ -122,7 +122,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 	{
 		// Récup dans un tableau de tableau des informations de tous les users dont $_SESSION['userlogin'] est GRAND responsable
 		$tab_all_users_2=recup_infos_all_users_du_grand_resp($_SESSION['userlogin'],  $DEBUG);
-		if($DEBUG==TRUE) {echo "tab_all_users_2 :<br>\n";  print_r($tab_all_users_2); echo "<br>\n"; }
+		if( $DEBUG ) {echo "tab_all_users_2 :<br>\n";  print_r($tab_all_users_2); echo "<br>\n"; }
 		
 		$compteur=0;  // compteur de ligne a afficher en dessous (dés que passe à 1 : on affiche une ligne de titre)
 

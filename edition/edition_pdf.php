@@ -44,8 +44,8 @@ $DEBUG = FALSE ;
 	/*************************************/
 	// recup des parametres reçus :
 	// GET / POST
-	$user_login = getpost_variable("user_login") ;
-	$edit_id = getpost_variable("edit_id", 0) ;
+	$user_login = getpost_variable('user_login') ;
+	$edit_id = getpost_variable('edit_id', 0) ;
 	/*************************************/
 
 	/************************************/

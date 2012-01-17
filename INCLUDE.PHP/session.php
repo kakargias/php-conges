@@ -44,14 +44,14 @@ $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session']
 $DEBUG=FALSE;
 //$DEBUG=TRUE;
 
-if($DEBUG==TRUE) { print_r($_SESSION); echo "<br><br>\n"; }
+if( $DEBUG ) { print_r($_SESSION); echo "<br><br>\n"; }
 
 
 
 
 if ($session != "") //  UNE SESSION EXISTE
 {
-	if($DEBUG==TRUE) { echo "session = $session<br><br>\n"; }
+	if( $DEBUG ) { echo "session = $session<br><br>\n"; }
 	
 	if(session_is_valid($session) == TRUE)
 	{

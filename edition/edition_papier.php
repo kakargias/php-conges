@@ -48,9 +48,10 @@ $DEBUG = FALSE ;
 
 	/************************************/
 
-	header_popup('Impression Etat Conges : '.$user_login);
+	$css = '<link href="'. TEMPLATE_PATH .'style_calendar_edition.css" rel="stylesheet" type="text/css">';
+
+	header_popup('Impression Etat Conges : '.$user_login , $css);
 	
-	echo "<CENTER>\n";
 
 	
 	if($edit_id==0)   // si c'est une nouvelle édition, on insert dans la base avant d'éditer et on renvoit l'id de l'édition

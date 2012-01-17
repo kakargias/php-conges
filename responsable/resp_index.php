@@ -62,8 +62,8 @@ verif_droits_user($session, "is_resp", $DEBUG);
 	if( $_SESSION['config']['user_saisie_demande'] ) 
 		$onglets['traitement_demandes'] = _('resp_menu_button_traite_demande');
 		
-	// if( $_SESSION['config']['resp_ajoute_conges'] )
-		$onglets['ajout_conges'] = _('resp_ajout_conges_titre').' TODO:REMOVE';
+	if( $_SESSION['config']['resp_ajoute_conges'] )
+		$onglets['ajout_conges'] = _('resp_ajout_conges_titre');
 	
 	$onglets['cloture_exercice'] = _('button_cloture');
 	

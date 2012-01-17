@@ -23,32 +23,15 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-define('_PHP_CONGES', 1);
-define('ROOT_PATH', '../');
-include ROOT_PATH . 'define.php';
+
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
 
-include ROOT_PATH .'fonctions_conges.php' ;
-include INCLUDE_PATH .'fonction.php';
-include INCLUDE_PATH .'session.php';
-
-
-$DEBUG=FALSE;
-//$DEBUG=TRUE ;
-
-// verif des droits du user à afficher la page
-verif_droits_user($session, "is_admin", $DEBUG);
-
-	header_popup();	
-	
 
 	/*************************************/
 	// recup des parametres reçus :
-	// SERVER
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-	// GET // POST
+
 	$group 				= getpost_variable('group');
 	$group_to_update 	= getpost_variable('group_to_update');
 	$new_groupname 		= getpost_variable('new_groupname');
@@ -75,10 +58,6 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	}
 
 
-	bottom();
-
-
-
 /**************************************************************************************/
 /**********  FONCTIONS  ***************************************************************/
 
@@ -94,12 +73,15 @@ function modifier($group,  $DEBUG=FALSE)
 	// AFFICHAGE TABLEAU
 	echo "<form action=$PHP_SELF?session=$session&group_to_update=".$group." method=\"POST\">\n" ;
 	echo "<table cellpadding=\"2\" class=\"tablo\">\n";
-	echo "<tr align=\"center\">\n";
+	echo "<thead>\n";
+	echo "<tr>\n";
 	echo "<td>". _('admin_groupes_groupe') ."</td>\n";
 	echo "<td>". _('admin_groupes_libelle') ." / ". _('divers_comment_maj_1') ."</td>\n";
 	if($_SESSION['config']['double_validation_conges']==TRUE)
 		echo "	<td>". _('admin_groupes_double_valid') ."</td>\n";
 	echo "</tr>\n";
+	echo "</thead>\n";
+	echo "<tbody>\n";
 
 	$ReqLog1 = SQL::query($sql1);
 	while ($resultat1 = $ReqLog1->fetch_array())
@@ -138,8 +120,9 @@ function modifier($group,  $DEBUG=FALSE)
 		echo "<td>$text_double_valid</td>\n";
 	}
 	echo "</tr>\n";
+	echo "</tbody>\n";
 
-	echo "</table><br>\n\n";
+	echo "</table>";
 
 
 	echo "<br><input type=\"submit\" value=\"". _('form_submit') ."\">\n";

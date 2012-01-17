@@ -24,39 +24,19 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
 
-define('_PHP_CONGES', 1);
-define('ROOT_PATH', '../');
-include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
-
-$session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
-
-include ROOT_PATH .'fonctions_conges.php' ;
-include INCLUDE_PATH .'fonction.php';
-include INCLUDE_PATH .'session.php';
-
-
-$DEBUG = FALSE ;
-//$DEBUG = TRUE ;
-
-// verif des droits du user à afficher la page
-verif_droits_user($session, "is_admin", $DEBUG);
 
 	/*************************************/
 	// recup des parametres reçus :
 	// SERVER
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-	// GET
-	// POST
+	
 	$u_login            = getpost_variable('u_login') ;
 	$u_login_to_update  = getpost_variable('u_login_to_update') ;
 	$new_pwd1           = getpost_variable('new_pwd1') ;
 	$new_pwd2           = getpost_variable('new_pwd2') ;
 	/*************************************/
 
-	header_popup($_SESSION['config']['titre_admin_index']);
-
-
+	
 	if($u_login!="")
 	{
 		echo "<H1>". _('admin_chg_passwd_titre') ." : $u_login .</H1>\n\n";
@@ -74,7 +54,6 @@ verif_droits_user($session, "is_admin", $DEBUG);
 		}
 	}
 
-bottom();
 
 
 /*********************************************************************************/
@@ -93,13 +72,16 @@ function modifier($u_login, $DEBUG=FALSE)
 	// AFFICHAGE TABLEAU
 	echo "<form action=$PHP_SELF?session=$session&u_login_to_update=".$u_login." method=\"POST\">\n"  ;
 	echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
-	echo "<tr align=\"center\">\n";
+	echo '<thead>';
+	echo '<tr>';
 	echo "<td>". _('divers_login_maj_1') ."</td>\n";
 	echo "<td>". _('divers_nom_maj_1') ."</td>\n";
 	echo "<td>". _('divers_prenom_maj_1') ."</td>\n";
 	echo "<td>". _('admin_users_password_1') ."</td>\n";
 	echo "<td>". _('admin_users_password_2') ."</td>\n";
 	echo "</tr>\n";
+	echo '</thead>';
+	echo '<tbody>';
 
 	echo "<tr align=\"center\">\n";
 
@@ -114,6 +96,7 @@ function modifier($u_login, $DEBUG=FALSE)
 			echo  "<td>".$resultat1["u_login"]."</td><td>".$resultat1["u_nom"]."</td><td>".$resultat1["u_prenom"]."</td><td>$text_pwd1</td><td>$text_pwd2</td>\n";
 		}
 	echo "<tr>\n";
+	echo '<tbody>';
 	echo "</table>\n\n";
 	echo "<input type=\"submit\" value=\"". _('form_submit') ."\">\n";
 	echo "</form>\n" ;

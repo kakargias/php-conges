@@ -23,31 +23,12 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-define('_PHP_CONGES', 1);
-define('ROOT_PATH', '../');
-include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-$session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
-
-include ROOT_PATH .'fonctions_conges.php' ;
-include INCLUDE_PATH .'fonction.php';
-include INCLUDE_PATH .'session.php';
-
-
-$DEBUG=FALSE;
-//$DEBUG=TRUE ;
-
-// verif des droits du user à afficher la page
-verif_droits_user($session, "is_admin", $DEBUG);
-
-	header_menu('admin',$_SESSION['config']['titre_admin_index']);
 
 	/*************************************/
 	// recup des parametres reçus :
-	// SERVER
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-	// GET / POST
+	
 	$u_login = getpost_variable('u_login') ;
 	$u_login_to_delete = getpost_variable('u_login_to_delete') ;
 	/*************************************/
@@ -68,37 +49,15 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	elseif($u_login_to_delete!="")
 	{
 		suppression($u_login_to_delete, $DEBUG);
+		redirect( ROOT_PATH .'admin/admin_index.php?session='.$session.'&onglet=admin-users', false);
+		exit;
 	}
 	else
 	{
 		// renvoit sur la page principale .
 		redirect( ROOT_PATH .'admin/admin_index.php?session='.$session.'&onglet=admin-users', false);
+		exit;
 	}
-
-
-echo "<hr align=\"center\" size=\"2\" width=\"90%\">\n";
-
-echo "</CENTER>\n";
-
-	echo "</div>";
-	echo "</div>";
-	echo "</div>";
-	echo "</div>";
-	echo "</div>";
-	
-	echo "<div id=\"content\">";
-	
-	echo "<div class=\"ui-corner-all-8\" style=\"background-color: #C11A22; padding: 2px; margin: 10px;\">";
-	echo "<div class=\"ui-corner-all\" style=\"background-color: white; padding: 2px;\">";
-	echo "<div class=\"ui-corner-all\" style=\"background-color: #C3C3C3; padding: 7px; margin: 3px;\">";
-	
-	echo "</div>";
-	echo "</div>";
-	echo "</div>";
-	echo "</div>";
-	
-	bottom();
-
 
 
 /**************************************************************************************/
@@ -116,11 +75,14 @@ function confirmer($u_login, $DEBUG=FALSE)
 	// AFFICHAGE TABLEAU
 	echo "<form action=\"$PHP_SELF?session=$session&u_login_to_delete=$u_login\" method=\"POST\">\n"  ;
 	echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
-	echo "<tr align=\"center\">\n";
+	echo '<thead>';
+	echo '<tr>';
 	echo "<td>". _('divers_login_maj_1') ."</td>\n";
 	echo "<td>". _('divers_nom_maj_1') ."</td>\n";
 	echo "<td>". _('divers_prenom_maj_1') ."</td>\n";
 	echo "</tr>\n";
+	echo '</thead>';
+	echo '<tbody>';
 
 	// Récupération des informations
 	$sql1 = 'SELECT u_login, u_nom, u_prenom FROM conges_users WHERE u_login = \''.SQL::quote($u_login).'\'';
@@ -134,6 +96,7 @@ function confirmer($u_login, $DEBUG=FALSE)
 		echo "<td>".$resultat1["u_prenom"]."</td>\n";
 	}
 	echo "</tr>\n";
+	echo '</tbody>';
 	echo "</table><br>\n\n";
 	echo "<input type=\"submit\" value=\"". _('form_supprim') ."\">\n";
 	echo "</form>\n" ;
@@ -180,16 +143,5 @@ function suppression($u_login_to_delete, $DEBUG=FALSE)
 		echo  _('form_modif_ok') ." !<br><br> \n" ;
 	else
 		echo  _('form_modif_not_ok') ." !<br><br> \n";
-
-	if( $DEBUG )
-	{
-		echo "<a href=\"admin_index.php?session=$session&onglet=admin-users\">". _('form_retour') ."</a>\n" ;
-	}
-	else
-	{
-		/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
-		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=admin_index.php?session=$session&onglet=admin-users\">";
-	}
-
 }
 

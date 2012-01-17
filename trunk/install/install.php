@@ -41,11 +41,11 @@ $DEBUG=FALSE;
 $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST['lang'] : "") ) ;
 /*
 $tab_lang_file = glob("lang/lang_".$lang.'_*.php');  
-if($DEBUG==TRUE) { echo "lang = $lang # fichier de langue = ".$tab_lang_file[0]."<br>\n"; }
+if( $DEBUG ) { echo "lang = $lang # fichier de langue = ".$tab_lang_file[0]."<br>\n"; }
 include$tab_lang_file[0] ;
 */
 
-if($DEBUG==TRUE) { echo "SESSION = <br>\n"; print_r($_SESSION); echo "<br><br>\n"; }
+if( $DEBUG ) { echo "SESSION = <br>\n"; print_r($_SESSION); echo "<br><br>\n"; }
 
 	
 	header_popup('PHP_CONGES : Installation');

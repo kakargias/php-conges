@@ -26,9 +26,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 
-	$p_num           = getpost_variable("p_num");
-	$onglet          = getpost_variable("onglet");
-	$p_num_to_delete = getpost_variable("p_num_to_delete");
+	$p_num           = getpost_variable('p_num');
+	$onglet          = getpost_variable('onglet');
+	$p_num_to_delete = getpost_variable('p_num_to_delete');
 	/*************************************/
 
 	// TITRE
@@ -102,7 +102,7 @@ function confirmer($p_num, $onglet, $DEBUG=FALSE)
 		$sql_type=get_libelle_abs($resultat1["p_type"], $DEBUG);
 		$sql_comment=$resultat1["p_commentaire"];
 
-		if($DEBUG==TRUE) { echo "$sql_date_deb _ $demi_j_deb : $sql_date_fin _ $demi_j_fin : $sql_nb_jours : $sql_comment : $sql_type<br>\n"; }
+		if( $DEBUG ) { echo "$sql_date_deb _ $demi_j_deb : $sql_date_fin _ $demi_j_fin : $sql_nb_jours : $sql_comment : $sql_type<br>\n"; }
 
 		echo "<td>$sql_date_deb _ $demi_j_deb</td>\n";
 		echo "<td>$sql_date_fin _ $demi_j_fin</td>\n";

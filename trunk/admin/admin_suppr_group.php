@@ -51,8 +51,8 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET / POST
-	$group = getpost_variable("group");
-	$group_to_delete = getpost_variable("group_to_delete");
+	$group = getpost_variable('group');
+	$group_to_delete = getpost_variable('group_to_delete');
 	/*************************************/
 
 	// TITRE

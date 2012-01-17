@@ -53,8 +53,8 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET / POST
-	$action = getpost_variable("action") ;
-	$tab_new_values = getpost_variable("tab_new_values");
+	$action = getpost_variable('action') ;
+	$tab_new_values = getpost_variable('tab_new_values');
 
 	/*************************************/
 
@@ -191,7 +191,7 @@ function commit_modif($tab_new_values, $session, $DEBUG=FALSE)
 	$comment_log = "configuration des mails d\'alerte";
 	log_action(0, "", "", $comment_log, $DEBUG);
 
-	if($DEBUG==TRUE)
+	if( $DEBUG )
 		echo "<a href=\"$URL\" method=\"POST\">". _('form_retour') ."</a><br>\n" ;
 	else
 		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=$URL\">";

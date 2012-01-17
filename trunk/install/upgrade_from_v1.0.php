@@ -179,7 +179,7 @@ function e3_insert_into_conges_config( $DEBUG=FALSE)
 	// la verif a du etre faite en debut de la procedure d'install ...
 	$result = execute_sql_file("sql/data_conges_config_v1.1.sql",  $DEBUG);
 	
-	if($DEBUG==TRUE)
+	if( $DEBUG )
 		if($result==FALSE)
 		{
 			echo "erreur : e3_insert_into_conges_config<br>execute_sql_file(\"sql/data_conges_config_v1.1.sql\")...\n";

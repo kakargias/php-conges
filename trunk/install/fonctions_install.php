@@ -82,11 +82,11 @@ function get_installed_version( $DEBUG=FALSE)
 		// la table existe !
 		if($result=$reglog->fetch_array())
 		{
-			if($DEBUG==TRUE) { echo "result = <br>\n"; print_r($result); echo "<br>\n"; }
+			if( $DEBUG ) { echo "result = <br>\n"; print_r($result); echo "<br>\n"; }
 			$installed_version = $result['conf_valeur'];
 		}
 	}
-	if($DEBUG==TRUE) { echo "installed_version = $installed_version <br>\n"; }
+	if( $DEBUG ) { echo "installed_version = $installed_version <br>\n"; }
 	
 	return $installed_version ;
 }

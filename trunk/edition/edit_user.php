@@ -45,7 +45,7 @@ $DEBUG = FALSE ;
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET / POST
-	$user_login = getpost_variable("user_login") ;
+	$user_login = getpost_variable('user_login') ;
 	/*************************************/
 
 	/************************************/
@@ -232,7 +232,7 @@ function affiche_anciennes_editions($login,  $DEBUG=FALSE)
 	/*************************************/
 	// Récupération des informations des editions du user
 	$tab_editions_user = recup_editions_user($login,  $DEBUG);
-	if($DEBUG==TRUE) {echo "tab_editions_user<br>\n"; print_r($tab_editions_user); echo "<br>\n"; }
+	if( $DEBUG ) {echo "tab_editions_user<br>\n"; print_r($tab_editions_user); echo "<br>\n"; }
 
 	echo "<h3>". _('editions_hitorique_edit') ." :</h3>\n";
 

@@ -807,7 +807,7 @@ function get_j_name_fr_2c($timestamp)
 function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $onglet,  $DEBUG=FALSE)
 {
 //$DEBUG=TRUE;
-	if($DEBUG==TRUE) { echo 'user_login = '.$user_login.', year_calendrier_saisie_debut = '.$year_calendrier_saisie_debut.', mois_calendrier_saisie_debut = '.$mois_calendrier_saisie_debut.', year_calendrier_saisie_fin = '.$year_calendrier_saisie_fin.', mois_calendrier_saisie_fin = '.$mois_calendrier_saisie_fin.', onglet = '.$onglet.'<br>';}
+	if( $DEBUG ) { echo 'user_login = '.$user_login.', year_calendrier_saisie_debut = '.$year_calendrier_saisie_debut.', mois_calendrier_saisie_debut = '.$mois_calendrier_saisie_debut.', year_calendrier_saisie_fin = '.$year_calendrier_saisie_fin.', mois_calendrier_saisie_fin = '.$mois_calendrier_saisie_fin.', onglet = '.$onglet.'<br>';}
 
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
@@ -2182,7 +2182,7 @@ function get_list_all_users_du_resp($resp_login,  $DEBUG=FALSE)
 	// FIN gestion des absence des responsables :
 	/************************************/
 
-	if($DEBUG==TRUE) { echo "list_users = $list_users<br>\n" ;}
+	if( $DEBUG ) { echo "list_users = $list_users<br>\n" ;}
 
 	return $list_users;
 }
@@ -2204,7 +2204,7 @@ function get_list_users_du_groupe($group_id,  $DEBUG=FALSE)
 	
 	$list_users = implode(' , ', $list_users);
 
-	if($DEBUG==TRUE) { echo "list_users = $list_users<br>\n" ;}
+	if( $DEBUG ) { echo "list_users = $list_users<br>\n" ;}
 
 	return $list_users;
 
@@ -2245,7 +2245,7 @@ function get_list_groupes_du_resp($resp_login,  $DEBUG=FALSE)
 				$list_group=$list_group.", $current_group";
 		}
 	}
-	if($DEBUG==TRUE) { echo "list_group = $list_group<br>\n" ;}
+	if( $DEBUG ) { echo "list_group = $list_group<br>\n" ;}
 
 	return $list_group;
 }
@@ -2270,7 +2270,7 @@ function get_list_groupes_du_grand_resp($resp_login,  $DEBUG=FALSE)
 				$list_group=$list_group.", $current_group";
 		}
 	}
-	if($DEBUG==TRUE) { echo "list_group = $list_group<br>\n" ;}
+	if( $DEBUG ) { echo "list_group = $list_group<br>\n" ;}
 
 	return $list_group;
 }
@@ -2293,7 +2293,7 @@ function get_list_groupes_double_valid( $DEBUG=FALSE)
 			$list_groupes_double_valid=$list_groupes_double_valid.", $current_gid";
 	}
 
-	if($DEBUG==TRUE) { echo "list_groupes_double_valid = $list_groupes_double_valid<br>\n" ;}
+	if( $DEBUG ) { echo "list_groupes_double_valid = $list_groupes_double_valid<br>\n" ;}
 
 	return $list_groupes_double_valid;
 
@@ -2321,7 +2321,7 @@ function get_list_groupes_double_valid_du_resp($resp_login,  $DEBUG=FALSE)
 				$list_groupes_double_valid_du_resp=$list_groupes_double_valid_du_resp.", $current_gid";
 		}
 	}
-	if($DEBUG==TRUE) { echo "list_groupes_double_valid_du_resp = $list_groupes_double_valid_du_resp<br>\n" ;}
+	if( $DEBUG ) { echo "list_groupes_double_valid_du_resp = $list_groupes_double_valid_du_resp<br>\n" ;}
 
 	return $list_groupes_double_valid_du_resp;
 
@@ -2345,7 +2345,7 @@ function get_list_groupes_double_valid_du_grand_resp($resp_login,  $DEBUG=FALSE)
 		else
 			$list_groupes_double_valid_du_grand_resp=$list_groupes_double_valid_du_grand_resp.", $current_gid";
 	}
-	if($DEBUG==TRUE) { echo "list_groupes_double_valid_du_grand_resp = $list_groupes_double_valid_du_grand_resp<br>\n" ;}
+	if( $DEBUG ) { echo "list_groupes_double_valid_du_grand_resp = $list_groupes_double_valid_du_grand_resp<br>\n" ;}
 
 	return $list_groupes_double_valid_du_grand_resp;
 
@@ -2409,7 +2409,7 @@ function get_list_all_users($DEBUG=FALSE)
 			$list_users=$list_users.", '$current_login'";
 	}
 
-	if($DEBUG==TRUE) { echo "list_users = $list_users<br>\n" ;}
+	if( $DEBUG ) { echo "list_users = $list_users<br>\n" ;}
 
 	return $list_users;
 }
@@ -2450,7 +2450,7 @@ function get_tab_resp_du_user($user_login,  $DEBUG=FALSE)
 	}
 	else
 	{
-		if($DEBUG==TRUE) {echo ">> RECHERCHE des RESPONSABLES de : $user_login<br>\n";}
+		if( $DEBUG ) {echo ">> RECHERCHE des RESPONSABLES de : $user_login<br>\n";}
 		// recup du resp indiqué dans la table users (sauf s'il est resp de lui meme)
 		$req = 'SELECT u_resp_login FROM conges_users WHERE u_login=\''.SQL::quote($user_login).'\'';
 		$res = SQL::query($req);
@@ -2483,14 +2483,14 @@ function get_tab_resp_du_user($user_login,  $DEBUG=FALSE)
 				}
 			}
 		}
-		if($DEBUG==TRUE) {echo "tab_resp intermediaire =\n"; print_r($tab_resp); echo "<br>\n";}
+		if( $DEBUG ) {echo "tab_resp intermediaire =\n"; print_r($tab_resp); echo "<br>\n";}
 
 		/************************************/
 		// gestion des absence des responsables :
 		// on verifie que les resp sont présents, si tous absent, on cherhe les resp des resp, et ainsi de suite ....
 		if($_SESSION['config']['gestion_cas_absence_responsable']==TRUE)
 		{
-			if($DEBUG==TRUE) {echo "gestion des absence des responsables<br>\n"; }
+			if( $DEBUG ) {echo "gestion des absence des responsables<br>\n"; }
 			
 			// on va verifier si les resp récupérés sont absents 
 			$nb_present=count($tab_resp);
@@ -2515,7 +2515,7 @@ function get_tab_resp_du_user($user_login,  $DEBUG=FALSE)
 			if($nb_present==0)
 			{
 				$new_tab_resp=array();
-				if($DEBUG==TRUE) { echo "zero resp présent<br>\n"; }
+				if( $DEBUG ) { echo "zero resp présent<br>\n"; }
 				foreach ($tab_resp as $current_resp => $presence)
 				{
 					// attention ,on evite le cas ou le user est son propre resp (sinon on boucle infiniment)
@@ -2530,7 +2530,7 @@ function get_tab_resp_du_user($user_login,  $DEBUG=FALSE)
 		/************************************/
 	}
 	
-	if($DEBUG==TRUE) {echo "return tab_resp =\n"; print_r($tab_resp); echo "<br>\n";}
+	if( $DEBUG ) {echo "return tab_resp =\n"; print_r($tab_resp); echo "<br>\n";}
 	return $tab_resp;
 }
 
@@ -2545,7 +2545,7 @@ function get_tab_grd_resp_du_user($user_login, &$tab_grd_resp,  $DEBUG=FALSE)
 	if($_SESSION['config']['gestion_groupes']==TRUE)
 	{
 		$list_groups=get_list_groupes_du_user($user_login,  $DEBUG);
-		if($DEBUG==TRUE) { echo "list_groups : <br>$list_groups<br>\n"; }
+		if( $DEBUG ) { echo "list_groups : <br>$list_groups<br>\n"; }
 
 		if($list_groups!="")
 		{
@@ -3138,7 +3138,7 @@ function recup_infos_all_users($DEBUG=FALSE)
 	$tab=array();
 
 	$list_groupes_double_validation=get_list_groupes_double_valid($DEBUG);
-	if($DEBUG==TRUE) { echo "list_groupes_double_validation :<br>\n"; print_r($list_groupes_double_validation); echo "<br><br>\n";}
+	if( $DEBUG ) { echo "list_groupes_double_validation :<br>\n"; print_r($list_groupes_double_validation); echo "<br><br>\n";}
 
 	//$sql = "SELECT u_login FROM conges_users WHERE u_login!='conges' AND u_login!='admin' ORDER BY u_login";
 	$sql1 = "SELECT u_login FROM conges_users WHERE u_login!='conges' AND u_login!='admin' ORDER BY u_nom";
@@ -3164,10 +3164,10 @@ function recup_infos_all_users_du_groupe($group_id, $DEBUG=FALSE)
 
 	// recup de la liste de tous les users du groupe ...
 	$list_all_users_du_groupe = get_list_users_du_groupe($group_id, $DEBUG);
-	if($DEBUG==TRUE) { echo "list_all_users_du_groupe :<br>\n"; print_r($list_all_users_du_groupe); echo "<br><br>\n";}
+	if( $DEBUG ) { echo "list_all_users_du_groupe :<br>\n"; print_r($list_all_users_du_groupe); echo "<br><br>\n";}
 
 	$list_groupes_double_validation=get_list_groupes_double_valid($DEBUG);
-	if($DEBUG==TRUE) { echo "list_groupes_double_validation :<br>\n"; print_r($list_groupes_double_validation); echo "<br><br>\n";}
+	if( $DEBUG ) { echo "list_groupes_double_validation :<br>\n"; print_r($list_groupes_double_validation); echo "<br><br>\n";}
 
 	if(strlen($list_all_users_du_groupe)!=0)
 	{
@@ -3193,12 +3193,12 @@ function recup_infos_all_users_du_resp($login, $DEBUG=FALSE)
 
 	// recup de la liste de tous les users du resp ...
 	$list_all_users_du_resp = get_list_all_users_du_resp($login, $DEBUG);
-	if($DEBUG==TRUE) { echo "list_all_users_du_resp :<br>\n"; print_r($list_all_users_du_resp); echo "<br><br>\n";}
+	if( $DEBUG ) { echo "list_all_users_du_resp :<br>\n"; print_r($list_all_users_du_resp); echo "<br><br>\n";}
 
 	// recup de la liste des groupes à double validation, dont $login est responsable
 	// (servira à dire pour chaque user s'il est dans un de ces groupe ou non , donc s'il fait l'objet d'une double valid ou non )
 	$list_groups_double_valid_du_resp=get_list_groupes_double_valid_du_resp($login, $DEBUG);
-	if($DEBUG==TRUE) { echo "list_groups_double_valid :<br>\n"; print_r($list_groups_double_valid_du_resp); echo "<br><br>\n";}
+	if( $DEBUG ) { echo "list_groups_double_valid :<br>\n"; print_r($list_groups_double_valid_du_resp); echo "<br><br>\n";}
 
 	if(strlen($list_all_users_du_resp)!=0)
 	{
@@ -3223,7 +3223,7 @@ function recup_infos_all_users_du_grand_resp($login, $DEBUG=FALSE)
 	$tab=array();
 
 	$list_groups_double_valid=get_list_groupes_double_valid_du_grand_resp($login, $DEBUG);
-	if($DEBUG==TRUE) { echo "list_groups_double_valid :<br>\n"; print_r($list_groups_double_valid); echo "<br><br>\n";}
+	if( $DEBUG ) { echo "list_groups_double_valid :<br>\n"; print_r($list_groups_double_valid); echo "<br><br>\n";}
 
 	if($list_groups_double_valid!="")
 	{
@@ -3318,7 +3318,7 @@ function execute_sql_file($file, $DEBUG=FALSE)
 			$sql_requete = $sql_requete.$line ;
 			if(substr($sql_requete, -1, 1)==";") // alors la requete est finie !
 			{
-				if($DEBUG==TRUE)
+				if( $DEBUG )
 					echo "$sql_requete<br>\n";
 				$result = SQL::query($sql_requete);
 				$sql_requete="";
@@ -3351,7 +3351,7 @@ function affiche_bouton_retour($session, $DEBUG=FALSE)
 // verif_droits_user($session, "is_admin", $DEBUG);
 function verif_droits_user($session, $niveau_droits, $DEBUG=FALSE)
 {
-    if($DEBUG==TRUE) { print_r($_SESSION); echo "<br><br>\n"; }
+    if( $DEBUG ) { print_r($_SESSION); echo "<br><br>\n"; }
 	
 	$niveau_droits = strtolower($niveau_droits);
 
@@ -3557,7 +3557,7 @@ function recup_infos_all_users_du_hr($login, $DEBUG=FALSE)
     $tab=array();
 
     $list_groupes_double_validation=get_list_groupes_double_valid($DEBUG);
-    if($DEBUG==TRUE) { echo "list_groupes_double_validation :<br>\n"; print_r($list_groupes_double_validation); echo "<br><br>\n";}
+    if( $DEBUG ) { echo "list_groupes_double_validation :<br>\n"; print_r($list_groupes_double_validation); echo "<br><br>\n";}
 
     //$sql = "SELECT u_login FROM conges_users WHERE u_login!='conges' AND u_login!='admin' ORDER BY u_login";
     $sql1 = "SELECT u_login FROM conges_users WHERE u_login!='conges' AND u_login!='admin' ORDER BY u_nom";
@@ -3597,7 +3597,7 @@ function get_list_all_users_du_hr($resp_login, $DEBUG=FALSE)
 	}
 	
 
-	if($DEBUG==TRUE) { echo "list_users = $list_users<br>\n" ;}
+	if( $DEBUG ) { echo "list_users = $list_users<br>\n" ;}
 
 	return $list_users;
 }
@@ -3622,7 +3622,7 @@ function get_list_groupes_pour_rh($user_login, $DEBUG=FALSE)
 				$list_group=$list_group.", $current_group";
 		}
 	}
-	if($DEBUG==TRUE) { echo "list_group = $list_group<br>\n" ;}
+	if( $DEBUG ) { echo "list_group = $list_group<br>\n" ;}
 
 	return $list_group;
 }
@@ -3649,7 +3649,7 @@ function get_list_users_des_groupes_du_resp_sauf_resp($resp_login, $DEBUG=FALSE)
 				$list_users_des_groupes_du_resp_sauf_resp=$list_users_des_groupes_du_resp_sauf_resp.", '$current_login'";
 		}
 	}
-	if($DEBUG==TRUE) { echo "list_users_des_groupes_du_resp_sauf_resp= $list_users_des_groupes_du_resp_sauf_resp<br>\n" ;}
+	if( $DEBUG ) { echo "list_users_des_groupes_du_resp_sauf_resp= $list_users_des_groupes_du_resp_sauf_resp<br>\n" ;}
 
 	return $list_users_des_groupes_du_resp_sauf_resp;
 

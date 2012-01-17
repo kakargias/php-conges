@@ -53,8 +53,8 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET / POST
-	$action = getpost_variable("action") ;
-	$tab_new_values = getpost_variable("tab_new_values");
+	$action = getpost_variable('action') ;
+	$tab_new_values = getpost_variable('tab_new_values');
 
 	/*************************************/
 	if(!isset($tab_new_values['mail_to']))

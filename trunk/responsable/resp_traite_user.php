@@ -27,32 +27,32 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 
 	//var pour resp_traite_user.php
-	$user_login   = getpost_variable("user_login") ;
-	$year_calendrier_saisie_debut = getpost_variable("year_calendrier_saisie_debut", 0) ;
-	$mois_calendrier_saisie_debut = getpost_variable("mois_calendrier_saisie_debut", 0) ;
-	$year_calendrier_saisie_fin = getpost_variable("year_calendrier_saisie_fin", 0) ;
-	$mois_calendrier_saisie_fin = getpost_variable("mois_calendrier_saisie_fin", 0) ;
-	$tri_date = getpost_variable("tri_date", "ascendant") ;
-	$tab_checkbox_annule = getpost_variable("tab_checkbox_annule") ;
-	$tab_radio_traite_demande = getpost_variable("tab_radio_traite_demande") ;
-	$tab_text_refus = getpost_variable("tab_text_refus") ;
-	$tab_text_annul = getpost_variable("tab_text_annul") ;
-	$new_demande_conges = getpost_variable("new_demande_conges", 0) ;
-	$new_debut = getpost_variable("new_debut") ;
-	$new_demi_jour_deb = getpost_variable("new_demi_jour_deb") ;
-	$new_fin = getpost_variable("new_fin") ;
-	$new_demi_jour_fin = getpost_variable("new_demi_jour_fin") ;
+	$user_login   = getpost_variable('user_login') ;
+	$year_calendrier_saisie_debut = getpost_variable('year_calendrier_saisie_debut', 0) ;
+	$mois_calendrier_saisie_debut = getpost_variable('mois_calendrier_saisie_debut', 0) ;
+	$year_calendrier_saisie_fin = getpost_variable('year_calendrier_saisie_fin', 0) ;
+	$mois_calendrier_saisie_fin = getpost_variable('mois_calendrier_saisie_fin', 0) ;
+	$tri_date = getpost_variable('tri_date', "ascendant") ;
+	$tab_checkbox_annule = getpost_variable('tab_checkbox_annule') ;
+	$tab_radio_traite_demande = getpost_variable('tab_radio_traite_demande') ;
+	$tab_text_refus = getpost_variable('tab_text_refus') ;
+	$tab_text_annul = getpost_variable('tab_text_annul') ;
+	$new_demande_conges = getpost_variable('new_demande_conges', 0) ;
+	$new_debut = getpost_variable('new_debut') ;
+	$new_demi_jour_deb = getpost_variable('new_demi_jour_deb') ;
+	$new_fin = getpost_variable('new_fin') ;
+	$new_demi_jour_fin = getpost_variable('new_demi_jour_fin') ;
 	if($_SESSION['config']['disable_saise_champ_nb_jours_pris']==TRUE)  // zone de texte en readonly et grisée
 	{ 
 		$new_nb_jours = compter($user_login, $new_debut,  $new_fin, $new_demi_jour_deb, $new_demi_jour_fin, $comment,  $DEBUG);
 	}
 	else
     { 
-		$new_nb_jours = getpost_variable("new_nb_jours") ; 
+		$new_nb_jours = getpost_variable('new_nb_jours') ; 
 	}
-	$new_comment = getpost_variable("new_comment") ;
-	$new_type = getpost_variable("new_type") ;
-	$year_affichage = getpost_variable("year_affichage" , date("Y") );
+	$new_comment = getpost_variable('new_comment') ;
+	$new_type = getpost_variable('new_type') ;
+	$year_affichage = getpost_variable('year_affichage' , date("Y") );
 	
 
 	// si une annulation de conges a été selectionée :
@@ -98,17 +98,17 @@ function affichage($user_login,  $year_affichage, $year_calendrier_saisie_debut,
 	$list_group_dbl_valid_du_resp = get_list_groupes_double_valid_du_resp($_SESSION['userlogin'],  $DEBUG);
 	$tab_user=array();
 	$tab_user = recup_infos_du_user($user_login, $list_group_dbl_valid_du_resp,  $DEBUG);
-	if($DEBUG==TRUE) { echo"tab_user =<br>\n"; print_r($tab_user); echo "<br>\n"; }
+	if( $DEBUG ) { echo"tab_user =<br>\n"; print_r($tab_user); echo "<br>\n"; }
 	
 	$list_all_users_du_resp=get_list_all_users_du_resp($_SESSION['userlogin'],  $DEBUG);
-	if($DEBUG==TRUE) { echo"list_all_users_du_resp = $list_all_users_du_resp<br>\n"; }
+	if( $DEBUG ) { echo"list_all_users_du_resp = $list_all_users_du_resp<br>\n"; }
 
 	// recup des grd resp du user
 	$tab_grd_resp=array();
 	if($_SESSION['config']['double_validation_conges']==TRUE) 
 	{
 		get_tab_grd_resp_du_user($user_login, $tab_grd_resp,  $DEBUG);
-		if($DEBUG==TRUE) { echo"tab_grd_resp =<br>\n"; print_r($tab_grd_resp); echo "<br>\n"; }
+		if( $DEBUG ) { echo"tab_grd_resp =<br>\n"; print_r($tab_grd_resp); echo "<br>\n"; }
 	}	
 	
 	/********************/
@@ -141,7 +141,7 @@ function affichage($user_login,  $year_affichage, $year_calendrier_saisie_debut,
 			$year_calendrier_saisie_fin=date("Y");
 		if($mois_calendrier_saisie_fin==0)
 			$mois_calendrier_saisie_fin=date("m");	
-		if($DEBUG==TRUE) { echo "$mois_calendrier_saisie_debut  $year_calendrier_saisie_debut  -  $mois_calendrier_saisie_fin  $year_calendrier_saisie_fin<br>\n"; }
+		if( $DEBUG ) { echo "$mois_calendrier_saisie_debut  $year_calendrier_saisie_debut  -  $mois_calendrier_saisie_fin  $year_calendrier_saisie_fin<br>\n"; }
 	
 		echo "<H3>". _('resp_traite_user_new_conges') ."</H3>\n\n";
 		
@@ -609,7 +609,7 @@ function annule_conges($user_login, $tab_checkbox_annule, $tab_text_annul,  $DEB
 		
 		$motif_annul=addslashes($tab_text_annul[$numero_int]);
 		
-		if($DEBUG==TRUE) { echo "<br><br>conges numero :$numero ---> login : $user_login --- nb de jours : $user_nb_jours_pris_float --- type : $user_type_abs_id ---> ANNULER <br>"; }
+		if( $DEBUG ) { echo "<br><br>conges numero :$numero ---> login : $user_login --- nb de jours : $user_nb_jours_pris_float --- type : $user_type_abs_id ---> ANNULER <br>"; }
 
 		/* UPDATE table "conges_periode" */
 		$sql1 = 'UPDATE conges_periode SET p_etat=\"annul\", p_motif_refus=\''.$motif_annul.'\', p_date_traitement=NOW() WHERE p_num=\''.SQL::quote($numero_int).'\' ';
@@ -633,7 +633,7 @@ function annule_conges($user_login, $tab_checkbox_annule, $tab_text_annul,  $DEB
 			alerte_mail($_SESSION['userlogin'], $user_login, $numero_int, "annul_conges",  $DEBUG);
 	}
 
-	if($DEBUG==TRUE)
+	if( $DEBUG )
 	{
 		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
 		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
@@ -677,7 +677,7 @@ function traite_demandes($user_login, $tab_radio_traite_demande, $tab_text_refus
 
 		$numero=$elem_tableau['key'];
 		$numero_int=(int) $numero;
-		if($DEBUG==TRUE) { echo "<br><br>conges numero :$numero --- User_login : $user_login --- nb de jours : $user_nb_jours_pris --->$value_traite<br>" ; }
+		if( $DEBUG ) { echo "<br><br>conges numero :$numero --- User_login : $user_login --- nb de jours : $user_nb_jours_pris --->$value_traite<br>" ; }
 
 		if($reponse == "ACCEPTE") // acceptation definitive d'un conges
 		{
@@ -691,7 +691,7 @@ function traite_demandes($user_login, $tab_radio_traite_demande, $tab_text_refus
 			/* UPDATE table "conges_solde_user" (jours restants) */
 			// on retranche les jours seulement pour des conges pris (pas pour les absences)
 			// donc seulement si le type de l'absence qu'on annule est un "conges"
-			if($DEBUG==TRUE) { echo "type_abs = ".$tab_tout_type_abs[$value_type_abs_id]['type']."<br>\n" ; }
+			if( $DEBUG ) { echo "type_abs = ".$tab_tout_type_abs[$value_type_abs_id]['type']."<br>\n" ; }
 			if(($tab_tout_type_abs[$value_type_abs_id]['type']=="conges")||($tab_tout_type_abs[$value_type_abs_id]['type']=="conges_exceptionnels"))
 			{
 //				soustrait_solde_user($user_login, $user_nb_jours_pris_float, $value_type_abs_id,  $DEBUG);
@@ -732,7 +732,7 @@ function traite_demandes($user_login, $tab_radio_traite_demande, $tab_text_refus
 		}
 	}
 
-	if($DEBUG==TRUE)
+	if( $DEBUG )
 	{
 		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
 		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";

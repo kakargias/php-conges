@@ -48,8 +48,8 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET / POST
-	$u_login = getpost_variable("u_login") ;
-	$u_login_to_delete = getpost_variable("u_login_to_delete") ;
+	$u_login = getpost_variable('u_login') ;
+	$u_login_to_delete = getpost_variable('u_login_to_delete') ;
 	/*************************************/
 
 	// TITRE
@@ -181,7 +181,7 @@ function suppression($u_login_to_delete, $DEBUG=FALSE)
 	else
 		echo  _('form_modif_not_ok') ." !<br><br> \n";
 
-	if($DEBUG==TRUE)
+	if( $DEBUG )
 	{
 		echo "<a href=\"admin_index.php?session=$session&onglet=admin-users\">". _('form_retour') ."</a>\n" ;
 	}

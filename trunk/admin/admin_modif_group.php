@@ -49,11 +49,11 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET // POST
-	$group 				= getpost_variable("group");
-	$group_to_update 	= getpost_variable("group_to_update");
-	$new_groupname 		= getpost_variable("new_groupname");
-	$new_comment 		= getpost_variable("new_comment");
-	$new_double_valid	= getpost_variable("new_double_valid");
+	$group 				= getpost_variable('group');
+	$group_to_update 	= getpost_variable('group_to_update');
+	$new_groupname 		= getpost_variable('new_groupname');
+	$new_comment 		= getpost_variable('new_comment');
+	$new_double_valid	= getpost_variable('new_double_valid');
 	/*************************************/
 
 	// TITRE

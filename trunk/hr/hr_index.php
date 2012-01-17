@@ -23,6 +23,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
+
 define('_PHP_CONGES', 1);
 define('ROOT_PATH', '../');
 include ROOT_PATH . 'define.php';
@@ -33,9 +34,6 @@ $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session']
 include ROOT_PATH .'fonctions_conges.php' ;
 include INCLUDE_PATH .'fonction.php';
 include INCLUDE_PATH .'session.php';
-include'hr_ajout_conges_all.php';
-include'hr_traite_demande_all.php';
-include'hr_traite_user.php';
 include ROOT_PATH .'fonctions_calcul.php';
 
 $DEBUG = FALSE ;
@@ -45,320 +43,79 @@ $DEBUG = FALSE ;
 verif_droits_user($session, "is_hr", $DEBUG);
 
 
-    /*************************************/
-    // recup des parametres reçus :
-    // SERVER
-    $PHP_SELF=$_SERVER['PHP_SELF'];
-    // GET / POST
-    $onglet = getpost_variable("onglet", "page_principale");
-    //var pour resp_traite_demande_all.php
-    $tab_bt_radio   = getpost_variable("tab_bt_radio");
-    $tab_text_refus = getpost_variable("tab_text_refus");
-    //var pour resp_ajout_conges_all.php
-    $ajout_conges            = getpost_variable("ajout_conges");
-    $tab_champ_saisie        = getpost_variable("tab_champ_saisie");
-    $tab_commentaire_saisie        = getpost_variable("tab_commentaire_saisie");
-    //$tab_champ_saisie_rtt    = getpost_variable("tab_champ_saisie_rtt") ;
-    $ajout_global            = getpost_variable("ajout_global");
-    $ajout_groupe            = getpost_variable("ajout_groupe");
-    $choix_groupe            = getpost_variable("choix_groupe");
-    $tab_new_nb_conges_all   = getpost_variable("tab_new_nb_conges_all");
-    $tab_calcul_proportionnel = getpost_variable("tab_calcul_proportionnel");
-    $tab_new_comment_all     = getpost_variable("tab_new_comment_all");
-    //var pour hr_traite_user.php
-    $user_login   = getpost_variable("user_login") ;
-    $year_calendrier_saisie_debut = getpost_variable("year_calendrier_saisie_debut", 0) ;
-    $mois_calendrier_saisie_debut = getpost_variable("mois_calendrier_saisie_debut", 0) ;
-    $year_calendrier_saisie_fin = getpost_variable("year_calendrier_saisie_fin", 0) ;
-    $mois_calendrier_saisie_fin = getpost_variable("mois_calendrier_saisie_fin", 0) ;
-    $tri_date = getpost_variable("tri_date", "ascendant") ;
-    $tab_checkbox_annule = getpost_variable("tab_checkbox_annule") ;
-    $tab_radio_traite_demande = getpost_variable("tab_radio_traite_demande") ;
-    $tab_text_refus = getpost_variable("tab_text_refus") ;
-    $tab_text_annul = getpost_variable("tab_text_annul") ;
-    $new_demande_conges = getpost_variable("new_demande_conges", 0) ;
-    $new_debut = getpost_variable("new_debut") ;
-    $new_demi_jour_deb = getpost_variable("new_demi_jour_deb") ;
-    $new_fin = getpost_variable("new_fin") ;
-    $new_demi_jour_fin = getpost_variable("new_demi_jour_fin") ;
-	if($_SESSION['config']['disable_saise_champ_nb_jours_pris']==TRUE)  // zone de texte en readonly et grisée
-	{ 
-		$new_nb_jours = compter($user_login, $new_debut,  $new_fin, $new_demi_jour_deb, $new_demi_jour_fin, $comment,  $DEBUG);	$new_nb_jours = compter($_SESSION['userlogin'], $new_debut,  $new_fin, $new_demi_jour_deb, $new_demi_jour_fin, $comm,  $DEBUG);
-		if ($new_nb_jours <= 0 )
-			$new_nb_jours      = getpost_variable("new_nb_jours");
-	}
-	else
-    { 
-		$new_nb_jours = getpost_variable("new_nb_jours") ; 
-	}
-    $new_comment = getpost_variable("new_comment") ;
-    $new_type = getpost_variable("new_type") ;
-    $year_affichage = getpost_variable("year_affichage" , date("Y") );
-    /*************************************/
-
-	header_menu('hr','Mode RH');
-    
-    /***********************************/
-    // TITRE
-    
-
+	/*************************************/
+	// recup des parametres reçus :
+	// SERVER
+	$PHP_SELF=$_SERVER['PHP_SELF'];
+	// GET / POST
+	$onglet = getpost_variable('onglet', "page_principale");
 	
-    if($_SESSION['config']['responsable_virtuel']==FALSE)
-    {
-        $sql1 = "SELECT u_nom, u_prenom FROM conges_users where u_login = '".SQL::quote($_SESSION['userlogin'])."' ";
-        $ReqLog1 = SQL::query($sql1);
-        $resultat1 = $ReqLog1->fetch_array(); 
-        
-        echo "<H1>". _('hr_menu_titre') ." ".$resultat1["u_prenom"]." ".$resultat1["u_nom"]."</H1>\n\n";
-    }
-    else
-        echo "<H1>". _('divers_responsable_maj_1') ."</H1>\n\n";
+	
+	/*********************************/
+	/*   COMPOSITION DES ONGLETS...  */
+	/*********************************/
 
-        
-    /************************************/
-    // AFFICHAGE DES ONGLETS
-    
-   
-    echo "<table cellpadding=\"1\" cellspacing=\"2\" border=\"1\">\n" ;
-	 echo "</CENTER>\n";
-    echo "<tr align=\"center\">\n";
+	$onglets = array();
+	
+	
+	$onglets['page_principale'] = _('resp_menu_button_retour_main');
 
-        /**********************/
-        /* ONGLET RETOUR MAIN */
-        /**********************/
-        if($onglet!="page_principale")
-            echo "<td class=\"onglet\" width=\"200\"><a href=\"$PHP_SELF?session=$session&onglet=page_principale\" class=\"bouton-onglet\"> ". _('resp_menu_button_retour_main') ." </a></td>\n";
-        else
-            echo "<td class=\"current-onglet\" width=\"200\"><a href=\"$PHP_SELF?session=$session&onglet=page_principale\" class=\"bouton-current-onglet\"> ". _('resp_menu_button_retour_main') ." </a></td>\n";
-
-		/**************************/
-		/* ONGLET TRAITE DEMANDES */
-		/**************************/
-		if($_SESSION['config']['user_saisie_demande']==TRUE) 
-		{
-			if($onglet!="traitement_demandes")
-				echo "<td class=\"onglet\" width=\"220\"><a href=\"$PHP_SELF?session=$session&onglet=traitement_demandes\" class=\"bouton-onglet\"> ". _('resp_menu_button_traite_demande') ." </a></td>\n";
-			else
-				echo "<td class=\"current-onglet\" width=\"220\"><a href=\"$PHP_SELF?session=$session&onglet=traitement_demandes\" class=\"bouton-current-onglet\"> ". _('resp_menu_button_traite_demande') ." </a></td>\n";
-		}
-
-		/***********************/
-		/* ONGLET AJOUT CONGES */
-		/***********************/
-		// if($_SESSION['config']['resp_ajoute_conges']==TRUE)  // si le resp peut ajouter des conges
-		{
-			if($onglet!="ajout_conges")
-				echo "<td class=\"onglet\" width=\"150\"><a href=\"$PHP_SELF?session=$session&onglet=ajout_conges\" class=\"bouton-onglet\"> ". _('resp_ajout_conges_titre') ." </a></td>\n";
-			else
-				echo "<td class=\"current-onglet\" width=\"150\"><a href=\"$PHP_SELF?session=$session&onglet=ajout_conges\" class=\"bouton-current-onglet\"> ". _('resp_ajout_conges_titre') ." </a></td>\n";
-		}
+	if( $_SESSION['config']['user_saisie_demande'] ) 
+		$onglets['traitement_demandes'] = _('resp_menu_button_traite_demande');
 		
+	// if( $_SESSION['config']['resp_ajoute_conges'] )
+		$onglets['ajout_conges'] = _('resp_ajout_conges_titre');
 		
-		{
-			echo "<td class=\"onglet\" width=\"150\"><a href=\"hr_cloture_year.php?session=$session&onglet=hr_cloture_year\" class=\"bouton-onglet\"> ". _('hr_cloture_year') ." </a></td>\n";
-			if($onglet!="hr_cloture_year")
-				echo "<td class=\"onglet\" width=\"150\"><a href=\"$PHP_SELF?session=$session&onglet=hr_cloture_year\" class=\"bouton-onglet\"> ". _('hr_cloture_year') ." </a></td>\n";
-			else
-				echo "<td class=\"current-onglet\" width=\"150\"><a href=\"$PHP_SELF?session=$session&onglet=hr_cloture_year\" class=\"bouton-current-onglet\"> ". _('hr_cloture_year') ." </a></td>\n";
-		}
+	$onglets['cloture_year'] = _('hr_cloture_year');
+	
+	if ( !isset($onglets[ $onglet ]) && !in_array($onglet, array('traite_user')))
+		$onglet = 'page_principale';
+	
+	/*********************************/
+	/*   COMPOSITION DU HEADER...    */
+	/*********************************/
+	
+	$add_css = '<style>
+		#onglet_menu { width: 100%;}
+		#onglet_menu .onglet.active{ border: 1px solid black; margin: -1px; }
+		#onglet_menu .onglet{ width: '. (100 / count($onglets) ).'% ; float: left; padding: 10px 0px 10px 0px;}
+	</style>';
+	
+	header_menu('responsable',$_SESSION['config']['titre_resp_index'],$add_css);
+		
+	/*********************************/
+	/*   AFFICHAGE DES ONGLETS...  */
+	/*********************************/
+	
+	echo '<div id="onglet_menu" class="ui-widget-header ui-helper-clearfix ui-corner-all">';
+	foreach($onglets as $key => $title) {
+		echo '<div class="onglet '.($onglet == $key ? ' active': '').'" >
+			<a href="'.$PHP_SELF.'?session='.$session.'&onglet='.$key.'">'. $title .'</a>
+		</div>';
+	}
+	echo '</div>';
+	
+	
+	/*********************************/
+	/*   AFFICHAGE DE L'ONGLET ...    */
+	/*********************************/
+	
+	
+	/** initialisation des tableaux des types de conges/absences  **/
+	// recup du tableau des types de conges (seulement les conges)
+	$tab_type_cong=recup_tableau_types_conges( $DEBUG);
 
-		echo "</tr>\n";
-		echo "</table>\n" ;
-
-    /*************************************/
-    /***  suite de la page             ***/
-    /*************************************/
-    
-    echo "<CENTER>\n";
-    echo "<table cellpadding='0' cellspacing='0' border='1' width='100%'>\n";
-    echo "<tr align='center'>\n";
-    echo "<td colspan=5>\n";
-
-    /** initialisation des tableaux des types de conges/absences  **/
-    // recup du tableau des types de conges (seulement les conges)
-    $tab_type_cong=recup_tableau_types_conges($DEBUG);
-
-    // recup du tableau des types de conges exceptionnels (seulement les conges exceptionnels)
-//    if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
-        $tab_type_conges_exceptionnels=recup_tableau_types_conges_exceptionnels($DEBUG);
-    
-
-    /*************************************/
-    // on commence ici les tests pour savoir quelle page afficher
-    if(($onglet=="") || ($onglet=="page_principale"))
-    {
-        $onglet="page_principale";
-        page_principale($session, $tab_type_cong, $tab_type_conges_exceptionnels, $DEBUG);
-    }
-    elseif($onglet=="traitement_demandes")
-    {
-        
-        // titre
-        echo "<H2>". _('resp_traite_demandes_titre') ."</H2>\n\n";
-        //connexion mysql
-        
-        // si le tableau des bouton radio des demandes est vide , on affiche les demandes en cours
-        if($tab_bt_radio=="")
-            affiche_all_demandes_en_cours($tab_type_cong, $DEBUG);
-        else
-            traite_all_demande_en_cours($tab_bt_radio, $tab_text_refus, $DEBUG);
-    }
-    elseif($onglet=="ajout_conges")
-    {
-    
-        if($DEBUG==TRUE) { echo "tab_new_nb_conges_all = <br>"; print_r($tab_new_nb_conges_all); echo "<br>\n" ;}
-        if($DEBUG==TRUE) { echo "tab_calcul_proportionnel = <br>"; print_r($tab_calcul_proportionnel); echo "<br>\n" ;}
-        
-        
-        // titre
-        echo "<H2>". _('resp_ajout_conges_titre') ."</H2>\n\n";
-        //connexion mysql
-        
-        if($ajout_conges=="TRUE")
-        {
-            ajout_conges($tab_champ_saisie, $tab_commentaire_saisie, $DEBUG);
-        }
-        elseif($ajout_global=="TRUE")
-        {
-            ajout_global($tab_new_nb_conges_all, $tab_calcul_proportionnel, $tab_new_comment_all, $DEBUG);
-        }
-        elseif($ajout_groupe=="TRUE")
-        {
-                      	echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=hr_index.php?session=$session\">";	
-            ajout_global_groupe($choix_groupe, $tab_new_nb_conges_all, $tab_calcul_proportionnel, $tab_new_comment_all, $DEBUG);
-        }
-        else
-        {
-            saisie_ajout($tab_type_cong,$DEBUG);
-        }
-    }
-    elseif($onglet=="hr_traite_user")
-    {
-        
-        // si une annulation de conges a été selectionée :
-        if($tab_checkbox_annule!="")
-        {
-            annule_conges($user_login, $tab_checkbox_annule, $tab_text_annul, $DEBUG);
-        }
-        // si le traitement des demandes a été selectionée :
-        elseif($tab_radio_traite_demande!="")
-        {
-            traite_demandes($user_login, $tab_radio_traite_demande, $tab_text_refus, $DEBUG);
-        }
-        // si un nouveau conges ou absence a été saisi pour un user :
-        elseif($new_demande_conges==1)
-        {
-            new_conges($user_login, $new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin, $new_nb_jours, $new_comment, $new_type, $DEBUG);
-        }
-        else 
-        {
-            affichage($user_login,  $year_affichage, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, $year_calendrier_saisie_fin, $mois_calendrier_saisie_fin, $tri_date, $DEBUG);
-        }
-    }
-    
-    
-    /*************************************/
-    /***  fin de la page             ***/
-    echo "</td>\n";
-    echo "</tr>\n";
-    echo "</table>\n";
+	// recup du tableau des types de conges exceptionnels (seulement les conges exceptionnels)
+//	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
+		$tab_type_conges_exceptionnels=recup_tableau_types_conges_exceptionnels( $DEBUG);
+	
+	echo '<div class="'.$onglet.'">';
+		include ROOT_PATH . 'hr/hr_'.$onglet.'.php';
+	echo '</div>';
+	
+	/*********************************/
+	/*   AFFICHAGE DU BOTTOM ...   */
+	/*********************************/
+	
 	bottom();
-    
-
-
-
-/**************************************************************************************/
-/********  FONCTIONS      ******/
-/**************************************************************************************/
-
-// affichage liste et résumé des users :
-function page_principale($session, $tab_type_cong, $tab_type_conges_exceptionnels, $DEBUG)
-{
-    
-    /***********************************/
-    // AFFICHAGE ETAT CONGES TOUS USERS
-    
-        /***********************************/
-    // AFFICHAGE TABLEAU (premiere ligne)
-    echo "<H2>". _('hr_traite_user_etat_conges') ."</H2>\n\n";
-    
-    echo "<TABLE cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
-    
-    echo "<tr align=\"center\">\n";
-    echo "<td>". _('divers_nom_maj') ."</td>\n";
-    echo "<td>". _('divers_prenom_maj') ."</td>\n";
-    echo "<td>". _('divers_quotite_maj_1') ."</td>" ;
-    $nb_colonnes = 3;
-    foreach($tab_type_cong as $id_conges => $libelle)
-    {
-        // cas d'une absence ou d'un congé
-        echo "<td> $libelle"." / ". _('divers_an_maj') ."</td>\n";
-        echo "<td>". _('divers_solde_maj') ." ".$libelle ."</td>";
-        $nb_colonnes += 2;
-    }
-    // conges exceptionnels
-    if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
-    {
-        foreach($tab_type_conges_exceptionnels as $id_type_cong => $libelle)
-        {
-            echo "<td>". _('divers_solde_maj') ." $libelle</td>\n";
-            $nb_colonnes += 1;
-        }
-    }
-    echo "<td></td>";
-    $nb_colonnes += 1;
-    if($_SESSION['config']['editions_papier']==TRUE)
-    {
-        echo "<td></td>";
-        $nb_colonnes += 1;
-    }
-    echo "</tr>\n";
-
-    /***********************************/
-    // AFFICHAGE USERS
-    
-    /***********************************/
-    // AFFICHAGE DE USERS DIRECTS DU RESP
-
-    // Récup dans un tableau de tableau des informations de tous les users dont $_SESSION['userlogin'] est responsable
-    $tab_all_users=recup_infos_all_users_du_hr($_SESSION['userlogin'], $DEBUG);
-    if($DEBUG==TRUE) {echo "tab_all_users :<br>\n";  print_r($tab_all_users); echo "<br>\n"; }
-
-    if(count($tab_all_users)==0) // si le tableau est vide (resp sans user !!) on affiche une alerte !
-        echo "<tr align=\"center\"><td class=\"histo\" colspan=\"".$nb_colonnes."\">". _('resp_etat_aucun_user') ."</td></tr>\n" ;
-    else
-    {
-        foreach($tab_all_users as $current_login => $tab_current_user)
-        {        
-            //tableau de tableaux les nb et soldes de conges d'un user (indicé par id de conges)
-            $tab_conges=$tab_current_user['conges']; 
-    
-            $text_affich_user="<a href=\"hr_index.php?session=$session&onglet=hr_traite_user&user_login=$current_login\">". _('resp_etat_users_afficher') ."</a>" ;
-            $text_edit_papier="<a href=\"../edition/edit_user.php?session=$session&user_login=$current_login\" target=\"_blank\">". _('resp_etat_users_imprim') ."</a>";
-            echo "<tr align=\"center\">\n";
-            echo "<td>".$tab_current_user['nom']."</td><td>".$tab_current_user['prenom']."</td><td>".$tab_current_user['quotite']."%</td>";
-            foreach($tab_type_cong as $id_conges => $libelle)
-            {
-                echo "<td>".$tab_conges[$libelle]['nb_an']."</td>\n";
-                echo "<td>".$tab_conges[$libelle]['solde']."</td>";
-            }
-            if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
-            {
-                foreach($tab_type_conges_exceptionnels as $id_type_cong => $libelle) 
-                {
-                    echo "<td>".$tab_conges[$libelle]['solde']."</td>\n";
-                }
-            }
-            echo "<td>$text_affich_user</td>\n";
-            if($_SESSION['config']['editions_papier']==TRUE)
-                echo "<td>$text_edit_papier</td>";
-            echo "</tr>\n";
-        }
-    }
-
-
-    
-    echo "</TABLE><br><br>\n\n";
-
-}
-
+	exit;

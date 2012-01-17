@@ -47,7 +47,7 @@ verif_droits_user($session, "is_resp", $DEBUG);
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET / POST
-	$onglet = getpost_variable("onglet", "page_principale");
+	$onglet = getpost_variable('onglet', "page_principale");
 	
 	
 	/*********************************/

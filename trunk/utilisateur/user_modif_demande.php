@@ -26,15 +26,15 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 
-	$p_num             = getpost_variable("p_num");
-	$onglet            = getpost_variable("onglet");
-	$p_num_to_update   = getpost_variable("p_num_to_update");
-	$p_etat			   = getpost_variable("p_etat");
-	$new_debut         = getpost_variable("new_debut");
-	$new_demi_jour_deb = getpost_variable("new_demi_jour_deb");
-	$new_fin           = getpost_variable("new_fin");
-	$new_demi_jour_fin = getpost_variable("new_demi_jour_fin");
-	$new_comment       = getpost_variable("new_comment");
+	$p_num             = getpost_variable('p_num');
+	$onglet            = getpost_variable('onglet');
+	$p_num_to_update   = getpost_variable('p_num_to_update');
+	$p_etat			   = getpost_variable('p_etat');
+	$new_debut         = getpost_variable('new_debut');
+	$new_demi_jour_deb = getpost_variable('new_demi_jour_deb');
+	$new_fin           = getpost_variable('new_fin');
+	$new_demi_jour_fin = getpost_variable('new_demi_jour_fin');
+	$new_comment       = getpost_variable('new_comment');
 	if ($_SESSION['config']['disable_saise_champ_nb_jours_pris']==TRUE)
 	{
 		$new_debut2 = explode('-', $new_debut);
@@ -49,7 +49,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 	}
 	else
-		$new_nb_jours      = getpost_variable("new_nb_jours");
+		$new_nb_jours      = getpost_variable('new_nb_jours');
 		
 	/*************************************/
 

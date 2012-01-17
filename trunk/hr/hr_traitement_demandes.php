@@ -25,12 +25,29 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
+
+    //var pour resp_traite_demande_all.php
+    $tab_bt_radio   = getpost_variable('tab_bt_radio');
+    $tab_text_refus = getpost_variable('tab_text_refus');
+
+	// titre
+	echo '<h2>'. _('resp_traite_demandes_titre') .'</h2>';
+	
+	// si le tableau des bouton radio des demandes est vide , on affiche les demandes en cours
+	if( $tab_bt_radio == '' )
+		affiche_all_demandes_en_cours($tab_type_cong, $DEBUG);
+	else {
+		traite_all_demande_en_cours($tab_bt_radio, $tab_text_refus, $DEBUG);
+		redirect( ROOT_PATH .'hr/hr_index.php?session='.$session.'&onglet='.$onglet, false);
+		exit;
+	}
+
 /********************************************/
 /*   FONCTIONS   */
 
 function affiche_all_demandes_en_cours($tab_type_conges, $DEBUG=FALSE) 
 {
-//$DEBUG=TRUE ;
+
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id() ;
 	$count1=0;
@@ -49,7 +66,7 @@ function affiche_all_demandes_en_cours($tab_type_conges, $DEBUG=FALSE)
 	
 	// Récup dans un tableau de tableau des informations de tous les users dont $_SESSION['userlogin'] est responsable sauf lui meme
 	$tab_all_users_du_resp=recup_infos_all_users_du_resp($_SESSION['userlogin'], $DEBUG);
-	if($DEBUG==TRUE) { echo "tab_all_users_du_resp :<br>\n"; print_r($tab_all_users_du_resp); echo "<br><br>\n";}
+	if( $DEBUG ) { echo "tab_all_users_du_resp :<br>\n"; print_r($tab_all_users_du_resp); echo "<br><br>\n";}
 	
 	// si tableau des users du resp n'est pas vide
 	if( count($tab_all_users_du_resp)!=0 )
@@ -120,33 +137,33 @@ function affiche_all_demandes_en_cours($tab_type_conges, $DEBUG=FALSE)
 			echo "<h3>". _('resp_traite_demandes_titre_tableau_1') ."</h3>\n" ;
 			
 			echo "<table cellpadding=\"2\" class=\"tablo\">\n" ;
-			echo "<tr>\n" ;
-			echo "<td>". _('divers_nom_maj_1') ."<br>". _('divers_prenom_maj_1') ."</td>\n" ;
-			echo "<td>". _('divers_quotite_maj_1') ."</td>" ;
-			echo "<td>". _('divers_debut_maj_1') ."</td>\n" ;
-			echo "<td>". _('divers_fin_maj_1') ."</td>\n" ;
-			echo "<td>". _('divers_comment_maj_1') ."</td>\n" ;
-			echo "<td>". _('resp_traite_demandes_nb_jours') ."</td>";
-			foreach($tab_type_conges as $id_conges => $libelle)
-			{
-				echo "<td>". _('divers_solde_maj_1') ."<br>$libelle</td>" ;
-			}
-			if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
-			foreach($tab_type_conges_exceptionnels as $id_conges => $libelle)
-			{
-				echo "<td>". _('divers_solde_maj_1') ."<br>$libelle</td>" ;
-			}			
-			echo "<td>". _('divers_type_maj_1') ."</td>\n" ;
-			echo "<td>". _('divers_accepter_maj_1') ."</td>\n" ;
-			echo "<td>". _('divers_refuser_maj_1') ."</td>\n" ;
-			echo "<td>". _('resp_traite_demandes_attente') ."</td>\n" ;
-			echo "<td>". _('resp_traite_demandes_motif_refus') ."</td>\n" ;
-			if($_SESSION['config']['affiche_date_traitement']==TRUE)
-			{
-				echo "<td>". _('divers_date_traitement') ."</td>\n" ;
-			}
-			echo "</tr>\n";
+			echo '<thead>' ;
+				echo '<tr>' ;
+					echo '<td>'. _('divers_nom_maj_1') ."<br>". _('divers_prenom_maj_1') .'</td>' ;
+					echo '<td>'. _('divers_quotite_maj_1') .'</td>' ;
+					echo '<td>'. _('divers_debut_maj_1') .'</td>' ;
+					echo '<td>'. _('divers_fin_maj_1') .'</td>' ;
+					echo '<td>'. _('divers_comment_maj_1') .'</td>' ;
+					echo '<td>'. _('resp_traite_demandes_nb_jours') .'</td>';
+					foreach($tab_type_conges as $id_conges => $libelle)
+						echo '<td>'. _('divers_solde_maj_1') ."<br>$libelle</td>" ;
+						
+					if ( $_SESSION['config']['gestion_conges_exceptionnels'] ) 
+						foreach($tab_type_conges_exceptionnels as $id_conges => $libelle)
+							echo '<td>'. _('divers_solde_maj_1') ."<br>$libelle</td>" ;		
+							
+					echo '<td>'. _('divers_type_maj_1') .'</td>' ;
+					echo '<td>'. _('divers_accepter_maj_1') .'</td>' ;
+					echo '<td>'. _('divers_refuser_maj_1') .'</td>' ;
+					echo '<td>'. _('resp_traite_demandes_attente') .'</td>' ;
+					echo '<td>'. _('resp_traite_demandes_motif_refus') .'</td>' ;
+					if( $_SESSION['config']['affiche_date_traitement'] )
+						echo '<td>'. _('divers_date_traitement') .'</td>' ;
+				echo '</tr>';
+			echo '</thead>' ;
+			echo '<tbody>' ;
 			
+			$i = true;
 			$tab_bt_radio=array();
 			while ($resultat1 = $ReqLog1->fetch_array()) 
 			{
@@ -155,21 +172,30 @@ function affiche_all_demandes_en_cours($tab_type_conges, $DEBUG=FALSE)
 				/**  et le 2ieme est <input type="radio" name="tab_bt_radio[valeur de p_num]" value="[valeur de p_login]--[valeur p_nb_jours]--$type--not_OK"> */
 				/**  et le 3ieme est <input type="radio" name="tab_bt_radio[valeur de p_num]" value="[valeur de p_login]--[valeur p_nb_jours]--$type--RIEN"> */
 	
-				$sql_p_date_deb = $resultat1["p_date_deb"];
-				$sql_p_date_deb_fr = eng_date_to_fr($resultat1["p_date_deb"]);
-				$sql_p_demi_jour_deb=$resultat1["p_demi_jour_deb"] ;
-				if($sql_p_demi_jour_deb=="am") $demi_j_deb="mat";  else $demi_j_deb="aprm";
-				$sql_p_date_fin = $resultat1["p_date_fin"];
-				$sql_p_date_fin_fr = eng_date_to_fr($resultat1["p_date_fin"]);
-				$sql_p_demi_jour_fin=$resultat1["p_demi_jour_fin"] ;
-				if($sql_p_demi_jour_fin=="am") $demi_j_fin="mat";  else $demi_j_fin="aprm";
-				$sql_p_commentaire = $resultat1["p_commentaire"];
-				$sql_p_num = $resultat1["p_num"];
-				$sql_p_login = $resultat1["p_login"];
-				$sql_p_nb_jours = affiche_decimal($resultat1["p_nb_jours"]);
-				$sql_p_type = $resultat1["p_type"];
-				$sql_p_date_demande = $resultat1["p_date_demande"];
-				$sql_p_date_traitement = $resultat1["p_date_traitement"];
+				$sql_p_date_deb			= $resultat1["p_date_deb"];
+				$sql_p_date_fin			= $resultat1["p_date_fin"];
+				$sql_p_date_deb_fr		= eng_date_to_fr($resultat1["p_date_deb"]);
+				$sql_p_date_fin_fr		= eng_date_to_fr($resultat1["p_date_fin"]);
+				$sql_p_demi_jour_deb	= $resultat1["p_demi_jour_deb"] ;
+				$sql_p_demi_jour_fin	= $resultat1["p_demi_jour_fin"] ;
+				
+				$sql_p_commentaire		= $resultat1["p_commentaire"];
+				$sql_p_num				= $resultat1["p_num"];
+				$sql_p_login			= $resultat1["p_login"];
+				$sql_p_nb_jours			= affiche_decimal($resultat1["p_nb_jours"]);
+				$sql_p_type				= $resultat1["p_type"];
+				$sql_p_date_demande		= $resultat1["p_date_demande"];
+				$sql_p_date_traitement	= $resultat1["p_date_traitement"];
+				
+				if($sql_p_demi_jour_deb=="am")
+					$demi_j_deb="mat";  
+				else
+					$demi_j_deb="aprm";
+					
+				if($sql_p_demi_jour_fin=="am")
+					$demi_j_fin="mat"; 
+				else 
+					$demi_j_fin="aprm";
 				
 				// on construit la chaine qui servira de valeur à passer dans les boutons-radio
 				$chaine_bouton_radio = "$sql_p_login--$sql_p_nb_jours--$sql_p_type--$sql_p_date_deb--$sql_p_demi_jour_deb--$sql_p_date_fin--$sql_p_demi_jour_fin";
@@ -191,29 +217,30 @@ function affiche_all_demandes_en_cours($tab_type_conges, $DEBUG=FALSE)
 	
 				$text_refus="<input type=\"text\" name=\"tab_text_refus[$sql_p_num]\" size=\"20\" max=\"100\">";
 				
-				echo "<tr>\n" ;
-				echo "<td><b>".$tab_all_users_du_resp[$sql_p_login]['nom']."</b><br>".$tab_all_users_du_resp[$sql_p_login]['prenom']."</td><td>".$tab_all_users_du_resp[$sql_p_login]['quotite']."%</td>";
-				echo "<td>$sql_p_date_deb_fr _ $demi_j_deb</td><td>$sql_p_date_fin_fr _ $demi_j_fin</td><td>$sql_p_commentaire</td><td><b>$sql_p_nb_jours</b></td>";
-				$tab_conges=$tab_all_users_du_resp[$sql_p_login]['conges']; 
-				foreach($tab_type_conges as $id_conges => $libelle)
-				{
-					echo "<td>".$tab_conges[$libelle]['solde']."</td>";
-				}
-				if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
-				foreach($tab_type_conges_exceptionnels as $id_conges => $libelle)
-				{
-					echo "<td>".$tab_conges[$libelle]['solde']."</td>";
-				}			
-				echo "<td>".$tab_type_all_abs[$sql_p_type]['libelle']."</td>\n";			
-				echo "<td>$boutonradio1</td><td>$boutonradio2</td><td>$boutonradio3</td><td>$text_refus</td>\n";
-				if($_SESSION['config']['affiche_date_traitement']==TRUE)
-				{
-					echo "<td class=\"histo-left\">". _('divers_demande') ." : $sql_p_date_demande<br>". _('divers_traitement') ." : $sql_p_date_traitement</td>\n" ;
-				}
-				
-				echo "</tr>\n" ;
+				echo '<tr class="'.($i?'i':'p').'">';
+					echo "<td><b>".$tab_all_users_du_resp[$sql_p_login]['nom']."</b><br>".$tab_all_users_du_resp[$sql_p_login]['prenom']."</td><td>".$tab_all_users_du_resp[$sql_p_login]['quotite']."%</td>";
+					echo "<td>$sql_p_date_deb_fr _ $demi_j_deb</td><td>$sql_p_date_fin_fr _ $demi_j_fin</td><td>$sql_p_commentaire</td><td><b>$sql_p_nb_jours</b></td>";
+					$tab_conges=$tab_all_users_du_resp[$sql_p_login]['conges']; 
+					foreach($tab_type_conges as $id_conges => $libelle)
+					{
+						echo '<td>'.$tab_conges[$libelle]['solde'].'</td>';
+					}
+					if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
+					foreach($tab_type_conges_exceptionnels as $id_conges => $libelle)
+					{
+						echo '<td>'.$tab_conges[$libelle]['solde'].'</td>';
+					}			
+					echo '<td>'.$tab_type_all_abs[$sql_p_type]['libelle'].'</td>';			
+					echo "<td>$boutonradio1</td><td>$boutonradio2</td><td>$boutonradio3</td><td>$text_refus</td>\n";
+					if($_SESSION['config']['affiche_date_traitement']==TRUE)
+					{
+						echo "<td class=\"histo-left\">". _('divers_demande') ." : $sql_p_date_demande<br>". _('divers_traitement') ." : $sql_p_date_traitement</td>\n" ;
+					}
+				echo '</tr>' ;
+				$i = !$i;
 			} // while
-			echo "</table>\n\n" ;
+			echo '</tbody>' ;
+			echo '</table>' ;
 		} //if($count1!=0)
 	} //if( count($tab_all_users_du_resp)!=0 )
 
@@ -222,7 +249,7 @@ function affiche_all_demandes_en_cours($tab_type_conges, $DEBUG=FALSE)
 	/* TABLEAU DES DEMANDES DES USERS DONT ON EST LE GRAND RESP */
 	/*********************************/
 
-	if($_SESSION['config']['double_validation_conges']==TRUE)
+	if( $_SESSION['config']['double_validation_conges'] )
 	{
 		
 		// si tableau des users du grand resp n'est pas vide
@@ -245,51 +272,62 @@ function affiche_all_demandes_en_cours($tab_type_conges, $DEBUG=FALSE)
 				echo "<h3>". _('resp_traite_demandes_titre_tableau_2') ."</h3>\n" ;
 			
 				echo "<table cellpadding=\"2\" class=\"tablo\">\n" ;
-				echo "<tr>\n" ;
-				echo "<td><b>". _('divers_nom_maj_1') ."</b><br>". _('divers_prenom_maj_1') ."</td>\n" ;
-				echo "<td>". _('divers_quotite_maj_1') ."</td>" ;
-				echo "<td>". _('divers_debut_maj_1') ."</td>\n" ;
-				echo "<td>". _('divers_fin_maj_1') ."</td>\n" ;
-				echo "<td>". _('divers_comment_maj_1') ."</td>\n" ;
-				echo "<td>". _('resp_traite_demandes_nb_jours') ."</td>";
-				foreach($tab_type_conges as $id_conges => $libelle)
-				{
-					echo "<td>". _('divers_solde_maj_1') ."<br>$libelle</td>" ;
-				}
-				echo "<td>". _('divers_type_maj_1') ."</td>\n" ;
-				echo "<td>". _('divers_accepter_maj_1') ."</td>\n" ;
-				echo "<td>". _('divers_refuser_maj_1') ."</td>\n" ;
-				echo "<td>". _('resp_traite_demandes_attente') ."</td>\n" ;
-				echo "<td>". _('resp_traite_demandes_motif_refus') ."</td>\n" ;
-				if($_SESSION['config']['affiche_date_traitement']==TRUE)
-				{
-					echo "<td>". _('divers_date_traitement') ."</td>\n" ;
-				}
-				echo "</tr>\n";
+				echo '<thead>' ;
+					echo '<tr>' ;
+						echo "<td><b>". _('divers_nom_maj_1') ."</b><br>". _('divers_prenom_maj_1') .'</td>' ;
+						echo '<td>'. _('divers_quotite_maj_1') .'</td>' ;
+						echo '<td>'. _('divers_debut_maj_1') .'</td>' ;
+						echo '<td>'. _('divers_fin_maj_1') .'</td>' ;
+						echo '<td>'. _('divers_comment_maj_1') .'</td>' ;
+						echo '<td>'. _('resp_traite_demandes_nb_jours') .'</td>';
+						foreach($tab_type_conges as $id_conges => $libelle)
+							echo '<td>'. _('divers_solde_maj_1') ."<br>$libelle</td>" ;
+							
+						echo '<td>'. _('divers_type_maj_1') .'</td>' ;
+						echo '<td>'. _('divers_accepter_maj_1') .'</td>' ;
+						echo '<td>'. _('divers_refuser_maj_1') .'</td>' ;
+						echo '<td>'. _('resp_traite_demandes_attente') .'</td>' ;
+						echo '<td>'. _('resp_traite_demandes_motif_refus') .'</td>' ;
+						if( $_SESSION['config']['affiche_date_traitement'] )
+							echo '<td>'. _('divers_date_traitement') .'</td>' ;
+					echo '</tr>';
+				echo '</thead>' ;
+				echo '<tbody>' ;
 				
 				$tab_bt_radio=array();
+				$i = true;
 				while ($resultat2 = $ReqLog2->fetch_array()) 
 				{
 					/** sur la ligne ,   **/
 					/** le 1er bouton radio est <input type="radio" name="tab_bt_radio[valeur de p_num]" value="[valeur de p_login]--[valeur p_nb_jours]--$type--OK"> */
 					/**  et le 2ieme est <input type="radio" name="tab_bt_radio[valeur de p_num]" value="[valeur de p_login]--[valeur p_nb_jours]--$type--not_OK"> */
 					/**  et le 3ieme est <input type="radio" name="tab_bt_radio[valeur de p_num]" value="[valeur de p_login]--[valeur p_nb_jours]--$type--RIEN"> */
+					
+					$sql_p_date_deb			= $resultat2["p_date_deb"];
+					$sql_p_date_fin			= $resultat2["p_date_fin"];
+					$sql_p_date_deb_fr		= eng_date_to_fr($resultat2["p_date_deb"]);
+					$sql_p_date_fin_fr		= eng_date_to_fr($resultat2["p_date_fin"]);
+					$sql_p_demi_jour_deb	= $resultat2["p_demi_jour_deb"] ;
+					$sql_p_demi_jour_fin	= $resultat2["p_demi_jour_fin"] ;
+					
+					$sql_p_commentaire		= $resultat2["p_commentaire"];
+					$sql_p_num				= $resultat2["p_num"];
+					$sql_p_login			= $resultat2["p_login"];
+					$sql_p_nb_jours			= affiche_decimal($resultat2["p_nb_jours"]);
+					$sql_p_type				= $resultat2["p_type"];
+					$sql_p_date_demande		= $resultat2["p_date_demande"];
+					$sql_p_date_traitement	= $resultat2["p_date_traitement"];
 		
-					$sql_p_date_deb = $resultat2["p_date_deb"];
-					$sql_p_date_deb_fr = eng_date_to_fr($resultat2["p_date_deb"]);
-					$sql_p_demi_jour_deb=$resultat2["p_demi_jour_deb"] ;
-					if($sql_p_demi_jour_deb=="am") $demi_j_deb="mat";  else $demi_j_deb="aprm";
-					$sql_p_date_fin = $resultat2["p_date_fin"];
-					$sql_p_date_fin_fr = eng_date_to_fr($resultat2["p_date_fin"]);
-					$sql_p_demi_jour_fin=$resultat2["p_demi_jour_fin"] ;
-					if($sql_p_demi_jour_fin=="am") $demi_j_fin="mat";  else $demi_j_fin="aprm";
-					$sql_p_commentaire = $resultat2["p_commentaire"];
-					$sql_p_num = $resultat2["p_num"];
-					$sql_p_login = $resultat2["p_login"];
-					$sql_p_nb_jours = affiche_decimal($resultat2["p_nb_jours"]);
-					$sql_p_type = $resultat2["p_type"];
-					$sql_p_date_demande = $resultat2["p_date_demande"];
-					$sql_p_date_traitement = $resultat2["p_date_traitement"];
+					if($sql_p_demi_jour_deb=="am")
+						$demi_j_deb="mat";  
+					else
+						$demi_j_deb="aprm";
+						
+					if($sql_p_demi_jour_fin=="am")
+						$demi_j_fin="mat"; 
+					else 
+						$demi_j_fin="aprm";
+				
 					
 					// on construit la chaine qui servira de valeur à passer dans les boutons-radio
 					$chaine_bouton_radio = "$sql_p_login--$sql_p_nb_jours--$sql_p_type--$sql_p_date_deb--$sql_p_demi_jour_deb--$sql_p_date_fin--$sql_p_demi_jour_fin";
@@ -300,24 +338,26 @@ function affiche_all_demandes_en_cours($tab_type_conges, $DEBUG=FALSE)
 		
 					$text_refus="<input type=\"text\" name=\"tab_text_refus[$sql_p_num]\" size=\"20\" max=\"100\">";
 					
-					echo "<tr>\n" ;
+					echo '<tr class="'.($i?'i':'p').'">' ;
 					echo "<td><b>".$tab_all_users_du_grand_resp[$sql_p_login]['nom']."</b><br>".$tab_all_users_du_grand_resp[$sql_p_login]['prenom']."</td><td>".$tab_all_users_du_grand_resp[$sql_p_login]['quotite']."%</td>";
 					echo "<td>$sql_p_date_deb_fr _ $demi_j_deb</td><td>$sql_p_date_fin_fr _ $demi_j_fin</td><td>$sql_p_commentaire</td><td><b>$sql_p_nb_jours</b></td>";
 					$tab_conges=$tab_all_users_du_grand_resp[$sql_p_login]['conges']; 
 					foreach($tab_type_conges as $id_conges => $libelle)
 					{
-						echo "<td>".$tab_conges[$libelle]['solde']."</td>";
+						echo '<td>'.$tab_conges[$libelle]['solde'].'</td>';
 					}
-					echo "<td>".$tab_type_all_abs[$sql_p_type]['libelle']."</td>";
+					echo '<td>'.$tab_type_all_abs[$sql_p_type]['libelle'].'</td>';
 					echo "<td>$boutonradio1</td><td>$boutonradio2</td><td>$boutonradio3</td><td>$text_refus</td>\n";
 					if($_SESSION['config']['affiche_date_traitement']==TRUE)
 					{
 						echo "<td class=\"histo-left\">". _('divers_demande') ." : $sql_p_date_demande<br>". _('divers_traitement') ." : $sql_p_date_traitement</td>\n" ;
 					}
 					
-					echo "</tr>\n" ;
+					echo '</tr>' ;
+					$i = !$i;
 				} //while
-				echo "</table>\n\n" ;
+				echo '</tbody>' ;
+				echo '</table>' ;
 			} //if($count2!=0)
 		} //if( count($tab_all_users_du_grand_resp)!=0 )
 	} //if($_SESSION['config']['double_validation_conges']==TRUE)
@@ -331,13 +371,6 @@ function affiche_all_demandes_en_cours($tab_type_conges, $DEBUG=FALSE)
 		
 	echo " </form> \n" ;
 	
-	
-	/*********************************/
-	
-	/* APPEL D'UNE AUTRE PAGE */
-	echo " <form action=\"hr_index.php?session=$session\" method=\"POST\"> \n";
-	echo "<input type=\"submit\" value=\"". _('form_retour') ."\">\n";
-	echo " </form> \n";
 }
 
 
@@ -348,18 +381,18 @@ function traite_all_demande_en_cours($tab_bt_radio, $tab_text_refus, $DEBUG=FALS
 
 	while($elem_tableau = each($tab_bt_radio))
 	{
-		$champs = explode("--", $elem_tableau['value']);
-		$user_login=$champs[0];
-		$user_nb_jours_pris=$champs[1];
-		$type_abs=$champs[2];   // id du type de conges demandé
-		$date_deb=$champs[3];
-		$demi_jour_deb=$champs[4];
-		$date_fin=$champs[5];
-		$demi_jour_fin=$champs[6];
-		$reponse=$champs[7];
+		$champs				= explode("--", $elem_tableau['value']);
+		$user_login			= $champs[0];
+		$user_nb_jours_pris	= $champs[1];
+		$type_abs			= $champs[2];   // id du type de conges demandé
+		$date_deb			= $champs[3];
+		$demi_jour_deb		= $champs[4];
+		$date_fin			= $champs[5];
+		$demi_jour_fin		= $champs[6];
+		$reponse			= $champs[7];
 		
-		$numero=$elem_tableau['key'];
-		$numero_int=(int) $numero;
+		$numero				= $elem_tableau['key'];
+		$numero_int			= (int) $numero;
 		echo "$numero---$user_login---$user_nb_jours_pris---$reponse<br>\n";
 
 		/* Modification de la table conges_periode */
@@ -412,20 +445,6 @@ function traite_all_demande_en_cours($tab_bt_radio, $tab_text_refus, $DEBUG=FALS
 			if($_SESSION['config']['mail_refus_conges_alerte_user']==TRUE)
 				alerte_mail($_SESSION['userlogin'], $user_login, $numero_int, "refus_conges", $DEBUG);
 		}
-	}
-
-	if($DEBUG==TRUE)
-	{
-		echo "<form action=\"$PHP_SELF?sesssion=$session&onglet=traitement_demande\" method=\"POST\">\n" ;
-		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-		echo "<input type=\"submit\" value=\"". _('form_ok') ."\">\n";
-		echo "</form>\n" ;
-	}
-	else
-	{
-		echo  _('form_modif_ok') ."<br><br> \n";
-		/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
-		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=$PHP_SELF?session=$session&onglet=traitement_demandes\">";
 	}
 }
 

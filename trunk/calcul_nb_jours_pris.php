@@ -53,11 +53,11 @@ $DEBUG=FALSE;
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET	/ POST
-	$user       = getpost_variable("user") ;
-	$date_debut = getpost_variable("date_debut") ;
-	$date_fin   = getpost_variable("date_fin") ;
-	$opt_debut  = getpost_variable("opt_debut") ;
-	$opt_fin    = getpost_variable("opt_fin") ;
+	$user       = getpost_variable('user') ;
+	$date_debut = getpost_variable('date_debut') ;
+	$date_fin   = getpost_variable('date_fin') ;
+	$opt_debut  = getpost_variable('opt_debut') ;
+	$opt_fin    = getpost_variable('opt_fin') ;
 	/*************************************/
 
 // ATTENTION ne pas mettre cet appel avant les include car plantage sous windows !!!
@@ -82,7 +82,7 @@ function envoi(valeur)
 
 function affichage($user, $date_debut, $date_fin, $opt_debut, $opt_fin, $DEBUG=FALSE)
 {
-	if($DEBUG==TRUE) { echo "user = $user, date_debut = $date_debut, date_fin = $date_fin, opt_debut = $opt_debut, opt_fin = $opt_fin<br>\n";}
+	if( $DEBUG ) { echo "user = $user, date_debut = $date_debut, date_fin = $date_fin, opt_debut = $opt_debut, opt_fin = $opt_fin<br>\n";}
 
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();

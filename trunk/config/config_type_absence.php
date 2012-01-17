@@ -53,9 +53,9 @@ verif_droits_user($session, "is_admin", $DEBUG);
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET / POST
-	$action         = getpost_variable("action") ;
-	$tab_new_values = getpost_variable("tab_new_values");
-	$id_to_update   = getpost_variable("id_to_update");
+	$action         = getpost_variable('action') ;
+	$tab_new_values = getpost_variable('tab_new_values');
+	$id_to_update   = getpost_variable('id_to_update');
 
 	/*************************************/
 
@@ -357,7 +357,7 @@ function commit_modif(&$tab_new_values, $session, $id_to_update, $DEBUG=FALSE)
 		$comment_log = "config : modif_type_absence ($id_to_update): ".$tab_new_values['libelle']."  (".$tab_new_values['short_libelle'].") ";
 		log_action(0, "", "", $comment_log, $DEBUG);
 	
-		if($DEBUG==TRUE)
+		if( $DEBUG )
 				echo "<a href=\"$URL\" method=\"POST\">". _('form_retour') ."</a><br>\n" ;
 			else
 				echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=$URL\">";
@@ -431,7 +431,7 @@ function commit_suppr($session, $id_to_update, $DEBUG=FALSE)
 		$URL = "$PHP_SELF";
 	else
 		$URL = "$PHP_SELF?session=$session";
-	if($DEBUG==TRUE) { echo "URL = $URL<br>\n"; }
+	if( $DEBUG ) { echo "URL = $URL<br>\n"; }
 
 	// delete dans la table conges_type_absence
 	$req_delete1='DELETE FROM conges_type_absence WHERE ta_id='.SQL::quote($id_to_update);
@@ -446,7 +446,7 @@ function commit_suppr($session, $id_to_update, $DEBUG=FALSE)
 	$comment_log = "config : supprime_type_absence ($id_to_update) ";
 	log_action(0, "", "", $comment_log,$DEBUG);
 
-	if($DEBUG==TRUE)
+	if( $DEBUG )
 		echo "<a href=\"$URL\" method=\"POST\">". _('form_retour') ."</a><br>\n" ;
 	else
 		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=$URL\">";
@@ -462,7 +462,7 @@ function commit_ajout(&$tab_new_values, $session, $DEBUG=FALSE)
 		$URL = "$PHP_SELF";
 	else
 		$URL = "$PHP_SELF?session=$session";
-	if($DEBUG==TRUE) { echo "URL = $URL<br>\n"; }
+	if( $DEBUG ) { echo "URL = $URL<br>\n"; }
 
 	// verif de la saisie
 	$erreur=FALSE ;
@@ -527,7 +527,7 @@ function commit_ajout(&$tab_new_values, $session, $DEBUG=FALSE)
 	$comment_log = "config : ajout_type_absence : ".$tab_new_values['libelle']."  (".$tab_new_values['short_libelle'].") (type : ".$tab_new_values['type'].") ";
 	log_action(0, "", "", $comment_log, $DEBUG);
 
-	if($DEBUG==TRUE)
+	if( $DEBUG )
 			echo "<a href=\"$URL\" method=\"POST\">". _('form_retour') ."</a><br>\n" ;
 		else
 			echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=$URL\">";

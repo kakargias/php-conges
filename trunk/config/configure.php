@@ -45,7 +45,7 @@ $DEBUG = FALSE ;
 // verif des droits du user à afficher la page
 verif_droits_user($session, "is_admin", $DEBUG);
 
-if($DEBUG==TRUE) { echo "SESSION = "; print_r($_SESSION); echo "<br>\n";}
+if( $DEBUG ) { echo "SESSION = "; print_r($_SESSION); echo "<br>\n";}
 
 
 	/*** initialisation des variables ***/
@@ -65,7 +65,7 @@ if($DEBUG==TRUE) { echo "SESSION = "; print_r($_SESSION); echo "<br>\n";}
 
 	/*************************************/
 
-	if($DEBUG==TRUE) { echo "tab_new_values = "; print_r($tab_new_values); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_new_values = "; print_r($tab_new_values); echo "<br>\n"; }
 
 
 	if($action=="commit")
@@ -207,7 +207,7 @@ function commit_saisie(&$tab_new_values, $session, $DEBUG=FALSE)
 
 	$timeout=2 ;  // temps d'attente pour rafraichir l'écran après l'update !
 
-	if($DEBUG==TRUE) { echo "SESSION = "; print_r($_SESSION); echo "<br>\n"; }
+	if( $DEBUG ) { echo "SESSION = "; print_r($_SESSION); echo "<br>\n"; }
 
 	foreach($tab_new_values as $key => $value )
 	{

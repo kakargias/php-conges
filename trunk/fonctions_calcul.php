@@ -134,7 +134,7 @@ function compter($user, $date_debut, $date_fin, $opt_debut, $opt_fin, &$comment,
 		}
 
 
-		if($DEBUG==TRUE) { echo "tab_periode_calcul :<br>\n"; print_r($tab_periode_calcul); echo "<br>\n"; }
+		if( $DEBUG ) { echo "tab_periode_calcul :<br>\n"; print_r($tab_periode_calcul); echo "<br>\n"; }
 
 		/************************************************************/
 		// 3 : on va avancer jour par jour jusqu'à la date limite pour compter le nb de demi jour à 1
@@ -190,7 +190,7 @@ function make_tab_demi_jours_periode($date_debut, $date_fin, $opt_debut, $opt_fi
 		$tab_periode_calcul=array();
 		$nb_jours_entre_date = (((strtotime($date_fin) - strtotime($date_debut))/3600)/24)+1 ;
 
-		if($DEBUG==TRUE) { echo "$nb_jours_entre_date<br>\n"; }
+		if( $DEBUG ) { echo "$nb_jours_entre_date<br>\n"; }
 
 		// on va avancer jour par jour jusqu'à la date limite
 		$current_day=$date_debut;
@@ -208,7 +208,7 @@ function make_tab_demi_jours_periode($date_debut, $date_fin, $opt_debut, $opt_fi
 		if($opt_fin=="am")
 			$tab_periode_calcul[$date_fin]['pm']=0;
 
-		if($DEBUG==TRUE) { echo "tab_periode_calcul :<br>\n"; print_r($tab_periode_calcul); echo "<br>\n"; }
+		if( $DEBUG ) { echo "tab_periode_calcul :<br>\n"; print_r($tab_periode_calcul); echo "<br>\n"; }
 
 		return $tab_periode_calcul;
 }
@@ -226,7 +226,7 @@ function verif_periode_chevauche_periode_groupe($date_debut, $date_fin, $tab_per
 		$list_users = get_list_users_du_groupe($groupe_id,  $DEBUG);
 
 	$tab_users = explode(",", $list_users);
-	if($DEBUG==TRUE) { echo "tab_users =<br>\n"; print_r($tab_users) ; echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_users =<br>\n"; print_r($tab_users) ; echo "<br>\n"; }
 
 	foreach($tab_users as $current_login)
 	{
@@ -302,7 +302,7 @@ function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $ta
 						else
 							$comment =  _('calcul_nb_jours_commentaire') ;
 
-						if($DEBUG==TRUE) { echo "tab_periode_deja_prise :<br>\n"; print_r($tab_periode_deja_prise); echo "<br>\n"; }
+						if( $DEBUG ) { echo "tab_periode_deja_prise :<br>\n"; print_r($tab_periode_deja_prise); echo "<br>\n"; }
 						return TRUE ;
 					}
 					elseif( ($current_day==$sql_p_date_deb) && ($current_day==$sql_p_date_fin) ) // periode sur une seule journee
@@ -359,7 +359,7 @@ function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $ta
 					else
 						$comment =  _('calcul_nb_jours_commentaire') ;
 
-					if($DEBUG==TRUE) { echo "tab_periode_deja_prise :<br>\n"; print_r($tab_periode_deja_prise); echo "<br>\n"; }
+					if( $DEBUG ) { echo "tab_periode_deja_prise :<br>\n"; print_r($tab_periode_deja_prise); echo "<br>\n"; }
 					return TRUE ;
 				}
 				if( ($tab_periode_calcul[$current_day]['pm']==1) && ($tab_periode_deja_prise[$current_day]['pm']!="no") )
@@ -370,7 +370,7 @@ function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $ta
 					else
 						$comment =  _('calcul_nb_jours_commentaire') ;
 
-					if($DEBUG==TRUE) { echo "tab_periode_deja_prise :<br>\n"; print_r($tab_periode_deja_prise); echo "<br>\n"; }
+					if( $DEBUG ) { echo "tab_periode_deja_prise :<br>\n"; print_r($tab_periode_deja_prise); echo "<br>\n"; }
 					return TRUE ;
 				}
 
@@ -378,7 +378,7 @@ function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $ta
 			}// fin du while
 		}
 
-		if($DEBUG==TRUE) { echo "tab_periode_calcul :<br>\n"; print_r($tab_periode_calcul); echo "<br>\n"; }
+		if( $DEBUG ) { echo "tab_periode_calcul :<br>\n"; print_r($tab_periode_calcul); echo "<br>\n"; }
 
 		return FALSE ;
 

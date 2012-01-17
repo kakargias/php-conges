@@ -47,9 +47,9 @@ $DEBUG=FALSE;
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET	/ POST
-	$action     = getpost_variable("action") ;
-	$new_mois = getpost_variable("new_mois", date("m")) ;
-	$new_year = getpost_variable("new_year", date("Y")) ;
+	$action     = getpost_variable('action') ;
+	$new_mois = getpost_variable('new_mois', date("m")) ;
+	$new_year = getpost_variable('new_year', date("Y")) ;
 	/*************************************/
 
 

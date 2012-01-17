@@ -26,12 +26,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 
-	$choix_groupe            = getpost_variable("choix_groupe");
-	$cloture_users           = getpost_variable("cloture_users");
-	$cloture_globale         = getpost_variable("cloture_globale");
-	$cloture_groupe          = getpost_variable("cloture_groupe");
-	$tab_cloture_users       = getpost_variable("tab_cloture_users");
-	$tab_commentaire_saisie       = getpost_variable("tab_commentaire_saisie");
+	$choix_groupe            = getpost_variable('choix_groupe');
+	$cloture_users           = getpost_variable('cloture_users');
+	$cloture_globale         = getpost_variable('cloture_globale');
+	$cloture_groupe          = getpost_variable('cloture_groupe');
+	$tab_cloture_users       = getpost_variable('tab_cloture_users');
+	$tab_commentaire_saisie       = getpost_variable('tab_commentaire_saisie');
 	/*************************************/
 	
 	header_popup( $_SESSION['config']['titre_resp_index'] );
@@ -86,8 +86,8 @@ function saisie_cloture( $tab_type_conges,  $DEBUG)
 	// renvoit une liste de login entre quotes et séparés par des virgules
 	$tab_all_users_du_resp=recup_infos_all_users_du_resp($_SESSION['userlogin']);
 	$tab_all_users_du_grand_resp=recup_infos_all_users_du_grand_resp($_SESSION['userlogin']);
-	if($DEBUG==TRUE) { echo "tab_all_users_du_resp =<br>\n"; print_r($tab_all_users_du_resp); echo "<br>\n"; }
-	if($DEBUG==TRUE) { echo "tab_all_users_du_grand_resp =<br>\n"; print_r($tab_all_users_du_grand_resp); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_all_users_du_resp =<br>\n"; print_r($tab_all_users_du_resp); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_all_users_du_grand_resp =<br>\n"; print_r($tab_all_users_du_grand_resp); echo "<br>\n"; }
 	
 	if( (count($tab_all_users_du_resp)!=0) || (count($tab_all_users_du_grand_resp)!=0) )
 	{
@@ -341,11 +341,11 @@ function cloture_users($tab_type_conges, $tab_cloture_users, $tab_commentaire_sa
 	// renvoit une liste de login entre quotes et séparés par des virgules
 	$tab_all_users_du_resp=recup_infos_all_users_du_resp($_SESSION['userlogin']);
 	$tab_all_users_du_grand_resp=recup_infos_all_users_du_grand_resp($_SESSION['userlogin']);
-	if($DEBUG==TRUE) { echo "tab_all_users_du_resp =<br>\n"; print_r($tab_all_users_du_resp); echo "<br>\n"; }
-	if($DEBUG==TRUE) { echo "tab_all_users_du_grand_resp =<br>\n"; print_r($tab_all_users_du_grand_resp); echo "<br>\n"; }
-	if($DEBUG==TRUE) { echo "tab_type_conges =<br>\n"; print_r($tab_type_conges); echo "<br>\n"; }
-	if($DEBUG==TRUE) { echo "tab_cloture_users =<br>\n"; print_r($tab_cloture_users); echo "<br>\n"; }
-	if($DEBUG==TRUE) { echo "tab_commentaire_saisie =<br>\n"; print_r($tab_commentaire_saisie); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_all_users_du_resp =<br>\n"; print_r($tab_all_users_du_resp); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_all_users_du_grand_resp =<br>\n"; print_r($tab_all_users_du_grand_resp); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_type_conges =<br>\n"; print_r($tab_type_conges); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_cloture_users =<br>\n"; print_r($tab_cloture_users); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_commentaire_saisie =<br>\n"; print_r($tab_commentaire_saisie); echo "<br>\n"; }
 	
 	if( (count($tab_all_users_du_resp)!=0) || (count($tab_all_users_du_grand_resp)!=0) )
 	{
@@ -374,7 +374,7 @@ function cloture_users($tab_type_conges, $tab_cloture_users, $tab_commentaire_sa
 		}	
 	}
 	
-	if($DEBUG==TRUE)
+	if( $DEBUG )
 	{
 		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
 		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
@@ -407,7 +407,7 @@ function cloture_current_year_for_login($current_login, $tab_current_user, $tab_
 			$user_solde_actuel=$tab_conges_current_user[$libelle]['solde'];
 			$user_reliquat_actuel=$tab_conges_current_user[$libelle]['reliquat'];
 			
-			if($DEBUG==TRUE) {echo "$current_login --- $id_conges --- $user_nb_jours_ajout_an<br>\n";}
+			if( $DEBUG ) {echo "$current_login --- $id_conges --- $user_nb_jours_ajout_an<br>\n";}
 	
 			/**********************************************/
 			/* Modification de la table conges_solde_user */
@@ -507,9 +507,9 @@ function cloture_globale($tab_type_conges,  $DEBUG=FALSE)
 	// renvoit une liste de login entre quotes et séparés par des virgules
 	$tab_all_users_du_resp=recup_infos_all_users_du_resp($_SESSION['userlogin']);
 	$tab_all_users_du_grand_resp=recup_infos_all_users_du_grand_resp($_SESSION['userlogin']);
-	if($DEBUG==TRUE) { echo "tab_all_users_du_resp =<br>\n"; print_r($tab_all_users_du_resp); echo "<br>\n"; }
-	if($DEBUG==TRUE) { echo "tab_all_users_du_grand_resp =<br>\n"; print_r($tab_all_users_du_grand_resp); echo "<br>\n"; }
-	if($DEBUG==TRUE) { echo "tab_type_conges =<br>\n"; print_r($tab_type_conges); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_all_users_du_resp =<br>\n"; print_r($tab_all_users_du_resp); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_all_users_du_grand_resp =<br>\n"; print_r($tab_all_users_du_grand_resp); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_type_conges =<br>\n"; print_r($tab_type_conges); echo "<br>\n"; }
 	
 	$comment_cloture =  _('resp_cloture_exercice_commentaire') ." ".date("m/Y");
 
@@ -530,7 +530,7 @@ function cloture_globale($tab_type_conges,  $DEBUG=FALSE)
 		}	
 	}
 	
-	if($DEBUG==TRUE)
+	if( $DEBUG )
 	{
 		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
 		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
@@ -554,8 +554,8 @@ function cloture_globale_groupe($group_id, $tab_type_conges,  $DEBUG=FALSE)
 
 	// recup de la liste de TOUS les users du groupe
 	$tab_all_users_du_groupe=recup_infos_all_users_du_groupe($group_id,  $DEBUG);
-	if($DEBUG==TRUE) { echo "tab_all_users_du_groupe =<br>\n"; print_r($tab_all_users_du_groupe); echo "<br>\n"; }
-	if($DEBUG==TRUE) { echo "tab_type_conges =<br>\n"; print_r($tab_type_conges); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_all_users_du_groupe =<br>\n"; print_r($tab_all_users_du_groupe); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_type_conges =<br>\n"; print_r($tab_type_conges); echo "<br>\n"; }
 	
 	$comment_cloture =  _('resp_cloture_exercice_commentaire') ." ".date("m/Y");
 
@@ -568,7 +568,7 @@ function cloture_globale_groupe($group_id, $tab_type_conges,  $DEBUG=FALSE)
 		}
 	}
 	
-	if($DEBUG==TRUE)
+	if( $DEBUG )
 	{
 		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
 		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";

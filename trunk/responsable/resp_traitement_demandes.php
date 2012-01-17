@@ -26,8 +26,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 	//var pour resp_traite_demande_all.php
-	$tab_bt_radio   = getpost_variable("tab_bt_radio");
-	$tab_text_refus = getpost_variable("tab_text_refus");
+	$tab_bt_radio   = getpost_variable('tab_bt_radio');
+	$tab_text_refus = getpost_variable('tab_text_refus');
 	
 	
 	// titre
@@ -65,7 +65,7 @@ function affiche_all_demandes_en_cours($tab_type_conges,  $DEBUG=FALSE)
 	
 	// Récup dans un tableau de tableau des informations de tous les users dont $_SESSION['userlogin'] est responsable
 	$tab_all_users_du_resp=recup_infos_all_users_du_resp($_SESSION['userlogin'],  $DEBUG);
-	if($DEBUG==TRUE) { echo "tab_all_users_du_resp :<br>\n"; print_r($tab_all_users_du_resp); echo "<br><br>\n";}
+	if( $DEBUG ) { echo "tab_all_users_du_resp :<br>\n"; print_r($tab_all_users_du_resp); echo "<br><br>\n";}
 	
 	// si tableau des users du resp n'est pas vide
 	if( count($tab_all_users_du_resp) !=0 )
@@ -447,7 +447,7 @@ function traite_all_demande_en_cours( $tab_bt_radio, $tab_text_refus, $DEBUG=FAL
 		}
 	}
 
-	if($DEBUG==TRUE)
+	if( $DEBUG )
 	{
 		echo "<form action=\"$PHP_SELF?sesssion=$session&onglet=traitement_demande\" method=\"POST\">\n" ;
 		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";

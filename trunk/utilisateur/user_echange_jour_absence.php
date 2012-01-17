@@ -29,7 +29,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 	init_tab_jours_feries($DEBUG);
 
 	
-	$new_echange_rtt    = getpost_variable("new_echange_rtt", 0);
+	$new_echange_rtt    = getpost_variable('new_echange_rtt', 0);
 
 	if( $new_echange_rtt == 1 && $_SESSION['config']['user_echange_rtt'] ) {
 	
@@ -74,7 +74,7 @@ function saisie_echange_rtt($user_login, $year_calendrier_saisie_debut, $mois_ca
 	$mois_calendrier_saisie_fin_prec=0; $year_calendrier_saisie_fin_prec=0;
 	$mois_calendrier_saisie_fin_suiv=0; $year_calendrier_saisie_fin_suiv=0;
 
-	if($DEBUG==TRUE) { echo 'param = '.$user_login.', '.$year_calendrier_saisie_debut.', '.$mois_calendrier_saisie_debut.', '.$year_calendrier_saisie_fin.', '.$mois_calendrier_saisie_fin.' <br>' ; }
+	if( $DEBUG ) { echo 'param = '.$user_login.', '.$year_calendrier_saisie_debut.', '.$mois_calendrier_saisie_debut.', '.$year_calendrier_saisie_fin.', '.$mois_calendrier_saisie_fin.' <br>' ; }
 
 	echo '<form action="'.$PHP_SELF.'?session='.$session.'&&onglet='.$onglet.'" method="POST">' ;
 
@@ -270,7 +270,7 @@ function echange_absence_rtt($onglet, $new_debut_string, $new_fin_string, $new_c
 			}
 			elseif($moment_absence_ordinaire=="p") // on demande à etre present l'aprem
 			{
-				if($DEBUG==TRUE) { echo "false_1<br>\n";}
+				if( $DEBUG ) { echo "false_1<br>\n";}
 				$valid=FALSE;
 			}
 		}
@@ -284,7 +284,7 @@ function echange_absence_rtt($onglet, $new_debut_string, $new_fin_string, $new_c
 			}
 			elseif($moment_absence_ordinaire=="a") // on demande à etre present le matin
 			{
-				if($DEBUG==TRUE) { echo "false_2<br>\n";}
+				if( $DEBUG ) { echo "false_2<br>\n";}
 				$valid=FALSE;
 			}
 			elseif($moment_absence_ordinaire=="p") // on demande à etre present l'aprem
@@ -355,7 +355,7 @@ function echange_absence_rtt($onglet, $new_debut_string, $new_fin_string, $new_c
 			}
 			elseif($moment_absence_souhaitee=="p") // on demande à etre absent l'aprem
 			{
-				if($DEBUG==TRUE) { echo "false_3<br>\n";}
+				if( $DEBUG ) { echo "false_3<br>\n";}
 				$valid=FALSE;
 			}
 		}
@@ -369,7 +369,7 @@ function echange_absence_rtt($onglet, $new_debut_string, $new_fin_string, $new_c
 			}
 			elseif($moment_absence_souhaitee=="a") // on demande à etre absent le matin
 			{
-				if($DEBUG==TRUE) { echo "false_4<br>\n";}
+				if( $DEBUG ) { echo "false_4<br>\n";}
 				$valid=FALSE;
 			}
 			elseif($moment_absence_souhaitee=="p") // on demande à etre absent l'aprem
@@ -389,12 +389,12 @@ function echange_absence_rtt($onglet, $new_debut_string, $new_fin_string, $new_c
 		}
 		else
 		{
-			if($DEBUG==TRUE) { echo "false_5<br>\n";}
+			if( $DEBUG ) { echo "false_5<br>\n";}
 			$valid=FALSE;
 		}
 
 
-		if($DEBUG==TRUE)
+		if( $DEBUG )
 		{
 			echo schars($new_debut).' - '.schars($demi_jour_debut).' :: '.schars($new_fin).' - '.schars($demi_jour_fin).'<br>'."\n";
 			echo schars($duree_demande_1).'  :: '.schars($duree_demande_2).'<br>'."\n";

@@ -23,46 +23,18 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-define('_PHP_CONGES', 1);
-define('ROOT_PATH', '../');
-include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-$session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
-
-include ROOT_PATH .'fonctions_conges.php' ;
-include INCLUDE_PATH .'fonction.php';
-include INCLUDE_PATH .'session.php';
-
-$DEBUG = FALSE ;
-//$DEBUG = TRUE ;
-//echo "exercice = ".$_SESSION['config']['num_exercice']." </br>\n";
-
-// verif des droits du user à afficher la page
-verif_droits_user($session, "is_hr", $DEBUG);
 
 
 	/*************************************/
 	// recup des parametres reçus :
-	// SERVER
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-	// GET / POST
-	$choix_groupe            = getpost_variable("choix_groupe");
-	$cloture_users           = getpost_variable("cloture_users");
-	$cloture_globale         = getpost_variable("cloture_globale");
-	$cloture_groupe          = getpost_variable("cloture_groupe");
-	$tab_cloture_users       = getpost_variable("tab_cloture_users");
+
+	$cloture_users           = getpost_variable('cloture_users');
+	$cloture_globale         = getpost_variable('cloture_globale');
+	$cloture_groupe          = getpost_variable('cloture_groupe');
 	/*************************************/
-
-
-	header_popup($_SESSION['config']['titre_resp_index']);
 	
-	echo "<CENTER>\n";
-
-	
-	/*************************************/
-	/***  suite de la page             ***/
-	/*************************************/
 	
 	/** initialisation des tableaux des types de conges/absences  **/
 	// recup du tableau des types de conges (conges et congesexceptionnels)
@@ -70,28 +42,32 @@ verif_droits_user($session, "is_hr", $DEBUG);
 	$tab_type_cong = ( recup_tableau_types_conges($DEBUG) + recup_tableau_types_conges_exceptionnels($DEBUG)  );
 
 	// titre
-	echo "<H2>". _('resp_cloture_exercice_titre') ."</H2>\n\n";
+	echo '<h2>'. _('resp_cloture_exercice_titre') ."</H2>\n\n";
 		
-	if($cloture_users=="TRUE")
-	{
+	if($cloture_users=="TRUE") {
+		$tab_cloture_users       = getpost_variable('tab_cloture_users');
 		cloture_users($tab_type_cong, $tab_cloture_users, $tab_commentaire_saisie, $DEBUG);
+		
+		redirect( ROOT_PATH .'hr/hr_index.php?session='.$session, false);
+		exit;
 	}
-	elseif($cloture_globale=="TRUE")
-	{
+	elseif($cloture_globale=="TRUE") {
 		cloture_globale($tab_type_cong, $DEBUG);
+		
+		redirect( ROOT_PATH .'hr/hr_index.php?session='.$session, false);
+		exit;
 	}
-	elseif($cloture_groupe=="TRUE")
-	{
+	elseif($cloture_groupe=="TRUE") {
+		$choix_groupe            = getpost_variable('choix_groupe');
 		cloture_globale_groupe($choix_groupe, $tab_type_cong, $DEBUG);
+		
+		redirect( ROOT_PATH .'hr/hr_index.php?session='.$session, false);
+		exit;
 	}
-	else
-	{
+	else {
 		saisie_cloture($tab_type_cong,$DEBUG);
 	}
 
-	
-	
-	bottom();
 	
 
 
@@ -109,8 +85,8 @@ function saisie_cloture( $tab_type_conges, $DEBUG)
 	// renvoit une liste de login entre quotes et séparés par des virgules
 	$tab_all_users_du_hr=recup_infos_all_users_du_hr($_SESSION['userlogin']);
 	$tab_all_users_du_grand_resp=recup_infos_all_users_du_grand_resp($_SESSION['userlogin']);    
-	if($DEBUG==TRUE) { echo "tab_all_users_du_hr =<br>\n"; print_r($tab_all_users_du_hr); echo "<br>\n"; }
-	if($DEBUG==TRUE) { echo "tab_all_users_du_grand_resp =<br>\n"; print_r($tab_all_users_du_grand_resp); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_all_users_du_hr =<br>\n"; print_r($tab_all_users_du_hr); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_all_users_du_grand_resp =<br>\n"; print_r($tab_all_users_du_grand_resp); echo "<br>\n"; }
 	
 	if( (count($tab_all_users_du_hr)!=0) || (count($tab_all_users_du_grand_resp)!=0) )
 	{
@@ -135,12 +111,6 @@ function saisie_cloture( $tab_type_conges, $DEBUG)
 	}
 	else
 	 echo  _('resp_etat_aucun_user') ."<br>\n";
-	
-	/* FERMETURE FENETRE */
-	echo " <form action=\"\" method=\"POST\"> \n";
-	echo "<input type=\"button\" value=\"". _('form_close_window') ."\" onClick=\"javascript:window.close();\">\n";
-	echo " </form> \n";
-
 }
 
 
@@ -156,7 +126,7 @@ function affichage_cloture_user_par_user($tab_type_conges, $tab_all_users_du_hr,
 	{
 		echo "<form action=\"$PHP_SELF?session=$session&onglet=cloture_exercice\" method=\"POST\"> \n";
 		echo "<table>\n";
-		echo "<tr>\n";
+		echo '<tr>';
 		echo "<td align=\"center\">\n";
 		echo "<fieldset class=\"cal_saisie\">\n";
 		echo "<legend class=\"boxlogin\">". _('resp_cloture_exercice_users') ."</legend>\n";
@@ -165,11 +135,12 @@ function affichage_cloture_user_par_user($tab_type_conges, $tab_all_users_du_hr,
 		echo "	<td align=\"center\">\n";
 
 		// AFFICHAGE TITRES TABLEAU
-		echo "	<table cellpadding=\"2\" class=\"tablo\" width=\"700\">\n";
-		echo "	<tr align=\"center\">\n";
-		echo "	<td>". _('divers_nom_maj_1') ."</td>\n";
-		echo "	<td>". _('divers_prenom_maj_1') ."</td>\n";
-		echo "	<td>". _('divers_quotite_maj_1') ."</td>\n";
+		echo "	<table cellpadding=\"2\" class=\"tablo\">\n";
+		echo "  <thead>\n";
+		echo "	<tr>\n";
+		echo "	<td>". _('divers_nom_maj_1') .'</td>';
+		echo "	<td>". _('divers_prenom_maj_1') .'</td>';
+		echo "	<td>". _('divers_quotite_maj_1') .'</td>';
 		foreach($tab_type_conges as $id_conges => $libelle)
 		{
 			echo "	<td>$libelle<br><i>(". _('divers_solde') .")</i></td>\n";
@@ -177,26 +148,33 @@ function affichage_cloture_user_par_user($tab_type_conges, $tab_all_users_du_hr,
 		echo "	<td>". _('divers_cloturer_maj_1') ."<br></td>\n" ;
 		echo "	<td>". _('divers_comment_maj_1') ."<br></td>\n" ;
 		echo "	</tr>\n";
+		echo "  </thead>\n";
+		echo "  <tbody>\n";
 		
 		// AFFICHAGE LIGNES TABLEAU
 
 		// affichage des users dont on est responsable :
+		$i = true;
 		foreach($tab_all_users_du_hr as $current_login => $tab_current_user)
 		{		
-			affiche_ligne_du_user($current_login, $tab_type_conges, $tab_current_user);
+			affiche_ligne_du_user($current_login, $tab_type_conges, $tab_current_user, $i);
+			$i = !$i;
 		}
 		
 		// affichage des users dont on est grand responsable :
 		if( ($_SESSION['config']['double_validation_conges']==TRUE) && ($_SESSION['config']['grand_resp_ajout_conges']==TRUE) )
 		{
 			$nb_colspan=50;
-			echo " <tr align=\"center\"><td class=\"histo\" colspan=\"$nb_colspan\"><i>". _('resp_etat_users_titre_double_valid') ."</i></td></tr>\n";
-
+			echo "<tr><td class=\"histo\" style=\"background-color: #CCC;\" colspan=\"$nb_colspan\"><i>". _('resp_etat_users_titre_double_valid') ."</i></td></tr>\n";
+			
+			$i = true;
 			foreach($tab_all_users_du_grand_resp as $current_login => $tab_current_user)
 			{		
-				affiche_ligne_du_user($current_login, $tab_type_conges, $tab_current_user);
+				affiche_ligne_du_user($current_login, $tab_type_conges, $tab_current_user, $i);
+				$i = !$i;
 			}
 		}	
+		echo "	</tbody>\n\n";
 		echo "	</table>\n\n";
 
 		echo "	</td>\n";
@@ -217,15 +195,15 @@ function affichage_cloture_user_par_user($tab_type_conges, $tab_all_users_du_hr,
 	}
 }
 
-function affiche_ligne_du_user($current_login, $tab_type_conges, $tab_current_user)
+function affiche_ligne_du_user($current_login, $tab_type_conges, $tab_current_user, $i = true)
 {
-	echo " <tr align=\"center\">\n";
+	echo '<tr class="'.($i?'i':'p').'">';
 	//tableau de tableaux les nb et soldes de conges d'un user (indicé par id de conges)
 	$tab_conges=$tab_current_user['conges']; 
 	
 	/** sur la ligne ,   **/
-	echo " <td>".$tab_current_user['nom']."</td>\n";
-	echo " <td>".$tab_current_user['prenom']."</td>\n";
+	echo " <td>".$tab_current_user['nom'].'</td>';
+	echo " <td>".$tab_current_user['prenom'].'</td>';
 	echo " <td>".$tab_current_user['quotite']."%</td>\n";
 	
 	foreach($tab_type_conges as $id_conges => $libelle)
@@ -365,11 +343,11 @@ function cloture_users($tab_type_conges, $tab_cloture_users, $tab_commentaire_sa
 	// renvoit une liste de login entre quotes et séparés par des virgules
 	$tab_all_users_du_hr=recup_infos_all_users_du_hr($_SESSION['userlogin']);
 	$tab_all_users_du_grand_resp=recup_infos_all_users_du_grand_resp($_SESSION['userlogin']);
-	if($DEBUG==TRUE) { echo "tab_all_users_du_hr =<br>\n"; print_r($tab_all_users_du_hr); echo "<br>\n"; }
-	if($DEBUG==TRUE) { echo "tab_all_users_du_grand_resp =<br>\n"; print_r($tab_all_users_du_grand_resp); echo "<br>\n"; }
-	if($DEBUG==TRUE) { echo "tab_type_conges =<br>\n"; print_r($tab_type_conges); echo "<br>\n"; }
-	if($DEBUG==TRUE) { echo "tab_cloture_users =<br>\n"; print_r($tab_cloture_users); echo "<br>\n"; }
-	if($DEBUG==TRUE) { echo "tab_commentaire_saisie =<br>\n"; print_r($tab_commentaire_saisie); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_all_users_du_hr =<br>\n"; print_r($tab_all_users_du_hr); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_all_users_du_grand_resp =<br>\n"; print_r($tab_all_users_du_grand_resp); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_type_conges =<br>\n"; print_r($tab_type_conges); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_cloture_users =<br>\n"; print_r($tab_cloture_users); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_commentaire_saisie =<br>\n"; print_r($tab_commentaire_saisie); echo "<br>\n"; }
 	
 	if( (count($tab_all_users_du_hr)!=0) || (count($tab_all_users_du_grand_resp)!=0) )
 	{
@@ -397,21 +375,6 @@ function cloture_users($tab_type_conges, $tab_cloture_users, $tab_commentaire_sa
 			}
 		}	
 	}
-	
-	if($DEBUG==TRUE)
-	{
-		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
-		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-		echo "<input type=\"submit\" value=\"". _('form_ok') ."\">\n";
-		echo "</form>\n" ;
-	}
-	else
-	{
-		echo " ". _('form_modif_ok') ." <br><br> \n";
-		/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
-		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=$PHP_SELF?session=$session\">";
-	}
-
 }
 
 
@@ -431,7 +394,7 @@ function cloture_current_year_for_login($current_login, $tab_current_user, $tab_
 			$user_solde_actuel=$tab_conges_current_user[$libelle]['solde'];
 			$user_reliquat_actuel=$tab_conges_current_user[$libelle]['reliquat'];
 			
-			if($DEBUG==TRUE) {echo "$current_login --- $id_conges --- $user_nb_jours_ajout_an<br>\n";}
+			if( $DEBUG ) {echo "$current_login --- $id_conges --- $user_nb_jours_ajout_an<br>\n";}
 	
 			/**********************************************/
 			/* Modification de la table conges_solde_user */
@@ -530,9 +493,9 @@ function cloture_globale($tab_type_conges, $DEBUG=FALSE)
 	// renvoit une liste de login entre quotes et séparés par des virgules
 	$tab_all_users_du_hr=recup_infos_all_users_du_hr($_SESSION['userlogin']);
 	$tab_all_users_du_grand_resp=recup_infos_all_users_du_grand_resp($_SESSION['userlogin']);
-	if($DEBUG==TRUE) { echo "tab_all_users_du_hr =<br>\n"; print_r($tab_all_users_du_hr); echo "<br>\n"; }
-	if($DEBUG==TRUE) { echo "tab_all_users_du_grand_resp =<br>\n"; print_r($tab_all_users_du_grand_resp); echo "<br>\n"; }
-	if($DEBUG==TRUE) { echo "tab_type_conges =<br>\n"; print_r($tab_type_conges); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_all_users_du_hr =<br>\n"; print_r($tab_all_users_du_hr); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_all_users_du_grand_resp =<br>\n"; print_r($tab_all_users_du_grand_resp); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_type_conges =<br>\n"; print_r($tab_type_conges); echo "<br>\n"; }
 	
 	$comment_cloture =  _('resp_cloture_exercice_commentaire') ." ".date("m/Y");
 
@@ -553,19 +516,7 @@ function cloture_globale($tab_type_conges, $DEBUG=FALSE)
 		}	
 	}
 	
-	if($DEBUG==TRUE)
-	{
-		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
-		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-		echo "<input type=\"submit\" value=\"". _('form_ok') ."\">\n";
-		echo "</form>\n" ;
-	}
-	else
-	{
-		echo " ". _('form_modif_ok') ." <br><br> \n";
-		/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
-		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=$PHP_SELF?session=$session\">";
-	}
+
 
 }
 
@@ -577,8 +528,8 @@ function cloture_globale_groupe($group_id, $tab_type_conges, $DEBUG=FALSE)
 
 	// recup de la liste de TOUS les users du groupe
 	$tab_all_users_du_groupe=recup_infos_all_users_du_groupe($group_id, $DEBUG);
-	if($DEBUG==TRUE) { echo "tab_all_users_du_groupe =<br>\n"; print_r($tab_all_users_du_groupe); echo "<br>\n"; }
-	if($DEBUG==TRUE) { echo "tab_type_conges =<br>\n"; print_r($tab_type_conges); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_all_users_du_groupe =<br>\n"; print_r($tab_all_users_du_groupe); echo "<br>\n"; }
+	if( $DEBUG ) { echo "tab_type_conges =<br>\n"; print_r($tab_type_conges); echo "<br>\n"; }
 	
 	$comment_cloture =  _('resp_cloture_exercice_commentaire') ." ".date("m/Y");
 
@@ -589,20 +540,6 @@ function cloture_globale_groupe($group_id, $tab_type_conges, $DEBUG=FALSE)
 		{		
 			cloture_current_year_for_login($current_login, $tab_current_user, $tab_type_conges, $comment_cloture, $DEBUG);
 		}
-	}
-	
-	if($DEBUG==TRUE)
-	{
-		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n" ;
-		echo "<input type=\"hidden\" name=\"session\" value=\"$session\">\n";
-		echo "<input type=\"submit\" value=\"". _('form_ok') ."\">\n";
-		echo "</form>\n" ;
-	}
-	else
-	{
-		echo " ". _('form_modif_ok') ." <br><br> \n";
-		/* APPEL D'UNE AUTRE PAGE au bout d'une tempo de 2secondes */
-		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"2; URL=$PHP_SELF?session=$session\">";
 	}
 
 }

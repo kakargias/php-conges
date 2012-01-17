@@ -49,7 +49,7 @@ else
 $DEBUG=FALSE;
 //$DEBUG=TRUE ;
 
-if($DEBUG==TRUE) { echo "lang_file=".$_SESSION['config']['lang_file']."<br>\n";  echo "_SESSION =<br>\n"; print_r($_SESSION); echo "<br><br>\n"; }
+if( $DEBUG ) { echo "lang_file=".$_SESSION['config']['lang_file']."<br>\n";  echo "_SESSION =<br>\n"; print_r($_SESSION); echo "<br><br>\n"; }
 
 $script = '<script language=javascript>
 function afficher(id)
@@ -75,13 +75,13 @@ header_popup($_SESSION['config']['titre_calendrier'] , $script . $css);
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET / POST
-	$selected      = getpost_variable("selected") ;
-	$printable     = getpost_variable("printable", 0) ;
-	$year          = getpost_variable("year", date("Y")) ;
-	$mois          = getpost_variable("mois", date("n")) ;
-	$first_jour    = getpost_variable("first_jour", 1) ;
-//	$first_load    = getpost_variable("first_load", "Y") ;
-	$select_groupe = getpost_variable("select_groupe", 0) ;
+	$selected      = getpost_variable('selected') ;
+	$printable     = getpost_variable('printable', 0) ;
+	$year          = getpost_variable('year', date("Y")) ;
+	$mois          = getpost_variable('mois', date("n")) ;
+	$first_jour    = getpost_variable('first_jour', 1) ;
+//	$first_load    = getpost_variable('first_load', "Y") ;
+	$select_groupe = getpost_variable('select_groupe', 0) ;
 
 
 	/*************************************/
@@ -532,7 +532,7 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 		/* recup des info de chaque jour pour tous les users et stockage dans 1 tableau de tableaux */
 
 		$tab_calendrier=recup_tableau_periodes($mois, $first_jour, $year,  $DEBUG);
-		if($DEBUG==TRUE) {	print_r($tab_calendrier); echo "<br>\n"; }
+		if( $DEBUG ) {	print_r($tab_calendrier); echo "<br>\n"; }
 
 
 

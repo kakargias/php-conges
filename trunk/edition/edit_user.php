@@ -45,7 +45,7 @@ $DEBUG = FALSE ;
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET / POST
-	$user_login = getpost_variable('user_login') ;
+	$user_login = getpost_variable('user_login', $_SESSION['userlogin']) ;
 	/*************************************/
 
 	/************************************/
@@ -72,8 +72,8 @@ function affichage($login,  $DEBUG=FALSE)
 	$sql1 = 'SELECT u_nom, u_prenom, u_quotite FROM conges_users where u_login = \''.SQL::quote($login).'\'';
 	$ReqLog1 = SQL::query($sql1);
 
-	if ($ReqLog1->num_rows == 0)
-		exit ('todo'. __FILE__ .' ( ' .__LINE__ .' ) ');
+	// if ($ReqLog1->num_rows == 0)
+		// exit ('todo'. __FILE__ .' ( ' .__LINE__ .' ) ');
 	
 	while ($resultat1 = $ReqLog1->fetch_array()) {
 		$sql_nom=$resultat1["u_nom"];

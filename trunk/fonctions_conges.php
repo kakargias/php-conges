@@ -1037,6 +1037,8 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 				// recup d tableau des types de conges exceptionnels
 				$tab_type_conges_exceptionnels=recup_tableau_types_conges_exceptionnels( $DEBUG);
 
+				$already_checked = false;
+				
 				echo '<td align="left" valign="top">';
 				// si le user a droit de saisir une demande de conges ET si on est PAS dans une fenetre de responsable
 				// OU si le user n'a pas droit de saisir une demande de conges ET si on est dans une fenetre de responsable
@@ -1047,8 +1049,10 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 					echo '<b><i><u>'. _('divers_conges') .' :</u></i></b><br>';
 					foreach($tab_type_conges as $id => $libelle)
 					{
-						if($id==1)
+						if($id==1) {
 							echo '<input type="radio" name="new_type" value="'.$id.'" checked> '.$libelle.'<br>';
+							$already_checked = true;
+						}
 						else
 							echo '<input type="radio" name="new_type" value="'.$id.'"> '.$libelle.'<br>';
 					}
@@ -1063,9 +1067,13 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 					echo '<br>';
 					// absences
 					echo '<b><i><u>'. _('divers_absences') .' :</u></i></b><br>';
-					foreach($tab_type_absence as $id => $libelle)
-					{
-						echo '<input type="radio" name="new_type" value="'.$id.'"> '.$libelle.'<br>';
+					foreach($tab_type_absence as $id => $libelle) {
+						if (!$already_checked){
+							echo '<input type="radio" name="new_type" value="'.$id.'" checked> '.$libelle.'<br>';
+							$already_checked = true;
+						}
+						else
+							echo '<input type="radio" name="new_type" value="'.$id.'"> '.$libelle.'<br>';
 					}
 				}
 				// si le user a droit de saisir une demande de conges ET si on est PAS dans une fenetre de responsable
@@ -1079,8 +1087,9 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 					echo '<b><i><u>'. _('divers_conges_exceptionnels') .' :</u></i></b><br>';
 					 foreach($tab_type_conges_exceptionnels as $id => $libelle)
 					{
-						 if($id==1)
+						 if($id==1) {
 							 echo '<input type="radio" name="new_type" value="'.$id.'" checked> '.$libelle.'<br>';
+						 }
 						 else
 							 echo '<input type="radio" name="new_type" value="'.$id.'"> '.$libelle.'<br>';
 					 }
@@ -2950,7 +2959,7 @@ function recup_tableau_types_conges_exceptionnels( $DEBUG=FALSE)
 function recup_tableau_tout_types_abs( $DEBUG=FALSE)
 {
 	$tab=array();
-	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) // on prend tout les types de conges
+	if ( $_SESSION['config']['gestion_conges_exceptionnels'] ) // on prend tout les types de conges
 		$sql_cong="SELECT ta_id, ta_type, ta_libelle, ta_short_libelle FROM conges_type_absence ";
 	else // on prend tout les types de conges SAUF les conges exceptionnels
 		$sql_cong="SELECT ta_id, ta_type, ta_libelle, ta_short_libelle FROM conges_type_absence WHERE conges_type_absence.ta_type != 'conges_exceptionnels' ";

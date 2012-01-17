@@ -65,7 +65,9 @@ function cacher(id)
 }
 </script>';
 
-header_popup($_SESSION['config']['titre_calendrier'] , $script);
+$css = '<link href="'. TEMPLATE_PATH .'style_calendar_edition.css" rel="stylesheet" type="text/css">';
+
+header_popup($_SESSION['config']['titre_calendrier'] , $script . $css);
 
 
 	/*************************************/
@@ -975,7 +977,7 @@ function get_class_titre($sql_p_type, $tab_type_absence, $sql_p_etat, $sql_p_fer
 {
 	if($sql_p_fermeture_id!="")
 		return "fermeture";
-	elseif ($tab_type_absence[$sql_p_type]['type']=="absences")
+	elseif ( $tab_type_absence[$sql_p_type] && $tab_type_absence[$sql_p_type]['type']=="absences")
 		return "autre";
 	elseif($sql_p_etat=='ok')
 		return "conges";

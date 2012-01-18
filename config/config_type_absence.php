@@ -536,3 +536,47 @@ function commit_ajout(&$tab_new_values, $session, $DEBUG=FALSE)
 }
 
 
+
+//
+// cree un tableau à partir des valeurs du enum(...) d'un champ mysql (cf structure des tables)
+//    $table         = nom de la table sql
+//    $column        = nom du champ sql
+function get_tab_from_mysql_enum_field($table, $column, $DEBUG=FALSE)
+{
+
+   $tab=array();
+   $req_enum = "DESCRIBE $table $column";
+   $res_enum = SQL::query($req_enum);
+
+   while ($row_enum = $res_enum->fetch_array())
+   {
+      $sql_type=$row_enum['Type'];
+      // exemple : enum('autre','labo','fonction','personne','web', ....
+      //echo "$sql_type<br>\n";
+      $liste_enum = strstr($sql_type, '(');
+      $liste_enum = substr($liste_enum, 1);    // on vire le premier caractere
+      $liste_enum = substr($liste_enum, 0, strlen($liste_enum)-1);    // on vire le dernier caractere
+      //echo "$liste_enum<br>\n";
+      $option = strtok($liste_enum,"','");
+      while ($option)
+      {
+         $tab[]=$option;
+         $option = strtok("','");
+      }
+   }
+
+   return $tab;
+}
+
+// recup l'id de la derniere absence (le max puisque c'est un auto incrément)
+function get_last_absence_id($DEBUG=FALSE)
+{
+   $req_1="SELECT MAX(ta_id) FROM conges_type_absence ";
+   $res_1 = SQL::query($req_1);
+   $row_1 = $res_1->fetch_row();
+   if(!$row_1)
+      return 0;     // si la table est vide, on renvoit 0
+   else
+      return $row_1[0];
+}
+

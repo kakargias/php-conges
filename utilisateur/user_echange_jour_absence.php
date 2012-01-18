@@ -479,3 +479,142 @@ function echange_absence_rtt($onglet, $new_debut_string, $new_fin_string, $new_c
 
 }
 
+
+// affichage du calendrier du mois avec les case à cocher sur les jour d'absence
+function  affiche_calendrier_saisie_jour_absence($user_login, $year, $mois, $DEBUG=FALSE)
+{
+	$jour_today					= date('j');
+	$jour_today_name			= date('D');
+
+	$first_jour_mois_timestamp	= mktime(0,0,0,$mois,1,$year);
+	$last_jour_mois_timestamp	= mktime(0,0,0,$mois +1 , -1,$year);
+	
+	$mois_name					= date_fr('F', $first_jour_mois_timestamp);
+	
+	$first_jour_mois_rang		= date('w', $first_jour_mois_timestamp);      // jour de la semaine en chiffre (0=dim , 6=sam)
+	$last_jour_mois_rang		= date('w', $last_jour_mois_timestamp);      // jour de la semaine en chiffre (0=dim , 6=sam)
+	$nb_jours_mois				= ( $last_jour_mois_timestamp - $first_jour_mois_timestamp ) / (24 * 60 * 60);
+	
+	if( $first_jour_mois_rang == 0 )
+		$first_jour_mois_rang=7 ;    // jour de la semaine en chiffre (1=lun , 7=dim)
+		
+	if( $last_jour_mois_rang == 0 )
+		$last_jour_mois_rang=7 ;    // jour de la semaine en chiffre (1=lun , 7=dim)
+
+	echo '<table class="calendrier_saisie_date_debut" cellpadding="0" cellspacing="0">';
+		echo '<thead>
+				<tr align="center" bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'">
+						<td colspan=7 class="titre"> '.$mois_name.' '.$year.' </td>
+				</tr>
+				<tr bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'">
+					<td class="cal-saisie2">'. _('lundi_1c') .'</td>
+					<td class="cal-saisie2">'. _('mardi_1c') .'</td>
+					<td class="cal-saisie2">'. _('mercredi_1c') .'</td>
+					<td class="cal-saisie2">'. _('jeudi_1c') .'</td>
+					<td class="cal-saisie2">'. _('vendredi_1c') .'</td>
+					<td class="cal-saisie2">'. _('samedi_1c') .'</td>
+					<td class="cal-saisie2">'. _('dimanche_1c') .'</td>
+				</tr>
+			</thead>';
+		echo '<tbody>';
+
+			$start_nb_day_before = $first_jour_mois_rang -1;
+			$stop_nb_day_before = 7 - $last_jour_mois_rang ;
+			
+			
+			for ( $i = - $start_nb_day_before; $i <= $nb_jours_mois + $stop_nb_day_before; $i ++) {
+				if ( ($i + $start_nb_day_before ) % 7 == 0)
+					echo '<tr>';
+					
+				$j_timestamp=mktime (0,0,0,$mois, $i +1 ,$year);
+				$td_second_class = get_td_class_of_the_day_in_the_week($j_timestamp);
+				
+				if ($i < 0 || $i > $nb_jours_mois || $td_second_class == 'weekend') {
+					echo '<td class="'.$td_second_class.'">-</td>';
+				}
+				else {	
+					$val_matin='';
+					$val_aprem='';
+					recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem,  $DEBUG);
+					affiche_cellule_calendrier_echange_absence_saisie_semaine($val_matin, $val_aprem, $year, $mois, $i, $DEBUG);
+				}
+				
+				if ( ($i + $start_nb_day_before ) % 7 == 6)
+					echo '<tr>';
+			}
+
+		echo '</tbody>';
+	echo '</table>';
+	
+}
+
+// affichage du calendrier du mois avec les case à cocher sur les jour de présence
+function  affiche_calendrier_saisie_jour_presence($user_login, $year, $mois, $DEBUG=FALSE)
+{
+	$jour_today					= date('j');
+	$jour_today_name			= date('D');
+
+	$first_jour_mois_timestamp	= mktime(0,0,0,$mois,1,$year);
+	$last_jour_mois_timestamp	= mktime(0,0,0,$mois +1 , -1,$year);
+	
+	$mois_name					= date_fr('F', $first_jour_mois_timestamp);
+	
+	$first_jour_mois_rang		= date('w', $first_jour_mois_timestamp);      // jour de la semaine en chiffre (0=dim , 6=sam)
+	$last_jour_mois_rang		= date('w', $last_jour_mois_timestamp);      // jour de la semaine en chiffre (0=dim , 6=sam)
+	$nb_jours_mois				= ( $last_jour_mois_timestamp - $first_jour_mois_timestamp ) / (24 * 60 * 60);
+	
+	if( $first_jour_mois_rang == 0 )
+		$first_jour_mois_rang=7 ;    // jour de la semaine en chiffre (1=lun , 7=dim)
+		
+	if( $last_jour_mois_rang == 0 )
+		$last_jour_mois_rang=7 ;    // jour de la semaine en chiffre (1=lun , 7=dim)
+
+	echo '<table class="calendrier_saisie_date_debut" cellpadding="0" cellspacing="0">';
+		echo '<thead>
+				<tr align="center" bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'">
+						<td colspan=7 class="titre"> '.$mois_name.' '.$year.' </td>
+				</tr>
+				<tr bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'">
+					<td class="cal-saisie2">'. _('lundi_1c') .'</td>
+					<td class="cal-saisie2">'. _('mardi_1c') .'</td>
+					<td class="cal-saisie2">'. _('mercredi_1c') .'</td>
+					<td class="cal-saisie2">'. _('jeudi_1c') .'</td>
+					<td class="cal-saisie2">'. _('vendredi_1c') .'</td>
+					<td class="cal-saisie2">'. _('samedi_1c') .'</td>
+					<td class="cal-saisie2">'. _('dimanche_1c') .'</td>
+				</tr>
+			</thead>';
+		echo '<tbody>';
+
+			$start_nb_day_before = $first_jour_mois_rang -1;
+			$stop_nb_day_before = 7 - $last_jour_mois_rang ;
+			
+			
+			for ( $i = - $start_nb_day_before; $i <= $nb_jours_mois + $stop_nb_day_before; $i ++) {
+				if ( ($i + $start_nb_day_before ) % 7 == 0)
+					echo '<tr>';
+				
+				
+				$j_timestamp=mktime (0,0,0,$mois, $i +1 ,$year);
+				$td_second_class = get_td_class_of_the_day_in_the_week($j_timestamp);
+				
+				if ($i < 0 || $i > $nb_jours_mois || $td_second_class == 'weekend') {
+					echo '<td class="'.$td_second_class.'">-</td>';
+				}
+				else {	
+					$val_matin='';
+					$val_aprem='';
+					recup_infos_artt_du_jour($user_login, $j_timestamp, $val_matin, $val_aprem,  $DEBUG);
+					affiche_cellule_calendrier_echange_presence_saisie_semaine($val_matin, $val_aprem, $year, $mois, $i, $DEBUG);
+				}
+				
+				if ( ($i + $start_nb_day_before ) % 7 == 6)
+					echo '<tr>';
+			}
+
+		echo '</tbody>';
+	echo '</table>';
+	
+
+}
+

@@ -88,3 +88,16 @@ function propose_config()
 	bottom();
 }
 
+
+//
+// affichage bouton de déconnexion
+function   bouton_deconnexion($DEBUG=FALSE)
+{
+   $session=session_id();
+
+	echo '<a href="../deconnexion.php?session='.$session.'" target="_top">' .
+			'<img src="'. TEMPLATE_PATH . 'img/exit.png" width="22" height="22" border="0" title="'. _('button_deconnect') .'" alt="'. _('button_deconnect') .'">' .
+			 _('button_deconnect') .'</a>';
+
+}
+

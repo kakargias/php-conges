@@ -148,3 +148,15 @@ function suppression($p_num_to_delete, $onglet, $DEBUG=FALSE)
 
 }
 
+
+// renvoit le libelle d une absence (conges ou absence) d une absence
+function get_libelle_abs($_type_abs_id,  $DEBUG=FALSE)
+{
+
+	$sql_abs='SELECT ta_libelle FROM conges_type_absence WHERE ta_id=\''.SQL::quote($_type_abs_id).'\'';
+	$ReqLog_abs = SQL::query($sql_abs);
+	if($resultat_abs = $ReqLog_abs->fetch_array())
+		return $resultat_abs['ta_libelle'];
+	else
+		return "" ;
+}

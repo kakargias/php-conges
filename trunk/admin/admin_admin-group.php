@@ -228,3 +228,17 @@ function verif_new_param_group($new_group_name, $new_group_libelle, $DEBUG=FALSE
 	}
 }
 
+
+// recup le nombre de users d'un groupe donné
+function get_nb_users_du_groupe($group_id,  $DEBUG=FALSE)
+{
+
+   $sql1='SELECT DISTINCT(gu_login) FROM conges_groupe_users WHERE gu_gid = '.SQL::quote($group_id).' ORDER BY gu_login ';
+   $ReqLog1 = SQL::query($sql1);
+
+   $nb_users = $ReqLog1->num_rows;
+
+   return $nb_users;
+
+}
+

@@ -566,3 +566,27 @@ function insert_ajout_dans_periode($DEBUG, $login, $nb_jours, $id_type_abs, $com
 }
 
 
+// recup de la liste de tous les groupes pour le mode RH
+
+function get_list_groupes_pour_rh($user_login, $DEBUG=FALSE)
+{
+	$list_group="";
+
+	$sql1="SELECT g_gid FROM conges_groupe ORDER BY g_gid";
+	$ReqLog1 = SQL::query($sql1);
+
+	if($ReqLog1->num_rows != 0)
+	{
+		while ($resultat1 = $ReqLog1->fetch_array())
+		{
+			$current_group=$resultat1["g_gid"];
+			if($list_group=="")
+				$list_group="$current_group";
+			else
+				$list_group=$list_group.", $current_group";
+		}
+	}
+	if( $DEBUG ) { echo "list_group = $list_group<br>\n" ;}
+
+	return $list_group;
+}

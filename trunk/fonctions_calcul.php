@@ -214,32 +214,6 @@ function make_tab_demi_jours_periode($date_debut, $date_fin, $opt_debut, $opt_fi
 }
 
 
-// verifie si la periode donnee chevauche une periode de conges d'un des user du groupe ..
-// retourne TRUE si chevauchement et FALSE sinon !
-function verif_periode_chevauche_periode_groupe($date_debut, $date_fin, $tab_periode_calcul, $groupe_id,  $DEBUG=FALSE)
-{
-	/*****************************/
-	// on construit le tableau des users affectés par les fermetures saisies :
-	if($groupe_id==0)  // fermeture pour tous !
-		$list_users = get_list_all_users( $DEBUG);
-	else
-		$list_users = get_list_users_du_groupe($groupe_id,  $DEBUG);
-
-	$tab_users = explode(",", $list_users);
-	if( $DEBUG ) { echo "tab_users =<br>\n"; print_r($tab_users) ; echo "<br>\n"; }
-
-	foreach($tab_users as $current_login)
-	{
-	    $current_login = trim($current_login);
-		// on enleve les quotes qui ont été ajoutées lors de la creation de la liste
-		$current_login = trim($current_login, "\'");
-
-		$comment="";
-		if(verif_periode_chevauche_periode_user($date_debut, $date_fin, $current_login, $tab_periode_calcul, $comment, $DEBUG))
-			return TRUE;
-	}
-}
-
 
 // verifie si la periode donnee chevauche une periode de conges d'un user donné
 // retourne TRUE si chevauchement et FALSE sinon !

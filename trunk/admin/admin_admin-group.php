@@ -67,7 +67,7 @@ function affiche_gestion_groupes($new_group_name, $new_group_libelle, $DEBUG=FAL
    echo "    <td>". _('admin_groupes_groupe') ."</td>\n";
    echo "    <td>". _('admin_groupes_libelle') ."</td>\n";
    echo "    <td>". _('admin_groupes_nb_users') ."</td>\n";
-   if($_SESSION['config']['double_validation_conges']==TRUE)
+   if($_SESSION['config']['double_validation_conges'])
        echo "    <td>". _('admin_groupes_double_valid') ."</td>\n";
    echo "    <td></td>\n";
    echo "    <td></td>\n";
@@ -92,7 +92,7 @@ function affiche_gestion_groupes($new_group_name, $new_group_libelle, $DEBUG=FAL
        echo "<td><b>$sql_group</b></td>\n";
        echo "<td>$sql_comment</td>\n";
        echo "<td>$nb_users_groupe</td>\n";
-       if($_SESSION['config']['double_validation_conges']==TRUE)
+       if($_SESSION['config']['double_validation_conges'])
            echo "<td>$sql_double_valid</td>\n";
        echo "<td>$admin_modif_group</td>\n";
        echo "<td>$admin_suppr_group</td>\n";
@@ -117,7 +117,7 @@ function affiche_gestion_groupes($new_group_name, $new_group_libelle, $DEBUG=FAL
 	   echo "<tr>\n";
 	   echo "<td><b>". _('admin_groupes_groupe') ."</b></td>\n";
 	   echo "<td>". _('admin_groupes_libelle') ." / ". _('divers_comment_maj_1') ."</td>\n";
-	   if($_SESSION['config']['double_validation_conges']==TRUE)
+	   if($_SESSION['config']['double_validation_conges'])
 		   echo "    <td>". _('admin_groupes_double_valid') ."</td>\n";
 	   echo "</tr>\n";
    echo "</thead>\n";
@@ -129,7 +129,7 @@ function affiche_gestion_groupes($new_group_name, $new_group_libelle, $DEBUG=FAL
    echo "<tr>\n";
    echo "<td>$text_groupname</td>\n";
    echo "<td>$text_libelle</td>\n";
-   if($_SESSION['config']['double_validation_conges']==TRUE)
+   if($_SESSION['config']['double_validation_conges'])
    {
        $text_double_valid="<select name=\"new_group_double_valid\" ><option value=\"N\">N</option><option value=\"Y\">Y</option></select>" ;
        echo "<td>$text_double_valid</td>\n";
@@ -169,7 +169,7 @@ function ajout_groupe($new_group_name, $new_group_libelle, $new_group_double_val
 		// $sql2 = "INSERT INTO conges_groupe_resp SET gr_gid=$new_gid, gr_login='conges' " ;
 		// $result = SQL::query($sql2);
 
-		if($result==TRUE)
+		if($result)
 			echo  _('form_modif_ok') ."<br><br> \n";
 		else
 			echo  _('form_modif_not_ok') ."<br><br> \n";

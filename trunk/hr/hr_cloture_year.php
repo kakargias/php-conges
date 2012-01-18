@@ -76,7 +76,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 function saisie_cloture( $tab_type_conges, $DEBUG)
 {
-//$DEBUG==TRUE;
+//$DEBUG;
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id() ;
 
@@ -97,7 +97,7 @@ function saisie_cloture( $tab_type_conges, $DEBUG)
 		
 		/***********************************************************************/
 		/* SAISIE GROUPE pour tous les utilisateurs d'un groupe du responsable */
-		if( $_SESSION['config']['gestion_groupes']==TRUE )
+		if( $_SESSION['config']['gestion_groupes'] )
 		{
 			affichage_cloture_globale_groupe($tab_type_conges, $DEBUG);
 		}
@@ -162,7 +162,7 @@ function affichage_cloture_user_par_user($tab_type_conges, $tab_all_users_du_hr,
 		}
 		
 		// affichage des users dont on est grand responsable :
-		if( ($_SESSION['config']['double_validation_conges']==TRUE) && ($_SESSION['config']['grand_resp_ajout_conges']==TRUE) )
+		if( ($_SESSION['config']['double_validation_conges']) && ($_SESSION['config']['grand_resp_ajout_conges']) )
 		{
 			$nb_colspan=50;
 			echo "<tr><td class=\"histo\" style=\"background-color: #CCC;\" colspan=\"$nb_colspan\"><i>". _('resp_etat_users_titre_double_valid') ."</i></td></tr>\n";
@@ -264,7 +264,7 @@ function affichage_cloture_globale_groupe($tab_type_conges, $DEBUG=FALSE)
 
 	// on établi la liste complète des groupes dont on est le resp (ou le grd resp)
 	$list_group_resp=get_list_groupes_du_resp($_SESSION['userlogin']);
-	if( ($_SESSION['config']['double_validation_conges']==TRUE) && ($_SESSION['config']['grand_resp_ajout_conges']==TRUE) )
+	if( ($_SESSION['config']['double_validation_conges']) && ($_SESSION['config']['grand_resp_ajout_conges']) )
 		$list_group_grd_resp=get_list_groupes_du_grand_resp($_SESSION['userlogin'], $DEBUG);
 	else
 		$list_group_grd_resp="";
@@ -362,7 +362,7 @@ function cloture_users($tab_type_conges, $tab_cloture_users, $tab_commentaire_sa
 			}
 		}
 		// traitement des users dont on est grand responsable :
-		if( ($_SESSION['config']['double_validation_conges']==TRUE) && ($_SESSION['config']['grand_resp_ajout_conges']==TRUE) )
+		if( ($_SESSION['config']['double_validation_conges']) && ($_SESSION['config']['grand_resp_ajout_conges']) )
 		{
 			foreach($tab_all_users_du_grand_resp as $current_login => $tab_current_user)
 			{		
@@ -399,7 +399,7 @@ function cloture_current_year_for_login($current_login, $tab_current_user, $tab_
 			/**********************************************/
 			/* Modification de la table conges_solde_user */
 			
-			if($_SESSION['config']['autorise_reliquats_exercice']==TRUE)
+			if($_SESSION['config']['autorise_reliquats_exercice'])
 			{
 				// ATTENTION : si le solde du user est négatif, on ne compte pas de reliquat et le nouveau solde est nb_jours_an + le solde actuel (qui est négatif)
 				if($user_solde_actuel>0)
@@ -507,7 +507,7 @@ function cloture_globale($tab_type_conges, $DEBUG=FALSE)
 			cloture_current_year_for_login($current_login, $tab_current_user, $tab_type_conges, $comment_cloture, $DEBUG);
 		}
 		// traitement des users dont on est grand responsable :
-		if( ($_SESSION['config']['double_validation_conges']==TRUE) && ($_SESSION['config']['grand_resp_ajout_conges']==TRUE) )
+		if( ($_SESSION['config']['double_validation_conges']) && ($_SESSION['config']['grand_resp_ajout_conges']) )
 		{
 			foreach($tab_all_users_du_grand_resp as $current_login => $tab_current_user)
 			{		
@@ -548,7 +548,7 @@ function cloture_globale_groupe($group_id, $tab_type_conges, $DEBUG=FALSE)
 function set_nouvelle_date_limite_reliquat($DEBUG=FALSE)
 {
 	//si on autorise les reliquats
-	if($_SESSION['config']['autorise_reliquats_exercice']==TRUE)
+	if($_SESSION['config']['autorise_reliquats_exercice'])
 	{
 		// s'il y a une date limite d'utilisationdes reliquats (au format jj-mm)
 		if($_SESSION['config']['jour_mois_limite_reliquats']!=0)

@@ -51,7 +51,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 			$nb_colonnes += 2;
 		}
 		// conges exceptionnels
-		if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
+		if ($_SESSION['config']['gestion_conges_exceptionnels'])
 		{
 			foreach($tab_type_conges_exceptionnels as $id_type_cong => $libelle)
 			{
@@ -61,7 +61,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 		}
 		echo "<td></td>";
 		$nb_colonnes += 1;
-		if($_SESSION['config']['editions_papier']==TRUE)
+		if($_SESSION['config']['editions_papier'])
 		{
 			echo "<td></td>";
 			$nb_colonnes += 1;
@@ -100,7 +100,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 				echo "<td>".$tab_conges[$libelle]['nb_an'].'</td>';
 				echo "<td>".$tab_conges[$libelle]['solde'].'</td>';
 			}
-			if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
+			if ($_SESSION['config']['gestion_conges_exceptionnels']) 
 			{
 				foreach($tab_type_conges_exceptionnels as $id_type_cong => $libelle) 
 				{
@@ -108,7 +108,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 				}
 			}
 			echo "<td>$text_affich_user</td>\n";
-			if($_SESSION['config']['editions_papier']==TRUE)
+			if($_SESSION['config']['editions_papier'])
 				echo "<td>$text_edit_papier</td>";
 			echo "</tr>\n";
 			$i = !$i;
@@ -118,7 +118,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 	/***********************************/
 	// AFFICHAGE DE USERS DONT LE RESP EST GRAND RESP
 
-	if($_SESSION['config']['double_validation_conges']==TRUE) 
+	if($_SESSION['config']['double_validation_conges']) 
 	{
 		// Récup dans un tableau de tableau des informations de tous les users dont $_SESSION['userlogin'] est GRAND responsable
 		$tab_all_users_2=recup_infos_all_users_du_grand_resp($_SESSION['userlogin'],  $DEBUG);
@@ -129,13 +129,13 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 		$i = true;
 		foreach($tab_all_users_2 as $current_login_2 => $tab_current_user_2)
 		{
-			if(array_key_exists($current_login_2, $tab_all_users)==FALSE) // si le user n'est pas déjà dans le tableau précédent (deja affiché)
+			if( array_key_exists($current_login_2, $tab_all_users) ) // si le user n'est pas déjà dans le tableau précédent (deja affiché)
 			{
 				$compteur++;
 				if($compteur==1)  // alors on affiche une ligne de titre
 				{
 					$nb_colspan=9;
-					if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
+					if ($_SESSION['config']['gestion_conges_exceptionnels']) 
 						$nb_colspan=10;
 					
 					echo "<tr align=\"center\"><td class=\"histo\" style=\"background-color: #CCC;\" colspan=\"$nb_colonnes\"><i>". _('resp_etat_users_titre_double_valid') ."</i></td></tr>\n";
@@ -152,7 +152,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 				{
 					echo "<td>".$tab_conges_2[$libelle]['nb_an']."</td><td>".$tab_conges_2[$libelle]['solde'].'</td>';
 				}
-				if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
+				if ($_SESSION['config']['gestion_conges_exceptionnels']) 
 				{
 					foreach($tab_type_conges_exceptionnels as $id_type_cong => $libelle) 
 					{
@@ -160,7 +160,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 					}
 				}
 				echo "<td>$text_affich_user</td>\n";
-				if($_SESSION['config']['editions_papier']==TRUE)
+				if($_SESSION['config']['editions_papier'])
 					echo "<td>$text_edit_papier</td>";
 				echo "</tr>\n";
 				$i = !$i;

@@ -77,7 +77,7 @@ function modifier($group,  $DEBUG=FALSE)
 	echo "<tr>\n";
 	echo "<td>". _('admin_groupes_groupe') ."</td>\n";
 	echo "<td>". _('admin_groupes_libelle') ." / ". _('divers_comment_maj_1') ."</td>\n";
-	if($_SESSION['config']['double_validation_conges']==TRUE)
+	if($_SESSION['config']['double_validation_conges'])
 		echo "	<td>". _('admin_groupes_double_valid') ."</td>\n";
 	echo "</tr>\n";
 	echo "</thead>\n";
@@ -96,7 +96,7 @@ function modifier($group,  $DEBUG=FALSE)
 	echo "<tr>\n";
 	echo "<td>$sql_groupename</td>\n";
 	echo "<td>$sql_comment</td>\n";
-	if($_SESSION['config']['double_validation_conges']==TRUE)
+	if($_SESSION['config']['double_validation_conges'])
 			echo "<td>$sql_double_valid</td>\n";
 	echo "</tr>\n";
 
@@ -108,7 +108,7 @@ function modifier($group,  $DEBUG=FALSE)
 	echo "<tr>\n";
 	echo "<td>$text_group</td>\n";
 	echo "<td>$text_comment</td>\n";
-	if($_SESSION['config']['double_validation_conges']==TRUE)
+	if($_SESSION['config']['double_validation_conges'])
 	{
 		$text_double_valid="<select name=\"new_double_valid\" ><option value=\"N\" ";
 		if($sql_double_valid=="N")
@@ -156,7 +156,7 @@ function commit_update($group_to_update, $new_groupname, $new_comment, $new_doub
 	$comment_log = "modif_groupe ($group_to_update) : $new_groupname , $new_comment (double_valid = $new_double_valid)";
 	log_action(0, "", "", $comment_log,  $DEBUG);
 
-	if($result==TRUE)
+	if($result)
 		echo  _('form_modif_ok') ." !<br><br> \n";
 	else
 		echo  _('form_modif_not_ok') ." !<br><br> \n";

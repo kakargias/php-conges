@@ -48,7 +48,7 @@ $lang = (isset($_GET['lang']) ? $_GET['lang'] : (isset($_POST['lang']) ? $_POST[
 
 	include CONFIG_PATH .'dbconnect.php' ;
 
-	if($DEBUG==FALSE)
+	if( !$DEBUG )
 	{
 		// on lance les etapes (fonctions) séquentiellement
 		e1_insert_into_conges_config( $DEBUG);
@@ -100,9 +100,9 @@ function e1_insert_into_conges_config( $DEBUG=FALSE)
 function e2_drop_table_historique_ajout( $DEBUG=FALSE)
 {
 
-	if( test_create_table( $DEBUG)==TRUE)
+	if( test_create_table( $DEBUG))
 	{
-		if( test_drop_table( $DEBUG)==TRUE)
+		if( test_drop_table( $DEBUG))
 		{
 			$sql_drop_1="DROP TABLE `conges_historique_ajout`";
 			$result_drop_1 = SQL::query($sql_drop_1)  ;

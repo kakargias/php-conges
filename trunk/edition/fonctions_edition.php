@@ -62,7 +62,7 @@ function enregistrement_edition($login,  $DEBUG=FALSE)
 				SET se_id_edition=$new_edition_id, se_id_absence=$id_abs, se_solde=$tab_solde_user[$id_abs] ";
 		$result_insert_2 = SQL::query($sql_insert_2);
 	}
-	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
+	if ($_SESSION['config']['gestion_conges_exceptionnels']) 
 	{
 		$tab_type_conges_exceptionnels=recup_tableau_types_conges_exceptionnels( $DEBUG);
 		foreach($tab_type_conges_exceptionnels as $id_abs => $libelle)

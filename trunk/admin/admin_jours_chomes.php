@@ -82,7 +82,7 @@ function saisie($year_calendrier_saisie, $DEBUG=FALSE)
 	if( $DEBUG ) { echo "tab_year = "; print_r($tab_year); echo "<br>\n"; }
 
 	//calcul automatique des jours feries
-	if($_SESSION['config']['calcul_auto_jours_feries_france']==TRUE)
+	if($_SESSION['config']['calcul_auto_jours_feries_france'])
 	{
 		$tableau_jour_feries=fcListJourFeries($year_calendrier_saisie) ;
 		if( $DEBUG ) { echo "tableau_jour_feries = "; print_r($tableau_jour_feries); echo "<br>\n"; }
@@ -402,7 +402,7 @@ function commit_saisie($tab_checkbox_j_chome,$DEBUG=FALSE)
 	if( $DEBUG ) { echo "tab_checkbox_j_chome : <br>\n"; print_r($tab_checkbox_j_chome); echo "<br>\n"; }
 
 	// si l'année est déja renseignée dans la database, on efface ttes les dates de l'année
-	if(verif_year_deja_saisie($tab_checkbox_j_chome, $DEBUG)==TRUE)
+	if(verif_year_deja_saisie($tab_checkbox_j_chome, $DEBUG))
 		$result=delete_year($tab_checkbox_j_chome,  $DEBUG);
 
 	// on insert les nouvelles dates saisies
@@ -411,7 +411,7 @@ function commit_saisie($tab_checkbox_j_chome,$DEBUG=FALSE)
 	// on recharge les jours feries dans les variables de session
 	init_tab_jours_feries($DEBUG);
 
-	if($result==TRUE)
+	if($result)
 		echo "<br>". _('form_modif_ok') .".<br><br>\n";
 	else
 		echo "<br>". _('form_modif_not_ok') ." !<br><br>\n";

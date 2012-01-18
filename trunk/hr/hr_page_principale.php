@@ -49,7 +49,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 				$nb_colonnes += 2;
 			}
 			// conges exceptionnels
-			if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
+			if ($_SESSION['config']['gestion_conges_exceptionnels'])
 			{
 				foreach($tab_type_conges_exceptionnels as $id_type_cong => $libelle)
 				{
@@ -59,7 +59,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 			}
 			echo '<td></td>';
 			$nb_colonnes += 1;
-			if($_SESSION['config']['editions_papier']==TRUE)
+			if($_SESSION['config']['editions_papier'])
 			{
 				echo '<td></td>';
 				$nb_colonnes += 1;
@@ -97,7 +97,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
                 echo '<td>'.$tab_conges[$libelle]['nb_an'].'</td>';
                 echo '<td>'.$tab_conges[$libelle]['solde'].'</td>';
             }
-            if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
+            if ($_SESSION['config']['gestion_conges_exceptionnels']) 
             {
                 foreach($tab_type_conges_exceptionnels as $id_type_cong => $libelle) 
                 {
@@ -105,7 +105,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
                 }
             }
             echo "<td>$text_affich_user</td>\n";
-            if($_SESSION['config']['editions_papier']==TRUE)
+            if($_SESSION['config']['editions_papier'])
                 echo "<td>$text_edit_papier</td>";
             echo '</tr>';
 			$i = !$i;

@@ -94,7 +94,7 @@ function change_passwd( $new_passwd1, $new_passwd2, $DEBUG=FALSE)
 		$sql1 = 'UPDATE conges_users SET  u_passwd=\''.$passwd_md5.'\' WHERE u_login=\''.$_SESSION['userlogin'].'\' ';
 		$result = SQL::query($sql1) ;
 
-		if($result==TRUE)
+		if($result)
 			echo  _('form_modif_ok') ." <br><br> \n";
 		else
 			echo  _('form_mofif_not_ok') ."<br><br> \n";

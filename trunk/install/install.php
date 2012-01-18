@@ -73,7 +73,7 @@ function lance_install($lang, $DEBUG=FALSE)
 	include ROOT_PATH .'version.php' ;
 	
 	//verif si create / alter table possible !!!
-	if(test_create_table( $DEBUG) == FALSE)
+	if( !test_create_table( $DEBUG) )
 	{
 		echo "<font color=\"red\"><b>CREATE TABLE</b> ". _('install_impossible_sur_db') ." <b>$mysql_database</b> (". _('install_verif_droits_mysql') ." <b>$mysql_user</b>)...</font><br> \n";
 		echo "<br>". _('install_puis') ." ...<br>\n";
@@ -81,7 +81,7 @@ function lance_install($lang, $DEBUG=FALSE)
 		echo "<input type=\"submit\" value=\"". _('form_redo') ."\">\n";
 		echo "</form>\n";
 	}
-	elseif(test_drop_table( $DEBUG) == FALSE)
+	elseif( !test_drop_table( $DEBUG) )
 	{
 		echo "<font color=\"red\"><b>DROP TABLE</b> ". _('install_impossible_sur_db') ." <b>$mysql_database</b> (". _('install_verif_droits_mysql') ." <b>$mysql_user</b>)...</font><br> \n";
 		echo "<br>". _('install_puis') ." ...<br>\n";

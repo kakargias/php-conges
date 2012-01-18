@@ -136,7 +136,7 @@ function suppression($p_num_to_delete, $onglet, $DEBUG=FALSE)
 	$comment_log = "suppression de demande num $p_num_to_delete";
 	log_action($p_num_to_delete, "", $_SESSION['userlogin'], $comment_log, $DEBUG);
 
-	if($result_delete==TRUE)
+	if($result_delete)
 		echo  _('form_modif_ok') ."<br><br> \n";
 	else
 		echo  _('form_modif_not_ok') ."<br><br> \n";

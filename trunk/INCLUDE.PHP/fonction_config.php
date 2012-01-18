@@ -26,51 +26,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-include_once  INCLUDE_PATH .'get_text.php';
-
-//
-// MAIN
-//
-
-/*** initialisation des variables ***/
-$session_username="";
-$session_password="";
-/************************************/
-
-//
-// recup du num  de session (mais on ne sais pas s'il est passé en GET ou POST
-$session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : "") ) ;
-
-$DEBUG=FALSE;
-//$DEBUG=TRUE;
-
-if( $DEBUG ) { print_r($_SESSION); echo "<br><br>\n"; }
-
-
-
-
-if ($session != "") //  UNE SESSION EXISTE
+function affiche_bouton_retour($session, $DEBUG=FALSE)
 {
-	if( $DEBUG ) { echo "session = $session<br><br>\n"; }
-	
-	if(session_is_valid($session) )
-	{
-		session_update($session);
-	}
+	// Bouton de retour : différent suivant si on vient des pages d'install ou de l'appli
+	// $_SESSION['from_config'] est initialisée dans install/index
+	if( isset($_SESSION['from_config']) && $_SESSION['from_config'] )
+		echo '<center><a href="'. ROOT_PATH .'/config/?session='.$session.'">'. _('form_retour') .'</a></center>';
 	else
 	{
-		session_delete($session);
-		$session="";
-		$session_username="";
-		$session_password="";
-		$_SESSION['config']=init_config_tab();  // on recrée le tableau de config pour l'url du lien
-		
-		redirect(ROOT_PATH . 'index.php?error=session-invalid');
+		echo '<form action="" method="POST">';
+		echo '<center><input type="button" value="'. _('form_close_window') .'" onClick="javascript:window.close();"></center>';
+		echo '</form>';
 	}
 }
-else    //  PAS DE SESSION   ($session == "")
-{
-	redirect(ROOT_PATH . 'index.php');
-}
-
-

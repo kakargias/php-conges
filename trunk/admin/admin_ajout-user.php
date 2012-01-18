@@ -30,7 +30,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 	$saisie_user     = getpost_variable('saisie_user') ;
 
 	// si on recupere les users dans ldap et qu'on vient d'en créer un depuis la liste déroulante
-	if ($_SESSION['config']['export_users_from_ldap'] == TRUE && isset($_POST['new_ldap_user']))
+	if ($_SESSION['config']['export_users_from_ldap']  && isset($_POST['new_ldap_user']))
 	{
 		$index = 0;
 		// On lance une boucle pour selectionner tous les items
@@ -123,20 +123,16 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 
 
-	if($saisie_user=="ok")
-	{
-		if($_SESSION['config']['export_users_from_ldap'] == TRUE)
-		{
-			foreach($tab_login as $login)
-			{
+	if($saisie_user=="ok") {
+		if($_SESSION['config']['export_users_from_ldap'] ) {
+			foreach($tab_login as $login) {
 				ajout_user($tab_new_user[$login], $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $tab_new_jours_an, $tab_new_solde, $checkbox_user_groups, $DEBUG);
 			}
 		}
 		else
 			ajout_user($tab_new_user[0], $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $tab_new_jours_an, $tab_new_solde, $checkbox_user_groups, $DEBUG);
 	}
-	else
-	{
+	else {
 		affiche_formulaire_ajout_user($tab_new_user[0], $tab_new_jours_an, $tab_new_solde, $DEBUG);
 	}
 
@@ -238,7 +234,7 @@ function ajout_user(&$tab_new_user, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, 
 		/***********************************/
 		/* ajout du usre dans ses groupes  */
 		$result4=TRUE;
-		if( ($_SESSION['config']['gestion_groupes']==TRUE) && ($checkbox_user_groups!="") )
+		if( ($_SESSION['config']['gestion_groupes']) && ($checkbox_user_groups!="") )
 		{
 			$result4=commit_modif_user_groups($tab_new_user['login'], $checkbox_user_groups, $DEBUG);
 		}
@@ -247,7 +243,7 @@ function ajout_user(&$tab_new_user, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, 
 
 		/*****************************/
 
-		if($result1==TRUE && $result2==TRUE && $result3==TRUE && $result4==TRUE)
+		if($result1 && $result2 && $result3 && $result4)
 			echo  _('form_modif_ok') ."<br><br> \n";
 		else
 			echo  _('form_modif_not_ok') ."<br><br> \n";
@@ -283,7 +279,7 @@ function verif_new_param(&$tab_new_user, &$tab_new_jours_an, &$tab_new_solde, $D
 
 	// verif des parametres reçus :
 	// si on travaille avec la base dbconges, on teste tout, mais si on travaille avec ldap, on ne teste pas les champs qui viennent de ldap ...
-	if( ($_SESSION['config']['export_users_from_ldap'] == FALSE &&
+	if( ($_SESSION['config']['export_users_from_ldap'] &&
 		(strlen($tab_new_user['nom'])==0 || strlen($tab_new_user['prenom'])==0
 //		|| strlen($tab_new_user['jours_an'])==0
 //		|| strlen($tab_new_user['solde_jours'])==0
@@ -292,7 +288,7 @@ function verif_new_param(&$tab_new_user, &$tab_new_jours_an, &$tab_new_solde, $D
 		|| strlen($tab_new_user['quotite'])==0
 		|| $tab_new_user['quotite']>100)
 		)
-		|| ($_SESSION['config']['export_users_from_ldap'] == TRUE &&
+		|| ($_SESSION['config']['export_users_from_ldap']  &&
 		(strlen($tab_new_user['login'])==0
 //		||strlen($tab_new_user['jours_an'])==0
 //		|| strlen($tab_new_user['solde_jours'])==0
@@ -409,7 +405,7 @@ function affiche_formulaire_ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab
 	$tab_type_conges=recup_tableau_types_conges($DEBUG);
 
 	// recup du tableau des types de conges exceptionnels (seulement les conges exceptionnels)
-	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
+	if ($_SESSION['config']['gestion_conges_exceptionnels'])
 	{
 	  $tab_type_conges_exceptionnels=recup_tableau_types_conges_exceptionnels($DEBUG);
 	}
@@ -431,7 +427,7 @@ function affiche_formulaire_ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab
 	echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 	echo "<thead>\n";
 		echo "<tr>\n";
-		if ($_SESSION['config']['export_users_from_ldap'] == TRUE)
+		if ($_SESSION['config']['export_users_from_ldap'] )
 			echo "<td>". _('divers_nom_maj_1') ." ". _('divers_prenom_maj_1') ."</td>\n";
 		else
 		{
@@ -445,8 +441,7 @@ function affiche_formulaire_ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab
 		echo "<td>". _('admin_new_users_is_admin') ."</td>\n";
 		echo "<td>". _('admin_new_users_is_hr') ."</td>\n";
 		echo "<td>". _('admin_new_users_see_all') ."</td>\n";
-		if ($_SESSION['config']['export_users_from_ldap'] == FALSE)
-		//if($_SESSION['config']['where_to_find_user_email']=="dbconges")
+		if ( !$_SESSION['config']['export_users_from_ldap'] )
 			echo "<td>". _('admin_users_mail') ."</td>\n";
 		if ($_SESSION['config']['how_to_connect_user'] == "dbconges")
 		{
@@ -491,7 +486,7 @@ function affiche_formulaire_ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab
 
 	echo "<tr>\n";
 	// Aj. D.Chabaud - Université d'Auvergne - Sept. 2005
-	if ($_SESSION['config']['export_users_from_ldap'] == TRUE)
+	if ($_SESSION['config']['export_users_from_ldap'] )
 	{
 		// Récupération de la liste des utilisateurs via un ldap :
 
@@ -529,7 +524,7 @@ function affiche_formulaire_ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab
 	echo "<td>$text_is_hr</td>\n";
 	echo "<td>$text_see_all</td>\n";
 	//if($_SESSION['config']['where_to_find_user_email']=="dbconges")
-	if ($_SESSION['config']['export_users_from_ldap'] == FALSE)
+	if ( !$_SESSION['config']['export_users_from_ldap'] )
 		echo "<td>$text_email</td>\n";
 	if ($_SESSION['config']['how_to_connect_user'] == "dbconges")
 	{
@@ -573,7 +568,7 @@ function affiche_formulaire_ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab
 		echo "</tr>\n";
 		$i = !$i;
 	}
-	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) {
+	if ($_SESSION['config']['gestion_conges_exceptionnels']) {
 	  foreach($tab_type_conges_exceptionnels as $id_type_cong => $libelle)
 	  {
 		echo '<tr class="'.($i?'i':'p').'">';
@@ -597,7 +592,7 @@ function affiche_formulaire_ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab
 
 
     // si gestion des groupes :  affichage des groupe pour y affecter le user
-    if($_SESSION['config']['gestion_groupes']==TRUE)
+    if($_SESSION['config']['gestion_groupes'])
     {
 		echo "<br>\n";
 		affiche_tableau_affectation_user_groupes("",  $DEBUG);

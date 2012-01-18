@@ -120,7 +120,7 @@ function commit_update($u_login_to_update, $new_pwd1, $new_pwd2, $DEBUG=FALSE)
 		$sql1 = 'UPDATE conges_users  SET u_passwd=\''.$passwd_md5.'\' WHERE u_login=\''.SQL::quote($u_login_to_update).'\'' ;
 		$result = SQL::query($sql1);
 
-		if($result==TRUE)
+		if($result)
 			echo  _('form_modif_ok') ." !<br><br> \n";
 		else
 			echo  _('form_modif_not_ok') ." !<br><br> \n";

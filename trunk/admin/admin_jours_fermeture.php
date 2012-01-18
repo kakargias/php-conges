@@ -92,7 +92,7 @@ verif_droits_user($session, "is_admin", $DEBUG);
 		if($_SESSION['config']['gestion_groupes']==FALSE)
 			 $choix_action="saisie_dates";
 		// si gestion par groupe et fermeture_par_groupe
-		elseif(($_SESSION['config']['fermeture_par_groupe']==TRUE) && ($groupe_id=="") )
+		elseif(($_SESSION['config']['fermeture_par_groupe']) && ($groupe_id=="") )
 			 $choix_action="saisie_groupe";
 		else
 			 $choix_action="saisie_dates";
@@ -141,7 +141,7 @@ verif_droits_user($session, "is_admin", $DEBUG);
 		// fabrication et initialisation du tableau des demi-jours de la date_debut à la date_fin
 		{
 			$tab_periode_calcul = make_tab_demi_jours_periode($date_debut_yyyy_mm_dd, $date_fin_yyyy_mm_dd, "am", "pm", $DEBUG);
-			if(verif_periode_chevauche_periode_groupe($date_debut_yyyy_mm_dd, $date_fin_yyyy_mm_dd, $tab_periode_calcul, $groupe_id, $DEBUG) == TRUE)
+			if(verif_periode_chevauche_periode_groupe($date_debut_yyyy_mm_dd, $date_fin_yyyy_mm_dd, $tab_periode_calcul, $groupe_id, $DEBUG) )
 				$code_erreur=5 ;  // code erreur : fermeture chevauche une periode deja saisie
 		}
 	}
@@ -334,7 +334,7 @@ function saisie_dates_fermeture($year, $groupe_id, $new_date_debut, $new_date_fi
 ////	else
 //	{
 //		$tab_periode_calcul = make_tab_demi_jours_periode($date_debut_yyyy_mm_dd, $date_fin_yyyy_mm_dd, "am", "pm", $DEBUG);
-//		if(verif_periode_chevauche_periode_groupe($date_debut_yyyy_mm_dd, $date_fin_yyyy_mm_dd, $tab_periode_calcul, $groupe_id,  $DEBUG) == TRUE)
+//		if(verif_periode_chevauche_periode_groupe($date_debut_yyyy_mm_dd, $date_fin_yyyy_mm_dd, $tab_periode_calcul, $groupe_id,  $DEBUG) )
 	if($code_erreur==5)
 			echo "<br><center><h3><font color=\"red\">". _('admin_jours_fermeture_chevauche_periode') .".</font></h3></center><br><br>\n";
 //	}
@@ -756,7 +756,7 @@ function commit_new_fermeture($new_date_debut, $new_date_fin, $groupe_id, $id_ty
 	// on recharge les jours fermés dans les variables de session
 	init_tab_jours_fermeture($_SESSION['userlogin'],  $DEBUG);
 	
-	if($result==TRUE)
+	if($result)
 		echo "<br>". _('form_modif_ok') .".<br><br>\n";
 	else
 		echo "<br>". _('form_modif_not_ok') ." !<br><br>\n";
@@ -870,7 +870,7 @@ function commit_annul_fermeture($fermeture_id, $groupe_id,  $DEBUG=FALSE)
 		}
 	}
 
-	if($result==TRUE)
+	if($result)
 		echo "<br>". _('form_modif_ok') .".<br><br>\n";
 	else
 		echo "<br>". _('form_modif_not_ok') ." !<br><br>\n";

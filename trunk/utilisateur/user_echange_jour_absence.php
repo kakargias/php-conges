@@ -461,7 +461,7 @@ function echange_absence_rtt($onglet, $new_debut_string, $new_fin_string, $new_c
 		log_action(0, "", $_SESSION['userlogin'], $comment_log,  $DEBUG);
 
 
-		if(($result1==TRUE)&&($result2==TRUE))
+		if(($result1)&&($result2))
 			echo " Changements pris en compte avec succes !<br><br> \n";
 		else
 			echo " ERREUR ! Une erreur s'est produite : contactez votre responsable !<br><br> \n";

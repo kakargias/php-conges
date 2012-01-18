@@ -83,7 +83,7 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 		echo "<td>". _('divers_comment_maj_1') ."</td>\n";
 		echo "<td>". _('divers_etat_maj_1') ."</td>\n";
 		echo "<td></td><td></td>\n";
-		if($_SESSION['config']['affiche_date_traitement']==TRUE)
+		if($_SESSION['config']['affiche_date_traitement'])
 		{
 			echo "<td>". _('divers_date_traitement') ."</td>\n" ;
 		}
@@ -112,7 +112,7 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 			$sql_num= $resultat4["p_num"];
 
 			// si le user a le droit de saisir lui meme ses absences et qu'elle n'est pas deja annulee, on propose de modifier ou de supprimer
-			if(($sql_etat != "annul")&&($_SESSION['config']['user_saisie_mission']==TRUE))
+			if(($sql_etat != "annul")&&($_SESSION['config']['user_saisie_mission']))
 			{
 				$user_modif_mission="<a href=\"user_index.php?session=$session&p_num=$sql_num&onglet=modif_demande\">". _('form_modif') ."</a>" ;
 				$user_suppr_mission="<a href=\"user_index.php?session=$session&p_num=$sql_num&onglet=suppr_demande\">". _('form_supprim') ."</a>" ;
@@ -153,7 +153,7 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 				echo "</td>\n";
 				echo '<td class="histo">'.($user_modif_mission).'</td>'."\n";
 				echo '<td class="histo">'.($user_suppr_mission).'</td>'."\n";
-				if($_SESSION['config']['affiche_date_traitement']==TRUE)
+				if($_SESSION['config']['affiche_date_traitement'])
 				{
 					echo '<td class="histo-left">'.schars( _('divers_demande') ).' : '.schars($sql_date_demande).'<br>'.schars( _('divers_traitement') ).' : '.schars($sql_date_traitement).'</td>'."\n" ;
 				}

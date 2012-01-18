@@ -104,7 +104,7 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 			$sql_p_num				= $resultat3["p_num"];
 
 			// si on peut modifier une demande :on defini le lien à afficher
-			if($_SESSION['config']['interdit_modif_demande']==FALSE) {
+			if( !$_SESSION['config']['interdit_modif_demande'] ) {
 				//on ne peut pas modifier une demande qui a déja été validé une fois (si on utilise la double validation)
 				if($sql_p_etat=="valid")
 					$user_modif_demande="&nbsp;";
@@ -118,7 +118,7 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 				echo '<td class="histo">'.schars($sql_p_type).'</td>' ;
 				echo '<td class="histo">'.affiche_decimal($sql_p_nb_jours).'</td>' ;
 				echo '<td class="histo">'.schars($sql_p_commentaire).'</td>' ;
-				if($_SESSION['config']['interdit_modif_demande']==FALSE) {
+				if( !$_SESSION['config']['interdit_modif_demande'] ) {
 					echo '<td class="histo">'.($user_modif_demande).'</td>' ;
 				}
 				echo '<td class="histo">'.($user_suppr_demande).'</td>'."\n" ;

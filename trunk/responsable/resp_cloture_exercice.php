@@ -77,7 +77,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 function saisie_cloture( $tab_type_conges,  $DEBUG)
 {
-//$DEBUG==TRUE;
+
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id() ;
 
@@ -98,7 +98,7 @@ function saisie_cloture( $tab_type_conges,  $DEBUG)
 		
 		/***********************************************************************/
 		/* SAISIE GROUPE pour tous les utilisateurs d'un groupe du responsable */
-		if( $_SESSION['config']['gestion_groupes']==TRUE )
+		if( $_SESSION['config']['gestion_groupes'] )
 		{
 			affichage_cloture_globale_groupe($tab_type_conges,  $DEBUG);
 		}
@@ -162,7 +162,7 @@ function affichage_cloture_user_par_user($tab_type_conges, $tab_all_users_du_res
 		}
 		
 		// affichage des users dont on est grand responsable :
-		if( ($_SESSION['config']['double_validation_conges']==TRUE) && ($_SESSION['config']['grand_resp_ajout_conges']==TRUE) )
+		if( ($_SESSION['config']['double_validation_conges']) && ($_SESSION['config']['grand_resp_ajout_conges']) )
 		{
 			$nb_colspan=50;
 			echo "<tr align=\"center\"><td class=\"histo\" style=\"background-color: #CCC;\" colspan=\"$nb_colspan\"><i>". _('resp_etat_users_titre_double_valid') ."</i></td></tr>\n";
@@ -262,7 +262,7 @@ function affichage_cloture_globale_groupe($tab_type_conges,  $DEBUG=FALSE)
 
 	// on établi la liste complète des groupes dont on est le resp (ou le grd resp)
 	$list_group_resp=get_list_groupes_du_resp($_SESSION['userlogin']);
-	if( ($_SESSION['config']['double_validation_conges']==TRUE) && ($_SESSION['config']['grand_resp_ajout_conges']==TRUE) )
+	if( ($_SESSION['config']['double_validation_conges']) && ($_SESSION['config']['grand_resp_ajout_conges']) )
 		$list_group_grd_resp=get_list_groupes_du_grand_resp($_SESSION['userlogin'],  $DEBUG);
 	else
 		$list_group_grd_resp="";
@@ -360,7 +360,7 @@ function cloture_users($tab_type_conges, $tab_cloture_users, $tab_commentaire_sa
 			}
 		}
 		// traitement des users dont on est grand responsable :
-		if( ($_SESSION['config']['double_validation_conges']==TRUE) && ($_SESSION['config']['grand_resp_ajout_conges']==TRUE) )
+		if( ($_SESSION['config']['double_validation_conges']) && ($_SESSION['config']['grand_resp_ajout_conges']) )
 		{
 			foreach($tab_all_users_du_grand_resp as $current_login => $tab_current_user)
 			{		
@@ -412,7 +412,7 @@ function cloture_current_year_for_login($current_login, $tab_current_user, $tab_
 			/**********************************************/
 			/* Modification de la table conges_solde_user */
 			
-			if($_SESSION['config']['autorise_reliquats_exercice']==TRUE)
+			if($_SESSION['config']['autorise_reliquats_exercice'])
 			{
 				// ATTENTION : si le solde du user est négatif, on ne compte pas de reliquat et le nouveau solde est nb_jours_an + le solde actuel (qui est négatif)
 				if($user_solde_actuel>0)
@@ -476,23 +476,20 @@ function cloture_current_year_for_login($current_login, $tab_current_user, $tab_
 // si oui : on incrémente le num_exercice de l'application
 function update_appli_num_exercice( $DEBUG=FALSE)
 {
-
 	// verif
 	$appli_num_exercice = $_SESSION['config']['num_exercice'] ;
-	$sql_verif = 'SELECT u_login FROM conges_users WHERE u_login != \'admin\' AND u_login != \'conges\' AND u_num_exercice != '.SQL::quote($appli_num_exercice);
-	$ReqLog_verif = SQL::query($sql_verif) ;
-				
-	if($ReqLog_verif->num_rows == 0)
-	{
+	$sql_verif = 'SELECT u_login FROM conges_users WHERE u_login != \'admin\' AND u_login != \'conges\' AND u_num_exercice != '.SQL::quote($appli_num_exercice).';';
+	$ReqLog_verif = SQL::query($sql_verif);
+	
+	if($ReqLog_verif->num_rows == 0) {
 		/* Modification de la table conges_appli */
-		$sql_update= "UPDATE conges_appli SET appli_valeur = appli_valeur+1 WHERE appli_variable='num_exercice' " ;
+		$sql_update= 'UPDATE conges_appli SET appli_valeur = appli_valeur+1 WHERE appli_variable=\'num_exercice\' ;';
 		$ReqLog_update = SQL::query($sql_update) ;
 		
 		// ecriture dans les logs
 		$new_appli_num_exercice = $appli_num_exercice+1 ;
-		log_action(0, "", "", "fin/debut exercice (appli_num_exercice : $appli_num_exercice -> $new_appli_num_exercice)",  $DEBUG);
+		log_action(0, '', '', 'fin/debut exercice (appli_num_exercice : '.$appli_num_exercice.' -> '.$new_appli_num_exercice.')',  $DEBUG);
 	} 
-
 }
 
 
@@ -521,7 +518,7 @@ function cloture_globale($tab_type_conges,  $DEBUG=FALSE)
 			cloture_current_year_for_login($current_login, $tab_current_user, $tab_type_conges, $comment_cloture,  $DEBUG);
 		}
 		// traitement des users dont on est grand responsable :
-		if( ($_SESSION['config']['double_validation_conges']==TRUE) && ($_SESSION['config']['grand_resp_ajout_conges']==TRUE) )
+		if( ($_SESSION['config']['double_validation_conges']) && ($_SESSION['config']['grand_resp_ajout_conges']) )
 		{
 			foreach($tab_all_users_du_grand_resp as $current_login => $tab_current_user)
 			{		
@@ -588,7 +585,7 @@ function cloture_globale_groupe($group_id, $tab_type_conges,  $DEBUG=FALSE)
 function set_nouvelle_date_limite_reliquat( $DEBUG=FALSE)
 {
 	//si on autorise les reliquats
-	if($_SESSION['config']['autorise_reliquats_exercice']==TRUE)
+	if($_SESSION['config']['autorise_reliquats_exercice'])
 	{
 		// s'il y a une date limite d'utilisationdes reliquats (au format jj-mm)
 		if($_SESSION['config']['jour_mois_limite_reliquats']!=0)

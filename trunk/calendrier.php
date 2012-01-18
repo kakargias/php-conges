@@ -118,14 +118,14 @@ header_popup($_SESSION['config']['titre_calendrier'] , $script . $css);
 		echo "   <td align=\"center\">\n";
 	//	echo "   <H2>". _('calendrier_titre') ."</H2>\n";
 		echo "   <H3>". _('calendrier_titre') ;
-//		if( ($_SESSION['config']['gestion_groupes']==TRUE) && ($select_groupe!="") )
-		if( ($_SESSION['config']['gestion_groupes']==TRUE) && ($select_groupe!=0) )
+//		if( ($_SESSION['config']['gestion_groupes']) && ($select_groupe!="") )
+		if( ($_SESSION['config']['gestion_groupes']) && ($select_groupe!=0) )
 			echo "   (". _('divers_groupe') ." : ".get_group_name_from_id($select_groupe, $DEBUG).")\n";
 		echo "   </H3>\n";
 		echo "   </td>\n";
 		// AFFICHAGE DE LA SELECTION D'UN GROUPE A AFFICHER
 		echo "   <td align=\"right\">\n";
-			if( ($_SESSION['config']['gestion_groupes']==TRUE) && ($printable!=1) )  // si gestion des groupes active et pas version imprimable
+			if( ($_SESSION['config']['gestion_groupes']) && ($printable!=1) )  // si gestion des groupes active et pas version imprimable
 			{
 				// affiche le select des groupes du user OU les groupes du resp (si user est resp) OU tous les groupes (si option de config ok)
 				affiche_select_groupe($select_groupe, $selected, $printable, $year, $mois, $first_jour, $DEBUG) ;
@@ -239,7 +239,7 @@ if (typeof(window.print) != 'undefined') {
 <?php
 	}
 	// si on est dans un acces sans authentification
-	elseif(($_SESSION['config']['consult_calendrier_sans_auth']==TRUE) && (!isset($_SESSION['userlogin'])) )
+	elseif(($_SESSION['config']['consult_calendrier_sans_auth']) && (!isset($_SESSION['userlogin'])) )
 	{
 	}
 	else // sinon (version ecran et session authentifiée
@@ -325,7 +325,7 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 
 		// recup du tableau des types de conges (seulement les conges)
 		$tab_type_cong=recup_tableau_types_conges($DEBUG);
-		if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
+		if ($_SESSION['config']['gestion_conges_exceptionnels'])
 		{
 			$tab_type_cong_excep=recup_tableau_types_conges_exceptionnels($DEBUG);
 		}
@@ -438,7 +438,7 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 			}
 			
 			
-			if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
+			if ($_SESSION['config']['gestion_conges_exceptionnels'])
 			{
 				foreach($tab_type_cong_excep as $id => $libelle)
 				{
@@ -1033,7 +1033,7 @@ function recup_tableau_periodes($mois, $first_jour, $year,  $DEBUG=FALSE)
 			
 			// on ne stoque les "demandes" que pour le user qui consulte (il ne voit pas celles des autres !)(suivant l'option de config)
 //			if($resultat_periode["p_etat"]!="demande")
-			if(($resultat_periode["p_etat"]!="demande") || ($_SESSION['config']['affiche_demandes_dans_calendrier']==TRUE) )
+			if(($resultat_periode["p_etat"]!="demande") || ($_SESSION['config']['affiche_demandes_dans_calendrier']) )
 				$tab_jour[]=$tab_periode;
 			elseif( (isset($_SESSION['userlogin'])) && ($resultat_periode["p_login"]==$_SESSION['userlogin']) )
 				$tab_jour[]=$tab_periode;
@@ -1072,7 +1072,7 @@ function recup_tableau_periodes($mois, $first_jour, $year,  $DEBUG=FALSE)
 
 			// on ne stoque les "demandes" que pour le user qui consulte (il ne voit pas celles des autres !)(suivant l'option de config)
 //			if($resultat_periode["p_etat"]!="demande")
-			if(($resultat_periode["p_etat"]!="demande") || ($_SESSION['config']['affiche_demandes_dans_calendrier']==TRUE) )
+			if(($resultat_periode["p_etat"]!="demande") || ($_SESSION['config']['affiche_demandes_dans_calendrier']) )
 				$tab_jour[]=$tab_periode;
 			elseif( (isset($_SESSION['userlogin'])) && ($resultat_periode["p_login"]==$_SESSION['userlogin']) )
 				$tab_jour[]=$tab_periode;
@@ -1094,12 +1094,12 @@ function affiche_select_groupe($select_groupe, $selected, $printable, $year, $mo
 	$session=session_id();
 
 	// quelle liste de groupes recuperer ?
-	//if( ($_SESSION['config']['consult_calendrier_sans_auth']==TRUE) && (!isset($_SESSION['userlogin'])) )
+	//if( ($_SESSION['config']['consult_calendrier_sans_auth']) && (!isset($_SESSION['userlogin'])) )
 	if( is_hr($_SESSION['userlogin'], $DEBUG) )
 		$list_groupes=get_list_all_groupes( $DEBUG );
-	elseif($_SESSION['config']['calendrier_select_all_groups']==TRUE)
+	elseif($_SESSION['config']['calendrier_select_all_groups'])
 		$list_groupes=get_list_all_groupes( $DEBUG );
-	elseif(is_resp($_SESSION['userlogin'],  $DEBUG)==TRUE)
+	elseif(is_resp($_SESSION['userlogin'],  $DEBUG))
 	{
 		// on propose la liste des groupes dont user est resp + groupes dont user est membre
 		$list_groupes_1=get_list_groupes_du_resp($_SESSION['userlogin'],  $DEBUG);
@@ -1153,10 +1153,10 @@ function recup_tableau_des_users_a_afficher($select_groupe,  $DEBUG=FALSE)
 
 		// si acces sans authentification est permis : alors droit de voir tout le monde
 		// sinon, on verifie si le user a le droite de voir tout le monde
-		if( ($_SESSION['config']['consult_calendrier_sans_auth']==TRUE) && (!isset($_SESSION['userlogin'])) )
+		if( ($_SESSION['config']['consult_calendrier_sans_auth']) && (!isset($_SESSION['userlogin'])) )
 		{
 			//si gestion des groupes et un groupe a ete selectionne
-			if( ($_SESSION['config']['gestion_groupes']==TRUE) && ($select_groupe!=0) )
+			if( ($_SESSION['config']['gestion_groupes']) && ($select_groupe!=0) )
 			{
 				$sql1 = "SELECT DISTINCT u_login, u_nom, u_prenom, u_quotite FROM conges_users ";
 				$sql1 = $sql1." WHERE u_login!='conges' AND u_login!='admin' ";
@@ -1180,10 +1180,10 @@ function recup_tableau_des_users_a_afficher($select_groupe,  $DEBUG=FALSE)
 
 			//si le user a le droit de voir tout le monde
 			$user_see_all_in_calendrier=get_user_see_all($_SESSION['userlogin']);
-			if($user_see_all_in_calendrier==TRUE) // si le user a "u_see_all" à "Y" dans la table users : affiche tous les users
+			if($user_see_all_in_calendrier) // si le user a "u_see_all" à "Y" dans la table users : affiche tous les users
 			{
 				//si gestion des groupes et un groupe a ete selectionne
-				if( ($_SESSION['config']['gestion_groupes']==TRUE) && ($select_groupe!=0) )
+				if( ($_SESSION['config']['gestion_groupes']) && ($select_groupe!=0) )
 				{
 					$sql1 = "SELECT DISTINCT u_login, u_nom, u_prenom, u_quotite FROM conges_users ";
 					$sql1 = $sql1." WHERE u_login!='conges' AND u_login!='admin' ";
@@ -1206,7 +1206,7 @@ function recup_tableau_des_users_a_afficher($select_groupe,  $DEBUG=FALSE)
 			else
 			{
 				//si gestion des groupes et un groupe a ete selectionne
-				if( ($_SESSION['config']['gestion_groupes']==TRUE) && ($select_groupe!=0) )
+				if( ($_SESSION['config']['gestion_groupes']) && ($select_groupe!=0) )
 				{
 					$sql1 = "SELECT DISTINCT u_login, u_nom, u_prenom, u_quotite FROM conges_users ";
 					$sql1 = $sql1." WHERE u_login!='conges' AND u_login!='admin' ";
@@ -1229,7 +1229,7 @@ function recup_tableau_des_users_a_afficher($select_groupe,  $DEBUG=FALSE)
 						$sql1 = $sql1." WHERE u_login!='conges' AND u_login!='admin' ";
 						
 						//si affichage par groupe : on affiche les membres des groupes du user ($_SESSION['userlogin'])
-						if( ($_SESSION['config']['gestion_groupes']==TRUE) && ($_SESSION['config']['affiche_groupe_in_calendrier']==TRUE) )
+						if( ($_SESSION['config']['gestion_groupes']) && ($_SESSION['config']['affiche_groupe_in_calendrier']) )
 						{
 							//recup de la liste des users des groupes dont le user est membre
 							$list_users=get_list_users_des_groupes_du_user($_SESSION['userlogin']);
@@ -1250,7 +1250,7 @@ function recup_tableau_des_users_a_afficher($select_groupe,  $DEBUG=FALSE)
 							$sql1 = $sql1.' AND ( u_login = \''.SQL::quote($_SESSION['userlogin']).'\' ';
 		
 							//si affichage par groupe : on affiche les membres des groupes du user ($_SESSION['userlogin'])
-							if( ($_SESSION['config']['gestion_groupes']==TRUE) && ($_SESSION['config']['affiche_groupe_in_calendrier']==TRUE) )
+							if( ($_SESSION['config']['gestion_groupes']) && ($_SESSION['config']['affiche_groupe_in_calendrier']) )
 							{
 								//recup de la liste des users des groupes dont le user est membre
 								$list_users=get_list_users_des_groupes_du_user($_SESSION['userlogin']);

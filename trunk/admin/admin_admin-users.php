@@ -56,7 +56,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 		echo "<td>". _('divers_solde') ." $libelle</td>\n";
 	}
 
-	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) {
+	if ($_SESSION['config']['gestion_conges_exceptionnels']) {
 	  foreach($tab_type_conges_exceptionnels as $id_type_cong => $libelle)
 	  {
 	    echo "<td>". _('divers_solde') ." $libelle</td>\n";
@@ -71,7 +71,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 		echo "<td>". _('admin_users_mail') ."</td>\n";
 	echo "<td></td>\n";
 	echo "<td></td>\n";
-	if($_SESSION['config']['admin_change_passwd']==TRUE)
+	if($_SESSION['config']['admin_change_passwd'])
 		echo "<td></td>\n";
 	echo "</tr>\n";
 	echo "</thead>\n";
@@ -79,8 +79,8 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 	// Récuperation des informations des users:
 	$tab_info_users=array();
-	// si l'admin peut voir tous les users  OU si on est en mode "responsble virtuel" OU si l'admin n'est responsable d'aucun user
-	if(($_SESSION['config']['admin_see_all']==TRUE) || ($_SESSION['config']['responsable_virtuel']==TRUE) || (admin_is_responsable($_SESSION['userlogin'])==FALSE))
+	// si l'admin peut voir tous les users  OU si on est en mode "responsble virtuel" OU si l'admin n'est pas responsable
+	if( $_SESSION['config']['admin_see_all'] || $_SESSION['config']['responsable_virtuel'] || !is_resp($_SESSION['userlogin']) )
 		$tab_info_users = recup_infos_all_users($DEBUG);
 	else
 		$tab_info_users = recup_infos_all_users_du_resp($_SESSION['userlogin'], $DEBUG);
@@ -118,7 +118,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 				echo "<td>0</td>\n";
 			}
 		}
-		if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
+		if ($_SESSION['config']['gestion_conges_exceptionnels'])
 		{
 			foreach($tab_type_conges_exceptionnels as $id_conges => $libelle)
 			{
@@ -137,7 +137,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 			echo "<td>".$tab_current_infos['email']."</td>\n";
 		echo "<td>$admin_modif_user</td>\n";
 		echo "<td>$admin_suppr_user</td>\n";
-		if(($_SESSION['config']['admin_change_passwd']==TRUE) && ($_SESSION['config']['how_to_connect_user'] == "dbconges"))
+		if(($_SESSION['config']['admin_change_passwd']) && ($_SESSION['config']['how_to_connect_user'] == "dbconges"))
 			echo "<td>$admin_chg_pwd_user</td>\n";
 		echo "</tr>\n";
 		$i = !$i;

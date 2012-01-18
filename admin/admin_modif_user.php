@@ -263,7 +263,7 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $DEBUG=F
 		
 		// reliquat
 		// si on ne les utilise pas, on initialise qd meme le tableau (<input type=\"hidden\") ...
-		if($_SESSION['config']['autorise_reliquats_exercice']==TRUE)
+		if($_SESSION['config']['autorise_reliquats_exercice'])
 		{
 			if (isset($tab_user['conges'][$libelle]))
 			{
@@ -285,7 +285,7 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $DEBUG=F
 	}
 
 	// recup du tableau des types de conges (seulement les conges)
-	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
+	if ($_SESSION['config']['gestion_conges_exceptionnels'])
 	{
 	  foreach($tab_type_conges_exceptionnels as $id_type_cong_exp => $libelle)
 	  {
@@ -300,7 +300,7 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $DEBUG=F
 	    echo "<td>$text_solde_jours</td>\n";
 		// reliquat
 		// si on ne les utilise pas, on initialise qd meme le tableau (<input type=\"hidden\") ...
-		if($_SESSION['config']['autorise_reliquats_exercice']==TRUE)
+		if($_SESSION['config']['autorise_reliquats_exercice'])
 		{
 			echo "<td>".$tab_user['conges'][$libelle]['reliquat']."</td>\n";
 			$text_reliquats_jours="<input type=\"text\" name=\"tab_new_reliquat[$id_type_cong_exp]\" size=\"5\" maxlength=\"5\" value=\"".$tab_user['conges'][$libelle]['reliquat']."\">" ;
@@ -341,7 +341,7 @@ function commit_update($u_login_to_update, &$tab_new_user, &$tab_new_jours_an, &
 	// recup du tableau des types de conges (seulement les conges)
 	$tab_type_conges = recup_tableau_types_conges($DEBUG);
 	$tab_type_conges_excep=array();
-	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
+	if ($_SESSION['config']['gestion_conges_exceptionnels'])
 		$tab_type_conges_excep=recup_tableau_types_conges_exceptionnels($DEBUG);
 
 	if( $DEBUG )
@@ -371,7 +371,7 @@ function commit_update($u_login_to_update, &$tab_new_user, &$tab_new_jours_an, &
 	}
 
 	// si l'application gere les conges exceptionnels ET si des types de conges exceptionnels ont été définis
-	if (($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)&&(count($tab_type_conges_excep) > 0))
+	if (($_SESSION['config']['gestion_conges_exceptionnels'])&&(count($tab_type_conges_excep) > 0))
 	{
 		$valid_3=TRUE;
 		// vérification de la validité de la saisie du nombre de jours annuels et du solde pour chaque type de conges exceptionnels
@@ -391,7 +391,7 @@ function commit_update($u_login_to_update, &$tab_new_user, &$tab_new_jours_an, &
 
 
 	// si aucune erreur de saisie n'a ete commise
-	if(($valid_1==TRUE) && ($valid_2==TRUE) && ($valid_3==TRUE) && ($valid_reliquat==TRUE))
+	if(($valid_1) && ($valid_2) && ($valid_3) && ($valid_reliquat))
 	{
 		// UPDATE de la table conges_users
 		$sql1 = 'UPDATE conges_users
@@ -428,7 +428,7 @@ function commit_update($u_login_to_update, &$tab_new_user, &$tab_new_jours_an, &
 				$result==FALSE;
 		}
 
-		if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
+		if ($_SESSION['config']['gestion_conges_exceptionnels'])
 		{
 			foreach($tab_type_conges_excep as $id_conges => $libelle)
 			{
@@ -615,7 +615,7 @@ function commit_update($u_login_to_update, &$tab_new_user, &$tab_new_jours_an, &
 
 		log_action(0, "", $u_login_to_update, $comment_log,  $DEBUG);
 
-		if($result==TRUE)
+		if($result)
 			echo  _('form_modif_ok') ." !<br><br> \n";
 		else
 			echo  _('form_modif_not_ok') ." !<br><br> \n";

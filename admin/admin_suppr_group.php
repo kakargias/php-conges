@@ -73,7 +73,7 @@ function confirmer($group, $DEBUG=FALSE)
 	echo "<tr>\n";
 	echo "<td><b>". _('admin_groupes_groupe') ."</b></td>\n";
 	echo "<td><b>". _('admin_groupes_libelle') ." / ". _('divers_comment_maj_1') ."</b></td>\n";
-	if($_SESSION['config']['double_validation_conges']==TRUE)
+	if($_SESSION['config']['double_validation_conges'])
 		echo "	<td><b>". _('admin_groupes_double_valid') ."</b></td>\n";
 	echo "</tr>\n";
 	echo "</thead>\n";
@@ -85,7 +85,7 @@ function confirmer($group, $DEBUG=FALSE)
 		$sql_double_valid=$resultat1["g_double_valid"] ;
 		echo "<td>&nbsp;$sql_groupname&nbsp;</td>\n"  ;
 		echo "<td>&nbsp;$sql_comment&nbsp;</td>\n" ;
-		if($_SESSION['config']['double_validation_conges']==TRUE)
+		if($_SESSION['config']['double_validation_conges'])
 			echo "<td>$sql_double_valid</td>\n";
 	}
 	echo "</tr>\n";
@@ -115,7 +115,7 @@ function suppression_group($group_to_delete,  $DEBUG=FALSE)
 	$sql3 = 'DELETE FROM conges_groupe_resp WHERE gr_gid = '.SQL::quote($group_to_delete);
 	$result3 = SQL::query($sql3);
 
-	if($_SESSION['config']['double_validation_conges']==TRUE)
+	if($_SESSION['config']['double_validation_conges'])
 	{
 		$sql4 = 'DELETE FROM conges_groupe_grd_resp WHERE ggr_gid = '.SQL::quote($group_to_delete);
         	$result4 = SQL::query($sql4);
@@ -124,7 +124,7 @@ function suppression_group($group_to_delete,  $DEBUG=FALSE)
 	$comment_log = "suppression_groupe ($group_to_delete)";
 	log_action(0, "", "", $comment_log,  $DEBUG);
 
-	if($result==TRUE)
+	if($result)
 		echo  _('form_modif_ok') ." !<br><br> \n";
 	else
 		echo  _('form_modif_not_ok') ." !<br><br> \n";

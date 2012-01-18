@@ -139,7 +139,7 @@ function suppression($u_login_to_delete, $DEBUG=FALSE)
 	$comment_log = "suppression_user ($u_login_to_delete)";
 	log_action(0, "", $u_login_to_delete, $comment_log, $DEBUG);
 
-	if($result==TRUE)
+	if($result)
 		echo  _('form_modif_ok') ." !<br><br> \n" ;
 	else
 		echo  _('form_modif_not_ok') ." !<br><br> \n";

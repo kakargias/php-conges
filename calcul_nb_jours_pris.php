@@ -118,7 +118,7 @@ function affichage($user, $date_debut, $date_fin, $opt_debut, $opt_fin, $DEBUG=F
 	echo "</form>\n";
 
 
-	if($_SESSION['config']['rempli_auto_champ_nb_jours_pris']==TRUE)
+	if($_SESSION['config']['rempli_auto_champ_nb_jours_pris'])
 	{
 		if( ($comment=="&nbsp;") && ($DEBUG==FALSE) )
 			echo "<script>envoi($nb_jours); window.close()</script>";

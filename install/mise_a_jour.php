@@ -108,7 +108,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 	elseif($etape==1)
 	{
 		//verif si create / alter table possible !!!
-		if(test_create_table( $DEBUG) == FALSE)
+		if( !test_create_table( $DEBUG) )
 		{
 			echo "<font color=\"red\"><b>CREATE TABLE</b> ". _('install_impossible_sur_db') ." <b>$mysql_database</b> (". _('install_verif_droits_mysql') ." <b>$mysql_user</b>)...</font><br> \n";
 			echo "<br>puis ...<br>\n";
@@ -118,7 +118,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 			echo "<input type=\"submit\" value=\"". _('form_redo') ."\">\n";
 			echo "</form>\n";
 		}
-		elseif(test_alter_table( $DEBUG) == FALSE)
+		elseif(!test_alter_table( $DEBUG) )
 		{
 			echo "<font color=\"red\"><b>ALTER TABLE</b> ". _('install_impossible_sur_db') ." <b>$mysql_database</b> (". _('install_verif_droits_mysql') ." <b>$mysql_user</b>)...</font><br> \n";
 			echo "<br>puis ...<br>\n";
@@ -128,7 +128,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 			echo "<input type=\"submit\" value=\"". _('form_redo') ."\">\n";
 			echo "</form>\n";
 		}
-		elseif(test_drop_table( $DEBUG) == FALSE)
+		elseif( !test_drop_table( $DEBUG) )
 		{
 			echo "<font color=\"red\"><b>DROP TABLE</b> ". _('install_impossible_sur_db') ." <b>$mysql_database</b> (". _('install_verif_droits_mysql') ." <b>$mysql_user</b>)...</font><br> \n";
 			echo "<br>puis ...<br>\n";
@@ -140,7 +140,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 		}
 		else
 		{
-			if($DEBUG==FALSE)
+			if( !$DEBUG )
 				echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$PHP_SELF?etape=2&version=$installed_version&lang=$lang\">";
 			else
 				echo "<a href=\"$PHP_SELF?etape=2&version=$installed_version&lang=$lang\">". _('install_etape') ." 1  OK</a><br>\n";
@@ -153,7 +153,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 		if( (substr($installed_version, 0, 1)=="0") || ($installed_version=="1.0") )
 		{
 			//verif si la copie de l'ancien fichier de config est présent et lisible (install/config_old.php)
-			if(test_old_config_file($DEBUG) == FALSE)
+			if( !test_old_config_file($DEBUG) )
 			{
 				echo "<font color=\"red\">\n";
 				echo  _('install_le_fichier') ." \"<b>install / config_old.php</b>\" ". _('install_inaccessible') ." !<br>\n";
@@ -170,7 +170,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 			}
 			else
 			{
-				if($DEBUG==FALSE)
+				if( !$DEBUG )
 					echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$PHP_SELF?etape=3&version=$installed_version&lang=$lang\">";
 				else
 					echo "<a href=\"$PHP_SELF?etape=3&version=$installed_version&lang=$lang\">". _('install_etape') ." 2  OK</a><br>\n";
@@ -178,7 +178,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 		}
 		else
 		{
-			if($DEBUG==FALSE)
+			if( !$DEBUG )
 				echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$PHP_SELF?etape=3&version=$installed_version&lang=$lang\">";
 			else
 				echo "<a href=\"$PHP_SELF?etape=3&version=$installed_version&lang=$lang\">". _('install_etape') ." 2  OK</a><br>\n";
@@ -191,7 +191,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 		// ATTENTION on ne passe cette étape que si on est en version inferieure à 1.0 ! (donc en v0.xxx) (sinon on passe à l'étape 4)
 		if(substr($installed_version, 0, 1)!="0")
 		{
-			if($DEBUG==FALSE)
+			if( !$DEBUG )
 				echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$PHP_SELF?etape=4&version=$installed_version&lang=$lang\">";
 			else
 				echo "<a href=\"$PHP_SELF?etape=4&version=$installed_version&lang=$lang\">". _('install_etape') ." 3  OK</a><br>\n";
@@ -215,7 +215,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 					echo "sql_file = $sql_file<br>\n";
 				execute_sql_file($sql_file,  $DEBUG);
 			}
-			if($DEBUG==FALSE)
+			if( !$DEBUG )
 				echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$PHP_SELF?etape=4&version=1.0&lang=$lang\">";
 			else
 				echo "<a href=\"$PHP_SELF?etape=4&version=1.0&lang=$lang\">". _('install_etape') ." 3  OK</a><br>\n";
@@ -307,7 +307,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 		}
 		else
 		{
-			if($DEBUG==FALSE)
+			if( !$DEBUG )
 				echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$PHP_SELF?etape=5&version=1.4.1&lang=$lang\">";
 			else
 				echo "<a href=\"$PHP_SELF?etape=5&version=1.5.0&lang=$lang\">". _('install_etape') ." 4  OK</a><br>\n";
@@ -319,13 +319,13 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
 	{
 		// FIN
 		// test si fichiers config.php ou config_old.php existent encore (si oui : demande de les éffacer !
-		if( (test_config_file($DEBUG)==TRUE) || (test_old_config_file($DEBUG)==TRUE) )
+		if( (test_config_file($DEBUG)) || (test_old_config_file($DEBUG)) )
 		{
-			if(test_config_file($DEBUG)==TRUE)
+			if(test_config_file($DEBUG))
 			{
 				echo  _('install_le_fichier') ." <b>\"config.php\"</b> ". _('install_remove_fichier') .".<br> \n";
 			}
-			if(test_old_config_file($DEBUG)==TRUE)
+			if(test_old_config_file($DEBUG))
 			{
 				echo  _('install_le_fichier') ." <b>\"install/config_old.php\"</b> ". _('install_remove_fichier') .".<br> \n";
 			}

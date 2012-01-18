@@ -72,12 +72,12 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 function saisie_ajout( $tab_type_conges,  $DEBUG)
 {
-//$DEBUG==TRUE;
+
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id() ;
 
 	// recup du tableau des types de conges (seulement les congesexceptionnels )
-	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
+	if ($_SESSION['config']['gestion_conges_exceptionnels']) 
 	{
 	  $tab_type_conges_exceptionnels = recup_tableau_types_conges_exceptionnels();
 	  if( $DEBUG ) { echo "tab_type_conges_exceptionnels = "; print_r($tab_type_conges_exceptionnels); echo "<br><br>\n";}
@@ -102,7 +102,7 @@ function saisie_ajout( $tab_type_conges,  $DEBUG)
 		
 		/***********************************************************************/
 		/* SAISIE GROUPE pour tous les utilisateurs d'un groupe du responsable */
-		if( $_SESSION['config']['gestion_groupes']==TRUE )
+		if( $_SESSION['config']['gestion_groupes'] )
 		{
 			affichage_saisie_globale_groupe($tab_type_conges,  $DEBUG);
 		}
@@ -149,7 +149,7 @@ function affichage_saisie_user_par_user($tab_type_conges, $tab_type_conges_excep
 			echo "<td>$libelle<br><i>(". _('divers_solde') .")</i></td>\n";
 			echo "<td>$libelle<br>". _('resp_ajout_conges_nb_jours_ajout') ."</td>\n" ;
 		}
-		if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
+		if ($_SESSION['config']['gestion_conges_exceptionnels'])
 		{
 			foreach($tab_type_conges_exceptionnels as $id_conges => $libelle)
 			{
@@ -186,7 +186,7 @@ function affichage_saisie_user_par_user($tab_type_conges, $tab_type_conges_excep
 				echo "<td>".$tab_conges[$libelle]['nb_an']." <i>(".$tab_conges[$libelle]['solde'].")</i></td>\n";
 				echo "<td align=\"center\" class=\"histo\">$champ_saisie_conges</td>\n" ;
 			}
-			if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
+			if ($_SESSION['config']['gestion_conges_exceptionnels'])
 			{
 				foreach($tab_type_conges_exceptionnels as $id_conges => $libelle)
 				{
@@ -203,7 +203,7 @@ function affichage_saisie_user_par_user($tab_type_conges, $tab_type_conges_excep
 		}
 		
 		// affichage des users dont on est grand responsable :
-		if( ($_SESSION['config']['double_validation_conges']==TRUE) && ($_SESSION['config']['grand_resp_ajout_conges']==TRUE) )
+		if( ($_SESSION['config']['double_validation_conges']) && ($_SESSION['config']['grand_resp_ajout_conges']) )
 		{
 			$nb_colspan=50;
 			echo "<tr align=\"center\"><td class=\"histo\" style=\"background-color: #CCC;\" colspan=\"$nb_colspan\"><i>". _('resp_etat_users_titre_double_valid') ."</i></td></tr>\n";
@@ -227,7 +227,7 @@ function affichage_saisie_user_par_user($tab_type_conges, $tab_type_conges_excep
 					echo "<td>".$tab_conges[$libelle]['nb_an']." <i>(".$tab_conges[$libelle]['solde'].")</i></td>\n";
 					echo "<td align=\"center\" class=\"histo\">$champ_saisie_conges</td>\n" ;
 				}
-				if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE)
+				if ($_SESSION['config']['gestion_conges_exceptionnels'])
 				{
 					foreach($tab_type_conges_exceptionnels as $id_conges => $libelle)
 					{
@@ -310,7 +310,7 @@ function affichage_saisie_globale_groupe($tab_type_conges,  $DEBUG=FALSE)
 
 	// on établi la liste complète des groupes dont on est le resp (ou le grd resp)
 	$list_group_resp=get_list_groupes_du_resp($_SESSION['userlogin']);
-	if( ($_SESSION['config']['double_validation_conges']==TRUE) && ($_SESSION['config']['grand_resp_ajout_conges']==TRUE) )
+	if( ($_SESSION['config']['double_validation_conges']) && ($_SESSION['config']['grand_resp_ajout_conges']) )
 		$list_group_grd_resp=get_list_groupes_du_grand_resp($_SESSION['userlogin'],  $DEBUG);
 	else
 		$list_group_grd_resp="";
@@ -396,7 +396,7 @@ function ajout_conges($tab_champ_saisie, $tab_commentaire_saisie,  $DEBUG=FALSE)
 	  foreach($tab_conges as $id_conges => $user_nb_jours_ajout)
 	  {
 	    $valid=verif_saisie_decimal($user_nb_jours_ajout, $DEBUG);   //verif la bonne saisie du nombre décimal
-	    if($valid==TRUE)
+	    if($valid)
 	    {
 	      $user_nb_jours_ajout_float =(float) $user_nb_jours_ajout ;
 	      if( $DEBUG ) {echo "$user_name --- $id_conges --- $user_nb_jours_ajout_float<br>\n";}

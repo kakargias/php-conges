@@ -106,7 +106,7 @@ function edition_pdf($login, $edit_id,  $DEBUG=FALSE)
 		// recup du tableau des types de conges (seulement les conges)
 		$tab_type_cong=recup_tableau_types_conges();
 		// recup du tableau des types de conges exceptionnels (seulement les conges exceptionnels)
-		if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
+		if ($_SESSION['config']['gestion_conges_exceptionnels']) 
 			 $tab_type_conges_exceptionnels=recup_tableau_types_conges_exceptionnels( $DEBUG);
 		else
 			$tab_type_conges_exceptionnels=array();
@@ -207,7 +207,7 @@ function edition_pdf($login, $edit_id,  $DEBUG=FALSE)
 	
 				// (largeur totale page = 210 ( - 2x10 de marge))
 				// tailles des cellules du tableau
-				if($_SESSION['config']['affiche_date_traitement']==TRUE)
+				if($_SESSION['config']['affiche_date_traitement'])
 				{
 					affiche_tableau_conges_avec_date_traitement($pdf, $ReqLog2, $decalage, $tab_type_all_cong, $DEBUG);
 				}

@@ -85,7 +85,7 @@ function edition($login, $edit_id,  $DEBUG=FALSE)
 	// recup du tableau des types de conges exceptionnels (seulement les conge sexceptionnels )
 	$tab_type_cong=recup_tableau_types_conges( $DEBUG);
 	// recup du tableau des types de conges (seulement les conges)
-	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
+	if ($_SESSION['config']['gestion_conges_exceptionnels']) 
 		$tab_type_conges_exceptionnels=recup_tableau_types_conges_exceptionnels( $DEBUG);
 	else
 		$tab_type_conges_exceptionnels=array();
@@ -133,7 +133,7 @@ function edition($login, $edit_id,  $DEBUG=FALSE)
 	echo "<br><br><br>\n";
 	
 
-	if($_SESSION['config']['affiche_date_traitement']==TRUE)
+	if($_SESSION['config']['affiche_date_traitement'])
 		echo "<table cellpadding=\"0\" cellspacing=\"0\" border=\"1\" width=\"870\">\n" ;
 	else
 		echo "<table cellpadding=\"0\" cellspacing=\"0\" border=\"1\" width=\"770\">\n" ;
@@ -164,7 +164,7 @@ function edition($login, $edit_id,  $DEBUG=FALSE)
 		else
 		{
 			// AFFICHAGE TABLEAU
-			if($_SESSION['config']['affiche_date_traitement']==TRUE)
+			if($_SESSION['config']['affiche_date_traitement'])
 				echo "<table cellpadding=\"2\" class=\"tablo-edit\" width=\"850\">\n";
 			else
 				echo "<table cellpadding=\"2\" class=\"tablo-edit\" width=\"750\">\n";
@@ -206,7 +206,7 @@ function edition($login, $edit_id,  $DEBUG=FALSE)
 			echo " <td class=\"titre-edit\">". _('divers_debut_maj_1') ."</td>\n";
 			echo " <td class=\"titre-edit\">". _('divers_fin_maj_1') ."</td>\n";
 			echo " <td class=\"titre-edit\">". _('divers_comment_maj_1') ."</td>\n";
-			if($_SESSION['config']['affiche_date_traitement']==TRUE)
+			if($_SESSION['config']['affiche_date_traitement'])
 			{
 				echo "<td class=\"titre-edit\">". _('divers_date_traitement') ."</td>\n" ;
 			}
@@ -252,7 +252,7 @@ function edition($login, $edit_id,  $DEBUG=FALSE)
 					echo "<td class=\"histo-edit\">$sql_p_date_fin _ $demi_j_fin</td>";
 					echo "<td class=\"histo-edit\">$sql_p_commentaire</td>";
 					
-				if($_SESSION['config']['affiche_date_traitement']==TRUE)
+				if($_SESSION['config']['affiche_date_traitement'])
 				{
 					if($sql_p_date_demande == NULL)
 						echo "<td class=\"histo-left\">". _('divers_demande') ." : $sql_p_date_demande<br>". _('divers_traitement') ." : $sql_p_date_traitement</td>\n" ;

@@ -431,7 +431,7 @@ function modif_group_users($choix_group, &$checkbox_group_users,  $DEBUG=FALSE)
 	else
 		$result_insert=TRUE;
 
-	if($result_insert==TRUE)
+	if($result_insert)
 		echo  _('form_modif_ok') ."<br><br> \n";
 	else
 		echo  _('form_modif_not_ok') ."<br><br> \n";
@@ -454,7 +454,7 @@ function modif_user_groups($choix_user, &$checkbox_user_groups,  $DEBUG=FALSE)
 
 	$result_insert=commit_modif_user_groups($choix_user, $checkbox_user_groups,  $DEBUG);
 
-	if($result_insert==TRUE)
+	if($result_insert)
 		echo  _('form_modif_ok') ." !<br><br> \n";
 	else
 		echo  _('form_modif_not_ok') ." !<br><br> \n";

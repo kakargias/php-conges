@@ -88,7 +88,7 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 		echo " <td>". _('divers_comment_maj_1') ."</td>\n";
 		echo " <td>". _('divers_etat_maj_1') ."</td>\n";
 		echo " <td>". _('divers_motif_refus') ."</td>\n";
-		if($_SESSION['config']['affiche_date_traitement']==TRUE)
+		if($_SESSION['config']['affiche_date_traitement'])
 		{
 			echo "<td>". _('divers_date_traitement') ."</td>\n" ;
 		}
@@ -152,7 +152,7 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 				}
 				echo "</td>\n";
 				
-				if($_SESSION['config']['affiche_date_traitement']==TRUE)
+				if($_SESSION['config']['affiche_date_traitement'])
 				{
 					echo '<td class="histo-left">'.schars( _('divers_demande') ).' : '.schars($sql_p_date_demande).'<br>'."\n";
 					$text_lang_a_afficher="divers_traitement_$sql_p_etat" ; // p_etat='ok' OR  p_etat='refus' OR  p_etat='annul' .....

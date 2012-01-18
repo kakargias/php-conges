@@ -28,6 +28,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 include_once   INCLUDE_PATH .'sql.class.php';
 include_once   INCLUDE_PATH .'get_text.php';
+include_once   INCLUDE_PATH .'fonction_config.php';
 
 
 function schars( $htmlspec ) {

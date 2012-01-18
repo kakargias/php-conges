@@ -51,7 +51,7 @@ $lang = (isset($_GET['lang']) ? $_GET['lang'] : (isset($_POST['lang']) ? $_POST[
 	
 	include CONFIG_PATH .'dbconnect.php' ;
 	
-	if($DEBUG==FALSE)
+	if( !$DEBUG )
 	{
 		// on lance les etape (fonctions) séquentiellement 
 		e1_maj_table_conges_type_absence( $DEBUG);

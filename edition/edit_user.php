@@ -128,7 +128,7 @@ function affiche_nouvelle_edition($login,  $DEBUG=FALSE)
 	else
 	{
 		// AFFICHAGE TABLEAU
-		if($_SESSION['config']['affiche_date_traitement']==TRUE)
+		if($_SESSION['config']['affiche_date_traitement'])
 			echo "<table cellpadding=\"2\" class=\"tablo\" width=\"850\">\n";
 		else
 			echo "<table cellpadding=\"2\" class=\"tablo\" width=\"750\">\n";
@@ -139,7 +139,7 @@ function affiche_nouvelle_edition($login,  $DEBUG=FALSE)
 		echo " <td>". _('divers_debut_maj_1') ."</td>\n";
 		echo " <td>". _('divers_fin_maj_1') ."</td>\n";
 		echo " <td>". _('divers_comment_maj_1') ."</td>\n";
-		if($_SESSION['config']['affiche_date_traitement']==TRUE)
+		if($_SESSION['config']['affiche_date_traitement'])
 		{
 			echo "<td>". _('divers_date_traitement') ."</td>\n" ;
 		}
@@ -178,7 +178,7 @@ function affiche_nouvelle_edition($login,  $DEBUG=FALSE)
 				echo "<td>$sql_p_date_deb _ $demi_j_deb</td>";
 				echo "<td>$sql_p_date_fin _ $demi_j_fin</td>";
 				echo "<td>$sql_p_commentaire</td>";
-				if($_SESSION['config']['affiche_date_traitement']==TRUE)
+				if($_SESSION['config']['affiche_date_traitement'])
 				{
 					if($sql_p_date_demande == NULL)
 					 echo "<td class=\"histo-left\">". _('divers_traitement') ." : $sql_p_date_traitement</td>\n" ;

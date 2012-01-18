@@ -57,7 +57,7 @@ function affiche_all_demandes_en_cours($tab_type_conges, $DEBUG=FALSE)
 	
 	// recup du tableau des types de conges (seulement les conges exceptionnels)
 	$tab_type_conges_exceptionnels=array();
-	if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
+	if ($_SESSION['config']['gestion_conges_exceptionnels']) 
 		$tab_type_conges_exceptionnels=recup_tableau_types_conges_exceptionnels($DEBUG);
 
 	/*********************************/
@@ -84,7 +84,7 @@ function affiche_all_demandes_en_cours($tab_type_conges, $DEBUG=FALSE)
 
 
 	// Récup dans un tableau de tableau des informations de tous les users dont $_SESSION['userlogin'] est GRAND responsable
-	if($_SESSION['config']['double_validation_conges']==TRUE)
+	if($_SESSION['config']['double_validation_conges'])
 	{
 		$tab_all_users_du_grand_resp=recup_infos_all_users_du_grand_resp($_SESSION['userlogin'], $DEBUG);
 
@@ -121,7 +121,7 @@ function affiche_all_demandes_en_cours($tab_type_conges, $DEBUG=FALSE)
 		// Récup des demandes en cours pour les users dont $_SESSION['userlogin'] est responsable :
 		$sql1 = "SELECT p_num, p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_nb_jours, p_commentaire, p_type, p_date_demande, p_date_traitement FROM conges_periode ";
 		$sql1=$sql1." WHERE p_etat =\"demande\" ";
-		if($_SESSION['config']['responsable_virtuel']==TRUE)
+		if($_SESSION['config']['responsable_virtuel'])
 			$sql1=$sql1." AND p_login != 'conges' ";
 		else
 			$sql1=$sql1." AND p_login IN ($list_users_du_resp) ";
@@ -225,14 +225,14 @@ function affiche_all_demandes_en_cours($tab_type_conges, $DEBUG=FALSE)
 					{
 						echo '<td>'.$tab_conges[$libelle]['solde'].'</td>';
 					}
-					if ($_SESSION['config']['gestion_conges_exceptionnels']==TRUE) 
+					if ($_SESSION['config']['gestion_conges_exceptionnels']) 
 					foreach($tab_type_conges_exceptionnels as $id_conges => $libelle)
 					{
 						echo '<td>'.$tab_conges[$libelle]['solde'].'</td>';
 					}			
 					echo '<td>'.$tab_type_all_abs[$sql_p_type]['libelle'].'</td>';			
 					echo "<td>$boutonradio1</td><td>$boutonradio2</td><td>$boutonradio3</td><td>$text_refus</td>\n";
-					if($_SESSION['config']['affiche_date_traitement']==TRUE)
+					if($_SESSION['config']['affiche_date_traitement'])
 					{
 						echo "<td class=\"histo-left\">". _('divers_demande') ." : $sql_p_date_demande<br>". _('divers_traitement') ." : $sql_p_date_traitement</td>\n" ;
 					}
@@ -348,7 +348,7 @@ function affiche_all_demandes_en_cours($tab_type_conges, $DEBUG=FALSE)
 					}
 					echo '<td>'.$tab_type_all_abs[$sql_p_type]['libelle'].'</td>';
 					echo "<td>$boutonradio1</td><td>$boutonradio2</td><td>$boutonradio3</td><td>$text_refus</td>\n";
-					if($_SESSION['config']['affiche_date_traitement']==TRUE)
+					if($_SESSION['config']['affiche_date_traitement'])
 					{
 						echo "<td class=\"histo-left\">". _('divers_demande') ." : $sql_p_date_demande<br>". _('divers_traitement') ." : $sql_p_date_traitement</td>\n" ;
 					}
@@ -360,7 +360,7 @@ function affiche_all_demandes_en_cours($tab_type_conges, $DEBUG=FALSE)
 				echo '</table>' ;
 			} //if($count2!=0)
 		} //if( count($tab_all_users_du_grand_resp)!=0 )
-	} //if($_SESSION['config']['double_validation_conges']==TRUE)
+	} //if($_SESSION['config']['double_validation_conges'])
 
 	echo "<br>\n";
 
@@ -407,7 +407,7 @@ function traite_all_demande_en_cours($tab_bt_radio, $tab_text_refus, $DEBUG=FALS
 			log_action($numero_int, "valid", $user_login, "traite demande $numero ($user_login) ($user_nb_jours_pris jours) : $reponse", $DEBUG);
 			
 			//envoi d'un mail d'alerte au user et au responsable du resp (pour double validation) (si demandé dans config de php_conges)
-			if($_SESSION['config']['mail_prem_valid_conges_alerte_user']==TRUE)
+			if($_SESSION['config']['mail_prem_valid_conges_alerte_user'])
 				alerte_mail($_SESSION['userlogin'], $user_login, $numero_int, "valid_conges", $DEBUG);
 		}
 		if(strcmp($reponse, "OK")==0)
@@ -425,7 +425,7 @@ function traite_all_demande_en_cours($tab_bt_radio, $tab_text_refus, $DEBUG=FALS
 //			soustrait_solde_user($user_login, $user_nb_jours_pris, $type_abs, $DEBUG);
 			
 			//envoi d'un mail d'alerte au user (si demandé dans config de php_conges)
-			if($_SESSION['config']['mail_valid_conges_alerte_user']==TRUE)
+			if($_SESSION['config']['mail_valid_conges_alerte_user'])
 				alerte_mail($_SESSION['userlogin'], $user_login, $numero_int, "accept_conges", $DEBUG);
 		}
 		elseif(strcmp($reponse, "not_OK")==0)
@@ -442,7 +442,7 @@ function traite_all_demande_en_cours($tab_bt_radio, $tab_text_refus, $DEBUG=FALS
 			$ReqLog1 = SQL::query($sql1) ;
 			
 			//envoi d'un mail d'alerte au user (si demandé dans config de php_conges)
-			if($_SESSION['config']['mail_refus_conges_alerte_user']==TRUE)
+			if($_SESSION['config']['mail_refus_conges_alerte_user'])
 				alerte_mail($_SESSION['userlogin'], $user_login, $numero_int, "refus_conges", $DEBUG);
 		}
 	}

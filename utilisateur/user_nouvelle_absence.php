@@ -85,7 +85,7 @@ function new_demande($new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fi
 	//echo " $new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin, $new_nb_jours, $new_comment, $new_type<br><br>\n";
 
 	// verif validité des valeurs saisies
-	$valid=verif_saisie_new_demande($new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin, $new_nb_jours, $new_comment, $DEBUG);
+	$valid=verif_saisie_new_demande($new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin, $new_nb_jours, $new_comment);
 
 	// verifie que le solde de conges sera encore positif après validation
 	if( $_SESSION['config']['solde_toujours_positif'] ) {
@@ -106,7 +106,7 @@ function new_demande($new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fi
 		if ( $periode_num != 0 ) {
 			echo schars( _('form_modif_ok') ).' !<br><br>'."\n";
 			//envoi d'un mail d'alerte au responsable (si demandé dans config de php_conges)
-			if($_SESSION['config']['mail_new_demande_alerte_resp']==TRUE)
+			if($_SESSION['config']['mail_new_demande_alerte_resp'])
 				alerte_mail($_SESSION['userlogin'], ":responsable:", $periode_num, "new_demande", $DEBUG);
 		}
 		else

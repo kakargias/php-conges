@@ -42,7 +42,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 	$new_demi_jour_deb = getpost_variable('new_demi_jour_deb') ;
 	$new_fin = getpost_variable('new_fin') ;
 	$new_demi_jour_fin = getpost_variable('new_demi_jour_fin') ;
-	if($_SESSION['config']['disable_saise_champ_nb_jours_pris']==TRUE)  // zone de texte en readonly et grisée
+	if($_SESSION['config']['disable_saise_champ_nb_jours_pris'])  // zone de texte en readonly et grisée
 	{ 
 		$new_nb_jours = compter($user_login, $new_debut,  $new_fin, $new_demi_jour_deb, $new_demi_jour_fin, $comment,  $DEBUG);
 	}
@@ -105,7 +105,7 @@ function affichage($user_login,  $year_affichage, $year_calendrier_saisie_debut,
 
 	// recup des grd resp du user
 	$tab_grd_resp=array();
-	if($_SESSION['config']['double_validation_conges']==TRUE) 
+	if($_SESSION['config']['double_validation_conges']) 
 	{
 		get_tab_grd_resp_du_user($user_login, $tab_grd_resp,  $DEBUG);
 		if( $DEBUG ) { echo"tab_grd_resp =<br>\n"; print_r($tab_grd_resp); echo "<br>\n"; }
@@ -129,7 +129,7 @@ function affichage($user_login,  $year_affichage, $year_calendrier_saisie_debut,
 	/* SAISIE NOUVEAU CONGES */
 	/*************************/
 	// dans le cas ou les users ne peuvent pas saisir de demande, le responsable saisi les congès :
-	if(($_SESSION['config']['user_saisie_demande']==FALSE)||($_SESSION['config']['resp_saisie_mission']==TRUE)) 
+	if( !$_SESSION['config']['user_saisie_demande'] || $_SESSION['config']['resp_saisie_mission'] ) 
 	{
 	
 		// si les mois et année ne sont pas renseignés, on prend ceux du jour
@@ -155,7 +155,7 @@ function affichage($user_login,  $year_affichage, $year_calendrier_saisie_debut,
 	/*********************/
 	/* Etat des Demandes */
 	/*********************/
-	if($_SESSION['config']['user_saisie_demande']==TRUE) 
+	if($_SESSION['config']['user_saisie_demande']) 
 	{
 		//verif si le user est bien un user du resp (et pas seulement du grad resp)
 		if(strstr($list_all_users_du_resp, "'$user_login'")!=FALSE)
@@ -172,12 +172,12 @@ function affichage($user_login,  $year_affichage, $year_calendrier_saisie_debut,
 	/*********************/
 	/* Etat des Demandes en attente de 2ieme validation */
 	/*********************/
-	if($_SESSION['config']['double_validation_conges']==TRUE) 
+	if($_SESSION['config']['double_validation_conges']) 
 	{
 		/*******************************/
 		/* verif si le resp est grand_responsable pour ce user*/
 	
-		if(in_array($_SESSION['userlogin'], $tab_grd_resp)==TRUE) // si resp_login est dans le tableau
+		if(in_array($_SESSION['userlogin'], $tab_grd_resp)) // si resp_login est dans le tableau
 		{
 			echo "<h3>". _('resp_traite_user_etat_demandes_2_valid') ."</h3>\n";
 	
@@ -200,7 +200,6 @@ function affichage($user_login,  $year_affichage, $year_calendrier_saisie_debut,
 	
 	
 	echo "<td valign=\"middle\">\n";
-	//bouton_actualiser("", $DEBUG);
 	echo "</td></tr></table>\n";
 	echo "<center>\n";
 
@@ -244,7 +243,7 @@ function affiche_etat_demande_user_for_resp($user_login, $tab_user, $tab_grd_res
 		echo "<td>". _('divers_accepter_maj_1') ."</td>\n";
 		echo "<td>". _('divers_refuser_maj_1') ."</td>\n";
 		echo "<td>". _('resp_traite_user_motif_refus') ."</td>\n";
-		if($_SESSION['config']['affiche_date_traitement']==TRUE)
+		if($_SESSION['config']['affiche_date_traitement'])
 		{
 			echo "<td>". _('divers_date_traitement') ."</td>\n" ;
 		}
@@ -282,7 +281,7 @@ function affiche_etat_demande_user_for_resp($user_login, $tab_user, $tab_grd_res
 			{
 				/*******************************/
 				/* verif si le resp est grand_responsable pour ce user*/
-				if(in_array($_SESSION['userlogin'], $tab_grd_resp)==TRUE) // si resp_login est dans le tableau
+				if(in_array($_SESSION['userlogin'], $tab_grd_resp)) // si resp_login est dans le tableau
 					$boutonradio1="<input type=\"radio\" name=\"tab_radio_traite_demande[$sql_num]\" value=\"$chaine_bouton_radio--VALID\">";
 				else
 					$boutonradio1="<input type=\"radio\" name=\"tab_radio_traite_demande[$sql_num]\" value=\"$chaine_bouton_radio--ACCEPTE\">";				
@@ -305,7 +304,7 @@ function affiche_etat_demande_user_for_resp($user_login, $tab_user, $tab_grd_res
 			echo "<td>$text_refus</td>\n";
 			echo "<td>$sql_date_demande</td>\n";
 		
-			if($_SESSION['config']['affiche_date_traitement']==TRUE)
+			if($_SESSION['config']['affiche_date_traitement'])
 			{
 				if(empty($sql_date_traitement))
 					echo "<td class=\"histo-left\">". _('divers_demande') ." : $sql_date_demande<br>". _('divers_traitement') ." : pas traité</td>\n" ;
@@ -361,7 +360,7 @@ function affiche_etat_demande_2_valid_user_for_resp($user_login,  $DEBUG=FALSE)
 			echo "<td>". _('divers_accepter_maj_1') ."</td>\n";
 			echo "<td>". _('divers_refuser_maj_1') ."</td>\n";
 			echo "<td>". _('resp_traite_user_motif_refus') ."</td>\n";
-			if($_SESSION['config']['affiche_date_traitement']==TRUE)
+			if($_SESSION['config']['affiche_date_traitement'])
 			{
 				echo "<td>". _('divers_date_traitement') ."</td>\n" ;
 			}
@@ -411,7 +410,7 @@ function affiche_etat_demande_2_valid_user_for_resp($user_login,  $DEBUG=FALSE)
 				echo "<td>$casecocher1</td>\n";
 				echo "<td>$casecocher2</td>\n";
 				echo "<td>$text_refus</td>\n";
-				if($_SESSION['config']['affiche_date_traitement']==TRUE)
+				if($_SESSION['config']['affiche_date_traitement'])
 				{					
 					if(empty($sql_date_traitement))
 						echo "<td class=\"histo-left\">". _('divers_demande') ." : $sql_date_demande<br>". _('divers_traitement') ." : pas traité</td>\n" ;
@@ -491,7 +490,7 @@ function affiche_etat_conges_user_for_resp($user_login, $year_affichage, $tri_da
 		echo " <td>". _('divers_etat_maj_1') ."</td>\n";
 		echo " <td>". _('resp_traite_user_annul') ."</td>\n";
 		echo " <td>". _('resp_traite_user_motif_annul') ."</td>\n";
-		if($_SESSION['config']['affiche_date_traitement']==TRUE)
+		if($_SESSION['config']['affiche_date_traitement'])
 		{
 			echo "<td>". _('divers_date_traitement') ."</td>\n" ;
 		}
@@ -568,7 +567,7 @@ function affiche_etat_conges_user_for_resp($user_login, $year_affichage, $tri_da
 					echo "</td>\n";
 					echo "<td>$casecocher1</td>\n";
 					echo "<td>$text_annul</td>\n";
-					if($_SESSION['config']['affiche_date_traitement']==TRUE)
+					if($_SESSION['config']['affiche_date_traitement'])
 					{
 						if(empty($sql_p_date_traitement))
 							echo "<td class=\"histo-left\">". _('divers_demande') ." : $sql_p_date_demande<br>". _('divers_traitement') ." : pas traité</td>\n" ;
@@ -629,7 +628,7 @@ function annule_conges($user_login, $tab_checkbox_annule, $tab_text_annul,  $DEB
 		}
 		
 		//envoi d'un mail d'alerte au user (si demandé dans config de php_conges)
-		if($_SESSION['config']['mail_annul_conges_alerte_user']==TRUE)
+		if($_SESSION['config']['mail_annul_conges_alerte_user'])
 			alerte_mail($_SESSION['userlogin'], $user_login, $numero_int, "annul_conges",  $DEBUG);
 	}
 
@@ -699,7 +698,7 @@ function traite_demandes($user_login, $tab_radio_traite_demande, $tab_text_refus
 			}
 			
 			//envoi d'un mail d'alerte au user (si demandé dans config de php_conges)
-			if($_SESSION['config']['mail_valid_conges_alerte_user']==TRUE)
+			if($_SESSION['config']['mail_valid_conges_alerte_user'])
 				alerte_mail($_SESSION['userlogin'], $user_login, $numero_int, "accept_conges",  $DEBUG);
 		}
 		elseif($reponse == "VALID") // première validation dans le cas d'une double validation  
@@ -712,7 +711,7 @@ function traite_demandes($user_login, $tab_radio_traite_demande, $tab_text_refus
 			log_action($numero_int,"valid", $user_login, "traite demande $numero ($user_login) ($user_nb_jours_pris jours) : $value_traite",  $DEBUG);
 			
 			//envoi d'un mail d'alerte au user (si demandé dans config de php_conges)
-			if($_SESSION['config']['mail_valid_conges_alerte_user']==TRUE)
+			if($_SESSION['config']['mail_valid_conges_alerte_user'])
 				alerte_mail($_SESSION['userlogin'], $user_login, $numero_int, "valid_conges",  $DEBUG);
 		}
 		elseif($reponse == "REFUSE") // refus d'un conges
@@ -727,7 +726,7 @@ function traite_demandes($user_login, $tab_radio_traite_demande, $tab_text_refus
 			log_action($numero_int,"refus", $user_login, "traite demande $numero ($user_login) ($user_nb_jours_pris jours) : $value_traite",  $DEBUG);
 			
 			//envoi d'un mail d'alerte au user (si demandé dans config de php_conges)
-			if($_SESSION['config']['mail_refus_conges_alerte_user']==TRUE)
+			if($_SESSION['config']['mail_refus_conges_alerte_user'])
 				alerte_mail($_SESSION['userlogin'], $user_login, $numero_int, "refus_conges",  $DEBUG);
 		}
 	}
@@ -758,7 +757,7 @@ function new_conges($user_login, $new_debut, $new_demi_jour_deb, $new_fin, $new_
 	// verif validité des valeurs saisies
 	$valid=verif_saisie_new_demande($new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin, $new_nb_jours, $new_comment);
 	
-	if($valid==TRUE)
+	if($valid)
 	{
 		echo "$user_login---$new_debut _ $new_demi_jour_deb---$new_fin _ $new_demi_jour_fin---$new_nb_jours---$new_comment---$new_type_id<br>\n";
 
@@ -785,7 +784,7 @@ function new_conges($user_login, $new_debut, $new_demi_jour_deb, $new_fin, $new_
 		$comment_log = "saisie conges par le responsable pour $user_login ($new_nb_jours jour(s)) type_conges = $new_type_id ( de $new_debut $new_demi_jour_deb a $new_fin $new_demi_jour_fin) ($new_comment)";
 		log_action(0, "", $user_login, $comment_log,  $DEBUG);
 
-		if($result==TRUE)
+		if($result)
 			echo  _('form_modif_ok') ."<br><br> \n";
 		else
 			echo  _('form_modif_not_ok') ."<br><br> \n";

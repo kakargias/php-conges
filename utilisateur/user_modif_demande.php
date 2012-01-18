@@ -35,7 +35,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 	$new_fin           = getpost_variable('new_fin');
 	$new_demi_jour_fin = getpost_variable('new_demi_jour_fin');
 	$new_comment       = getpost_variable('new_comment');
-	if ($_SESSION['config']['disable_saise_champ_nb_jours_pris']==TRUE)
+	if ($_SESSION['config']['disable_saise_champ_nb_jours_pris'])
 	{
 		$new_debut2 = explode('-', $new_debut);
 		$new_debut2 = array_reverse($new_debut2);
@@ -148,7 +148,7 @@ function confirmer($p_num, $onglet, $DEBUG=FALSE)
 			$radio_fin_am="<input type=\"radio\" name=\"new_demi_jour_fin\" value=\"am\">". _('form_am') ;
 			$radio_fin_pm="<input type=\"radio\" name=\"new_demi_jour_fin\" value=\"pm\" checked>". _('form_pm') ;
 		}
-		if($_SESSION['config']['disable_saise_champ_nb_jours_pris']==TRUE)
+		if($_SESSION['config']['disable_saise_champ_nb_jours_pris'])
 			$text_nb_jours="<input type=\"text\" name=\"new_nb_jours\" size=\"5\" maxlength=\"30\" value=\"$sql_nb_jours\" style=\"background-color: #D4D4D4; \" readonly=\"readonly\">" ;
 		else
 			$text_nb_jours="<input type=\"text\" name=\"new_nb_jours\" size=\"5\" maxlength=\"30\" value=\"$sql_nb_jours\">" ;

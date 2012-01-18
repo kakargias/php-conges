@@ -67,7 +67,7 @@ function compter($user, $date_debut, $date_fin, $opt_debut, $opt_fin, &$comment,
 
 		/************************************************************/
 		// 2 : on verifie que le conges demandé ne chevauche pas une periode deja posée
-		if(verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $tab_periode_calcul, $comment,  $DEBUG, $num_update) == TRUE)
+		if(verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $tab_periode_calcul, $comment,  $DEBUG, $num_update) )
 			return 0;
 
 
@@ -109,7 +109,7 @@ function compter($user, $date_debut, $date_fin, $opt_debut, $opt_fin, &$comment,
 				$tab_periode_calcul[$current_day]['am']=0;
 				$tab_periode_calcul[$current_day]['pm']=0;
 			}
-			elseif(est_chome($timestamp_du_jour)==TRUE) // verif si jour férié
+			elseif(est_chome($timestamp_du_jour)) // verif si jour férié
 			{
 				// on ne compte ce jour à 0
 				$tab_periode_calcul[$current_day]['am']=0;
@@ -235,7 +235,7 @@ function verif_periode_chevauche_periode_groupe($date_debut, $date_fin, $tab_per
 		$current_login = trim($current_login, "\'");
 
 		$comment="";
-		if(verif_periode_chevauche_periode_user($date_debut, $date_fin, $current_login, $tab_periode_calcul, $comment, $DEBUG)==TRUE)
+		if(verif_periode_chevauche_periode_user($date_debut, $date_fin, $current_login, $tab_periode_calcul, $comment, $DEBUG))
 			return TRUE;
 	}
 }

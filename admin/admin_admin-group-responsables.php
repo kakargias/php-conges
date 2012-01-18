@@ -243,7 +243,7 @@ function affiche_gestion_groupes_responsables($choix_group, $DEBUG=FALSE)
 		/*******************************************/
 
 	// si on a configuré la double validation et que le groupe considéré est a double valid
-	if( ($_SESSION['config']['double_validation_conges']==TRUE) && ($sql_double_valid=="Y") )
+	if( ($_SESSION['config']['double_validation_conges']) && ($sql_double_valid=="Y") )
 	{
 		echo "	</td>\n";
 		echo "	<td width=\"50\">&nbsp;</td>\n";
@@ -363,7 +363,7 @@ function modif_group_responsables($choix_group, &$checkbox_group_resp, &$checkbo
 		}
 	}
 
-	if( ($result_insert==TRUE) && ($result_insert_2==TRUE) )
+	if( ($result_insert) && ($result_insert_2) )
 		echo  _('form_modif_ok') ." !<br><br> \n";
 	else
 		echo  _('form_modif_not_ok') ." !<br><br> \n";
@@ -545,7 +545,7 @@ function affiche_gestion_responsable_groupes($choix_resp, $DEBUG=FALSE)
 		/*******************************************/
 
 	// si on a configuré la double validation
-	if($_SESSION['config']['double_validation_conges']==TRUE)
+	if($_SESSION['config']['double_validation_conges'])
 	{
 		echo "	</td>\n";
 		echo "	<td width=\"50\">&nbsp;</td>\n";
@@ -666,7 +666,7 @@ function modif_resp_groupes($choix_resp, &$checkbox_resp_group, &$checkbox_grd_r
 		}
 	}
 
-	if(($result_insert==TRUE) && ($result_insert_2==TRUE) )
+	if(($result_insert) && ($result_insert_2) )
 		echo  _('form_modif_ok') ." !<br><br> \n";
 	else
 		echo  _('form_modif_not_ok') ." !<br><br> \n";

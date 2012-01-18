@@ -89,7 +89,7 @@ echo "<html>\n";
 
 
 					
-					if($_SESSION['config']['auth']==TRUE)
+					if($_SESSION['config']['auth'])
 						bouton('Déconexion'		,'exit.png'		,ROOT_PATH .'deconnexion.php?session='.$session);
 					
 					$PHP_SELF=$_SERVER['PHP_SELF'];
@@ -97,7 +97,7 @@ echo "<html>\n";
 					$onglet = getpost_variable('onglet');
 					bouton('Actualiser'		,'refresh.png'	,$PHP_SELF.'?session='.$session.'&onglet='.$onglet);
 		
-					if($_SESSION['config']['user_affiche_calendrier']==TRUE)
+					if($_SESSION['config']['user_affiche_calendrier'])
 						bouton_popup('Calendrier','calendar.png',ROOT_PATH . 'calendrier.php?session='.$session , 'calendrier', 1280, 1024);
 					
 
@@ -115,13 +115,13 @@ echo "<html>\n";
 							
 							if (false)
 							{
-								if($_SESSION['config']['affiche_bouton_config_mail_pour_admin']==TRUE)
+								if($_SESSION['config']['affiche_bouton_config_mail_pour_admin'])
 									bouton_popup( _('admin_button_config_mail_2') ,'tux_config_22x22.png',ROOT_PATH . 'config/config_mail.php?session='.$session , 'configmail', 800, 600);
 									
-								if($_SESSION['config']['affiche_bouton_config_absence_pour_admin']==TRUE)
+								if($_SESSION['config']['affiche_bouton_config_absence_pour_admin'])
 									bouton_popup( _('admin_button_config_abs_2') ,'tux_config_22x22.png',ROOT_PATH . 'config/config_type_absence.php?session='.$session , 'configabs', 800, 600);
 
-								if($_SESSION['config']['affiche_bouton_config_pour_admin'] == TRUE)
+								if($_SESSION['config']['affiche_bouton_config_pour_admin'] )
 									bouton_popup( _('admin_button_config_2') ,'tux_config_22x22.png',ROOT_PATH . 'config/configure.php?session='.$session , 'config', 800, 600);
 							}
 							
@@ -129,11 +129,11 @@ echo "<html>\n";
 							
 							break;
 						case 'utilisateur':
-							if($_SESSION['config']['export_ical_vcal']==TRUE) 
+							if($_SESSION['config']['export_ical_vcal']) 
 								bouton_popup( _('Exporter cal') ,'export-22x22.png',ROOT_PATH . 'export_vcalendar.php?session='.$session.'&user_login='.$_SESSION['userlogin'] , 'icalvcal', 457, 280);
 					
 					
-							if($_SESSION['config']['editions_papier']==TRUE)
+							if($_SESSION['config']['editions_papier'])
 								bouton(_('button_editions')	,'edition-22x22.png'	,ROOT_PATH .'edition/edit_user.php?session='.$session );
 							break;
 					}
@@ -144,10 +144,10 @@ echo "<html>\n";
 				{
 					if($info=="responsable")
 					{
-						if($_SESSION['config']['resp_affiche_calendrier']==TRUE)
+						if($_SESSION['config']['resp_affiche_calendrier'])
 						{
 							// bouton calendrier
-							if($_SESSION['config']['resp_affiche_calendrier']==TRUE)
+							if($_SESSION['config']['resp_affiche_calendrier'])
 							{
 								echo '<div style="float: right;">';
 									echo "<a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('../calendrier.php?session=$session','calendrier',1050,600);\">" .
@@ -201,7 +201,7 @@ echo "<html>\n";
 						echo '</a></div>';
 				
 						/* bouton config des mails php_conges  */
-						if($_SESSION['config']['affiche_bouton_config_mail_pour_admin']==TRUE)
+						if($_SESSION['config']['affiche_bouton_config_mail_pour_admin'])
 						{
 							echo '<div style="float: right;">';
 							echo " <a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('../config/config_mail.php?session=$session','configmail',800,600);\">\n";
@@ -211,7 +211,7 @@ echo "<html>\n";
 						}
 						
 						/* bouton config types absence php_conges  */
-						if($_SESSION['config']['affiche_bouton_config_absence_pour_admin']==TRUE)
+						if($_SESSION['config']['affiche_bouton_config_absence_pour_admin'])
 						{
 							echo '<div style="float: right;">';
 							echo " <a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('../config/config_type_absence.php?session=$session','configabs',800,600);\">\n";
@@ -222,7 +222,7 @@ echo "<html>\n";
 				
 				
 						/* bouton config php_conges  */
-						if($_SESSION['config']['affiche_bouton_config_pour_admin']==TRUE && $_SESSION['is_admin']=="Y")
+						if($_SESSION['config']['affiche_bouton_config_pour_admin'] && $_SESSION['is_admin']=="Y")
 						{
 							echo '<div style="float: right;">';
 							echo " <a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('../config/configure.php?session=$session','config',800,600);\">\n";
@@ -236,7 +236,7 @@ echo "<html>\n";
 					{
 					
 						/*** bouton calendrier  ***/
-						if($_SESSION['config']['user_affiche_calendrier']==TRUE)
+						if($_SESSION['config']['user_affiche_calendrier'])
 						{
 							echo '<div style="float: right;">';
 							// affichage dans un popup
@@ -247,7 +247,7 @@ echo "<html>\n";
 						}
 						
 						/*** bouton export calendar  ***/
-						if($_SESSION['config']['export_ical_vcal']==TRUE)
+						if($_SESSION['config']['export_ical_vcal'])
 						{
 							echo '<div style="float: right;">';
 							echo "<a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('../export_vcalendar.php?session=$session&user_login=".$_SESSION['userlogin']."','icalvcal',457,280);\">" .
@@ -258,7 +258,7 @@ echo "<html>\n";
 						}
 				
 						/*** bouton éditions papier  ***/
-						if($_SESSION['config']['editions_papier']==TRUE)
+						if($_SESSION['config']['editions_papier'])
 						{
 							echo '<div style="float: right;">';
 							echo "<a href=\"../edition/edit_user.php?session=$session&user_login=".$_SESSION['userlogin']."\" target=\"_blank\">" .

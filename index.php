@@ -154,7 +154,7 @@ else
 				}
 				else
 				{
-					if (valid_ldap_user($session_username)==TRUE) // LDAP ok, on vérifie ici que le compte existe dans la base de données des congés.
+					if (valid_ldap_user($session_username)) // LDAP ok, on vérifie ici que le compte existe dans la base de données des congés.
 					{
 						// on initialise la nouvelle session
 						session_create($session_username);
@@ -229,7 +229,7 @@ if(isset($_SESSION['userlogin']))
 			else
 				redirect( ROOT_PATH .$return_url . '?session=' . $session );
 		}
-		elseif ( (($is_resp=="Y")&&($_SESSION['config']['responsable_virtuel']==FALSE)) || (($_SESSION['config']['responsable_virtuel']==TRUE)&&($session_username=="conges")) )
+		elseif ( (($is_resp=="Y")&&($_SESSION['config']['responsable_virtuel']==FALSE)) || (($_SESSION['config']['responsable_virtuel'])&&($session_username=="conges")) )
 		{
 			// redirection vers responsable/resp_index.php
 			redirect( ROOT_PATH .'responsable/resp_index.php?session=' . $session );

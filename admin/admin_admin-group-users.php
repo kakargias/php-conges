@@ -238,7 +238,7 @@ function affiche_gestion_user_groupes($choix_user,  $DEBUG=FALSE)
 	$sql_prenom=$resultat_u["u_prenom"] ;
 */
 
-	echo " <form action=\"$PHP_SELF?session=$session\" method=\"POST\"> \n";
+	echo '<form action="'.$PHP_SELF.'?session='.$session.'&onglet='.$onglet.'" method="POST">';
 
 	affiche_tableau_affectation_user_groupes($choix_user,  $DEBUG);
 
@@ -323,7 +323,7 @@ function affiche_gestion_groupes_users($choix_group, $DEBUG=FALSE)
 	$sql_comment=$resultat_gr["g_comment"] ;
 
 
-	echo " <form action=\"$PHP_SELF?session=$session\" method=\"POST\"> \n";
+	echo '<form action="'.$PHP_SELF.'?session='.$session.'&onglet='.$onglet.'" method="POST">';
 
 	//AFFICHAGE DU TABLEAU DES USERS DU GROUPE
 	echo "<table class=\"tablo\">\n";

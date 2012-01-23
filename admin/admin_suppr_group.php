@@ -67,7 +67,7 @@ function confirmer($group, $DEBUG=FALSE)
 
 	// AFFICHAGE TABLEAU
 
-	echo "<form action=\"$PHP_SELF?session=$session&group_to_delete=$group\" method=\"POST\">\n"  ;
+	echo '<form action="'.$PHP_SELF.'?session='.$session.'&onglet='.$onglet.'&group_to_delete='.$group.'" method="POST">';
 	echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 	echo "<thead>\n";
 	echo "<tr>\n";

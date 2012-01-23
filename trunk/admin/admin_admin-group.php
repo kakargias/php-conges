@@ -110,7 +110,7 @@ function affiche_gestion_groupes($new_group_name, $new_group_libelle, $DEBUG=FAL
    // TITRE
    echo "<H3><u>". _('admin_groupes_new_groupe') ."</u></H3>\n\n";
 
-   echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n" ;
+	echo '<form action="'.$PHP_SELF.'?session='.$session.'&onglet='.$onglet.'" method="POST">';
 
    echo "<table class=\"tablo\">\n";
    echo "<thead>\n";

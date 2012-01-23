@@ -113,7 +113,7 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $DEBUG=F
 	/********************/
 	/* Etat utilisateur */
 	/********************/
-	echo "<form action=$PHP_SELF?session=$session&u_login_to_update=$u_login method=\"POST\">\n" ;
+	echo '<form action="'.$PHP_SELF.'?session='.$session.'&onglet='.$onglet.'&u_login_to_update='.$u_login.'" method="POST">';
 	// AFFICHAGE TABLEAU DES INFOS
 	echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 	echo "<thead>\n";

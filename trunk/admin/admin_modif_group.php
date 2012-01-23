@@ -71,7 +71,7 @@ function modifier($group,  $DEBUG=FALSE)
 	$sql1 = 'SELECT g_groupename, g_comment, g_double_valid FROM conges_groupe WHERE g_gid = \''.SQL::quote($group).'\'';
 
 	// AFFICHAGE TABLEAU
-	echo "<form action=$PHP_SELF?session=$session&group_to_update=".$group." method=\"POST\">\n" ;
+	echo '<form action="'.$PHP_SELF.'?session='.$session.'&onglet='.$onglet.'&group_to_update='.$group.'" method="POST">';
 	echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 	echo "<thead>\n";
 	echo "<tr>\n";

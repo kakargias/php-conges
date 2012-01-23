@@ -181,7 +181,7 @@ function affiche_gestion_groupes_responsables($choix_group, $DEBUG=FALSE)
 	}
 	/*****************************************************************************/
 
-	echo " <form action=\"$PHP_SELF?session=$session\" method=\"POST\"> \n";
+	echo '<form action="'.$PHP_SELF.'?session='.$session.'&onglet='.$onglet.'" method="POST">';
 	echo "<table>\n";
 	echo "<tr>\n";
 	echo "	<td>\n";
@@ -482,7 +482,7 @@ function affiche_gestion_responsable_groupes($choix_resp, $DEBUG=FALSE)
 
 	/*****************************************************************************/
 
-	echo " <form action=\"$PHP_SELF?session=$session\" method=\"POST\"> \n";
+	echo '<form action="'.$PHP_SELF.'?session='.$session.'&onglet='.$onglet.'" method="POST">';
 	echo "<table>\n";
 	echo "<tr>\n";
 	echo "<td valign=\"top\">\n";

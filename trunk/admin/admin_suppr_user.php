@@ -73,7 +73,7 @@ function confirmer($u_login, $DEBUG=FALSE)
 	/* Etat Utilisateur en cours */
 	/*****************************/
 	// AFFICHAGE TABLEAU
-	echo "<form action=\"$PHP_SELF?session=$session&u_login_to_delete=$u_login\" method=\"POST\">\n"  ;
+	echo '<form action="'.$PHP_SELF.'?session='.$session.'&onglet='.$onglet.'&u_login_to_delete='.$u_login.'" method="POST">';
 	echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 	echo '<thead>';
 	echo '<tr>';

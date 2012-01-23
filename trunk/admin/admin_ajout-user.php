@@ -419,7 +419,7 @@ function affiche_formulaire_ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab
 	// TITRE
 	echo "<H3><u>". _('admin_new_users_titre') ."</u></H3>\n\n";
 
-	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n"  ;
+	echo '<form action="'.$PHP_SELF.'?session='.$session.'&onglet='.$onglet.'" method="POST">';
 
 	/****************************************/
 	// tableau des infos de user

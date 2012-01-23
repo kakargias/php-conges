@@ -36,7 +36,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 	if($group!="")
 	{
-		confirmer($group, $DEBUG);
+		confirmer($group, $onglet, $DEBUG);
 	}
 	elseif($group_to_delete!="")
 	{
@@ -52,7 +52,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 /**************************************************************************************/
 /**********  FONCTIONS  ***************************************************************/
 
-function confirmer($group, $DEBUG=FALSE)
+function confirmer($group, $onglet, $DEBUG=FALSE)
 {
 
 	$PHP_SELF=$_SERVER['PHP_SELF'];

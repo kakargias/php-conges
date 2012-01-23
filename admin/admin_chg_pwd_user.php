@@ -40,7 +40,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 	if($u_login!="")
 	{
 		echo "<H1>". _('admin_chg_passwd_titre') ." : $u_login .</H1>\n\n";
-		modifier($u_login, $DEBUG);
+		modifier($u_login, $onglet, $DEBUG);
 	}
 	else
 	{
@@ -60,7 +60,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 /*  FONCTIONS   */
 /*********************************************************************************/
 
-function modifier($u_login, $DEBUG=FALSE)
+function modifier($u_login, $onglet, $DEBUG=FALSE)
 {
 
 	$PHP_SELF=$_SERVER['PHP_SELF'];

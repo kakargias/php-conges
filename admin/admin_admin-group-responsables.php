@@ -69,11 +69,11 @@ function affiche_choix_gestion_groupes_responsables($choix_group, $choix_resp,  
 
 	if( $choix_group!="" )    // si un groupe choisi : on affiche la gestion par groupe
 	{
-		affiche_gestion_groupes_responsables($choix_group, $DEBUG);
+		affiche_gestion_groupes_responsables($choix_group, $onglet, $DEBUG);
 	}
 	elseif( $choix_resp!="" )     // si un resp choisi : on affiche la gestion par resp
 	{
-		affiche_gestion_responsable_groupes($choix_resp, $DEBUG);
+		affiche_gestion_responsable_groupes($choix_resp, $onglet, $DEBUG);
 	}
 	else    // si pas de groupe ou de resp choisi : on affiche les choix
 	{
@@ -141,7 +141,7 @@ function affiche_choix_groupes_responsables( $DEBUG=FALSE)
 
 
 // affiche pour un groupe des cases à cocher devant les resp et grand_resp possibles pour les selectionner.
-function affiche_gestion_groupes_responsables($choix_group, $DEBUG=FALSE)
+function affiche_gestion_groupes_responsables($choix_group, $onglet, $DEBUG=FALSE)
 {
 
 	$PHP_SELF=$_SERVER['PHP_SELF'];
@@ -429,7 +429,7 @@ function affiche_choix_responsable_groupes( $DEBUG=FALSE)
 
 
 // affiche pour un resp des cases à cocher devant les groupes possibles pour les selectionner.
-function affiche_gestion_responsable_groupes($choix_resp, $DEBUG=FALSE)
+function affiche_gestion_responsable_groupes($choix_resp, $onglet, $DEBUG=FALSE)
 {
 
 	$PHP_SELF=$_SERVER['PHP_SELF'];

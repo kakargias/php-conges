@@ -56,7 +56,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 	if($u_login!="")
 	{
-		modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $DEBUG);
+		modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $onglet, $DEBUG);
 	}
 	elseif($u_login_to_update!="")
 	{
@@ -95,7 +95,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 /*************************************************************************************************/
 
 
-function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $DEBUG=FALSE)
+function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $onglet, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();

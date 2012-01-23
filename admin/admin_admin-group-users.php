@@ -59,11 +59,11 @@ function affiche_choix_gestion_groupes_users($choix_group, $choix_user, $DEBUG=F
 
 	if( $choix_group!="" )     // si un groupe choisi : on affiche la gestion par groupe
 	{
-		affiche_gestion_groupes_users($choix_group, $DEBUG);
+		affiche_gestion_groupes_users($choix_group, $onglet, $DEBUG);
 	}
 	elseif( $choix_user!="" )     // si un user choisi : on affiche la gestion par user
 	{
-		affiche_gestion_user_groupes($choix_user, $DEBUG);
+		affiche_gestion_user_groupes($choix_user, $onglet, $DEBUG);
 	}
 	else    // si pas de groupe ou de user choisi : on affiche les choix
 	{
@@ -217,7 +217,7 @@ function affiche_choix_user_groupes( $DEBUG=FALSE)
 }
 
 
-function affiche_gestion_user_groupes($choix_user,  $DEBUG=FALSE)
+function affiche_gestion_user_groupes($choix_user, $onglet, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();
@@ -303,7 +303,7 @@ function affiche_choix_groupes_users($DEBUG=FALSE)
 }
 
 
-function affiche_gestion_groupes_users($choix_group, $DEBUG=FALSE)
+function affiche_gestion_groupes_users($choix_group, $onglet, $DEBUG=FALSE)
 {
 
 	$PHP_SELF=$_SERVER['PHP_SELF'];

@@ -44,7 +44,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 	
 	if($u_login!="")
 	{
-		confirmer($u_login, $DEBUG);
+		confirmer($u_login, $onglet, $DEBUG);
 	}
 	elseif($u_login_to_delete!="")
 	{
@@ -63,7 +63,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 /**************************************************************************************/
 /**********  FONCTIONS  ***************************************************************/
 
-function confirmer($u_login, $DEBUG=FALSE)
+function confirmer($u_login, $onglet, $DEBUG=FALSE)
 {
 
 	$PHP_SELF=$_SERVER['PHP_SELF'];

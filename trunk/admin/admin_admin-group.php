@@ -38,7 +38,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 	}
 	else
 	{
-		affiche_gestion_groupes($new_group_name, $new_group_libelle, $DEBUG);
+		affiche_gestion_groupes($new_group_name, $new_group_libelle, $onglet, $DEBUG);
 	}
 
 	
@@ -46,7 +46,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 /*  FONCTIONS   */
 /*********************************************************************************/
 
-function affiche_gestion_groupes($new_group_name, $new_group_libelle, $DEBUG=FALSE)
+function affiche_gestion_groupes($new_group_name, $new_group_libelle, $onglet, $DEBUG=FALSE)
 {
    $PHP_SELF=$_SERVER['PHP_SELF'];
    $session=session_id();

@@ -45,7 +45,7 @@ $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session']
 
 	if($group!="" )
 	{
-		modifier($group,  $DEBUG);
+		modifier($group, $onglet, $DEBUG);
 	}
 	elseif($group_to_update!="")
 	{
@@ -61,7 +61,7 @@ $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session']
 /**************************************************************************************/
 /**********  FONCTIONS  ***************************************************************/
 
-function modifier($group,  $DEBUG=FALSE)
+function modifier($group, $onglet, $DEBUG=FALSE)
 {
 
 	$PHP_SELF=$_SERVER['PHP_SELF'];

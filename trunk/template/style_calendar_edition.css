@@ -103,7 +103,7 @@ td.histo-edit-left{
 /*****************************/
 /* style pour les cellules du calendriers (jour de week end) */
 td.cal-day_weekend{
-	background-image: url(img/calendrier_week_end_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_week_end_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -111,13 +111,13 @@ td.cal-day_weekend{
 }
 
 .weekend{
-	background-image: url(img/calendrier_week_end_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_week_end_bgimg.gif) ;
 }
 
 /*****************************/
 /* style pour les cellules du calendriers (jour de fermeture) */
 td.cal-day_fermeture{
-	background-image: url(img/calendrier_demande-am_demande-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_demande-am_demande-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -125,13 +125,13 @@ td.cal-day_fermeture{
 }
 
 .fermeture{
-	background-image: url(img/calendrier_demande-am_demande-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_demande-am_demande-pm_bgimg.gif) ;
 }
 
 /*****************************/
 /* style pour les cellules du calendriers (jour de semaine travaillé) */
 td.cal-day_semaine_travail_am_travail_pm{
-	background-image: url(img/calendrier_semaine_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_semaine_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -139,12 +139,12 @@ td.cal-day_semaine_travail_am_travail_pm{
 }
 
 .semaine.travail_am.travail_pm{
-	background-image: url(img/calendrier_semaine_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_semaine_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine congés apres midi seulement) */
 td.cal-day_semaine_travail_am_conges_pm{
-	background-image: url(img/calendrier_travail-am_conges-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_travail-am_conges-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -152,12 +152,12 @@ td.cal-day_semaine_travail_am_conges_pm{
 }
 
 .semaine.travail_am.conges_pm{
-	background-image: url(img/calendrier_travail-am_conges-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_travail-am_conges-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine congés) */
 td.cal-day_semaine_travail_am_rtt_pm{
-	background-image: url(img/calendrier_travail-am_rtt-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_travail-am_rtt-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -165,12 +165,12 @@ td.cal-day_semaine_travail_am_rtt_pm{
 }
 
 .semaine.travail_am.rtt_pm{
-	background-image: url(img/calendrier_travail-am_rtt-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_travail-am_rtt-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine congés) */
 td.cal-day_semaine_travail_am_demande_pm{
-	background-image: url(img/calendrier_travail-am_demande-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_travail-am_demande-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -178,12 +178,12 @@ td.cal-day_semaine_travail_am_demande_pm{
 }
 
 .semaine.travail_am.demande_pm{
-	background-image: url(img/calendrier_travail-am_demande-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_travail-am_demande-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine congés) */
 td.cal-day_semaine_travail_am_autre_pm{
-	background-image: url(img/calendrier_travail-am_autre-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_travail-am_autre-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -191,13 +191,13 @@ td.cal-day_semaine_travail_am_autre_pm{
 }
 
 .semaine.travail_am.autre_pm{
-	background-image: url(img/calendrier_travail-am_autre-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_travail-am_autre-pm_bgimg.gif) ;
 }
 
 /*****************************/
 /* style pour les cellules du calendriers (jour de semaine congés) */
 td.cal-day_semaine_conges_am_rtt_pm{
-	background-image: url(img/calendrier_conges-am_rtt-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_conges-am_rtt-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -205,12 +205,12 @@ td.cal-day_semaine_conges_am_rtt_pm{
 }
 
 .semaine.conges_am.rtt_pm{
-	background-image: url(img/calendrier_conges-am_rtt-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_conges-am_rtt-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine congés) */
 td.cal-day_semaine_conges_am_conges_pm{
-	background-image: url(img/calendrier_conges-am_conges-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_conges-am_conges-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -218,12 +218,12 @@ td.cal-day_semaine_conges_am_conges_pm{
 }
 
 .semaine.conges_am.conges_pm{
-	background-image: url(img/calendrier_conges-am_conges-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_conges-am_conges-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine congés apres midi seulement) */
 td.cal-day_semaine_conges_am_travail_pm{
-	background-image: url(img/calendrier_conges-am_travail-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_conges-am_travail-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -231,12 +231,12 @@ td.cal-day_semaine_conges_am_travail_pm{
 }
 
 .semaine.conges_am.travail_pm{
-	background-image: url(img/calendrier_conges-am_travail-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_conges-am_travail-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine congés apres midi seulement) */
 td.cal-day_semaine_conges_am_demande_pm{
-	background-image: url(img/calendrier_conges-am_demande-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_conges-am_demande-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -244,12 +244,12 @@ td.cal-day_semaine_conges_am_demande_pm{
 }
 
 .semaine.conges_am.demande_pm{
-	background-image: url(img/calendrier_conges-am_demande-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_conges-am_demande-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine congés apres midi seulement) */
 td.cal-day_semaine_conges_am_autre_pm{
-	background-image: url(img/calendrier_conges-am_autre-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_conges-am_autre-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -257,13 +257,13 @@ td.cal-day_semaine_conges_am_autre_pm{
 }
 
 .semaine.conges_am.autre_pm{
-	background-image: url(img/calendrier_conges-am_autre-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_conges-am_autre-pm_bgimg.gif) ;
 }
 
 /*****************************/
 /* style pour les cellules du calendriers (jour de semaine congés) */
 td.cal-day_semaine_rtt_am_rtt_pm{
-	background-image: url(img/calendrier_rtt-am_rtt-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_rtt-am_rtt-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -271,12 +271,12 @@ td.cal-day_semaine_rtt_am_rtt_pm{
 }
 
 .semaine.rtt_am.rtt_pm{
-	background-image: url(img/calendrier_rtt-am_rtt-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_rtt-am_rtt-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine congés) */
 td.cal-day_semaine_rtt_am_conges_pm{
-	background-image: url(img/calendrier_rtt-am_conges-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_rtt-am_conges-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -284,12 +284,12 @@ td.cal-day_semaine_rtt_am_conges_pm{
 }
 
 .semaine.rtt_am.conges_pm{
-	background-image: url(img/calendrier_rtt-am_conges-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_rtt-am_conges-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine congés) */
 td.cal-day_semaine_rtt_am_travail_pm{
-	background-image: url(img/calendrier_rtt-am_travail-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_rtt-am_travail-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -297,12 +297,12 @@ td.cal-day_semaine_rtt_am_travail_pm{
 }
 
 .semaine.rtt_am.travail_pm{
-	background-image: url(img/calendrier_rtt-am_travail-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_rtt-am_travail-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine congés) */
 td.cal-day_semaine_rtt_am_demande_pm{
-	background-image: url(img/calendrier_rtt-am_demande-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_rtt-am_demande-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -310,12 +310,12 @@ td.cal-day_semaine_rtt_am_demande_pm{
 }
 
 .semaine.rtt_am.demande_pm{
-	background-image: url(img/calendrier_rtt-am_demande-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_rtt-am_demande-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine congés) */
 td.cal-day_semaine_rtt_am_autre_pm{
-	background-image: url(img/calendrier_rtt-am_autre-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_rtt-am_autre-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -323,13 +323,13 @@ td.cal-day_semaine_rtt_am_autre_pm{
 }
 
 .semaine.rtt_am.autre_pm{
-	background-image: url(img/calendrier_rtt-am_autre-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_rtt-am_autre-pm_bgimg.gif) ;
 }
 
 /*****************************/
 /* style pour les cellules du calendriers (jour de semaine congés) */
 td.cal-day_semaine_demande_am_demande_pm{
-	background-image: url(img/calendrier_demande-am_demande-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_demande-am_demande-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -337,12 +337,12 @@ td.cal-day_semaine_demande_am_demande_pm{
 }
 
 .semaine.demande_am.demande_pm{
-	background-image: url(img/calendrier_demande-am_demande-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_demande-am_demande-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine congés) */
 td.cal-day_semaine_demande_am_travail_pm{
-	background-image: url(img/calendrier_demande-am_travail-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_demande-am_travail-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -350,12 +350,12 @@ td.cal-day_semaine_demande_am_travail_pm{
 }
 
 .semaine.demande_am.travail_pm{
-	background-image: url(img/calendrier_demande-am_travail-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_demande-am_travail-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine congés) */
 td.cal-day_semaine_demande_am_conges_pm{
-	background-image: url(img/calendrier_demande-am_conges-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_demande-am_conges-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -363,12 +363,12 @@ td.cal-day_semaine_demande_am_conges_pm{
 }
 
 .semaine.demande_am.conges_pm{
-	background-image: url(img/calendrier_demande-am_conges-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_demande-am_conges-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine congés) */
 td.cal-day_semaine_demande_am_rtt_pm{
-	background-image: url(img/calendrier_demande-am_rtt-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_demande-am_rtt-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -376,12 +376,12 @@ td.cal-day_semaine_demande_am_rtt_pm{
 }
 
 .semaine.demande_am;rtt_pm{
-	background-image: url(img/calendrier_demande-am_rtt-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_demande-am_rtt-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine congés) */
 td.cal-day_semaine_demande_am_autre_pm{
-	background-image: url(img/calendrier_demande-am_autre-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_demande-am_autre-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -389,13 +389,13 @@ td.cal-day_semaine_demande_am_autre_pm{
 }
 
 .semaine.demande_am.autre_pm{
-	background-image: url(img/calendrier_demande-am_autre-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_demande-am_autre-pm_bgimg.gif) ;
 }
 
 /*****************************/
 /* style pour les cellules du calendriers (jour de semaine congés) */
 td.cal-day_semaine_autre_am_autre_pm{
-	background-image: url(img/calendrier_autre-am_autre-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_autre-am_autre-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -403,12 +403,12 @@ td.cal-day_semaine_autre_am_autre_pm{
 }
 
 .semaine.autre_am.autre_pm{
-	background-image: url(img/calendrier_autre-am_autre-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_autre-am_autre-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine congés) */
 td.cal-day_semaine_autre_am_conges_pm{
-	background-image: url(img/calendrier_autre-am_conges-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_autre-am_conges-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -416,12 +416,12 @@ td.cal-day_semaine_autre_am_conges_pm{
 }
 
 .semaine.autre_am.conges_pm{
-	background-image: url(img/calendrier_autre-am_conges-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_autre-am_conges-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine congés) */
 td.cal-day_semaine_autre_am_travail_pm{
-	background-image: url(img/calendrier_autre-am_travail-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_autre-am_travail-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -429,12 +429,12 @@ td.cal-day_semaine_autre_am_travail_pm{
 }
 
 .semaine.autre_am.travail_pm{
-	background-image: url(img/calendrier_autre-am_travail-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_autre-am_travail-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine congés) */
 td.cal-day_semaine_autre_am_demande_pm{
-	background-image: url(img/calendrier_autre-am_demande-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_autre-am_demande-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -442,12 +442,12 @@ td.cal-day_semaine_autre_am_demande_pm{
 }
 
 .semaine.autre_am.demande_pm{
-	background-image: url(img/calendrier_autre-am_demande-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_autre-am_demande-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine congés) */
 td.cal-day_semaine_autre_am_rtt_pm{
-	background-image: url(img/calendrier_autre-am_rtt-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_autre-am_rtt-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -455,7 +455,7 @@ td.cal-day_semaine_autre_am_rtt_pm{
 }
 
 .semaine.autre_am.rtt_pm{
-	background-image: url(img/calendrier_autre-am_rtt-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_autre-am_rtt-pm_bgimg.gif) ;
 }
 
 
@@ -555,7 +555,7 @@ td div.cal-bulles{
 /*****************************/
 /* style pour les cellules du calendriers (jour de semaine fermeture) */
 td.cal-day_semaine_fermeture_am_fermeture_pm{
-	background-image: url(img/calendrier_fermeture-am_fermeture-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_fermeture-am_fermeture-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -563,12 +563,12 @@ td.cal-day_semaine_fermeture_am_fermeture_pm{
 }
 
 .semaine.fermeture_am.fermeture_pm{
-	background-image: url(img/calendrier_fermeture-am_fermeture-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_fermeture-am_fermeture-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine fermeture) */
 td.cal-day_semaine_fermeture_am_conges_pm{
-	background-image: url(img/calendrier_fermeture-am_conges-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_fermeture-am_conges-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -576,12 +576,12 @@ td.cal-day_semaine_fermeture_am_conges_pm{
 }
 
 .semaine.fermeture_am.conges_pm{
-	background-image: url(img/calendrier_fermeture-am_conges-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_fermeture-am_conges-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine fermeture) */
 td.cal-day_semaine_fermeture_am_travail_pm{
-	background-image: url(img/calendrier_fermeture-am_travail-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_fermeture-am_travail-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -589,12 +589,12 @@ td.cal-day_semaine_fermeture_am_travail_pm{
 }
 
 .semaine.fermeture_am.travail_pm{
-	background-image: url(img/calendrier_fermeture-am_travail-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_fermeture-am_travail-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine fermeture) */
 td.cal-day_semaine_fermeture_am_demande_pm{
-	background-image: url(img/calendrier_fermeture-am_demande-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_fermeture-am_demande-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -602,12 +602,12 @@ td.cal-day_semaine_fermeture_am_demande_pm{
 }
 
 .semaine.fermeture_am.demande_pm{
-	background-image: url(img/calendrier_fermeture-am_demande-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_fermeture-am_demande-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine fermeture) */
 td.cal-day_semaine_fermeture_am_rtt_pm{
-	background-image: url(img/calendrier_fermeture-am_rtt-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_fermeture-am_rtt-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -615,12 +615,12 @@ td.cal-day_semaine_fermeture_am_rtt_pm{
 }
 
 .semaine.fermeture_am.rtt_pm{
-	background-image: url(img/calendrier_fermeture-am_rtt-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_fermeture-am_rtt-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine fermeture) */
 td.cal-day_semaine_conges_am_fermeture_pm{
-	background-image: url(img/calendrier_conges-am_fermeture-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_conges-am_fermeture-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -628,12 +628,12 @@ td.cal-day_semaine_conges_am_fermeture_pm{
 }
 
 .semaine.conges_am.fermeture_pm{
-	background-image: url(img/calendrier_conges-am_fermeture-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_conges-am_fermeture-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine fermeture) */
 td.cal-day_semaine_travail_am_fermeture_pm{
-	background-image: url(img/calendrier_travail-am_fermeture-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_travail-am_fermeture-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -641,12 +641,12 @@ td.cal-day_semaine_travail_am_fermeture_pm{
 }
 
 .semaine.travail_am.fermeture_pm{
-	background-image: url(img/calendrier_travail-am_fermeture-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_travail-am_fermeture-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine fermeture) */
 td.cal-day_semaine_demande_am_fermeture_pm{
-	background-image: url(img/calendrier_demande-am_fermeture-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_demande-am_fermeture-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -654,12 +654,12 @@ td.cal-day_semaine_demande_am_fermeture_pm{
 }
 
 .semaine.demande_am.fermeture_pm{
-	background-image: url(img/calendrier_demande-am_fermeture-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_demande-am_fermeture-pm_bgimg.gif) ;
 }
 
 /* style pour les cellules du calendriers (jour de semaine fermeture) */
 td.cal-day_semaine_rtt_am_fermeture_pm{
-	background-image: url(img/calendrier_rtt-am_fermeture-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_rtt-am_fermeture-pm_bgimg.gif) ;
 	border-bottom: 1px #5B8BAB solid; 
 	border-right: 1px #5B8BAB solid; 
 	height: 20px ; 
@@ -667,6 +667,6 @@ td.cal-day_semaine_rtt_am_fermeture_pm{
 }
 
 .semaine.rtt_am.fermeture_pm{
-	background-image: url(img/calendrier_rtt-am_fermeture-pm_bgimg.gif) ;
+	background-image: url(img/cal/calendrier_rtt-am_fermeture-pm_bgimg.gif) ;
 }
 

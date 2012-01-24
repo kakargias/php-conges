@@ -37,6 +37,6 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 $mysql_serveur="localhost" ;
 $mysql_user="root" ;
 $mysql_pass="root";
-$mysql_database= "db_new_conges" ;
+$mysql_database= "db_conges" ;
 
 

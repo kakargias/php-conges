@@ -186,10 +186,6 @@ function session_saisie_user_password($erreur, $session_username, $session_passw
 {
    $PHP_SELF=$_SERVER['PHP_SELF'];
    
-	$config_lien_img_login          =$_SESSION['config']['lien_img_login'];
-	$config_img_login               =$_SESSION['config']['img_login'];
-	$config_texte_img_login         =$_SESSION['config']['texte_img_login'];
-	$config_texte_page_login        =$_SESSION['config']['texte_page_login'];
 	$config_php_conges_version      =$_SESSION['config']['php_conges_version'];
 	$config_url_site_web_php_conges =$_SESSION['config']['url_site_web_php_conges'];
 	$config_stylesheet_file         =$_SESSION['config']['stylesheet_file'];

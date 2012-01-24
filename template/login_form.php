@@ -1,24 +1,6 @@
-<?php
-
-	if($erreur=='login_passwd_incorrect') {
-		echo '<div class="ui-widget" id="err_login_pass">
-				<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
-					<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
-					'. _('login_passwd_incorrect') .'</p>
-				</div>
-			</div>';
-	}
-	elseif($erreur=='login_non_connu') {
-		echo '<div class="ui-widget" id="err_login_unknow">
-				<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
-					<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
-					'. _('login_non_connu') .'</p>
-				</div>
-			</div>';
-	}
-
-?>
-
+<div id="background">
+	<div><img src="<?php echo TEMPLATE_PATH ?>logo.png"/></div>
+	
 	<div id="login_form" class="ui-widget ui-widget-content ui-corner-all">
 		<div class="ui-widget-header ui-corner-all ui-helper-clearfix">
 			<span><?php echo _('login_fieldset');?></span>
@@ -45,7 +27,9 @@
 		</div>
 	</div>
 	<style>
-		#login_form {width: 550px; margin-top: 150px;}
+		#background{overflow: hidden; background:url('<?php echo TEMPLATE_PATH;?>img/vacances-mer.jpg') bottom right no-repeat; margin: auto; width: 1000px; height: 625px; margin-top: 10px;}
+		
+		#login_form {width: 550px; margin-top: 50px;}
 		#login_form .ui-widget-header{padding: 5px;}
 		#login_form form {padding: 5px;}
 		#login_form form div{padding: 5px;}
@@ -54,8 +38,28 @@
 		#login_form button span{padding: 0px;}
 		#login_form .php-conges_link{text-align: right; margin-bottom: -5px; font-size: 10px;}
 		
-		#err_login_pass , #err_login_unknow{width: 550px; margin-top: 70px; margin-bottom: -120px; font-size: 1em;}
+		#err_login_pass , #err_login_unknow{width: 550px; margin: 20px 0px 20px 0px; font-size: 1em;}
 	</style>
 	<script type="text/javascript">
 		$('#login_form .submit').button();
 	</script>
+<?php
+
+	if($erreur=='login_passwd_incorrect') {
+		echo '<div class="ui-widget" id="err_login_pass">
+				<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
+					<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+					'. _('login_passwd_incorrect') .'</p>
+				</div>
+			</div>';
+	}
+	elseif($erreur=='login_non_connu') {
+		echo '<div class="ui-widget" id="err_login_unknow">
+				<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;"> 
+					<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span> 
+					'. _('login_non_connu') .'</p>
+				</div>
+			</div>';
+	}
+
+?>

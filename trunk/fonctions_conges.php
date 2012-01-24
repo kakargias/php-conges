@@ -2498,9 +2498,19 @@ function verif_droits_user($session, $niveau_droits, $DEBUG=FALSE)
 
 
 // on lit le contenu du répertoire lang et on parse les nom de ficher (ex lang_fr_francais.php)
-function affiche_select_from_lang_directory($select_name="lang")
+function affiche_select_from_lang_directory( $select_name = 'lang' , $default = 'fr_FR' )
 {
-	echo 'TODO';
+	echo "<select name=$select_name>\n";
+	$langs = glob( LOCALE_PATH .'*' );
+	var_dump( $langs );
+	foreach($langs as $lang ) {
+		$lang = basename($lang);
+		if( $lang == $default )
+			echo '<option value="'.$lang.'" selected >'.$lang.'</option>';
+		else
+			echo '<option value="'.$lang.'">'.$lang.'</option>';
+	}
+	echo "</select>\n";
 }
 
 // on insert les logs des periodes de conges

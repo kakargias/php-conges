@@ -9,7 +9,8 @@ echo "<html>\n";
 		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
 		echo "<title> ".$title." </TITLE>\n";
 		echo "<link href=\"". TEMPLATE_PATH ."style.css\" rel=\"stylesheet\" type=\"text/css\" />";
-		echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+		if (isset($_SESSION['config']['stylesheet_file']))
+			echo "<link href=\"". TEMPLATE_PATH .$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
 		echo '<link type="text/css" href="'. TEMPLATE_PATH .'jquery/css/custom-theme/jquery-ui-1.8.17.custom.css" rel="stylesheet" />';
 		echo '<script type="text/javascript" src="'. TEMPLATE_PATH .'jquery/js/jquery-1.7.1.min.js"></script>';
 		echo '<script type="text/javascript" src="'. TEMPLATE_PATH .'jquery/js/jquery-ui-1.8.17.custom.min.js"></script>';

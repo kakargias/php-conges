@@ -60,12 +60,8 @@ function test_old_config_file($DEBUG=FALSE)
 
 // teste l'existance et la conexion à la database
 //renvoit TRUE si ok, et FALSE sinon
-function test_database($DEBUG=FALSE)
-{	
-	if( empty($mysql_serveur) || empty($mysql_user) || empty($mysql_pass) || empty($mysql_database)  )
-		return false;
-	
-
+function test_database() {
+	SQL::singleton();
 	return (SQL::getVar('connect_errno') == 0 );
 }
 
@@ -74,21 +70,22 @@ function test_database($DEBUG=FALSE)
 // renvoit le num de la version installée ou 0 s'il est inaccessible (non renseigné ou table non présente) 
 function get_installed_version( $DEBUG=FALSE)
 {
-	$installed_version=0;
-	
-	$sql1="SELECT conf_valeur FROM conges_config WHERE conf_nom='installed_version' ";
-	if($reglog= SQL::query($sql1))
-	{
-		// la table existe !
-		if($result=$reglog->fetch_array())
+	try {
+		$sql="SELECT conf_valeur FROM conges_config WHERE conf_nom='installed_version' ";
+		if($reglog = SQL::query($sql))
 		{
-			if( $DEBUG ) { echo "result = <br>\n"; print_r($result); echo "<br>\n"; }
-			$installed_version = $result['conf_valeur'];
+			// la table existe !
+			if($result=$reglog->fetch_array())
+			{
+				if( $DEBUG ) { echo "result = <br>\n"; print_r($result); echo "<br>\n"; }
+				return $result['conf_valeur'];
+			}
 		}
 	}
-	if( $DEBUG ) { echo "installed_version = $installed_version <br>\n"; }
+	catch(Exception $e) {
+		return 0;
+	}
 	
-	return $installed_version ;
 }
 
 

@@ -29,7 +29,9 @@ include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 //include ROOT_PATH .'fonctions_conges.php' ;
-//include INCLUDE_PATH .'fonction.php';
+include INCLUDE_PATH .'fonction.php';
+session_start();
+
 
 include'fonctions_install.php' ;
 include ROOT_PATH .'fonctions_conges.php' ;
@@ -51,7 +53,6 @@ $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST[
 	if($lang=="")
 	{
 		header_popup();
-		echo "<center>\n";
 		echo "<br><br>\n";
 		echo "Choisissez votre langue :<br> \n";
 		echo "Choose your language :<br>\n";
@@ -85,7 +86,7 @@ $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST[
 		include CONFIG_PATH .'dbconnect.php';
 		include ROOT_PATH .'version.php';
 
-		if(test_database($DEBUG)!=TRUE)
+		if( !test_database() )
 		{
 			header_popup();
 			echo "<center>\n";

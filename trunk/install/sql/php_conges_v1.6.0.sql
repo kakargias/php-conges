@@ -252,11 +252,6 @@ INSERT IGNORE INTO `conges_config` VALUES ('lang', 'fr', '00_php_conges', 'enum=
 
 INSERT IGNORE INTO `conges_config` VALUES ('URL_ACCUEIL_CONGES', 'http://mon-serveur/mon-chemin/php_conges', '01_Serveur Web', 'texte', 'config_comment_URL_ACCUEIL_CONGES');
 
-INSERT IGNORE INTO `conges_config` VALUES ('img_login', 'img/logo_adex.png', '02_PAGE D\'AUTENTIFICATION', 'texte', 'config_comment_img_login');
-INSERT IGNORE INTO `conges_config` VALUES ('texte_img_login', 'Cliquez ici pour retourner à ...', '02_PAGE D\'AUTENTIFICATION', 'texte', 'config_comment_texte_img_login');
-INSERT IGNORE INTO `conges_config` VALUES ('lien_img_login', 'http://mon-serveur/mon-site/', '02_PAGE D\'AUTENTIFICATION', 'texte', 'config_comment_lien_img_login');
-INSERT IGNORE INTO `conges_config` VALUES ('texte_page_login', '', '02_PAGE D\'AUTENTIFICATION', 'texte', 'config_comment_texte_page_login');
-
 INSERT IGNORE INTO `conges_config` VALUES ('titre_calendrier', 'CONGES : Calendrier', '03_TITRES', 'texte', 'config_comment_titre_calendrier');
 INSERT IGNORE INTO `conges_config` VALUES ('titre_user_index', 'CONGES : Utilisateur', '03_TITRES', 'texte', 'config_comment_titre_user_index');
 INSERT IGNORE INTO `conges_config` VALUES ('titre_resp_index', 'CONGES : Page Responsable', '03_TITRES', 'texte', 'config_comment_titre_resp_index');
@@ -326,14 +321,7 @@ INSERT IGNORE INTO `conges_config` VALUES ('affiche_demandes_dans_calendrier', '
 INSERT IGNORE INTO `conges_config` VALUES ('calcul_auto_jours_feries_france', 'FALSE', '13_Divers', 'boolean', 'config_comment_calcul_auto_jours_feries_france');
 
 INSERT IGNORE INTO `conges_config` VALUES ('stylesheet_file', 'style_2007.css', '14_Presentation', 'texte', 'config_comment_stylesheet_file');
-INSERT IGNORE INTO `conges_config` VALUES ('bgcolor', '#b0c2f7', '14_Presentation', 'texte', 'config_comment_bgcolor');
-INSERT IGNORE INTO `conges_config` VALUES ('bgimage', 'img/watback.jpg', '14_Presentation', 'texte', 'config_comment_bgimage');
 INSERT IGNORE INTO `conges_config` VALUES ('light_grey_bgcolor', '#DEDEDE', '14_Presentation', 'texte', 'config_comment_light_grey_bgcolor');
-
-INSERT IGNORE INTO `conges_config` VALUES ('php_conges_fpdf_include_path', 'INCLUDE.EXTERNAL/fpdf/', '15_Modules Externes', 'path', 'config_comment_php_conges_fpdf_include_path');
-INSERT IGNORE INTO `conges_config` VALUES ('php_conges_phpmailer_include_path', 'INCLUDE.EXTERNAL/', '15_Modules Externes', 'path', 'config_comment_php_conges_phpmailer_include_path');
-INSERT IGNORE INTO `conges_config` VALUES ('php_conges_cas_include_path', 'INCLUDE.EXTERNAL/', '15_Modules Externes', 'path', 'config_comment_php_conges_cas_include_path');
-INSERT IGNORE INTO `conges_config` VALUES ('php_conges_authldap_include_path', 'INCLUDE.EXTERNAL/', '15_Modules Externes', 'path', 'config_comment_php_conges_authldap_include_path');
 
 
 

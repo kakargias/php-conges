@@ -58,7 +58,7 @@ if( $DEBUG ) { echo "SESSION = <br>\n"; print_r($_SESSION); echo "<br><br>\n"; }
 
 	if($version == 0)  // la version à mettre à jour dans le formulaire de index.php n'a pas été choisie : renvoit sur le formulaire
 	{
-		redirect( ROOT_PATH . 'install/index.php?lang='.$lang)
+	  redirect( ROOT_PATH . 'install/index.php?lang='.$lang);
 	}
 	
 	header_popup(' PHP_CONGES : '. _('install_maj_titre_1') );

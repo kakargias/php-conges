@@ -54,13 +54,13 @@ $lang = (isset($_GET['lang']) ? $_GET['lang'] : (isset($_POST['lang']) ? $_POST[
 		'php_conges_phpmailer_include_path',
 		'texte_img_login',
 		'texte_page_login',
-	)
+	);
 
-	$sql_delete_1 = 'DELETE FROM conges_config WHERE conf_nom IN (\''. implode('\' , \'', $old_conf). '\');';
+	$sql_delete_1 = "DELETE FROM conges_config WHERE conf_nom IN ('". implode("' , '", $old_conf) . "');";
 	$result_delete_1 = SQL::query($sql_delete_1)  ;
 	
-	SQL::query( 'ALTER TABLE  `conges_users` ADD  `u_is_hr` ENUM(  \'Y\',  \'N\' ) NOT NULL DEFAULT  \'N\' AFTER  `u_is_admin`;');
-
+	$sql_alter_1=" ALTER TABLE  `conges_users` ADD  `u_is_hr` ENUM( 'Y','N' ) NOT NULL DEFAULT 'N' AFTER `u_is_admin`;";
+	$result_alter_1 = SQL::query($sql_alter_1)  ;
 	
 	// on renvoit à la page mise_a_jour.php (là d'ou on vient)
 	echo "<a href=\"mise_a_jour.php?etape=4&version=$version&lang=$lang\">upgrade_from_v1.5.0  OK</a><br>\n";

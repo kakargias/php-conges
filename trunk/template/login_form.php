@@ -20,7 +20,7 @@
 					<input type="password" id="session_password" name="session_password" size="32" maxlength="99"  value="<?php //echo $session_password; ?>"/>
 				</div>
 				<div>
-					<button type="submit" class="submit">Login</button>
+					<button type="submit" class="submit"><?php echo _('form_submit'); ?></button>
 				</div>
 				<div class="php-conges_link"><?php echo '<a href="'.$config_url_site_web_php_conges.'/">PHP_CONGES v '.$config_php_conges_version.'</a>';?></div>
 			</form>

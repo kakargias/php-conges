@@ -78,8 +78,8 @@ echo "<html>\n";
 					if (is_hr($_SESSION['userlogin']))
 						bouton('RH'				,'user-rh.png'			,ROOT_PATH .'hr/hr_index.php?session='.$session, $user_mode == 'hr');
 					if (is_resp($_SESSION['userlogin']))
-						bouton('Responsable'	,'user-responsable.png'	,ROOT_PATH .'responsable/resp_index.php?session='.$session, $user_mode == 'responsable');
-					bouton('Utilisateur'	,'user.png'				,ROOT_PATH .'utilisateur/user_index.php?session='.$session, $user_mode == 'utilisateur');
+						bouton(_('button_responsable_mode')	,'user-responsable.png'	,ROOT_PATH .'responsable/resp_index.php?session='.$session, $user_mode == 'responsable');
+				bouton(_('user')	,'user.png'				,ROOT_PATH .'utilisateur/user_index.php?session='.$session, $user_mode == 'utilisateur');
 					
 					
 							
@@ -90,7 +90,7 @@ echo "<html>\n";
 
 					
 					if($_SESSION['config']['auth'])
-						bouton('Déconexion'		,'exit.png'		,ROOT_PATH .'deconnexion.php?session='.$session);
+						bouton(_('button_deconnect')		,'exit.png'		,ROOT_PATH .'deconnexion.php?session='.$session);
 					
 					$PHP_SELF=$_SERVER['PHP_SELF'];
 					$session=session_id();

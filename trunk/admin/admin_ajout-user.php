@@ -721,9 +721,9 @@ function recup_users_from_ldap(&$tab_ldap, &$tab_login, $DEBUG=FALSE)
 		$ldap_libelle_nom=$_SESSION['config']['ldap_nom'];
 		$ldap_libelle_prenom=$_SESSION['config']['ldap_prenom'];
 		$login = $info[$ldap_libelle_login][0];
-		$nom = strtoupper(utf8_decode($info[$ldap_libelle_nom][0]))." ".utf8_decode($info[$ldap_libelle_prenom][0]);
 		// concaténation NOM Prénom
 		// utf8_decode permet de supprimer les caractères accentués mal interprêtés...
+		$nom = ( isset($info[$ldap_libelle_nom]) ? strtoupper($info[$ldap_libelle_nom][0]): '' )." ". (isset($info[$ldap_libelle_prenom])?$info[$ldap_libelle_prenom][0]:'');
 		array_push($tab_ldap, $nom);
 		array_push($tab_login, $login);
 	}

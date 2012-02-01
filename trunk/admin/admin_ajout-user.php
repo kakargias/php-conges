@@ -279,7 +279,7 @@ function verif_new_param(&$tab_new_user, &$tab_new_jours_an, &$tab_new_solde, $D
 
 	// verif des parametres reçus :
 	// si on travaille avec la base dbconges, on teste tout, mais si on travaille avec ldap, on ne teste pas les champs qui viennent de ldap ...
-	if( ($_SESSION['config']['export_users_from_ldap'] &&
+	if( (!$_SESSION['config']['export_users_from_ldap'] &&
 		(strlen($tab_new_user['nom'])==0 || strlen($tab_new_user['prenom'])==0
 //		|| strlen($tab_new_user['jours_an'])==0
 //		|| strlen($tab_new_user['solde_jours'])==0
@@ -460,7 +460,7 @@ function affiche_formulaire_ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab
 	$text_is_resp="<select name=\"new_is_resp\" ><option value=\"N\">N</option><option value=\"Y\">Y</option></select>" ;
 
 	// PREPARATION DES OPTIONS DU SELECT du resp_login
-	$text_resp_login="<select name=\"new_resp_login\" id=\"resp_login_id\" ><option value=\"no_resp\">Pas de resopnsable</option>" ;
+	$text_resp_login="<select name=\"new_resp_login\" id=\"resp_login_id\" ><option value=\"no_resp\">". _('admin_users_no_resp') ."</option>" ;
 	$sql2 = "SELECT u_login, u_nom, u_prenom FROM conges_users WHERE u_is_resp = \"Y\" ORDER BY u_nom, u_prenom"  ;
 	$ReqLog2 = SQL::query($sql2);
 

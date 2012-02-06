@@ -1801,7 +1801,7 @@ connecter alors qu'il n'a pas de compte dans
 */
 	// connexion MySQL + selection de la database sur le serveur
 
-	$req = 'SELECT COUNT(*) FROM conges_users WHERE u_login=\''.SQL::quote($username).'\;';
+	$req = 'SELECT COUNT(*) FROM conges_users WHERE u_login=\''.SQL::quote($username).'\';';
 	$res = SQL::query($req);
 	$cpt = $res->fetch_array();
 	$cpt = $cpt[0];

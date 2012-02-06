@@ -144,7 +144,7 @@ function commit_update($u_login_to_update, $new_pwd1, $new_pwd2, $DEBUG=FALSE)
 	else
 	{
 	 	echo "<H3> ". _('admin_verif_param_invalides') ." </H3>\n" ;
-		echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n" ;
+		echo "<form action=\"$PHP_SELF?session=$session&onglet=chg_pwd_user\" method=\"POST\">\n" ;
 		echo "<input type=\"hidden\" name=\"u_login\" value=\"$u_login_to_update\">\n";
 
 		echo "<input type=\"submit\" value=\"". _('form_redo') ."\">\n";

@@ -182,13 +182,13 @@ INFORMATION IMPORTANTE :
 
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-$config_ldap_server = "ldap://mon_serveur";
-$config_ldap_protocol_version = 0 ;   // 3 si version 3 , 0 sinon !
+$config_ldap_server = "adexdom";
+$config_ldap_protocol_version = 3 ;   // 3 si version 3 , 0 sinon !
 $config_ldap_bupsvr = "";
-$config_basedn      = "dc=mon_domaine,dc=fr";
-$config_ldap_user   = "CN=user_ldap,dc=mon_domaine,dc=com" ;
-$config_ldap_pass   = "user_ldap_pass";
-$config_searchdn    = "ou=MesUtilisateurs,dc=mon_domaine,dc=com";
+$config_basedn      = "DC=adexcom,DC=lan";
+$config_ldap_user   = 'dom_adexcom\jpzolesio';
+$config_ldap_pass   = "bonjour";
+$config_searchdn    = "OU=Adexgroup,OU=Utilisateurs,OU=Adexcom,DC=adexcom,DC=lan";
 
 $config_ldap_prenom = "givenname"; 
 $config_ldap_nom    = "sn";

@@ -49,7 +49,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 	}
 	else
 	{
-		affiche_choix_gestion_groupes_responsables($choix_group, $choix_resp);
+		affiche_choix_gestion_groupes_responsables($choix_group, $choix_resp, $onglet);
 	}
 
 	
@@ -61,7 +61,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 /*****************************************************************************************/
 
 // affichage des pages de gestion des responsables des groupes
-function affiche_choix_gestion_groupes_responsables($choix_group, $choix_resp,  $DEBUG=FALSE)
+function affiche_choix_gestion_groupes_responsables($choix_group, $choix_resp, $onglet, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	$session=session_id();

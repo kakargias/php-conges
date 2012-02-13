@@ -1687,6 +1687,9 @@ msgstr "Clôturer"
 msgid "divers_reliquat"
 msgstr "reliquat"
 
+msgid "dont_reliquat"
+msgstr "Dont reliquat : "
+
 msgid "button_cloture"
 msgstr "Changement Exercice"
 

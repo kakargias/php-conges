@@ -37,15 +37,15 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
     echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
     echo '<thead>';
 		echo '<tr>';
-			echo '<td>'. _('divers_nom_maj') .'</td>';
-			echo '<td>'. _('divers_prenom_maj') .'</td>';
-			echo '<td>'. _('divers_quotite_maj_1') .'</td>' ;
+			echo '<th>'. _('divers_nom_maj') .'</th>';
+			echo '<th>'. _('divers_prenom_maj') .'</th>';
+			echo '<th>'. _('divers_quotite_maj_1') .'</th>' ;
 			$nb_colonnes = 3;
 			foreach($tab_type_cong as $id_conges => $libelle)
 			{
 				// cas d'une absence ou d'un congé
-				echo "<td> $libelle"." / ". _('divers_an_maj') .'</td>';
-				echo '<td>'. _('divers_solde_maj') ." ".$libelle .'</td>';
+				echo "<th> $libelle"." / ". _('divers_an_maj') .'</th>';
+				echo '<th>'. _('divers_solde_maj') ." ".$libelle .'</th>';
 				$nb_colonnes += 2;
 			}
 			// conges exceptionnels
@@ -53,15 +53,15 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 			{
 				foreach($tab_type_conges_exceptionnels as $id_type_cong => $libelle)
 				{
-					echo '<td>'. _('divers_solde_maj') ." $libelle</td>\n";
+					echo '<th>'. _('divers_solde_maj') ." $libelle</th>\n";
 					$nb_colonnes += 1;
 				}
 			}
-			echo '<td></td>';
+			echo '<th></th>';
 			$nb_colonnes += 1;
 			if($_SESSION['config']['editions_papier'])
 			{
-				echo '<td></td>';
+				echo '<th></th>';
 				$nb_colonnes += 1;
 			}
 		echo '</tr>';

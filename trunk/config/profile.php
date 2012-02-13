@@ -1,5 +1,5 @@
 <?php
-/*************************************************************************************************
+/************************************************************************************************
 PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
@@ -24,54 +24,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
 
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
+/* loaded by session.php */
 
-include_once  INCLUDE_PATH .'get_text.php';
-include_once(ROOT_PATH."config/profile.php");
+define('LOGO','img/logo_um2_v.gif');
+define('BOTTOM_TEXT','ISEM UMR5554 (CNRS, IRD, Université Montpellier 2)');
+define('IMG_INDEX','img/vacances-mer.jpg');
+define('LOGO_INDEX','img/logo_um2_v.gif');
 
-//
-// MAIN
-//
-
-/*** initialisation des variables ***/
-$session_username="";
-$session_password="";
-/************************************/
-
-//
-// recup du num  de session (mais on ne sais pas s'il est passé en GET ou POST
-$session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : "") ) ;
-
-$DEBUG=FALSE;
-//$DEBUG=TRUE;
-
-if( $DEBUG ) { print_r($_SESSION); echo "<br><br>\n"; }
+/* language determine by "locale -a" */
+setlocale(LC_ALL, 'fr_FR.utf8');
 
 
 
 
-if ($session != "") //  UNE SESSION EXISTE
-{
-	if( $DEBUG ) { echo "session = $session<br><br>\n"; }
-	
-	if(session_is_valid($session) )
-	{
-		session_update($session);
-	}
-	else
-	{
-		session_delete($session);
-		$session="";
-		$session_username="";
-		$session_password="";
-		$_SESSION['config']=init_config_tab();  // on recrée le tableau de config pour l'url du lien
-		
-		redirect(ROOT_PATH . 'index.php?error=session-invalid');
-	}
-}
-else    //  PAS DE SESSION   ($session == "")
-{
-	redirect(ROOT_PATH . 'index.php');
-}
-
-
+?>

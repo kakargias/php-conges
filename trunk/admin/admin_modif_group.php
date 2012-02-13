@@ -75,10 +75,10 @@ function modifier($group, $onglet, $DEBUG=FALSE)
 	echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 	echo "<thead>\n";
 	echo "<tr>\n";
-	echo "<td>". _('admin_groupes_groupe') ."</td>\n";
-	echo "<td>". _('admin_groupes_libelle') ." / ". _('divers_comment_maj_1') ."</td>\n";
+	echo "<th>". _('admin_groupes_groupe') ."</th>\n";
+	echo "<th>". _('admin_groupes_libelle') ." / ". _('divers_comment_maj_1') ."</th>\n";
 	if($_SESSION['config']['double_validation_conges'])
-		echo "	<td>". _('admin_groupes_double_valid') ."</td>\n";
+		echo "	<th>". _('admin_groupes_double_valid') ."</th>\n";
 	echo "</tr>\n";
 	echo "</thead>\n";
 	echo "<tbody>\n";

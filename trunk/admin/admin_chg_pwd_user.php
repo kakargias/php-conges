@@ -74,11 +74,11 @@ function modifier($u_login, $onglet, $DEBUG=FALSE)
 	echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 	echo '<thead>';
 	echo '<tr>';
-	echo "<td>". _('divers_login_maj_1') ."</td>\n";
-	echo "<td>". _('divers_nom_maj_1') ."</td>\n";
-	echo "<td>". _('divers_prenom_maj_1') ."</td>\n";
-	echo "<td>". _('admin_users_password_1') ."</td>\n";
-	echo "<td>". _('admin_users_password_2') ."</td>\n";
+	echo "<th>". _('divers_login_maj_1') ."</th>\n";
+	echo "<th>". _('divers_nom_maj_1') ."</th>\n";
+	echo "<th>". _('divers_prenom_maj_1') ."</th>\n";
+	echo "<th>". _('admin_users_password_1') ."</th>\n";
+	echo "<th>". _('admin_users_password_2') ."</th>\n";
 	echo "</tr>\n";
 	echo '</thead>';
 	echo '<tbody>';

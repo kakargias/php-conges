@@ -93,16 +93,16 @@ function affiche_tableau_affectation_user_groupes($choix_user,  $DEBUG=FALSE)
 	echo "<thead>\n";
 	echo "<tr>\n";
 	if($choix_user=="")
-		echo "	<td colspan=3><h3>". _('admin_gestion_groupe_users_group_of_new_user') ." :</h3></td>\n";
+		echo "	<th colspan=3><h3>". _('admin_gestion_groupe_users_group_of_new_user') ." :</h3></th>\n";
 	else
-		echo "	<td colspan=3><h3>". _('admin_gestion_groupe_users_group_of_user') ." <b> $choix_user </b> :</h3></td>\n";
+		echo "	<th colspan=3><h3>". _('admin_gestion_groupe_users_group_of_user') ." <b> $choix_user </b> :</h3></th>\n";
 
 	echo "</tr>\n";
 
 	echo "<tr>\n";
-	echo "	<td>&nbsp;</td>\n";
-	echo "	<td>&nbsp;". _('admin_groupes_groupe') ."&nbsp;:</td>\n";
-	echo "	<td>&nbsp;". _('admin_groupes_libelle') ."&nbsp;:</td>\n";
+	echo "	<th>&nbsp;</th>\n";
+	echo "	<th>&nbsp;". _('admin_groupes_groupe') ."&nbsp;:</th>\n";
+	echo "	<th>&nbsp;". _('admin_groupes_libelle') ."&nbsp;:</th>\n";
 	echo "</tr>\n";
 	echo "</thead>\n";
 	echo "<tbody>\n";
@@ -188,8 +188,8 @@ function affiche_choix_user_groupes( $DEBUG=FALSE)
 	echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 	echo "<thead>\n";
 	echo "<tr>\n";
-	echo "<td>&nbsp;". _('divers_nom_maj_1') ."  ". _('divers_prenom_maj_1') ."&nbsp;</td>\n";
-	echo "<td>&nbsp;". _('divers_login_maj_1') ."&nbsp;</td>\n";
+	echo "<th>&nbsp;". _('divers_nom_maj_1') ."  ". _('divers_prenom_maj_1') ."&nbsp;</th>\n";
+	echo "<th>&nbsp;". _('divers_login_maj_1') ."&nbsp;</th>\n";
 	echo "</tr>\n";
 	echo "</thead>\n";
 	echo "<tbody>\n";
@@ -274,8 +274,8 @@ function affiche_choix_groupes_users($DEBUG=FALSE)
 	echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 	echo "<thead>\n";
 	echo "<tr>\n";
-	echo "	<td>&nbsp;". _('admin_groupes_groupe') ."&nbsp;</td>\n";
-	echo "	<td>&nbsp;". _('admin_groupes_libelle') ."&nbsp;</td>\n";
+	echo "	<th>&nbsp;". _('admin_groupes_groupe') ."&nbsp;</th>\n";
+	echo "	<th>&nbsp;". _('admin_groupes_libelle') ."&nbsp;</th>\n";
 	echo "</tr>\n";
 	echo "</thead>\n";
 	echo "<tbody>\n";
@@ -331,12 +331,12 @@ function affiche_gestion_groupes_users($choix_group, $onglet, $DEBUG=FALSE)
 	// affichage TITRE
 	echo "<thead>\n";
 	echo "<tr>\n";
-	echo "	<td colspan=3><h3>". _('admin_gestion_groupe_users_membres') ." &nbsp;<b>$sql_group&nbsp;:</b>&nbsp;$sql_comment&nbsp;</h3></td>\n";
+	echo "	<th colspan=3><h3>". _('admin_gestion_groupe_users_membres') ." &nbsp;<b>$sql_group&nbsp;:</b>&nbsp;$sql_comment&nbsp;</h3></th>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";
-	echo "	<td>&nbsp;</td>\n";
-	echo "	<td>&nbsp;". _('divers_personne_maj_1') ."&nbsp;:</td>\n";
-	echo "	<td>&nbsp;". _('divers_login') ."&nbsp;:</td>\n";
+	echo "	<th>&nbsp;</th>\n";
+	echo "	<th>&nbsp;". _('divers_personne_maj_1') ."&nbsp;:</th>\n";
+	echo "	<th>&nbsp;". _('divers_login') ."&nbsp;:</th>\n";
 	echo "</tr>\n";
 	echo "</thead>\n";
 	echo "<tbody>\n";

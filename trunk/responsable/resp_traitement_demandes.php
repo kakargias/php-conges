@@ -138,29 +138,29 @@ function affiche_all_demandes_en_cours($tab_type_conges,  $DEBUG=FALSE)
 			echo "<table cellpadding=\"2\" class=\"tablo\">\n" ;
 			echo "<thead>\n" ;
 			echo "<tr>\n" ;
-			echo "<td>". _('divers_nom_maj_1') ."<br>". _('divers_prenom_maj_1') ."</td>\n" ;
-			echo "<td>". _('divers_quotite_maj_1') ."</td>" ;
-			echo "<td>". _('divers_debut_maj_1') ."</td>\n" ;
-			echo "<td>". _('divers_fin_maj_1') ."</td>\n" ;
-			echo "<td>". _('divers_comment_maj_1') ."</td>\n" ;
-			echo "<td>". _('resp_traite_demandes_nb_jours') ."</td>";
+			echo "<th>". _('divers_nom_maj_1') ."<br>". _('divers_prenom_maj_1') ."</th>\n" ;
+			echo "<th>". _('divers_quotite_maj_1') ."</th>" ;
+			echo "<th>". _('divers_debut_maj_1') ."</th>\n" ;
+			echo "<th>". _('divers_fin_maj_1') ."</th>\n" ;
+			echo "<th>". _('divers_comment_maj_1') ."</th>\n" ;
+			echo "<th>". _('resp_traite_demandes_nb_jours') ."</th>";
 			foreach($tab_type_conges as $id_conges => $libelle)
 			{
-				echo "<td>". _('divers_solde_maj_1') ."<br>$libelle</td>" ;
+				echo "<th>". _('divers_solde_maj_1') ."<br>$libelle</th>" ;
 			}
 			if ($_SESSION['config']['gestion_conges_exceptionnels']) 
 			foreach($tab_type_conges_exceptionnels as $id_conges => $libelle)
 			{
-				echo "<td>". _('divers_solde_maj_1') ."<br>$libelle</td>" ;
+				echo "<th>". _('divers_solde_maj_1') ."<br>$libelle</th>" ;
 			}			
-			echo "<td>". _('divers_type_maj_1') ."</td>\n" ;
-			echo "<td>". _('divers_accepter_maj_1') ."</td>\n" ;
-			echo "<td>". _('divers_refuser_maj_1') ."</td>\n" ;
-			echo "<td>". _('resp_traite_demandes_attente') ."</td>\n" ;
-			echo "<td>". _('resp_traite_demandes_motif_refus') ."</td>\n" ;
+			echo "<th>". _('divers_type_maj_1') ."</th>\n" ;
+			echo "<th>". _('divers_accepter_maj_1') ."</th>\n" ;
+			echo "<th>". _('divers_refuser_maj_1') ."</th>\n" ;
+			echo "<th>". _('resp_traite_demandes_attente') ."</th>\n" ;
+			echo "<th>". _('resp_traite_demandes_motif_refus') ."</th>\n" ;
 			if($_SESSION['config']['affiche_date_traitement'])
 			{
-				echo "<td>". _('divers_date_traitement') ."</td>\n" ;
+				echo "<th>". _('divers_date_traitement') ."</th>\n" ;
 			}
 			echo "</tr>\n";
 			echo "</thead>\n" ;
@@ -272,24 +272,24 @@ function affiche_all_demandes_en_cours($tab_type_conges,  $DEBUG=FALSE)
 				echo "<table cellpadding=\"2\" class=\"tablo\">\n" ;
 				echo "<thead>\n" ;
 				echo "<tr>\n" ;
-				echo "<td><b>". _('divers_nom_maj_1') ."</b><br>". _('divers_prenom_maj_1') ."</td>\n" ;
-				echo "<td>". _('divers_quotite_maj_1') ."</td>" ;
-				echo "<td>". _('divers_debut_maj_1') ."</td>\n" ;
-				echo "<td>". _('divers_fin_maj_1') ."</td>\n" ;
-				echo "<td>". _('divers_comment_maj_1') ."</td>\n" ;
-				echo "<td>". _('resp_traite_demandes_nb_jours') ."</td>";
+				echo "<th><b>". _('divers_nom_maj_1') ."</b><br>". _('divers_prenom_maj_1') ."</th>\n" ;
+				echo "<th>". _('divers_quotite_maj_1') ."</th>" ;
+				echo "<th>". _('divers_debut_maj_1') ."</th>\n" ;
+				echo "<th>". _('divers_fin_maj_1') ."</th>\n" ;
+				echo "<th>". _('divers_comment_maj_1') ."</th>\n" ;
+				echo "<th>". _('resp_traite_demandes_nb_jours') ."</th>";
 				foreach($tab_type_conges as $id_conges => $libelle)
 				{
-					echo "<td>". _('divers_solde_maj_1') ."<br>$libelle</td>" ;
+					echo "<th>". _('divers_solde_maj_1') ."<br>$libelle</th>" ;
 				}
-				echo "<td>". _('divers_type_maj_1') ."</td>\n" ;
-				echo "<td>". _('divers_accepter_maj_1') ."</td>\n" ;
-				echo "<td>". _('divers_refuser_maj_1') ."</td>\n" ;
-				echo "<td>". _('resp_traite_demandes_attente') ."</td>\n" ;
-				echo "<td>". _('resp_traite_demandes_motif_refus') ."</td>\n" ;
+				echo "<th>". _('divers_type_maj_1') ."</th>\n" ;
+				echo "<th>". _('divers_accepter_maj_1') ."</th>\n" ;
+				echo "<th>". _('divers_refuser_maj_1') ."</th>\n" ;
+				echo "<th>". _('resp_traite_demandes_attente') ."</th>\n" ;
+				echo "<th>". _('resp_traite_demandes_motif_refus') ."</th>\n" ;
 				if($_SESSION['config']['affiche_date_traitement'])
 				{
-					echo "<td>". _('divers_date_traitement') ."</td>\n" ;
+					echo "<th>". _('divers_date_traitement') ."</th>\n" ;
 				}
 				echo "</tr>\n";
 				echo "</thead>\n" ;

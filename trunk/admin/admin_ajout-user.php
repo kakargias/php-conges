@@ -428,25 +428,25 @@ function affiche_formulaire_ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab
 	echo "<thead>\n";
 		echo "<tr>\n";
 		if ($_SESSION['config']['export_users_from_ldap'] )
-			echo "<td>". _('divers_nom_maj_1') ." ". _('divers_prenom_maj_1') ."</td>\n";
+			echo "<th>". _('divers_nom_maj_1') ." ". _('divers_prenom_maj_1') ."</th>\n";
 		else
 		{
-			echo "<td>". _('divers_login_maj_1') ."</td>\n";
-			echo "<td>". _('divers_nom_maj_1') ."</td>\n";
-			echo "<td>". _('divers_prenom_maj_1') ."</td>\n";
+			echo "<th>". _('divers_login_maj_1') ."</th>\n";
+			echo "<th>". _('divers_nom_maj_1') ."</th>\n";
+			echo "<th>". _('divers_prenom_maj_1') ."</th>\n";
 		}
-		echo "<td>". _('divers_quotite_maj_1') ."</td>\n";
-		echo "<td>". _('admin_new_users_is_resp') ."</td>\n";
-		echo "<td>". _('divers_responsable_maj_1') ."</td>\n";
-		echo "<td>". _('admin_new_users_is_admin') ."</td>\n";
-		echo "<td>". _('admin_new_users_is_hr') ."</td>\n";
-		echo "<td>". _('admin_new_users_see_all') ."</td>\n";
+		echo "<th>". _('divers_quotite_maj_1') ."</th>\n";
+		echo "<th>". _('admin_new_users_is_resp') ."</th>\n";
+		echo "<th>". _('divers_responsable_maj_1') ."</th>\n";
+		echo "<th>". _('admin_new_users_is_admin') ."</th>\n";
+		echo "<th>". _('admin_new_users_is_hr') ."</th>\n";
+		echo "<th>". _('admin_new_users_see_all') ."</th>\n";
 		if ( !$_SESSION['config']['export_users_from_ldap'] )
-			echo "<td>". _('admin_users_mail') ."</td>\n";
+			echo "<th>". _('admin_users_mail') ."</th>\n";
 		if ($_SESSION['config']['how_to_connect_user'] == "dbconges")
 		{
-			echo "<td>". _('admin_new_users_password') ."</td>\n";
-			echo "<td>". _('admin_new_users_password') ."</td>\n";
+			echo "<th>". _('admin_new_users_password') ."</th>\n";
+			echo "<th>". _('admin_new_users_password') ."</th>\n";
 		}
 		echo "</tr>\n";
 	echo "</thead>\n";
@@ -546,9 +546,9 @@ function affiche_formulaire_ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab
 	// ligne de titres
 	echo "<thead>\n";
 		echo "<tr>\n";
-		echo "<td></td>\n";
-		echo "<td>". _('admin_new_users_nb_par_an') ."</td>\n";
-		echo "<td>". _('divers_solde') ."</td>\n";
+		echo "<th></th>\n";
+		echo "<th>". _('admin_new_users_nb_par_an') ."</th>\n";
+		echo "<th>". _('divers_solde') ."</th>\n";
 		echo "</tr>\n";
 	echo "</thead>\n";
 	echo "<tbody>\n";
@@ -620,16 +620,16 @@ function affiche_tableau_affectation_user_groupes($choix_user,  $DEBUG=FALSE)
 	echo "<thead>\n";
 	echo "<tr>\n";
 	if($choix_user=="")
-		echo "	<td colspan=3><h3>". _('admin_gestion_groupe_users_group_of_new_user') ." :</h3></td>\n";
+		echo "	<th colspan=3><h3>". _('admin_gestion_groupe_users_group_of_new_user') ." :</h3></th>\n";
 	else
-		echo "	<td colspan=3><h3>". _('admin_gestion_groupe_users_group_of_user') ." <b> $choix_user </b> :</h3></td>\n";
+		echo "	<th colspan=3><h3>". _('admin_gestion_groupe_users_group_of_user') ." <b> $choix_user </b> :</h3></th>\n";
 
 	echo "</tr>\n";
 
 	echo "<tr>\n";
-	echo "	<td>&nbsp;</td>\n";
-	echo "	<td>&nbsp;". _('admin_groupes_groupe') ."&nbsp;:</td>\n";
-	echo "	<td>&nbsp;". _('admin_groupes_libelle') ."&nbsp;:</td>\n";
+	echo "	<th>&nbsp;</th>\n";
+	echo "	<th>&nbsp;". _('admin_groupes_groupe') ."&nbsp;:</th>\n";
+	echo "	<th>&nbsp;". _('admin_groupes_libelle') ."&nbsp;:</th>\n";
 	echo "</tr>\n";
 	echo "</thead>\n";
 	echo "<tbody>\n";

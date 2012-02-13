@@ -64,13 +64,13 @@ function affiche_gestion_groupes($new_group_name, $new_group_libelle, $onglet, $
    echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%%\">\n";
    echo "<thead>\n";
    echo "<tr>\n";
-   echo "    <td>". _('admin_groupes_groupe') ."</td>\n";
-   echo "    <td>". _('admin_groupes_libelle') ."</td>\n";
-   echo "    <td>". _('admin_groupes_nb_users') ."</td>\n";
+   echo "    <th>". _('admin_groupes_groupe') ."</th>\n";
+   echo "    <th>". _('admin_groupes_libelle') ."</th>\n";
+   echo "    <th>". _('admin_groupes_nb_users') ."</th>\n";
    if($_SESSION['config']['double_validation_conges'])
-       echo "    <td>". _('admin_groupes_double_valid') ."</td>\n";
-   echo "    <td></td>\n";
-   echo "    <td></td>\n";
+       echo "    <th>". _('admin_groupes_double_valid') ."</th>\n";
+   echo "    <th></th>\n";
+   echo "    <th></th>\n";
    echo "</tr>\n";
    echo "</thead>\n";
    echo "<tbody>\n";
@@ -115,10 +115,10 @@ function affiche_gestion_groupes($new_group_name, $new_group_libelle, $onglet, $
    echo "<table class=\"tablo\">\n";
    echo "<thead>\n";
 	   echo "<tr>\n";
-	   echo "<td><b>". _('admin_groupes_groupe') ."</b></td>\n";
-	   echo "<td>". _('admin_groupes_libelle') ." / ". _('divers_comment_maj_1') ."</td>\n";
+	   echo "<th><b>". _('admin_groupes_groupe') ."</b></th>\n";
+	   echo "<th>". _('admin_groupes_libelle') ." / ". _('divers_comment_maj_1') ."</th>\n";
 	   if($_SESSION['config']['double_validation_conges'])
-		   echo "    <td>". _('admin_groupes_double_valid') ."</td>\n";
+		   echo "    <th>". _('admin_groupes_double_valid') ."</th>\n";
 	   echo "</tr>\n";
    echo "</thead>\n";
    echo "<tbody>\n";

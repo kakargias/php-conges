@@ -138,15 +138,15 @@ function affichage_cloture_user_par_user($tab_type_conges, $tab_all_users_du_hr,
 		echo "	<table cellpadding=\"2\" class=\"tablo\">\n";
 		echo "  <thead>\n";
 		echo "	<tr>\n";
-		echo "	<td>". _('divers_nom_maj_1') .'</td>';
-		echo "	<td>". _('divers_prenom_maj_1') .'</td>';
-		echo "	<td>". _('divers_quotite_maj_1') .'</td>';
+		echo "	<th>". _('divers_nom_maj_1') .'</th>';
+		echo "	<th>". _('divers_prenom_maj_1') .'</th>';
+		echo "	<th>". _('divers_quotite_maj_1') .'</th>';
 		foreach($tab_type_conges as $id_conges => $libelle)
 		{
-			echo "	<td>$libelle<br><i>(". _('divers_solde') .")</i></td>\n";
+			echo "	<th>$libelle<br><i>(". _('divers_solde') .")</i></th>\n";
 		}
-		echo "	<td>". _('divers_cloturer_maj_1') ."<br></td>\n" ;
-		echo "	<td>". _('divers_comment_maj_1') ."<br></td>\n" ;
+		echo "	<th>". _('divers_cloturer_maj_1') ."<br></th>\n" ;
+		echo "	<th>". _('divers_comment_maj_1') ."<br></th>\n" ;
 		echo "	</tr>\n";
 		echo "  </thead>\n";
 		echo "  <tbody>\n";

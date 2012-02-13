@@ -141,23 +141,23 @@ function affichage_saisie_user_par_user($tab_type_conges, $tab_type_conges_excep
 		echo "<table cellpadding=\"2\" class=\"tablo\" width=\"700\">\n";
 		echo "<thead>\n";
 		echo "<tr align=\"center\">\n";
-		echo "<td>". _('divers_nom_maj_1') ."</td>\n";
-		echo "<td>". _('divers_prenom_maj_1') ."</td>\n";
-		echo "<td>". _('divers_quotite_maj_1') ."</td>\n";
+		echo "<th>". _('divers_nom_maj_1') ."</th>\n";
+		echo "<th>". _('divers_prenom_maj_1') ."</th>\n";
+		echo "<th>". _('divers_quotite_maj_1') ."</td>\n";
 		foreach($tab_type_conges as $id_conges => $libelle)
 		{
-			echo "<td>$libelle<br><i>(". _('divers_solde') .")</i></td>\n";
-			echo "<td>$libelle<br>". _('resp_ajout_conges_nb_jours_ajout') ."</td>\n" ;
+			echo "<th>$libelle<br><i>(". _('divers_solde') .")</i></th>\n";
+			echo "<th>$libelle<br>". _('resp_ajout_conges_nb_jours_ajout') ."</th>\n" ;
 		}
 		if ($_SESSION['config']['gestion_conges_exceptionnels'])
 		{
 			foreach($tab_type_conges_exceptionnels as $id_conges => $libelle)
 			{
-				echo "<td>$libelle<br><i>(". _('divers_solde') .")</i></td>\n";
-				echo "<td>$libelle<br>". _('resp_ajout_conges_nb_jours_ajout') ."</td>\n" ;
+				echo "<th>$libelle<br><i>(". _('divers_solde') .")</i></th>\n";
+				echo "<th>$libelle<br>". _('resp_ajout_conges_nb_jours_ajout') ."</th>\n" ;
 			}
 		}
-		echo "<td>". _('divers_comment_maj_1') ."<br></td>\n" ;
+		echo "<th>". _('divers_comment_maj_1') ."<br></th>\n" ;
 		echo"</tr>\n";
 		echo "</thead>\n";
 		echo "<tbody>\n";

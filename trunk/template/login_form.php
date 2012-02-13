@@ -1,5 +1,9 @@
+<?php
+	include_once(ROOT_PATH."config/profile.php");
+?>
+
 <div id="background">
-	<div><img src="<?php echo TEMPLATE_PATH ?>logo.png"/></div>
+	<div><img src="<?php echo TEMPLATE_PATH . LOGO_INDEX; ?>"/></div>
 	
 	<div id="login_form" class="ui-widget ui-widget-content ui-corner-all">
 		<div class="ui-widget-header ui-corner-all ui-helper-clearfix">
@@ -27,7 +31,7 @@
 		</div>
 	</div>
 	<style>
-		#background{overflow: hidden; background:url('<?php echo TEMPLATE_PATH;?>img/vacances-mer.jpg') bottom right no-repeat; margin: auto; width: 1000px; height: 625px; margin-top: 10px;}
+		#background{overflow: hidden; background:url('<?php echo TEMPLATE_PATH . IMG_INDEX; ?>') bottom right no-repeat; margin: auto; width: 1000px; height: 625px; margin-top: 10px;}
 		
 		#login_form {width: 550px; margin-top: 50px;}
 		#login_form .ui-widget-header{padding: 5px;}

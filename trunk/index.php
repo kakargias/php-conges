@@ -94,8 +94,8 @@ else
 		session_destroy();
 					
 	// en CAS il n'y a pas de formulaire ?
-	if ( ($_SESSION['config']['how_to_connect_user'] == "CAS") && ($session_username != "admin") )
-	{		
+	if ( $_SESSION['config']['how_to_connect_user'] == "CAS" && $session_username != "admin" && ( $session_username != "conges" || !$_SESSION['config']['responsable_virtuel'] ) )
+	{
 		$usernameCAS = authentification_passwd_conges_CAS();
 		if($usernameCAS != "")
 		{
@@ -133,7 +133,7 @@ else
 			// le user doit etre authentifié dans la table conges (login + passwd) ou dans le ldap.
 			// si on a trouve personne qui correspond au couple user/password
 
-			if ( ($_SESSION['config']['how_to_connect_user'] == "ldap") && ($session_username != "admin") )
+			if ( $_SESSION['config']['how_to_connect_user'] == "ldap" && $session_username != "admin" && ( $session_username != "conges" || !$_SESSION['config']['responsable_virtuel'] ) )
 			{
 				
 				$username_ldap = authentification_ldap_conges($session_username,$session_password);
@@ -171,7 +171,7 @@ else
 					}
 				}
 			} // fin du if test avec ldap
-			elseif ( ($_SESSION['config']['how_to_connect_user'] == "dbconges") || ($session_username == "admin") )
+			elseif ( $_SESSION['config']['how_to_connect_user'] == "dbconges" || $session_username == "admin" || ( $session_username != "conges" && !$_SESSION['config']['responsable_virtuel'] ))
 			{				
 				$username_conges = autentification_passwd_conges($session_username,$session_password);
 				if ( $username_conges != $session_username)

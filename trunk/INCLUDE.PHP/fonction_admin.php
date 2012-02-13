@@ -254,3 +254,27 @@ function saisie_jours_absence_temps_partiel($login,  $DEBUG=FALSE)
 
 }
 
+
+function commit_modif_user_groups($choix_user, &$checkbox_user_groups,  $DEBUG=FALSE)
+{
+
+
+	$result_insert=FALSE;
+	// on supprime tous les anciens groupes du user, puis on ajoute tous ceux qui sont dans la tableau checkbox (si il n'est pas vide)
+	$sql_del = 'DELETE FROM conges_groupe_users WHERE gu_login=\''.SQL::quote($choix_user).'\'';
+	$ReqLog_del = SQL::query($sql_del);
+
+	if( ($checkbox_user_groups!="") && (count ($checkbox_user_groups)!=0) )
+	{
+		foreach($checkbox_user_groups as $gid => $value)
+		{
+			$sql_insert = "INSERT INTO conges_groupe_users SET gu_gid=$gid, gu_login='$choix_user' "  ;
+			$result_insert = SQL::query($sql_insert);
+		}
+	}
+	else
+		$result_insert=TRUE;
+
+	return $result_insert;
+}
+

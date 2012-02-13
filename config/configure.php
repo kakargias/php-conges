@@ -57,16 +57,15 @@ if( $DEBUG ) { echo "SESSION = "; print_r($_SESSION); echo "<br>\n";}
 	// recup des parametres reçus :
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
-	// GET
-	if(isset($_GET['action'])) {$action = $_GET['action'];}
-	// POST
-	if(isset($_POST['action'])) { $action=$_POST['action']; }
-	if(isset($_POST['tab_new_values'])) { $tab_new_values=$_POST['tab_new_values']; }
+	// GET / POST
+	$action         = getpost_variable('action') ;
+	$tab_new_values = getpost_variable('tab_new_values');
 
 	/*************************************/
 
 	if( $DEBUG ) { echo "tab_new_values = "; print_r($tab_new_values); echo "<br>\n"; }
 
+        header_popup('CONGES : Configuration');
 
 	if($action=="commit")
 		commit_saisie($tab_new_values, $session, $DEBUG);
@@ -81,9 +80,6 @@ if( $DEBUG ) { echo "SESSION = "; print_r($_SESSION); echo "<br>\n";}
 function affichage($session, $DEBUG=FALSE)
 {
 	$PHP_SELF=$_SERVER['PHP_SELF'];
-
-	
-	header_popup('CONGES : Configuration');	
 	
 	/**************************************/
 	// affichage du titre
@@ -205,6 +201,11 @@ function commit_saisie(&$tab_new_values, $session, $DEBUG=FALSE)
 //$DEBUG=TRUE;
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 
+	if($session=="")
+		$URL = "$PHP_SELF";
+	else
+		$URL = "$PHP_SELF?session=$session";
+
 	$timeout=2 ;  // temps d'attente pour rafraichir l'écran après l'update !
 
 	if( $DEBUG ) { echo "SESSION = "; print_r($_SESSION); echo "<br>\n"; }
@@ -254,12 +255,8 @@ function commit_saisie(&$tab_new_values, $session, $DEBUG=FALSE)
 	log_action(0, "", "", $comment_log, $DEBUG);
 
 	echo "<span class = \"messages\">". _('form_modif_ok') ."</span><br>";
-	if($session=="")
-		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"$timeout; URL=$PHP_SELF?\">";
-	else
-		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"$timeout; URL=$PHP_SELF?session=$session\">";
 
-
+	echo "<META HTTP-EQUIV=REFRESH CONTENT=\"$timeout; URL=$URL\">";
 }
 
 

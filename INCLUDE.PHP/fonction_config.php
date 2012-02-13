@@ -31,7 +31,7 @@ function affiche_bouton_retour($session, $DEBUG=FALSE)
 	// Bouton de retour : différent suivant si on vient des pages d'install ou de l'appli
 	// $_SESSION['from_config'] est initialisée dans install/index
 	if( isset($_SESSION['from_config']) && $_SESSION['from_config'] )
-		echo '<center><a href="'. ROOT_PATH .'/config/?session='.$session.'">'. _('form_retour') .'</a></center>';
+		echo '<center><a href="'. ROOT_PATH .'config/?session='.$session.'">'. _('form_retour') .'</a></center>';
 	else
 	{
 		echo '<form action="" method="POST">';

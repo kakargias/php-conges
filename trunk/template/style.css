@@ -56,3 +56,12 @@ img{
 /* arrow icon (span tag) */
 #back-top span { width: 30px; height: 30px; display: block; margin-bottom: 3px; background: #ddd url(img/up-arrow.png) no-repeat center center; /* rounded corners */ -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px; /* transition */ -webkit-transition: 1s; -moz-transition: 1s; transition: 1s; }
 #back-top a:hover span { background-color: #777; }
+
+/* **** The buttons : OK/NO order problem ****
+   Are the "Submit/Cancel Buttons left-right or right-left ?
+   You can change it in your css file
+*/
+/* OK, submit, valid ... buttons */
+// .button_type_submit { float: right }  
+/* NO, cancel, return etc ... bottons */
+//.button_type_cancel { float: left }

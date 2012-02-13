@@ -359,7 +359,9 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 						echo '<input type="hidden" name="user_login" value="'.$user_login.'">';
 						echo '<input type="hidden" name="new_demande_conges" value=1>';
 						// boutons du formulaire
-						echo '<input type="submit" value="'. _('form_submit') .'">   <input type="reset" value="'. _('form_cancel') .'">';
+						// les classes "button_type_submit" et "button_type_cancel"
+						// servent à choisir leur position (droite gauche) dans vos feuilles de style (voir style.css)
+						echo '<input type="submit" class="button_type_submit" value="'. _('form_submit') .'">   <input type="reset" class="button_type_cancel" value="'. _('form_cancel') .'">';
 					echo '</td>';
 					echo '</tr>';
 					echo '</table>';

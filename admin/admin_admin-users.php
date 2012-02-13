@@ -46,33 +46,33 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 	echo "<table cellpadding=\"2\" class=\"tablo\" >\n";
 	echo "<thead>\n";
 	echo "<tr>\n";
-	echo "<td>". _('divers_nom_maj_1') ."</td>\n";
-	echo "<td>". _('divers_prenom_maj_1') ."</td>\n";
-	echo "<td>". _('divers_login_maj_1') ."</td>\n";
-	echo "<td>". _('divers_quotite_maj_1') ."</td>\n";
+	echo "<th>". _('divers_nom_maj_1') ."</th>\n";
+	echo "<th>". _('divers_prenom_maj_1') ."</th>\n";
+	echo "<th>". _('divers_login_maj_1') ."</th>\n";
+	echo "<th>". _('divers_quotite_maj_1') ."</th>\n";
 	foreach($tab_type_conges as $id_type_cong => $libelle)
 	{
-		echo "<td>$libelle / ". _('divers_an') ."</td>\n";
-		echo "<td>". _('divers_solde') ." $libelle</td>\n";
+		echo "<th>$libelle / ". _('divers_an') ."</th>\n";
+		echo "<th>". _('divers_solde') ." $libelle</th>\n";
 	}
 
 	if ($_SESSION['config']['gestion_conges_exceptionnels']) {
 	  foreach($tab_type_conges_exceptionnels as $id_type_cong => $libelle)
 	  {
-	    echo "<td>". _('divers_solde') ." $libelle</td>\n";
+	    echo "<th>". _('divers_solde') ." $libelle</th>\n";
 	  }
 	}
-	echo "<td>". _('admin_users_is_resp') ."</td>\n";
-	echo "<td>". _('admin_users_resp_login') ."</td>\n";
-	echo "<td>". _('admin_users_is_admin') ."</td>\n";
-	echo "<td>". _('admin_users_is_hr') ."</td>\n";
-	echo "<td>". _('admin_users_see_all') ."</td>\n";
+	echo "<th>". _('admin_users_is_resp') ."</th>\n";
+	echo "<th>". _('admin_users_resp_login') ."</th>\n";
+	echo "<th>". _('admin_users_is_admin') ."</th>\n";
+	echo "<th>". _('admin_users_is_hr') ."</th>\n";
+	echo "<th>". _('admin_users_see_all') ."</th>\n";
 	if($_SESSION['config']['where_to_find_user_email']=="dbconges")
-		echo "<td>". _('admin_users_mail') ."</td>\n";
-	echo "<td></td>\n";
-	echo "<td></td>\n";
+		echo "<th>". _('admin_users_mail') ."</th>\n";
+	echo "<th></th>\n";
+	echo "<th></th>\n";
 	if($_SESSION['config']['admin_change_passwd'])
-		echo "<td></td>\n";
+		echo "<th></th>\n";
 	echo "</tr>\n";
 	echo "</thead>\n";
 	echo "<tbody>\n";

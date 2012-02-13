@@ -118,17 +118,17 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $onglet,
 	echo "<table cellpadding=\"2\" class=\"tablo\" width=\"80%\">\n";
 	echo "<thead>\n";
 		echo "<tr>\n";
-			echo "<td>". _('divers_nom_maj_1') ."</td>\n";
-			echo "<td>". _('divers_prenom_maj_1') ."</td>\n";
-			echo "<td>". _('divers_login_maj_1') ."</td>\n";
-			echo "<td>". _('divers_quotite_maj_1') ."</td>\n";
-			echo "<td>". _('admin_users_is_resp') ."</td>\n";
-			echo "<td>". _('admin_users_resp_login') ."</td>\n";
-			echo "<td>". _('admin_users_is_admin') ."</td>\n";
-			echo "<td>". _('admin_users_is_hr') ."</td>\n";
-			echo "<td>". _('admin_users_see_all') ."</td>\n";
+			echo "<th>". _('divers_nom_maj_1') ."</th>\n";
+			echo "<th>". _('divers_prenom_maj_1') ."</th>\n";
+			echo "<th>". _('divers_login_maj_1') ."</th>\n";
+			echo "<th>". _('divers_quotite_maj_1') ."</th>\n";
+			echo "<th>". _('admin_users_is_resp') ."</th>\n";
+			echo "<th>". _('admin_users_resp_login') ."</th>\n";
+			echo "<th>". _('admin_users_is_admin') ."</th>\n";
+			echo "<th>". _('admin_users_is_hr') ."</th>\n";
+			echo "<th>". _('admin_users_see_all') ."</th>\n";
 			if($_SESSION['config']['where_to_find_user_email']=="dbconges")
-				echo "<td>". _('admin_users_mail') ."</td>\n";
+				echo "<th>". _('admin_users_mail') ."</th>\n";
 		echo "</tr>\n";
 	echo "</thead>\n";
 	echo "<tbody>\n";
@@ -216,12 +216,12 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $onglet,
 	echo "<table cellpadding=\"2\" class=\"tablo\" >\n";
 	echo "<thead>\n";
 		echo "<tr>\n";
-			echo "<td></td>\n";
-			echo "<td colspan=\"2\">". _('admin_modif_nb_jours_an') ." </td>\n";
-			echo "<td colspan=\"2\">". _('divers_solde') ."</td>\n";
+			echo "<th></th>\n";
+			echo "<th colspan=\"2\">". _('admin_modif_nb_jours_an') ." </th>\n";
+			echo "<th colspan=\"2\">". _('divers_solde') ."</th>\n";
 			if( $_SESSION['config']['autorise_reliquats_exercice'] )
 			{
-				echo "<td colspan=\"2\">". _('divers_reliquat') ."</td>\n";
+				echo "<th colspan=\"2\">". _('divers_reliquat') ."</th>\n";
 			}
 		echo "</tr>\n";
 	echo "</thead>\n";

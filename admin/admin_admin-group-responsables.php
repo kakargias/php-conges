@@ -112,8 +112,8 @@ function affiche_choix_groupes_responsables( $DEBUG=FALSE)
 	echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 	echo "<thead>\n";
 	echo "<tr>\n";
-	echo "	<td>&nbsp;". _('admin_groupes_groupe') ."&nbsp;</td>\n";
-	echo "	<td>&nbsp;". _('admin_groupes_libelle') ."&nbsp;</td>\n";
+	echo "	<th>&nbsp;". _('admin_groupes_groupe') ."&nbsp;</th>\n";
+	echo "	<th>&nbsp;". _('admin_groupes_libelle') ."&nbsp;</th>\n";
 	echo "</tr>\n";
 	echo "</thead>\n";
 	echo "<tbody>\n";
@@ -193,12 +193,12 @@ function affiche_gestion_groupes_responsables($choix_group, $onglet, $DEBUG=FALS
 
 		// affichage TITRE
 		echo "<tr>\n";
-		echo "	<td colspan=3><h3>". _('admin_gestion_groupe_resp_responsables') ."</h3></td>\n";
+		echo "	<th colspan=3><h3>". _('admin_gestion_groupe_resp_responsables') ."</h3></th>\n";
 		echo "</tr>\n";
 		echo "<tr>\n";
-		echo "	<td>&nbsp;</td>\n";
-		echo "	<td>&nbsp;". _('divers_personne_maj_1') ."&nbsp;:</td>\n";
-		echo "	<td>&nbsp;". _('divers_login') ."&nbsp;:</td>\n";
+		echo "	<th>&nbsp;</th>\n";
+		echo "	<th>&nbsp;". _('divers_personne_maj_1') ."&nbsp;:</th>\n";
+		echo "	<th>&nbsp;". _('divers_login') ."&nbsp;:</th>\n";
 		echo "</tr>\n";
 		echo "</thead>\n";
 		echo "<tbody>\n";
@@ -256,12 +256,12 @@ function affiche_gestion_groupes_responsables($choix_group, $onglet, $DEBUG=FALS
 
 			// affichage TITRE
 			echo "<tr>\n";
-			echo "	<td colspan=3><h3>". _('admin_gestion_groupe_grand_resp_responsables') ."</h3></td>\n";
+			echo "	<th colspan=3><h3>". _('admin_gestion_groupe_grand_resp_responsables') ."</h3></th>\n";
 			echo "</tr>\n";
 			echo "<tr>\n";
-			echo "	<td>&nbsp;</td>\n";
-			echo "	<td>&nbsp;". _('divers_personne_maj_1') ."&nbsp;:</td>\n";
-			echo "	<td>&nbsp;". _('divers_login') ."&nbsp;:</td>\n";
+			echo "	<th>&nbsp;</th>\n";
+			echo "	<th>&nbsp;". _('divers_personne_maj_1') ."&nbsp;:</th>\n";
+			echo "	<th>&nbsp;". _('divers_login') ."&nbsp;:</th>\n";
 			echo "</tr>\n";
 			echo "</thead>\n";
 			echo "<tbody>\n";
@@ -400,8 +400,8 @@ function affiche_choix_responsable_groupes( $DEBUG=FALSE)
 	echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 	echo "<thead>\n";
 	echo "<tr>\n";
-	echo "	<td>&nbsp;". _('divers_responsable_maj_1') ."&nbsp;</td>\n";
-	echo "	<td>&nbsp;". _('divers_login') ."&nbsp;</td>\n";
+	echo "	<th>&nbsp;". _('divers_responsable_maj_1') ."&nbsp;</th>\n";
+	echo "	<th>&nbsp;". _('divers_login') ."&nbsp;</th>\n";
 	echo "</tr>\n";
 	echo "</thead>\n";
 	echo "<tbody>\n";
@@ -494,12 +494,12 @@ function affiche_gestion_responsable_groupes($choix_resp, $onglet, $DEBUG=FALSE)
 
 		// affichage TITRE
 		echo "<tr>\n";
-		echo "	<td colspan=3><h3>". _('divers_responsable_maj_1') ."</h3></td>\n";
+		echo "	<th colspan=3><h3>". _('divers_responsable_maj_1') ."</h3></th>\n";
 		echo "</tr>\n";
 		echo "<tr>\n";
-		echo "	<td>&nbsp;</td>\n";
-		echo "	<td>&nbsp;". _('admin_groupes_groupe') ."&nbsp;:</td>\n";
-		echo "	<td>&nbsp;". _('admin_groupes_libelle') ."&nbsp;:</td>\n";
+		echo "	<th>&nbsp;</th>\n";
+		echo "	<th>&nbsp;". _('admin_groupes_groupe') ."&nbsp;:</th>\n";
+		echo "	<th>&nbsp;". _('admin_groupes_libelle') ."&nbsp;:</th>\n";
 		echo "</tr>\n";
 		echo "</thead>\n";
 		echo "<tbody>\n";
@@ -558,12 +558,12 @@ function affiche_gestion_responsable_groupes($choix_resp, $onglet, $DEBUG=FALSE)
 
 			// affichage TITRE
 			echo "<tr>\n";
-			echo "	<td colspan=3><h3>". _('divers_grand_responsable_maj_1') ."</h3></td>\n";
+			echo "	<th colspan=3><h3>". _('divers_grand_responsable_maj_1') ."</h3></th>\n";
 			echo "</tr>\n";
 			echo "<tr>\n";
-			echo "	<td>&nbsp;</td>\n";
-			echo "	<td>&nbsp;". _('admin_groupes_groupe') ."&nbsp;:</td>\n";
-			echo "	<td>&nbsp;". _('admin_groupes_libelle') ."&nbsp;:</td>\n";
+			echo "	<th>&nbsp;</th>\n";
+			echo "	<th>&nbsp;". _('admin_groupes_groupe') ."&nbsp;:</th>\n";
+			echo "	<th>&nbsp;". _('admin_groupes_libelle') ."&nbsp;:</th>\n";
 			echo "</tr>\n";
 			echo "</thead>\n";
 			echo "<tbody>\n";

@@ -238,16 +238,16 @@ function affiche_etat_demande_user_for_resp($user_login, $tab_user, $tab_grd_res
 		echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 		echo '<thead>';
 			echo '<tr>';
-				echo '<td>'. _('divers_debut_maj_1') .'</td>';
-				echo '<td>'. _('divers_fin_maj_1') .'</td>';
-				echo '<td>'. _('divers_nb_jours_pris_maj_1') .'</td>';
-				echo '<td>'. _('divers_comment_maj_1') .'</td>';
-				echo '<td>'. _('divers_type_maj_1') .'</td>';
-				echo '<td>'. _('divers_accepter_maj_1') .'</td>';
-				echo '<td>'. _('divers_refuser_maj_1') .'</td>';
-				echo '<td>'. _('resp_traite_user_motif_refus') .'</td>';
+				echo '<th>'. _('divers_debut_maj_1') .'</th>';
+				echo '<th>'. _('divers_fin_maj_1') .'</th>';
+				echo '<th>'. _('divers_nb_jours_pris_maj_1') .'</th>';
+				echo '<th>'. _('divers_comment_maj_1') .'</th>';
+				echo '<th>'. _('divers_type_maj_1') .'</th>';
+				echo '<th>'. _('divers_accepter_maj_1') .'</th>';
+				echo '<th>'. _('divers_refuser_maj_1') .'</th>';
+				echo '<th>'. _('resp_traite_user_motif_refus') .'</th>';
 				if( $_SESSION['config']['affiche_date_traitement'] )
-					echo '<td>'. _('divers_date_traitement') .'</td>' ;
+					echo '<th>'. _('divers_date_traitement') .'</th>' ;
 			echo '</tr>';
 		echo '</thead>';
 		echo '<tbody>';
@@ -359,17 +359,17 @@ function affiche_etat_demande_2_valid_user_for_resp($user_login, $DEBUG=FALSE)
 			echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 			echo "<thead>\n";
 			echo '<tr>';
-			echo '<td>'. _('divers_debut_maj_1') .'</td>';
-			echo '<td>'. _('divers_fin_maj_1') .'</td>';
-			echo '<td>'. _('divers_nb_jours_pris_maj_1') .'</td>';
-			echo '<td>'. _('divers_comment_maj_1') .'</td>';
-			echo '<td>'. _('divers_type_maj_1') .'</td>';
-			echo '<td>'. _('divers_accepter_maj_1') .'</td>';
-			echo '<td>'. _('divers_refuser_maj_1') .'</td>';
-			echo '<td>'. _('resp_traite_user_motif_refus') .'</td>';
+			echo '<th>'. _('divers_debut_maj_1') .'</th>';
+			echo '<th>'. _('divers_fin_maj_1') .'</th>';
+			echo '<th>'. _('divers_nb_jours_pris_maj_1') .'</th>';
+			echo '<th>'. _('divers_comment_maj_1') .'</th>';
+			echo '<th>'. _('divers_type_maj_1') .'</th>';
+			echo '<th>'. _('divers_accepter_maj_1') .'</th>';
+			echo '<th>'. _('divers_refuser_maj_1') .'</th>';
+			echo '<th>'. _('resp_traite_user_motif_refus') .'</th>';
 			if($_SESSION['config']['affiche_date_traitement'])
 			{
-				echo '<td>'. _('divers_date_traitement') .'</td>' ;
+				echo '<th>'. _('divers_date_traitement') .'</th>' ;
 			}
 			echo '</tr>';
 			echo "</thead>\n";
@@ -483,20 +483,20 @@ function affiche_etat_conges_user_for_resp($user_login, $year_affichage, $tri_da
 		echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 		echo '<thead>';
 			echo '<tr>';
-				echo " <td>\n";
+				echo " <th>\n";
 				echo " <a href=\"$PHP_SELF?session=$session&onglet=traite_user&user_login=$user_login&tri_date=descendant\"><img src=\"". TEMPLATE_PATH ."img/1downarrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
 				echo " ". _('divers_debut_maj_1') ." \n";
 				echo " <a href=\"$PHP_SELF?session=$session&onglet=traite_user&user_login=$user_login&tri_date=ascendant\"><img src=\"". TEMPLATE_PATH ."img/1uparrow-16x16.png\" width=\"16\" height=\"16\" border=\"0\" title=\"trier\"></a>\n";
-				echo " </td>\n";
-				echo " <td>". _('divers_fin_maj_1') .'</td>';
-				echo " <td>". _('divers_nb_jours_pris_maj_1') .'</td>';
-				echo " <td>". _('divers_comment_maj_1') ."<br><i>". _('resp_traite_user_motif_possible') ."</i></td>\n";
-				echo " <td>". _('divers_type_maj_1') .'</td>';
-				echo " <td>". _('divers_etat_maj_1') .'</td>';
-				echo " <td>". _('resp_traite_user_annul') .'</td>';
-				echo " <td>". _('resp_traite_user_motif_annul') .'</td>';
+				echo " </th>\n";
+				echo " <th>". _('divers_fin_maj_1') .'</th>';
+				echo " <th>". _('divers_nb_jours_pris_maj_1') .'</th>';
+				echo " <th>". _('divers_comment_maj_1') ."<br><i>". _('resp_traite_user_motif_possible') ."</i></th>\n";
+				echo " <th>". _('divers_type_maj_1') .'</th>';
+				echo " <th>". _('divers_etat_maj_1') .'</th>';
+				echo " <th>". _('resp_traite_user_annul') .'</th>';
+				echo " <th>". _('resp_traite_user_motif_annul') .'</th>';
 				if( $_SESSION['config']['affiche_date_traitement'] )
-					echo '<td>'. _('divers_date_traitement') .'</td>' ;
+					echo '<th>'. _('divers_date_traitement') .'</th>' ;
 			echo '</tr>';
 		echo '</thead>';
 		echo '<tbody>';

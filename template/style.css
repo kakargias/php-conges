@@ -19,7 +19,8 @@
 	min-height:560px;
 }
 
-#onglet_menu { margin-bottom: 20px; }
+#onglet_menu { margin-bottom: 20px; padding:5px;}
+.onglet { padding: 10px 0; width: 15%;}
 
 #bottom {
 	text-align: center;
@@ -35,19 +36,23 @@ img{
 .tablo tbody{ background-color: #EAEAEA;}
 .tablo tbody tr:hover{ background-color: #FFC;}
 .tablo tbody .i{ background-color: #F4F4F4;}
-.tablo thead td, .tablo tbody td{ border: 1px solid gray; border-collapse: separate; border-style: inset; }
+.tablo thead td, .tablo thead th, .tablo tbody td{ border: 1px solid gray; border-collapse: separate; border-style: inset; }
 
 .bilan_conges_user { width: 70%; }
 .bilan_conges_user { text-align: center; }
 .bilan_conges_user thead{ background-color: #CCC; font-weight: bold; }
 .bilan_conges_user tbody{ background-color: #EAEAEA; }
 .bilan_conges_user tbody .solde{ color: red; }
-.bilan_conges_user tbody td{ font-weight: bold; }
+.bilan_conges_user tbody td th{ font-weight: bold; }
 
 
 .calendrier_saisie_date_debut { width: 320px; text-align: center; }
 .calendrier_saisie_date_debut td{ border:1px solid gray; border-collapse: separate; border-style: inset; font-size: 16px; padding: 2px;}
 .calendrier_saisie_date_debut .weekend{ background-color: #BFBFBF; }
 
-
-
+#back-top { position: fixed; bottom: 2px; margin-left: -50px; display:none;}
+#back-top a { width: 30px; display: block; text-align: center; font: 11px/100% Arial, Helvetica, sans-serif; text-transform: uppercase; text-decoration: none; color: #bbb; /* transition */ -webkit-transition: 1s; -moz-transition: 1s; transition: 1s; }
+#back-top a:hover { color: #222; }
+/* arrow icon (span tag) */
+#back-top span { width: 30px; height: 30px; display: block; margin-bottom: 3px; background: #ddd url(img/up-arrow.png) no-repeat center center; /* rounded corners */ -webkit-border-radius: 7px; -moz-border-radius: 7px; border-radius: 7px; /* transition */ -webkit-transition: 1s; -moz-transition: 1s; transition: 1s; }
+#back-top a:hover span { background-color: #777; }

@@ -60,18 +60,18 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 		echo '<table class="tablo" width="80%">';
 		echo '<thead>';
 			echo '<tr>';
-				echo '<td>';
+				echo '<th>';
 				echo  '<a href="'.$PHP_SELF.'?session='.$session.'&onglet='.$onglet.'&tri_date=descendant"><img src="'. TEMPLATE_PATH .'img/1downarrow-16x16.png" width="16" height="16" border="0" title="trier"></a>';
 				echo  _('divers_debut_maj_1')  ;
 				echo  '<a href="'.$PHP_SELF.'?session='.$session.'&onglet='.$onglet.'&tri_date=ascendant"><img src="'. TEMPLATE_PATH .'img/1uparrow-16x16.png" width="16" height="16" border="0" title="trier"></a>';
-				echo '</td>';
-				echo '<td>'. _('divers_fin_maj_1') .'</td>';
-				echo '<td>'. _('divers_type_maj_1') .'</td>';
-				echo '<td>'. _('divers_nb_jours_pris_maj_1') .'</td>';
-				echo '<td>'. _('divers_comment_maj_1') .'</td>';
-				echo '<td></td><td></td>' ;
+				echo '</th>';
+				echo '<th>'. _('divers_fin_maj_1') .'</th>';
+				echo '<th>'. _('divers_type_maj_1') .'</th>';
+				echo '<th>'. _('divers_nb_jours_pris_maj_1') .'</th>';
+				echo '<th>'. _('divers_comment_maj_1') .'</th>';
+				echo '<th></th><th></th>' ;
 				if( $_SESSION['config']['affiche_date_traitement'] ) {
-					echo '<td >'. _('divers_date_traitement') .'</td>';
+					echo '<th >'. _('divers_date_traitement') .'</th>';
 				}
 			echo '</tr>';
 		echo '</thead>';

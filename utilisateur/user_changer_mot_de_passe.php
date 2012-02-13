@@ -50,9 +50,15 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 		echo '<form action="'.$PHP_SELF.'?session='.$session.'&onglet='.$onglet.'" method="POST">';
 		echo '<table cellpadding="2" class="tablo" width="500">';
 		echo '<thead>';
+/*
 		echo '<tr>
 				<td class="titre">'. _('user_passwd_saisie_1') .'</td>
 				<td class="titre">'. _('user_passwd_saisie_2') .'</td>
+			</tr>';
+*/
+		echo '<tr>
+				<th class="titre">'. _('user_passwd_saisie_1') .'</th>
+				<th class="titre">'. _('user_passwd_saisie_2') .'</th>
 			</tr>';
 		echo '</thead>';
 		echo '<tbody>';

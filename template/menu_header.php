@@ -13,11 +13,22 @@ echo "<html>\n";
 		echo '<link type="text/css" href="'. TEMPLATE_PATH .'jquery/css/custom-theme/jquery-ui-1.8.17.custom.css" rel="stylesheet" />';
 		echo '<script type="text/javascript" src="'. TEMPLATE_PATH .'jquery/js/jquery-1.7.1.min.js"></script>';
 		echo '<script type="text/javascript" src="'. TEMPLATE_PATH .'jquery/js/jquery-ui-1.8.17.custom.min.js"></script>';
+		echo '<script type="text/javascript" src="'. TEMPLATE_PATH .'jquery/js/jquery.tablesorter.min.js"></script>';
 		include ROOT_PATH .'fonctions_javascript.php' ;
+//		include_once ROOT_PATH .'config/profile.php' ;
 		echo $additional_head;
 	echo "</head>\n";
-	echo '<body>';
-	
+	echo '<body id="top">';
+	echo '<script>
+		$(document).ready(function() { 
+			$(".tablo").tablesorter();
+						
+			$(window).scroll(function () {
+				$("#back-top").fadeIn("slow");
+				});
+			
+			});
+	</script>';
 
 	/*****************************************************************************/
 	// DEBUT AFFICHAGE DU MENU
@@ -44,7 +55,7 @@ echo "<html>\n";
 					else
 						$user_mode = '';
 					
-					echo '<div style="float: left;"><a href="'. ROOT_PATH . $home .'"><img src="'. TEMPLATE_PATH .'img/logo_adex.png"/></a></div>';	
+					echo '<div style="float: left;"><a href="'. ROOT_PATH . $home .'"><img src="'. TEMPLATE_PATH . LOGO .'"/></a></div>';	
 					
 					
 					function bouton($name, $icon ,$link, $active = false)

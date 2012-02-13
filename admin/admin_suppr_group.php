@@ -71,10 +71,10 @@ function confirmer($group, $onglet, $DEBUG=FALSE)
 	echo "<table cellpadding=\"2\" class=\"tablo\">\n";
 	echo "<thead>\n";
 	echo "<tr>\n";
-	echo "<td><b>". _('admin_groupes_groupe') ."</b></td>\n";
-	echo "<td><b>". _('admin_groupes_libelle') ." / ". _('divers_comment_maj_1') ."</b></td>\n";
+	echo "<th><b>". _('admin_groupes_groupe') ."</b></th>\n";
+	echo "<th><b>". _('admin_groupes_libelle') ." / ". _('divers_comment_maj_1') ."</b></th>\n";
 	if($_SESSION['config']['double_validation_conges'])
-		echo "	<td><b>". _('admin_groupes_double_valid') ."</b></td>\n";
+		echo "	<th><b>". _('admin_groupes_double_valid') ."</b></th>\n";
 	echo "</tr>\n";
 	echo "</thead>\n";
 	echo "<tbody>\n";

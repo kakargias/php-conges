@@ -3,6 +3,7 @@
 	defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 	include_once TEMPLATE_PATH . 'template_define.php';
 
+
 echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
 echo "<html>\n";
 	echo "<head>\n";

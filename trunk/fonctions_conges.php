@@ -2253,9 +2253,9 @@ function affiche_tableau_bilan_conges_user($login, $DEBUG=FALSE)
 				echo '<td class="quotite">'.$sql_quotite.'%</td>';
 				foreach($tab_cong_user as $id => $val){
 					if ($_SESSION['config']['gestion_conges_exceptionnels']  && in_array($id,$tab_type_conges_exceptionnels))
-						echo '<td class="solde">'.$val['solde'].' ('. _('dont_reliquat').' '.$val['reliquat'].')</td>';
+						echo '<td class="solde">'.$val['solde'].( $val['reliquat'] > 0 ? ' ('. _('dont_reliquat').' '.$val['reliquat'].')': '') .'</td>';
 					else
-						echo '<td class="annuel">'.$val['nb_an'].'</td><td class="solde">'.$val['solde'].' ('. _('dont_reliquat').' '.$val['reliquat'].')</td>';
+						echo '<td class="annuel">'.$val['nb_an'].'</td><td class="solde">'.$val['solde'].( $val['reliquat'] > 0 ?' ('. _('dont_reliquat').' '.$val['reliquat'].')':'').'</td>';
 				}
 			echo '</tr>';
 		echo '</tbody>';

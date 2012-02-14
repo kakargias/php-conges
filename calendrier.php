@@ -561,7 +561,7 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 		$tab_rtt_echange= recup_tableau_rtt_echange($mois, $first_jour, $year  , $tab_logins );
 		$tab_rtt_planifiees= recup_tableau_rtt_planifiees($mois, $first_jour, $year , $tab_logins);
 		
-
+		$tab_cong_users = recup_tableau_conges_for_users(false, $tab_logins);
 		
 		/**************************************************/
 		/**************************************************/
@@ -577,7 +577,7 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 			$test = array();
 
 			// recup dans un tableau de tableaux les nb et soldes de conges d'un user (indicé par id de conges)
-			$tab_cong_user = recup_tableau_conges_for_user($sql_login, false, $DEBUG);
+			$tab_cong_user = $tab_cong_users[ $sql_login ];
 
 			if($printable==1)
 				echo "<tr align=\"center\" class=\"cal-ligne-user-edit\">\n";

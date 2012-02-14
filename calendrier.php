@@ -333,9 +333,11 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 		/*****************************************/
 		/** Récupération des users à afficher:  **/
 		
-		$tab_all_users=array();
-		$tab_all_users=recup_tableau_des_users_a_afficher($select_groupe,$DEBUG);
+		$tab_all_users	= recup_tableau_des_users_a_afficher($select_groupe,$DEBUG);
 
+		$tab_logins = array_keys( $tab_all_users );
+		$tab_logins = array_map("SQL::quote", $tab_logins);
+		
 		/** FIN de Récupération des users à afficher:  **/
 		/************************************************/
 
@@ -549,10 +551,10 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 					// qui contient lui meme pour chaque clé : un tableau ($tab_user_rtt) qui contient enfin
 					// les infos pour le matin et l'après midi ('Y' si rtt, 'N' sinon) sur 2 semaines
 					// ( du sem_imp_lu_am au sem_p_ve_pm ) + la date de début et de fin de la grille
+		
 
-
-		$tab_rtt_echange= recup_tableau_rtt_echange($mois, $first_jour, $year );
-		$tab_rtt_planifiees= recup_tableau_rtt_planifiees($mois, $first_jour, $year );
+		$tab_rtt_echange= recup_tableau_rtt_echange($mois, $first_jour, $year  , $tab_logins );
+		$tab_rtt_planifiees= recup_tableau_rtt_planifiees($mois, $first_jour, $year , $tab_logins);
 		
 
 		
@@ -1151,9 +1153,36 @@ function affiche_select_groupe($select_groupe, $selected, $printable, $year, $mo
 function recup_tableau_des_users_a_afficher($select_groupe,  $DEBUG=FALSE)
 {
 
-		// si acces sans authentification est permis : alors droit de voir tout le monde
-		// sinon, on verifie si le user a le droite de voir tout le monde
-		if( ($_SESSION['config']['consult_calendrier_sans_auth']) && (!isset($_SESSION['userlogin'])) )
+	// si acces sans authentification est permis : alors droit de voir tout le monde
+	// sinon, on verifie si le user a le droite de voir tout le monde
+	if( ($_SESSION['config']['consult_calendrier_sans_auth']) && (!isset($_SESSION['userlogin'])) )
+	{
+		//si gestion des groupes et un groupe a ete selectionne
+		if( ($_SESSION['config']['gestion_groupes']) && ($select_groupe!=0) )
+		{
+			$sql1 = "SELECT DISTINCT u_login, u_nom, u_prenom, u_quotite FROM conges_users ";
+			$sql1 = $sql1." WHERE u_login!='conges' AND u_login!='admin' ";
+
+			//recup de la liste des users des groupes dont le user est membre
+			$list_users=get_list_users_du_groupe($select_groupe,  $DEBUG);
+			if($list_users!="")  //si la liste n'est pas vide ( serait le cas si groupe vide)
+				$sql1 = $sql1." AND u_login IN ($list_users) ORDER BY u_nom, u_prenom ";
+		}
+		else // affiche tous les users
+		{
+			$sql1 = "SELECT DISTINCT u_login, u_nom, u_prenom, u_quotite FROM conges_users ";
+			//$sql1 = $sql1." WHERE u_login!='conges' AND u_resp_login = 'conges' ORDER BY u_nom, u_prenom";
+			$sql1 = $sql1." WHERE u_login!='conges'  AND u_login!='admin' ORDER BY u_nom, u_prenom";
+		}
+	}
+	//sinon (authentification, le user est identifié)
+	else
+	{
+		//construction de la requete sql pour recupérer les users à afficher :
+
+		//si le user a le droit de voir tout le monde
+		$user_see_all_in_calendrier=get_user_see_all($_SESSION['userlogin']);
+		if($user_see_all_in_calendrier) // si le user a "u_see_all" à "Y" dans la table users : affiche tous les users
 		{
 			//si gestion des groupes et un groupe a ete selectionne
 			if( ($_SESSION['config']['gestion_groupes']) && ($select_groupe!=0) )
@@ -1164,127 +1193,100 @@ function recup_tableau_des_users_a_afficher($select_groupe,  $DEBUG=FALSE)
 				//recup de la liste des users des groupes dont le user est membre
 				$list_users=get_list_users_du_groupe($select_groupe,  $DEBUG);
 				if($list_users!="")  //si la liste n'est pas vide ( serait le cas si groupe vide)
-					$sql1 = $sql1." AND u_login IN ($list_users) ORDER BY u_nom, u_prenom ";
+				$sql1 = $sql1." AND u_login IN ($list_users) ";
+					
+				$sql1 = $sql1." ORDER BY u_nom, u_prenom";
 			}
-			else // affiche tous les users
+			else
 			{
 				$sql1 = "SELECT DISTINCT u_login, u_nom, u_prenom, u_quotite FROM conges_users ";
 				//$sql1 = $sql1." WHERE u_login!='conges' AND u_resp_login = 'conges' ORDER BY u_nom, u_prenom";
 				$sql1 = $sql1." WHERE u_login!='conges'  AND u_login!='admin' ORDER BY u_nom, u_prenom";
 			}
 		}
-		//sinon (authentification, le user est identifié)
+		// sinon (le user n'a pas le droit de voir tout le monde)
 		else
 		{
-			//construction de la requete sql pour recupérer les users à afficher :
-
-			//si le user a le droit de voir tout le monde
-			$user_see_all_in_calendrier=get_user_see_all($_SESSION['userlogin']);
-			if($user_see_all_in_calendrier) // si le user a "u_see_all" à "Y" dans la table users : affiche tous les users
+			//si gestion des groupes et un groupe a ete selectionne
+			if( ($_SESSION['config']['gestion_groupes']) && ($select_groupe!=0) )
 			{
-				//si gestion des groupes et un groupe a ete selectionne
-				if( ($_SESSION['config']['gestion_groupes']) && ($select_groupe!=0) )
-				{
-					$sql1 = "SELECT DISTINCT u_login, u_nom, u_prenom, u_quotite FROM conges_users ";
-					$sql1 = $sql1." WHERE u_login!='conges' AND u_login!='admin' ";
-	
-					//recup de la liste des users des groupes dont le user est membre
-					$list_users=get_list_users_du_groupe($select_groupe,  $DEBUG);
-					if($list_users!="")  //si la liste n'est pas vide ( serait le cas si groupe vide)
-					$sql1 = $sql1." AND u_login IN ($list_users) ";
-						
-					$sql1 = $sql1." ORDER BY u_nom, u_prenom";
-				}
-				else
-				{
-					$sql1 = "SELECT DISTINCT u_login, u_nom, u_prenom, u_quotite FROM conges_users ";
-					//$sql1 = $sql1." WHERE u_login!='conges' AND u_resp_login = 'conges' ORDER BY u_nom, u_prenom";
-					$sql1 = $sql1." WHERE u_login!='conges'  AND u_login!='admin' ORDER BY u_nom, u_prenom";
-				}
+				$sql1 = "SELECT DISTINCT u_login, u_nom, u_prenom, u_quotite FROM conges_users ";
+				$sql1 = $sql1." WHERE u_login!='conges' AND u_login!='admin' ";
+				$sql1 = $sql1.' AND ( u_login = \''.SQL::quote($_SESSION['userlogin']).'\' ';
+
+				//recup de la liste des users des groupes dont le user est membre
+				$list_users=get_list_users_du_groupe($select_groupe,  $DEBUG);
+				if($list_users!="")  //si la liste n'est pas vide ( serait le cas si groupe vide)
+					$sql1 = $sql1." OR u_login IN ($list_users) ";
+					$sql1 = $sql1." ) ";
+					
+				$sql1 = $sql1." ORDER BY u_nom, u_prenom";
 			}
-			// sinon (le user n'a pas le droit de voir tout le monde)
+			// si user n'est pas un responsable
 			else
 			{
-				//si gestion des groupes et un groupe a ete selectionne
-				if( ($_SESSION['config']['gestion_groupes']) && ($select_groupe!=0) )
+				if(is_resp($_SESSION['userlogin'])!=TRUE)
 				{
 					$sql1 = "SELECT DISTINCT u_login, u_nom, u_prenom, u_quotite FROM conges_users ";
 					$sql1 = $sql1." WHERE u_login!='conges' AND u_login!='admin' ";
-					$sql1 = $sql1.' AND ( u_login = \''.SQL::quote($_SESSION['userlogin']).'\' ';
-	
-					//recup de la liste des users des groupes dont le user est membre
-					$list_users=get_list_users_du_groupe($select_groupe,  $DEBUG);
-					if($list_users!="")  //si la liste n'est pas vide ( serait le cas si groupe vide)
-						$sql1 = $sql1." OR u_login IN ($list_users) ";
-						$sql1 = $sql1." ) ";
-						
+					
+					//si affichage par groupe : on affiche les membres des groupes du user ($_SESSION['userlogin'])
+					if( ($_SESSION['config']['gestion_groupes']) && ($_SESSION['config']['affiche_groupe_in_calendrier']) )
+					{
+						//recup de la liste des users des groupes dont le user est membre
+						$list_users=get_list_users_des_groupes_du_user($_SESSION['userlogin']);
+						if($list_users!="")  //si la liste n'est pas vide ( serait le cas si n'est membre d'aucun groupe)
+						$sql1 = $sql1." AND u_login IN ($list_users) ";
+					}
+					
 					$sql1 = $sql1." ORDER BY u_nom, u_prenom";
 				}
-				// si user n'est pas un responsable
+				// si user est un responsable
 				else
 				{
-					if(is_resp($_SESSION['userlogin'])!=TRUE)
+					$sql1 = "SELECT DISTINCT u_login, u_nom, u_prenom, u_quotite FROM conges_users ";
+					$sql1 = $sql1." WHERE u_login!='conges' AND u_login!='admin' ";
+	
+					if($_SESSION['userlogin']!="conges")
 					{
-						$sql1 = "SELECT DISTINCT u_login, u_nom, u_prenom, u_quotite FROM conges_users ";
-						$sql1 = $sql1." WHERE u_login!='conges' AND u_login!='admin' ";
-						
+						$sql1 = $sql1.' AND ( u_login = \''.SQL::quote($_SESSION['userlogin']).'\' ';
+	
 						//si affichage par groupe : on affiche les membres des groupes du user ($_SESSION['userlogin'])
 						if( ($_SESSION['config']['gestion_groupes']) && ($_SESSION['config']['affiche_groupe_in_calendrier']) )
 						{
 							//recup de la liste des users des groupes dont le user est membre
 							$list_users=get_list_users_des_groupes_du_user($_SESSION['userlogin']);
 							if($list_users!="")  //si la liste n'est pas vide ( serait le cas si n'est membre d'aucun groupe)
-							$sql1 = $sql1." AND u_login IN ($list_users) ";
+								$sql1 = $sql1." OR u_login IN ($list_users) ";
+		
 						}
 						
-						$sql1 = $sql1." ORDER BY u_nom, u_prenom";
+						//recup de la liste des users dont le user est responsable
+						$list_users_2=get_list_all_users_du_resp($_SESSION['userlogin'],  $DEBUG);
+						if($list_users_2!="")  //si la liste n'est pas vide ( serait le cas si n'est responsable d'aucun groupe)
+							$sql1 = $sql1." OR u_login IN ($list_users_2) ";
+
+						$sql1 = $sql1." ) ";
 					}
-					// si user est un responsable
-					else
-					{
-						$sql1 = "SELECT DISTINCT u_login, u_nom, u_prenom, u_quotite FROM conges_users ";
-						$sql1 = $sql1." WHERE u_login!='conges' AND u_login!='admin' ";
-		
-						if($_SESSION['userlogin']!="conges")
-						{
-							$sql1 = $sql1.' AND ( u_login = \''.SQL::quote($_SESSION['userlogin']).'\' ';
-		
-							//si affichage par groupe : on affiche les membres des groupes du user ($_SESSION['userlogin'])
-							if( ($_SESSION['config']['gestion_groupes']) && ($_SESSION['config']['affiche_groupe_in_calendrier']) )
-							{
-								//recup de la liste des users des groupes dont le user est membre
-								$list_users=get_list_users_des_groupes_du_user($_SESSION['userlogin']);
-								if($list_users!="")  //si la liste n'est pas vide ( serait le cas si n'est membre d'aucun groupe)
-									$sql1 = $sql1." OR u_login IN ($list_users) ";
-			
-							}
-							
-							//recup de la liste des users dont le user est responsable
-							$list_users_2=get_list_all_users_du_resp($_SESSION['userlogin'],  $DEBUG);
-							if($list_users_2!="")  //si la liste n'est pas vide ( serait le cas si n'est responsable d'aucun groupe)
-								$sql1 = $sql1." OR u_login IN ($list_users_2) ";
-	
-							$sql1 = $sql1." ) ";
-						}
-						
-						$sql1 = $sql1." ORDER BY u_nom, u_prenom";
-	
-					}
+					
+					$sql1 = $sql1." ORDER BY u_nom, u_prenom";
+
 				}
 			}
 		}
+	}
 
-		$ReqLog = SQL::query($sql1);
-		$tab_all_users=array();
-		while ($resultat = $ReqLog->fetch_array())
-		{
-			$tab_user=array();
-			$tab_user['nom']=$resultat["u_nom"];
-			$tab_user['prenom']=$resultat["u_prenom"];
-			$tab_user['quotite']=$resultat["u_quotite"];
-			$sql_login=$resultat["u_login"];
-			$tab_all_users[$sql_login]= $tab_user;
-		}
+	$ReqLog = SQL::query($sql1);
+	$tab_all_users=array();
+	while ($resultat = $ReqLog->fetch_array())
+	{
+		$tab_user=array();
+		$tab_user['nom']=$resultat["u_nom"];
+		$tab_user['prenom']=$resultat["u_prenom"];
+		$tab_user['quotite']=$resultat["u_quotite"];
+		$sql_login=$resultat["u_login"];
+		$tab_all_users[$sql_login]= $tab_user;
+	}
 
 	return($tab_all_users);
 }

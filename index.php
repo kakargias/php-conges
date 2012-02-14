@@ -47,6 +47,7 @@ include INCLUDE_PATH .'fonction.php';
 /************************************/
 
 
+
 if($err = getpost_variable('error', false))
 {
 	switch ($err) {

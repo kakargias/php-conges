@@ -23,18 +23,20 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
+if(isset($_SESSION['lang'])){$lang = $_SESSION['lang'];}
+else
+    {
+    /* Retrieve lang informations from config database */
+    $lang_query = "SELECT conf_valeur FROM conges_config WHERE conf_nom='lang';";
+    $ReqLang = SQL::query($lang_query);
+    $lang = $ReqLang->fetch_row();
+    if ($lang != NULL)
+        {$lang = $lang[0];}
+    }
 
+echo "profile : ".$lang;
 
-/* language determine by "locale -a" */
-//echo system('locale -a');
-
-/* Retrieve lang informations from config database */
-$lang_query = "SELECT conf_valeur FROM conges_config WHERE conf_nom='lang';";
-$ReqLang = SQL::query($lang_query);
-$lang = $ReqLang->fetch_row();
-if ($lang != NULL)
-    {$lang = $lang[0];}
-
+putenv('LANG='.$lang); // On modifie la variable d'environnement
 $LoadLang = setlocale(LC_ALL, $lang, $lang.".utf8");
 
 if(!$LoadLang)
@@ -61,6 +63,10 @@ if(!$LoadLang)
     {$LoadLang = setlocale(LC_ALL, 'es_ES', 'es_ES.utf8');}
 
 
+$nomDesFichiersDeLangue = 'php-conges'; // Le nom de nos fichiers .mo
+bindtextdomain($nomDesFichiersDeLangue, LOCALE_PATH ); // On indique le chemin vers les fichiers .mo
+    bind_textdomain_codeset($nomDesFichiersDeLangue, 'UTF-8');  // Nos fichiers de langue sont en UTF-8 
+textdomain($nomDesFichiersDeLangue); // Le nom du domaine par défaut
 
 
 ?>

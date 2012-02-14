@@ -3,10 +3,14 @@
 	include_once(ROOT_PATH.'config/profile.php');
 	include_once(ROOT_PATH .'fonctions_conges.php' );
 	
-	$locales_browser = new HTTPLocale();
-	$lang_browser = $locales_browser->language;
-	if($lang_browser) {$lang_selected = $lang_browser."_".strtoupper($lang_browser);}
-	else {$lang_selected = $lang;}
+	if (!isset($_REQUEST['lang'])) {
+		$locales_browser = new HTTPLocale();
+		$lang_browser = $locales_browser->language;
+		if($lang_browser)
+			$lang_selected = $lang_browser."_".strtoupper($lang_browser);
+		else $lang_selected = $lang;
+	}
+	$lang_selected = $lang;
 	
 	
 ?>

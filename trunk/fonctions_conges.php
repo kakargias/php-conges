@@ -2080,11 +2080,7 @@ function recup_tableau_tout_types_abs( $DEBUG=FALSE)
 // recup dans un tableau de tableaux les nb et soldes de conges d'un user (indicé par id de conges)
 function recup_tableau_conges_for_user($login, $hide_conges_exceptionnels, $DEBUG=FALSE)
 {
-
-
 	// on pourrait tout faire en un seule select, mais cela bug si on change la prise en charge des conges exceptionnels en cours d'utilisation ...
-
-	
 
 	if ($_SESSION['config']['gestion_conges_exceptionnels'] && ! $hide_conges_exceptionnels) // on prend tout les types de conges
 		$sql_bilan = 'SELECT ta_libelle, su_nb_an, su_solde, su_reliquat FROM conges_solde_user, conges_type_absence WHERE conges_type_absence.ta_id = conges_solde_user.su_abs_id AND su_login = \''.SQL::quote($login).'\' ORDER BY su_abs_id ASC';
@@ -2106,6 +2102,35 @@ function recup_tableau_conges_for_user($login, $hide_conges_exceptionnels, $DEBU
 		$tab_cong_user[$sql_id]=$tab;
 	}
 
+	return $tab_cong_user;
+}
+
+
+// recup dans un tableau de tableaux les nb et soldes de conges d'un user (indicé par id de conges)
+function recup_tableau_conges_for_users( $hide_conges_exceptionnels, $logins = false, $DEBUG=FALSE)
+{
+	// on pourrait tout faire en un seule select, mais cela bug si on change la prise en charge des conges exceptionnels en cours d'utilisation ...
+	
+	if ($logins === false)
+		$logins = '';
+	else
+		$logins = ' AND su_login IN ( \''.implode('\', \'',$login).'\) ';
+	
+	if ($_SESSION['config']['gestion_conges_exceptionnels'] && ! $hide_conges_exceptionnels) // on prend tout les types de conges
+		$sql = 'SELECT su_login, ta_libelle, su_nb_an, su_solde, su_reliquat FROM conges_solde_user, conges_type_absence WHERE conges_type_absence.ta_id = conges_solde_user.su_abs_id '.$logins.' ORDER BY su_abs_id ASC';
+	else // on prend tout les types de conges SAUF les conges exceptionnels
+		$sql = 'SELECT su_login, ta_libelle, su_nb_an, su_solde, su_reliquat FROM conges_solde_user, conges_type_absence WHERE conges_type_absence.ta_type != \'conges_exceptionnels\' AND conges_type_absence.ta_id = conges_solde_user.su_abs_id '.$logins.' ORDER BY su_abs_id ASC';
+
+	$result = SQL::query($sql);
+
+	$tab_cong_user=array();
+	while ($l = $result->fetch_array()) {
+		$tab=array();
+		$tab['nb_an']		= affiche_decimal($l["su_nb_an"]);
+		$tab['solde']		= affiche_decimal($l["su_solde"]);
+		$tab['reliquat']	= affiche_decimal($l["su_reliquat"]);
+		$tab_cong_user[ $l['su_login'] ][ $l["ta_libelle"] ]	= $tab;
+	}
 	return $tab_cong_user;
 }
 

@@ -1125,66 +1125,20 @@ function recup_tableau_rtt_planifiees($mois, $first_jour, $year,  $DEBUG=FALSE)
 					// ( du sem_imp_lu_am au sem_p_ve_pm ) + la date de début et de fin de la grille
 
 	$tab_user_grille=array();
-	$tab_user_rtt=array();
 
 	// construction du tableau $tab_rtt_planifie:
-	$req_artt_login="SELECT DISTINCT(a_login) FROM conges_artt ";
-	$res_artt_login = SQL::query($req_artt_login);
+	$sql	= 'SELECT a_login AS login, a_date_debut_grille AS date_debut_grille, a_date_fin_grille AS date_fin_grille,
+					sem_imp_lu_am, sem_imp_lu_pm, sem_imp_ma_am, sem_imp_ma_pm, sem_imp_me_am, sem_imp_me_pm,
+					sem_imp_je_am, sem_imp_je_pm, sem_imp_ve_am, sem_imp_ve_pm, sem_imp_sa_am, sem_imp_sa_pm,
+					sem_imp_di_am, sem_imp_di_pm, sem_p_lu_am, sem_p_lu_pm, sem_p_ma_am, sem_p_ma_pm,
+					sem_p_me_am, sem_p_me_pm, sem_p_je_am, sem_p_je_pm, sem_p_ve_am, sem_p_ve_pm,
+					sem_p_sa_am, sem_p_sa_pm, sem_p_di_am, sem_p_di_pm
+				FROM conges_artt;';
+	$result	= SQL::query($sql);
 
-	//$num_artt_login = $res_artt_login->num_rows;
-	while($result_artt_login = $res_artt_login->fetch_array()) // pour chaque login trouvé
-	{
-		$sql_artt_login=$result_artt_login["a_login"];
-		$tab_user_grille=array();
-
-		$req_artt = 'SELECT * FROM conges_artt WHERE a_login=\''.SQL::quote($sql_artt_login).'\' ';
-		$res_artt = SQL::query($req_artt);
-
-		$num_artt = $res_artt->num_rows;
-		while($result_artt = $res_artt->fetch_array())
-		{
-			$tab_user_rtt=array();
-			$sql_date_fin_grille=$result_artt["a_date_fin_grille"];
-			$key_grille=$sql_date_fin_grille ;
-
-			$tab_user_rtt["login"]=$sql_artt_login;
-
-			$tab_user_rtt["sem_imp_lu_am"]=$result_artt["sem_imp_lu_am"];
-			$tab_user_rtt["sem_imp_lu_pm"]=$result_artt["sem_imp_lu_pm"];
-			$tab_user_rtt["sem_imp_ma_am"]=$result_artt["sem_imp_ma_am"];
-			$tab_user_rtt["sem_imp_ma_pm"]=$result_artt["sem_imp_ma_pm"];
-			$tab_user_rtt["sem_imp_me_am"]=$result_artt["sem_imp_me_am"];
-			$tab_user_rtt["sem_imp_me_pm"]=$result_artt["sem_imp_me_pm"];
-			$tab_user_rtt["sem_imp_je_am"]=$result_artt["sem_imp_je_am"];
-			$tab_user_rtt["sem_imp_je_pm"]=$result_artt["sem_imp_je_pm"];
-			$tab_user_rtt["sem_imp_ve_am"]=$result_artt["sem_imp_ve_am"];
-			$tab_user_rtt["sem_imp_ve_pm"]=$result_artt["sem_imp_ve_pm"];
-			$tab_user_rtt["sem_imp_sa_am"]=$result_artt["sem_imp_sa_am"];
-			$tab_user_rtt["sem_imp_sa_pm"]=$result_artt["sem_imp_sa_pm"];
-			$tab_user_rtt["sem_imp_di_am"]=$result_artt["sem_imp_di_am"];
-			$tab_user_rtt["sem_imp_di_pm"]=$result_artt["sem_imp_di_pm"];
-			$tab_user_rtt["sem_p_lu_am"]=$result_artt["sem_p_lu_am"];
-			$tab_user_rtt["sem_p_lu_pm"]=$result_artt["sem_p_lu_pm"];
-			$tab_user_rtt["sem_p_ma_am"]=$result_artt["sem_p_ma_am"];
-			$tab_user_rtt["sem_p_ma_pm"]=$result_artt["sem_p_ma_pm"];
-			$tab_user_rtt["sem_p_me_am"]=$result_artt["sem_p_me_am"];
-			$tab_user_rtt["sem_p_me_pm"]=$result_artt["sem_p_me_pm"];
-			$tab_user_rtt["sem_p_je_am"]=$result_artt["sem_p_je_am"];
-			$tab_user_rtt["sem_p_je_pm"]=$result_artt["sem_p_je_pm"];
-			$tab_user_rtt["sem_p_ve_am"]=$result_artt["sem_p_ve_am"];
-			$tab_user_rtt["sem_p_ve_pm"]=$result_artt["sem_p_ve_pm"];
-			$tab_user_rtt["sem_p_sa_am"]=$result_artt["sem_p_sa_am"];
-			$tab_user_rtt["sem_p_sa_pm"]=$result_artt["sem_p_sa_pm"];
-			$tab_user_rtt["sem_p_di_am"]=$result_artt["sem_p_di_am"];
-			$tab_user_rtt["sem_p_di_pm"]=$result_artt["sem_p_di_pm"];
-
-			$tab_user_rtt["date_debut_grille"]=$result_artt["a_date_debut_grille"];
-			$tab_user_rtt["date_fin_grille"]=$result_artt["a_date_fin_grille"];
-
-			$tab_user_grille[$key_grille]=$tab_user_rtt;
-		}
-		$tab_rtt_planifiees[$sql_artt_login]=$tab_user_grille;
-	}
+	while($l = $result->fetch_array()) // pour chaque lignes	
+		$tab_rtt_planifiees[ $l['login'] ][ $l['date_fin_grille'] ] = $l;
+		
 	return $tab_rtt_planifiees;
 }
 

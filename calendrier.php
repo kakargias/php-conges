@@ -335,9 +335,13 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 		
 		$tab_all_users	= recup_tableau_des_users_a_afficher($select_groupe,$DEBUG);
 
-		$tab_logins = array_keys( $tab_all_users );
-		$tab_logins = array_map("SQL::quote", $tab_logins);
 		
+		if( ($_SESSION['config']['gestion_groupes']) && ($select_groupe!=0) ) {
+			$tab_logins = array_keys( $tab_all_users );
+			$tab_logins = array_map("SQL::quote", $tab_logins);
+		}
+		else
+			$tab_logins = false;
 		/** FIN de Récupération des users à afficher:  **/
 		/************************************************/
 
@@ -533,8 +537,7 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 		/**************************************************/
 		/* recup des info de chaque jour pour tous les users et stockage dans 1 tableau de tableaux */
 
-		$tab_calendrier=recup_tableau_periodes($mois, $first_jour, $year,  $DEBUG);
-		if( $DEBUG ) {	print_r($tab_calendrier); echo "<br>\n"; }
+		$tab_calendrier=recup_tableau_periodes($mois, $first_jour, $year,  $tab_logins);
 
 
 
@@ -994,7 +997,7 @@ function get_class_titre($sql_p_type, $tab_type_absence, $sql_p_etat, $sql_p_fer
 /**************************************************/
 /* recup des info de chaque jour pour tous les users et stockage dans 1 tableau de tableaux */
 /**************************************************/
-function recup_tableau_periodes($mois, $first_jour, $year,  $DEBUG=FALSE)
+function recup_tableau_periodes($mois, $first_jour, $year,  $tab_logins = false)
 {
 
 	$tab_calendrier=array();  //tableau indexé dont la clé est la date sous forme yyyy-mm-dd
@@ -1002,88 +1005,45 @@ function recup_tableau_periodes($mois, $first_jour, $year,  $DEBUG=FALSE)
 						// tableaux indexés contenant les infos des periode de conges dont ce jour fait partie
 						// ($tab_periode)
 
-	// pour chaque jour : (du premier jour demandé à la fin du mois ...)
-	for($j=$first_jour; checkdate($mois, $j, $year); $j++)
-	{
-		$j_timestamp=mktime (0,0,0,$mois, $j, $year);
+	
+	$timestamp_deb	= mktime (0,0,0,$mois, $first_jour, $year);
+	$timestamp_fin	= mktime (0,0,0,$mois +1 , $first_jour, $year);
+						
+	$date_deb	= date("Y-m-d", $timestamp_deb );
+	$date_fin	= date("Y-m-d", $timestamp_fin );
+	
+	$sql	= 'SELECT  p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_type, p_etat, p_fermeture_id, p_commentaire
+				FROM conges_periode
+				WHERE ( p_etat=\'ok\' OR  p_etat=\'demande\' OR  p_etat=\'valid\') 
+					AND (p_date_fin > \''.SQL::quote($date_deb).'\' AND p_date_deb < \''.SQL::quote($date_fin).'\')
+					'.($tab_logins !== false ? 'AND p_login IN (\''.implode('\', \'', $tab_logins).'\')' : '' ).'
+				ORDER BY p_date_deb;';
+	$result = SQL::query($sql);
+	while($l = $result->fetch_array()) {
 
-		$date_j=date("Y-m-d", $j_timestamp);
-		$tab_jour=array();
-
-		//$user_periode_sql = "SELECT  p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_type, p_etat FROM conges_periode WHERE ( p_etat='ok' OR  p_etat='demande' OR  p_type='formation' OR  p_type='mission' OR  p_type='autre' ) AND (p_date_deb<='$date_j' AND p_date_fin>='$date_j') ORDER BY p_date_deb ";
-		$user_periode_sql = 'SELECT  p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_type, p_etat, p_fermeture_id, p_commentaire
-						FROM conges_periode
-						WHERE ( p_etat=\'ok\' OR  p_etat=\'demande\' OR  p_etat=\'valid\') AND (p_date_deb<=\''.SQL::quote($date_j).'\' AND p_date_fin>=\''.SQL::quote($date_j).'\')
-						ORDER BY p_date_deb ';
-
-		//echo "user_periode_sql = $user_periode_sql<br>\n";
-		$user_periode_request = SQL::query($user_periode_sql);
-
-		$nb_resultat_periode = $user_periode_request->num_rows;
-		while($resultat_periode=$user_periode_request->fetch_array())
-		{
-			$tab_periode=array();
-			$tab_periode["p_login"]=$resultat_periode["p_login"];
-			$tab_periode["p_type"]=$resultat_periode["p_type"];
-			$tab_periode["p_etat"]=$resultat_periode["p_etat"];
-			$tab_periode["p_date_deb"]=$resultat_periode["p_date_deb"];
-			$tab_periode["p_date_fin"]=$resultat_periode["p_date_fin"];
-			$tab_periode["p_demi_jour_deb"]=$resultat_periode["p_demi_jour_deb"];
-			$tab_periode["p_demi_jour_fin"]=$resultat_periode["p_demi_jour_fin"];
-			$tab_periode["p_fermeture_id"]=$resultat_periode["p_fermeture_id"];
-			$tab_periode["p_commentaire"]=$resultat_periode["p_commentaire"];
+		// on ne stoque les "demandes" que pour le user qui consulte (il ne voit pas celles des autres !)(suivant l'option de config)
+		if( $l['p_etat'] != 'demande' || $_SESSION['config']['affiche_demandes_dans_calendrier'] )
+			$tab_jour	= $l;
+		elseif( isset($_SESSION['userlogin']) && $l['p_login']==$_SESSION['userlogin'] )
+			$tab_jour	= $l;
+		else
+			continue;
 			
-			// on ne stoque les "demandes" que pour le user qui consulte (il ne voit pas celles des autres !)(suivant l'option de config)
-//			if($resultat_periode["p_etat"]!="demande")
-			if(($resultat_periode["p_etat"]!="demande") || ($_SESSION['config']['affiche_demandes_dans_calendrier']) )
-				$tab_jour[]=$tab_periode;
-			elseif( (isset($_SESSION['userlogin'])) && ($resultat_periode["p_login"]==$_SESSION['userlogin']) )
-				$tab_jour[]=$tab_periode;
-		}
-		$tab_calendrier[$date_j]=$tab_jour;
-	}
-	// si le premier jour demandé n'est pas le 1ier du mois , on va jusqu'à la meme date le mois suivant :
-	if($first_jour!=1)
-	{
-		// pour chaque jour jusqu'a la date voulue : (meme num de jour le mois suivant)
-		for($j=1; $j<$first_jour; $j++)
-		{
-			$j_timestamp=mktime (0,0,0,$mois+1, $j, $year);
-
-			$date_j=date("Y-m-d", $j_timestamp);
-			$tab_jour=array();
-
-			$user_periode_sql = 'SELECT  p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_type, p_etat,  p_fermeture_id
-							FROM conges_periode 
-							WHERE ( p_etat=\'ok\' OR  p_etat=\'demande\' OR  p_etat=\'valid\') AND (p_date_deb<=\''.SQL::quote($date_j).'\' AND p_date_fin>=\''.SQL::quote($date_j).'\') ';
-			//echo "user_periode_sql = $user_periode_sql<br>\n";
-			$user_periode_request = SQL::query($user_periode_sql);
-
-			$nb_resultat_periode = $user_periode_request->num_rows;
-			while($resultat_periode=$user_periode_request->fetch_array())
-			{
-				$tab_periode=array();
-				$tab_periode["p_login"]=$resultat_periode["p_login"];
-				$tab_periode["p_type"]=$resultat_periode["p_type"];
-				$tab_periode["p_etat"]=$resultat_periode["p_etat"];
-				$tab_periode["p_date_deb"]=$resultat_periode["p_date_deb"];
-				$tab_periode["p_date_fin"]=$resultat_periode["p_date_fin"];
-				$tab_periode["p_demi_jour_deb"]=$resultat_periode["p_demi_jour_deb"];
-				$tab_periode["p_demi_jour_fin"]=$resultat_periode["p_demi_jour_fin"];
-				$tab_periode["p_fermeture_id"]=$resultat_periode["p_fermeture_id"];
-
-			// on ne stoque les "demandes" que pour le user qui consulte (il ne voit pas celles des autres !)(suivant l'option de config)
-//			if($resultat_periode["p_etat"]!="demande")
-			if(($resultat_periode["p_etat"]!="demande") || ($_SESSION['config']['affiche_demandes_dans_calendrier']) )
-				$tab_jour[]=$tab_periode;
-			elseif( (isset($_SESSION['userlogin'])) && ($resultat_periode["p_login"]==$_SESSION['userlogin']) )
-				$tab_jour[]=$tab_periode;
-
-			}
-			$tab_calendrier[$date_j]=$tab_jour;
+		$p_timestamp_deb = DateTime::createFromFormat('Y-m-d', $l['p_date_deb']);
+		$p_timestamp_fin = DateTime::createFromFormat('Y-m-d', $l['p_date_fin']);
+		
+		$p_timestamp_deb = $p_timestamp_deb->getTimestamp();
+		$p_timestamp_fin = $p_timestamp_fin->getTimestamp();
+	
+		$deb = ( $timestamp_deb < $p_timestamp_deb ? $p_timestamp_deb : $timestamp_deb);
+		$fin = ( $timestamp_fin > $p_timestamp_fin ? $p_timestamp_fin : $timestamp_fin);
+		for ($i = $deb ; $i <= $fin ; $i += 24*60*60) {
+			$date_j = date('Y-m-d',$i + 6*60*60); // for DST ???
+			if (!isset($tab_calendrier[$date_j]) || !is_array($tab_calendrier[$date_j]))
+				$tab_calendrier[$date_j] = array();
+			$tab_calendrier[$date_j][] = $tab_jour;
 		}
 	}
-
 	return $tab_calendrier;
 }
 

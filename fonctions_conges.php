@@ -655,7 +655,7 @@ function recup_infos_artt_du_jour_from_tab($sql_login, $j_timestamp, &$val_matin
 		// verif si le jour fait l'objet d'un echange ....
 		// si le jour est l'objet d'un echange, on tient compte de l'échange
 		$date_j		= date('Y-m-d', $j_timestamp);
-		if(isset($tab_rtt_echange[$date_j]) && array_key_exists($sql_login, $tab_day))   // si la periode correspond au user que l'on est en train de traiter
+		if(isset($tab_rtt_echange[$date_j]) && array_key_exists($sql_login, $tab_rtt_echange[$date_j]))   // si la periode correspond au user que l'on est en train de traiter
 		{
 			$tab_day	= $tab_rtt_echange[$date_j];  // on recup le tableau du jour
 			$val_matin	= $tab_day[$sql_login]["val_matin"];
@@ -1023,7 +1023,7 @@ function recup_tableau_rtt_echange($mois, $first_jour, $year,  $tab_logins = fal
 	$sql	= 'SELECT e_login, e_absence, e_date_jour 
 				FROM conges_echange_rtt 
 				WHERE e_date_jour >= \''.SQL::quote($date_deb).'\'
-					AND  e_date_jour <= \''.SQL::quote($date_fin).'\'
+					AND  e_date_jour < \''.SQL::quote($date_fin).'\'
 					'.($tab_logins !== false ? 'AND e_login IN (\''.implode('\', \'', $tab_logins).'\')' : '' ).';';
 	$result = SQL::query($sql);
 	while($l = $result->fetch_array()) {

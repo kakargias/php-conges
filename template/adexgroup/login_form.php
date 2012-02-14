@@ -1,4 +1,14 @@
-<div id="background">
+<?php
+	include_once(INCLUDE_PATH.'misc.class.php');
+	include_once(ROOT_PATH.'config/profile.php');
+	include_once(ROOT_PATH .'fonctions_conges.php' );
+	
+	$locales_browser = new HTTPLocale();
+	$lang_browser = $locales_browser->language;
+	if($lang_browser) {$lang_selected = $lang_browser;}
+	else {$lang_selected = $lang;}
+	
+?><div id="background">
 	<div><img src="<?php echo TEMPLATE_PATH . HEADER_LOGIN; ?>"/></div>
 	
 	<div id="login_form" class="ui-widget ui-widget-content ui-corner-all">
@@ -19,6 +29,13 @@
 					<label for="session_password"><?php echo _('password'); ?></label>
 					<input type="password" id="session_password" name="session_password" size="32" maxlength="99"  value="<?php //echo $session_password; ?>"/>
 				</div>
+				<?php
+						echo "<br><br>\n";
+						echo "Language : &nbsp;";
+							// affichage de la liste des langues supportées ...
+							// on lit le contenu du répertoire lang et on parse les nom de ficher (ex lang_fr_francais.php)
+							affiche_select_from_lang_directory($lang_selected);
+				?>
 				<div>
 					<button type="submit" class="submit"><?php echo _('form_submit'); ?></button>
 				</div>

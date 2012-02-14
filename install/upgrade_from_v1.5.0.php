@@ -61,6 +61,10 @@ $lang = (isset($_GET['lang']) ? $_GET['lang'] : (isset($_POST['lang']) ? $_POST[
 	
 	$sql_alter_1=" ALTER TABLE  `conges_users` ADD  `u_is_hr` ENUM( 'Y','N' ) NOT NULL DEFAULT 'N' AFTER `u_is_admin`;";
 	$result_alter_1 = SQL::query($sql_alter_1)  ;
+
+	$sql_update_1="UPDATE  `conges_config` SET  `conf_valeur` =  'style.css' WHERE  `conges_config`.`conf_nom` =  'stylesheet_file';";
+	$result_update_1 = SQL::query($sql_update_1)  ;
+
 	
 	// on renvoit à la page mise_a_jour.php (là d'ou on vient)
 	echo "<a href=\"mise_a_jour.php?etape=4&version=$version&lang=$lang\">upgrade_from_v1.5.0  OK</a><br>\n";

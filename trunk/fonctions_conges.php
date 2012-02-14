@@ -1203,15 +1203,26 @@ function affiche_cellule_jour_cal_saisie($login, $j_timestamp, $td_second_class,
 
 
 // recup du nom d'un groupe grace à son group_id
-function get_group_name_from_id($groupe_id,  $DEBUG=FALSE)
+function get_group_name_from_id($groupe_id)
 {
+	$req_name='SELECT g_groupename FROM conges_groupe WHERE g_gid='.SQL::quote($groupe_id);
+	$ReqLog_name = SQL::query($req_name);
 
-		$req_name='SELECT g_groupename FROM conges_groupe WHERE g_gid='.SQL::quote($groupe_id);
-		$ReqLog_name = SQL::query($req_name);
+	$resultat_name = $ReqLog_name->fetch_array();
+	return $resultat_name["g_groupename"];
+}
 
-		$resultat_name = $ReqLog_name->fetch_array();
-		return $resultat_name["g_groupename"];
-
+// recup du nom d'un groupe grace à son group_id
+function get_groups_name()
+{
+	$sql		= 'SELECT g_gid, g_groupename FROM conges_groupe;';
+	$requete	= SQL::query($sql);
+	
+	$tab = array();
+	while( $l = $requete->fetch_array() ) {
+		$tab[ $l['g_gid'] ] = $l['g_groupename'];
+	}
+	return $tab;
 }
 
 

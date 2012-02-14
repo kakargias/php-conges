@@ -107,6 +107,8 @@ header_popup($_SESSION['config']['titre_calendrier'] , $script . $css);
 	$mois_timestamp = mktime (0,0,0,$mois,1,$year);
 	$nom_mois=date_fr("F", $mois_timestamp);
 
+	$group_names =get_groups_name();
+	
 	// AFFICHAGE PAGE
 		echo '<div style="width: 2540px; text-align: right;"></div>';
 	echo "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\">\n";
@@ -120,7 +122,7 @@ header_popup($_SESSION['config']['titre_calendrier'] , $script . $css);
 		echo "   <H3>". _('calendrier_titre') ;
 //		if( ($_SESSION['config']['gestion_groupes']) && ($select_groupe!="") )
 		if( ($_SESSION['config']['gestion_groupes']) && ($select_groupe!=0) )
-			echo "   (". _('divers_groupe') ." : ".get_group_name_from_id($select_groupe, $DEBUG).")\n";
+			echo "   (". _('divers_groupe') ." : ".$group_names[ $select_groupe ].")\n";
 		echo "   </H3>\n";
 		echo "   </td>\n";
 		// AFFICHAGE DE LA SELECTION D'UN GROUPE A AFFICHER
@@ -128,7 +130,7 @@ header_popup($_SESSION['config']['titre_calendrier'] , $script . $css);
 			if( ($_SESSION['config']['gestion_groupes']) && ($printable!=1) )  // si gestion des groupes active et pas version imprimable
 			{
 				// affiche le select des groupes du user OU les groupes du resp (si user est resp) OU tous les groupes (si option de config ok)
-				affiche_select_groupe($select_groupe, $selected, $printable, $year, $mois, $first_jour, $DEBUG) ;
+				affiche_select_groupe($select_groupe, $selected, $printable, $year, $mois, $first_jour, $group_names) ;
 			}
 			else
 				echo "   <img src=\"". TEMPLATE_PATH . "img/shim.gif\" width=\"200\" height=\"10\" border=\"0\" vspace=\"0\" hspace=\"0\">\n";
@@ -1049,7 +1051,7 @@ function recup_tableau_periodes($mois, $first_jour, $year,  $tab_logins = false)
 
 // Affichage d'un SELECT de formulaire pour choix d'un groupe
 // affiche les groupes du user OU les groupes du resp (si user est resp) OU tous ls groupes (si option de config ok)
-function affiche_select_groupe($select_groupe, $selected, $printable, $year, $mois, $first_jour,  $DEBUG=FALSE)
+function affiche_select_groupe($select_groupe, $selected, $printable, $year, $mois, $first_jour,  $group_names )
 {
 
 	$PHP_SELF=$_SERVER['PHP_SELF'];
@@ -1057,22 +1059,22 @@ function affiche_select_groupe($select_groupe, $selected, $printable, $year, $mo
 
 	// quelle liste de groupes recuperer ?
 	//if( ($_SESSION['config']['consult_calendrier_sans_auth']) && (!isset($_SESSION['userlogin'])) )
-	if( is_hr($_SESSION['userlogin'], $DEBUG) )
-		$list_groupes=get_list_all_groupes( $DEBUG );
+	if( is_hr($_SESSION['userlogin']) )
+		$list_groupes=get_list_all_groupes( );
 	elseif($_SESSION['config']['calendrier_select_all_groups'])
-		$list_groupes=get_list_all_groupes( $DEBUG );
-	elseif(is_resp($_SESSION['userlogin'],  $DEBUG))
+		$list_groupes=get_list_all_groupes(  );
+	elseif(is_resp($_SESSION['userlogin'] ))
 	{
 		// on propose la liste des groupes dont user est resp + groupes dont user est membre
-		$list_groupes_1=get_list_groupes_du_resp($_SESSION['userlogin'],  $DEBUG);
-		$list_groupes_2=get_list_groupes_du_user($_SESSION['userlogin'],  $DEBUG);
+		$list_groupes_1=get_list_groupes_du_resp($_SESSION['userlogin'] );
+		$list_groupes_2=get_list_groupes_du_user($_SESSION['userlogin'] );
 		if ($list_groupes_1 == '' || $list_groupes_2 == '')
 			$list_groupes = $list_groupes_1.$list_groupes_2 ;
 		else
 			$list_groupes = $list_groupes_1.",".$list_groupes_2 ;
 	}
 	else
-		$list_groupes=get_list_groupes_du_user($_SESSION['userlogin'],  $DEBUG);
+		$list_groupes=get_list_groupes_du_user($_SESSION['userlogin'] );
 
 	echo "<form action=\"$PHP_SELF?session=$session&printable=$printable&selected=$selected&year=$year&mois=$mois&first_jour=$first_jour\" method=\"POST\">\n";
 	if (trim($list_groupes) == '')
@@ -1089,11 +1091,11 @@ function affiche_select_groupe($select_groupe, $selected, $printable, $year, $mo
 		$grp=trim($grp);
 		if($grp == $select_groupe)
 		{
-			echo "<option value=\"$grp\" selected=\"selected\">".get_group_name_from_id($grp,  $DEBUG)."</option>\n";
+			echo "<option value=\"$grp\" selected=\"selected\">".$group_names[$grp]."</option>\n";
 			$tmp = true;
 		}
 		else
-			echo "<option value=\"$grp\">".get_group_name_from_id($grp,  $DEBUG)."</option>\n";
+			echo "<option value=\"$grp\">".$group_names[$grp]."</option>\n";
 	}
 	//option pour retour a l'affichage normal ...
 	if ($tmp)

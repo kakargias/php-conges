@@ -32,7 +32,39 @@ define('IMG_INDEX','img/vacances-mer.jpg');
 define('LOGO_INDEX','img/logo_um2_v.gif');
 
 /* language determine by "locale -a" */
-setlocale(LC_ALL, 'fr_FR.utf8');
+//echo system('locale -a');
+
+/* Retrieve lang informations from config database */
+$lang_query = "SELECT conf_valeur FROM conges_config WHERE conf_nom='lang';";
+$ReqLang = SQL::query($lang_query);
+$lang = $ReqLang->fetch_row();
+if ($lang != NULL)
+    {$lang = $lang[0];}
+
+$LoadLang = setlocale(LC_ALL, $lang);
+
+if(!$LoadLang)
+    {
+    $pattern = "/".$lang."/i";
+    /* Retrieve lang informations from system */
+    $originalLocales = explode(";", setlocale(LC_ALL, 0));
+    foreach ($originalLocales as $localeSetting) {
+        if (preg_match($pattern, $localeSetting))
+            {$LoadLang = setlocale(LC_ALL, $localeSetting);}
+        }
+    }
+
+/* If we can not find the correct language, load fr... */
+if(!$LoadLang)
+    {
+    /* load default language */
+    $LoadLang = setlocale(LC_ALL, 'fr_FR', 'fr_FR.utf8');
+    }
+/* try another language... */
+if(!$LoadLang)
+    {$LoadLang = setlocale(LC_ALL, 'en_US', 'en_US.utf8');}
+if(!$LoadLang)
+    {$LoadLang = setlocale(LC_ALL, 'es_ES', 'es_ES.utf8');}
 
 
 

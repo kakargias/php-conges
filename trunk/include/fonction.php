@@ -137,6 +137,7 @@ function session_create($username)
 			$_SESSION['config']=init_config_tab();      // on initialise le tableau des variables de config
 		//$session=session_id();
 
+		$_SESSION['lang'] = $_REQUEST['lang'];
 	}
 	else
 	{

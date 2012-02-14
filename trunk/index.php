@@ -48,6 +48,8 @@ include INCLUDE_PATH .'fonction.php';
 
 
 
+// die($_SESSION['lang']);
+
 if($err = getpost_variable('error', false))
 {
 	switch ($err) {

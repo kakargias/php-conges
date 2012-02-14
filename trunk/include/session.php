@@ -43,9 +43,6 @@ $session_password="";
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : "") ) ;
 $_SESSION['lang'] = (isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST['lang'] : "") ) ;
 
-
-echo "<br />session : ".$_POST['lang']."<br />";
-
 $DEBUG=FALSE;
 //$DEBUG=TRUE;
 

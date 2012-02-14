@@ -487,13 +487,13 @@ function  affiche_calendrier_saisie_jour_absence($user_login, $year, $mois, $DEB
 	$jour_today_name			= date('D');
 
 	$first_jour_mois_timestamp	= mktime(0,0,0,$mois,1,$year);
-	$last_jour_mois_timestamp	= mktime(0,0,0,$mois +1 , -1,$year);
+	$last_jour_mois_timestamp	= mktime(0,0,0,$mois +1 , 1 ,$year);
 	
 	$mois_name					= date_fr('F', $first_jour_mois_timestamp);
 	
 	$first_jour_mois_rang		= date('w', $first_jour_mois_timestamp);      // jour de la semaine en chiffre (0=dim , 6=sam)
 	$last_jour_mois_rang		= date('w', $last_jour_mois_timestamp);      // jour de la semaine en chiffre (0=dim , 6=sam)
-	$nb_jours_mois				= ( $last_jour_mois_timestamp - $first_jour_mois_timestamp ) / (24 * 60 * 60);
+	$nb_jours_mois				= ( $last_jour_mois_timestamp - $first_jour_mois_timestamp  + 60*60 *6 ) / (24 * 60 * 60);// + 60*60 *6 for fucking DST
 	
 	if( $first_jour_mois_rang == 0 )
 		$first_jour_mois_rang=7 ;    // jour de la semaine en chiffre (1=lun , 7=dim)
@@ -509,7 +509,7 @@ function  affiche_calendrier_saisie_jour_absence($user_login, $year, $mois, $DEB
 				<tr bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'">
 					<td class="cal-saisie2">'. _('lundi_1c') .'</td>
 					<td class="cal-saisie2">'. _('mardi_1c') .'</td>
-					<td class="cal-saisie2">'. _('mercredi_1c') .'</td>
+					<td class="cal-saisie2">'. _('mercredi_1c') .'toto</td>
 					<td class="cal-saisie2">'. _('jeudi_1c') .'</td>
 					<td class="cal-saisie2">'. _('vendredi_1c') .'</td>
 					<td class="cal-saisie2">'. _('samedi_1c') .'</td>
@@ -555,13 +555,13 @@ function  affiche_calendrier_saisie_jour_presence($user_login, $year, $mois, $DE
 	$jour_today_name			= date('D');
 
 	$first_jour_mois_timestamp	= mktime(0,0,0,$mois,1,$year);
-	$last_jour_mois_timestamp	= mktime(0,0,0,$mois +1 , -1,$year);
+	$last_jour_mois_timestamp	= mktime(0,0,0,$mois +1 , 1,$year);
 	
 	$mois_name					= date_fr('F', $first_jour_mois_timestamp);
 	
 	$first_jour_mois_rang		= date('w', $first_jour_mois_timestamp);      // jour de la semaine en chiffre (0=dim , 6=sam)
 	$last_jour_mois_rang		= date('w', $last_jour_mois_timestamp);      // jour de la semaine en chiffre (0=dim , 6=sam)
-	$nb_jours_mois				= ( $last_jour_mois_timestamp - $first_jour_mois_timestamp ) / (24 * 60 * 60);
+	$nb_jours_mois				= ( $last_jour_mois_timestamp - $first_jour_mois_timestamp  + 60*60 *6 ) / (24 * 60 * 60);// + 60*60 *6 for fucking DST
 	
 	if( $first_jour_mois_rang == 0 )
 		$first_jour_mois_rang=7 ;    // jour de la semaine en chiffre (1=lun , 7=dim)

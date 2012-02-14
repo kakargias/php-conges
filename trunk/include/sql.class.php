@@ -94,15 +94,34 @@ class SQL
 
 class Database extends mysqli
 {
+	private static $hist = array();
+	
     public function __construct ( $host='localhost', $username='root', $passwd ='',$dbname = 'db_conges')
     {
 		parent::__construct (  $host , $username , $passwd , $dbname );
 		$this->query('SET NAMES \'utf8\';');
     }
 
+	public function multi_query( ) {
+		throw new Exception('Function disabled !' );
+	}
+	
+	public function real_query( ) {
+		throw new Exception('Function disabled !' );
+	}
+	
+	public function getQuerys() {
+		return self::$hist;
+	}
+	
     public function query( $query , $resultmode = MYSQLI_STORE_RESULT )
     {
+		$nb = count(self::$hist);
+		self::$hist[$nb]['query'] = $query;
+		self::$hist[$nb]['t1'] = microtime(true);
 		$result = parent::query($query, $resultmode);
+		self::$hist[$nb]['t2'] = microtime(true);
+		self::$hist[$nb]['results'] = is_object($result) ? $result->num_rows : ($result ? 'TRUE': 'FALSE');
 		if ($this->errno != 0)
 		{
 			echo '<div><table>';

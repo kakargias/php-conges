@@ -1,6 +1,7 @@
 <?php
 
 	defined( '_PHP_CONGES' ) or die( 'Restricted access' );
+	include_once ROOT_PATH .'config/profile.php' ;
 	
 	/*************************************/
 	/***  fin de la page             ***/

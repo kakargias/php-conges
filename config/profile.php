@@ -24,12 +24,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
 
-/* loaded by session.php */
-
-define('LOGO','img/logo_um2_v.gif');
-define('BOTTOM_TEXT','ISEM UMR5554 (CNRS, IRD, Université Montpellier 2)');
-define('IMG_INDEX','img/vacances-mer.jpg');
-define('LOGO_INDEX','img/logo_um2_v.gif');
 
 /* language determine by "locale -a" */
 //echo system('locale -a');

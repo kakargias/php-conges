@@ -1,7 +1,6 @@
 <?php
 
 	defined( '_PHP_CONGES' ) or die( 'Restricted access' );
-	include_once ROOT_PATH .'config/profile.php' ;
 	
 	/*************************************/
 	/***  fin de la page             ***/
@@ -16,7 +15,7 @@
 		echo '<div id="bottom" class="ui-widget-header ui-helper-clearfix ui-corner-all">';
 			echo BOTTOM_TEXT;
 		echo '</div>';
-		
+	
 		echo '<table class="tablo"><thead>';
 			echo '<tr>
 					<th>#</th>

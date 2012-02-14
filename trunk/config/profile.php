@@ -41,7 +41,7 @@ $lang = $ReqLang->fetch_row();
 if ($lang != NULL)
     {$lang = $lang[0];}
 
-$LoadLang = setlocale(LC_ALL, $lang);
+$LoadLang = setlocale(LC_ALL, $lang, $lang.".utf8");
 
 if(!$LoadLang)
     {

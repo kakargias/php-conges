@@ -655,9 +655,9 @@ function recup_infos_artt_du_jour_from_tab($sql_login, $j_timestamp, &$val_matin
 		// verif si le jour fait l'objet d'un echange ....
 		// si le jour est l'objet d'un echange, on tient compte de l'échange
 		$date_j		= date('Y-m-d', $j_timestamp);
-		$tab_day	= $tab_rtt_echange[$date_j];  // on recup le tableau du jour
-		if(array_key_exists($sql_login, $tab_day))   // si la periode correspond au user que l'on est en train de traiter
+		if(isset($tab_rtt_echange[$date_j]) && array_key_exists($sql_login, $tab_day))   // si la periode correspond au user que l'on est en train de traiter
 		{
+			$tab_day	= $tab_rtt_echange[$date_j];  // on recup le tableau du jour
 			$val_matin	= $tab_day[$sql_login]["val_matin"];
 			$val_aprem	= $tab_day[$sql_login]["val_aprem"];
 		}
@@ -1007,7 +1007,7 @@ function find_email_adress_for_user($login, $DEBUG=FALSE)
 /**************************************************/
 /* recup des échanges de rtt de chaque jour du mois pour tous les users et stockage dans 1 tableau de tableaux */
 /**************************************************/
-function recup_tableau_rtt_echange($mois, $first_jour, $year,  $DEBUG=FALSE)
+function recup_tableau_rtt_echange($mois, $first_jour, $year,  $tab_logins = false)
 {
 	$tab_rtt_echange=array();  //tableau indexé dont la clé est la date sous forme yyyy-mm-dd
 						//il contient pour chaque clé (chaque jour): un tableau indéxé ($tab_jour_rtt_echange) (clé= login)
@@ -1015,97 +1015,26 @@ function recup_tableau_rtt_echange($mois, $first_jour, $year,  $DEBUG=FALSE)
 						// jour et ce login (valeur du matin + valeur de l'apres midi ('Y' si rtt, 'N' sinon) )
 
 	// construction du tableau $tab_rtt_echange:
-
-	// pour chaque jour : (du premier jour demandé à la fin du mois ...)
-	for($j=$first_jour; checkdate($mois, $j, $year); $j++)
-	{
-
-		$j_timestamp=mktime (0,0,0,$mois, $j, $year);
-		$date_j=date("Y-m-d", $j_timestamp);
-		$tab_jour_rtt_echange=array();
-
-		$sql_echange_rtt='SELECT e_login, e_absence FROM conges_echange_rtt WHERE e_date_jour=\''.SQL::quote($date_j).'\' ';
-		$res_echange_rtt = SQL::query($sql_echange_rtt);
-
-		$num_echange_rtt = $res_echange_rtt->num_rows;
-		// si le jour est l'objet d'un echange, on tient compte de l'échange
-		if($num_echange_rtt!=0)
-		{
-			while($result_echange_rtt = $res_echange_rtt->fetch_array())
-			{
-				$tab_echange=array();
-				$login=$result_echange_rtt["e_login"];
-				if ($result_echange_rtt["e_absence"]=='J') // jour entier
-				{
-					$tab_echange["val_matin"]='Y';
-					$tab_echange["val_aprem"]='Y';
-				}
-				elseif ($result_echange_rtt["e_absence"]=='M') // matin
-				{
-					$tab_echange["val_matin"]='Y';
-					$tab_echange["val_aprem"]='N';
-				}
-				elseif ($result_echange_rtt["e_absence"]=='A') // apres-midi
-				{
-					$tab_echange["val_matin"]='N';
-					$tab_echange["val_aprem"]='Y';
-				}
-				else
-				{
-					$tab_echange["val_matin"]='N';
-					$tab_echange["val_aprem"]='N';
-				}
-				$tab_jour_rtt_echange[$login]=$tab_echange;
-			}
-		}
-		$tab_rtt_echange[$date_j]=$tab_jour_rtt_echange;
+	
+	$date_deb	= date("Y-m-d", mktime (0,0,0,$mois, $first_jour, $year) );
+	$date_fin	= date("Y-m-d", mktime (0,0,0,$mois + 1 , $first_jour, $year) );
+	
+	
+	$sql	= 'SELECT e_login, e_absence, e_date_jour 
+				FROM conges_echange_rtt 
+				WHERE e_date_jour >= \''.SQL::quote($date_deb).'\'
+					AND  e_date_jour <= \''.SQL::quote($date_fin).'\'
+					'.($tab_logins !== false ? 'AND e_login IN (\''.implode('\', \'', $tab_logins).'\')' : '' ).';';
+	$result = SQL::query($sql);
+	while($l = $result->fetch_array()) {
+		$tab_echange = array();
+		
+		$tab_echange["val_matin"] = ($l["e_absence"]=='J' || $l["e_absence"]='M' ? 'Y' : 'N');
+		$tab_echange["val_aprem"] = ($l["e_absence"]=='J' || $l["e_absence"]='A' ? 'Y' : 'N');
+		
+		$tab_rtt_echange[ $l['e_date_jour'] ][ $l["e_login"] ] = $tab_echange;
 	}
-
-	// si le premier jour demandé n'est pas le 1ier du mois , on va jusqu'à la meme date le mois suivant :
-	if($first_jour!=1) {
-		// pour chaque jour jusqu'a la date voulue : (meme num de jour le mois suivant)
-		for($j=1; $j<$first_jour; $j++)
-		{
-			$j_timestamp=mktime (0,0,0,$mois+1, $j, $year);
-			$date_j=date("Y-m-d", $j_timestamp);
-			$tab_jour_rtt_echange=array();
-
-			$sql_echange_rtt='SELECT e_login, e_absence FROM conges_echange_rtt WHERE e_date_jour=\''.SQL::quote($date_j).'\' ';
-			$res_echange_rtt = SQL::query($sql_echange_rtt);
-			$num_echange_rtt = $res_echange_rtt->num_rows;
-			// si le jour est l'objet d'un echange, on tient compte de l'échange
-			if($num_echange_rtt!=0)
-			{
-				while($result_echange_rtt = $res_echange_rtt->fetch_array())
-				{
-					$tab_echange=array();
-					$login=$result_echange_rtt["e_login"];
-					if ($result_echange_rtt["e_absence"]=='J') // jour entier
-					{
-						$tab_echange["val_matin"]='Y';
-						$tab_echange["val_aprem"]='Y';
-					}
-					elseif ($result_echange_rtt["e_absence"]=='M') // matin
-					{
-						$tab_echange["val_matin"]='Y';
-						$tab_echange["val_aprem"]='N';
-					}
-					elseif ($result_echange_rtt["e_absence"]=='A') // apres-midi
-					{
-						$tab_echange["val_matin"]='N';
-						$tab_echange["val_aprem"]='Y';
-					}
-					else
-					{
-						$tab_echange["val_matin"]='N';
-						$tab_echange["val_aprem"]='N';
-					}
-					$tab_jour_rtt_echange[$login]=$tab_echange;
-				}
-			}
-			$tab_rtt_echange[$date_j]=$tab_jour_rtt_echange;
-		}
-	}
+	
 	return $tab_rtt_echange;
 }
 
@@ -1114,8 +1043,7 @@ function recup_tableau_rtt_echange($mois, $first_jour, $year,  $DEBUG=FALSE)
 /**************************************************/
 /* recup dans un tableau des rtt planifiées  pour tous les users */
 /**************************************************/
-function recup_tableau_rtt_planifiees($mois, $first_jour, $year,  $DEBUG=FALSE)
-{
+function recup_tableau_rtt_planifiees($mois, $first_jour, $year , $tab_logins = false ) {
 
 	$tab_rtt_planifiees=array();  //tableau indexé dont la clé est le login_user
 					// il contient pour chaque clé login : un tableau ($tab_user_grille) indexé dont la
@@ -1124,7 +1052,6 @@ function recup_tableau_rtt_planifiees($mois, $first_jour, $year,  $DEBUG=FALSE)
 					// les infos pour le matin et l'après midi ('Y' si rtt, 'N' sinon) sur 2 semaines
 					// ( du sem_imp_lu_am au sem_p_ve_pm ) + la date de début et de fin de la grille
 
-	$tab_user_grille=array();
 
 	// construction du tableau $tab_rtt_planifie:
 	$sql	= 'SELECT a_login AS login, a_date_debut_grille AS date_debut_grille, a_date_fin_grille AS date_fin_grille,
@@ -1133,7 +1060,7 @@ function recup_tableau_rtt_planifiees($mois, $first_jour, $year,  $DEBUG=FALSE)
 					sem_imp_di_am, sem_imp_di_pm, sem_p_lu_am, sem_p_lu_pm, sem_p_ma_am, sem_p_ma_pm,
 					sem_p_me_am, sem_p_me_pm, sem_p_je_am, sem_p_je_pm, sem_p_ve_am, sem_p_ve_pm,
 					sem_p_sa_am, sem_p_sa_pm, sem_p_di_am, sem_p_di_pm
-				FROM conges_artt;';
+				FROM conges_artt'.($tab_logins === false ?'': ' WHERE a_login IN ( \''.implode('\', \'', $tab_logins ).'\')').';';
 	$result	= SQL::query($sql);
 
 	while($l = $result->fetch_array()) // pour chaque lignes	

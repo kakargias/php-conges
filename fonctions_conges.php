@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 include_once  INCLUDE_PATH .'sql.class.php';
-include_once  INCLUDE_PATH .'get_text.php';
+// include_once  INCLUDE_PATH .'get_text.php';
 
 // affichage du calendrier avec les case à cocher, du mois du début du congés
 function  affiche_calendrier_saisie_date($user_login, $year, $mois, $type_debut_fin , $DEBUG=FALSE)
@@ -2421,7 +2421,7 @@ function affiche_select_from_lang_directory( $select_name, $default )
 {
 	if(empty($select_name)){$select_name = 'lang';}
 	if(empty($default)){$default = 'fr_FR';}
-	echo "<select name=$select_name>\n";
+	echo '<select id="'.$select_name.'" name="'.$select_name.'">';
 	$langs = glob( LOCALE_PATH .'*' );
 	var_dump( $langs );
 	foreach($langs as $lang ) {

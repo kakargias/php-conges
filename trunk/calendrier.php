@@ -45,6 +45,7 @@ if(substr($session, 0, 9)!="phpconges")
 }
 else
 	include INCLUDE_PATH .'session.php';
+	include ROOT_PATH .'config/profile.php';
 
 $DEBUG=FALSE;
 //$DEBUG=TRUE ;

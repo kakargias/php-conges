@@ -2417,8 +2417,10 @@ function verif_droits_user($session, $niveau_droits, $DEBUG=FALSE)
 
 
 // on lit le contenu du répertoire lang et on parse les nom de ficher (ex lang_fr_francais.php)
-function affiche_select_from_lang_directory( $select_name = 'lang' , $default = 'fr_FR' )
+function affiche_select_from_lang_directory( $select_name, $default )
 {
+	if(empty($select_name)){$select_name = 'lang';}
+	if(empty($default)){$default = 'fr_FR';}
 	echo "<select name=$select_name>\n";
 	$langs = glob( LOCALE_PATH .'*' );
 	var_dump( $langs );

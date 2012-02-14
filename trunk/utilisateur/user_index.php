@@ -33,6 +33,7 @@ $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session']
 include ROOT_PATH .'fonctions_conges.php' ;
 include INCLUDE_PATH .'fonction.php';
 include INCLUDE_PATH .'session.php';
+include_once ROOT_PATH .'config/profile.php';
 include ROOT_PATH .'fonctions_calcul.php';
 // include_once  INCLUDE_PATH .'sql.class.php';
 

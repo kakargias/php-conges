@@ -5,8 +5,9 @@
 	
 	$locales_browser = new HTTPLocale();
 	$lang_browser = $locales_browser->language;
-	if($lang_browser) {$lang_selected = $lang_browser;}
+	if($lang_browser) {$lang_selected = $lang_browser."_".strtoupper($lang_browser);}
 	else {$lang_selected = $lang;}
+	
 	
 ?>
 <div id="background">
@@ -35,7 +36,7 @@
 						echo "Language : &nbsp;";
 							// affichage de la liste des langues supportées ...
 							// on lit le contenu du répertoire lang et on parse les nom de ficher (ex lang_fr_francais.php)
-							affiche_select_from_lang_directory($lang_selected);
+							affiche_select_from_lang_directory('lang',$lang_selected);
 				?>
 				<div>
 					<button type="submit" class="submit"><?php echo _('form_submit'); ?></button>

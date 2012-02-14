@@ -26,8 +26,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-include_once  INCLUDE_PATH .'get_text.php';
-include_once(ROOT_PATH."config/profile.php");
+//include_once(ROOT_PATH."config/profile.php");
+//include_once  INCLUDE_PATH .'get_text.php';
 
 //
 // MAIN
@@ -41,6 +41,10 @@ $session_password="";
 //
 // recup du num  de session (mais on ne sais pas s'il est passé en GET ou POST
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : "") ) ;
+$_SESSION['lang'] = (isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST['lang'] : "") ) ;
+
+
+echo "<br />session : ".$_POST['lang']."<br />";
 
 $DEBUG=FALSE;
 //$DEBUG=TRUE;

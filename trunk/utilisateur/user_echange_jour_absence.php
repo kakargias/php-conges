@@ -509,7 +509,7 @@ function  affiche_calendrier_saisie_jour_absence($user_login, $year, $mois, $DEB
 				<tr bgcolor="'.$_SESSION['config']['light_grey_bgcolor'].'">
 					<td class="cal-saisie2">'. _('lundi_1c') .'</td>
 					<td class="cal-saisie2">'. _('mardi_1c') .'</td>
-					<td class="cal-saisie2">'. _('mercredi_1c') .'toto</td>
+					<td class="cal-saisie2">'. _('mercredi_1c') .'</td>
 					<td class="cal-saisie2">'. _('jeudi_1c') .'</td>
 					<td class="cal-saisie2">'. _('vendredi_1c') .'</td>
 					<td class="cal-saisie2">'. _('samedi_1c') .'</td>

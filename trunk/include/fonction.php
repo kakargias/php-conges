@@ -30,7 +30,7 @@ include_once   INCLUDE_PATH .'sql.class.php';
 include_once   INCLUDE_PATH .'fonction_hr.php';
 include_once   INCLUDE_PATH .'fonction_config.php';
 include_once   INCLUDE_PATH .'fonction_admin.php';
-include_once   ROOT_PATH .'config/profile.php';
+include_once   INCLUDE_PATH .'lang_profile.php';
 
 
 function schars( $htmlspec ) {

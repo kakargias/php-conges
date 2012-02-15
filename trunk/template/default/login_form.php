@@ -1,6 +1,6 @@
 <?php
 	include_once(INCLUDE_PATH.'misc.class.php');
-	include_once(ROOT_PATH.'config/profile.php');
+	include_once(INCLUDE_PATH.'lang_profile.php');
 	include_once(ROOT_PATH .'fonctions_conges.php' );
 	
 	if (!isset($_REQUEST['lang'])) {
@@ -35,13 +35,10 @@
 					<label for="session_password"><?php echo _('password'); ?></label>
 					<input type="password" id="session_password" name="session_password" size="32" maxlength="99"  value="<?php //echo $session_password; ?>"/>
 				</div>
-				<?php
-						echo "<br><br>\n";
-						echo "Language : &nbsp;";
-							// affichage de la liste des langues supportées ...
-							// on lit le contenu du répertoire lang et on parse les nom de ficher (ex lang_fr_francais.php)
-							affiche_select_from_lang_directory('lang',$lang_selected);
-				?>
+ 				<div class="language">
+ 					<label for="lang"><?php echo _('Langue'); ?></label>
+ 					<?php affiche_select_from_lang_directory('lang',$lang_selected); ?>
+ 				</div>
 				<div>
 					<button type="submit" class="submit"><?php echo _('form_submit'); ?></button>
 				</div>

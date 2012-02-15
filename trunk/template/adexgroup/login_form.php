@@ -1,6 +1,6 @@
 <?php
 	include_once(INCLUDE_PATH.'misc.class.php');
-	include_once(ROOT_PATH.'config/profile.php');
+	include_once(INCLUDE_PATH.'lang_profile.php');
 	include_once(ROOT_PATH .'fonctions_conges.php' );
 	
 	if (!isset($_REQUEST['lang'])) {

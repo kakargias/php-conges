@@ -30,7 +30,9 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : "") ) ;
 
-include CONFIG_PATH .'config_ldap.php';
+if (file_exists(CONFIG_PATH .'config_ldap.php'))
+	include CONFIG_PATH .'config_ldap.php';
+	
 include ROOT_PATH .'fonctions_conges.php' ;
 include INCLUDE_PATH .'fonction.php';
 if(!isset($_SESSION['config']))
@@ -137,7 +139,8 @@ function affichage($session, $DEBUG=FALSE)
 			echo "Choose your language :<br>\n";
 			// affichage de la liste des langues supportées ...
 			// on lit le contenu du répertoire lang et on parse les nom de ficher (ex lang_fr_francais.php)
-			affiche_select_from_lang_directory("tab_new_values[$conf_nom]");
+			//affiche_select_from_lang_directory("tab_new_values[$conf_nom]");
+			affiche_select_from_lang_directory('lang', $conf_valeur);
 		}
 		else
 		{

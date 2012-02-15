@@ -1856,8 +1856,14 @@ function init_config_tab()
 		
 		include ROOT_PATH .'version.php';
 		include CONFIG_PATH .'dbconnect.php';
-		include CONFIG_PATH .'config_ldap.php';
-		include CONFIG_PATH .'config_CAS.php';
+		if (file_exists(CONFIG_PATH .'config_ldap.php'))
+			{
+			include CONFIG_PATH .'config_ldap.php';
+			}
+		if (file_exists(CONFIG_PATH .'config_CAS.php'))
+			{
+			include CONFIG_PATH .'config_CAS.php';
+			}
 		$tab =array();
 
 

@@ -3,14 +3,17 @@
 	include_once(INCLUDE_PATH.'lang_profile.php');
 	include_once(ROOT_PATH .'fonctions_conges.php' );
 	
-	if (!isset($_REQUEST['lang'])) {
-		$locales_browser = new HTTPLocale();
-		$lang_browser = $locales_browser->language;
-		if($lang_browser)
-			$lang_selected = $lang_browser."_".strtoupper($lang_browser);
-		else $lang_selected = $lang;
-	}
-	$lang_selected = $lang;
+	// adexgroup ne veux pas de choix de langue ... 
+	// en plus c'est pas encore stable et les traductions sont non completes
+	
+	// if (!isset($_REQUEST['lang'])) {
+		// $locales_browser = new HTTPLocale();
+		// $lang_browser = $locales_browser->language;
+		// if($lang_browser)
+			// $lang_selected = $lang_browser."_".strtoupper($lang_browser);
+		// else $lang_selected = $lang;
+	// }
+	// $lang_selected = $lang;
 	
 	
 ?>
@@ -35,10 +38,11 @@
 					<label for="session_password"><?php echo _('password'); ?></label>
 					<input type="password" id="session_password" name="session_password" size="32" maxlength="99"  value="<?php //echo $session_password; ?>"/>
 				</div>
+				<!-- ADEX ne veux pas du choix de langue !
 				<div class="language">
-					<label for="lang"><?php echo _('Langue'); ?></label>
-					<?php affiche_select_from_lang_directory('lang',$lang_selected); ?>
-				</div>
+					<label for="lang"><?php // echo _('Langue'); ?></label>
+					<?php // affiche_select_from_lang_directory('lang',$lang_selected); ?>
+				</div>-->
 				<div>
 					<button type="submit" class="submit"><?php echo _('form_submit'); ?></button>
 				</div>
@@ -83,3 +87,4 @@
 	}
 
 ?>
+</div>

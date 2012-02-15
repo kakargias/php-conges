@@ -30,7 +30,9 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : "") ) ;
 
-include CONFIG_PATH .'config_ldap.php';
+if (file_exists(CONFIG_PATH .'config_ldap.php'))
+	include CONFIG_PATH .'config_ldap.php';
+	
 include ROOT_PATH .'fonctions_conges.php' ;
 include INCLUDE_PATH .'fonction.php';
 if(!isset($_SESSION['config']))

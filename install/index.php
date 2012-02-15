@@ -59,7 +59,7 @@ $lang=(isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST[
 			echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n";
 			// affichage de la liste des langues supportées ...
 			// on lit le contenu du répertoire lang et on parse les nom de ficher (ex lang_fr_francais.php)
-			affiche_select_from_lang_directory();
+			affiche_select_from_lang_directory("", "");
 
 			echo "<br>\n";
 			echo "<input type=\"submit\" value=\"OK\">\n";

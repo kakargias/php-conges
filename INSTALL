@@ -1,0 +1,15 @@
+PHP-CONGES
+
+----
+INSTALL
+Create a database for this application with a user who can access it and modify informations on it (grant access).
+
+Edit cfg/dbconnect_new.php to configure access to database and rename it to cfg/dbconnect.php
+
+Then rename define_new.php to define.php.
+
+
+----
+CONFIGURE
+Change the template if you want in this file :
+	Copy the original files in template/default directory to a new one and change the value in define.php.

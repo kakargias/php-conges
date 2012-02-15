@@ -26,9 +26,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-//include_once(ROOT_PATH."config/profile.php");
-//include_once  INCLUDE_PATH .'get_text.php';
-
 //
 // MAIN
 //

@@ -15,7 +15,7 @@ echo "<html>\n";
 		echo '<script type="text/javascript" src="'. TEMPLATE_PATH .'jquery/js/jquery-1.7.1.min.js"></script>';
 		echo '<script type="text/javascript" src="'. TEMPLATE_PATH .'jquery/js/jquery-ui-1.8.17.custom.min.js"></script>';
 		echo '<script type="text/javascript" src="'. TEMPLATE_PATH .'jquery/js/jquery.tablesorter.min.js"></script>';
-		include_once ROOT_PATH .'fonctions_javascript.php' ;
+		include ROOT_PATH .'fonctions_javascript.php' ;
 		include_once INCLUDE_PATH .'lang_profile.php' ;
 		echo $additional_head;
 	echo "</head>\n";

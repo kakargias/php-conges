@@ -672,7 +672,8 @@ function recup_infos_artt_du_jour_from_tab($sql_login, $j_timestamp, &$val_matin
 
 			// recup des ARTT et temps-partiels du user :
 			// recup des grille du user
-			$tab_grille_user=$tab_rtt_planifiees[$sql_login];
+			$tab_grille_user = array();
+			$tab_grille_user = $tab_rtt_planifiees[$sql_login];
 			// parcours du tableau des grille pour trouver la key qui correspond à la bonne période
 			if(count($tab_grille_user)) {
 				foreach ($tab_grille_user as $key => $value) {

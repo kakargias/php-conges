@@ -36,7 +36,6 @@ else {
         $lang = $lang[0];
 }
 
-
 putenv('LANG='.$lang); // On modifie la variable d'environnement
 $LoadLang = setlocale(LC_ALL, $lang, $lang.".utf8");
 

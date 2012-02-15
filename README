@@ -4,9 +4,11 @@ PHP-CONGES
 INSTALL
 Create a database for this application with a user who can access it and modify informations on it (grant access).
 
-Copy cfg/dbconnect_new.php to cfg/dbconnect.php and configure access to database by editing this new file with informations you enter previously.
-
-Then rename define_new.php to define.php.
+Copy and edits proprely this files :
+	cfg/dbconnect_new.php	to cfg/dbconnect.php
+	cfg/dconfig_CAS_new.php	to cfg/config_CAS.php
+	cfg/config_ldap_new.php	to cfg/config_ldap.php
+	define_new.php			to define.php
 
 
 ----

@@ -1740,6 +1740,22 @@ function is_hr($login,  $DEBUG=FALSE)
 
 	return ($sql_is_hr[$login]=='Y');
 }
+// verifie si un user est valide ou pas
+// renvoit TRUE si le login est enable dans la table conges_users, FALSE sinon.
+function is_enable($login,  $DEBUG=FALSE)
+{
+	static $sql_is_enable = array();
+	if (!isset($sql_is_enable[$login])) {
+		// recup de qq infos sur le user
+		$select_info="SELECT u_is_enable FROM conges_users WHERE u_login='$login' ";
+		$ReqLog_info = SQL::query($select_info);
+
+		$resultat_info = $ReqLog_info->fetch_array();
+		$sql_is_enable[$login]=$resultat_info["u_is_enable"];
+	}
+
+	return ($sql_is_enable[$login]=='Y');
+}
 
 // verifie si un user est responasble d'un secon user
 // renvoit TRUE si le $resp_login est responsable du $user_login, FALSE sinon.
@@ -1965,7 +1981,7 @@ function init_config_tab()
 		//  recup de qq infos sur le user
 		if(isset($_SESSION['userlogin']))
 		{
-			$sql_user = "SELECT u_nom, u_prenom, u_is_resp, u_is_admin , u_is_hr FROM conges_users WHERE u_login='".$_SESSION['userlogin']."' ";
+			$sql_user = "SELECT u_nom, u_prenom, u_is_resp, u_is_admin, u_is_hr, u_is_enable FROM conges_users WHERE u_login='".$_SESSION['userlogin']."' ";
 			$req_user = SQL::query($sql_user) ;
 
 			if($data_user = $req_user->fetch_array())
@@ -1975,6 +1991,7 @@ function init_config_tab()
 				$_SESSION['is_resp']=$data_user[2] ;
 				$_SESSION['is_admin']=$data_user[3] ;
 				$_SESSION['is_hr']=$data_user[4] ;
+				$_SESSION['is_enable']=$data_user[5] ;
 			}
 		}
 
@@ -2194,7 +2211,7 @@ function recup_infos_du_user($login, $list_groups_double_valid, $DEBUG=FALSE)
 {
     $tab=array();
 
-    $sql1 = 'SELECT u_login, u_nom, u_prenom, u_is_resp, u_resp_login, u_is_admin, u_is_hr, u_see_all, u_passwd, u_quotite, u_email, u_num_exercice FROM conges_users ' .
+    $sql1 = 'SELECT u_login, u_nom, u_prenom, u_is_resp, u_resp_login, u_is_admin, u_is_hr, u_is_enable, u_see_all, u_passwd, u_quotite, u_email, u_num_exercice FROM conges_users ' .
             'WHERE u_login=\''.SQL::quote($login).'\';';
 
     $ReqLog = SQL::query($sql1) ;
@@ -2209,6 +2226,7 @@ function recup_infos_du_user($login, $list_groups_double_valid, $DEBUG=FALSE)
         $tab_user['resp_login']=$resultat["u_resp_login"];
         $tab_user['is_admin']=$resultat["u_is_admin"];
         $tab_user['is_hr']=$resultat["u_is_hr"];
+        $tab_user['is_enable']=$resultat["u_is_enable"];
         $tab_user['see_all']=$resultat["u_see_all"];
         $tab_user['passwd']=$resultat["u_passwd"];
         $tab_user['quotite']=$resultat["u_quotite"];
@@ -2398,7 +2416,7 @@ function verif_droits_user($session, $niveau_droits, $DEBUG=FALSE)
 	
 	$niveau_droits = strtolower($niveau_droits);
 
-    // verif si $_SESSION['is_admin'] ou $_SESSION['is_resp'] ou $_SESSION['is_hr'] =="N"
+    // verif si $_SESSION['is_admin'] ou $_SESSION['is_resp'] ou $_SESSION['is_hr'] =="N" ou $_SESSION['is_enable'] =="N"
     if($_SESSION[$niveau_droits]=="N")
     {
         // on recupere les variable utiles pour le suite :

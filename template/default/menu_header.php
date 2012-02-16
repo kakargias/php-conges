@@ -105,6 +105,12 @@ echo "<html>\n";
 					
 					$PHP_SELF=$_SERVER['PHP_SELF'];
 					$session=session_id();
+					if (is_enable($_SESSION['userlogin']))
+						$_SESSION['is_enable'] = "Y";
+					else
+						$_SESSION['is_enable'] = "N";
+					verif_droits_user($_SESSION['is_enable'], "is_enable", FALSE);
+					
 					$onglet = getpost_variable('onglet');
 					bouton('Actualiser'		,'refresh.png'	,$PHP_SELF.'?session='.$session.'&onglet='.$onglet);
 		

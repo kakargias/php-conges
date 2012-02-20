@@ -62,8 +62,11 @@ $lang = (isset($_GET['lang']) ? $_GET['lang'] : (isset($_POST['lang']) ? $_POST[
 	$sql_alter_1=" ALTER TABLE  `conges_users` ADD  `u_is_hr` ENUM( 'Y','N' ) NOT NULL DEFAULT 'N' AFTER `u_is_admin`;";
 	$result_alter_1 = SQL::query($sql_alter_1)  ;
 
-	$sql_alter_1=" ALTER TABLE  `conges_users` ADD  `u_is_enable` ENUM( 'Y','N' ) NOT NULL DEFAULT 'Y' AFTER `u_is_hr`;";
-	$result_alter_1 = SQL::query($sql_alter_1)  ;
+	$sql_alter_2=" ALTER TABLE  `conges_users` ADD  `u_is_enable` ENUM( 'Y','N' ) NOT NULL DEFAULT 'Y' AFTER `u_is_hr`;";
+	$result_alter_2 = SQL::query($sql_alter_2)  ;
+
+	$sql_insert_1="INSERT INTO  `db_conges`.`conges_config` (`conf_nom` ,`conf_valeur` ,`conf_groupe` ,`conf_type` ,`conf_commentaire`) VALUES ('print_disable_users',  'FALSE',  '06_Responsable',  'Boolean',  'config_comment_print_disable_users');";
+	$result_insert_1= SQL::query($sql_insert_1)  ;
 
 	$sql_update_1="UPDATE  `conges_config` SET  `conf_valeur` =  'style.css' WHERE  `conges_config`.`conf_nom` =  'stylesheet_file';";
 	$result_update_1 = SQL::query($sql_update_1)  ;

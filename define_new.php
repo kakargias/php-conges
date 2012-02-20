@@ -6,6 +6,7 @@ defined( 'ROOT_PATH' ) or die( 'ROOT_PATH not defined !' );
 
 if (!defined( 'DEFINE_INCLUDE' )) {
 	define('DEFINE_INCLUDE',	true);
+	define('SHOW_SQL',			false);
 	
 	define('LIBRARY_PATH',		ROOT_PATH . 'library/');
 	define('INCLUDE_PATH',		ROOT_PATH . 'include/');

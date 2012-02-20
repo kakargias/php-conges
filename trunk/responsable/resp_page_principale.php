@@ -87,7 +87,9 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 	{
 		$i = true;
 		foreach($tab_all_users as $current_login => $tab_current_user)
-		{		
+		{
+		if($tab_current_user['is_enable'] == "Y" || $_SESSION['config']['print_disable_users'] == 'TRUE')
+			{			
 			//tableau de tableaux les nb et soldes de conges d'un user (indicé par id de conges)
 			$tab_conges=$tab_current_user['conges']; 
 	
@@ -112,6 +114,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 				echo "<td>$text_edit_papier</td>";
 			echo "</tr>\n";
 			$i = !$i;
+			}
 		}
 	}
 

@@ -15,30 +15,30 @@
 		echo '<div id="bottom" class="ui-widget-header ui-helper-clearfix ui-corner-all">';
 			echo BOTTOM_TEXT;
 		echo '</div>';
-	
-		echo '<table class="tablo"><thead>';
-			echo '<tr>
-					<th>#</th>
-					<th>Time</th>
-					<th>Total</th>
-					<th>Results</th>
-					<th>Query</th>
-				</tr>';
-		echo '</thead><tbody>';
-		$querys = SQL::getQuerys();
-		$total = 0;
-		foreach($querys as $num => $v) {
-			$time = $v['t2'] - $v['t1'];
-			$total += $time;
-			echo '<tr>
-					<td>'.$num.'</td>
-					<td>'.$time.'</td>
-					<td>'.$total.'</td>
-					<td>'.$v['results'].'</td>
-					<td>'.$v['query'].'</td>
-				</tr>';
+		if ( SHOW_SQL ) {
+			echo '<table class="tablo"><thead>';
+				echo '<tr>
+						<th>#</th>
+						<th>Time</th>
+						<th>Total</th>
+						<th>Results</th>
+						<th>Query</th>
+					</tr>';
+			echo '</thead><tbody>';
+			$querys = SQL::getQuerys();
+			$total = 0;
+			foreach($querys as $num => $v) {
+				$time = $v['t2'] - $v['t1'];
+				$total += $time;
+				echo '<tr>
+						<td>'.$num.'</td>
+						<td>'.$time.'</td>
+						<td>'.$total.'</td>
+						<td>'.$v['results'].'</td>
+						<td>'.$v['query'].'</td>
+					</tr>';
+			}
+			echo '</tbody></table>';
 		}
-		echo '</tbody></table>';
-	
 	echo '</body>';
 echo '</html>';

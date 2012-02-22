@@ -117,6 +117,17 @@ class Database extends mysqli
     public function query( $query , $resultmode = MYSQLI_STORE_RESULT )
     {
 		$nb = count(self::$hist);
+		
+		$backtraces = debug_backtrace();
+		$f = false;
+		foreach ( $backtraces as $k => $b ) {
+			if (isset($b['file']) && basename($b['file']) != 'sql.class.php') {
+				$f = $b;
+				break;
+			}
+		}
+		if ($f)
+			self::$hist[$nb]['back'] = $f;
 		self::$hist[$nb]['query'] = $query;
 		self::$hist[$nb]['t1'] = microtime(true);
 		$result = parent::query($query, $resultmode);

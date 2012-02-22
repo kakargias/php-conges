@@ -6,6 +6,8 @@
 						<th>Time</th>
 						<th>Total</th>
 						<th>Results</th>
+						<th>File</th>
+						<th>Line</th>
 						<th>Query</th>
 					</tr>';
 			echo '</thead><tbody>';
@@ -19,6 +21,8 @@
 						<td>'.$time.'</td>
 						<td>'.$total.'</td>
 						<td>'.$v['results'].'</td>
+						<td>'.$v['back']['file'].'</td>
+						<td>'.$v['back']['line'].'</td>
 						<td>'.$v['query'].'</td>
 					</tr>';
 			}

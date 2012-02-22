@@ -2016,16 +2016,15 @@ function getpost_variable($variable, $default="")
 
 
 // recup TRUE si le user a "u_see_all" à 'Y' dans la table users, FALSE sinon
-function get_user_see_all($login,  $DEBUG=FALSE)
+function get_user_see_all($login)
 {
 
-	$sql1='SELECT u_see_all FROM conges_users WHERE u_login=\''.SQL::quote($login).'\'';
-	$ReqLog1 = SQL::query($sql1);
+	$request	= 'SELECT u_see_all FROM conges_users WHERE u_login=\''.SQL::quote($login).'\';';
+	$data		= SQL::query($request);
 
-	if($resultat1 = $ReqLog1->fetch_array())
-	{
-		$see_all=$resultat1["u_see_all"];
-		return ($see_all=="Y");
+	if($l = $data->fetch_array()) {
+		$see_all	=	$l['u_see_all'];
+		return ($see_all == 'Y');
 	}
 	else
 		return FALSE;
@@ -2033,106 +2032,96 @@ function get_user_see_all($login,  $DEBUG=FALSE)
 
 
 // recup dans un tableau des types de conges
-function recup_tableau_types_conges($DEBUG=FALSE)
+function recup_tableau_types_conges()
 {
-	$tab=array();
-	$sql_cong="SELECT ta_id, ta_libelle, ta_type FROM conges_type_absence WHERE ta_type='conges' ";
-	$ReqLog_cong = SQL::query($sql_cong);
+	$result	= array();
+	$request	= 'SELECT ta_id, ta_libelle FROM conges_type_absence WHERE ta_type=\'conges\';';
+	$data	= SQL::query($request);
 
-	while ($resultat_cong = $ReqLog_cong->fetch_array())
-	{
-		$id=(int)$resultat_cong['ta_id'];
-		$tab[$id]= $resultat_cong['ta_libelle'];
+	while ($l = $data->fetch_array()) {
+		$id				= $l['ta_id'];
+		$result[$id]	= $l['ta_libelle'];
 	}
-	return $tab;
+	return $result;
 }
 
 // recup dans un tableau des types d'absence
-function recup_tableau_types_absence($DEBUG=FALSE)
+function recup_tableau_types_absence()
 {
-	$tab=array();
-	$sql_abs="SELECT ta_id, ta_libelle FROM conges_type_absence WHERE ta_type='absences' ";
-	$ReqLog_abs = SQL::query($sql_abs);
+	$result	= array();
+	$request	= 'SELECT ta_id, ta_libelle FROM conges_type_absence WHERE ta_type=\'absences\';';
+	$data	= SQL::query($request);
 
-	while ($resultat_abs = $ReqLog_abs->fetch_array())
-	{
-		$id=$resultat_abs['ta_id'];
-		$tab[$id]= $resultat_abs['ta_libelle'];
+	while ($l = $data->fetch_array()) {
+		$id				= $l['ta_id'];
+		$result[$id]	= $l['ta_libelle'];
 	}
-	return $tab;
+	return $result;
 }
 
 // recup dans un tableau des types de conges exceptionnels
-function recup_tableau_types_conges_exceptionnels( $DEBUG=FALSE)
+function recup_tableau_types_conges_exceptionnels()
 {
-	$tab=array();
-	$sql_abs="SELECT ta_id, ta_libelle FROM conges_type_absence WHERE ta_type='conges_exceptionnels' ";
-	$ReqLog_abs = SQL::query($sql_abs);
+	$result	= array();
+	$request	= 'SELECT ta_id, ta_libelle FROM conges_type_absence WHERE ta_type=\'conges_exceptionnels\';';
+	$data	= SQL::query($request);
 
-	while ($resultat_abs = $ReqLog_abs->fetch_array())
-	{
-		$id=$resultat_abs['ta_id'];
-		$tab[$id]= $resultat_abs['ta_libelle'];
+	while ($l = $data->fetch_array()) {
+		$id				= $l['ta_id'];
+		$result[$id]	= $l['ta_libelle'];
 	}
-	return $tab;
+	return $result;
 }
 
 // recup dans un tableau de tableau les infos des types de conges et absences
-function recup_tableau_tout_types_abs( $DEBUG=FALSE)
+function recup_tableau_tout_types_abs( )
 {
-	$tab=array();
+	$result	= array();
 	if ( $_SESSION['config']['gestion_conges_exceptionnels'] ) // on prend tout les types de conges
-		$sql_cong="SELECT ta_id, ta_type, ta_libelle, ta_short_libelle FROM conges_type_absence ";
+		$request	= 'SELECT ta_id, ta_type, ta_libelle, ta_short_libelle FROM conges_type_absence;';
 	else // on prend tout les types de conges SAUF les conges exceptionnels
-		$sql_cong="SELECT ta_id, ta_type, ta_libelle, ta_short_libelle FROM conges_type_absence WHERE conges_type_absence.ta_type != 'conges_exceptionnels' ";
+		$request	= 'SELECT ta_id, ta_type, ta_libelle, ta_short_libelle FROM conges_type_absence WHERE conges_type_absence.ta_type != \'conges_exceptionnels\';';
 
-	$ReqLog_cong = SQL::query($sql_cong);
+	$data = SQL::query($request);
 
-	while ($resultat_cong = $ReqLog_cong->fetch_array())
-	{
-		$tab_2=array();
-		$id=$resultat_cong['ta_id'];
-		$tab_2['type']=$resultat_cong['ta_type'];
-		$tab_2['libelle']= $resultat_cong['ta_libelle'];
-		$tab_2['short_libelle']= $resultat_cong['ta_short_libelle'];
-		$tab[$id]=$tab_2;
+	while ($resultat_cong = $data->fetch_array()) {
+		$id				= $resultat_cong['ta_id'];
+		$result[$id]	= array('type'			=>	$resultat_cong['ta_type'],
+								'libelle'		=>	$resultat_cong['ta_libelle'],
+								'short_libelle' =>	$resultat_cong['ta_short_libelle'],);
 	}
-	return $tab;
+	return $result;
 }
 
 
 
 // recup dans un tableau de tableaux les nb et soldes de conges d'un user (indicé par id de conges)
-function recup_tableau_conges_for_user($login, $hide_conges_exceptionnels, $DEBUG=FALSE)
+function recup_tableau_conges_for_user($login, $hide_conges_exceptionnels)
 {
 	// on pourrait tout faire en un seule select, mais cela bug si on change la prise en charge des conges exceptionnels en cours d'utilisation ...
 
 	if ($_SESSION['config']['gestion_conges_exceptionnels'] && ! $hide_conges_exceptionnels) // on prend tout les types de conges
-		$sql_bilan = 'SELECT ta_libelle, su_nb_an, su_solde, su_reliquat FROM conges_solde_user, conges_type_absence WHERE conges_type_absence.ta_id = conges_solde_user.su_abs_id AND su_login = \''.SQL::quote($login).'\' ORDER BY su_abs_id ASC';
+		$request = 'SELECT ta_libelle, su_nb_an, su_solde, su_reliquat FROM conges_solde_user, conges_type_absence WHERE conges_type_absence.ta_id = conges_solde_user.su_abs_id AND su_login = \''.SQL::quote($login).'\' ORDER BY su_abs_id ASC;';
 	else // on prend tout les types de conges SAUF les conges exceptionnels
-		$sql_bilan = 'SELECT ta_libelle, su_nb_an, su_solde, su_reliquat FROM conges_solde_user, conges_type_absence WHERE conges_type_absence.ta_type != \'conges_exceptionnels\' AND conges_type_absence.ta_id = conges_solde_user.su_abs_id AND su_login = \''.SQL::quote($login).'\' ORDER BY su_abs_id ASC';
+		$request = 'SELECT ta_libelle, su_nb_an, su_solde, su_reliquat FROM conges_solde_user, conges_type_absence WHERE conges_type_absence.ta_type != \'conges_exceptionnels\' AND conges_type_absence.ta_id = conges_solde_user.su_abs_id AND su_login = \''.SQL::quote($login).'\' ORDER BY su_abs_id ASC;';
 
-	$ReqLog_bilan = SQL::query($sql_bilan);
+	$data	= SQL::query($request);
 
-	$count_num_bilan = $ReqLog_bilan->num_rows;
-	$tab_cong_user=array();
+	$result	= array();
 	
-	while ($resultat_bilan = $ReqLog_bilan->fetch_array())
-	{
-		$tab=array();
-		$sql_id=$resultat_bilan["ta_libelle"];
-		$tab['nb_an']=affiche_decimal($resultat_bilan["su_nb_an"]);
-		$tab['solde']=affiche_decimal($resultat_bilan["su_solde"]);
-		$tab['reliquat']=affiche_decimal($resultat_bilan["su_reliquat"]);
-		$tab_cong_user[$sql_id]=$tab;
+	while ($l = $data->fetch_array()) {
+		$sql_id				= $l['ta_libelle'];
+		$result[$sql_id]	= array('nb_an'		=>	affiche_decimal($l['su_nb_an']),
+									'solde'		=>	affiche_decimal($l['su_solde']),
+									'reliquat'	=>	affiche_decimal($l['su_reliquat']),);
 	}
 
-	return $tab_cong_user;
+	return $result;
 }
 
 
 // recup dans un tableau de tableaux les nb et soldes de conges d'un user (indicé par id de conges)
-function recup_tableau_conges_for_users( $hide_conges_exceptionnels, $logins = false, $DEBUG=FALSE)
+function recup_tableau_conges_for_users( $hide_conges_exceptionnels, $logins = false)
 {
 	// on pourrait tout faire en un seule select, mais cela bug si on change la prise en charge des conges exceptionnels en cours d'utilisation ...
 	
@@ -2142,21 +2131,21 @@ function recup_tableau_conges_for_users( $hide_conges_exceptionnels, $logins = f
 		$logins = ' AND su_login IN ( \''.implode('\', \'',$login).'\) ';
 	
 	if ($_SESSION['config']['gestion_conges_exceptionnels'] && ! $hide_conges_exceptionnels) // on prend tout les types de conges
-		$sql = 'SELECT su_login, ta_libelle, su_nb_an, su_solde, su_reliquat FROM conges_solde_user, conges_type_absence WHERE conges_type_absence.ta_id = conges_solde_user.su_abs_id '.$logins.' ORDER BY su_abs_id ASC';
+		$request = 'SELECT su_login, ta_libelle, su_nb_an, su_solde, su_reliquat FROM conges_solde_user, conges_type_absence WHERE conges_type_absence.ta_id = conges_solde_user.su_abs_id '.$logins.' ORDER BY su_abs_id ASC';
 	else // on prend tout les types de conges SAUF les conges exceptionnels
-		$sql = 'SELECT su_login, ta_libelle, su_nb_an, su_solde, su_reliquat FROM conges_solde_user, conges_type_absence WHERE conges_type_absence.ta_type != \'conges_exceptionnels\' AND conges_type_absence.ta_id = conges_solde_user.su_abs_id '.$logins.' ORDER BY su_abs_id ASC';
+		$request = 'SELECT su_login, ta_libelle, su_nb_an, su_solde, su_reliquat FROM conges_solde_user, conges_type_absence WHERE conges_type_absence.ta_type != \'conges_exceptionnels\' AND conges_type_absence.ta_id = conges_solde_user.su_abs_id '.$logins.' ORDER BY su_abs_id ASC';
 
-	$result = SQL::query($sql);
+	$data = SQL::query($request);
 
-	$tab_cong_user=array();
-	while ($l = $result->fetch_array()) {
+	$result=array();
+	while ($l = $data->fetch_array()) {
 		$tab=array();
-		$tab['nb_an']		= affiche_decimal($l["su_nb_an"]);
-		$tab['solde']		= affiche_decimal($l["su_solde"]);
-		$tab['reliquat']	= affiche_decimal($l["su_reliquat"]);
-		$tab_cong_user[ $l['su_login'] ][ $l["ta_libelle"] ]	= $tab;
+		$tab['nb_an']		= affiche_decimal($l['su_nb_an']);
+		$tab['solde']		= affiche_decimal($l['su_solde']);
+		$tab['reliquat']	= affiche_decimal($l['su_reliquat']);
+		$result[ $l['su_login'] ][ $l['ta_libelle'] ]	= $tab;
 	}
-	return $tab_cong_user;
+	return $result;
 }
 
 
@@ -2219,20 +2208,20 @@ function recup_infos_du_user($login, $list_groups_double_valid, $DEBUG=FALSE)
     if($resultat = $ReqLog->fetch_array())
     {
         $tab_user=array();
-        $tab_user['login']=$resultat["u_login"];;
-        $tab_user['nom']=$resultat["u_nom"];
-        $tab_user['prenom']=$resultat["u_prenom"];
-        $tab_user['is_resp']=$resultat["u_is_resp"];
-        $tab_user['resp_login']=$resultat["u_resp_login"];
-        $tab_user['is_admin']=$resultat["u_is_admin"];
-        $tab_user['is_hr']=$resultat["u_is_hr"];
-        $tab_user['is_enable']=$resultat["u_is_enable"];
-        $tab_user['see_all']=$resultat["u_see_all"];
-        $tab_user['passwd']=$resultat["u_passwd"];
-        $tab_user['quotite']=$resultat["u_quotite"];
-        $tab_user['email']=$resultat["u_email"];
-        $tab_user['num_exercice']=$resultat["u_num_exercice"];
-        $tab_user['conges']=recup_tableau_conges_for_user($login, false, $DEBUG);
+        $tab_user['login']			= $resultat['u_login'];;
+        $tab_user['nom']			= $resultat['u_nom'];
+        $tab_user['prenom']			= $resultat['u_prenom'];
+        $tab_user['is_resp']		= $resultat['u_is_resp'];
+        $tab_user['resp_login']		= $resultat['u_resp_login'];
+        $tab_user['is_admin']		= $resultat['u_is_admin'];
+        $tab_user['is_hr']			= $resultat['u_is_hr'];
+        $tab_user['is_enable']		= $resultat['u_is_enable'];
+        $tab_user['see_all']		= $resultat['u_see_all'];
+        $tab_user['passwd']			= $resultat['u_passwd'];
+        $tab_user['quotite']		= $resultat['u_quotite'];
+        $tab_user['email']			= $resultat['u_email'];
+        $tab_user['num_exercice']	= $resultat['u_num_exercice'];
+        $tab_user['conges']			= recup_tableau_conges_for_user($login, false, $DEBUG);
 
         $tab_user['double_valid'] = "N";
 
@@ -2241,11 +2230,11 @@ function recup_infos_du_user($login, $list_groups_double_valid, $DEBUG=FALSE)
         {
             if($list_groups_double_valid!="") // si $resp_login est responsable d'au moins un groupe a double validation
             {
-                $sql1='SELECT gu_login FROM conges_groupe_users WHERE gu_login=\''.SQL::quote($login).'\' AND gu_gid IN ('.$list_groups_double_valid.') ORDER BY gu_gid, gu_login ';
+                $sql1='SELECT gu_login FROM conges_groupe_users WHERE gu_login=\''.SQL::quote($login).'\' AND gu_gid IN ('.$list_groups_double_valid.') ORDER BY gu_gid, gu_login;';
                 $ReqLog1 = SQL::query($sql1);
 
                 if($ReqLog1->num_rows  !=0)
-                    $tab_user['double_valid'] = "Y";
+                    $tab_user['double_valid'] = 'Y';
             }
         }
         return $tab_user ;
@@ -2261,9 +2250,7 @@ function recup_infos_all_users($DEBUG=FALSE)
 	$tab=array();
 
 	$list_groupes_double_validation=get_list_groupes_double_valid($DEBUG);
-	if( $DEBUG ) { echo "list_groupes_double_validation :<br>\n"; print_r($list_groupes_double_validation); echo "<br><br>\n";}
 
-	//$sql = "SELECT u_login FROM conges_users WHERE u_login!='conges' AND u_login!='admin' ORDER BY u_login";
 	$sql1 = "SELECT u_login FROM conges_users WHERE u_login!='conges' AND u_login!='admin' ORDER BY u_nom";
 
 	$ReqLog = SQL::query($sql1);

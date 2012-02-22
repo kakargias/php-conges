@@ -403,56 +403,50 @@ function commit_update($u_login_to_update, &$tab_new_user, &$tab_new_jours_an, &
 	if(($valid_1) && ($valid_2) && ($valid_3) && ($valid_reliquat))
 	{
 		// UPDATE de la table conges_users
-		$sql1 = 'UPDATE conges_users
-			SET	u_nom=\''.addslashes($tab_new_user['nom']).'\',
-				u_prenom=\''.addslashes($tab_new_user['prenom']).'\',
-				u_is_resp=\''.$tab_new_user['is_resp'].'\',
-				u_resp_login=\''.$tab_new_user['resp_login'].'\',
-				u_is_admin=\''.$tab_new_user['is_admin'].'\',
-				u_is_hr=\''.$tab_new_user['is_hr'].'\',
-				u_is_enable=\''.$tab_new_user['is_enable'].'\',
-				u_see_all=\''.$tab_new_user['see_all'].'\',
-				u_login=\''.$tab_new_user['login'].'\',
-				u_quotite=\''.$tab_new_user['quotite'].'\',
-				u_email=\''.$tab_new_user['email'].'\'
-			WHERE u_login=\''.SQL::quote($u_login_to_update).'\'' ;  
-		$result1 = SQL::query($sql1);
+		$sql = 'UPDATE conges_users
+			SET	u_nom=\''.			SQL::quote($tab_new_user['nom']).'\',
+				u_prenom=\''.		SQL::quote($tab_new_user['prenom']).'\',
+				u_is_resp=\''.		SQL::quote($tab_new_user['is_resp']).'\',
+				u_resp_login=\''.	SQL::quote($tab_new_user['resp_login']).'\',
+				u_is_admin=\''.		SQL::quote($tab_new_user['is_admin']).'\',
+				u_is_hr=\''.		SQL::quote($tab_new_user['is_hr']).'\',
+				u_is_enable=\''.	SQL::quote($tab_new_user['is_enable']).'\',
+				u_see_all=\''.		SQL::quote($tab_new_user['see_all']).'\',
+				u_login=\''.		SQL::quote($tab_new_user['login']).'\',
+				u_quotite=\''.		SQL::quote($tab_new_user['quotite']).'\',
+				u_email=\''.		SQL::quote($tab_new_user['email']).'\'
+			WHERE u_login=\''.		SQL::quote($u_login_to_update).'\'' ;  
+		SQL::query($sql);
 
-		if($result1==FALSE)
-			$result==FALSE;
 
 		/*************************************/
 		/* Mise a jour de la table conges_solde_user   */
 		foreach($tab_type_conges as $id_conges => $libelle)
 		{
-			$sql_solde = "REPLACE INTO conges_solde_user
-				SET	su_nb_an=$tab_new_jours_an[$id_conges],
-					su_solde=$tab_new_solde[$id_conges],
-					su_reliquat=$tab_new_reliquat[$id_conges],
-				    su_login='$u_login_to_update',
-				    su_abs_id=$id_conges " ;
+			$sql = 'REPLACE INTO conges_solde_user
+				SET	su_nb_an='.intval($tab_new_jours_an[$id_conges] ).',
+					su_solde='.intval($tab_new_solde[$id_conges]).',
+					su_reliquat='.intval($tab_new_reliquat[$id_conges]).',
+				    su_login=\''.SQL::quote($u_login_to_update).'\',
+				    su_abs_id='.intval($id_conges).';';
 
-			$result_solde = SQL::query($sql_solde);
+			SQL::query($sql);
 
-			if($result_solde==FALSE)
-				$result==FALSE;
 		}
 
 		if ($_SESSION['config']['gestion_conges_exceptionnels'])
 		{
 			foreach($tab_type_conges_excep as $id_conges => $libelle)
 			{
-				$sql_solde = "REPLACE INTO conges_solde_user
+				$sql = 'REPLACE INTO conges_solde_user
 					SET	su_nb_an=0,
-						su_solde=$tab_new_solde[$id_conges],
-						su_reliquat=$tab_new_reliquat[$id_conges],
-					    su_login='$u_login_to_update',
-					    su_abs_id=$id_conges " ;
+						su_solde='.intval($tab_new_solde[$id_conges]).',
+						su_reliquat='.intval($tab_new_reliquat[$id_conges]).',
+					    su_login=\''.SQL::quote($u_login_to_update).'\',
+					    su_abs_id='.intval($id_conges).';';
 
-				$result_solde = SQL::query($sql_solde);
+				SQL::query($sql);
 
-				if($result_solde==FALSE)
-					$result==FALSE;
 			}
 		}
 
@@ -476,9 +470,9 @@ function commit_update($u_login_to_update, &$tab_new_user, &$tab_new_jours_an, &
 			// sinon, si la derniere grille date d'aujourd'hui, on la supprime
 
 			// on regarde si la grille artt a deja été modifiée aujourd'hui :
-			$sql_grille='SELECT a_date_fin_grille FROM conges_artt
+			$sql='SELECT a_date_fin_grille FROM conges_artt
 					WHERE a_login=\''.SQL::quote($u_login_to_update).'\' AND a_date_debut_grille=\''.SQL::quote($new_date_deb_grille).'\';';
-			$result_grille = SQL::query($sql_grille);
+			$result_grille = SQL::query($sql);
 
 			$count_grille=$result_grille->num_rows;
 
@@ -496,20 +490,16 @@ function commit_update($u_login_to_update, &$tab_new_user, &$tab_new_jours_an, &
 				// grille (avec sa date de début de grille)
 
 				// on update la dernière grille (on update la date de fin de grille)
-				$sql2 = 'UPDATE conges_artt SET a_date_fin_grille=\''.SQL::quote($new_date_fin_grille).'\'
+				$sql = 'UPDATE conges_artt SET a_date_fin_grille=\''.SQL::quote($new_date_fin_grille).'\'
 						WHERE a_login=\''.SQL::quote($u_login_to_update).'\'  AND a_date_fin_grille=\'9999-12-31\' ';
-				$result2 = SQL::query($sql2);
+				SQL::query($sql);
 
-				if($result2==FALSE)
-					$result==FALSE;
 			}
 			else  // si une grille modifiée aujourd'hui : on delete cette grille
 			{
-				$sql_suppr_grille='DELETE FROM conges_artt WHERE a_login=\''.SQL::quote($u_login_to_update).'\' AND a_date_debut_grille=\''.SQL::quote($new_date_deb_grille);
-				$result_suppr_grille = SQL::query($sql_suppr_grille);
+				$sql='DELETE FROM conges_artt WHERE a_login=\''.SQL::quote($u_login_to_update).'\' AND a_date_debut_grille=\''.SQL::quote($new_date_deb_grille);
+				SQL::query($sql);
 
-				if($result_suppr_grille==FALSE)
-					$result==FALSE;
 			}
 
 			/****************************/
@@ -547,74 +537,52 @@ function commit_update($u_login_to_update, &$tab_new_user, &$tab_new_jours_an, &
 			}
 			if( ($list_columns!="") && ($list_valeurs!="") )
 			{
-				$sql3 = "INSERT INTO conges_artt (a_login, $list_columns, a_date_debut_grille )
+				$sql = "INSERT INTO conges_artt (a_login, $list_columns, a_date_debut_grille )
 						VALUES ('$u_login_to_update', $list_valeurs, '$new_date_deb_grille') " ;
-				$result3 = SQL::query($sql3);
-
-				if($result3==FALSE)
-					$result==FALSE;
+				SQL::query($sql);
 			}
 		}
 
-		// Si changement du login, (on a dèja updaté la table users) on update toutes les autres tables
+		// Si changement du login, (on a dèja updaté la table users (mais pas les responsables !!!)) on update toutes les autres tables
 		// (les grilles artt, les periodes de conges et les échanges de rtt, etc ....) avec le nouveau login
 		if($tab_new_user['login'] != $u_login_to_update)
 		{
 			// update table artt
-			$sql_upd_artt = 'UPDATE conges_artt SET a_login=\''.$tab_new_user['login'].'\' WHERE a_login=\''.SQL::quote($u_login_to_update).'\' ';
-			$result4 = SQL::query($sql_upd_artt);
-
-			if($result4==FALSE)
-				$result==FALSE;
+			$sql = 'UPDATE conges_artt SET a_login=\''.SQL::quote($tab_new_user['login']).'\' WHERE a_login=\''.SQL::quote($u_login_to_update).'\' ';
+			SQL::query($sql);
 
 			// update table echange_rtt
-			$sql_upd_echange = 'UPDATE conges_echange_rtt SET e_login=\''.$tab_new_user['login'].'\' WHERE e_login=\''.SQL::quote($u_login_to_update).'\' ';
-			$result5 = SQL::query($sql_upd_echange);
-
-			if($result5==FALSE)
-				$result==FALSE;
+			$sql = 'UPDATE conges_echange_rtt SET e_login=\''.SQL::quote($tab_new_user['login']).'\' WHERE e_login=\''.SQL::quote($u_login_to_update).'\' ';
+			SQL::query($sql);
 
 			// update table edition_papier
-			$sql_upd_edpap = 'UPDATE conges_edition_papier SET ep_login=\''.$tab_new_user['login'].'\' WHERE ep_login=\''.SQL::quote($u_login_to_update).'\' ';
-			$result6 = SQL::query($sql_upd_edpap);
-
-			if($result6==FALSE)
-				$result==FALSE;
+			$sql = 'UPDATE conges_edition_papier SET ep_login=\''.SQL::quote($tab_new_user['login']).'\' WHERE ep_login=\''.SQL::quote($u_login_to_update).'\' ';
+			SQL::query($sql);
 
 			// update table groupe_grd_resp
-			$sql_upd_grd_resp = 'UPDATE conges_groupe_grd_resp SET ggr_login=\''.$tab_new_user['login'].'\' WHERE ggr_login=\''.SQL::quote($u_login_to_update).'\'  ';
-			$result7 = SQL::query($sql_upd_grd_resp);
-
-			if($result7==FALSE)
-				$result==FALSE;
+			$sql = 'UPDATE conges_groupe_grd_resp SET ggr_login=\''.SQL::quote($tab_new_user['login']).'\' WHERE ggr_login=\''.SQL::quote($u_login_to_update).'\'  ';
+			SQL::query($sql);
 
 			// update table groupe_resp
-			$sql_upd_resp = 'UPDATE conges_groupe_resp SET gr_login=\''.$tab_new_user['login'].'\' WHERE gr_login=\''.SQL::quote($u_login_to_update).'\' ';
-			$result8 = SQL::query($sql_upd_resp);
-
-			if($result8==FALSE)
-				$result==FALSE;
-
+			$sql = 'UPDATE conges_groupe_resp SET gr_login=\''.SQL::quote($tab_new_user['login']).'\' WHERE gr_login=\''.SQL::quote($u_login_to_update).'\' ';
+			SQL::query($sql);
+			
 			// update table conges_groupe_users
-			$sql_upd_gr_user = 'UPDATE conges_groupe_users SET gu_login=\''.$tab_new_user['login'].'\' WHERE gu_login=\''.SQL::quote($u_login_to_update).'\' ';
-			$result9 = SQL::query($sql_upd_gr_user);
-
-			if($result9==FALSE)
-				$result==FALSE;
+			$sql = 'UPDATE conges_groupe_users SET gu_login=\''.SQL::quote($tab_new_user['login']).'\' WHERE gu_login=\''.SQL::quote($u_login_to_update).'\' ';
+			SQL::query($sql);
 
 			// update table periode
-			$sql_upd_periode = 'UPDATE conges_periode SET p_login=\''.$tab_new_user['login'].'\' WHERE p_login=\''.SQL::quote($u_login_to_update).'\' ';
-			$result10 = SQL::query($sql_upd_periode);
-
-			if($result10==FALSE)
-				$result==FALSE;
+			$sql = 'UPDATE conges_periode SET p_login=\''.SQL::quote($tab_new_user['login']).'\' WHERE p_login=\''.SQL::quote($u_login_to_update).'\' ';
+			SQL::query($sql);
 
 			// update table conges_solde_user
-			$sql_upd_su = 'UPDATE conges_solde_user SET su_login=\''.$tab_new_user['login'].'\' WHERE su_login=\''.SQL::quote($u_login_to_update).'\' ' ;
-			$result11 = SQL::query($sql_upd_su);
-
-			if($result11==FALSE)
-				$result==FALSE;
+			$sql = 'UPDATE conges_solde_user SET su_login=\''.SQL::quote($tab_new_user['login']).'\' WHERE su_login=\''.SQL::quote($u_login_to_update).'\' ' ;
+			SQL::query($sql);
+				
+			
+			// update table conges_users
+			$sql = 'UPDATE conges_users SET u_resp_login=\''.SQL::quote($tab_new_user['login']).'\' WHERE u_resp_login=\''.SQL::quote($u_login_to_update).'\' ' ;
+			SQL::query($sql);
 
 		}
 
@@ -625,10 +593,7 @@ function commit_update($u_login_to_update, &$tab_new_user, &$tab_new_jours_an, &
 
 		log_action(0, "", $u_login_to_update, $comment_log,  $DEBUG);
 
-		if($result)
-			echo  _('form_modif_ok') ." !<br><br> \n";
-		else
-			echo  _('form_modif_not_ok') ." !<br><br> \n";
+		echo  _('form_modif_ok') ." !<br><br> \n";
 
 	}
 	// en cas d'erreur de saisie
@@ -645,8 +610,8 @@ function get_current_grille_rtt($u_login_to_update, $DEBUG=FALSE)
 
 	$tab_grille=array();
 
-	$sql1 = 'SELECT * FROM conges_artt WHERE a_login=\''.SQL::quote($u_login_to_update).'\' AND a_date_fin_grille=\'9999-12-31\' ';
-	$ReqLog1 = SQL::query($sql1);
+	$sql = 'SELECT * FROM conges_artt WHERE a_login=\''.SQL::quote($u_login_to_update).'\' AND a_date_fin_grille=\'9999-12-31\' ';
+	$ReqLog1 = SQL::query($sql);
 
 	while ($resultat1 = $ReqLog1->fetch_array()) {
 		$tab_grille['sem_imp_lu_am'] = $resultat1['sem_imp_lu_am'] ;

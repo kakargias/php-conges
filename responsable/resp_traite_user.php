@@ -54,6 +54,15 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 	$new_type = getpost_variable('new_type') ;
 	$year_affichage = getpost_variable('year_affichage' , date("Y") );
 	
+	/*************************************/
+
+	if ( !is_resp_of_user($_SESSION['userlogin'] , $user_login)) {
+		redirect(ROOT_PATH . 'deconnexion.php');
+		exit;
+	}
+	
+	/************************************/
+	
 
 	// si une annulation de conges a été selectionée :
 	if($tab_checkbox_annule!="")

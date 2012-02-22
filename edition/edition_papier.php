@@ -46,6 +46,11 @@ $DEBUG = FALSE ;
 	$edit_id = getpost_variable('edit_id', 0) ;
 	/*************************************/
 
+	if ($user_login != $_SESSION['userlogin'] && !is_hr($user_login) && !is_resp_of_user($_SESSION['userlogin'] , $user_login)) {
+		redirect(ROOT_PATH . 'deconnexion.php');
+		exit;
+	}
+	
 	/************************************/
 
 	$css = '<link href="'. TEMPLATE_PATH .'style_calendar_edition.css" rel="stylesheet" type="text/css">';
@@ -62,9 +67,19 @@ $DEBUG = FALSE ;
 	$comment_log = "edition papier (num_edition = $edit_id) ($user_login) ";
 	log_action(0, "", $user_login, $comment_log,  $DEBUG);
 	
-	
-	bottom();
-	
+?>
+<br>
+<script type="text/javascript" language="javascript1.2">
+<!--
+// Do print the page
+if (typeof(window.print) != 'undefined') {
+    window.print();
+}
+//-->
+</script>
+<?php
+
+bottom();	
 	
 	
 /**************************************************************************************/
@@ -318,20 +333,6 @@ function edition($login, $edit_id,  $DEBUG=FALSE)
 }
 
 
-?>
-<br>
-<script type="text/javascript" language="javascript1.2">
-<!--
-// Do print the page
-if (typeof(window.print) != 'undefined') {
-    window.print();
-}
-//-->
-</script>
-<?php
-
-bottom();
-
 /************************************************************************/
 /*   FONCTIONS   */
 
@@ -341,11 +342,11 @@ function affiche_tableau_bilan_conges_user_edition($tab_info_user, $tab_info_edi
 
 	echo "<table cellpadding=\"2\" width=\"250\" class=\"tablo\">\n";
 //	echo "<tr align=\"center\"><td class=\"titre\" colspan=\"3\"> quotité &nbsp; : &nbsp; $quotite % </td></tr>\n" ;
-	echo "<tr>\n";
-	echo "	<td></td>\n";
-	echo "	<td> ". _('editions_jours_an') ." </td>\n";
-	echo "	<td> ". _('divers_solde_maj') ."</td>\n";
-	echo "	</tr>\n" ;
+	echo "<thead><tr>\n";
+	echo "	<th></th>\n";
+	echo "	<th> ". _('editions_jours_an') ." </th>\n";
+	echo "	<th> ". _('divers_solde_maj') ."</th>\n";
+	echo "	</tr></thead><tbody>\n" ;
 	
 	foreach($tab_type_cong as $id_abs => $libelle)
 	{
@@ -361,6 +362,6 @@ function affiche_tableau_bilan_conges_user_edition($tab_info_user, $tab_info_edi
 	}
 	echo "</tr>\n";
 	
-	echo "</table>\n";
+	echo "</tbody></table>\n";
 }
 

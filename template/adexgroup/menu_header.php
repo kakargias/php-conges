@@ -1,7 +1,7 @@
 <?php
 	
 	defined( '_PHP_CONGES' ) or die( 'Restricted access' );
-	include_once TEMPLATE_PATH . 'template_define.php';
+	include TEMPLATE_PATH . 'template_define.php';
 
 
 echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
@@ -16,7 +16,6 @@ echo "<html>\n";
 		echo '<script type="text/javascript" src="'. TEMPLATE_PATH .'jquery/js/jquery-ui-1.8.17.custom.min.js"></script>';
 		echo '<script type="text/javascript" src="'. TEMPLATE_PATH .'jquery/js/jquery.tablesorter.min.js"></script>';
 		include ROOT_PATH .'fonctions_javascript.php' ;
-		include_once INCLUDE_PATH .'lang_profile.php' ;
 		echo $additional_head;
 	echo "</head>\n";
 	echo '<body id="top">';

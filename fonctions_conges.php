@@ -28,9 +28,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-include_once  INCLUDE_PATH .'sql.class.php';
-include_once  INCLUDE_PATH .'lang_profile.php';
-
 // affichage du calendrier avec les case à cocher, du mois du début du congés
 function  affiche_calendrier_saisie_date($user_login, $year, $mois, $type_debut_fin , $DEBUG=FALSE)
 {
@@ -2548,8 +2545,6 @@ function soustrait_solde_et_reliquat_user($user_login, $user_nb_jours_pris, $typ
 			else
 			{
 				include 'fonctions_calcul.php' ;
-				//include_once('fonctions_calcul.php'):
-				//require_once('fonctions_calcul.php'):
 				$nb_reliquats_a_deduire = compter($user_login, $date_deb, $_SESSION['config']['date_limite_reliquats'], $demi_jour_deb, "pm", null ,  $DEBUG);
 				
 				if($nb_reliquats_a_deduire>$user_nb_jours_pris)

@@ -36,9 +36,9 @@ if (!is_readable( CONFIG_PATH .'dbconnect.php'))
 }
 
 
+include INCLUDE_PATH .'fonction.php';
 include ROOT_PATH .'fonctions_conges.php'; // for init_config_tab()
 $_SESSION['config']=init_config_tab();      // on initialise le tableau des variables de config
-include INCLUDE_PATH .'fonction.php';
 
 
 /***** DEBUT DU PROG *****/
@@ -121,12 +121,9 @@ else
 	{
 		if (($session_username == "") || ($session_password == "")) // si login et passwd non saisis
 		{
-			header_popup();
+			//  SAISIE LOGIN / PASSWORD :
+			session_saisie_user_password("", "", ""); // appel du formulaire d'intentification (login/password)
 			
-				//  SAISIE LOGIN / PASSWORD :
-				session_saisie_user_password("", "", ""); // appel du formulaire d'intentification (login/password)
-			
-			bottom();
 			exit;
 		}
 		else
@@ -146,13 +143,10 @@ else
 					$session_username="";
 					$session_password="";
 
-					header_popup();
+					$erreur="login_passwd_incorrect";
+					// appel du formulaire d'intentification (login/password)
+					session_saisie_user_password($erreur, $session_username, $session_password);
 					
-						$erreur="login_passwd_incorrect";
-						// appel du formulaire d'intentification (login/password)
-						session_saisie_user_password($erreur, $session_username, $session_password);
-					
-					bottom();
 					exit;
 				}
 				else
@@ -183,13 +177,10 @@ else
 					$session_username="";
 					$session_password="";
 
-					header_popup();
+					$erreur="login_passwd_incorrect";
+					// appel du formulaire d'intentification (login/password)
+					session_saisie_user_password($erreur, $session_username, $session_password);
 					
-						$erreur="login_passwd_incorrect";
-						// appel du formulaire d'intentification (login/password)
-						session_saisie_user_password($erreur, $session_username, $session_password);
-					
-					bottom();
 					exit;
 				}
 				else

@@ -1,7 +1,6 @@
 <?php
-	include_once(INCLUDE_PATH.'misc.class.php');
-	include INCLUDE_PATH.'lang_profile.php';
-	include_once(ROOT_PATH .'fonctions_conges.php' );
+	include(INCLUDE_PATH.'misc.class.php');
+	global $lang;
 	
 	// adexgroup ne veux pas de choix de langue ... 
 	// en plus c'est pas encore stable et les traductions sont non completes

@@ -1,5 +1,5 @@
 <?php
-	// bottom();
+
 	include INCLUDE_PATH.'misc.class.php';
 	global $lang;
 	

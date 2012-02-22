@@ -1072,6 +1072,14 @@ function affiche_select_groupe($select_groupe, $selected, $printable, $year, $mo
 			$list_groupes = $list_groupes_1.$list_groupes_2 ;
 		else
 			$list_groupes = $list_groupes_1.",".$list_groupes_2 ;
+			
+		if ($_SESSION['config']['double_validation_conges']) {
+			$list_groupes_3 = get_list_groupes_du_grand_resp($_SESSION['userlogin'] );			
+			if ($list_groupes == '' || $list_groupes_3 == '')
+				$list_groupes = $list_groupes.$list_groupes_3 ;
+			else
+				$list_groupes = $list_groupes.",".$list_groupes_3 ;
+		}
 	}
 	else
 		$list_groupes=get_list_groupes_du_user($_SESSION['userlogin'] );

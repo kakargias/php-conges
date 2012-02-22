@@ -47,8 +47,14 @@ $DEBUG = FALSE ;
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET / POST
 	$user_login = getpost_variable('user_login', $_SESSION['userlogin']) ;
+	
 	/*************************************/
 
+	if ($user_login != $_SESSION['userlogin'] && !is_hr($user_login) && !is_resp_of_user($_SESSION['userlogin'] , $user_login)) {
+		redirect(ROOT_PATH . 'deconnexion.php');
+		exit;
+	}
+	
 	/************************************/
 
 	header_popup( _('editions_titre') .' : '.$user_login);
@@ -133,18 +139,18 @@ function affiche_nouvelle_edition($login,  $DEBUG=FALSE)
 			echo "<table cellpadding=\"2\" class=\"tablo\" width=\"850\">\n";
 		else
 			echo "<table cellpadding=\"2\" class=\"tablo\" width=\"750\">\n";
-		echo "<tr align=\"center\">\n";
-		echo " <td>". _('divers_type_maj_1') ."</td>\n";
-		echo " <td>". _('divers_etat_maj_1') ."</td>\n";
-		echo " <td>". _('divers_nb_jours_maj_1') ."</td>\n";
-		echo " <td>". _('divers_debut_maj_1') ."</td>\n";
-		echo " <td>". _('divers_fin_maj_1') ."</td>\n";
-		echo " <td>". _('divers_comment_maj_1') ."</td>\n";
+		echo "<thead><tr align=\"center\">\n";
+		echo " <th>". _('divers_type_maj_1') ."</th>\n";
+		echo " <th>". _('divers_etat_maj_1') ."</th>\n";
+		echo " <th>". _('divers_nb_jours_maj_1') ."</th>\n";
+		echo " <th>". _('divers_debut_maj_1') ."</th>\n";
+		echo " <th>". _('divers_fin_maj_1') ."</th>\n";
+		echo " <th>". _('divers_comment_maj_1') ."</th>\n";
 		if($_SESSION['config']['affiche_date_traitement'])
 		{
-			echo "<td>". _('divers_date_traitement') ."</td>\n" ;
+			echo "<th>". _('divers_date_traitement') ."</td>\n" ;
 		}
-		echo "</tr>\n";
+		echo "</tr></thead></tbody>\n";
 
 		while ($resultat2 = $ReqLog2->fetch_array()) {
 				$sql_p_date_deb = eng_date_to_fr($resultat2["p_date_deb"]);
@@ -188,7 +194,7 @@ function affiche_nouvelle_edition($login,  $DEBUG=FALSE)
 				}
 				echo "</tr>\n";
 		}
-		echo "</table>\n";
+		echo "</tbody></table>\n";
 		echo "<br>\n";
 
 		/******************/
@@ -244,18 +250,18 @@ function affiche_anciennes_editions($login,  $DEBUG=FALSE)
 	else
 	{
 		// AFFICHAGE TABLEAU
-		printf("<table cellpadding=\"2\" class=\"tablo\" width=\"750\">\n");
-		echo "<tr align=\"center\">\n";
-		echo " <td>". _('editions_numero') ."</td>\n";
-		echo " <td>". _('editions_date') ."</td>\n";
+		echo "<table cellpadding=\"2\" class=\"tablo\" width=\"750\">\n";
+		echo "<thead><tr align=\"center\">\n";
+		echo " <th>". _('editions_numero') ."</th>\n";
+		echo " <th>". _('editions_date') ."</th>\n";
 		foreach($tab_type_cong as $id_abs => $libelle)
 		{
-			echo " <td>". _('divers_solde_maj_1') ." $libelle</td>\n";
+			echo " <th>". _('divers_solde_maj_1') ." $libelle</th>\n";
 		}
 
-		echo " <td></td>\n";
-		echo " <td></td>\n";
-		echo "</tr>\n";
+		echo " <th></th>\n";
+		echo " <th></th>\n";
+		echo "</tr></thead><tbody>\n";
 
 		foreach($tab_editions_user as $id_edition => $tab_ed)
 		{
@@ -281,7 +287,7 @@ function affiche_anciennes_editions($login,  $DEBUG=FALSE)
 			echo "<td>$text_edit_pdf_a_nouveau</td>";
 			echo "</tr>\n";
 		}
-		echo "</table>\n";
+		echo "</tbody></table>\n";
 	}
 	echo "<br>\n";
 

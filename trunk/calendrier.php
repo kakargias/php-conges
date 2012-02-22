@@ -605,7 +605,7 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 				$year_select=$year ;
 
 				// affichage de la cellule correspondant au jour et au user considéré
-				$r = affiche_cellule_jour_user($sql_login, $j_timestamp, $year, $mois_select, $j, $td_second_class, $printable, $tab_calendrier, $tab_rtt_echange, $tab_rtt_planifiees, $tab_type_absence);
+				$r = affiche_cellule_jour_user($sql_login, $j_timestamp+60*60*24, $year, $mois_select, $j , $td_second_class, $printable, $tab_calendrier, $tab_rtt_echange, $tab_rtt_planifiees, $tab_type_absence);
 				foreach($r as $k => $v)
 				{
 					if (isset($test[ $k ]))
@@ -635,7 +635,7 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 					}
 
 					// affichage de la cellule correspondant au jour et au user considéré
-					$r = affiche_cellule_jour_user($sql_login, $j_timestamp, $year, $mois_select, $j, $td_second_class, $printable, $tab_calendrier, $tab_rtt_echange, $tab_rtt_planifiees, $tab_type_absence);
+					$r = affiche_cellule_jour_user($sql_login, $j_timestamp+60*60*24, $year, $mois_select, $j, $td_second_class, $printable, $tab_calendrier, $tab_rtt_echange, $tab_rtt_planifiees, $tab_type_absence);
 					foreach($r as $k => $v)
 					{
 						if (isset($test[ $k ]))

@@ -1,7 +1,7 @@
 <?php
-	include_once(INCLUDE_PATH.'misc.class.php');
-	include INCLUDE_PATH.'lang_profile.php';
-	include_once(ROOT_PATH .'fonctions_conges.php' );
+	// bottom();
+	include INCLUDE_PATH.'misc.class.php';
+	global $lang;
 	
 	if (!isset($_REQUEST['lang'])) {
 		$locales_browser = new HTTPLocale();
@@ -83,3 +83,4 @@
 	}
 
 ?>
+</div>

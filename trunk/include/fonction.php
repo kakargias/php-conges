@@ -26,12 +26,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-include_once   INCLUDE_PATH .'sql.class.php';
-include_once   INCLUDE_PATH .'fonction_hr.php';
-include_once   INCLUDE_PATH .'fonction_config.php';
-include_once   INCLUDE_PATH .'fonction_admin.php';
-include_once   INCLUDE_PATH .'lang_profile.php';
-
+include	INCLUDE_PATH .'sql.class.php';
+include	INCLUDE_PATH .'fonction_hr.php';
+include	INCLUDE_PATH .'fonction_config.php';
+include	INCLUDE_PATH .'fonction_admin.php';
+include	INCLUDE_PATH .'lang_profile.php';
 
 function schars( $htmlspec ) {
 	return htmlspecialchars( $htmlspec );
@@ -62,6 +61,13 @@ function redirect($url , $auto_exit = true) {
 function header_popup($title = '' , $additional_head = '' ) {
 	global $type_bottom;
 	global $session;
+	
+    static $last_use = '';
+	if ($last_use == '') {
+		$last_use = debug_backtrace();
+	}else
+		throw new Exception('Warning : Ne peux ouvrir deux header !!! previous = '.$last_use['file']);
+	
 	$type_bottom = 'popup';
 	
 	if (empty($title))
@@ -73,6 +79,13 @@ function header_popup($title = '' , $additional_head = '' ) {
 function header_menu( $info ,$title = '' , $additional_head = '' ) {
 	global $type_bottom;
 	global $session;
+	
+    static $last_use = '';
+	if ($last_use == '') {
+		$last_use = debug_backtrace();
+	}else
+		throw new Exception('Warning : Ne peux ouvrir deux header !!! previous = '.$last_use['file']);
+	
 	$type_bottom = 'menu';
 	
 	if (empty($title))
@@ -83,6 +96,13 @@ function header_menu( $info ,$title = '' , $additional_head = '' ) {
 
 function bottom() {
 	global $type_bottom;
+	
+	
+    static $last_use = '';
+	if ($last_use == '') {
+		$last_use = debug_backtrace();
+	}else
+		throw new Exception('Warning : Ne peux ouvrir deux header !!!');
 	
 	include TEMPLATE_PATH . $type_bottom .'_bottom.php';
 }
@@ -187,11 +207,11 @@ function session_saisie_user_password($erreur, $session_username, $session_passw
 {
    $PHP_SELF=$_SERVER['PHP_SELF'];
    
-	$config_php_conges_version      =$_SESSION['config']['php_conges_version'];
-	$config_url_site_web_php_conges =$_SESSION['config']['url_site_web_php_conges'];
-	$config_stylesheet_file         =$_SESSION['config']['stylesheet_file'];
+	$config_php_conges_version      = $_SESSION['config']['php_conges_version'];
+	$config_url_site_web_php_conges = $_SESSION['config']['url_site_web_php_conges'];
+	$config_stylesheet_file         = $_SESSION['config']['stylesheet_file'];
 	
-	$return_url         			=getpost_variable('return_url', false);
+	$return_url         			= getpost_variable('return_url', false);
 
 	// verif si on est dans le repertoire install
 	if(substr(dirname ($_SERVER["SCRIPT_FILENAME"]), -6, 6) == "config")   // verif si on est dans le repertoire install
@@ -213,7 +233,7 @@ if (! navigator.cookieEnabled) {
 		
 	header_popup('', $add);
 	
-		include TEMPLATE_PATH . 'login_form.php';
+	include TEMPLATE_PATH . 'login_form.php';
 		
 	bottom();
 	exit;
@@ -268,7 +288,7 @@ function authentification_ldap_conges($username,$password)
 function authentification_passwd_conges_CAS()
 {
 	// import de la librairie CAS
-	include_once( LIBRARY_PATH .'CAS/CAS.php');
+	include( LIBRARY_PATH .'CAS/CAS.php');
 	// import des paramètres du serveur CAS
 	
 	$config_CAS_host       =$_SESSION['config']['CAS_host'];
@@ -315,7 +335,7 @@ function authentification_passwd_conges_CAS()
 function deconnexion_CAS($url="")
 {
     // import de la librairie CAS
-    include_once( LIBRARY_PATH .'CAS/CAS.php');
+    include( LIBRARY_PATH .'CAS/CAS.php');
     // import des parametres du serveur CAS
     
     $config_CAS_host       =$_SESSION['config']['CAS_host'];

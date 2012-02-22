@@ -25,8 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-include_once(  INCLUDE_PATH .'sql.class.php');
-include INCLUDE_PATH .'lang_profile.php';
+include(  INCLUDE_PATH .'sql.class.php');
 
 // teste le fichier config.php 
 //renvoit TRUE si ok, et FALSE sinon

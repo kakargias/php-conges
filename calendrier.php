@@ -1195,7 +1195,7 @@ function recup_tableau_des_users_a_afficher($select_groupe,  $DEBUG=FALSE)
 			// si user n'est pas un responsable
 			else
 			{
-				if(is_resp($_SESSION['userlogin'])!=TRUE)
+				if( !is_resp($_SESSION['userlogin']) )
 				{
 					$sql1 = "SELECT DISTINCT u_login, u_nom, u_prenom, u_quotite FROM conges_users ";
 					$sql1 = $sql1." WHERE u_login!='conges' AND u_login!='admin' ";
@@ -1236,6 +1236,17 @@ function recup_tableau_des_users_a_afficher($select_groupe,  $DEBUG=FALSE)
 						if($list_users_2!="")  //si la liste n'est pas vide ( serait le cas si n'est responsable d'aucun groupe)
 							$sql1 = $sql1." OR u_login IN ($list_users_2) ";
 
+						if ($_SESSION['config']['double_validation_conges']) {
+							$list_groupes_3 = get_list_login_du_grand_resp($_SESSION['userlogin'] );
+							if (count($list_groupes_3) > 0) {
+								$list_groupes_3 = array_map("SQL::quote", $list_groupes_3);
+								$list_groupes_3 = '\'' . implode('\', \'', $list_groupes_3).'\'';
+								
+								$sql1 = $sql1." OR u_login IN ('holblin', $list_groupes_3) ";
+							}
+						}
+							
+							
 						$sql1 = $sql1." ) ";
 					}
 					

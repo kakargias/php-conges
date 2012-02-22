@@ -1370,7 +1370,7 @@ function get_list_groupes_du_resp($resp_login,  $DEBUG=FALSE)
 
 // recup de la liste des groupes dont $resp_login est grandresponsable
 // renvoit une liste de group_id séparés par des virgules
-function get_list_groupes_du_grand_resp($resp_login,  $DEBUG=FALSE)
+function get_list_groupes_du_grand_resp($resp_login)
 {
 	$list_group="";
 
@@ -1388,9 +1388,25 @@ function get_list_groupes_du_grand_resp($resp_login,  $DEBUG=FALSE)
 				$list_group=$list_group.", $current_group";
 		}
 	}
-	if( $DEBUG ) { echo "list_group = $list_group<br>\n" ;}
 
 	return $list_group;
+}
+
+// recup de la liste des logins des groupes dont $resp_login est grandresponsable
+function get_list_login_du_grand_resp($resp_login)
+{
+	$list_logins = array();
+
+	$sql1='SELECT gu_login FROM conges_groupe_grd_resp JOIN conges_groupe_users ON ggr_gid = gu_gid WHERE ggr_login=\''.SQL::quote($resp_login).'\';';
+	$ReqLog1 = SQL::query($sql1);
+
+	if($ReqLog1->num_rows!=0)
+	{
+		while ($resultat1 = $ReqLog1->fetch_array())
+				$list_logins[] = $resultat1["gu_login"];
+	}
+
+	return $list_logins;
 }
 
 // recup de la liste des groupes à double validation

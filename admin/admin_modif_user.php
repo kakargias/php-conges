@@ -72,7 +72,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 		$tab_new_user['resp_login']	= getpost_variable('new_resp_login') ;
 		$tab_new_user['is_admin']	= getpost_variable('new_is_admin') ;
 		$tab_new_user['is_hr']		= getpost_variable('new_is_hr') ;
-		$tab_new_user['is_enable']	= getpost_variable('new_is_enable') ;
+		$tab_new_user['is_active']	= getpost_variable('new_is_active') ;
 		$tab_new_user['see_all']	= getpost_variable('new_see_all') ;
 		$tab_new_user['email']		= getpost_variable('new_email') ;
 		$tab_new_user['jour']		= getpost_variable('new_jour') ;
@@ -127,7 +127,7 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $onglet,
 			echo "<th>". _('admin_users_resp_login') ."</th>\n";
 			echo "<th>". _('admin_users_is_admin') ."</th>\n";
 			echo "<th>". _('admin_users_is_hr') ."</th>\n";
-			echo "<th>". _('admin_users_is_enable') ."</th>\n";
+			echo "<th>". _('admin_users_is_active') ."</th>\n";
 			echo "<th>". _('admin_users_see_all') ."</th>\n";
 			if($_SESSION['config']['where_to_find_user_email']=="dbconges")
 				echo "<th>". _('admin_users_mail') ."</th>\n";
@@ -145,7 +145,7 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $onglet,
 		echo "<td>".$tab_user['resp_login']."</td>\n";
 		echo "<td>".$tab_user['is_admin']."</td>\n";
 		echo "<td>".$tab_user['is_hr']."</td>\n";
-		echo "<td>".$tab_user['is_enable']."</td>\n";
+		echo "<td>".$tab_user['is_active']."</td>\n";
 		echo "<td>".$tab_user['see_all']."</td>\n";
 		if($_SESSION['config']['where_to_find_user_email']=="dbconges")
 			echo "<td>".$tab_user['email']."</td>\n";
@@ -171,10 +171,10 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $onglet,
 	else
 		$text_is_hr="<select name=\"new_is_hr\" ><option value=\"N\">N</option><option value=\"Y\">Y</option></select>" ;
 
-	if($tab_user['is_enable']=="Y")
-		$text_is_enable="<select name=\"new_is_enable\" ><option value=\"Y\">Y</option><option value=\"N\">N</option></select>" ;
+	if($tab_user['is_active']=="Y")
+		$text_is_active="<select name=\"new_is_active\" ><option value=\"Y\">Y</option><option value=\"N\">N</option></select>" ;
 	else
-		$text_is_enable="<select name=\"new_is_enable\" ><option value=\"N\">N</option><option value=\"Y\">Y</option></select>" ;
+		$text_is_active="<select name=\"new_is_active\" ><option value=\"N\">N</option><option value=\"Y\">Y</option></select>" ;
 
 	if($tab_user['see_all']=="Y")
 		$text_see_all="<select name=\"new_see_all\" ><option value=\"Y\">Y</option><option value=\"N\">N</option></select>" ;
@@ -210,7 +210,7 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $onglet,
 		echo "<td>$text_resp_login</td>\n";
 		echo "<td>$text_is_admin</td>\n";
 		echo "<td>$text_is_hr</td>\n";
-		echo "<td>$text_is_enable</td>\n";
+		echo "<td>$text_is_active</td>\n";
 		echo "<td>$text_see_all</td>\n";
 		if($_SESSION['config']['where_to_find_user_email']=="dbconges")
 			echo "<td>$text_email</td>\n";
@@ -363,7 +363,7 @@ function commit_update($u_login_to_update, &$tab_new_user, &$tab_new_jours_an, &
 	}
 
 
-	echo "$u_login_to_update---".$tab_new_user['nom']."---".$tab_new_user['prenom']."---".$tab_new_user['quotite']."---".$tab_new_user['is_resp']."---".$tab_new_user['resp_login']."---".$tab_new_user['is_admin']."---".$tab_new_user['is_hr']."---".$tab_new_user['is_enable']."---".$tab_new_user['see_all']."---".$tab_new_user['email']."---".$tab_new_user['login']."<br>\n";
+	echo "$u_login_to_update---".$tab_new_user['nom']."---".$tab_new_user['prenom']."---".$tab_new_user['quotite']."---".$tab_new_user['is_resp']."---".$tab_new_user['resp_login']."---".$tab_new_user['is_admin']."---".$tab_new_user['is_hr']."---".$tab_new_user['is_active']."---".$tab_new_user['see_all']."---".$tab_new_user['email']."---".$tab_new_user['login']."<br>\n";
 
 
 	$valid_1=TRUE;
@@ -410,7 +410,7 @@ function commit_update($u_login_to_update, &$tab_new_user, &$tab_new_jours_an, &
 				u_resp_login=\''.	SQL::quote($tab_new_user['resp_login']).'\',
 				u_is_admin=\''.		SQL::quote($tab_new_user['is_admin']).'\',
 				u_is_hr=\''.		SQL::quote($tab_new_user['is_hr']).'\',
-				u_is_enable=\''.	SQL::quote($tab_new_user['is_enable']).'\',
+				u_is_active=\''.	SQL::quote($tab_new_user['is_active']).'\',
 				u_see_all=\''.		SQL::quote($tab_new_user['see_all']).'\',
 				u_login=\''.		SQL::quote($tab_new_user['login']).'\',
 				u_quotite=\''.		SQL::quote($tab_new_user['quotite']).'\',

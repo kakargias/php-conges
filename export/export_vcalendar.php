@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
 define('_PHP_CONGES', 1);
-define('ROOT_PATH', '');
+define('ROOT_PATH', '../');
 include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
@@ -98,12 +98,12 @@ function form_saisie($user, $date_debut, $date_fin, $DEBUG=FALSE)
 	echo "<tr>\n";
 		echo "<td align=\"center\">\n";
 		echo "<b>". _('export_cal_from_date') ."</b> <input type=\"text\" name=\"date_debut\" size=\"10\" maxlength=\"10\" value=\"$date_debut\" style=\"background-color: #D4D4D4; \" readonly=\"readonly\"> \n";
-		echo "<a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('calendar.php?session=$session&champ_date=date_debut','calendardebut',250,220);\">\n";
+		echo "<a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('fonctions_export.php?session=$session&champ_date=date_debut','calendardebut',250,220);\">\n";
 		echo "<img src=\"". TEMPLATE_PATH . "img/1day.png\" border=\"0\" title=\"". _('export_cal_saisir_debut') ."\" alt=\"". _('export_cal_saisir_debut') ."\"></a>\n";
 		echo "</td>\n";
 		echo "<td align=\"center\">\n";
 		echo "<b>". _('export_cal_to_date') ."</b> <input type=\"text\" name=\"date_fin\" size=\"10\" maxlength=\"10\" value=\"$date_fin\" style=\"background-color: #D4D4D4; \" readonly=\"readonly\"> \n";
-		echo "<a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('calendar.php?session=$session&champ_date=date_fin','calendarfin',250,220);\">\n";
+		echo "<a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('fonctions_export.php?session=$session&champ_date=date_fin','calendarfin',250,220);\">\n";
 		echo "<img src=\"". TEMPLATE_PATH . "img/1day.png\" border=\"0\" title=\"". _('export_cal_saisir_fin') ."\" alt=\"". _('export_cal_saisir_fin') ."\"></a>\n";
 		echo "</td>\n";
 	echo "</tr>\n";

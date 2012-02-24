@@ -55,7 +55,7 @@ $DEBUG = FALSE ;
 
 	$css = '<link href="'. TEMPLATE_PATH .'style_calendar_edition.css" rel="stylesheet" type="text/css">';
 
-	header_popup('Impression Etat Conges : '.$user_login , $css);
+	header_popup(_('editions_etat_conges').' : '.$user_login , $css);
 	
 
 	

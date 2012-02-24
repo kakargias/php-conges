@@ -36,7 +36,7 @@
 					<input type="password" id="session_password" name="session_password" size="32" maxlength="99"  value="<?php //echo $session_password; ?>"/>
 				</div>
  				<div class="language">
- 					<label for="lang"><?php echo _('Langue'); ?></label>
+ 					<label for="lang"><?php echo _('langue'); ?></label>
  					<?php affiche_select_from_lang_directory('lang',$lang_selected); ?>
  				</div>
 				<div>

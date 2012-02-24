@@ -146,7 +146,7 @@ echo "<html>\n";
 							break;
 						case 'utilisateur':
 							if($_SESSION['config']['export_ical_vcal']) 
-								bouton_popup( _('Exporter cal') ,'export-22x22.png',ROOT_PATH . 'export_vcalendar.php?session='.$session.'&user_login='.$_SESSION['userlogin'] , 'icalvcal', 457, 280);
+								bouton_popup( _('Exporter cal') ,'export-22x22.png',ROOT_PATH . 'export/export_vcalendar.php?session='.$session.'&user_login='.$_SESSION['userlogin'] , 'icalvcal', 457, 280);
 					
 					
 							if($_SESSION['config']['editions_papier'])
@@ -266,8 +266,8 @@ echo "<html>\n";
 						if($_SESSION['config']['export_ical_vcal'])
 						{
 							echo '<div style="float: right;">';
-							echo "<a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('../export_vcalendar.php?session=$session&user_login=".$_SESSION['userlogin']."','icalvcal',457,280);\">" .
-							// echo "<a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('../export_vcalendar.php?session=$session&&user_login=".$_SESSION['userlogin']."','icalvcal',457,280);\">" .
+							echo "<a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('../export/export_vcalendar.php?session=$session&user_login=".$_SESSION['userlogin']."','icalvcal',457,280);\">" .
+							// echo "<a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('../export/export_vcalendar.php?session=$session&&user_login=".$_SESSION['userlogin']."','icalvcal',457,280);\">" .
 									"<img src=\"". TEMPLATE_PATH ."img/export-22x22.png\" width=\"17\" height=\"17\" border=\"0\" title=\"". _('button_export_2') ."\" alt=\"". _('button_export_2') ."\">" .
 									 _('button_export_1') ."</a>\n";
 							echo '</div>';

@@ -39,7 +39,7 @@
 				</div>
 				<!-- ADEX ne veux pas du choix de langue !
 				<div class="language">
-					<label for="lang"><?php // echo _('Langue'); ?></label>
+					<label for="lang"><?php // echo _('langue'); ?></label>
 					<?php // affiche_select_from_lang_directory('lang',$lang_selected); ?>
 				</div>-->
 				<div>

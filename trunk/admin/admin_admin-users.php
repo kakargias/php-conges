@@ -66,7 +66,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 	echo "<th>". _('admin_users_resp_login') ."</th>\n";
 	echo "<th>". _('admin_users_is_admin') ."</th>\n";
 	echo "<th>". _('admin_users_is_hr') ."</th>\n";
-	echo "<th>". _('admin_users_is_enable') ."</th>\n";
+	echo "<th>". _('admin_users_is_active') ."</th>\n";
 	echo "<th>". _('admin_users_see_all') ."</th>\n";
 	if($_SESSION['config']['where_to_find_user_email']=="dbconges")
 		echo "<th>". _('admin_users_mail') ."</th>\n";
@@ -133,7 +133,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 		echo "<td>".$tab_current_infos['resp_login']."</td>\n";
 		echo "<td>".$tab_current_infos['is_admin']."</td>\n";
 		echo "<td>".$tab_current_infos['is_hr']."</td>\n";
-		echo "<td>".$tab_current_infos['is_enable']."</td>\n";
+		echo "<td>".$tab_current_infos['is_active']."</td>\n";
 		echo "<td>".$tab_current_infos['see_all']."</td>\n";
 		if($_SESSION['config']['where_to_find_user_email']=="dbconges")
 			echo "<td>".$tab_current_infos['email']."</td>\n";

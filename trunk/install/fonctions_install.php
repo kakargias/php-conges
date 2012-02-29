@@ -58,7 +58,12 @@ function test_old_config_file($DEBUG=FALSE)
 // teste l'existance et la conexion à la database
 //renvoit TRUE si ok, et FALSE sinon
 function test_database() {
-	SQL::singleton();
+	try {
+		SQL::singleton();
+	}
+	catch (Exception $e){
+		return false;
+	}
 	return (SQL::getVar('connect_errno') == 0 );
 }
 
@@ -68,6 +73,9 @@ function test_database() {
 function get_installed_version( $DEBUG=FALSE)
 {
 	try {
+		$reglog = SQL::query('show tables like \'conges_config\';');
+		if( $reglog->num_rows == 0)
+			return 0;
 		$sql="SELECT conf_valeur FROM conges_config WHERE conf_nom='installed_version' ";
 		if($reglog = SQL::query($sql))
 		{

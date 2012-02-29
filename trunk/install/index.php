@@ -29,9 +29,10 @@ include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 //include ROOT_PATH .'fonctions_conges.php' ;
-include INCLUDE_PATH .'fonction.php';
 session_start();
+$_SESSION['lang'] = 'fr_FR';
 
+include INCLUDE_PATH .'fonction.php';
 
 include'fonctions_install.php' ;
 include ROOT_PATH .'fonctions_conges.php' ;

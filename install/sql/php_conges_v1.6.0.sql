@@ -212,6 +212,7 @@ CREATE TABLE IF NOT EXISTS `conges_users` (
   `u_resp_login` varbinary(99) default NULL,
   `u_is_admin` enum('Y','N') NOT NULL default 'N',
   `u_is_hr` enum('Y','N') NOT NULL default 'N',
+  `u_is_active` enum('Y','N') NOT NULL default 'Y',
   `u_see_all` enum('Y','N') NOT NULL default 'N',
   `u_passwd` varchar(64) NOT NULL default '',
   `u_quotite` int(3) default '100',
@@ -272,6 +273,7 @@ INSERT IGNORE INTO `conges_config` VALUES ('resp_affiche_calendrier', 'TRUE', '0
 INSERT IGNORE INTO `conges_config` VALUES ('resp_saisie_mission', 'FALSE', '06_Responsable', 'boolean', 'config_comment_resp_saisie_mission');
 INSERT IGNORE INTO `conges_config` VALUES ('resp_ajoute_conges', 'TRUE', '06_Responsable', 'boolean', 'config_comment_resp_ajoute_conges');
 INSERT IGNORE INTO `conges_config` VALUES ('gestion_cas_absence_responsable', 'FALSE', '06_Responsable', 'boolean', 'config_comment_gestion_cas_absence_responsable');
+INSERT IGNORE INTO `conges_config` VALUES ('print_disable_users',  'FALSE',  '06_Responsable',  'Boolean',  'config_comment_print_disable_users');
 
 INSERT IGNORE INTO `conges_config` VALUES ('admin_see_all', 'FALSE', '07_Administrateur', 'boolean', 'config_comment_admin_see_all');
 INSERT IGNORE INTO `conges_config` VALUES ('admin_change_passwd', 'TRUE', '07_Administrateur', 'boolean', 'config_comment_admin_change_passwd');
@@ -320,7 +322,7 @@ INSERT IGNORE INTO `conges_config` VALUES ('affiche_soldes_calendrier', 'TRUE', 
 INSERT IGNORE INTO `conges_config` VALUES ('affiche_demandes_dans_calendrier', 'FALSE', '13_Divers', 'boolean', 'config_comment_affiche_demandes_dans_calendrier');
 INSERT IGNORE INTO `conges_config` VALUES ('calcul_auto_jours_feries_france', 'FALSE', '13_Divers', 'boolean', 'config_comment_calcul_auto_jours_feries_france');
 
-INSERT IGNORE INTO `conges_config` VALUES ('stylesheet_file', 'style_2007.css', '14_Presentation', 'texte', 'config_comment_stylesheet_file');
+INSERT IGNORE INTO `conges_config` VALUES ('stylesheet_file', 'style.css', '14_Presentation', 'texte', 'config_comment_stylesheet_file');
 INSERT IGNORE INTO `conges_config` VALUES ('light_grey_bgcolor', '#DEDEDE', '14_Presentation', 'texte', 'config_comment_light_grey_bgcolor');
 
 

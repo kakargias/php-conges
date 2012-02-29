@@ -28,7 +28,9 @@ echo "<html>\n";
 			
 			});
 	</script>';
-	setlocale(LC_ALL, $_SESSION['lang'], $_SESSION['lang'].".utf8");
+
+	
+	
 	/*****************************************************************************/
 	// DEBUT AFFICHAGE DU MENU
 	echo '<div id="header" class="ui-widget-header ui-helper-clearfix ui-corner-all">';

@@ -67,6 +67,5 @@ bindtextdomain($nomDesFichiersDeLangue, LOCALE_PATH ); // On indique le chemin v
     bind_textdomain_codeset($nomDesFichiersDeLangue, 'UTF-8');  // Nos fichiers de langue sont en UTF-8 
 textdomain($nomDesFichiersDeLangue); // Le nom du domaine par défaut
 
-$_SESSION['lang'] = $lang;
 
 ?>

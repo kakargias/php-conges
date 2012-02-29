@@ -104,11 +104,11 @@ echo "<html>\n";
 					
 					$PHP_SELF=$_SERVER['PHP_SELF'];
 					$session=session_id();
-					if (is_enable($_SESSION['userlogin']))
-						$_SESSION['is_enable'] = "Y";
+					if (is_active($_SESSION['userlogin']))
+						$_SESSION['is_active'] = "Y";
 					else
-						$_SESSION['is_enable'] = "N";
-					verif_droits_user($_SESSION['is_enable'], "is_enable", FALSE);
+						$_SESSION['is_active'] = "N";
+					verif_droits_user($_SESSION['is_active'], "is_active", FALSE);
 					
 					$onglet = getpost_variable('onglet');
 					bouton('Actualiser'		,'refresh.png'	,$PHP_SELF.'?session='.$session.'&onglet='.$onglet);

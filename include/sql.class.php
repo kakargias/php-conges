@@ -135,25 +135,58 @@ class Database extends mysqli
 		self::$hist[$nb]['results'] = is_object($result) ? $result->num_rows : ($result ? 'TRUE': 'FALSE');
 		if ($this->errno != 0)
 		{
-			echo '<div><table>';
-			echo '<thead><tr><th>#</th><th>FX</th><th>line</th><th>file</th><th>class</th><th>object</th><th>type</th><th>args</th></tr></thead>';
-			echo '<tbody>';
-			$backtraces = debug_backtrace();
-			foreach( $backtraces as  $k => $b )
-			{
-				echo '<tr><td>'.($k +1).'</td><td>'.$b['function'].'</td><td>'.$b['line'].'</td><td>'.$b['file'].'</td><td>'.(isset($b['class'])?$b['class']:'').'</td><td>';
-				if (isset($b['object']))
-					var_dump($b['object']);
-				echo '</td><td>'.(isset($b['type'])?$b['type']:'').'</td><td>';
-				if (isset($b['args']))
-					var_dump($b['args']);
-				echo '</td></tr>';
-			
+			$dump_name = DUMP_PATH . 'sql_'.time().'.dump';
+			{ // dump me
+				$fh = fopen( $dump_name , 'a+');
+				if($fh ==! false) {
+					fputs ($fh, "\n".'##################################################');
+					fputs ($fh, "\n".'Date : '. date('Y-m-d H:i:s (T)') );
+					fputs ($fh, "\n".'**************************************************');
+					fputs ($fh, "\n".'--------------------------------------------------');
+					fputs ($fh, "\n".'=> Curent erreur log');
+					fputs ($fh, "\n".$error_msg_sumary);
+					fputs ($fh, "\n".'--------------------------------------------------');
+					fputs ($fh, "\n".'=> Last erreur log');
+					fputs ($fh, "\n".var_export(error_get_last(), true));
+					fputs ($fh, "\n".'**************************************************');
+					fputs ($fh, "\n".'--------------------------------------------------');
+					fputs ($fh, "\n".'=> Debug Backtrace');
+					fputs ($fh, "\n".var_export($backtraces, true));
+					fputs ($fh, "\n".'**************************************************');
+					fputs ($fh, "\n".'--------------------------------------------------');
+					fputs ($fh, "\n".'=> Var dump $_REQUEST');
+					fputs ($fh, "\n".var_export($_REQUEST, true));
+					fputs ($fh, "\n".'--------------------------------------------------');
+					fputs ($fh, "\n".'=> Var dump $_SESSION');
+					fputs ($fh, "\n".var_export((isset($_SESSION) ? $_SESSION : array() ), true));
+					fputs ($fh, "\n".'--------------------------------------------------');
+					fputs ($fh, "\n".'=> Var dump $_SERVER');
+					fputs ($fh, "\n".var_export($_SERVER, true));
+					fputs ($fh, "\n".'**************************************************');
+					fclose ($fh);
+				}
 			}
 			
-			echo '</tbody></table>';
-			echo '<hr/>'."\n".'Requete SQL = '.$query."\n".'<hr/>'."\n";
-			throw new Exception('Erreur : '.$this->error );
+			@ob_clean();
+			// DONT USE GETTEXT ... KEEP THIS CODE WITHOUT REF ... THIS NEED TO BE A SAFE CODE !!!!
+			echo '<div style="margin: auto; width: 80%;">
+					<h1>Une erreur est survenue ...</h1>
+					<p>Pour aider la résolution de ce problème, veuillez fournir les informations suivantes :</p>
+					<div>
+						<div style="float:left;width: 230px;"><img src="'. TEMPLATE_PATH .'img/oops.png" style="width: 98%" /></div>
+						<textarea style="width: 70%" rows="14">'.
+						'login : '.@$_SESSION['userlogin']."\n".
+						'uri   : '.preg_replace('/session=phpconges[a-z0-9]{32}&?/','',@$_SERVER['REQUEST_URI'])."\n".
+						'dump  : '.$dump_name."\n"."\n".
+						'file  : '.$f['file']."\n".
+						'line  : '.$f['line']	."\n".
+						'fx    : $SQL->query'	."\n".
+						'error : '.$this->error	."\n".
+						'sql   : '.$query		."\n".
+						'</textarea>
+					</div>
+				</div>';
+			exit();
 		}
 		return $result;
     }

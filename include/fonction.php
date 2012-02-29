@@ -194,6 +194,7 @@ function session_delete($session)
 	 unset($_SESSION['timestamp_last']);
 	 unset($_SESSION['tab_j_feries']);
 	 unset($_SESSION['config']);
+	 unset($_SESSION['lang']);
 	 session_destroy();
    }
 }
@@ -232,7 +233,6 @@ if (! navigator.cookieEnabled) {
 </noscript>';
 		
 	header_popup('', $add);
-	
 	include TEMPLATE_PATH . 'login_form.php';
 		
 	bottom();

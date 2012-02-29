@@ -1,17 +1,13 @@
 <?php
 
 	include INCLUDE_PATH.'misc.class.php';
-	global $lang;
-	
-	if (!isset($_REQUEST['lang'])) {
-		$locales_browser = new HTTPLocale();
-		$lang_browser = $locales_browser->language;
-		if($lang_browser)
-			$lang_selected = $lang_browser."_".strtoupper($lang_browser);
-		else $lang_selected = $lang;
-	}
-	$lang_selected = $lang;
-	
+
+	$locales_browser = new HTTPLocale();
+	$lang_browser = $locales_browser->language;
+	$country_browser = $locales_browser->country;
+	if($lang_browser && $country_browser)
+		$lang_selected = $lang_browser."_".strtoupper($country_browser);
+
 	
 ?>
 <div id="background">

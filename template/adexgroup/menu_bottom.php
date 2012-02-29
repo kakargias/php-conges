@@ -16,7 +16,7 @@
 			echo BOTTOM_TEXT;
 		echo '</div>';
 	
-		if ( SHOW_SQL ) {
+		if ( SHOW_SQL && SQL::initialized()) {
 			echo '<table class="tablo"><thead>';
 				echo '<tr>
 						<th>#</th>

@@ -31,6 +31,10 @@ class SQL
 		return self::$instance;
 	}
 	
+	public function initialized() {
+		return isset( self::$instance );
+	}
+	
 	private function __construct() {
 		$args = func_get_args();
 		// this doesn't work ... need use ReflectionClass ... BEURK ! ReflectionClass is not documented ... unstable

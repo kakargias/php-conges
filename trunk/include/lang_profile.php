@@ -22,7 +22,6 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
-
 if(isset($_REQUEST['lang']))
 	$lang = $_REQUEST['lang'];
 elseif(isset($_SESSION['lang']))
@@ -68,5 +67,6 @@ bindtextdomain($nomDesFichiersDeLangue, LOCALE_PATH ); // On indique le chemin v
     bind_textdomain_codeset($nomDesFichiersDeLangue, 'UTF-8');  // Nos fichiers de langue sont en UTF-8 
 textdomain($nomDesFichiersDeLangue); // Le nom du domaine par défaut
 
+$_SESSION['lang'] = $lang;
 
 ?>

@@ -505,7 +505,7 @@ function affiche_decimal($str, $DEBUG=FALSE)
 		return $int ;
 	elseif (preg_match('/[0-9][1-9]$/' , $decimal ))
 		return $str;
-	elseif (preg_match('/([0-9])0$/' , $decimal, $regs ))
+	elseif (preg_match('/([0-9]?)0?$/' , $decimal, $regs ))
 		return $int.'.'.$regs[1] ;
 	else {
 		echo 'ERREUR: affiche_decimal('.$str.') : '.$str.' n\'a pas le format attendu !!!!<br>';
@@ -1581,7 +1581,7 @@ function get_tab_resp_du_user($user_login,  $DEBUG=FALSE)
 	{
 		if( $DEBUG ) {echo ">> RECHERCHE des RESPONSABLES de : $user_login<br>\n";}
 		// recup du resp indiqué dans la table users (sauf s'il est resp de lui meme)
-		$req = 'SELECT u_resp_login FROM conges_users WHERE u_login=\''.SQL::quote($user_login).'\'';
+		$req = 'SELECT u_resp_login FROM conges_users WHERE u_login=\''.SQL::quote($user_login).'\';';
 		$res = SQL::query($req);
 
 		$rec = $res->fetch_array();
@@ -1744,7 +1744,7 @@ function is_hr($login,  $DEBUG=FALSE)
 	static $sql_is_hr = array();
 	if (!isset($sql_is_hr[$login])) {
 		// recup de qq infos sur le user
-		$select_info="SELECT u_is_hr FROM conges_users WHERE u_login='$login' ";
+		$select_info='SELECT u_is_hr FROM conges_users WHERE u_login=\''.SQL::quote($login).'\';';
 		$ReqLog_info = SQL::query($select_info);
 
 		$resultat_info = $ReqLog_info->fetch_array();
@@ -1760,7 +1760,7 @@ function is_active($login,  $DEBUG=FALSE)
 	static $sql_is_active = array();
 	if (!isset($sql_is_active[$login])) {
 		// recup de qq infos sur le user
-		$select_info="SELECT u_is_active FROM conges_users WHERE u_login='$login' ";
+		$select_info='SELECT u_is_active FROM conges_users WHERE u_login=\''.SQL::quote($login).'\';';
 		$ReqLog_info = SQL::query($select_info);
 
 		$resultat_info = $ReqLog_info->fetch_array();
@@ -1775,7 +1775,7 @@ function is_active($login,  $DEBUG=FALSE)
 function is_resp_of_user($resp_login, $user_login,  $DEBUG=FALSE)
 {
 	// recup de qq infos sur le user
-	$select_info='SELECT u_resp_login FROM conges_users WHERE u_login=\''.SQL::quote($user_login);
+	$select_info='SELECT u_resp_login FROM conges_users WHERE u_login=\''.SQL::quote($user_login).'\';';
 	$ReqLog_info = SQL::query($select_info);
 
 	$resultat_info = $ReqLog_info->fetch_array();
@@ -1793,7 +1793,7 @@ function is_admin($login, $DEBUG=FALSE)
 	static $sql_is_admin = array();
 	if (!isset($sql_is_admin[$login])) {
 		// recup de qq infos sur le user
-		$select_info='SELECT u_is_admin FROM conges_users WHERE u_login=\''.SQL::quote($login).'\'';
+		$select_info='SELECT u_is_admin FROM conges_users WHERE u_login=\''.SQL::quote($login).'\';';
 		$ReqLog_info = SQL::query($select_info);
 
 		$resultat_info = $ReqLog_info->fetch_array();

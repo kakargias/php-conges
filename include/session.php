@@ -37,27 +37,17 @@ $session_password="";
 
 //
 // recup du num  de session (mais on ne sais pas s'il est passé en GET ou POST
-$session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : "") ) ;
-$_SESSION['lang'] = (isset($_GET['lang']) ? $_GET['lang'] : ((isset($_POST['lang'])) ? $_POST['lang'] : "") ) ;
+$session=(isset($_REQUEST['session']) ? $_REQUEST['session'] : '' ));
 
 $DEBUG=FALSE;
 //$DEBUG=TRUE;
 
-if( $DEBUG ) { print_r($_SESSION); echo "<br><br>\n"; }
-
-
-
 
 if ($session != "") //  UNE SESSION EXISTE
 {
-	if( $DEBUG ) { echo "session = $session<br><br>\n"; }
-	
 	if(session_is_valid($session) )
-	{
 		session_update($session);
-	}
-	else
-	{
+	else {
 		session_delete($session);
 		$session="";
 		$session_username="";
@@ -68,8 +58,6 @@ if ($session != "") //  UNE SESSION EXISTE
 	}
 }
 else    //  PAS DE SESSION   ($session == "")
-{
 	redirect(ROOT_PATH . 'index.php');
-}
 
 

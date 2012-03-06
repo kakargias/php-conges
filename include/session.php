@@ -37,7 +37,7 @@ $session_password="";
 
 //
 // recup du num  de session (mais on ne sais pas s'il est passé en GET ou POST
-$session=(isset($_REQUEST['session']) ? $_REQUEST['session'] : '' ));
+$session=(isset($_REQUEST['session']) ? $_REQUEST['session'] : '' );
 
 $DEBUG=FALSE;
 //$DEBUG=TRUE;

@@ -15,7 +15,7 @@ class HTTPLocale
     $data = array_map("trim", explode("-", $data[0])); //get first pair of language-country
     
     $this->language = strtolower($data[0]);
-    $this->country  = strtolower($data[1]);
+	$this->country  = isset($data[1]) ? strtolower($data[1]) : $this->language;
   }
 }
 

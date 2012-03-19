@@ -27,31 +27,22 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 // teste le fichier config.php 
 //renvoit TRUE si ok, et FALSE sinon
-function test_config_file($DEBUG=FALSE)
-{
-	// verif si le fichier 'config.php' existe et est lisible ....
-	$filename = CONFIG_PATH .'config.php';
-	return is_readable($filename);
+function test_config_file() {
+	return is_readable( CONFIG_PATH .'config.php' );
 }
 
 
 // teste le fichier dbconnect.php 
 //renvoit TRUE si ok, et FALSE sinon
-function test_dbconnect_file($DEBUG=FALSE)
-{
-	// verif si le fichier 'dbconnect.php' existe et est lisible ....
-	$filename = CONFIG_PATH .'dbconnect.php';
-	return (is_readable($filename)) ;
+function test_dbconnect_file() {
+	return is_readable( CONFIG_PATH .'dbconnect.php' ) ;
 }
 
 
 // teste l'ancien fichier de conf config_old.php // mis par le user pour upgrade v1.0 to v1.1
 //renvoit TRUE si ok, et FALSE sinon
-function test_old_config_file($DEBUG=FALSE)
-{
-	// verif si le fichier 'config_old.php' existe et est lisible ....
-	$filename = 'config_old.php';
-	return (is_readable($filename)) ;
+function test_old_config_file() {
+	return is_readable('config_old.php');
 }
 
 
@@ -64,32 +55,26 @@ function test_database() {
 	catch (Exception $e){
 		return false;
 	}
-	return (SQL::getVar('connect_errno') == 0 );
+	return SQL::getVar('connect_errno') == 0 ;
 }
 
 
 
 // renvoit le num de la version installée ou 0 s'il est inaccessible (non renseigné ou table non présente) 
-function get_installed_version( $DEBUG=FALSE)
-{
+function get_installed_version() {
 	try {
 		$reglog = SQL::query('show tables like \'conges_config\';');
 		if( $reglog->num_rows == 0)
 			return 0;
 		$sql="SELECT conf_valeur FROM conges_config WHERE conf_nom='installed_version' ";
 		if($reglog = SQL::query($sql))
-		{
-			// la table existe !
 			if($result=$reglog->fetch_array())
-			{
-				if( $DEBUG ) { echo "result = <br>\n"; print_r($result); echo "<br>\n"; }
 				return $result['conf_valeur'];
-			}
-		}
 	}
 	catch(Exception $e) {
 		return 0;
 	}
+	return 0;
 	
 }
 
@@ -97,49 +82,35 @@ function get_installed_version( $DEBUG=FALSE)
 
 // teste la creation de table (verif si le user a les droits suffisants ou pas)
 // renvoit TRUE ou FALSE
-function test_create_table( $DEBUG=FALSE)
-{
-
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-
+function test_create_table() {
 	/*********************************************/
 	// creation de la table `conges_test`
 	$sql_create="CREATE TABLE IF NOT EXISTS `conges_test` (
 				`test1` varchar(100) BINARY NOT NULL default '',
 				`test2` varchar(100) BINARY NOT NULL default '',
  				 PRIMARY KEY  (`test1`)
-				) ;" ;
-	$result_create = SQL::query($sql_create);
-	return ($result_create);
+				) ;";
+	return SQL::query($sql_create);
 }
 
 
 // teste "alter table" (verif si le user a les droits suffisants ou pas)
 // renvoit TRUE ou FALSE
-function test_alter_table( $DEBUG=FALSE)
-{
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-
+function test_alter_table() {
 	/*********************************************/
 	// alter de la table `conges_test`
 	$sql_alter="ALTER TABLE `conges_test` CHANGE `test2` `test2` varchar(150) ;" ;
-	$result_alter = SQL::query($sql_alter) ;
-	return ($result_alter);
+	return SQL::query($sql_alter) ;
 }
 
 
 // teste la suppression de table (verif si le user a les droits suffisants ou pas)
 // renvoit TRUE ou FALSE
-function test_drop_table( $DEBUG=FALSE)
-{
-
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-
+function test_drop_table() {
 	/*********************************************/
 	// suppression de la table `conges_test`
 	$sql_drop="DROP TABLE `conges_test` ;" ;
-	$result_drop = SQL::query($sql_drop);
-	return $result_drop;
+	return SQL::query($sql_drop);
 }
 
 

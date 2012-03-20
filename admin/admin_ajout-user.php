@@ -181,11 +181,10 @@ function ajout_user(&$tab_new_user, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, 
 		$sql1=$sql1."u_prenom='".addslashes($tab_new_user['prenom'])."', ";
 		$sql1=$sql1."u_is_resp='".$tab_new_user['is_resp']."', ";
 		
-		
-		if($tab_new_user['is_resp'] == 'no_resp')
+		if($tab_new_user['resp_login'] == 'no_resp')
 			$sql1=$sql1."u_resp_login= NULL , ";
 		else
-			$sql1=$sql1."u_resp_login='". $tab_new_user['is_resp']."', ";
+			$sql1=$sql1."u_resp_login='". $tab_new_user['resp_login']."', ";
 		
 		
 		$sql1=$sql1."u_is_admin='".$tab_new_user['is_admin']."', ";

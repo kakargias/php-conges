@@ -698,12 +698,12 @@ function traite_demandes($user_login, $tab_radio_traite_demande, $tab_text_refus
 			
 			/* UPDATE table "conges_solde_user" (jours restants) */
 			// on retranche les jours seulement pour des conges pris (pas pour les absences)
-			// donc seulement si le type de l'absence qu'on annule est un "conges"
+			// donc seulement si le type de l'absence qu'on accepte est un "conges"
 			if( $DEBUG ) { echo "type_abs = ".$tab_tout_type_abs[$value_type_abs_id]['type']."<br>\n" ; }
 			if(($tab_tout_type_abs[$value_type_abs_id]['type']=="conges")||($tab_tout_type_abs[$value_type_abs_id]['type']=="conges_exceptionnels"))
 			{
-//				soustrait_solde_user($user_login, $user_nb_jours_pris_float, $value_type_abs_id,  $DEBUG);
-				soustrait_solde_et_reliquat_user($user_login, $user_nb_jours_pris_float, $value_type_abs_id, $date_deb, $demi_jour_deb, $date_fin, $demi_jour_fin,  $DEBUG);
+				// soustrait_solde_et_reliquat_user($user_login, $user_nb_jours_pris_float, $value_type_abs_id, $date_deb, $demi_jour_deb, $date_fin, $demi_jour_fin,  $DEBUG);
+				soustrait_solde_et_reliquat_user($user_login, $numero_int, $user_nb_jours_pris_float, $value_type_abs_id, $date_deb, $demi_jour_deb, $date_fin, $demi_jour_fin, $DEBUG);
 			}
 			
 			//envoi d'un mail d'alerte au user (si demandé dans config de php_conges)
@@ -786,8 +786,9 @@ function new_conges($user_login, $new_debut, $new_demi_jour_deb, $new_fin, $new_
 		if(isset($tab_tout_type_abs[$new_type_id]['type']) && $tab_tout_type_abs[$new_type_id]['type']=="conges")
 		{
 			$user_nb_jours_pris_float=(float) $new_nb_jours ;
-//			soustrait_solde_user($user_login, $user_nb_jours_pris_float, $new_type_id,  $DEBUG);
-			soustrait_solde_et_reliquat_user($user_login, $user_nb_jours_pris_float, $new_type_id, $new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin ,  $DEBUG);
+			// soustrait_solde_et_reliquat_user($user_login, $user_nb_jours_pris_float, $new_type_id, $new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin ,  $DEBUG);
+			soustrait_solde_et_reliquat_user($user_login, "", $user_nb_jours_pris_float, $new_type_id, $new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin , $DEBUG);
+
 		}
 		
 		$comment_log = "saisie conges par le responsable pour $user_login ($new_nb_jours jour(s)) type_conges = $new_type_id ( de $new_debut $new_demi_jour_deb a $new_fin $new_demi_jour_fin) ($new_comment)";

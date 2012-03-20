@@ -27,7 +27,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 // calcule le nb de jours de conges à prendre pour un user entre 2 dates
 // retourne le nb de jours  (opt_debut et opt_fin ont les valeurs "am" ou "pm"
-function compter($user, $date_debut, $date_fin, $opt_debut, $opt_fin, &$comment,  $DEBUG=FALSE, $num_update = null)
+function compter($user, $num_current_periode, $date_debut, $date_fin, $opt_debut, $opt_fin, &$comment,  $DEBUG=FALSE, $num_update = null)
 {
 
 	// verif si date_debut est bien anterieure à date_fin
@@ -67,7 +67,7 @@ function compter($user, $date_debut, $date_fin, $opt_debut, $opt_fin, &$comment,
 
 		/************************************************************/
 		// 2 : on verifie que le conges demandé ne chevauche pas une periode deja posée
-		if(verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $tab_periode_calcul, $comment,  $DEBUG, $num_update) )
+		if(verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $num_current_periode, $tab_periode_calcul, $comment,  $DEBUG, $num_update) )
 			return 0;
 
 
@@ -216,8 +216,9 @@ function make_tab_demi_jours_periode($date_debut, $date_fin, $opt_debut, $opt_fi
 
 
 // verifie si la periode donnee chevauche une periode de conges d'un user donné
+// attention à ne pas verifer le chevauchement avec la periode qu on est en train de traiter (si celle ci a déjà un num_periode)
 // retourne TRUE si chevauchement et FALSE sinon !
-function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $tab_periode_calcul, &$comment, $DEBUG=FALSE, $num_update = null)
+function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $num_current_periode='', $tab_periode_calcul, &$comment, $DEBUG=FALSE, $num_update = null)
 {
 		/************************************************************/
 		// 2 : on verifie que le conges demandé ne chevauche pas une periode deja posée
@@ -242,6 +243,7 @@ function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $ta
 				$user_periode_sql = 'SELECT  p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_etat
 								FROM conges_periode
 								WHERE p_login = \''.SQL::quote($user).'\' AND ( p_etat=\'ok\' OR p_etat=\'valid\' OR p_etat=\'demande\' )
+									'.(!empty($num_current_periode) ? 'AND p_num != '.intval($num_current_periode).' ' : '') .'
 									AND p_date_deb<=\''.SQL::quote($current_day).'\' AND p_date_fin>=\''.SQL::quote($current_day).'\' ';
 			}
 			else
@@ -251,6 +253,7 @@ function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $ta
 				$user_periode_sql = 'SELECT  p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_etat
 								FROM conges_periode
 								WHERE p_login = \''.SQL::quote($user).'\' AND ( p_etat=\'ok\' OR p_etat=\'valid\' OR p_etat=\'demande\' )
+									'.(!empty($num_current_periode) ? 'AND p_num != '.intval($num_current_periode).' ' : '') .'
 									AND p_date_deb<=\''.SQL::quote($current_day).'\' AND p_date_fin>=\''.SQL::quote($current_day).'\'
 									AND p_num != \''.intval($num_update).'\' ';
 			}

@@ -144,7 +144,7 @@ verif_droits_user($session, "is_admin", $DEBUG);
 		// fabrication et initialisation du tableau des demi-jours de la date_debut à la date_fin
 		{
 			$tab_periode_calcul = make_tab_demi_jours_periode($date_debut_yyyy_mm_dd, $date_fin_yyyy_mm_dd, "am", "pm", $DEBUG);
-			if(verif_periode_chevauche_periode_groupe($date_debut_yyyy_mm_dd, $date_fin_yyyy_mm_dd, $tab_periode_calcul, $groupe_id, $DEBUG) )
+			if(verif_periode_chevauche_periode_groupe($date_debut_yyyy_mm_dd, $date_fin_yyyy_mm_dd, '', $tab_periode_calcul, $groupe_id, $DEBUG) )
 				$code_erreur=5 ;  // code erreur : fermeture chevauche une periode deja saisie
 		}
 	}
@@ -313,34 +313,22 @@ function saisie_dates_fermeture($year, $groupe_id, $new_date_debut, $new_date_fi
 	// $code_erreur=5 ;  // code erreur : fermeture chevauche une periode deja saisie
 
 	// on verifie que $new_date_debut est anterieure a $new_date_fin
-//	if($timestamp_date_debut > $timestamp_date_fin)
 	if($code_erreur==2)
 		echo "<br><center><h3><font color=\"red\">". _('admin_jours_fermeture_dates_incompatibles') .".</font></h3></center><br><br>\n";
 	// on verifie que ce ne sont pas des dates passées
-//	if($timestamp_date_debut < $timestamp_today)
 	if($code_erreur==3)
 		echo "<br><center><h3><font color=\"red\">". _('admin_jours_fermeture_date_passee_error') .".</font></h3></center><br><br>\n";
 	// on verifie si les jours fériés de l'annee de la periode saisie sont enregistrés : sinon BUG au calcul des soldes des users !
-//	if( (verif_jours_feries_saisis($date_debut_yyyy_mm_dd,  $DEBUG)==FALSE)
-//	    && (verif_jours_feries_saisis($date_fin_yyyy_mm_dd,  $DEBUG)==FALSE) )
 	if($code_erreur==1)
 		echo "<br><center><h3><font color=\"red\">". _('admin_jours_fermeture_annee_non_saisie') .".</font></h3></center><br><br>\n";
 
 	// on verifie si la periode saisie ne chevauche pas une :
 	// fabrication et initialisation du tableau des demi-jours de la date_debut à la date_fin
-//	if( ($timestamp_date_debut!=$timestamp_today) || ($timestamp_date_fin!=$timestamp_today) )  // on ne verifie QUE si date_debut ou date_finc sont !=  d'aujourd'hui
-////	{
-////		echo "<br><center><h3><font color=\"red\">". _('admin_jours_fermeture_fermeture_aujourd_hui') .".</font></h3></center><br><br>\n";
 	if($code_erreur==4)
 		echo "<br><center><h3><font color=\"red\">". _('admin_jours_fermeture_fermeture_aujourd_hui') .".</font></h3></center><br><br>\n";
-////	}
-////	else
-//	{
-//		$tab_periode_calcul = make_tab_demi_jours_periode($date_debut_yyyy_mm_dd, $date_fin_yyyy_mm_dd, "am", "pm", $DEBUG);
-//		if(verif_periode_chevauche_periode_groupe($date_debut_yyyy_mm_dd, $date_fin_yyyy_mm_dd, $tab_periode_calcul, $groupe_id,  $DEBUG) )
+		
 	if($code_erreur==5)
 			echo "<br><center><h3><font color=\"red\">". _('admin_jours_fermeture_chevauche_periode') .".</font></h3></center><br><br>\n";
-//	}
 
 
 	/************************************************/
@@ -740,7 +728,9 @@ function commit_new_fermeture($new_date_debut, $new_date_fin, $groupe_id, $id_ty
 		$nb_jours = 0;
 		$comment="" ;
 
-		$nb_jours = compter($current_login, $date_debut, $date_fin, $opt_debut, $opt_fin, $comment,  $DEBUG);
+		// $nb_jours = compter($current_login, $date_debut, $date_fin, $opt_debut, $opt_fin, $comment,  $DEBUG);
+		$nb_jours = compter($current_login, "", $date_debut, $date_fin, $opt_debut, $opt_fin, $comment, $DEBUG);
+
 		if ($DEBUG) echo "<br>user_login : " . $current_login . " nbjours : " . $nb_jours . "<br>\n";
 
 		// on ne met à jour la table conges_periode .
@@ -749,10 +739,10 @@ function commit_new_fermeture($new_date_debut, $new_date_fin, $groupe_id, $id_ty
 		$num_periode = insert_dans_periode($current_login, $date_debut, $opt_debut, $date_fin, $opt_fin, $nb_jours, $commentaire, $id_type_conges, $etat, $new_fermeture_id, $DEBUG) ;
 
 		// mise à jour du solde de jours de conges pour l'utilisateur $current_login
-		if ($nb_jours != 0)
-		{
-			//soustrait_solde_user($current_login, $nb_jours, $id_type_conges,  $DEBUG);
-			soustrait_solde_et_reliquat_user($current_login, $nb_jours, $id_type_conges, $date_debut, $opt_debut, $date_fin, $opt_fin,  $DEBUG);
+		if ($nb_jours != 0) {
+			//soustrait_solde_et_reliquat_user($current_login, $nb_jours, $id_type_conges, $date_debut, $opt_debut, $date_fin, $opt_fin,  $DEBUG);
+			soustrait_solde_et_reliquat_user($current_login, "", $nb_jours, $id_type_conges, $date_debut, $opt_debut, $date_fin, $opt_fin, $DEBUG);
+
 		}
 	}
 
@@ -1014,7 +1004,7 @@ function affiche_select_conges_id( $DEBUG=FALSE)
 
 // verifie si la periode donnee chevauche une periode de conges d'un des user du groupe ..
 // retourne TRUE si chevauchement et FALSE sinon !
-function verif_periode_chevauche_periode_groupe($date_debut, $date_fin, $tab_periode_calcul, $groupe_id,  $DEBUG=FALSE)
+function verif_periode_chevauche_periode_groupe($date_debut, $date_fin, $num_current_periode='', $tab_periode_calcul, $groupe_id,  $DEBUG=FALSE)
 {
 	/*****************************/
 	// on construit le tableau des users affectés par les fermetures saisies :
@@ -1033,7 +1023,7 @@ function verif_periode_chevauche_periode_groupe($date_debut, $date_fin, $tab_per
 		$current_login = trim($current_login, "\'");
 
 		$comment="";
-		if(verif_periode_chevauche_periode_user($date_debut, $date_fin, $current_login, $tab_periode_calcul, $comment, $DEBUG))
+		if(verif_periode_chevauche_periode_user($date_debut, $date_fin, $current_login, $num_current_periode, $tab_periode_calcul, $comment, $DEBUG))
 			return TRUE;
 	}
 }

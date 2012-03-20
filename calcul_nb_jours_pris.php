@@ -97,7 +97,9 @@ function affichage($user, $date_debut, $date_fin, $opt_debut, $opt_fin, $DEBUG=F
 	echo "<table>\n";
 	echo "<tr>\n";
 	// calcul :
-	$nb_jours=compter($user, $date_debut, $date_fin, $opt_debut, $opt_fin, $comment, $DEBUG);
+	// $nb_jours=compter($user, $date_debut, $date_fin, $opt_debut, $opt_fin, $comment, $DEBUG);
+	$nb_jours=compter($user, "", $date_debut, $date_fin, $opt_debut, $opt_fin, $comment, $DEBUG);
+
 	echo "<td align=\"center\"><h2>". _('calcul_nb_jours_nb_jours') ." <b>$nb_jours</b></h2></td>\n";
 	echo "</tr>\n";
 	echo "<tr>\n";

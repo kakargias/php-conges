@@ -2512,14 +2512,13 @@ function get_reliquat_user_conges($login, $type_abs,  $DEBUG=FALSE)
 
 
 
-//  soustrait_solde_et_reliquat_user($user_login, $user_nb_jours_pris, $type_abs, $date_deb, $demi_jour_deb, $date_fin, $demi_jour_fin,  $DEBUG=FALSE)
 /*	si date_fin_conges < date_limite_reliquat => alors on décompte dans reliquats 
 	si date_debut_conges > date_limite_reliquat => alors on ne décompte pas dans reliquats
 	si gonges demandé est à cheval sur la date_limite_reliquat => il faut decompter le nb_jours_pris du solde, puis il faut 
 	calculer le nb_jours_avant pris avant la date limite, et on le decompte des reliquats, et calculer le nb_jours_apres 
-	d'apres la data limite et ne pas le décompter des reliquats !!!
+	d'apres la date limite et ne pas le décompter des reliquats !!!
 */			
-function soustrait_solde_et_reliquat_user($user_login, $user_nb_jours_pris, $type_abs, $date_deb, $demi_jour_deb, $date_fin, $demi_jour_fin,  $DEBUG=FALSE)
+function soustrait_solde_et_reliquat_user($user_login, $num_current_periode, $user_nb_jours_pris, $type_abs, $date_deb, $demi_jour_deb, $date_fin, $demi_jour_fin,  $DEBUG=FALSE)
 {
 
 	//si on autorise les reliquats
@@ -2545,16 +2544,16 @@ function soustrait_solde_et_reliquat_user($user_login, $user_nb_jours_pris, $typ
 			{
 				$new_reliquat = $reliquat;
 			}
-			//si gonges demandé est à cheval sur la date_limite_reliquat => il faut decompter le nb_jours_pris du solde, puis il faut 
+			//si conges demandé est à cheval sur la date_limite_reliquat => il faut decompter le nb_jours_pris du solde, puis il faut 
 			//calculer le nb_jours_avant pris avant la date limite, et on le decompte des reliquats, et calculer le nb_jours_apres 
 			//d'apres la data limite et ne pas le décompter des reliquats !!!
 			else
 			{
 				include 'fonctions_calcul.php' ;
-				$nb_reliquats_a_deduire = compter($user_login, $date_deb, $_SESSION['config']['date_limite_reliquats'], $demi_jour_deb, "pm", null ,  $DEBUG);
+				$nb_reliquats_a_deduire = compter($user_login, $num_current_periode, $date_deb, $_SESSION['config']['date_limite_reliquats'], $demi_jour_deb, "pm", null ,  $DEBUG);
 				
-				if($nb_reliquats_a_deduire>$user_nb_jours_pris)
-					$new_reliquat = $nb_reliquats_a_deduire-$user_nb_jours_pris;
+				if($reliquat > $nb_reliquats_a_deduire)
+					$new_reliquat = $reliquat - $nb_reliquats_a_deduire;
 				else
 					$new_reliquat = 0;
 			}
@@ -2568,7 +2567,7 @@ function soustrait_solde_et_reliquat_user($user_login, $user_nb_jours_pris, $typ
 				$new_reliquat = 0;
 		}
 			
-	$sql2 = 'UPDATE conges_solde_user SET su_solde=su_solde-'.SQL::quote($user_nb_jours_pris).', su_reliquat='.SQL::quote($new_reliquat).' WHERE su_login=\''.SQL::quote($user_login).'\'  AND su_abs_id='.SQL::quote($type_abs).' ';
+		$sql2 = 'UPDATE conges_solde_user SET su_solde=su_solde-'.SQL::quote($user_nb_jours_pris).', su_reliquat='.SQL::quote($new_reliquat).' WHERE su_login=\''.SQL::quote($user_login).'\'  AND su_abs_id='.SQL::quote($type_abs).' ';
 		
 	}
 	else

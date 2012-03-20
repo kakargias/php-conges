@@ -696,7 +696,7 @@ function affiche_cellule_jour_user($sql_login, $j_timestamp, $year_select, $mois
 	}
 	else
 	{
-		$date_j=date("Y-m-d", $j_timestamp);
+		$date_j=date("Y-m-d", $j_timestamp + 60*60*24);
 
 		$class_am="travail_am";
 		$class_pm="travail_pm";

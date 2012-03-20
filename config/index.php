@@ -1,16 +1,16 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des CongÃ©s
+PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
 Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les 
-termes de la Licence Publique GÃ©nÃ©rale GNU publiÃ©e par la Free Software Foundation.
-Ce programme est distribuÃ© car potentiellement utile, mais SANS AUCUNE GARANTIE, 
+termes de la Licence Publique Générale GNU publiée par la Free Software Foundation.
+Ce programme est distribué car potentiellement utile, mais SANS AUCUNE GARANTIE, 
 ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation 
-dans un but spÃ©cifique. Reportez-vous Ã  la Licence Publique GÃ©nÃ©rale GNU pour plus de dÃ©tails.
-Vous devez avoir reÃ§u une copie de la Licence Publique GÃ©nÃ©rale GNU en mÃªme temps 
-que ce programme ; si ce n'est pas le cas, Ã©crivez Ã  la Free Software Foundation, 
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, Ã‰tats-Unis.
+dans un but spécifique. Reportez-vous à la Licence Publique Générale GNU pour plus de détails.
+Vous devez avoir reçu une copie de la Licence Publique Générale GNU en même temps 
+que ce programme ; si ce n'est pas le cas, écrivez à la Free Software Foundation, 
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, États-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation; either 
@@ -23,35 +23,31 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-define('_PHP_CONGES', 1);
-define('ROOT_PATH', '../');
-include ROOT_PATH . 'define.php';
-include INCLUDE_PATH . 'fonction.php';
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
+//appel de PHP-IDS que si version de php > 5.1.2
+if(phpversion() > "5.1.2") { include("../controle_ids.php") ;}
+$session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
 
-$session =(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : session_id()) ) ;
-
-if (empty($session)) {
-	redirect(ROOT_PATH . 'index.php?return_url=config/index.php');
-}
-
-
-include ROOT_PATH .'fonctions_conges.php' ;
+include("../fonctions_conges.php") ;
+include("../INCLUDE.PHP/fonction.php");
 
 $_SESSION['config']=init_config_tab();      // on initialise le tableau des variables de config
-include INCLUDE_PATH .'session.php';
+include("../INCLUDE.PHP/session.php");
+include("../fonctions_javascript.php") ;
 
-//include'fonctions_install.php' ;
+//include("fonctions_install.php") ;
 	
 $PHP_SELF=$_SERVER['PHP_SELF'];
 
+$DEBUG=FALSE;
+//$DEBUG=TRUE;
+
 $session=session_id();
 
-// verif des droits du user Ã  afficher la page
-verif_droits_user($session, "is_admin");
+// verif des droits du user à afficher la page
+verif_droits_user($session, "is_admin", $DEBUG);
 
 $_SESSION['from_config']=TRUE;  // initialise ce flag pour changer le bouton de retour des popup
-propose_config();
+propose_config($DEBUG);
 
 
 
@@ -59,36 +55,43 @@ propose_config();
 /*   FONCTIONS   */
 
 
-function propose_config()
+function propose_config( $DEBUG=FALSE)
 {
 	$session=session_id();
 	
-	header_popup('PHP_CONGES : Installation');
-
+	echo "<html>\n<head>\n";
+	echo "<TITLE> PHP_CONGES : Installation : </TITLE>\n</head>\n";
+	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";	
+	echo "<link href=\"../style_basic.css\" rel=\"stylesheet\" type=\"text/css\">\n";
+	echo "</head>\n";
+				
+	echo "<body text=\"#000000\" bgcolor=\"#597c98\" link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\" >\n";
+			
 	// affichage du titre
 	echo "<center>\n";
-	echo "<br><H1><img src=\"". TEMPLATE_PATH . "img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"". _('install_install_phpconges') ."\" alt=\"". _('install_install_phpconges') ."\"> ". _('install_index_titre') ."</H1>\n";
+	echo "<br><H1><img src=\"../img/tux_config_32x32.png\" width=\"32\" height=\"32\" border=\"0\" title=\"".$_SESSION['lang']['install_install_phpconges']."\" alt=\"".$_SESSION['lang']['install_install_phpconges']."\"> ".$_SESSION['lang']['install_index_titre']."</H1>\n";
 	echo "<br><br>\n";
 	
-		echo "<h2>". _('install_configuration') ." :</h2>\n";
+		echo "<h2>".$_SESSION['lang']['install_configuration']." :</h2>\n";
 		echo "<h3>\n";
 		echo "<table border=\"0\">\n";
-		echo "<tr><td>-> <a href=\"configure.php?session=$session\">". _('install_config_appli') ."</a></td></tr>\n";
-		echo "<tr><td>-> <a href=\"config_type_absence.php?session=$session\">". _('install_config_types_abs') ."</a></td></tr>\n";
-		echo "<tr><td>-> <a href=\"config_mail.php?session=$session\">". _('install_config_mail') ."</a></td></tr>\n";
-		echo "<tr><td>-> <a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('test_mail.php?session=$session','testmail',800,350);\">". _('install_test_mail') ."</a></td></tr>\n";
-		echo "<tr><td>-> <a href=\"config_logs.php?session=$session\">". _('config_logs') ."</a></td></tr>\n";
+		echo "<tr><td>-> <a href=\"configure.php?session=$session\">".$_SESSION['lang']['install_config_appli']."</a></td></tr>\n";
+		echo "<tr><td>-> <a href=\"config_type_absence.php?session=$session\">".$_SESSION['lang']['install_config_types_abs']."</a></td></tr>\n";
+		echo "<tr><td>-> <a href=\"config_mail.php?session=$session\">".$_SESSION['lang']['install_config_mail']."</a></td></tr>\n";
+		echo "<tr><td>-> <a href=\"javascript:void(0);\" onClick=\"javascript:OpenPopUp('test_mail.php?session=$session','testmail',800,350);\">".$_SESSION['lang']['install_test_mail']."</a></td></tr>\n";
+		echo "<tr><td>-> <a href=\"config_logs.php?session=$session\">".$_SESSION['lang']['config_logs']."</a></td></tr>\n";
 		echo "<tr><td>&nbsp;</td></tr>\n";
-		echo "<tr><td>-> <a href=\"../\">". _('install_acceder_appli') ."</a></td></tr>\n";
+		echo "<tr><td>-> <a href=\"../\">".$_SESSION['lang']['install_acceder_appli']."</a></td></tr>\n";
 		echo "</table>\n";
 		echo "</h3><br><br>\n";
 		
+		bouton_deconnexion($DEBUG);
 
-		echo '<a href="'. ROOT_PATH .'deconnexion.php?session='.$session.'" target="_top">' .
-				'<img src="'. TEMPLATE_PATH . 'img/exit.png" width="22" height="22" border="0" title="'. _('button_deconnect') .'" alt="'. _('button_deconnect') .'">' .
-				 _('button_deconnect') .'</a>';
-
-
-	bottom();
+	echo "</center>\n";
+				
+	echo "</body>\n</html>\n";
 }
 
+
+
+?>

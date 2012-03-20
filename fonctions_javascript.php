@@ -1,44 +1,44 @@
-<script language=javascript>
-	<!--
-	function OpenPopUp(MyFile,MyWindow,MyWidth,MyHeight)
-	//MyFile :	  nom du fichier contenant le code HTML du pop-up
-	//MyWindow :	  nom de la fenÃªtre (ne pas mettre d'espace)
-	//MyWidth :	  entier indiquant la largeur de la fenÃªtre en pixels
-	//MyHeight :	  entier indiquant la hauteur de la fenÃªtre en pixels
+<SCRIPT LANGUAGE="JavaScript1.2">
+<!--
+function OpenPopUp(MyFile,MyWindow,MyWidth,MyHeight)
+//MyFile :	  nom du fichier contenant le code HTML du pop-up
+//MyWindow :	  nom de la fenêtre (ne pas mettre d'espace)
+//MyWidth :	  entier indiquant la largeur de la fenêtre en pixels
+//MyHeight :	  entier indiquant la hauteur de la fenêtre en pixels
 
-	{	  
-	var ns4 = (document.layers)? true:false; 	  //NS 4
-	var ie4 = (document.all)? true:false;	  //IE 4
-	var dom = (document.getElementById)? true:false;	  //DOM
-	var xMax, yMax, xOffset, yOffset;;	  
+{	  
+var ns4 = (document.layers)? true:false; 	  //NS 4
+var ie4 = (document.all)? true:false;	  //IE 4
+var dom = (document.getElementById)? true:false;	  //DOM
+var xMax, yMax, xOffset, yOffset;;	  
 
-		if (ie4 || dom)
-			{
-			xMax = screen.width;
-			yMax = screen.height;
-			}
-		else if (ns4)
-			{
-			xMax = window.outerWidth;
-			yMax = window.outerHeight;
-			}
-		else
-			{
-			xMax = 800;
-			yMax = 600;
-			}
-		xOffset = (xMax - MyWidth)/2;
-		yOffset = (yMax - MyHeight)/2;
-		window.open(MyFile,MyWindow,'width='+MyWidth
-	+',height='+MyHeight
-	+',screenX='+xOffset
-	+',screenY='+yOffset
-	+',top='+yOffset
-	+',left='+xOffset
-	+',scrollbars=yes,resizable=yes');
-		}
-	//-->
-</script>
+    if (ie4 || dom)
+        {
+        xMax = screen.width;
+        yMax = screen.height;
+        }
+    else if (ns4)
+        {
+        xMax = window.outerWidth;
+        yMax = window.outerHeight;
+        }
+    else
+        {
+        xMax = 800;
+        yMax = 600;
+        }
+    xOffset = (xMax - MyWidth)/2;
+    yOffset = (yMax - MyHeight)/2;
+    window.open(MyFile,MyWindow,'width='+MyWidth
++',height='+MyHeight
++',screenX='+xOffset
++',screenY='+yOffset
++',top='+yOffset
++',left='+xOffset
++',scrollbars=yes,resizable=yes');
+    }
+//-->
+</SCRIPT>
 
 <script language=javascript>
 
@@ -65,7 +65,7 @@ function compter_jours(radiodebut, radiofin, login_user, j_debut, j_fin)
 			var opt_fin = j_fin[i].value;	
 	// am ou pm
 	
-	var msg = 'de ' + d_debut + ' Ã  ' + d_fin;
+	var msg = 'de ' + d_debut + ' à ' + d_fin;
 	if( (d_debut) && (d_fin))
 	{
 		var page ='../calcul_nb_jours_pris.php?session='+session+'&date_debut='+d_debut+'&date_fin='+d_fin+'&user='+login+'&opt_debut='+opt_deb+'&opt_fin='+opt_fin;
@@ -99,7 +99,7 @@ function compter_jours_old(radiodebut, radiofin, login_user, j_debut, j_fin)
 			var opt_fin = j_fin[i].value;	
 	// am ou pm
 	
-	var msg = 'de ' + d_debut + ' Ã  ' + d_fin;
+	var msg = 'de ' + d_debut + ' à ' + d_fin;
 	
 	var page ='../calcul_nb_jours_pris.php?session='+session+'&date_debut='+d_debut+'&date_fin='+d_fin+'&user='+login+'&opt_debut='+opt_deb+'&opt_fin='+opt_fin;
 	//alert(msg);
@@ -109,3 +109,5 @@ function compter_jours_old(radiodebut, radiofin, login_user, j_debut, j_fin)
 }
 
 </script>
+
+

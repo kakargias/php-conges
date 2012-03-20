@@ -1,16 +1,16 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des CongÃ©s
+PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
 Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les
-termes de la Licence Publique GÃ©nÃ©rale GNU publiÃ©e par la Free Software Foundation.
-Ce programme est distribuÃ© car potentiellement utile, mais SANS AUCUNE GARANTIE,
+termes de la Licence Publique Générale GNU publiée par la Free Software Foundation.
+Ce programme est distribué car potentiellement utile, mais SANS AUCUNE GARANTIE,
 ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation
-dans un but spÃ©cifique. Reportez-vous Ã  la Licence Publique GÃ©nÃ©rale GNU pour plus de dÃ©tails.
-Vous devez avoir reÃ§u une copie de la Licence Publique GÃ©nÃ©rale GNU en mÃªme temps
-que ce programme ; si ce n'est pas le cas, Ã©crivez Ã  la Free Software Foundation,
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, Ã‰tats-Unis.
+dans un but spécifique. Reportez-vous à la Licence Publique Générale GNU pour plus de détails.
+Vous devez avoir reçu une copie de la Licence Publique Générale GNU en même temps
+que ce programme ; si ce n'est pas le cas, écrivez à la Free Software Foundation,
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, États-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation; either
@@ -23,40 +23,35 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-define('_PHP_CONGES', 1);
-define('ROOT_PATH', '../');
-include ROOT_PATH . 'define.php';
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
-
+//appel de PHP-IDS que si version de php > 5.1.2
+if(phpversion() > "5.1.2") { include("../controle_ids.php") ;}
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : "") ) ;
 
-if (file_exists(CONFIG_PATH .'config_ldap.php'))
-	include CONFIG_PATH .'config_ldap.php';
-	
-include ROOT_PATH .'fonctions_conges.php' ;
-include INCLUDE_PATH .'fonction.php';
+include("../config_ldap.php");
+include("../fonctions_conges.php") ;
+include("../INCLUDE.PHP/fonction.php");
 if(!isset($_SESSION['config']))
 	$_SESSION['config']=init_config_tab();      // on initialise le tableau des variables de config
-include INCLUDE_PATH .'session.php';
+include("../INCLUDE.PHP/session.php");
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : "") ) ;
 
 
 //$DEBUG = TRUE ;
 $DEBUG = FALSE ;
 
-// verif des droits du user Ã  afficher la page
+// verif des droits du user à afficher la page
 verif_droits_user($session, "is_admin", $DEBUG);
 
 
 
 	/*** initialisation des variables ***/
 	/*************************************/
-	// recup des parametres reÃ§us :
+	// recup des parametres reçus :
 	// SERVER
 	$PHP_SELF=$_SERVER['PHP_SELF'];
 	// GET / POST
-	$action = getpost_variable('action') ;
-	$tab_new_values = getpost_variable('tab_new_values');
+	$action = getpost_variable("action") ;
+	$tab_new_values = getpost_variable("tab_new_values");
 
 	/*************************************/
 	if(!isset($tab_new_values['mail_to']))
@@ -74,27 +69,40 @@ verif_droits_user($session, "is_admin", $DEBUG);
 		echo "$action<br>\n";
 	}
 
-	
-	header_popup('CONGES : Configuration');
-	
-	
+	//connexion mysql
+	$mysql_link = connexion_mysql() ;
+
+	// affichage début page
+	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\">\n";
+	echo "<html>\n";
+	echo "<head>\n";
+	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
+	echo "<link href=\"../".$_SESSION['config']['stylesheet_file']."\" rel=\"stylesheet\" type=\"text/css\">\n";
+	echo "<TITLE> CONGES : Configuration </TITLE>\n";
+	echo "</head>\n";
+
+	echo "<body text=\"#000000\" bgcolor=".$_SESSION['config']['bgcolor']." link=\"#000080\" vlink=\"#800080\" alink=\"#FF0000\">\n";
 	echo "<center>";
 
 	/*********************************/
 	/*********************************/
 
 	if(($action=="test") && ($tab_new_values['smtp_host_name']=="") && ($tab_new_values['smtp_host_ip']=="") )
-		test_mail_direct($tab_new_values, $session, $DEBUG);
+		test_mail_direct($tab_new_values, $mysql_link, $session, $DEBUG);
 	elseif( ($action=="test") && ( ($tab_new_values['smtp_host_name']!="") || ($tab_new_values['smtp_host_ip']!="") ) )
-		test_mail_smtp($tab_new_values, $session, $DEBUG);
+		test_mail_smtp($tab_new_values, $mysql_link, $session, $DEBUG);
 	else
-		affichage($tab_new_values, $session, $DEBUG);
+		affichage($tab_new_values, $mysql_link, $session, $DEBUG);
 
 	/*********************************/
 	/*********************************/
 
-	bottom();
+	// affichage fin page
+	echo "</center>";
+	echo "</body>";
+	echo "</html>";
 
+	mysql_close($mysql_link);
 
 
 
@@ -103,7 +111,7 @@ verif_droits_user($session, "is_admin", $DEBUG);
 /**********  FONCTIONS  ***************************************************************/
 
 
-function affichage($tab_new_values,  $session, $DEBUG=FALSE)
+function affichage($tab_new_values, $mysql_link, $session, $DEBUG=FALSE)
 {
 	$session=session_id();
 	$PHP_SELF=$_SERVER['PHP_SELF'];
@@ -120,7 +128,7 @@ function affichage($tab_new_values,  $session, $DEBUG=FALSE)
 	/**************************************/
 
 	echo "<form action=\"\" method=\"POST\">\n";
-	echo "<center><input type=\"button\" value=\"". _('form_close_window') ."\" onClick=\"javascript:window.close();\"></center>\n";
+	echo "<center><input type=\"button\" value=\"".$_SESSION['lang']['form_close_window']."\" onClick=\"javascript:window.close();\"></center>\n";
 	echo "</form>\n";
 
 	// affichage de la liste des type d'absence existants
@@ -154,18 +162,18 @@ function affichage($tab_new_values,  $session, $DEBUG=FALSE)
 	echo "    <input type=\"submit\"  value=\"Test Mail\"><br>\n";
 	echo "    </form>\n";
 
-	// Bouton de retour : diffÃ©rent suivant si on vient des pages d'install ou de l'appli
+	// Bouton de retour : différent suivant si on vient des pages d'install ou de l'appli
 	echo "<br><br>\n";
 
 	echo "<form action=\"\" method=\"POST\">\n";
-	echo "<center><input type=\"button\" value=\"". _('form_close_window') ."\" onClick=\"javascript:window.close();\"></center>\n";
+	echo "<center><input type=\"button\" value=\"".$_SESSION['lang']['form_close_window']."\" onClick=\"javascript:window.close();\"></center>\n";
 	echo "</form>\n";
 
 }
 
 
 
-function test_mail_direct($tab_new_values,  $session, $DEBUG=FALSE)
+function test_mail_direct($tab_new_values, $mysql_link, $session, $DEBUG=FALSE)
 {
 	$session=session_id();
 	$PHP_SELF=$_SERVER['PHP_SELF'];
@@ -180,11 +188,11 @@ function test_mail_direct($tab_new_values,  $session, $DEBUG=FALSE)
 	echo "<b>MAIL:</b><br>From = from@example.com<br>To = $destination, $destination_2<br><br>\n";
 
 	// preparation du test de mail
-	require( LIBRARY_PATH .'phpmailer/class.phpmailer.php');
+	require("../INCLUDE.EXTERNAL/phpmailer/class.phpmailer.php");
 
 	$mail = new PHPMailer();
 
-	$mail->SetLanguage("fr",  LIBRARY_PATH ."phpmailer/language/");
+	$mail->SetLanguage("fr", "../INCLUDE.EXTERNAL/phpmailer/language/");
 
 	$mail->From = "from@example.com";
 	$mail->FromName = "PHP_CONGES";
@@ -248,13 +256,13 @@ function test_mail_direct($tab_new_values,  $session, $DEBUG=FALSE)
 			echo "Message has been sent.<br><br>\n";
 	}
 
-	echo "<br><br><a href=\"$PHP_SELF?session=$session\" method=\"POST\">". _('form_retour') ."</a><br>\n" ;
+	echo "<br><br><a href=\"$PHP_SELF?session=$session\" method=\"POST\">".$_SESSION['lang']['form_retour']."</a><br>\n" ;
 
 }
 
 
 
-function test_mail_smtp($tab_new_values,  $session, $DEBUG=FALSE)
+function test_mail_smtp($tab_new_values, $mysql_link, $session, $DEBUG=FALSE)
 {
 	$session=session_id();
 	$PHP_SELF=$_SERVER['PHP_SELF'];
@@ -278,8 +286,8 @@ function test_mail_smtp($tab_new_values,  $session, $DEBUG=FALSE)
 		if ($ip == $SMTP)  // si erreur
 		{
 			echo "name resolution FAILED for $SMTP<br>\n";
-			echo "test abandonnÃ© ! / test aborted !<br>\n";
-			echo "vÃ©rifiez le nom de serveur smtp ou donnez l'adresse IP / check smtp server's name or try with IP address !<br>\n";
+			echo "test abandonné ! / test aborted !<br>\n";
+			echo "vérifiez le nom de serveur smtp ou donnez l'adresse IP / check smtp server's name or try with IP address !<br>\n";
 			$SMTP="";
 		}
 		else
@@ -289,11 +297,11 @@ function test_mail_smtp($tab_new_values,  $session, $DEBUG=FALSE)
 	}
 
 	// preparation du test de mail
-	require( LIBRARY_PATH .'phpmailer/class.phpmailer.php');
+	require("../INCLUDE.EXTERNAL/phpmailer/class.phpmailer.php");
 
 	$mail = new PHPMailer();
 
-	$mail->SetLanguage("fr",  LIBRARY_PATH ."phpmailer/language/");
+	$mail->SetLanguage("fr", "../INCLUDE.EXTERNAL/phpmailer/language/");
 
 	$mail->From = "from@example.com";
 	$mail->FromName = "PHP_CONGES";
@@ -355,8 +363,9 @@ function test_mail_smtp($tab_new_values,  $session, $DEBUG=FALSE)
 			echo "Message has been sent<br>\n";
 	}
 
-	echo "<br><br><a href=\"$PHP_SELF?session=$session\" method=\"POST\">". _('form_retour') ."</a><br>\n" ;
+	echo "<br><br><a href=\"$PHP_SELF?session=$session\" method=\"POST\">".$_SESSION['lang']['form_retour']."</a><br>\n" ;
 
 }
 
 
+?>

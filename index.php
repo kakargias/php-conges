@@ -1,16 +1,16 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des Cong√©s
+PHP_CONGES : Gestion Interactive des CongÈs
 Copyright (C) 2005 (cedric chauvineau)
 
 Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les 
-termes de la Licence Publique G√©n√©rale GNU publi√©e par la Free Software Foundation.
-Ce programme est distribu√© car potentiellement utile, mais SANS AUCUNE GARANTIE, 
+termes de la Licence Publique GÈnÈrale GNU publiÈe par la Free Software Foundation.
+Ce programme est distribuÈ car potentiellement utile, mais SANS AUCUNE GARANTIE, 
 ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation 
-dans un but sp√©cifique. Reportez-vous √† la Licence Publique G√©n√©rale GNU pour plus de d√©tails.
-Vous devez avoir re√ßu une copie de la Licence Publique G√©n√©rale GNU en m√™me temps 
-que ce programme ; si ce n'est pas le cas, √©crivez √† la Free Software Foundation, 
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, √âtats-Unis.
+dans un but spÈcifique. Reportez-vous ‡ la Licence Publique GÈnÈrale GNU pour plus de dÈtails.
+Vous devez avoir reÁu une copie de la Licence Publique GÈnÈrale GNU en mÍme temps 
+que ce programme ; si ce n'est pas le cas, Ècrivez ‡ la Free Software Foundation, 
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, …tats-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation; either 
@@ -23,22 +23,20 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-@define('_PHP_CONGES', 1);
-@define('ROOT_PATH', '');
-include ROOT_PATH . 'define.php';
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
+//appel de PHP-IDS que si version de php > 5.1.2
+if(phpversion() > "5.1.2") { include("controle_ids.php") ;}
 
-// test si dbconnect.php est pr√©sent !
-if (!is_readable( CONFIG_PATH .'dbconnect.php'))
+// test si dbconnect.php est prÈsent !
+if (!is_readable("dbconnect.php"))
 {
 	echo "connexion a la database impossible, consultez le fichier INSTALL.txt !<br>\n"; 
 	exit;
 }
 
 
-include INCLUDE_PATH .'fonction.php';
-include ROOT_PATH .'fonctions_conges.php'; // for init_config_tab()
+include("fonctions_conges.php") ;
 $_SESSION['config']=init_config_tab();      // on initialise le tableau des variables de config
+include("INCLUDE.PHP/fonction.php");
 
 
 /***** DEBUT DU PROG *****/
@@ -46,37 +44,18 @@ $_SESSION['config']=init_config_tab();      // on initialise le tableau des vari
 /*** initialisation des variables ***/
 /************************************/
 
+// DEBUG
+//print_r($_SESSION); echo "<br><br>\n";echo "session= $session<br><br>\n";
 
-
-// die($_SESSION['lang']);
-
-if($err = getpost_variable('error', false))
-{
-	switch ($err) {
-		case 'session-invalid':
-			header_popup();
-			echo  _('session_pas_session_ouverte') ."<br>\n";
-			echo  _('divers_veuillez') ." <a href='".$_SESSION['config']['URL_ACCUEIL_CONGES']."/index.php' target='_top'> ". _('divers_vous_authentifier') ."</a>\n";
-			bottom();
-			exit();
-			break;
-	}
-}
+// connexion database :
+$mysql_link=connexion_mysql();
 
 if($_SESSION['config']['auth']==FALSE)    // si pas d'autentification (cf config de php_conges)
 {
-	$login=getpost_variable('login');
-	if(empty($login)) 
+     $login=getpost_variable("login");
+	if($login=="") 
 	{
-	    // redirect( ROOT_PATH .'erreur.php?error_num=1');
-		
-		header_popup();
-		printf("<H1>ERREUR !</H1>\n");
-		// authentification Error
-		echo  _('erreur_user') .".<br> ". _('erreur_login_password') .".<br>\n" ;
-		bottom();
-		
-		exit();
+		header("Location: erreur.php?error_num=1");
 	}
 	else 
 	{
@@ -90,123 +69,23 @@ if($_SESSION['config']['auth']==FALSE)    // si pas d'autentification (cf config
 }
 else 
 {
-	$session_username = isset($_POST['session_username']) ? $_POST['session_username'] : '';
-	$session_password = isset($_POST['session_password']) ? $_POST['session_password'] : '';
-
-	if(session_id()!="")
-		session_destroy();
-					
-	// en CAS il n'y a pas de formulaire ?
-	if ( $_SESSION['config']['how_to_connect_user'] == "CAS" && $session_username != "admin" && ( $session_username != "conges" || !$_SESSION['config']['responsable_virtuel'] ) )
-	{
-		$usernameCAS = authentification_passwd_conges_CAS();
-		if($usernameCAS != "")
-		{
-			session_create($usernameCAS);
-		}
-		else //dans ce cas l'utilisateur n'a pas encore √©t√© enregistr√© dans la base de donn√©es db_conges
-		{
-			header_popup();
-
-			echo  _('session_pas_de_compte_dans_dbconges') ."<br>\n";
-			echo  _('session_contactez_admin') ."\n";
-
-			$URL_ACCUEIL_CONGES=$_SESSION['config']['URL_ACCUEIL_CONGES'];
-			deconnexion_CAS($URL_ACCUEIL_CONGES);
-			bottom();
-			exit;
-		}
-	}
-	else
-	{
-		if (($session_username == "") || ($session_password == "")) // si login et passwd non saisis
-		{
-			//  SAISIE LOGIN / PASSWORD :
-			session_saisie_user_password("", "", ""); // appel du formulaire d'intentification (login/password)
-			
-			exit;
-		}
-		else
-		{
-			//  AUTHENTIFICATION :
-
-			// le user doit etre authentifi√© dans la table conges (login + passwd) ou dans le ldap.
-			// si on a trouve personne qui correspond au couple user/password
-
-			if ( $_SESSION['config']['how_to_connect_user'] == "ldap" && $session_username != "admin" && ( $session_username != "conges" || !$_SESSION['config']['responsable_virtuel'] ) )
-			{
-				
-				$username_ldap = authentification_ldap_conges($session_username,$session_password);
-				if ( $username_ldap != $session_username)
-				{
-					$session="";
-					$session_username="";
-					$session_password="";
-
-					$erreur="login_passwd_incorrect";
-					// appel du formulaire d'intentification (login/password)
-					session_saisie_user_password($erreur, $session_username, $session_password);
-					
-					exit;
-				}
-				else
-				{
-					if (valid_ldap_user($session_username)) // LDAP ok, on v√©rifie ici que le compte existe dans la base de donn√©es des cong√©s.
-					{
-						// on initialise la nouvelle session
-						session_create($session_username);
-					}
-					else//dans ce cas l'utilisateur n'a pas encore √©t√© enregistr√© dans la base de donn√©es db_conges
-					{
-						header_popup();
-
-							echo  _('session_pas_de_compte_dans_dbconges') ."<br>\n";
-							echo  _('session_contactez_admin') ."\n";
-						
-						bottom();
-						exit;
-					}
-				}
-			} // fin du if test avec ldap
-			elseif ( $_SESSION['config']['how_to_connect_user'] == "dbconges" || $session_username == "admin" || ( $session_username != "conges" && !$_SESSION['config']['responsable_virtuel'] ))
-			{				
-				$username_conges = autentification_passwd_conges($session_username,$session_password);
-				if ( $username_conges != $session_username)
-				{
-					$session="";
-					$session_username="";
-					$session_password="";
-
-					$erreur="login_passwd_incorrect";
-					// appel du formulaire d'intentification (login/password)
-					session_saisie_user_password($erreur, $session_username, $session_password);
-					
-					exit;
-				}
-				else
-				{
-					// on initialise la nouvelle session
-					session_create($session_username);
-				}
-			}
-		}
-	}
+	include("INCLUDE.PHP/session.php");  // qui va appeler la fenetre d'authentificatioon si besoin
 }
 
 /*****************************************************************/
 
 if(isset($_SESSION['userlogin']))
 {
-	$request= "SELECT u_nom, u_passwd, u_prenom, u_is_resp FROM conges_users where u_login = '".SQL::quote($_SESSION['userlogin'])."' " ;
-	$rs = SQL::query($request );
-	if($rs->num_rows != 1)
+	$request= "SELECT u_nom, u_passwd, u_prenom, u_is_resp FROM conges_users where u_login = '".$_SESSION['userlogin']."' " ;
+	$rs = mysql_query($request , $mysql_link) or die("Erreur : index.php : ".mysql_error());
+	if(mysql_num_rows($rs) <= 0)
 	{
-	    redirect( ROOT_PATH .'index.php' );
+		header("Location: index.php");
 	}
 	else
 	{
 		$session=session_id();
-		$row = $rs->fetch_array();
+		$row = mysql_fetch_array($rs);
 
 		$NOM=$row["u_nom"];
 		$PRENOM=$row["u_prenom"];
@@ -214,25 +93,20 @@ if(isset($_SESSION['userlogin']))
 
 		// si le login est celui d'un responsable ET on est pas en mode "responsable virtuel"
 		// OU on est en mode "responsable virtuel" avec login= celui du resp virtuel
-		$return_url = getpost_variable('return_url');
-		if (!empty($return_url))
-		{
-			if (strpos($return_url,'?'))
-				redirect( ROOT_PATH . $return_url .'&session=' . $session );
-			else
-				redirect( ROOT_PATH .$return_url . '?session=' . $session );
-		}
-		elseif ( (($is_resp=="Y")&&($_SESSION['config']['responsable_virtuel']==FALSE)) || (($_SESSION['config']['responsable_virtuel'])&&($session_username=="conges")) )
+		if ( (($is_resp=="Y")&&($_SESSION['config']['responsable_virtuel']==FALSE)) || (($_SESSION['config']['responsable_virtuel']==TRUE)&&($session_username=="conges")) )
 		{
 			// redirection vers responsable/resp_index.php
-			redirect( ROOT_PATH .'responsable/resp_index.php?session=' . $session );
+			header("Location: responsable/resp_index.php?session=$session");
+			exit;
 		}
 		else
 		{
 			// redirection vers utilisateur/user_index.php
-			redirect( ROOT_PATH . 'utilisateur/user_index.php?session=' . $session );
+			header("Location: utilisateur/user_index.php?session=$session");
+			exit;
 		}
 
 	}
 }
 
+?>

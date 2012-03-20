@@ -1,16 +1,16 @@
 <?php
 /*************************************************************************************************
-PHP_CONGES : Gestion Interactive des CongÃ©s
+PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
 Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon les
-termes de la Licence Publique GÃ©nÃ©rale GNU publiÃ©e par la Free Software Foundation.
-Ce programme est distribuÃ© car potentiellement utile, mais SANS AUCUNE GARANTIE,
+termes de la Licence Publique Générale GNU publiée par la Free Software Foundation.
+Ce programme est distribué car potentiellement utile, mais SANS AUCUNE GARANTIE,
 ni explicite ni implicite, y compris les garanties de commercialisation ou d'adaptation
-dans un but spÃ©cifique. Reportez-vous Ã  la Licence Publique GÃ©nÃ©rale GNU pour plus de dÃ©tails.
-Vous devez avoir reÃ§u une copie de la Licence Publique GÃ©nÃ©rale GNU en mÃªme temps
-que ce programme ; si ce n'est pas le cas, Ã©crivez Ã  la Free Software Foundation,
-Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, Ã‰tats-Unis.
+dans un but spécifique. Reportez-vous à la Licence Publique Générale GNU pour plus de détails.
+Vous devez avoir reçu une copie de la Licence Publique Générale GNU en même temps
+que ce programme ; si ce n'est pas le cas, écrivez à la Free Software Foundation,
+Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, États-Unis.
 *************************************************************************************************
 This program is free software; you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation; either
@@ -23,74 +23,75 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
-defined( '_PHP_CONGES' ) or die( 'Restricted access' );
+//appel de PHP-IDS que si version de php > 5.1.2
+if(phpversion() > "5.1.2") { include("controle_ids.php") ;}
 
-// calcule le nb de jours de conges Ã  prendre pour un user entre 2 dates
+
+
+// calcule le nb de jours de conges à prendre pour un user entre 2 dates
 // retourne le nb de jours  (opt_debut et opt_fin ont les valeurs "am" ou "pm"
-function compter($user, $date_debut, $date_fin, $opt_debut, $opt_fin, &$comment,  $DEBUG=FALSE, $num_update = null)
+function compter($user, $num_current_periode, $date_debut, $date_fin, $opt_debut, $opt_fin, &$comment, $mysql_link, $DEBUG=FALSE)
 {
+//$DEBUG=TRUE;
 
-	// verif si date_debut est bien anterieure Ã  date_fin
+	// verif si date_debut est bien anterieure à date_fin
 	// ou si meme jour mais debut l'appres mide et fin le matin
 	if( (strtotime($date_debut) > strtotime($date_fin)) || ( ($date_debut==$date_fin) && ($opt_debut=="pm") && ($opt_fin=="am") ) )
 	{
-		$comment =  _('calcul_nb_jours_commentaire_bad_date') ;
+		$comment = $_SESSION['lang']['calcul_nb_jours_commentaire_bad_date'];
 		return 0 ;
 	}
 
 
 	if( ($date_debut!=0) && ($date_fin!=0) )
 	{
-
-		// On ne peut pas calculer si, pour l'annÃ©e considÃ©rÃ©e, les jours feries ont ete saisis
-		if( (verif_jours_feries_saisis($date_debut,  $DEBUG, $num_update)==FALSE)
-		    || (verif_jours_feries_saisis($date_fin,  $DEBUG, $num_update)==FALSE) )
+		// On ne peut pas calculer si, pour l'année considérée, les jours feries ont ete saisis
+		if( (verif_jours_feries_saisis($date_debut, $mysql_link, $DEBUG)==FALSE)
+		    || (verif_jours_feries_saisis($date_fin, $mysql_link, $DEBUG)==FALSE) )
 		{
-			$comment =  _('calcul_impossible') ."<br>\n". _('jours_feries_non_saisis') ."<br>\n". _('contacter_admin') ."<br>\n" ;
-			//
+			$comment = $_SESSION['lang']['calcul_impossible']."<br>\n".$_SESSION['lang']['jours_feries_non_saisis']."<br>\n".$_SESSION['lang']['contacter_admin']."<br>\n" ;
+			//mysql_close($mysql_link);
 			return 0 ;
 		}
 
 
 		/************************************************************/
-		// 1 : on fabrique un tableau de jours (divisÃ© chacun en 2 demi-jour) de la date_debut Ã  la date_fin
-		// 2 : on verifie que le conges demandÃ© ne chevauche pas une periode deja posÃ©e
-		// 3 : on affecte Ã  0 ou 1 chaque demi jour, en fonction de s'il est travaillÃ© ou pas
-		// 4 : Ã  la fin , on parcours le tableau en comptant le nb de demi-jour Ã  1, on multiplie ce total par 0.5, Ã§a donne le nb de jours du conges !
+		// 1 : on fabrique un tableau de jours (divisé chacun en 2 demi-jour) de la date_debut à la date_fin
+		// 2 : on verifie que le conges demandé ne chevauche pas une periode deja posée
+		// 3 : on affecte à 0 ou 1 chaque demi jour, en fonction de s'il est travaillé ou pas
+		// 4 : à la fin , on parcours le tableau en comptant le nb de demi-jour à 1, on multiplie ce total par 0.5, ça donne le nb de jours du conges !
 
 		$nb_jours=0;
 
 		/************************************************************/
-		// 1 : fabrication et initialisation du tableau des demi-jours de la date_debut Ã  la date_fin
+		// 1 : fabrication et initialisation du tableau des demi-jours de la date_debut à la date_fin
 		$tab_periode_calcul = make_tab_demi_jours_periode($date_debut, $date_fin, $opt_debut, $opt_fin, $DEBUG);
 
-
 		/************************************************************/
-		// 2 : on verifie que le conges demandÃ© ne chevauche pas une periode deja posÃ©e
-		if(verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $tab_periode_calcul, $comment,  $DEBUG, $num_update) )
+		// 2 : on verifie que le conges demandé ne chevauche pas une periode deja posée
+		if(verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $num_current_periode, $tab_periode_calcul, $comment, $mysql_link, $DEBUG) == TRUE)
 			return 0;
 
-
 		/************************************************************/
-		// 3 : on affecte Ã  0 ou 1 chaque demi jour, en fonction de s'il est travaillÃ© ou pas
+		// 3 : on affecte à 0 ou 1 chaque demi jour, en fonction de s'il est travaillé ou pas
 
-		// on initialise le tableau global des jours fÃ©riÃ©s s'il ne l'est pas dÃ©jÃ  :
+		// on initialise le tableau global des jours fériés s'il ne l'est pas déjà :
 		if(!isset($_SESSION["tab_j_feries"]))
 		{
-			init_tab_jours_feries();
+			init_tab_jours_feries($mysql_link);
 			//print_r($_SESSION["tab_j_feries"]);   // verif DEBUG
 		}
-		// on initialise le tableau global des jours fermÃ©s s'il ne l'est pas dÃ©jÃ  :
+		// on initialise le tableau global des jours fermés s'il ne l'est pas déjà :
 		if(!isset($_SESSION["tab_j_fermeture"]))
 		{
-			init_tab_jours_fermeture($user,  $DEBUG);
+			init_tab_jours_fermeture($user, $mysql_link, $DEBUG);
 			//print_r($_SESSION["tab_j_fermeture"]);   // verif DEBUG
 		}
 
 		$current_day=$date_debut;
 		$date_limite=jour_suivant($date_fin);
 
-		// on va avancer jour par jour jusqu'Ã  la date limite et voir si chaque jour est travaillÃ©, fÃ©riÃ©, rtt, etc ...
+		// on va avancer jour par jour jusqu'à la date limite et voir si chaque jour est travaillé, férié, rtt, etc ...
 		while($current_day!=$date_limite)
 		{
 			// calcul du timestamp du jour courant
@@ -100,18 +101,18 @@ function compter($user, $date_debut, $date_fin, $opt_debut, $opt_fin, &$comment,
 			$j=$pieces[2];
 			$timestamp_du_jour=mktime (0,0,0,$m,$j,$y);
 
-			// on regarde si le jour est travaillÃ© ou pas dans la config de l'appli
+			// on regarde si le jour est travaillé ou pas dans la config de l'appli
 			$j_name=date("D", $timestamp_du_jour);
 			if( (($j_name=="Sat")&&($_SESSION['config']['samedi_travail']==FALSE))
 				|| (($j_name=="Sun")&&($_SESSION['config']['dimanche_travail']==FALSE)))
 			{
-				// on ne compte ce jour Ã  0
+				// on ne compte ce jour à 0
 				$tab_periode_calcul[$current_day]['am']=0;
 				$tab_periode_calcul[$current_day]['pm']=0;
 			}
-			elseif(est_chome($timestamp_du_jour)) // verif si jour fÃ©riÃ©
+			elseif(est_chome($timestamp_du_jour)==TRUE) // verif si jour férié
 			{
-				// on ne compte ce jour Ã  0
+				// on ne compte ce jour à 0
 				$tab_periode_calcul[$current_day]['am']=0;
 				$tab_periode_calcul[$current_day]['pm']=0;
 			}
@@ -121,12 +122,12 @@ function compter($user, $date_debut, $date_fin, $opt_debut, $opt_fin, &$comment,
 				// verif des rtt ou temp partiel (dans la table rtt)
 				$val_matin="N";
 				$val_aprem="N";
-				recup_infos_artt_du_jour($user, $timestamp_du_jour, $val_matin, $val_aprem);
+				recup_infos_artt_du_jour($user, $timestamp_du_jour, $val_matin, $val_aprem, $mysql_link);
 
 				if($val_matin=="Y")  // rtt le matin
 					$tab_periode_calcul[$current_day]['am']=0;
 
-				if($val_aprem=="Y") // rtt l'aprÃ¨s midi
+				if($val_aprem=="Y") // rtt l'après midi
 					$tab_periode_calcul[$current_day]['pm']=0;
 			}
 
@@ -134,10 +135,10 @@ function compter($user, $date_debut, $date_fin, $opt_debut, $opt_fin, &$comment,
 		}
 
 
-		if( $DEBUG ) { echo "tab_periode_calcul :<br>\n"; print_r($tab_periode_calcul); echo "<br>\n"; }
+		if($DEBUG==TRUE) { echo "tab_periode_calcul :<br>\n"; print_r($tab_periode_calcul); echo "<br>\n"; }
 
 		/************************************************************/
-		// 3 : on va avancer jour par jour jusqu'Ã  la date limite pour compter le nb de demi jour Ã  1
+		// 3 : on va avancer jour par jour jusqu'à la date limite pour compter le nb de demi jour à 1
 		$current_day=$date_debut;
 		$date_limite=jour_suivant($date_fin);
 		while($current_day!=$date_limite)
@@ -153,7 +154,7 @@ function compter($user, $date_debut, $date_fin, $opt_debut, $opt_fin, &$comment,
 }
 
 
-// renvoit le jour suivant de la date pasÃ©Ã©e en paramÃ¨tre sous la forme yyyy-mm-jj
+// renvoit le jour suivant de la date paséée en paramètre sous la forme yyyy-mm-jj
 function jour_suivant($date)
 {
 	$pieces = explode("-", $date);  // date de la forme yyyy-mm-jj
@@ -165,34 +166,37 @@ function jour_suivant($date)
 	return $lendemain;
 }
 
-// verifie si les jours fÃ©riÃ©s de l'annee de la date donnÃ©e sont enregistrÃ©s
+// verifie si les jours fériés de l'annee de la date donnée sont enregistrés
 // retourne TRUE ou FALSE
-function verif_jours_feries_saisis($date,  $DEBUG=FALSE)
+function verif_jours_feries_saisis($date, $mysql_link, $DEBUG=FALSE)
 {
 
-	// on calcule le premier de l'an et le dernier de l'an de l'annÃ©e de la date passee en parametre
+	// on calcule le premier de l'an et le dernier de l'an de l'année de la date passee en parametre
 	$tab_date=explode("-", $date); // date est de la forme aaaa-mm-jj
 	$an=$tab_date[0];
 	$premier_an="$an-01-01";
 	$dernier_an="$an-12-31";
 
-	$sql_select='SELECT jf_date FROM conges_jours_feries WHERE jf_date >= \''.SQL::quote($premier_an).'\' AND jf_date <= \''.SQL::quote($dernier_an).'\' ';
-	$res_select = SQL::query($sql_select);
-	
-	return ($res_select->num_rows != 0);
+	$sql_select="SELECT jf_date FROM conges_jours_feries WHERE jf_date >= '$premier_an' AND jf_date <= '$dernier_an' ";
+	$res_select = requete_mysql($sql_select, $mysql_link, "verif_jours_feries_saisis", $DEBUG);
+	$res_select = requete_mysql($sql_select, $mysql_link, "verif_jours_feries_saisis", $DEBUG);
+	if(mysql_num_rows($res_select)==0)
+		return FALSE;
+	else
+		return TRUE;
 }
 
 
 
-// fabrication et initialisation du tableau des demi-jours de la date_debut Ã  la date_fin d'une periode
+// fabrication et initialisation du tableau des demi-jours de la date_debut à la date_fin d'une periode
 function make_tab_demi_jours_periode($date_debut, $date_fin, $opt_debut, $opt_fin, $DEBUG=FALSE)
 {
 		$tab_periode_calcul=array();
 		$nb_jours_entre_date = (((strtotime($date_fin) - strtotime($date_debut))/3600)/24)+1 ;
 
-		if( $DEBUG ) { echo "$nb_jours_entre_date<br>\n"; }
+		if($DEBUG==TRUE) { echo "$nb_jours_entre_date<br>\n"; }
 
-		// on va avancer jour par jour jusqu'Ã  la date limite
+		// on va avancer jour par jour jusqu'à la date limite
 		$current_day=$date_debut;
 		$date_limite=jour_suivant($date_fin);
 		while($current_day!=$date_limite)
@@ -208,19 +212,52 @@ function make_tab_demi_jours_periode($date_debut, $date_fin, $opt_debut, $opt_fi
 		if($opt_fin=="am")
 			$tab_periode_calcul[$date_fin]['pm']=0;
 
-		if( $DEBUG ) { echo "tab_periode_calcul :<br>\n"; print_r($tab_periode_calcul); echo "<br>\n"; }
+		if($DEBUG==TRUE) { echo "tab_periode_calcul :<br>\n"; print_r($tab_periode_calcul); echo "<br>\n"; }
 
 		return $tab_periode_calcul;
 }
 
 
-
-// verifie si la periode donnee chevauche une periode de conges d'un user donnÃ©
+// verifie si la periode donnee chevauche une periode de conges d'un des user du groupe ..
 // retourne TRUE si chevauchement et FALSE sinon !
-function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $tab_periode_calcul, &$comment, $DEBUG=FALSE, $num_update = null)
+function verif_periode_chevauche_periode_groupe($date_debut, $date_fin, $num_current_periode="", $tab_periode_calcul, $groupe_id, $mysql_link, $DEBUG=FALSE)
 {
+	/*****************************/
+	// on construit le tableau des users affectés par les fermetures saisies :
+	if($groupe_id==0)  // fermeture pour tous !
+		$list_users = get_list_all_users($mysql_link, $DEBUG);
+	else
+		$list_users = get_list_users_du_groupe($groupe_id, $mysql_link, $DEBUG);
+
+	$tab_users = explode(",", $list_users);
+	if($DEBUG==TRUE) { echo "tab_users =<br>\n"; print_r($tab_users) ; echo "<br>\n"; }
+
+	foreach($tab_users as $current_login)
+	{
+	    $current_login = trim($current_login);
+		// on enleve les quotes qui ont été ajoutées lors de la creation de la liste
+		$current_login = trim($current_login, "\'");
+
+		$comment="";
+		if(verif_periode_chevauche_periode_user($date_debut, $date_fin, $current_login, $num_current_periode, $tab_periode_calcul, $comment, $mysql_link, $DEBUG)==TRUE)
+			return TRUE;
+	}
+}
+
+
+
+
+// verifie si la periode donnee chevauche une periode de conges d'un user donné
+// attention à ne pas verifer le chevauchement avec la periode qu on est en train de traiter (si celle ci a déjà un num_periode)
+// retourne TRUE si chevauchement et FALSE sinon !
+function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $num_current_periode="", $tab_periode_calcul, &$comment, $mysql_link, $DEBUG=FALSE)
+{
+//$DEBUG=TRUE;
+
+		if($DEBUG==TRUE) { echo "verif_periode_chevauche_periode_user() : tab_periode_calcul :<br>\n"; print_r($tab_periode_calcul); echo "<br>\n"; }
+
 		/************************************************************/
-		// 2 : on verifie que le conges demandÃ© ne chevauche pas une periode deja posÃ©e
+		// 2 : on verifie que le conges demandé ne chevauche pas une periode deja posée
 		// -> on recupere les periodes par rapport aux dates, on en fait une tableau de 1/2 journees, et on compare par 1/2 journee
 
 		$tab_periode_deja_prise=array();
@@ -228,39 +265,27 @@ function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $ta
 		$current_day=$date_debut;
 		$date_limite=jour_suivant($date_fin);
 
-		// on va avancer jour par jour jusqu'Ã  la date limite et recupere les periodes qui contiennent ce jour...
-		// on construit un tableau par date et 1/2 jour avec l'Ã©tat de la periode
+		// on va avancer jour par jour jusqu'à la date limite et recupere les periodes qui contiennent ce jour...
+		// on construit un tableau par date et 1/2 jour avec l'état de la periode
 		while($current_day!=$date_limite)
 		{
+
 			$tab_periode_deja_prise[$current_day]['am']="no" ;
 			$tab_periode_deja_prise[$current_day]['pm']="no" ;
 
-			if ($num_update === null)
-			{
-				
-				// verif si c'est deja un conges
-				$user_periode_sql = 'SELECT  p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_etat
-								FROM conges_periode
-								WHERE p_login = \''.SQL::quote($user).'\' AND ( p_etat=\'ok\' OR p_etat=\'valid\' OR p_etat=\'demande\' )
-									AND p_date_deb<=\''.SQL::quote($current_day).'\' AND p_date_fin>=\''.SQL::quote($current_day).'\' ';
-			}
-			else
-			{
-				
-				// verif si c'est deja un conges
-				$user_periode_sql = 'SELECT  p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_etat
-								FROM conges_periode
-								WHERE p_login = \''.SQL::quote($user).'\' AND ( p_etat=\'ok\' OR p_etat=\'valid\' OR p_etat=\'demande\' )
-									AND p_date_deb<=\''.SQL::quote($current_day).'\' AND p_date_fin>=\''.SQL::quote($current_day).'\'
-									AND p_num != \''.intval($num_update).'\' ';
-			}
+			// verif si c'est deja un conges
+			$user_periode_sql = "SELECT  p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_etat
+							FROM conges_periode
+							WHERE p_login = '$user' AND ( p_etat='ok' OR p_etat='valid' OR p_etat='demande' )";
+			if($num_current_periode!="")
+				$user_periode_sql = $user_periode_sql." AND p_num != $num_current_periode ";	
+			$user_periode_sql = $user_periode_sql."	AND p_date_deb<='$current_day' AND p_date_fin>='$current_day' ";
 			
-			$user_periode_request = SQL::query($user_periode_sql);
-//			$user_periode_request = SQL::query($user_periode_sql);
+			$user_periode_request = requete_mysql($user_periode_sql, $mysql_link, "verif_periode_chevauche_periode_user", $DEBUG);
 
-			if($user_periode_request->num_rows !=0)  // le jour courant est dans un periode de conges du user
+			if(mysql_num_rows($user_periode_request)!=0)  // le jour courant est dans un periode de conges du user
 			{
-				while($resultat_periode=$user_periode_request->fetch_array())
+				while($resultat_periode=mysql_fetch_array($user_periode_request))
 				{
 					$sql_p_date_deb=$resultat_periode["p_date_deb"];
 					$sql_p_date_fin=$resultat_periode["p_date_fin"];
@@ -272,11 +297,12 @@ function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $ta
 					{
 						// pas la peine d'aller + loin, on chevauche une periode de conges !!!
 						if($sql_p_etat=="demande")
-							$comment =  _('calcul_nb_jours_commentaire_impossible') ;
+							$comment = $_SESSION['lang']['calcul_nb_jours_commentaire_impossible'];
 						else
-							$comment =  _('calcul_nb_jours_commentaire') ;
+							$comment = $_SESSION['lang']['calcul_nb_jours_commentaire'];
 
-						if( $DEBUG ) { echo "tab_periode_deja_prise :<br>\n"; print_r($tab_periode_deja_prise); echo "<br>\n"; }
+						if($DEBUG==TRUE) { echo "tab_periode_deja_prise :<br>\n"; print_r($tab_periode_deja_prise); echo "<br>\n"; }
+
 						return TRUE ;
 					}
 					elseif( ($current_day==$sql_p_date_deb) && ($current_day==$sql_p_date_fin) ) // periode sur une seule journee
@@ -315,36 +341,36 @@ function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $ta
 		}// fin du while
 
 		/**********************************************/
-		// Ensuite verifie en parcourant le tableau qu'on vient de crÃ©e (s'il n'est pas vide)
+		// Ensuite verifie en parcourant le tableau qu'on vient de crée (s'il n'est pas vide)
 		if(count($tab_periode_deja_prise)!=0)
 		{
 			$current_day=$date_debut;
 			$date_limite=jour_suivant($date_fin);
 
-			// on va avancer jour par jour jusqu'Ã  la date limite et recupere les periodes qui contiennent ce jour...
-			// on construit un tableau par date et 1/2 jour avec l'Ã©tat de la periode
+			// on va avancer jour par jour jusqu'à la date limite et recupere les periodes qui contiennent ce jour...
+			// on construit un tableau par date et 1/2 jour avec l'état de la periode
 			while($current_day!=$date_limite)
 			{
 				if( ($tab_periode_calcul[$current_day]['am']==1) && ($tab_periode_deja_prise[$current_day]['am']!="no") )
 				{
 					// pas la peine d'aller + loin, on chevauche une periode de conges !!!
 					if($tab_periode_deja_prise[$current_day]['am']=="demande")
-						$comment =  _('calcul_nb_jours_commentaire_impossible') ;
+						$comment = $_SESSION['lang']['calcul_nb_jours_commentaire_impossible'];
 					else
-						$comment =  _('calcul_nb_jours_commentaire') ;
+						$comment = $_SESSION['lang']['calcul_nb_jours_commentaire'];
 
-					if( $DEBUG ) { echo "tab_periode_deja_prise :<br>\n"; print_r($tab_periode_deja_prise); echo "<br>\n"; }
+					if($DEBUG==TRUE) { echo "tab_periode_deja_prise :<br>\n"; print_r($tab_periode_deja_prise); echo "<br>\n"; }
 					return TRUE ;
 				}
 				if( ($tab_periode_calcul[$current_day]['pm']==1) && ($tab_periode_deja_prise[$current_day]['pm']!="no") )
 				{
 					// pas la peine d'aller + loin, on chevauche une periode de conges !!!
 					if($tab_periode_deja_prise[$current_day]['pm']=="demande")
-						$comment =  _('calcul_nb_jours_commentaire_impossible') ;
+						$comment = $_SESSION['lang']['calcul_nb_jours_commentaire_impossible'];
 					else
-						$comment =  _('calcul_nb_jours_commentaire') ;
+						$comment = $_SESSION['lang']['calcul_nb_jours_commentaire'];
 
-					if( $DEBUG ) { echo "tab_periode_deja_prise :<br>\n"; print_r($tab_periode_deja_prise); echo "<br>\n"; }
+					if($DEBUG==TRUE) { echo "tab_periode_deja_prise :<br>\n"; print_r($tab_periode_deja_prise); echo "<br>\n"; }
 					return TRUE ;
 				}
 
@@ -352,13 +378,15 @@ function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $ta
 			}// fin du while
 		}
 
-		if( $DEBUG ) { echo "tab_periode_calcul :<br>\n"; print_r($tab_periode_calcul); echo "<br>\n"; }
+		if($DEBUG==TRUE) { echo "verif_periode_chevauche_periode_user() : tab_periode_calcul :<br>\n"; print_r($tab_periode_calcul); echo "<br>\n"; }
 
 		return FALSE ;
 
 		/************************************************************/
-		// Fin de le verif de chevauchement d'une pÃ©riode dÃ©ja saisie
+		// Fin de le verif de chevauchement d'une période déja saisie
 
 }
 
 
+
+?>

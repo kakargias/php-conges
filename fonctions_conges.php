@@ -42,7 +42,7 @@ function  affiche_calendrier_saisie_date($user_login, $year, $mois, $type_debut_
 	
 	$first_jour_mois_rang		= date('w', $first_jour_mois_timestamp);      // jour de la semaine en chiffre (0=dim , 6=sam)
 	$last_jour_mois_rang		= date('w', $last_jour_mois_timestamp);      // jour de la semaine en chiffre (0=dim , 6=sam)
-	$nb_jours_mois				= ( $last_jour_mois_timestamp - $first_jour_mois_timestamp + 60*60 *6 ) / (24 * 60 * 60); // + 60*60 *6 for fucking DST
+	$nb_jours_mois				= ( $last_jour_mois_timestamp - $first_jour_mois_timestamp + 60*60 *12 ) / (24 * 60 * 60); // + 60*60 *12 for fucking DST
 	
 	if( $first_jour_mois_rang == 0 )
 		$first_jour_mois_rang=7 ;    // jour de la semaine en chiffre (1=lun , 7=dim)

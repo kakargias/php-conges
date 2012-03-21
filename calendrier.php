@@ -328,9 +328,7 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 		// recup du tableau des types de conges (seulement les conges)
 		$tab_type_cong=recup_tableau_types_conges($DEBUG);
 		if ($_SESSION['config']['gestion_conges_exceptionnels'])
-		{
 			$tab_type_cong_excep=recup_tableau_types_conges_exceptionnels($DEBUG);
-		}
 
 		/*****************************************/
 		/** Récupération des users à afficher:  **/
@@ -605,7 +603,7 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 				$year_select=$year ;
 
 				// affichage de la cellule correspondant au jour et au user considéré
-				$r = affiche_cellule_jour_user($sql_login, $j_timestamp+60*60*12, $year, $mois_select, $j , $td_second_class, $printable, $tab_calendrier, $tab_rtt_echange, $tab_rtt_planifiees, $tab_type_absence);
+				$r = affiche_cellule_jour_user($sql_login, $j_timestamp, $year, $mois_select, $j , $td_second_class, $printable, $tab_calendrier, $tab_rtt_echange, $tab_rtt_planifiees, $tab_type_absence);
 				foreach($r as $k => $v)
 				{
 					if (isset($test[ $k ]))
@@ -635,7 +633,7 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 					}
 
 					// affichage de la cellule correspondant au jour et au user considéré
-					$r = affiche_cellule_jour_user($sql_login, $j_timestamp+60*60*12, $year, $mois_select, $j, $td_second_class, $printable, $tab_calendrier, $tab_rtt_echange, $tab_rtt_planifiees, $tab_type_absence);
+					$r = affiche_cellule_jour_user($sql_login, $j_timestamp, $year, $mois_select, $j, $td_second_class, $printable, $tab_calendrier, $tab_rtt_echange, $tab_rtt_planifiees, $tab_type_absence);
 					foreach($r as $k => $v)
 					{
 						if (isset($test[ $k ]))
@@ -696,7 +694,7 @@ function affiche_cellule_jour_user($sql_login, $j_timestamp, $year_select, $mois
 	}
 	else
 	{
-		$date_j=date("Y-m-d", $j_timestamp + 60*60*24);
+		$date_j=date("Y-m-d", $j_timestamp );
 
 		$class_am="travail_am";
 		$class_pm="travail_pm";
@@ -1040,7 +1038,7 @@ function recup_tableau_periodes($mois, $first_jour, $year,  $tab_logins = false)
 		$deb = ( $timestamp_deb < $p_timestamp_deb ? $p_timestamp_deb : $timestamp_deb);
 		$fin = ( $timestamp_fin > $p_timestamp_fin ? $p_timestamp_fin : $timestamp_fin);
 		for ($i = $deb ; $i <= $fin ; $i += 24*60*60) {
-			$date_j = date('Y-m-d',$i + 6*60*60); // for DST ???
+			$date_j = date('Y-m-d',$i + 12*60*60); // for DST ???
 			if (!isset($tab_calendrier[$date_j]) || !is_array($tab_calendrier[$date_j]))
 				$tab_calendrier[$date_j] = array();
 			$tab_calendrier[$date_j][] = $tab_jour;

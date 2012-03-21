@@ -464,8 +464,8 @@ function ajout_global($tab_new_nb_conges_all, $tab_calcul_proportionnel, $tab_ne
 
 
 				// 1 : update de la table conges_solde_user
-				$req_update = 'UPDATE conges_solde_user SET su_solde = su_solde+$nb_conges
-						WHERE  su_login = \''.SQL::quote('$current_login').'\'  AND su_abs_id = $id_conges   ';
+				$req_update = 'UPDATE conges_solde_user SET su_solde = su_solde + '.intval($nb_conges).'
+						WHERE  su_login = \''.SQL::quote($current_login).'\'  AND su_abs_id = \''.SQL::quote($id_conges).'\';';
 				$ReqLog_update = SQL::query($req_update);
 		
 				// 2 : on insert l'ajout de conges GLOBAL (pour tous les users) dans la table periode

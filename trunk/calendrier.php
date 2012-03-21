@@ -1032,16 +1032,17 @@ function recup_tableau_periodes($mois, $first_jour, $year,  $tab_logins = false)
 		$p_timestamp_deb = DateTime::createFromFormat('Y-m-d', $l['p_date_deb']);
 		$p_timestamp_fin = DateTime::createFromFormat('Y-m-d', $l['p_date_fin']);
 		
-		$p_timestamp_deb = $p_timestamp_deb->getTimestamp();
-		$p_timestamp_fin = $p_timestamp_fin->getTimestamp();
-	
-		$deb = ( $timestamp_deb < $p_timestamp_deb ? $p_timestamp_deb : $timestamp_deb);
-		$fin = ( $timestamp_fin > $p_timestamp_fin ? $p_timestamp_fin : $timestamp_fin);
-		for ($i = $deb ; $i <= $fin ; $i += 24*60*60) {
-			$date_j = date('Y-m-d',$i + 12*60*60); // for DST ???
+		
+		$deb	= ( $timestamp_deb < $p_timestamp_deb->getTimestamp() ? $p_timestamp_deb : new DateTime( '@'.$timestamp_deb) );
+		$fin	= ( $timestamp_fin > $p_timestamp_fin->getTimestamp() ? $p_timestamp_fin : new DateTime( '@'.$timestamp_fin) );
+		
+		$tmp	= $deb;
+		while ( $tmp <= $fin ){
+			$date_j = date('Y-m-d',$tmp->getTimestamp() );
 			if (!isset($tab_calendrier[$date_j]) || !is_array($tab_calendrier[$date_j]))
 				$tab_calendrier[$date_j] = array();
 			$tab_calendrier[$date_j][] = $tab_jour;
+			$tmp->add(new DateInterval('P1D'));
 		}
 	}
 	return $tab_calendrier;

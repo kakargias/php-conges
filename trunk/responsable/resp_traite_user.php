@@ -44,7 +44,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 	$new_demi_jour_fin = getpost_variable('new_demi_jour_fin') ;
 	if($_SESSION['config']['disable_saise_champ_nb_jours_pris'])  // zone de texte en readonly et grisée
 	{ 
-		$new_nb_jours = compter($user_login, $new_debut,  $new_fin, $new_demi_jour_deb, $new_demi_jour_fin, $comment,  $DEBUG);
+		$new_nb_jours = compter($user_login, '', $new_debut,  $new_fin, $new_demi_jour_deb, $new_demi_jour_fin, $comment,  $DEBUG);
 	}
 	else
     { 

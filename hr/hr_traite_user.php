@@ -56,7 +56,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 		$new_type			= getpost_variable('new_type') ;
 		
 		if( $_SESSION['config']['disable_saise_champ_nb_jours_pris'] ) { 
-			$new_nb_jours = compter($user_login, $new_debut,  $new_fin, $new_demi_jour_deb, $new_demi_jour_fin, $comment,  $DEBUG);	$new_nb_jours = compter($_SESSION['userlogin'], $new_debut,  $new_fin, $new_demi_jour_deb, $new_demi_jour_fin, $comm,  $DEBUG);
+			$new_nb_jours = compter($user_login, '', $new_debut,  $new_fin, $new_demi_jour_deb, $new_demi_jour_fin, $comment,  $DEBUG);
 			if ($new_nb_jours <= 0 )
 				$new_nb_jours      = getpost_variable('new_nb_jours');
 		}

@@ -45,7 +45,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 		$new_fin2 = array_reverse($new_fin2);
 		$new_fin2 = implode('-', $new_fin2);
 		
-		$new_nb_jours = compter($_SESSION['userlogin'], $new_debut2,  $new_fin2, $new_demi_jour_deb, $new_demi_jour_fin, $comm,  $DEBUG, $p_num_to_update);
+		$new_nb_jours = compter($_SESSION['userlogin'], '', $new_debut2,  $new_fin2, $new_demi_jour_deb, $new_demi_jour_fin, $comm,  $DEBUG, $p_num_to_update);
 
 	}
 	else

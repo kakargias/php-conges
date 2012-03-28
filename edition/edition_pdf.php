@@ -48,7 +48,7 @@ $DEBUG = FALSE ;
 	$edit_id = getpost_variable('edit_id', 0) ;
 	/*************************************/
 
-	if ($user_login != $_SESSION['userlogin'] && !is_hr($user_login) && !is_resp_of_user($_SESSION['userlogin'] , $user_login)) {
+	if ($user_login != $_SESSION['userlogin'] && !is_hr($_SESSION['userlogin']) && !is_resp_of_user($_SESSION['userlogin'] , $user_login)) {
 		redirect(ROOT_PATH . 'deconnexion.php');
 		exit;
 	}

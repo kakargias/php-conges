@@ -2,6 +2,7 @@ Le projet risque de passer en GIT (voir sur GITHUB pour être plus précis) pour
 Dans ce cas merci de poser vos noms / pseudo si dessous :
 	Pour :
 		- holblin
+		- remy ( petit code qui peut servir : http://kimura.univ-montp2.fr:8080/projects/linux-util/wiki/gititude (remarques bienvenues))
 	Contre :
 		-
 		
@@ -29,5 +30,6 @@ Pour cette version, le moteur InnoDB de MYSQL sera requis.
 Pour cette version, un FRAMEWORK sera très probablement utilisé.
 Pour mettre votre avis sur le framework a prendre merci de compléter ci dessous :
 	- holblin => pas encore décidé (Symphonie / Zend / fait maison)
+	- remy => quitte a repartir de 0, Quid de MariaDB ou PostgreSQL ?
 
 MERCI de PARTICIPER, je me sentirais moins seul dans ce projet (je sais que certains sont occupé ... participer coute rien).

@@ -910,8 +910,8 @@ function constuct_and_send_mail($objet, $mail_sender_name, $mail_sender_addr, $m
 	$contenu = str_replace("__TYPE_ABSENCE__", $sql_type_absence, $contenu);
 
 	// construction du corps du mail
-	$mail->Subject  =  utf8_decode($sujet );
-	$mail->Body     =  utf8_decode($contenu );
+	$mail->Subject  =  stripslashes(utf8_decode($sujet ));
+	$mail->Body     =  stripslashes(utf8_decode($contenu ));
 
 
 	/*********************************************/

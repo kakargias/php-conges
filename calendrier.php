@@ -65,7 +65,7 @@ function cacher(id)
 }
 </script>';
 
-$css = '<link href="'. TEMPLATE_PATH .'style_calendar_edition.css" rel="stylesheet" type="text/css">';
+$css = '<link href="'. TEMPLATE_PATH .'style_calendar_edition.css" rel="stylesheet" media="screen, print" type="text/css"><style type="text/css" media="print">@media print{@page {size: landscape}}</style>';
 
 header_popup($_SESSION['config']['titre_calendrier'] , $script . $css);
 
@@ -1241,7 +1241,7 @@ function recup_tableau_des_users_a_afficher($select_groupe,  $DEBUG=FALSE)
 								$list_groupes_3 = array_map("SQL::quote", $list_groupes_3);
 								$list_groupes_3 = '\'' . implode('\', \'', $list_groupes_3).'\'';
 								
-								$sql1 = $sql1." OR u_login IN ('holblin', $list_groupes_3) ";
+								$sql1 = $sql1." OR u_login IN ( $list_groupes_3 ) ";
 							}
 						}
 							

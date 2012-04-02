@@ -619,7 +619,7 @@ function annule_conges($user_login, $tab_checkbox_annule, $tab_text_annul, $DEBU
 		if( $DEBUG ) { echo "<br><br>conges numero :$numero ---> login : $user_login --- nb de jours : $user_nb_jours_pris_float --- type : $user_type_abs_id ---> ANNULER <br>"; }
 
 		/* UPDATE table "conges_periode" */
-		$sql1 = "UPDATE conges_periode SET p_etat=\"annul\", p_motif_refus='$motif_annul', p_date_traitement=NOW() WHERE p_num=$numero_int" ;
+		$sql1 = 'UPDATE conges_periode SET p_etat="annul", p_motif_refus=\''.SQL::quote($motif_annul).'\', p_date_traitement=NOW() WHERE p_num=\''.SQL::quote($numero_int).'\' ';
 		$ReqLog1 = SQL::query($sql1);
 
 		// Log de l'action
@@ -630,7 +630,7 @@ function annule_conges($user_login, $tab_checkbox_annule, $tab_text_annul, $DEBU
 		// donc seulement si le type de l'absence qu'on annule est un "conges"
 		if($tab_tout_type_abs[$user_type_abs_id]['type']=="conges")
 		{
-			$sql2 = "UPDATE conges_solde_user SET su_solde = su_solde+$user_nb_jours_pris_float WHERE su_login='$user_login' AND su_abs_id=$user_type_abs_id " ;
+			$sql2 = 'UPDATE conges_solde_user SET su_solde = su_solde+\''.SQL::quote($user_nb_jours_pris_float).'\' WHERE su_login=\''.SQL::quote($user_login).'\' AND su_abs_id=\''.SQL::quote($user_type_abs_id).'\';';
 			//echo($sql2."<br>");
 			$ReqLog2 = SQL::query($sql2);
 		}

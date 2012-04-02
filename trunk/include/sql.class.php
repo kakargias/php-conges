@@ -171,6 +171,9 @@ class Database extends mysqli
 				}
 			}
 			
+			if (defined('ERROR_MAIL_REPORT'))
+				@mail(ERROR_MAIL_REPORT,'Errors php-conges',file_get_contents($dump_name));
+			
 			@ob_clean();
 			// DONT USE GETTEXT ... KEEP THIS CODE WITHOUT REF ... THIS NEED TO BE A SAFE CODE !!!!
 			echo '<div style="margin: auto; width: 80%;">

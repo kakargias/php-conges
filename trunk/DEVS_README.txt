@@ -15,6 +15,8 @@ Cela peux d'ailleurs vous permettre de mieux comprendre le sujet et de vous aide
 Il faut absolument tester TOUTES les fonctionnalités présentes dans la version actuelle pour publier la 1.6 !
 [ rififi: c'est ben vrai ça ! 
 Car il y encore des bugs à corriger dans la 1.6, surtout quand on est en LDAP ...]
+[holblin => Ils sont pas report sur http://code.google.com/p/php-conges/issues/list !!!
+Peux tu les reports ? thx !!]
 Merci de mettre votre nom ci-dessous si vous avez suffisamment testé l'appli dans tous les sens et qu'il n'y a pas de bug d'après vous.
 Merci de le mettre QUE si vous AVEZ TOUT TESTE et que votre dépôt est à jour !!!
 	- 
@@ -43,8 +45,10 @@ Questions sur la 2.0 :
 
 	- rififi: la spécif de la BDD de la 2.0 permettra t'elle d'importer des données d'une version 1.x ?
 	  ( c'est absolument nécessaire pour tous les sites déjà en production )
-	-  rififi: la version 2.0 aura t'elle des messages avec une meilleure orthographe (et langue) que la 1.x ?
+		=> ça me parait important, il faudra seulement que quelqu'un s'en charge. Cependant, je pense que ce sera import version 1.6 only.
+	- rififi: la version 2.0 aura t'elle des messages avec une meilleure orthographe (et langue) que la 1.x ?
           ( C'était le défaut No 1 des versions 1.x (x < 6), bien avant la qualité du code !)
+		=> rep (holblin) : grâce à toi j'ai de l'espoir :p
 
 --------------------------------------------------------------------------------------------------------------------------
 MERCI de PARTICIPER, je me sentirais moins seul dans ce projet (je sais que certains sont occupés ... participer coûte rien).

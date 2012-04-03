@@ -1,3 +1,0 @@
-ATTENTION !!!
-le shcema modifie l'ordre des éléments dans la BD pour simplifier les choses
-le shcema montre des relation entre les tables avec des foreignkey, en vérité elles ne sont pas présente.

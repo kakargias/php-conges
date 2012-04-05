@@ -1015,7 +1015,7 @@ function recup_tableau_periodes($mois, $first_jour, $year,  $tab_logins = false)
 	$sql	= 'SELECT  p_login, p_date_deb, p_demi_jour_deb, p_date_fin, p_demi_jour_fin, p_type, p_etat, p_fermeture_id, p_commentaire
 				FROM conges_periode
 				WHERE ( p_etat=\'ok\' OR  p_etat=\'demande\' OR  p_etat=\'valid\') 
-					AND (p_date_fin > \''.SQL::quote($date_deb).'\' AND p_date_deb < \''.SQL::quote($date_fin).'\')
+					AND (p_date_fin >= \''.SQL::quote($date_deb).'\' AND p_date_deb <= \''.SQL::quote($date_fin).'\')
 					'.($tab_logins !== false ? 'AND p_login IN (\''.implode('\', \'', $tab_logins).'\')' : '' ).'
 				ORDER BY p_date_deb;';
 	$result = SQL::query($sql);

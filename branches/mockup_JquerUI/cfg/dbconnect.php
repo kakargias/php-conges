@@ -34,9 +34,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-$mysql_serveur="10.14.42.36" ;
-$mysql_user="userconges" ;
-$mysql_pass="conges";
-$mysql_database= "db_conges_hublin" ;
+$mysql_serveur="" ;
+$mysql_user="" ;
+$mysql_pass="";
+$mysql_database= "" ;
 
 

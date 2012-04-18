@@ -577,10 +577,10 @@ $result_artt	= $res_artt->fetch_array();
 // echo "test";
 // print_r($result_artt);
 // return $result_artt;
-$mysql_user="userconges" ;
-$mysql_pass="conges";
-$mysql_database= "db_conges_hublin" ;
-$link = mysql_connect('10.14.42.36', $mysql_user, $mysql_pass);
+$mysql_user="" ;
+$mysql_pass="";
+$mysql_database= "" ;
+$link = mysql_connect('', $mysql_user, $mysql_pass);
 $db_selected=  mysql_select_db($mysql_database, $link);
 $result = mysql_query("SELECT *	FROM conges_artt WHERE	a_login	=	'$sql_login' ",$link);
 if (!$result) {

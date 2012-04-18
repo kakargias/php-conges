@@ -407,6 +407,7 @@ function commit_saisie($tab_checkbox_j_chome,$DEBUG=FALSE)
 	if(verif_year_deja_saisie($tab_checkbox_j_chome, $DEBUG))
 		$result=delete_year($tab_checkbox_j_chome,  $DEBUG);
 
+
 	// on insert les nouvelles dates saisies
 	$result=insert_year($tab_checkbox_j_chome, $DEBUG);
 	
@@ -436,33 +437,23 @@ function commit_saisie($tab_checkbox_j_chome,$DEBUG=FALSE)
 }
 
 
-function insert_year($tab_checkbox_j_chome,$DEBUG=FALSE)
-{
-	$sql_insert="";
+function insert_year($tab_checkbox_j_chome) {
 	foreach($tab_checkbox_j_chome as $key => $value)
-	{
-		$sql_insert="INSERT INTO conges_jours_feries SET jf_date='$key' ;";
-		$result = SQL::query($sql_insert);
-	}
-
-	return TRUE;
+		$result = SQL::query('INSERT INTO conges_jours_feries SET jf_date=\''.SQL::quote($key).'\';');
+	return true;
 }
 
-function delete_year($tab_checkbox_j_chome, $DEBUG=FALSE)
-{
-
+function delete_year($tab_checkbox_j_chome) {
 	$date_1=key($tab_checkbox_j_chome);
 	$year=substr($date_1, 0, 4);
 	//echo "year= $year<br>\n";
 	$sql_delete='DELETE FROM conges_jours_feries WHERE jf_date LIKE \''.SQL::quote($year).'%\' ;';
 	$result = SQL::query($sql_delete);
 
-	return TRUE;
+	return true;
 }
 
-function verif_year_deja_saisie($tab_checkbox_j_chome, $DEBUG=FALSE)
-{
-
+function verif_year_deja_saisie($tab_checkbox_j_chome) {
 	$date_1=key($tab_checkbox_j_chome);
 	$year=substr($date_1, 0, 4);
 	//echo "year= $year<br>\n";
@@ -471,8 +462,7 @@ function verif_year_deja_saisie($tab_checkbox_j_chome, $DEBUG=FALSE)
 //	attention ne fonctionne pas avec requete_mysql
 //	$relog = SQL::query($sql_select);
 
-	$count=$relog->num_rows;
-	return($count != 0);
+	return($relog->num_rows != 0);
 }
 
 
@@ -519,7 +509,9 @@ function fcListJourFeries($iAnnee = 2000)
 	// Récupération des fêtes mobiles
 	     $tbJourFerie["Lundi de Paques"]   = $iAnnee . date( "-m-d", easter_date($iAnnee) + 1*$iCstJour );
 	     $tbJourFerie["Jeudi de l ascenscion"] = $iAnnee . date( "-m-d", easter_date($iAnnee) + 39*$iCstJour );
-	     $tbJourFerie["Lundi de Pentecote"]   = $iAnnee . date( "-m-d", easter_date($iAnnee) + 50*$iCstJour );
+		 
+		 // devenue Journée de solidarité envers les personnes âgées
+	     // $tbJourFerie["Lundi de Pentecote"]   = $iAnnee . date( "-m-d", easter_date($iAnnee) + 50*$iCstJour );
 	
 	// Retour du tableau des jours fériés pour l'année demandée
 	return $tbJourFerie;

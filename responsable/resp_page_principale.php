@@ -88,32 +88,32 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 		$i = true;
 		foreach($tab_all_users as $current_login => $tab_current_user)
 		{
-		if($tab_current_user['is_active'] == "Y" || $_SESSION['config']['print_disable_users'] == 'TRUE')
-			{			
-			//tableau de tableaux les nb et soldes de conges d'un user (indicé par id de conges)
-			$tab_conges=$tab_current_user['conges']; 
-	
-			$text_affich_user="<a href=\"resp_index.php?session=$session&onglet=traite_user&user_login=$current_login\">". _('resp_etat_users_afficher') ."</a>" ;
-			$text_edit_papier="<a href=\"../edition/edit_user.php?session=$session&user_login=$current_login\" target=\"_blank\">". _('resp_etat_users_imprim') ."</a>";
-			echo '<tr class="'.($i?'i':'p').'">';
-			echo "<td>".$tab_current_user['nom']."</td><td>".$tab_current_user['prenom']."</td><td>".$tab_current_user['quotite']."%</td>";
-			foreach($tab_type_cong as $id_conges => $libelle)
-			{
-				echo "<td>".$tab_conges[$libelle]['nb_an'].'</td>';
-				echo "<td>".$tab_conges[$libelle]['solde'].'</td>';
-			}
-			if ($_SESSION['config']['gestion_conges_exceptionnels']) 
-			{
-				foreach($tab_type_conges_exceptionnels as $id_type_cong => $libelle) 
+			if($tab_current_user['is_active'] == "Y" || $_SESSION['config']['print_disable_users'] == 'TRUE')
+			{	
+				//tableau de tableaux les nb et soldes de conges d'un user (indicé par id de conges)
+				$tab_conges=$tab_current_user['conges']; 
+		
+				$text_affich_user="<a href=\"resp_index.php?session=$session&onglet=traite_user&user_login=$current_login\">". _('resp_etat_users_afficher') ."</a>" ;
+				$text_edit_papier="<a href=\"../edition/edit_user.php?session=$session&user_login=$current_login\" target=\"_blank\">". _('resp_etat_users_imprim') ."</a>";
+				echo '<tr class="'.($i?'i':'p').'">';
+				echo "<td>".$tab_current_user['nom']."</td><td>".$tab_current_user['prenom']."</td><td>".$tab_current_user['quotite']."%</td>";
+				foreach($tab_type_cong as $id_conges => $libelle)
 				{
+					echo "<td>".$tab_conges[$libelle]['nb_an'].'</td>';
 					echo "<td>".$tab_conges[$libelle]['solde'].'</td>';
 				}
-			}
-			echo "<td>$text_affich_user</td>\n";
-			if($_SESSION['config']['editions_papier'])
-				echo "<td>$text_edit_papier</td>";
-			echo "</tr>\n";
-			$i = !$i;
+				if ($_SESSION['config']['gestion_conges_exceptionnels']) 
+				{
+					foreach($tab_type_conges_exceptionnels as $id_type_cong => $libelle) 
+					{
+						echo "<td>".$tab_conges[$libelle]['solde'].'</td>';
+					}
+				}
+				echo "<td>$text_affich_user</td>\n";
+				if($_SESSION['config']['editions_papier'])
+					echo "<td>$text_edit_papier</td>";
+				echo "</tr>\n";
+				$i = !$i;
 			}
 		}
 	}
@@ -125,6 +125,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 	{
 		// Récup dans un tableau de tableau des informations de tous les users dont $_SESSION['userlogin'] est GRAND responsable
 		$tab_all_users_2=recup_infos_all_users_du_grand_resp($_SESSION['userlogin'],  $DEBUG);
+		
 		if( $DEBUG ) {echo "tab_all_users_2 :<br>\n";  print_r($tab_all_users_2); echo "<br>\n"; }
 		
 		$compteur=0;  // compteur de ligne a afficher en dessous (dés que passe à 1 : on affiche une ligne de titre)
@@ -132,7 +133,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 		$i = true;
 		foreach($tab_all_users_2 as $current_login_2 => $tab_current_user_2)
 		{
-			if( array_key_exists($current_login_2, $tab_all_users) ) // si le user n'est pas déjà dans le tableau précédent (deja affiché)
+			if( !array_key_exists($current_login_2, $tab_all_users) ) // si le user n'est pas déjà dans le tableau précédent (deja affiché)
 			{
 				$compteur++;
 				if($compteur==1)  // alors on affiche une ligne de titre

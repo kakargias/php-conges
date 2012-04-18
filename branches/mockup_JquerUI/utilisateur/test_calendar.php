@@ -93,10 +93,7 @@ if($_SESSION['config']['where_to_find_user_email']=="ldap"){ include CONFIG_PATH
 	
 	/*****tablo des jours feries*******/
 	include CONFIG_PATH ."dbconnect.php";
-	// $mysql_serveur="10.14.42.36" ;
-	// $mysql_user="userconges" ;
-	// $mysql_pass="conges";
-	// $mysql_database= "db_conges" ;
+
 	mysql_connect($mysql_serveur,$mysql_user,$mysql_pass);
 	mysql_select_db($mysql_database);
 	$sql= "SELECT jf_date FROM conges_jours_feries";

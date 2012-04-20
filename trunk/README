@@ -5,12 +5,29 @@ INSTALL
 Create a database for this application with a user who can access it and modify informations on it (grant access).
 
 Copy and edits proprely this files :
-	cfg/dbconnect_new.php	to cfg/dbconnect.php
-	cfg/dconfig_CAS_new.php	to cfg/config_CAS.php
-	cfg/config_ldap_new.php	to cfg/config_ldap.php
-	define_new.php			to define.php
+	cfg/dbconnect_new.php	to 	cfg/dbconnect.php
+	cfg/dconfig_CAS_new.php	to 	cfg/config_CAS.php
+	cfg/config_ldap_new.php	to 	cfg/config_ldap.php
+	define_new.php		to 	define.php
+
+Do not forget to place .htaccess file into your install subdirectory !
+
+tmp subdirectory for PHP_IDS should be writable for apache user : 
+	INCLUDE.EXTERNAL/phpids-0.5.3/lib/IDS/tmp
+----
+UPGRADE FROM v1.5
+
+Copy (and edit):
+	dbconnect.php 		to 	cfg/dbconnect.php
+	define_new.php		to	define.php
 
 
+Go to your [php-conges] URL, in /install subdirectory to migrate your application.
+
+Do not forget to place .htaccess file into your install subdirectory !
+
+tmp subdirectory for PHP_IDS should be writable for apache user : 
+	INCLUDE.EXTERNAL/phpids-0.5.3/lib/IDS/tmp
 ----
 CONFIGURE
 Change the template if you want in this file :

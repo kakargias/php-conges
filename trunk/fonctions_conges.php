@@ -379,8 +379,10 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 				echo '<td align="left" valign="top">';
 				// si le user a droit de saisir une demande de conges ET si on est PAS dans une fenetre de responsable
 				// OU si le user n'a pas droit de saisir une demande de conges ET si on est dans une fenetre de responsable
-				if( (($_SESSION['config']['user_saisie_demande'])&&($user_login==$_SESSION['userlogin'])) ||
-				    (($_SESSION['config']['user_saisie_demande']==FALSE)&&($user_login!=$_SESSION['userlogin'])) )
+				// OU si le user est un RH ou un admin
+				if( ( $_SESSION['config']['user_saisie_demande'] && $user_login==$_SESSION['userlogin'] ) ||
+				    ( $_SESSION['config']['user_saisie_demande']==FALSE && $user_login!=$_SESSION['userlogin'] ) ||
+					is_hr($_SESSION['userlogin']) || is_admin($_SESSION['userlogin']) )
 				{
 					// congés
 					echo '<b><i><u>'. _('divers_conges') .' :</u></i></b><br>';

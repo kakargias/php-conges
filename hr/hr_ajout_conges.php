@@ -202,49 +202,7 @@ function affichage_saisie_user_par_user($tab_type_conges, $tab_type_conges_excep
 			$cpt_lignes++ ;
 			$i = !$i;
 		}
-		
-		// affichage des users dont on est grand responsable :
-		if( ($_SESSION['config']['double_validation_conges']) && ($_SESSION['config']['grand_resp_ajout_conges']) )
-		{
-			$nb_colspan=50;
-			echo "<tr><td class=\"histo\" style=\"background-color: #CCC;\" colspan=\"$nb_colspan\"><i>". _('resp_etat_users_titre_double_valid') ."</i></td></tr>\n";
-
-			$i = true;
-			foreach($tab_all_users_du_grand_resp as $current_login => $tab_current_user)
-			{		
-				echo '<tr class="'.($i?'i':'p').'">';
-				//tableau de tableaux les nb et soldes de conges d'un user (indicé par id de conges)
-				$tab_conges=$tab_current_user['conges']; 
-		
-				/** sur la ligne ,   **/
-				echo '<td>'.$tab_current_user['nom'].'</td>';
-				echo '<td>'.$tab_current_user['prenom'].'</td>';
-				echo '<td>'.$tab_current_user['quotite']."%</td>\n";
-		
-				foreach($tab_type_conges as $id_conges => $libelle)
-				{
-					/** le champ de saisie est <input type="text" name="tab_champ_saisie[valeur de u_login][id_du_type_de_conges]" value="[valeur du nb de jours ajouté saisi]"> */
-					$champ_saisie_conges="<input type=\"text\" name=\"tab_champ_saisie[$current_login][$id_conges]\" size=\"6\" maxlength=\"6\" value=\"0\">";
-					echo '<td>'.$tab_conges[$libelle]['nb_an']." <i>(".$tab_conges[$libelle]['solde'].")</i></td>\n";
-					echo "<td align=\"center\" class=\"histo\">$champ_saisie_conges</td>\n" ;
-				}
-				if ($_SESSION['config']['gestion_conges_exceptionnels'])
-				{
-					foreach($tab_type_conges_exceptionnels as $id_conges => $libelle)
-					{
-						/** le champ de saisie est <input type="text" name="tab_champ_saisie[valeur de u_login][id_du_type_de_conges]" value="[valeur du nb de jours ajouté saisi]"> */
-						$champ_saisie_conges="<input type=\"text\" name=\"tab_champ_saisie[$current_login][$id_conges]\" size=\"6\" maxlength=\"6\" value=\"0\">";
-						echo "<td><i>(".$tab_conges[$libelle]['solde'].")</i></td>\n";
-						echo "<td align=\"center\" class=\"histo\">$champ_saisie_conges</td>\n" ;
-					}
-				}
-				echo "<td align=\"center\" class=\"histo\"><input type=\"text\" name=\"tab_commentaire_saisie[$current_login]\" size=\"30\" maxlength=\"200\" value=\"\"></td>\n";
-				echo '</tr>';
-				$cpt_lignes++ ;
-				$i = !$i;
-			}
-		}
-		
+	
 		echo '</tbody>';
 		echo '</table>';
 	
@@ -310,25 +268,7 @@ function affichage_saisie_globale_groupe($tab_type_conges, $DEBUG=FALSE)
 	/* SAISIE GROUPE pour tous les utilisateurs */
 
 	// on établi la liste complète des groupes pour le mode RH
-	$list_group_resp=get_list_groupes_pour_rh($_SESSION['userlogin']);
-	if( ($_SESSION['config']['double_validation_conges']) && ($_SESSION['config']['grand_resp_ajout_conges']) )
-		$list_group_grd_resp=get_list_groupes_du_grand_resp($_SESSION['userlogin'], $DEBUG);
-	else
-		$list_group_grd_resp="";
-		
-	$list_group="";
-	if($list_group_resp!="")
-	{
-		$list_group = $list_group_resp;
-		if($list_group_grd_resp!="")
-			$list_group = $list_group.",".$list_group_grd_resp;
-	}
-	else
-	{
-		if($list_group_grd_resp!="")
-			$list_group = $list_group_grd_resp;
-	}
-	
+	$list_group=get_list_groupes_pour_rh($_SESSION['userlogin']);
 		
 	if($list_group!="") //si la liste n'est pas vide ( serait le cas si n'est responsable d'aucun groupe)
 	{

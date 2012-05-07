@@ -379,10 +379,8 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 				echo '<td align="left" valign="top">';
 				// si le user a droit de saisir une demande de conges ET si on est PAS dans une fenetre de responsable
 				// OU si le user n'a pas droit de saisir une demande de conges ET si on est dans une fenetre de responsable
-				// OU si le user est un RH ou un admin
-				if( ( $_SESSION['config']['user_saisie_demande'] && $user_login==$_SESSION['userlogin'] ) ||
-				    ( $_SESSION['config']['user_saisie_demande']==FALSE && $user_login!=$_SESSION['userlogin'] ) ||
-					is_hr($_SESSION['userlogin']) || is_admin($_SESSION['userlogin']) )
+				if( (($_SESSION['config']['user_saisie_demande'])&&($user_login==$_SESSION['userlogin'])) ||
+				    (($_SESSION['config']['user_saisie_demande']==FALSE)&&($user_login!=$_SESSION['userlogin'])) )
 				{
 					// congés
 					echo '<b><i><u>'. _('divers_conges') .' :</u></i></b><br>';
@@ -2548,7 +2546,7 @@ function soustrait_solde_et_reliquat_user($user_login, $num_current_periode, $us
 			}
 			//si conges demandé est à cheval sur la date_limite_reliquat => il faut decompter le nb_jours_pris du solde, puis il faut 
 			//calculer le nb_jours_avant pris avant la date limite, et on le decompte des reliquats, et calculer le nb_jours_apres 
-			//d'apres la data limite et ne pas le décompter des reliquats !!!
+			//d'apres la date limite et ne pas le décompter des reliquats !!!
 			else
 			{
 				include 'fonctions_calcul.php' ;

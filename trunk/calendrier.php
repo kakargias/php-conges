@@ -572,7 +572,8 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 			$sql_prenom=$tab_current_user["prenom"];
 			$sql_quotite=$tab_current_user["quotite"];
 			
-			$test = array();
+			// nb de jour pris dans le mois en cours (pour un type d'absence donné)
+			$nb_jours_current_month = array();
 
 			// recup dans un tableau de tableaux les nb et soldes de conges d'un user (indicé par id de conges)
 			$tab_cong_user = $tab_cong_users[ $sql_login ];
@@ -603,13 +604,13 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 				$year_select=$year ;
 
 				// affichage de la cellule correspondant au jour et au user considéré
-				$r = affiche_cellule_jour_user($sql_login, $j_timestamp, $year, $mois_select, $j , $td_second_class, $printable, $tab_calendrier, $tab_rtt_echange, $tab_rtt_planifiees, $tab_type_absence);
-				foreach($r as $k => $v)
+				$t_nb_j_type_abs = affiche_cellule_jour_user($sql_login, $j_timestamp, $year, $mois_select, $j , $td_second_class, $printable, $tab_calendrier, $tab_rtt_echange, $tab_rtt_planifiees, $tab_type_absence);
+				foreach($t_nb_j_type_abs as $id_type_abs => $nb_j_pris)
 				{
-					if (isset($test[ $k ]))
-						$test[ $k ] +=$v;
+					if (isset($nb_jours_current_month[ $id_type_abs ]))
+						$nb_jours_current_month[ $id_type_abs ] +=$nb_j_pris;
 					else
-						$test[ $k ] =$v;
+						$nb_jours_current_month[ $id_type_abs ] =$nb_j_pris;
 				}
 			}
 			// si le premier jour demandé n'est pas le 1ier du mois , on va jusqu'à la meme date le mois suivant :
@@ -633,13 +634,13 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 					}
 
 					// affichage de la cellule correspondant au jour et au user considéré
-					$r = affiche_cellule_jour_user($sql_login, $j_timestamp, $year, $mois_select, $j, $td_second_class, $printable, $tab_calendrier, $tab_rtt_echange, $tab_rtt_planifiees, $tab_type_absence);
-					foreach($r as $k => $v)
+					$t_nb_j_type_abs = affiche_cellule_jour_user($sql_login, $j_timestamp, $year, $mois_select, $j, $td_second_class, $printable, $tab_calendrier, $tab_rtt_echange, $tab_rtt_planifiees, $tab_type_absence);
+					foreach($t_nb_j_type_abs as $id_type_abs => $nb_j_pris)
 					{
-						if (isset($test[ $k ]))
-							$test[ $k ] +=$v;
+						if (isset($nb_jours_current_month[ $id_type_abs ]))
+							$nb_jours_current_month[ $id_type_abs ] +=$nb_j_pris;
 						else
-							$test[ $k ] =$v;
+							$nb_jours_current_month[ $id_type_abs ] =$nb_j_pris;
 					}
 				}
 			}
@@ -654,8 +655,9 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 				// affichage des divers soldes
 				foreach($tab_cong_user as $id => $tab_conges)
 				{
-					if (isset($test[$id]))
-						echo "<td class=\"cal-user\">".$tab_conges['solde']."&nbsp;(".$test[$id].")</td>";
+					// si des jours ont été pris durant le mois affiché, on indique combien :
+					if(isset($nb_jours_current_month[$id]))
+						echo "<td class=\"cal-user\">".$tab_conges['solde']."&nbsp;(".$nb_jours_current_month[$id].")</td>";
 					else
 						echo "<td class=\"cal-user\">".$tab_conges['solde']."&nbsp; &nbsp; &nbsp;</td>";
 				}
@@ -671,6 +673,7 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 
 
 // affichage de la cellule correspondant au jour et au user considéré
+// et renvoit un tableau avec une key / une valeur : key = id type absence / valeur = nb jours pris le jour J
 function affiche_cellule_jour_user($sql_login, $j_timestamp, $year_select, $mois_select, $j, $second_class, $printable, $tab_calendrier, $tab_rtt_echange, $tab_rtt_planifiees, $tab_type_absence,  $DEBUG=FALSE)
 {
 

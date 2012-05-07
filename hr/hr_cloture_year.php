@@ -427,7 +427,7 @@ function cloture_current_year_for_login($current_login, $tab_current_user, $tab_
 				$new_solde = $user_nb_jours_ajout_an + $new_reliquat  ;
 					
 				// update du solde
-				$sql_solde = 'UPDATE conges_solde_user SET su_solde = $new_solde WHERE su_login=\''.SQL::quote($current_login).'\'  AND su_abs_id = $id_conges ' ;
+				$sql_solde = 'UPDATE conges_solde_user SET su_solde = '.intval($new_solde).' WHERE su_login=\''.SQL::quote($current_login).'\'  AND su_abs_id = '.intval($id_conges).';';
 				$ReqLog_solde = SQL::query($sql_solde) ;
 			}
 			else
@@ -438,7 +438,7 @@ function cloture_current_year_for_login($current_login, $tab_current_user, $tab_
 				else
 					$new_solde = $user_nb_jours_ajout_an ;
 					
-				$sql_solde = 'UPDATE conges_solde_user SET su_solde = $new_solde WHERE su_login=\''.SQL::quote($current_login).'\' AND su_abs_id = $id_conges ';
+				$sql_solde = 'UPDATE conges_solde_user SET su_solde = '.intval($new_solde).' WHERE su_login=\''.SQL::quote($current_login).'\' AND su_abs_id = '.intval($id_conges).';';
 				$ReqLog_solde = SQL::query($sql_solde) ;
 			}
 

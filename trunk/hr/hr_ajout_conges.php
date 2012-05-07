@@ -525,8 +525,8 @@ function ajout_global_groupe($choix_groupe, $tab_new_nb_conges_all, $tab_calcul_
 					$nb_conges = (ROUND(($nb_jours*($current_quotite/100))*2))/2  ;
 				
 				// 1 : on update conges_solde_user
-				$req_update = 'UPDATE conges_solde_user SET su_solde = su_solde+$nb_conges
-						WHERE  su_login = \''.SQL::quote($current_login).'\' AND su_abs_id = $id_conges   ';
+				$req_update = 'UPDATE conges_solde_user SET su_solde = su_solde+ '.intval($nb_conges).'
+						WHERE  su_login = \''.SQL::quote($current_login).'\' AND su_abs_id = '.intval($id_conges).';';
 				$ReqLog_update = SQL::query($req_update);
 				
 				// 2 : on insert l'ajout de conges dans la table periode

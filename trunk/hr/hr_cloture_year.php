@@ -161,19 +161,6 @@ function affichage_cloture_user_par_user($tab_type_conges, $tab_all_users_du_hr,
 			$i = !$i;
 		}
 		
-		// affichage des users dont on est grand responsable :
-		if( ($_SESSION['config']['double_validation_conges']) && ($_SESSION['config']['grand_resp_ajout_conges']) )
-		{
-			$nb_colspan=50;
-			echo "<tr><td class=\"histo\" style=\"background-color: #CCC;\" colspan=\"$nb_colspan\"><i>". _('resp_etat_users_titre_double_valid') ."</i></td></tr>\n";
-			
-			$i = true;
-			foreach($tab_all_users_du_grand_resp as $current_login => $tab_current_user)
-			{		
-				affiche_ligne_du_user($current_login, $tab_type_conges, $tab_current_user, $i);
-				$i = !$i;
-			}
-		}	
 		echo "	</tbody>\n\n";
 		echo "	</table>\n\n";
 
@@ -263,25 +250,7 @@ function affichage_cloture_globale_groupe($tab_type_conges, $DEBUG=FALSE)
 	/* SAISIE GROUPE pour tous les utilisateurs d'un groupe du responsable */
 
 	// on établi la liste complète des groupes dont on est le resp (ou le grd resp)
-	$list_group_resp=get_list_groupes_du_resp($_SESSION['userlogin']);
-	if( ($_SESSION['config']['double_validation_conges']) && ($_SESSION['config']['grand_resp_ajout_conges']) )
-		$list_group_grd_resp=get_list_groupes_du_grand_resp($_SESSION['userlogin'], $DEBUG);
-	else
-		$list_group_grd_resp="";
-		
-	$list_group="";
-	if($list_group_resp!="")
-	{
-		$list_group = $list_group_resp;
-		if($list_group_grd_resp!="")
-			$list_group = $list_group.",".$list_group_grd_resp;
-	}
-	else
-	{
-		if($list_group_grd_resp!="")
-			$list_group = $list_group_grd_resp;
-	}
-	
+	$list_group=get_list_groupes_du_resp($_SESSION['userlogin']);
 		
 	if($list_group!="") //si la liste n'est pas vide ( serait le cas si n'est responsable d'aucun groupe)
 	{
@@ -361,19 +330,6 @@ function cloture_users($tab_type_conges, $tab_cloture_users, $tab_commentaire_sa
 				cloture_current_year_for_login($current_login, $tab_current_user, $tab_type_conges, $commentaire, $DEBUG);
 			}
 		}
-		// traitement des users dont on est grand responsable :
-		if( ($_SESSION['config']['double_validation_conges']) && ($_SESSION['config']['grand_resp_ajout_conges']) )
-		{
-			foreach($tab_all_users_du_grand_resp as $current_login => $tab_current_user)
-			{		
-				// tab_cloture_users[$current_login]=TRUE si checkbox "cloturer" est cochée
-				if( (isset($tab_cloture_users[$current_login])) && ($tab_cloture_users[$current_login]=TRUE) )
-				{
-					$commentaire = $tab_commentaire_saisie[$current_login];
-					cloture_current_year_for_login($current_login, $tab_current_user, $tab_type_conges, $commentaire, $DEBUG);
-				}
-			}
-		}	
 	}
 }
 
@@ -506,14 +462,6 @@ function cloture_globale($tab_type_conges, $DEBUG=FALSE)
 		{		
 			cloture_current_year_for_login($current_login, $tab_current_user, $tab_type_conges, $comment_cloture, $DEBUG);
 		}
-		// traitement des users dont on est grand responsable :
-		if( ($_SESSION['config']['double_validation_conges']) && ($_SESSION['config']['grand_resp_ajout_conges']) )
-		{
-			foreach($tab_all_users_du_grand_resp as $current_login => $tab_current_user)
-			{		
-				cloture_current_year_for_login($current_login, $tab_current_user, $tab_type_conges, $comment_cloture, $DEBUG);
-			}
-		}	
 	}
 	
 

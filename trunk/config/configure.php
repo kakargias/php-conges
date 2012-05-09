@@ -152,11 +152,11 @@ function affichage($session, $DEBUG=FALSE)
 			{
 				echo "<b>$conf_nom&nbsp;&nbsp;=&nbsp;&nbsp;$conf_valeur</b><br>";
 			}
-			elseif( ($conf_type=="texte") || ($conf_type=="path") )
+			elseif( (strtolower($conf_type)=="texte") || (strtolower($conf_type)=="path") )
 			{
 				echo "<b>$conf_nom</b>&nbsp;=&nbsp;<input type=\"text\" size=\"50\" maxlength=\"200\" name=\"tab_new_values[$conf_nom]\" value=\"$conf_valeur\"><br>";
 			}
-			elseif($conf_type=="boolean")
+			elseif(strtolower($conf_type)=="boolean")
 			{
 				echo "<b>$conf_nom</b>&nbsp;=&nbsp;<select name=\"tab_new_values[$conf_nom]\">";
 				echo "<option value=\"TRUE\"";
@@ -167,7 +167,7 @@ function affichage($session, $DEBUG=FALSE)
 				echo ">FALSE</option>";
 				echo "</select><br>";
 			}
-			elseif(substr($conf_type,0,4)=="enum")
+			elseif(strtolower(substr($conf_type),0,4)=="enum")
 			{
 				echo "<b>$conf_nom</b>&nbsp;=&nbsp;<select name=\"tab_new_values[$conf_nom]\">";
 				$options=explode("/", substr(strstr($conf_type, '='),1));

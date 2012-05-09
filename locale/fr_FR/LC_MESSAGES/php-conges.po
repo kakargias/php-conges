@@ -1759,3 +1759,7 @@ msgstr "Droits RH ?"
 msgid "hr_traite_user_etat_conges"
 msgstr "État des congés des Utilisateurs :"
 
+msgid "config_comment_print_disable_users"
+msgstr "// AFFICHAGE DES USER DESACTIVES : <br>//--------------------------------------<br>// Affichage ou non, dans la liste des utilisateurs, des utilisateurs qui on étét désactivés. (FALSE est la valeur par défaut)"
+
+

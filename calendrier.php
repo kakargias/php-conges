@@ -656,10 +656,10 @@ function affichage_calendrier($year, $mois, $first_jour, $timestamp_today, $prin
 				foreach($tab_cong_user as $id => $tab_conges)
 				{
 					// si des jours ont été pris durant le mois affiché, on indique combien :
-					if(isset($nb_jours_current_month[$id]))
+					if((isset($nb_jours_current_month[$id])) && ($_SESSION['config']['affiche_jours_current_month_calendrier']) )
 						echo "<td class=\"cal-user\">".$tab_conges['solde']."&nbsp;(".$nb_jours_current_month[$id].")</td>";
 					else
-						echo "<td class=\"cal-user\">".$tab_conges['solde']."&nbsp; &nbsp; &nbsp;</td>";
+						echo "<td class=\"cal-user\">".$tab_conges['solde']."</td>";
 				}
 			}
 			

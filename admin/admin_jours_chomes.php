@@ -369,7 +369,7 @@ function confirm_saisie($tab_checkbox_j_chome, $DEBUG=FALSE)
 	echo "<table>\n";
 	echo "<tr>\n";
 	echo "<td align=\"center\">\n";
-	var_dump($tab_checkbox_j_chome);
+//	var_dump($tab_checkbox_j_chome);
 		foreach($tab_checkbox_j_chome as $key => $value)
 		{
 			$date_affiche=eng_date_to_fr($key);
@@ -437,13 +437,13 @@ function commit_saisie($tab_checkbox_j_chome,$DEBUG=FALSE)
 }
 
 
-function insert_year($tab_checkbox_j_chome) {
+function insert_year($tab_checkbox_j_chome, $DEBUG=FALSE) {
 	foreach($tab_checkbox_j_chome as $key => $value)
 		$result = SQL::query('INSERT INTO conges_jours_feries SET jf_date=\''.SQL::quote($key).'\';');
 	return true;
 }
 
-function delete_year($tab_checkbox_j_chome) {
+function delete_year($tab_checkbox_j_chome, $DEBUG=FALSE) {
 	$date_1=key($tab_checkbox_j_chome);
 	$year=substr($date_1, 0, 4);
 	//echo "year= $year<br>\n";
@@ -453,7 +453,7 @@ function delete_year($tab_checkbox_j_chome) {
 	return true;
 }
 
-function verif_year_deja_saisie($tab_checkbox_j_chome) {
+function verif_year_deja_saisie($tab_checkbox_j_chome, $DEBUG=FALSE) {
 	$date_1=key($tab_checkbox_j_chome);
 	$year=substr($date_1, 0, 4);
 	//echo "year= $year<br>\n";

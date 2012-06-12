@@ -365,8 +365,8 @@ INSERT IGNORE INTO `conges_type_absence` VALUES (12, 'conges_exceptionnels', 'ma
 CREATE TABLE IF NOT EXISTS `conges_solde_user` (
   `su_login` varbinary(99) NOT NULL default '',
   `su_abs_id` int(2) unsigned NOT NULL default '0',
-  `su_nb_an` decimal(4,2) NOT NULL default '0.00',
-  `su_solde` decimal(4,2) NOT NULL default '0.00',
+  `su_nb_an` decimal(5,2) NOT NULL default '0.00',
+  `su_solde` decimal(5,2) NOT NULL default '0.00',
   `su_reliquat` decimal(4,2) NOT NULL default '0.00',
   PRIMARY KEY  (`su_login`,`su_abs_id`)
 ) DEFAULT CHARSET=latin1;

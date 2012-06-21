@@ -1,7 +1,7 @@
 /* Content */
 #content, #header, #bottom {
-	width: 1350px;
-	margin : auto;
+    width: 1350px;
+    margin : auto;
 
 }
 
@@ -14,21 +14,21 @@
 
 
 #content {
-	margin-top:10px;
-	margin-bottom:10px;
-	min-height:560px;
+    margin-top:10px;
+    margin-bottom:10px;
+    min-height:560px;
 }
 
 #onglet_menu { margin-bottom: 20px; padding:5px;}
 .onglet { padding: 10px 0; width: 15%;}
 
 #bottom {
-	text-align: center;
-	padding: 2px;
+    text-align: center;
+    padding: 2px;
 }
 
 img{
-	border: 0px;
+    border: 0px;
 }
 
 .tablo { text-align: center; border-spacing: 0px;}
@@ -37,6 +37,8 @@ img{
 .tablo tbody tr:hover{ background-color: #FFC;}
 .tablo tbody .i{ background-color: #F4F4F4;}
 .tablo thead td, .tablo thead th, .tablo tbody td{ border: 1px solid gray; border-collapse: separate; border-style: inset; }
+
+.hidden{ display: none; background-color: #bbbbff; }
 
 .bilan_conges_user { width: 70%; }
 .bilan_conges_user { text-align: center; }
@@ -62,6 +64,6 @@ img{
    You can change it in your css file
 */
 /* OK, submit, valid ... buttons */
-// .button_type_submit { float: right }  
+// .button_type_submit { float: right }
 /* NO, cancel, return etc ... bottons */
 //.button_type_cancel { float: left }

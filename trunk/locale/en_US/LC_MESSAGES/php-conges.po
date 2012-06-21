@@ -1567,6 +1567,9 @@ msgstr "//  DISPLAY OF THE CALENDAR WITHOUT AUTHENTIFICATION<br>//--------------
 msgid "config_comment_resp_ajoute_conges"
 msgstr "//  ADDING OF HOLIDAYS BY THE MANAGER<br>//--------------------------------------------------------------------------------------------<br>// if at FALSE : The manager cannot add holidays to his users.<br>// if at TRUE : The manager can add holidays to his users. (FALSE is the default value)"
 
+msgid "hr_affiche_utilisateurs_inactifs"
+msgstr "Display/Hide inactive users"
+
 msgid "mail_remplace_date_debut"
 msgstr "__DATE_DEBUT__ will automatically be replaced the beginning date of the concerned absence."
 

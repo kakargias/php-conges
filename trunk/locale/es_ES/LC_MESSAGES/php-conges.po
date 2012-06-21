@@ -1426,6 +1426,9 @@ msgstr "Usuarios con doble validacion de las demandas"
 msgid "resp_etat_aucun_user"
 msgstr "Ningun usuario para este responsable !!!"
 
+msgid "hr_affiche_utilisateurs_inactifs"
+msgstr "Mostrar/Ocultar los usuarios inactivos"
+
 msgid "button_imprim_calendar"
 msgstr "imprimir un calendario"
 

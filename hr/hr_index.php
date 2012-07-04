@@ -78,7 +78,7 @@ verif_droits_user($session, "is_hr", $DEBUG);
 	$add_css = '<style>
 		#onglet_menu { width: 100%;}
 		#onglet_menu .onglet.active{ border: 1px solid black; margin: -1px; }
-		#onglet_menu .onglet{ width: '. (100 / count($onglets) ).'% ; float: left; padding: 10px 0px 10px 0px;}
+		#onglet_menu .onglet{ width: '. (99 / count($onglets) ).'% ; float: left; padding: 10px 0px 10px 0px;}
 	</style>';
 	
 	header_menu('responsable',$_SESSION['config']['titre_resp_index'],$add_css);

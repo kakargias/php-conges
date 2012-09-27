@@ -125,7 +125,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
     echo '<script>
     $(document).ready(function()
         {
-        $("tr:odd").css("background-color", "#F4F4F4");
+        $("tr:not(.hidden):odd").css("background-color", "#F4F4F4");
         $("#display_hidden").click(function () {
             $(".hidden").slideToggle();
             });

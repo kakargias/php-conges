@@ -14,6 +14,9 @@ Do not forget to place .htaccess file into your install subdirectory !
 
 tmp subdirectory for PHP_IDS should be writable for apache user : 
 	INCLUDE.EXTERNAL/phpids-0.5.3/lib/IDS/tmp
+
+Then copy your php-conges directory to your Apache DocumentRoot
+Open a browser and go to http://[server address]/[php-conges directory]/install
 ----
 UPGRADE FROM v1.5
 

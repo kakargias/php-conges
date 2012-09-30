@@ -17,6 +17,12 @@ tmp subdirectory for PHP_IDS should be writable for apache user :
 
 Then copy your php-conges directory to your Apache DocumentRoot
 Open a browser and go to http://[server address]/[php-conges directory]/install
+
+Default user : "admin" / password : "responsable"
+Default manager : "conges" / password : "conges"
+
+Details here :
+http://www.ced.univ-montp2.fr/php_conges/install.html
 ----
 UPGRADE FROM v1.5
 

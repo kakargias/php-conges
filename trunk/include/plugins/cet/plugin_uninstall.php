@@ -1,5 +1,5 @@
 <?php
-/************************************************************************************************
+/*************************************************************************************************
 PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
@@ -23,12 +23,28 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
+include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-// site et numero de version de PHP_CONGES
-// ne pas toucher ces variables SVP ;-)
-$config_php_conges_version="1.7.0";
-$config_url_site_web_php_conges="http://code.google.com/p/php-conges";
-// ne pas toucher ces variables SVP ;-)
+$DEBUG=FALSE;
+$timeout=2 ; // refresh après maj.
+
+$PHP_SELF=$_SERVER['PHP_SELF'];
+
+if($session=="")
+    $URL = "$PHP_SELF";
+else
+    $URL = "$PHP_SELF?session=$session";
+echo "<META HTTP-EQUIV=REFRESH CONTENT=\"$timeout; URL=$URL\">";
+
+$delete_table_plugin_cet_query = "DROP TABLE `conges_plugin_cet`;";
 
 
+$result_delete_table_plugin = SQL::query($delete_table_plugin_cet_query);
+
+$update_plugin_table = "INSERT INTO conges_plugins(p_name,p_is_install,p_is_active) VALUES ('".$plugin."','0','0')
+  ON DUPLICATE KEY UPDATE p_is_install='0';";
+//$update_plugin_table = "UPDATE conges_plugins SET p_is_install='0' WHERE p_name='$plugin';"
+$result_update_plugin_table = SQL::query($update_plugin_table);
+
+?>

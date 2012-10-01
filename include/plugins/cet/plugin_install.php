@@ -1,5 +1,5 @@
 <?php
-/************************************************************************************************
+/*************************************************************************************************
 PHP_CONGES : Gestion Interactive des Congés
 Copyright (C) 2005 (cedric chauvineau)
 
@@ -23,12 +23,34 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *************************************************************************************************/
 
+include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
-// site et numero de version de PHP_CONGES
-// ne pas toucher ces variables SVP ;-)
-$config_php_conges_version="1.7.0";
-$config_url_site_web_php_conges="http://code.google.com/p/php-conges";
-// ne pas toucher ces variables SVP ;-)
+$DEBUG=FALSE;
+
+$PHP_SELF=$_SERVER['PHP_SELF'];
+$timeout=2 ; // refresh après maj.
+
+if($session=="")
+    $URL = "$PHP_SELF";
+else
+    $URL = "$PHP_SELF?session=$session";
+echo "<META HTTP-EQUIV=REFRESH CONTENT=\"$timeout; URL=$URL\">";
 
 
+$create_table_plugin_cet_query = "CREATE TABLE IF NOT EXISTS `conges_plugin_cet` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pc_jours_demandes` decimal(5,2) DEFAULT NULL COMMENT 'Jours demandés pour alimenter le CET',
+  `pc_u_login` varbinary(99) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `pc_u_login` (`pc_u_login`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;";
+
+$result_create_table_plugin = SQL::query($create_table_plugin_cet_query);
+
+$update_plugin_table = "INSERT INTO conges_plugins(p_name,p_is_install,p_is_active) VALUES ('".$plugin."','1','0')
+  ON DUPLICATE KEY UPDATE p_is_install='1';";
+  //UPDATE conges_plugins SET p_is_install='1' WHERE p_name='$plugin';"
+$result_update_plugin_table = SQL::query($update_plugin_table);
+
+?>

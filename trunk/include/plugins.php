@@ -21,6 +21,7 @@ function find_plugins_activated(){
 
 function include_plugins($plugins_activated){
     $my_plugins = scandir(PLUGINS_DIR);
+    $to_include = array();
     foreach($my_plugins as $dir)
         {
         if(is_dir(PLUGINS_DIR."/$dir") && !preg_match("/^\./",$dir))
@@ -30,18 +31,22 @@ function include_plugins($plugins_activated){
                 foreach(glob(PLUGINS_DIR."/$dir/*.php") as $filename)
                     {
                     if(!preg_match("/install.php$/",$filename) && !preg_match("/active.php$/",$filename))
-                      { include_once $filename; }
+                      { array_push($to_include, $filename); }
                     }
                 }
             }
         }
+    return($to_include);
 }
 
 
 $plugins_activated = find_plugins_activated();
 
 //massive include for plugins...
-include_plugins($plugins_activated);
+$includefiles = include_plugins($plugins_activated);
+
+foreach($includefiles as $file)
+    { include($file); }
 
 
 ?>

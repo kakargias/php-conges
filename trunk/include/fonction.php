@@ -31,7 +31,8 @@ include INCLUDE_PATH .'fonction_hr.php';
 include INCLUDE_PATH .'fonction_config.php';
 include INCLUDE_PATH .'fonction_admin.php';
 include INCLUDE_PATH .'lang_profile.php';
-include INCLUDE_PATH .'plugins.php';
+//better to include plugins at the end : see bottom function
+//include INCLUDE_PATH .'plugins.php';
 
 function schars( $htmlspec ) {
     return htmlspecialchars( $htmlspec );
@@ -58,6 +59,16 @@ function redirect($url , $auto_exit = true) {
     if ($auto_exit)
         exit;
 }
+
+
+//Get the name of current php page
+function curPage() {
+ $local_scripts = array();
+ $local_scripts[0] = substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+1);
+ $local_scripts[1] = $_SERVER["REQUEST_URI"];
+ return $local_scripts;
+}
+
 
 function header_popup($title = '' , $additional_head = '' ) {
     global $type_bottom;
@@ -105,6 +116,7 @@ function bottom() {
     }else
         throw new Exception('Warning : Ne peux ouvrir deux header !!!');
 
+    include INCLUDE_PATH .'plugins.php';
     include TEMPLATE_PATH . $type_bottom .'_bottom.php';
 }
 
@@ -113,16 +125,14 @@ function bottom() {
 function install_plugin($plugin){
     include INCLUDE_PATH . "/plugins/".$plugin."/plugin_install.php";
 }
-
 function activate_plugin($plugin){
-    //include INCLUDE_PATH . "/plugins/".$plugin."/plugin_activate.php";
+    include INCLUDE_PATH . "/plugins/".$plugin."/plugin_active.php";
 }
 function uninstall_plugin($plugin){
     include INCLUDE_PATH . "/plugins/".$plugin."/plugin_uninstall.php";
 }
-
 function disable_plugin($plugin){
-    //include INCLUDE_PATH . "/plugins/".$plugin."/plugin_disable.php";
+    include INCLUDE_PATH . "/plugins/".$plugin."/plugin_inactive.php";
 }
 
 

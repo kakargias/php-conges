@@ -31,6 +31,7 @@ include INCLUDE_PATH .'fonction_hr.php';
 include INCLUDE_PATH .'fonction_config.php';
 include INCLUDE_PATH .'fonction_admin.php';
 include INCLUDE_PATH .'lang_profile.php';
+include INCLUDE_PATH .'plugins.php';
 
 function schars( $htmlspec ) {
     return htmlspecialchars( $htmlspec );

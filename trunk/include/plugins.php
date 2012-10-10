@@ -4,7 +4,6 @@ define('PLUGINS_DIR', __DIR__ . "/plugins/");
 
 define('ROOT_PATH', '../../');
 include ROOT_PATH . 'define.php';
-include INCLUDE_PATH .'fonction.php';
 
 function find_plugins_activated(){
         $list_plugins = array();
@@ -29,8 +28,8 @@ function include_plugins($plugins_activated){
             if(in_array($dir, $plugins_activated))
                 {
                 foreach(glob(PLUGINS_DIR."/$dir/*.php") as $filename)
-                    { 
-                    if(!preg_match("/install.php$/",$filename))
+                    {
+                    if(!preg_match("/install.php$/",$filename) && !preg_match("/active.php$/",$filename))
                       { include_once $filename; }
                     }
                 }

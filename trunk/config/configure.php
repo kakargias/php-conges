@@ -197,12 +197,15 @@ function affichage($session, $DEBUG=FALSE)
     // - On détecte les plugins puis on propose de les installer
     // L'installation du plugin va lancer include/plugins/[nom_du_plugins]/plugin_install.php
     // plugin_install.php lance la création des tables supplémentaires;
-    // normalement le format de nommage est conges_plugin_[nom_du_plugin]. Exemple de table : conges_plugin_cet
+    // normalement le format de nommage des tables est conges_plugin_[nom_du_plugin]. Exemple de table : conges_plugin_cet
     // il vaut mieux éviter de surcharger les tables existantes pour éviter les nombreux problèmes de compatibilité
     // lors d'un changement de version.
     // - Lorsqu'un plugin est installé, l'administrateur ou la personne autorisée pourra activer le plugin.
     // Le status qui s'affichera deviendra "activated"
     // Soit 4 statuts disponibles : not installed, installed, disable, activated
+    // Correspondants à 4 fichiers dans le dossier du plugin : plugin_install.php, plugin_uninstall.php, plugin_active.php, plugin_inactive.php
+    //Les statuts sont retrouvés par la table conges_plugins
+
     $my_plugins = scandir(PLUGINS_DIR);
     $plug_count = 0;
     echo "<table width=\"100%\">\n";

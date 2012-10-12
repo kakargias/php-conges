@@ -5,23 +5,29 @@ $local_scripts=curPage();
 if($local_scripts[0] == "hr_index.php")
  {
     $pattern="&onglet=";
+    $i = 1;
     $which_onglet=explode($pattern,$local_scripts[1]);
     if(empty($which_onglet) || $which_onglet[1] == "page_principale" || $which_onglet[0] == $local_scripts[1])
         {
-
-        $text = 'nb days';
-        //echo $text;
+        $select_all_cet = "SELECT u_nom,u_prenom,pc_jours_demandes FROM conges_users,conges_plugin_cet WHERE `conges_users`.`u_login`=`conges_plugin_cet`.`pc_u_login`";
+        $exec_all_cet = SQL::query($select_all_cet);
         echo "<script>
         $(document).ready(function(){
-            $('th:last-child').after('<th>CET</th>');
-            $('tr').each(function(){
-                if($(this).children().is('td'))
-                    {
-                    name = $(this).children('td:first').text();
-                    $(this).append('<td>$name</td>');
-                    }
-            });
-        });
+            $('th:last-child').after('<th>CET</th>');";
+        if($exec_all_cet->num_rows !=0)  // le jour courant est dans un periode de conges du user
+            {
+            while($user_cet=$exec_all_cet->fetch_array())
+                {
+                echo "
+                var tableRow = $('tr:has(td:contains(\"".$user_cet['u_nom']."\")):has(td:contains(\"".$user_cet['u_prenom']."\"))');
+
+                tableRow.css('color','blue');
+                tableRow.append('<td>".$user_cet['pc_jours_demandes']."</td>');
+                ";
+                }
+            }
+
+        echo "    });
         </script>";
         }
  }

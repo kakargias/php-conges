@@ -7,15 +7,18 @@ include ROOT_PATH . 'define.php';
 
 function find_plugins_activated(){
         $list_plugins = array();
-        $plugins_inst_activ_query = "SELECT p_name FROM conges_plugins WHERE p_is_active = 1 AND p_is_install = 1;";
-        $ReqLog_list_plugins = SQL::query($plugins_inst_activ_query);
-        if($ReqLog_list_plugins->num_rows !=0){
+        if($_SESSION['config']['php_conges_version'] == "1.7.0")
+            {
+            $plugins_inst_activ_query = "SELECT p_name FROM conges_plugins WHERE p_is_active = 1 AND p_is_install = 1;";
+            $ReqLog_list_plugins = SQL::query($plugins_inst_activ_query);
+            if($ReqLog_list_plugins->num_rows !=0){
                 while($plugin=$ReqLog_list_plugins->fetch_array())
                 {
                     array_push($list_plugins, $plugin["p_name"]);
+                }
             }
-        }
         return $list_plugins;
+        }
 }
 
 

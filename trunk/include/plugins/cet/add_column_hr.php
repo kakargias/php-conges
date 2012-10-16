@@ -5,7 +5,6 @@ $local_scripts=curPage();
 if($local_scripts[0] == "hr_index.php")
  {
     $pattern="&onglet=";
-    $i = 1;
     $which_onglet=explode($pattern,$local_scripts[1]);
     if(empty($which_onglet) || $which_onglet[1] == "page_principale" || $which_onglet[0] == $local_scripts[1])
         {
@@ -14,13 +13,12 @@ if($local_scripts[0] == "hr_index.php")
         echo "<script>
         $(document).ready(function(){
             $('th:last-child').after('<th>CET</th>');";
-        if($exec_all_cet->num_rows !=0)  // le jour courant est dans un periode de conges du user
+        if($exec_all_cet->num_rows !=0)
             {
             while($user_cet=$exec_all_cet->fetch_array())
                 {
                 echo "
                 var tableRow = $('tr:has(td:contains(\"".$user_cet['u_nom']."\")):has(td:contains(\"".$user_cet['u_prenom']."\"))');
-
                 tableRow.css('color','blue');
                 tableRow.append('<td>".$user_cet['pc_jours_demandes']."</td>');
                 ";

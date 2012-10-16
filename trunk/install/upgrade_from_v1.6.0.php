@@ -45,24 +45,18 @@ $version = (isset($_GET['version']) ? $_GET['version'] : (isset($_POST['version'
 $lang = (isset($_GET['lang']) ? $_GET['lang'] : (isset($_POST['lang']) ? $_POST['lang'] : "")) ;
 
 //étape 1 création de la table de gestion des plugins
-e1_create_table_plugins($DEBUG);
+e1_create_table_plugins();
 
-function e1_create_table_plugins($DEBUG)
-    if( test_create_table( $DEBUG))
+function e1_create_table_plugins()
     {
-        if( test_drop_table( $DEBUG))
-        {
-
-        $create_table_plugin_query = "CREATE TABLE IF NOT EXISTS `conges_plugins` (
+    $create_table_plugin_query = "CREATE TABLE IF NOT EXISTS `conges_plugins` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `p_name` varchar(250) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Plugin name',
   `p_is_active` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Plugin activated ?',
   `p_is_install` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Plugin is installed ?',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;";
-        $result_create_table_plugin = SQL::query($create_table_plugin_query);
-
-        }
+    $result_create_table_plugin = SQL::query($create_table_plugin_query);
     }
 
 

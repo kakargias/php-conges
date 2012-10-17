@@ -22,7 +22,7 @@ if($local_scripts[0] == "hr_index.php")
                 echo "
                 var tableRow = $('tr:has(td:contains(\"".$user_cet['u_nom']."\")):has(td:contains(\"".$user_cet['u_prenom']."\"))');
                 tableRow.css('color','blue');
-                var jours_demandes = Math.round(".$user_cet['pc_jours_demandes']."*10)/10
+                var jours_demandes = Math.round(".$user_cet['pc_jours_demandes']."*2)*0.5
                 tableRow.append('<td class=\"cet\" id=\"cet_".$user_cet['pc_u_login']."_".$i."\"><b>'+jours_demandes+'</b><span class=\"cet_detail\">details : ".$user_cet['pc_requested_date'].". ".$user_cet['pc_comments']."</span></td>');
                 addHover('".$user_cet['pc_u_login']."_".$i."');
                 ";

@@ -40,4 +40,8 @@ $update_plugin_table = "UPDATE conges_plugins SET p_is_active = '0'
   WHERE p_name='".$plugin."';";
 $result_update_plugin_table = SQL::query($update_plugin_table);
 
+$update_mail_table = "DELETE FROM `conges_mail` WHERE `mail_nom`='mail_cet_demande';";
+$result_update_mail_table = SQL::query($update_mail_table);
+
+
 ?>

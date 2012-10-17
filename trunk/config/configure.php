@@ -205,6 +205,8 @@ function affichage($session, $DEBUG=FALSE)
     // Soit 4 statuts disponibles : not installed, installed, disable, activated
     // Correspondants à 4 fichiers dans le dossier du plugin : plugin_install.php, plugin_uninstall.php, plugin_active.php, plugin_inactive.php
     //Les statuts sont retrouvés par la table conges_plugins
+    //Ensuite, les fichiers à inclure doivent être listés dans include/plugins/[nom_du_plugins]/allfilestoinclude.php
+    // Ces fichiers à inclure contiennent le coeur de votre plugin.
 
     $my_plugins = scandir(PLUGINS_DIR);
     $plug_count = 0;

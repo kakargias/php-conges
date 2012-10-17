@@ -5,10 +5,12 @@ $local_scripts=curPage();
 if($local_scripts[0] == "hr_index.php")
  {
     $pattern="&onglet=";
+    $i = 0;
     $which_onglet=explode($pattern,$local_scripts[1]);
+    echo '<LINK href="'.ROOT_PATH.'include/plugins/cet/css/bulles.css" title="bulles" rel="stylesheet" type="text/css">';
     if(empty($which_onglet) || $which_onglet[1] == "page_principale" || $which_onglet[0] == $local_scripts[1])
         {
-        $select_all_cet = "SELECT u_nom,u_prenom,pc_jours_demandes FROM conges_users,conges_plugin_cet WHERE `conges_users`.`u_login`=`conges_plugin_cet`.`pc_u_login`";
+        $select_all_cet = "SELECT u_nom,u_prenom,pc_jours_demandes,pc_u_login,pc_requested_date,pc_comments FROM conges_users,conges_plugin_cet WHERE `conges_users`.`u_login`=`conges_plugin_cet`.`pc_u_login`";
         $exec_all_cet = SQL::query($select_all_cet);
         echo "<script>
         $(document).ready(function(){
@@ -20,12 +22,24 @@ if($local_scripts[0] == "hr_index.php")
                 echo "
                 var tableRow = $('tr:has(td:contains(\"".$user_cet['u_nom']."\")):has(td:contains(\"".$user_cet['u_prenom']."\"))');
                 tableRow.css('color','blue');
-                tableRow.append('<td>".$user_cet['pc_jours_demandes']."</td>');
+                var jours_demandes = Math.round(".$user_cet['pc_jours_demandes']."*10)/10
+                tableRow.append('<td class=\"cet\" id=\"cet_".$user_cet['pc_u_login']."_".$i."\"><b>'+jours_demandes+'</b><span class=\"cet_detail\">details : ".$user_cet['pc_requested_date'].". ".$user_cet['pc_comments']."</span></td>');
+                addHover('".$user_cet['pc_u_login']."_".$i."');
                 ";
+                $i++;
                 }
             }
 
-        echo "    });
+        echo "
+        function addHover(uid) {
+        var td_id = '#cet_'+uid;
+            $(td_id).mouseover(function(){
+                $(this).children('span').show();
+              }).mouseout(function(){
+                $(this).children('span').hide();
+              });
+        }
+        });
         </script>";
         }
  }

@@ -40,9 +40,10 @@ $update_plugin_table = "UPDATE conges_plugins SET p_is_active = '1'
   WHERE p_name='".$plugin."';";
 $result_update_plugin_table = SQL::query($update_plugin_table);
 
-//affichage du bouton
-// sed to modify display forms in php forms ?
-//echo "<p>Nombre de jours demand&eacute;s pour alimenter votre CET</p><input type='text' name='nb_days'>";
+
+$update_mail_table = "INSERT INTO `conges_mail` (`mail_nom`, `mail_subject`, `mail_body`) VALUES
+('mail_cet_demande', 'APPLI CONGES - Demande stockage pour CET', ' __SENDER_NAME__ a solicité une demande d\'alimentation de son CET dans l\'application de gestion des congés.\r\n\r\nMerci de consulter votre application php_conges : __URL_ACCUEIL_CONGES__/\r\n\r\n-------------------------------------------------------------------------------------------------------\r\nCeci est un message automatique.');";
+$result_update_mail_table = SQL::query($update_mail_table);
 
 
 ?>

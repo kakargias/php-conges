@@ -745,7 +745,7 @@ function date_fr($code, $timestmp)
 
 // envoi d'un message d'avertissement
 // parametre 1=login de l'expéditeur
-// parametre 2=login du destnataire (ou ":responsable:" si envoi au(x) responsable(s))
+// parametre 2=login du destinataire (ou ":responsable:" si envoi au(x) responsable(s))
 // parametre 3= numero de l'absence concernée
 // parametre 4=objet du message (cf table conges_mail pour les diff valeurs possibles)
 function alerte_mail($login_expediteur, $destinataire, $num_periode, $objet,  $DEBUG=FALSE)
@@ -763,7 +763,7 @@ function alerte_mail($login_expediteur, $destinataire, $num_periode, $objet,  $D
     // recherche des infos concernant le destinataire ...
     // recherche du login du (des) destinataire(s) dans la base
     $dest_mail  = '';
-    if( $destinataire == ':responsable:' )  // c'est une message au responsable
+    if( $destinataire == ':responsable:' )  // c'est un message au responsable
     {
         $tab_resp   = get_tab_resp_du_user($login_expediteur,  $DEBUG);
         foreach($tab_resp as $item_login => $item_presence)

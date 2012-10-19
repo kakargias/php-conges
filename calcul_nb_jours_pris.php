@@ -41,24 +41,25 @@ $DEBUG=FALSE;
 //$DEBUG=TRUE;
 
 
-	/*** initialisation des variables ***/
-	$session=session_id();
-	$user="";
-	$date_debut="";
-	$date_fin="";
-	/************************************/
+    /*** initialisation des variables ***/
+    $session=session_id();
+    $user="";
+    $date_debut="";
+    $date_fin="";
+    /************************************/
 
-	/*************************************/
-	// recup des parametres reçus :
-	// SERVER
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-	// GET	/ POST
-	$user       = getpost_variable('user') ;
-	$date_debut = getpost_variable('date_debut') ;
-	$date_fin   = getpost_variable('date_fin') ;
-	$opt_debut  = getpost_variable('opt_debut') ;
-	$opt_fin    = getpost_variable('opt_fin') ;
-	/*************************************/
+    /*************************************/
+    // recup des parametres reçus :
+    // SERVER
+    $PHP_SELF=$_SERVER['PHP_SELF'];
+    // GET  / POST
+    $user       = getpost_variable('user') ;
+    $date_debut = getpost_variable('date_debut') ;
+    $date_fin   = getpost_variable('date_fin') ;
+    $opt_debut  = getpost_variable('opt_debut') ;
+    $opt_fin    = getpost_variable('opt_fin') ;
+    /*************************************/
+
 
 // ATTENTION ne pas mettre cet appel avant les include car plantage sous windows !!!
 ?>
@@ -68,12 +69,12 @@ function envoi(valeur)
 </Script>
 <?php
 
-	if( ($user!="") && ($date_debut!="") && ($date_fin!="") && ($opt_debut!="") && ($opt_fin!="") )
-		affichage($user, $date_debut, $date_fin, $opt_debut, $opt_fin, $DEBUG);
-	else
-		/* APPEL D'UNE AUTRE PAGE immediat */
-		echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=user_index.php?session=$session&onglet=nouvelle_absence\">";
-		//echo " $user, $date_debut, $date_fin, $opt_debut, $opt_fin <br>\n";
+    if( ($user!="") && ($date_debut!="") && ($date_fin!="") && ($opt_debut!="") && ($opt_fin!="") )
+        affichage($user, $date_debut, $date_fin, $opt_debut, $opt_fin, $DEBUG);
+    else
+        /* APPEL D'UNE AUTRE PAGE immediat */
+        echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=user_index.php?session=$session&onglet=nouvelle_absence\">";
+        //echo " $user, $date_debut, $date_fin, $opt_debut, $opt_fin <br>\n";
 
 
 
@@ -82,53 +83,54 @@ function envoi(valeur)
 
 function affichage($user, $date_debut, $date_fin, $opt_debut, $opt_fin, $DEBUG=FALSE)
 {
-	if( $DEBUG ) { echo "user = $user, date_debut = $date_debut, date_fin = $date_fin, opt_debut = $opt_debut, opt_fin = $opt_fin<br>\n";}
+    if( $DEBUG ) { echo "user = $user, date_debut = $date_debut, date_fin = $date_fin, opt_debut = $opt_debut, opt_fin = $opt_fin<br>\n";}
 
-	$PHP_SELF=$_SERVER['PHP_SELF'];
-	$session=session_id();
+    $PHP_SELF=$_SERVER['PHP_SELF'];
+    $session=session_id();
 
-	$comment="&nbsp;" ;
+    $comment="&nbsp;" ;
 
-	header_popup();	
-	
-	echo "<h1>$user</h1>\n";
+    header_popup();
 
-	echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n";
-	echo "<table>\n";
-	echo "<tr>\n";
-	// calcul :
-	// $nb_jours=compter($user, $date_debut, $date_fin, $opt_debut, $opt_fin, $comment, $DEBUG);
-	$nb_jours=compter($user, "", $date_debut, $date_fin, $opt_debut, $opt_fin, $comment, $DEBUG);
+    echo "<h1>$user</h1>\n";
 
-	echo "<td align=\"center\"><h2>". _('calcul_nb_jours_nb_jours') ." <b>$nb_jours</b></h2></td>\n";
-	echo "</tr>\n";
-	echo "<tr>\n";
-	echo "<td align=\"center\"><i><font color=\"red\">$comment<font/></i></td>\n";
-	echo "</tr>\n";
-	echo "<tr>\n";
-	echo "<td align=\"center\"><i>". _('calcul_nb_jours_reportez') ." \"". _('saisie_conges_nb_jours') ."\" ". _('calcul_nb_jours_form') .".</i></td>\n";
-	echo "</tr>\n";
-	echo "<tr>\n";
-	echo "<td align=\"center\">&nbsp;</td>\n";
-	echo "</tr>\n";
-	echo "<tr>\n";
-	echo "<td align=\"center\">\n";
-	echo "	<input type=\"button\" value=\"". _('form_close_window') ."\" onClick=\"javascript:window.close();\">\n";
-	echo "</td>\n";
-	echo "</tr>\n";
-	echo "</table>\n";
-	echo "</form>\n";
+    echo "<form action=\"$PHP_SELF?session=$session\" method=\"POST\">\n";
+    echo "<table>\n";
+    echo "<tr>\n";
+    // calcul :
+    // $nb_jours=compter($user, $date_debut, $date_fin, $opt_debut, $opt_fin, $comment, $DEBUG);
+    $nb_jours=compter($user, "", $date_debut, $date_fin, $opt_debut, $opt_fin, $comment, $DEBUG);
 
 
-	if($_SESSION['config']['rempli_auto_champ_nb_jours_pris'])
-	{
-		if( ($comment=="&nbsp;") && ($DEBUG==FALSE) )
-			echo "<script>envoi($nb_jours); window.close()</script>";
-		else
-			echo "<script>envoi($nb_jours)</script>";
-	}
+    echo "<td align=\"center\"><h2>". _('calcul_nb_jours_nb_jours') ." <b>$nb_jours</b></h2></td>\n";
+    echo "</tr>\n";
+    echo "<tr>\n";
+    echo "<td align=\"center\"><i><font color=\"red\">$comment<font/></i></td>\n";
+    echo "</tr>\n";
+    echo "<tr>\n";
+    echo "<td align=\"center\"><i>". _('calcul_nb_jours_reportez') ." \"". _('saisie_conges_nb_jours') ."\" ". _('calcul_nb_jours_form') .".</i></td>\n";
+    echo "</tr>\n";
+    echo "<tr>\n";
+    echo "<td align=\"center\">&nbsp;</td>\n";
+    echo "</tr>\n";
+    echo "<tr>\n";
+    echo "<td align=\"center\">\n";
+    echo "  <input type=\"button\" value=\"". _('form_close_window') ."\" onClick=\"javascript:window.close();\">\n";
+    echo "</td>\n";
+    echo "</tr>\n";
+    echo "</table>\n";
+    echo "</form>\n";
 
-	bottom();
+
+    if($_SESSION['config']['rempli_auto_champ_nb_jours_pris'])
+    {
+        if( ($comment=="&nbsp;") && ($DEBUG==FALSE) )
+            echo "<script>envoi('$nb_jours'); window.close()</script>";
+        else
+            echo "<script>envoi('$nb_jours')</script>";
+    }
+
+    bottom();
 
 }
 

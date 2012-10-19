@@ -1228,8 +1228,8 @@ function get_groups_name()
 
 
 // recup de la liste de TOUS les users dont $resp_login est responsable
-// (prend en compte le resp direct, les groupes, le reps virtuel, etc ...)
-// renvoit une liste de login entre quotes et séparés par des virgules
+// (prend en compte le resp direct, les groupes, le resp virtuel, etc ...)
+// renvoie une liste de login entre quotes et séparés par des virgules
 function get_list_all_users_du_resp($resp_login,  $DEBUG=FALSE)
 {
 
@@ -1240,7 +1240,7 @@ function get_list_all_users_du_resp($resp_login,  $DEBUG=FALSE)
 //  $sql="SELECT DISTINCT(u_login) FROM conges_users WHERE u_login!='conges' AND u_login!='admin'";
     $sql1="SELECT DISTINCT(u_login) FROM conges_users WHERE u_login!='conges' AND u_login!='admin' AND u_login!='$resp_login'";
 
-    // si resp virtuel, on renvoit tout le monde, sinon, seulement ceux dont on est responsables
+    // si resp virtuel, on renvoie tout le monde, sinon, seulement ceux dont on est responsable
     if($_SESSION['config']['responsable_virtuel']==FALSE)
     {
         $sql1 = $sql1." AND  ( u_resp_login='$resp_login' " ;
@@ -1273,7 +1273,7 @@ function get_list_all_users_du_resp($resp_login,  $DEBUG=FALSE)
     {
         // recup liste des resp absents, dont $resp_login est responsable
         $sql_2='SELECT DISTINCT(u_login) FROM conges_users WHERE u_is_resp=\'Y\' AND u_login!=\''.SQL::quote($resp_login).'\' AND u_login!=\'conges\' AND u_login!=\'admin\'';
-        // si resp virtuel, on renvoit tout le monde, sinon, seulement ceux dont on est responsables
+        // si resp virtuel, on renvoie tout le monde, sinon, seulement ceux dont on est responsable
         if($_SESSION['config']['responsable_virtuel']==FALSE)
         {
             $sql_2 = $sql_2." AND  ( u_resp_login='$resp_login' " ;
@@ -1776,7 +1776,7 @@ function is_active($login,  $DEBUG=FALSE)
 // renvoit TRUE si le $resp_login est responsable du $user_login, FALSE sinon.
 function is_resp_of_user($resp_login, $user_login,  $DEBUG=FALSE)
 {
-    if ( !$_SESSION['config']['gestion_groupes'] ){
+    if ( $_SESSION['config']['gestion_groupes'] ){
         // recup de qq infos sur le user
         $select_info='SELECT u_resp_login FROM conges_users WHERE u_login=\''.SQL::quote($user_login).'\';';
         $ReqLog_info = SQL::query($select_info);

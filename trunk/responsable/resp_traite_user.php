@@ -56,7 +56,6 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
     /*************************************/
 
     if ( !is_resp_of_user($_SESSION['userlogin'] , $user_login)) {
-        echo is_resp_of_user($_SESSION['userlogin'] , $user_login);
         redirect(ROOT_PATH . 'deconnexion.php');
         exit;
     }

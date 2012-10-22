@@ -1776,7 +1776,7 @@ function is_active($login,  $DEBUG=FALSE)
 // renvoit TRUE si le $resp_login est responsable du $user_login, FALSE sinon.
 function is_resp_of_user($resp_login, $user_login,  $DEBUG=FALSE)
 {
-    if ( $_SESSION['config']['gestion_groupes'] ){
+    if ( !$_SESSION['config']['gestion_groupes'] ){
         // recup de qq infos sur le user
         $select_info='SELECT u_resp_login FROM conges_users WHERE u_login=\''.SQL::quote($user_login).'\';';
         $ReqLog_info = SQL::query($select_info);
@@ -1788,6 +1788,15 @@ function is_resp_of_user($resp_login, $user_login,  $DEBUG=FALSE)
     }
     else {
 
+//        if ( $_SESSION['config']['double_validation_conges'] ){
+            $ReqLog_info = SQL::query('SELECT count(*)
+                                    FROM `conges_groupe_users`
+                                    JOIN conges_groupe_resp ON gr_gid = gu_gid
+                                    WHERE gu_login = \''.SQL::quote($user_login).'\'
+                                    AND gr_login = \''.SQL::quote($resp_login).'\';');
+            $resultat_info = $ReqLog_info->fetch_array();
+            return ($resultat_info[0] != 0);
+//        }
         $ReqLog_info = SQL::query('SELECT count(*)
                                 FROM `conges_groupe_users`
                                 JOIN conges_groupe_grd_resp ON ggr_gid = gu_gid
@@ -1797,15 +1806,6 @@ function is_resp_of_user($resp_login, $user_login,  $DEBUG=FALSE)
         if ($resultat_info[0] != 0)
             return true;
 
-        if ( $_SESSION['config']['double_validation_conges'] ){
-            $ReqLog_info = SQL::query('SELECT count(*)
-                                    FROM `conges_groupe_users`
-                                    JOIN conges_groupe_resp ON gr_gid = gu_gid
-                                    WHERE gu_login = \''.SQL::quote($user_login).'\'
-                                    AND gr_login = \''.SQL::quote($resp_login).'\';');
-            $resultat_info = $ReqLog_info->fetch_array();
-            return ($resultat_info[0] != 0);
-        }
         return false;
     }
 }

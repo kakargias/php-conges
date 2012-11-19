@@ -10,10 +10,6 @@ Copy and edits proprely this files :
 	cfg/config_ldap_new.php	to 	cfg/config_ldap.php
 	define_new.php		to 	define.php
 
-Do not forget to place .htaccess file into your install subdirectory !
-
-tmp subdirectory for PHP_IDS should be writable for apache user : 
-	INCLUDE.EXTERNAL/phpids-0.5.3/lib/IDS/tmp
 
 Then copy your php-conges directory to your Apache DocumentRoot
 Open a browser and go to http://[server address]/[php-conges directory]/install
@@ -33,7 +29,13 @@ Copy (and edit):
 
 Go to your [php-conges] URL, in /install subdirectory to migrate your application.
 
-Do not forget to place .htaccess file into your install subdirectory !
+---
+# After installation
+
+ - About security
+
+Do not forget to place .htaccess (deny from all) file into your install subdirectory !
+	http://httpd.apache.org/docs/2.2/howto/htaccess.html
 
 tmp subdirectory for PHP_IDS should be writable for apache user : 
 	INCLUDE.EXTERNAL/phpids-0.5.3/lib/IDS/tmp

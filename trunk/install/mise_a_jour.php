@@ -305,7 +305,7 @@ function lance_maj($lang, $installed_version, $config_php_conges_version, $etape
             // execute le script php d'upgrade de la version1.4.2 (vers la suivante (1.5.0))
             echo "<META HTTP-EQUIV=REFRESH CONTENT=\"0; URL=$file_upgrade?version=$new_installed_version&lang=$lang\">";
         }
-        elseif($start_version=="1.5.0")
+        elseif(($start_version=="1.5.0")||($start_version=="1.5.1"))
         {
             $file_upgrade='upgrade_from_v1.5.0.php';
             $new_installed_version="1.6.0";

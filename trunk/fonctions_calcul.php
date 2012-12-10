@@ -152,7 +152,7 @@ function compter($user, $num_current_periode, $date_debut, $date_fin, $opt_debut
 }
 
 
-// renvoit le jour suivant de la date paséée en paramètre sous la forme yyyy-mm-jj
+// renvoit le jour suivant de la date passée en paramètre sous la forme yyyy-mm-jj
 function jour_suivant($date)
 {
     $pieces = explode("-", $date);  // date de la forme yyyy-mm-jj

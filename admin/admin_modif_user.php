@@ -424,9 +424,9 @@ function commit_update($u_login_to_update, &$tab_new_user, &$tab_new_jours_an, &
         foreach($tab_type_conges as $id_conges => $libelle)
         {
             $sql = 'REPLACE INTO conges_solde_user
-                SET su_nb_an='.round_to_half($tab_new_jours_an[$id_conges] ).',
-                    su_solde='.round_to_half($tab_new_solde[$id_conges]).',
-                    su_reliquat='.round_to_half($tab_new_reliquat[$id_conges]).',
+                SET su_nb_an="'.round_to_half($tab_new_jours_an[$id_conges] ).'",
+                    su_solde="'.round_to_half($tab_new_solde[$id_conges]).'",
+                    su_reliquat="'.round_to_half($tab_new_reliquat[$id_conges]).'",
                     su_login=\''.SQL::quote($u_login_to_update).'\',
                     su_abs_id='.intval($id_conges).';';
 
@@ -440,8 +440,8 @@ function commit_update($u_login_to_update, &$tab_new_user, &$tab_new_jours_an, &
             {
                 $sql = 'REPLACE INTO conges_solde_user
                     SET su_nb_an=0,
-                        su_solde='.round_to_half($tab_new_solde[$id_conges]).',
-                        su_reliquat='.round_to_half($tab_new_reliquat[$id_conges]).',
+                        su_solde="'.round_to_half($tab_new_solde[$id_conges]).'",
+                        su_reliquat="'.round_to_half($tab_new_reliquat[$id_conges]).'",
                         su_login=\''.SQL::quote($u_login_to_update).'\',
                         su_abs_id='.intval($id_conges).';';
 

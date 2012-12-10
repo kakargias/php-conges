@@ -64,7 +64,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
             $new_nb_jours   = getpost_variable('new_nb_jours') ;
         }
 
-        new_conges($user_login, $new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin, $new_nb_jours, $new_comment, $new_type, $DEBUG);
+        new_conges($user_login, $numero_int, $new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin, $new_nb_jours, $new_comment, $new_type, $DEBUG);
     }
     else {
 
@@ -757,7 +757,7 @@ function traite_demandes($user_login, $tab_radio_traite_demande, $tab_text_refus
 
 }
 
-function new_conges($user_login, $new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin, $new_nb_jours, $new_comment, $new_type_id, $DEBUG=FALSE)
+function new_conges($user_login, $numero_int, $new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin, $new_nb_jours, $new_comment, $new_type_id, $DEBUG=FALSE)
 {
     $PHP_SELF=$_SERVER['PHP_SELF'];
     $session=session_id();

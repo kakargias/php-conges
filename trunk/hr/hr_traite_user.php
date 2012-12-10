@@ -786,7 +786,7 @@ function new_conges($user_login, $new_debut, $new_demi_jour_deb, $new_fin, $new_
         {
             $user_nb_jours_pris_float=(float) $new_nb_jours ;
 //          soustrait_solde_user($user_login, $user_nb_jours_pris_float, $new_type_id, $DEBUG);
-            soustrait_solde_et_reliquat_user($user_login, $user_nb_jours_pris_float, $new_type_id, $new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin , $DEBUG);
+            soustrait_solde_et_reliquat_user($user_login, $numero_int, $user_nb_jours_pris_float, $new_type_id, $new_debut, $new_demi_jour_deb, $new_fin, $new_demi_jour_fin , $DEBUG);
         }
 
         $comment_log = "saisie conges par le responsable pour $user_login ($new_nb_jours jour(s)) type_conges = $new_type_id ( de $new_debut $new_demi_jour_deb a $new_fin $new_demi_jour_fin) ($new_comment)";

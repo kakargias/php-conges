@@ -1,8 +1,6 @@
 <?php
 
-define('PLUGINS_DIR', __DIR__ . "/plugins/");
 
-define('ROOT_PATH', '../../');
 include ROOT_PATH . 'define.php';
 
 function find_plugins_activated(){
@@ -42,4 +40,3 @@ $plugins_activated = find_plugins_activated();
 //massive include for plugins...
 include_plugins($plugins_activated);
 
-?>

@@ -16,4 +16,6 @@ if (!defined( 'DEFINE_INCLUDE' )) {
 	define('LOCALE_PATH',		ROOT_PATH . 'locale/');
 	define('DUMP_PATH',			ROOT_PATH . 'dump/');
 	define('TEMPLATE_PATH',		ROOT_PATH . 'template/default/');
+	
+	define('PLUGINS_DIR',		ROOT_PATH . "include/plugins/");
 }

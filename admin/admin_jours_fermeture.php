@@ -740,7 +740,6 @@ function commit_new_fermeture($new_date_debut, $new_date_fin, $groupe_id, $id_ty
 
 		// mise à jour du solde de jours de conges pour l'utilisateur $current_login
 		if ($nb_jours != 0) {
-			//soustrait_solde_et_reliquat_user($current_login, $nb_jours, $id_type_conges, $date_debut, $opt_debut, $date_fin, $opt_fin,  $DEBUG);
 			soustrait_solde_et_reliquat_user($current_login, "", $nb_jours, $id_type_conges, $date_debut, $opt_debut, $date_fin, $opt_fin, $DEBUG);
 
 		}

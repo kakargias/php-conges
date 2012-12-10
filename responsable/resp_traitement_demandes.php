@@ -424,7 +424,6 @@ function traite_all_demande_en_cours( $tab_bt_radio, $tab_text_refus, $DEBUG=FAL
 				log_action($numero_int,"ok", $user_login, "traite demande $numero ($user_login) ($user_nb_jours_pris jours) : $reponse",  $DEBUG);
 				
 				/* UPDATE table "conges_solde_user" (jours restants) */
-				// soustrait_solde_et_reliquat_user($user_login, $user_nb_jours_pris, $type_abs, $date_deb, $demi_jour_deb, $date_fin, $demi_jour_fin,  $DEBUG);
 				soustrait_solde_et_reliquat_user($user_login, $numero_int, $user_nb_jours_pris, $type_abs, $date_deb, $demi_jour_deb, $date_fin, $demi_jour_fin, $DEBUG);
 				
 				//envoi d'un mail d'alerte au user (si demandé dans config de php_conges)

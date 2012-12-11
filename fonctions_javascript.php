@@ -44,8 +44,10 @@
 
 function compter_jours(radiodebut, radiofin, login_user, j_debut, j_fin)
 {
-    var login = document.forms[0].login_user.value;
-    var session = document.forms[0].session.value;
+    //var login = document.forms[0].login_user.value;
+    //var session = document.forms[0].session.value;
+    var login = document.form1.login_user.value;
+    var session = document.form1.session.value;
 
     for (var i=0; i<radiodebut.length; i++)
         if (radiodebut[i].checked)
@@ -78,8 +80,12 @@ function compter_jours(radiodebut, radiofin, login_user, j_debut, j_fin)
 
 function compter_jours_old(radiodebut, radiofin, login_user, j_debut, j_fin)
 {
+/*
     var login = document.forms[0].login_user.value;
     var session = document.forms[0].session.value;
+*/
+    var login = document.form1.login_user.value;
+    var session = document.form1.session.value;
 
     for (var i=0; i<radiodebut.length; i++)
         if (radiodebut[i].checked)

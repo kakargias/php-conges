@@ -153,12 +153,8 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
 
     init_tab_jours_fermeture($user_login);
 
-//      echo '<form action="'.$PHP_SELF.'?session='.$session.'" method="POST">' ;
-        echo '<form action="'.$PHP_SELF.'?session='.$session.'&onglet='.$onglet.'" method="POST">' ;
-//      echo '<form action="'.$PHP_SELF.'?session='.$session.'&login_user='.$user_login.'" method="POST">' ;
+        echo '<form name="form1" action="'.$PHP_SELF.'?session='.$session.'&onglet='.$onglet.'" method="POST">' ;
         // il faut indiquer le champ de formulaire 'login_user' car il est récupéré par le javascript qui apelle le calcul automatique.
-//      echo '<input type="hidden" name="login_user" value="'.$user_login.'">';
-
             echo '<table cellpadding="0" cellspacing="5" border="0">';
             echo '<tr align="center">';
             echo '<td>';
@@ -2182,8 +2178,6 @@ function recup_tableau_conges_for_users( $hide_conges_exceptionnels, $logins = f
 // affichage du tableau récapitulatif des solde de congés d'un user
 function affiche_tableau_bilan_conges_user($login, $DEBUG=FALSE)
 {
-
-
     $request = 'SELECT u_quotite FROM conges_users where u_login = \''.SQL::quote($login).'\';';
     $ReqLog = SQL::query($request) ;
 

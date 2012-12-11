@@ -65,7 +65,10 @@ $DEBUG=FALSE;
 ?>
 <script language="javascript">
 function envoi(valeur)
-{window.opener.document.forms[0].new_nb_jours.value=valeur}
+    {
+//        window.opener.document.forms[0].new_nb_jours.value=valeur
+        window.opener.document.form1.new_nb_jours.value=valeur
+    }
 </Script>
 <?php
 

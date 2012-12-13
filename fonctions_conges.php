@@ -2126,7 +2126,7 @@ function recup_tableau_conges_for_user($login, $hide_conges_exceptionnels)
 {
     // on pourrait tout faire en un seule select, mais cela bug si on change la prise en charge des conges exceptionnels en cours d'utilisation ...
 
-    if ($_SESSION['config']['gestion_conges_exceptionnels'] && ! $hide_conges_exceptionnels) // on prend tout les types de conges
+    if ($_SESSION['config']['gestion_conges_exceptionnels'] && ! $hide_conges_exceptionnels) // on prend tous les types de conges
         $request = 'SELECT ta_libelle, su_nb_an, su_solde, su_reliquat FROM conges_solde_user, conges_type_absence WHERE conges_type_absence.ta_id = conges_solde_user.su_abs_id AND su_login = \''.SQL::quote($login).'\' ORDER BY su_abs_id ASC;';
     else // on prend tout les types de conges SAUF les conges exceptionnels
         $request = 'SELECT ta_libelle, su_nb_an, su_solde, su_reliquat FROM conges_solde_user, conges_type_absence WHERE conges_type_absence.ta_type != \'conges_exceptionnels\' AND conges_type_absence.ta_id = conges_solde_user.su_abs_id AND su_login = \''.SQL::quote($login).'\' ORDER BY su_abs_id ASC;';

@@ -2541,6 +2541,8 @@ function get_reliquat_user_conges($login, $type_abs,  $DEBUG=FALSE)
 function soustrait_solde_et_reliquat_user($user_login, $num_current_periode, $user_nb_jours_pris, $type_abs, $date_deb, $demi_jour_deb, $date_fin, $demi_jour_fin,  $DEBUG=FALSE)
 {
 
+    $user_nb_jours_pris = strtr($user_nb_jours_pris,",",".");
+
     //si on autorise les reliquats
     if($_SESSION['config']['autorise_reliquats_exercice'])
     {

@@ -25,6 +25,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
+
+
+
 // calcule le nb de jours de conges à prendre pour un user entre 2 dates
 // retourne le nb de jours  (opt_debut et opt_fin ont les valeurs "am" ou "pm"
 function compter($user, $num_current_periode, $date_debut, $date_fin, $opt_debut, $opt_fin, &$comment,  $DEBUG=FALSE, $num_update = null)
@@ -366,9 +369,16 @@ function verif_periode_chevauche_periode_user($date_debut, $date_fin, $user, $nu
 //retourne un nombre arrondit à 0.5 près à partir d'un nombre décimal
 function round_to_half($num)
 {
-  if($num >= ($half = ($ceil = ceil($num))- 0.5) + 0.25) return $ceil;
-  else if($num < $half - 0.25) return floor($num);
-  else return $half;
+  $num = number_format($num,1,".","");
+  $ceil = ceil($num);
+  $half = $ceil - 0.5;
+  $half = number_format($half,1,".","");
+  if($num >= $half + 0.25)
+    { return $ceil; }
+  else if($num < $half - 0.25)
+    { return floor($num); }
+  else
+    { return $half; }
 }
 
 

@@ -98,6 +98,7 @@ defined( '_PHP_CONGES' ) or die( 'Restricted access' );
 
 function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $onglet, $DEBUG=FALSE)
 {
+    //$DEBUG=TRUE;
     $PHP_SELF=$_SERVER['PHP_SELF'];
     $session=session_id();
 
@@ -340,7 +341,7 @@ function modifier($u_login, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $onglet,
 
 function commit_update($u_login_to_update, &$tab_new_user, &$tab_new_jours_an, &$tab_new_solde, &$tab_new_reliquat, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, $DEBUG=FALSE)
 {
-//$DEBUG=TRUE;
+    //$DEBUG=TRUE;
 
     $PHP_SELF=$_SERVER['PHP_SELF'];
     $session=session_id();
@@ -429,7 +430,6 @@ function commit_update($u_login_to_update, &$tab_new_user, &$tab_new_jours_an, &
                     su_reliquat=\''.round_to_half(strtr($tab_new_reliquat[$id_conges],",",".")).'\',
                     su_login=\''.SQL::quote($u_login_to_update).'\',
                     su_abs_id='.intval($id_conges).';';
-            //echo $sql;
 
             SQL::query($sql);
 
@@ -445,7 +445,6 @@ function commit_update($u_login_to_update, &$tab_new_user, &$tab_new_jours_an, &
                         su_reliquat=\''.round_to_half(strtr($tab_new_reliquat[$id_conges],",",".")).'\',
                         su_login=\''.SQL::quote($u_login_to_update).'\',
                         su_abs_id='.intval($id_conges).';';
-                //echo $sql;
 
                 SQL::query($sql);
 

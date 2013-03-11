@@ -153,6 +153,11 @@ function ajout_user(&$tab_new_user, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, 
 		echo "tab_new_solde = "; print_r($tab_new_solde) ; echo "<br>\n";
 	}
 
+	// prevent BIG problems !!!
+	$tab_new_user['login']		= trim($tab_new_user['login']);
+	$tab_new_user['resp_login']	= trim($tab_new_user['resp_login']);
+	$tab_new_user['email']		= trim($tab_new_user['email']);
+	
 	// si pas d'erreur de saisie :
 	if( verif_new_param($tab_new_user, $tab_new_jours_an, $tab_new_solde, $DEBUG)==0)
 	{
@@ -176,23 +181,23 @@ function ajout_user(&$tab_new_user, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, 
 
 			
 		$sql1 = "INSERT INTO conges_users SET ";
-		$sql1=$sql1."u_login='".$tab_new_user['login']."', ";
-		$sql1=$sql1."u_nom='".addslashes($tab_new_user['nom'])."', ";
-		$sql1=$sql1."u_prenom='".addslashes($tab_new_user['prenom'])."', ";
-		$sql1=$sql1."u_is_resp='".$tab_new_user['is_resp']."', ";
+		$sql1=$sql1."u_login='".SQL::quote($tab_new_user['login'])."', ";
+		$sql1=$sql1."u_nom='".SQL::quote($tab_new_user['nom'])."', ";
+		$sql1=$sql1."u_prenom='".SQL::quote($tab_new_user['prenom'])."', ";
+		$sql1=$sql1."u_is_resp='".SQL::quote($tab_new_user['is_resp'])."', ";
 		
 		if($tab_new_user['resp_login'] == 'no_resp')
 			$sql1=$sql1."u_resp_login= NULL , ";
 		else
-			$sql1=$sql1."u_resp_login='". $tab_new_user['resp_login']."', ";
+			$sql1=$sql1."u_resp_login='". SQL::quote($tab_new_user['resp_login'])."', ";
 		
 		
-		$sql1=$sql1."u_is_admin='".$tab_new_user['is_admin']."', ";
-		$sql1=$sql1."u_is_hr='".$tab_new_user['is_hr']."', ";
-		$sql1=$sql1."u_see_all='".$tab_new_user['see_all']."', ";
+		$sql1=$sql1."u_is_admin='".SQL::quote($tab_new_user['is_admin'])."', ";
+		$sql1=$sql1."u_is_hr='".SQL::quote($tab_new_user['is_hr'])."', ";
+		$sql1=$sql1."u_see_all='".SQL::quote($tab_new_user['see_all'])."', ";
 		$sql1=$sql1."u_passwd='$motdepasse', ";
-		$sql1=$sql1."u_quotite=".$tab_new_user['quotite'].",";
-		$sql1=$sql1." u_email='".$tab_new_user['email']."' ";
+		$sql1=$sql1."u_quotite='".SQL::quote($tab_new_user['quotite'])."',";
+		$sql1=$sql1." u_email='".SQL::quote($tab_new_user['email'])."' ";
 		$result1 = SQL::query($sql1);
 
 
@@ -201,7 +206,7 @@ function ajout_user(&$tab_new_user, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, 
 		foreach($tab_new_jours_an as $id_cong => $jours_an)
 		{
 			$sql3 = "INSERT INTO conges_solde_user (su_login, su_abs_id, su_nb_an, su_solde, su_reliquat) ";
-			$sql3 = $sql3. "VALUES ('".$tab_new_user['login']."' , $id_cong, ".$tab_new_jours_an[$id_cong].", ".$tab_new_solde[$id_cong].", 0) " ;
+			$sql3 = $sql3. "VALUES ('".SQL::quote($tab_new_user['login'])."' , '".SQL::quote($id_cong)."', ".SQL::quote($tab_new_jours_an[$id_cong]).", ".SQL::quote($tab_new_solde[$id_cong]).", 0) " ;
 			$result3 = SQL::query($sql3);
 		}
 
@@ -214,19 +219,19 @@ function ajout_user(&$tab_new_user, $tab_checkbox_sem_imp, $tab_checkbox_sem_p, 
 		if($tab_checkbox_sem_imp!="") {
 			while (list ($key, $val) = each ($tab_checkbox_sem_imp)) {
 				//echo "$key => $val<br>\n";
-				$list_colums_to_insert="$list_colums_to_insert, $key";
-				$list_values_to_insert="$list_values_to_insert, '$val'";
+				$list_colums_to_insert="$list_colums_to_insert, ".SQL::quote($key);
+				$list_values_to_insert="$list_values_to_insert, '".SQL::quote($val)."'";
 			}
 		}
 		if($tab_checkbox_sem_p!="") {
 			while (list ($key, $val) = each ($tab_checkbox_sem_p)) {
 				//echo "$key => $val<br>\n";
-				$list_colums_to_insert="$list_colums_to_insert, $key";
-				$list_values_to_insert="$list_values_to_insert, '$val'";
+				$list_colums_to_insert="$list_colums_to_insert, ".SQL::quote($key);
+				$list_values_to_insert="$list_values_to_insert, '".SQL::quote($val)."'";
 			}
 		}
 
-		$sql2 = "INSERT INTO conges_artt ($list_colums_to_insert, a_date_debut_grille) VALUES ($list_values_to_insert, '$new_date_deb_grille')" ;
+		$sql2 = "INSERT INTO conges_artt ($list_colums_to_insert, a_date_debut_grille) VALUES ($list_values_to_insert, '".SQL::quote($new_date_deb_grille)."')" ;
 		$result2 = SQL::query($sql2);
 
 

@@ -27,7 +27,6 @@ define('_PHP_CONGES', 1);
 define('ROOT_PATH', '../');
 include ROOT_PATH . 'define.php';
 defined( '_PHP_CONGES' ) or die( 'Restricted access' );
-define('PLUGINS_DIR', INCLUDE_PATH . "/plugins/");
 
 $session=(isset($_GET['session']) ? $_GET['session'] : ((isset($_POST['session'])) ? $_POST['session'] : "") ) ;
 

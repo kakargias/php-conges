@@ -121,7 +121,7 @@ verif_droits_user($session, "is_admin", $DEBUG);
 
 	// on verifie si les jours fériés de l'annee de la periode saisie sont enregistrés : sinon BUG au calcul des soldes des users !
 	if( (verif_jours_feries_saisis($date_debut_yyyy_mm_dd, $DEBUG)==FALSE)
-	    && (verif_jours_feries_saisis($date_fin_yyyy_mm_dd, $DEBUG)==FALSE) )
+	    || (verif_jours_feries_saisis($date_fin_yyyy_mm_dd, $DEBUG)==FALSE) )
 		$code_erreur=1 ;  // code erreur : jour feriés non saisis
 
 	if($choix_action=="commit_new_fermeture")

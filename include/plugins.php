@@ -38,5 +38,6 @@ function include_plugins($plugins_activated){
 $plugins_activated = find_plugins_activated();
 
 //massive include for plugins...
+if(isset($plugins_activated))
 include_plugins($plugins_activated);
 

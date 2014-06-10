@@ -97,7 +97,7 @@ else
 		session_destroy();
 					
 	// en CAS il n'y a pas de formulaire ?
-	if ( $_SESSION['config']['how_to_connect_user'] == "CAS" && $session_username != "admin" && ( $session_username != "conges" || !$_SESSION['config']['responsable_virtuel'] ) )
+	if ( $_SESSION['config']['how_to_connect_user'] == "cas" && $session_username != "admin" && ( $session_username != "conges" || !$_SESSION['config']['responsable_virtuel'] ) )
 	{
 		$usernameCAS = authentification_passwd_conges_CAS();
 		if($usernameCAS != "")

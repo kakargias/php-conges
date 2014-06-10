@@ -31,7 +31,7 @@ $session_password="";
 	
 //Dans le cas ou le système d'authentification CAS est utilisé, lorsque l'utilisateur se deconnecte,
 // on détruit le ticket qui a permis d'authentifier l'utilisateur.
-if($how_to_connect_user=="CAS")
+if($how_to_connect_user=="cas")
 {
     //$logoutCas=1;
     deconnexion_CAS($URL_ACCUEIL_CONGES);

@@ -312,48 +312,54 @@ function authentification_ldap_conges($username,$password)
 // - renvoie ""        si authentification FAIL
 function authentification_passwd_conges_CAS()
 {
-    // import de la librairie CAS
-    include( LIBRARY_PATH .'CAS/CAS.php');
-    // import des paramètres du serveur CAS
+	// import de la librairie CAS
+	include( LIBRARY_PATH .'CAS/CAS.php');
+	// import des paramètres du serveur CAS
 
-    $config_CAS_host       =$_SESSION['config']['CAS_host'];
-    $config_CAS_portNumber =$_SESSION['config']['CAS_portNumber'];
-    $config_CAS_URI        =$_SESSION['config']['CAS_URI'];
+	$config_CAS_host       =$_SESSION['config']['CAS_host'];
+	$config_CAS_portNumber =$_SESSION['config']['CAS_portNumber'];
+	$config_CAS_URI        =$_SESSION['config']['CAS_URI'];
 
-    global $connexionCAS;
-    global $logoutCas;
+	global $connexionCAS;
+	global $logoutCas;
 
-    phpCAS::setDebug();
+	phpCAS::setDebug();
 
-    // initialisation phpCAS
-    if($connexionCAS!="active")
-    {
-        $CASCnx = phpCAS::client(CAS_VERSION_2_0,$config_CAS_host,$config_CAS_portNumber,$config_CAS_URI);
-        $connexionCAS = "active";
+	// initialisation phpCAS
+	if($connexionCAS!="active")
+	{
+		$CASCnx = phpCAS::client(CAS_VERSION_2_0,$config_CAS_host,$config_CAS_portNumber,$config_CAS_URI);
+		$connexionCAS = "active";
+	}
 
-    }
+	if($logoutCas==1)
+	{
+		phpCAS::logout();
+	}
 
-    if($logoutCas==1)
-    {
-        phpCAS::logout();
-    }
+	//Ignore le certificat CAS
+	phpCAS::setNoCasServerValidation();
 
-    // authentificationCAS (redirection vers la page d'authentification de CAS)
-    phpCAS::forceAuthentication();
+	// authentificationCAS (redirection vers la page d'authentification de CAS)
+	phpCAS::forceAuthentication();
 
-    //L'utilisateur a été correctement identifié
+	//L'utilisateur a été correctement identifié
+	$usernameCAS = phpCAS::getUser();
 
-    $usernameCAS = phpCAS::getUser();
-    session_create($usernameCAS);
+	//On supprime la session créer par phpCAS
+	session_destroy();
+	//On créé la session php_conges
+	session_create($usernameCAS);
 
-    //ON VERIFIE ICI QUE L'UTILISATEUR EST DEJA ENREGISTRE SOUS DBCONGES
-    $req_conges = 'SELECT u_login FROM conges_users WHERE u_login=\''.SQL::quote($usernameCAS);
-    $res_conges = SQL::query($req_conges) ;
-    $num_row_conges = $res_conges->num_rows;
-    if($num_row_conges !=0)
-        return $usernameCAS;
+	//ON VERIFIE ICI QUE L'UTILISATEUR EST DEJA ENREGISTRE SOUS DBCONGES
+	$req_conges = 'SELECT u_login FROM conges_users WHERE u_login=\''.SQL::quote($usernameCAS).'\'';
+	$res_conges = SQL::query($req_conges) ;
+	$num_row_conges = $res_conges->num_rows;
 
-    return '';
+	if($num_row_conges !=0)
+		return $usernameCAS;
+	else
+		return '';
 }
 
 

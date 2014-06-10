@@ -10,7 +10,6 @@
  *  have to filled out directly. Option examples can be found in the
  *  config.example.php
  *
- *
  * PHP Version 5
  *
  * @file     create_pgt_storage_table.php
@@ -45,5 +44,6 @@ $cas_obj->createTable();
 <?php
 echo 'Table <b>' . $db_table . '</b> successfully created in database <b>' . $db . '</b>';
 ?>
+</div>
 </body>
 </html>

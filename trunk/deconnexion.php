@@ -17,26 +17,20 @@ $DEBUG=FALSE;
 $how_to_connect_user=$_SESSION['config']['how_to_connect_user'];
 $URL_ACCUEIL_CONGES=$_SESSION['config']['URL_ACCUEIL_CONGES'];
 	
+$comment_log = "Deconnexion de ".$_SESSION['userlogin'];
+log_action(0, "", $_SESSION['userlogin'], $comment_log, $DEBUG);
 
-	$comment_log = "Deconnexion de ".$_SESSION['userlogin'];
-	log_action(0, "", $_SESSION['userlogin'], $comment_log, $DEBUG);
-
-
-session_delete($session);
+if($how_to_connect_user!="cas")
+	session_delete($session);
 
 $session="";
 $session_username="";
 $session_password="";
 	
-	
 //Dans le cas ou le système d'authentification CAS est utilisé, lorsque l'utilisateur se deconnecte,
 // on détruit le ticket qui a permis d'authentifier l'utilisateur.
 if($how_to_connect_user=="cas")
-{
-    //$logoutCas=1;
     deconnexion_CAS($URL_ACCUEIL_CONGES);
-}
-
 
 session_delete($session);
 

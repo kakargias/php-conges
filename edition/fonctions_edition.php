@@ -151,7 +151,7 @@ function get_id_edition_precedente_user($login, $edition_id,  $DEBUG=FALSE)
         return 0;
     else
     {
-        $sql2 = 'SELECT MAX(ep_id) FROM conges_edition_papier WHERE ep_login=\''.SQL::quote($login).'\' AND ep_id<'.SQL::quote($edition_id);
+        $sql2 = 'SELECT MAX(ep_id) FROM conges_edition_papier WHERE ep_login=\''.SQL::quote($login).'\' AND ep_id<'.SQL::quote($edition_id).'\'';
         $ReqLog2 = SQL::query($sql2);
         $tmp = $ReqLog2->fetch_row();
         return $tmp[0];
@@ -202,7 +202,7 @@ function recup_solde_conges_of_edition($edition_id,  $DEBUG=FALSE)
 {
 
     $tab=array();
-    $sql_ed = 'SELECT se_id_absence, se_solde FROM conges_solde_edition where se_id_edition = '.SQL::quote($edition_id);
+    $sql_ed = 'SELECT se_id_absence, se_solde FROM conges_solde_edition where se_id_edition = '.SQL::quote($edition_id).'\'';
     $ReqLog_ed = SQL::query($sql_ed);
 
     $tab=array();
@@ -244,7 +244,7 @@ function recup_info_edition($edit_id,  $DEBUG=FALSE)
 
     $tab=array();
 
-    $sql_edition= 'SELECT ep_date, ep_num_for_user FROM conges_edition_papier where ep_id = '.SQL::quote($edit_id);
+    $sql_edition= 'SELECT ep_date, ep_num_for_user FROM conges_edition_papier where ep_id = '.SQL::quote($edit_id).'\'';
     $ReqLog_edition = SQL::query($sql_edition);
 
     if($resultat_edition = $ReqLog_edition->fetch_array())

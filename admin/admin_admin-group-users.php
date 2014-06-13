@@ -316,7 +316,7 @@ function affiche_gestion_groupes_users($choix_group, $onglet, $DEBUG=FALSE)
 	/* Affichage Groupes    */
 	/************************/
 	// Récuperation des informations :
-	$sql_gr = 'SELECT g_groupename, g_comment FROM conges_groupe WHERE g_gid='.SQL::quote($choix_group);
+	$sql_gr = 'SELECT g_groupename, g_comment FROM conges_groupe WHERE g_gid='.SQL::quote($choix_group).'\'';
 	$ReqLog_gr = SQL::query($sql_gr);
 	$resultat_gr = $ReqLog_gr->fetch_array();
 	$sql_group=$resultat_gr["g_groupename"] ;
@@ -416,7 +416,7 @@ function modif_group_users($choix_group, &$checkbox_group_users,  $DEBUG=FALSE)
 	$session=session_id();
 
 	// on supprime tous les anciens users du groupe puis on ajoute tous ceux qui sont dans le tableau checkbox (si il n'est pas vide)
-	$sql_del = 'DELETE FROM conges_groupe_users WHERE gu_gid='.SQL::quote($choix_group).' ';
+	$sql_del = 'DELETE FROM conges_groupe_users WHERE gu_gid='.SQL::quote($choix_group).' \'';
 	$ReqLog_del = SQL::query($sql_del);
 	
 	if(is_array($checkbox_group_users) && count ($checkbox_group_users)!=0)

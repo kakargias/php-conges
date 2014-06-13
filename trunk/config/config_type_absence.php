@@ -263,7 +263,7 @@ function modifier(&$tab_new_values, $session, $id_to_update, $DEBUG=FALSE)
 	echo "<br>\n";
 
 	// recup des infos du type de conges / absences
-	$sql_cong='SELECT ta_type, ta_libelle, ta_short_libelle FROM conges_type_absence WHERE ta_id = '.SQL::quote($id_to_update);
+	$sql_cong='SELECT ta_type, ta_libelle, ta_short_libelle FROM conges_type_absence WHERE ta_id = '.SQL::quote($id_to_update).'\'';
 
 	$ReqLog_cong = SQL::query($sql_cong);
 
@@ -436,11 +436,11 @@ function commit_suppr($session, $id_to_update, $DEBUG=FALSE)
 	if( $DEBUG ) { echo "URL = $URL<br>\n"; }
 
 	// delete dans la table conges_type_absence
-	$req_delete1='DELETE FROM conges_type_absence WHERE ta_id='.SQL::quote($id_to_update);
+	$req_delete1='DELETE FROM conges_type_absence WHERE ta_id='.SQL::quote($id_to_update).'\'';
 	$result1 = SQL::query($req_delete1);
 
 	// delete dans la table conges_solde_user
-	$req_delete2='DELETE FROM conges_solde_user WHERE su_abs_id='.SQL::quote($id_to_update);
+	$req_delete2='DELETE FROM conges_solde_user WHERE su_abs_id='.SQL::quote($id_to_update).'\'';
 	$result2 = SQL::query($req_delete2);
 
 	echo "<span class = \"messages\">". _('form_modif_ok') ."</span><br>";

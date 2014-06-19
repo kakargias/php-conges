@@ -2591,12 +2591,12 @@ function soustrait_solde_et_reliquat_user($user_login, $num_current_periode, $us
                 $new_reliquat = 0;
         }
 
-        $sql2 = 'UPDATE conges_solde_user SET su_solde=su_solde-'.SQL::quote($user_nb_jours_pris).', su_reliquat='.SQL::quote($new_reliquat).' WHERE su_login=\''.SQL::quote($user_login).'\'  AND su_abs_id='.SQL::quote($type_abs).' ';
+        $sql2 = 'UPDATE conges_solde_user SET su_solde=su_solde-'.SQL::quote($user_nb_jours_pris).', su_reliquat='.SQL::quote($new_reliquat).' WHERE su_login=\''.SQL::quote($user_login).'\'  AND su_abs_id='.SQL::quote($type_abs);
 
     }
     else
     {
-        $sql2 = 'UPDATE conges_solde_user SET su_solde=su_solde-'.SQL::quote($user_nb_jours_pris).' WHERE su_login=\''.SQL::quote($user_login).'\'  AND su_abs_id=\''.$type_abs.'\' ';
+        $sql2 = 'UPDATE conges_solde_user SET su_solde=su_solde-'.SQL::quote($user_nb_jours_pris).' WHERE su_login=\''.SQL::quote($user_login).'\'  AND su_abs_id=\''.$type_abs;
     }
 
     $ReqLog2 = SQL::query($sql2) ;

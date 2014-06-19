@@ -154,7 +154,7 @@ function affiche_gestion_groupes_responsables($choix_group, $onglet, $DEBUG=FALS
 	/* Affichage Groupe    */
 	/***********************/
 	// Récuperation des informations :
-	$sql_gr = 'SELECT g_groupename, g_comment, g_double_valid FROM conges_groupe WHERE g_gid='.SQL::quote($choix_group).'\'';
+	$sql_gr = 'SELECT g_groupename, g_comment, g_double_valid FROM conges_groupe WHERE g_gid='.SQL::quote($choix_group);
 	$ReqLog_gr = SQL::query($sql_gr);
 
 	$resultat_gr = $ReqLog_gr->fetch_array();
@@ -335,11 +335,11 @@ function modif_group_responsables($choix_group, &$checkbox_group_resp, &$checkbo
 
 	//echo "groupe : $choix_group<br>\n";
 	// on supprime tous les anciens resp du groupe puis on ajoute tous ceux qui sont dans le tableau de la checkbox
-	$sql_del = 'DELETE FROM conges_groupe_resp WHERE gr_gid='.SQL::quote($choix_group).'\'';
+	$sql_del = 'DELETE FROM conges_groupe_resp WHERE gr_gid='.SQL::quote($choix_group);
 	$ReqLog_del = SQL::query($sql_del);
 
 	// on supprime tous les anciens grand resp du groupe puis on ajoute tous ceux qui sont dans le tableau de la checkbox
-	$sql_del_2 = 'DELETE FROM conges_groupe_grd_resp WHERE ggr_gid='.SQL::quote($choix_group).'\'';
+	$sql_del_2 = 'DELETE FROM conges_groupe_grd_resp WHERE ggr_gid='.SQL::quote($choix_group);
 	$ReqLog_del_2 = SQL::query($sql_del_2);
 
 

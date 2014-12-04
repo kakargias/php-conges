@@ -49,6 +49,12 @@ function  affiche_calendrier_saisie_date($user_login, $year, $mois, $type_debut_
 
     if( $last_jour_mois_rang == 0 )
         $last_jour_mois_rang=7 ;    // jour de la semaine en chiffre (1=lun , 7=dim)
+//remplacement du calendrier par datepicker...
+//echo '<tr>';
+//echo '<td align="center" class="big">';
+//echo '<input class="calendrier_saisie_date_debut" type="text" id="datepicker_deb" name="picker_debut" onChange="compter_jours_new(this, picker_fin, login_user, new_demi_jour_deb, new_demi_jour_fin);return false;">';
+//echo '</td>';
+//echo '</tr>';
 
     echo '<table class="calendrier_saisie_date_debut" cellpadding="0" cellspacing="0">';
         echo '<thead>
@@ -170,6 +176,9 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
                                 /******************************************************************/
                                 echo '<table cellpadding="0" cellspacing="0" width="250" border="0">';
                                 echo '<tr>';
+
+
+				
                                     init_var_navigation_mois_year($mois_calendrier_saisie_debut, $year_calendrier_saisie_debut,
                                                 $mois_calendrier_saisie_debut_prec, $year_calendrier_saisie_debut_prec,
                                                 $mois_calendrier_saisie_debut_suiv, $year_calendrier_saisie_debut_suiv,
@@ -195,15 +204,15 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
                                     $lien_mois_debut_suivant = $PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut_suiv.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut_suiv.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_debut_suiv.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_debut_suiv.'&user_login='.$user_login.'&onglet='.$onglet ;
                                 else
                                     $lien_mois_debut_suivant = $PHP_SELF.'?session='.$session.'&year_calendrier_saisie_debut='.$year_calendrier_saisie_debut_suiv.'&mois_calendrier_saisie_debut='.$mois_calendrier_saisie_debut_suiv.'&year_calendrier_saisie_fin='.$year_calendrier_saisie_fin.'&mois_calendrier_saisie_fin='.$mois_calendrier_saisie_fin.'&user_login='.$user_login.'&onglet='.$onglet ;
+
                                 echo '<td align="center" class="big">';
                                 echo '<a href="'.$lien_mois_debut_suivant.'">';
                                 echo ' <img src="'. TEMPLATE_PATH . 'img/simlast.gif" width="16" height="16" border="0" alt="'. _('divers_mois_suivant') .'" title="'. _('divers_mois_suivant') .'"> ';
                                 echo '</a>';
                                 echo '</td>';
-
-
                                 echo '</tr>';
                                 echo '</table>';
+
                                 /*** calendrier saisie date debut ***/
                                 affiche_calendrier_saisie_date($user_login, $year_calendrier_saisie_debut, $mois_calendrier_saisie_debut, 'new_debut', $DEBUG);
                             echo '</td>';
@@ -233,6 +242,7 @@ function saisie_nouveau_conges($user_login, $year_calendrier_saisie_debut, $mois
                             echo '</td>';
                             /**************************************************/
                         echo '</tr>';
+
                         echo '</table>';
                     echo '</fieldset>';
                     echo '</td>';
@@ -2106,7 +2116,7 @@ function recup_tableau_tout_types_abs( )
 {
     $result = array();
     if ( $_SESSION['config']['gestion_conges_exceptionnels'] ) // on prend tout les types de conges
-        $request    = 'SELECT ta_id, ta_type, ta_libelle, ta_short_libelle FROM conges_type_absence;';
+        $request    = 'SELECT ta_id, ta_type, ta_libelle, ta_short_libelle FROM conges_type_absence order by ta_id asc;';
     else // on prend tout les types de conges SAUF les conges exceptionnels
         $request    = 'SELECT ta_id, ta_type, ta_libelle, ta_short_libelle FROM conges_type_absence WHERE conges_type_absence.ta_type != \'conges_exceptionnels\';';
 
@@ -2591,7 +2601,7 @@ function soustrait_solde_et_reliquat_user($user_login, $num_current_periode, $us
                 $new_reliquat = 0;
         }
 
-        $sql2 = 'UPDATE conges_solde_user SET su_solde=su_solde-'.SQL::quote($user_nb_jours_pris).', su_reliquat='.SQL::quote($new_reliquat).' WHERE su_login=\''.SQL::quote($user_login).'\'  AND su_abs_id='.SQL::quote($type_abs);
+        $sql2 = 'UPDATE conges_solde_user SET su_solde=su_solde-'.SQL::quote($user_nb_jours_pris).', su_reliquat='.SQL::quote(str_replace(",",".",$new_reliquat)).' WHERE su_login=\''.SQL::quote($user_login).'\'  AND su_abs_id='.$type_abs;
 
     }
     else

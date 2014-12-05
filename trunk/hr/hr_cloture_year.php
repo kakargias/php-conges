@@ -124,7 +124,7 @@ function affichage_cloture_user_par_user($tab_type_conges, $tab_all_users_du_hr,
 	
 	if( (count($tab_all_users_du_hr)!=0) || (count($tab_all_users_du_grand_resp)!=0) )
 	{
-		echo "<form action=\"$PHP_SELF?session=$session&onglet=cloture_exercice\" method=\"POST\"> \n";
+		echo "<form action=\"$PHP_SELF?session=$session&onglet=cloture_year\" method=\"POST\"> \n";
 		echo "<table>\n";
 		echo '<tr>';
 		echo "<td align=\"center\">\n";
@@ -218,7 +218,7 @@ function affichage_cloture_globale_pour_tous($tab_type_conges, $DEBUG=FALSE)
 	/************************************************************/
 	/* CLOTURE EXERCICE GLOBALE pour tous les utilisateurs du responsable */
 	
-	echo "<form action=\"$PHP_SELF?session=$session&onglet=cloture_exercice\" method=\"POST\"> \n";
+	echo "<form action=\"$PHP_SELF?session=$session&onglet=cloture_year\" method=\"POST\"> \n";
 	echo "<table>\n";
 	echo "<tr><td align=\"center\">\n";
 	echo "	<fieldset class=\"cal_saisie\">\n";
@@ -373,7 +373,7 @@ function cloture_current_year_for_login($current_login, $tab_current_user, $tab_
 					
 					//
 					// update D'ABORD du reliquat
-					$sql_reliquat = 'UPDATE conges_solde_user SET su_reliquat = $new_reliquat WHERE su_login=\''.SQL::quote($current_login).'\'  AND su_abs_id = $id_conges ';
+					$sql_reliquat = 'UPDATE conges_solde_user SET su_reliquat = '.$new_reliquat.' WHERE su_login=\''.SQL::quote($current_login).'\'  AND su_abs_id = '.$id_conges;
 					$ReqLog_reliquat = SQL::query($sql_reliquat) ;
 				}
 				else
@@ -401,7 +401,7 @@ function cloture_current_year_for_login($current_login, $tab_current_user, $tab_
 			/* Modification de la table conges_users */
 			// ATTENTION : ne pas faire "SET u_num_exercice = u_num_exercice+1" dans la requete SQL car on incrémenterait pour chaque type d'absence !
 			$new_num_exercice=$_SESSION['config']['num_exercice'] ;
-			$sql2 = 'UPDATE conges_users SET u_num_exercice = $new_num_exercice WHERE u_login=\''.SQL::quote($current_login).'\'  ';
+			$sql2 = 'UPDATE conges_users SET u_num_exercice = '.$new_num_exercice.' WHERE u_login=\''.SQL::quote($current_login).'\'  ';
 			$ReqLog2 = SQL::query($sql2) ;
 			
 			// on insert l'ajout de conges dans la table periode (avec le commentaire)

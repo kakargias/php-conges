@@ -66,7 +66,7 @@ verif_droits_user($session, "is_hr", $DEBUG);
 	// if( $_SESSION['config']['resp_ajoute_conges'] )
 		$onglets['ajout_conges'] = _('resp_ajout_conges_titre');
 		
-	$onglets['cloture_year'] = _('hr_cloture_year');
+	$onglets['cloture_year'] = _('resp_cloture_exercice_titre');
 	
 	if ( !isset($onglets[ $onglet ]) && !in_array($onglet, array('traite_user')))
 		$onglet = 'page_principale';
